@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="str" class="org.asciicerebrum.mydndgame.Ability">
+        <property name="id" value="str" />
+        <property name="name" value="strength" />
+    </bean>
+    <bean id="dex" class="org.asciicerebrum.mydndgame.Ability">
+        <property name="id" value="dex" />
+        <property name="name" value="dexterity" />
+    </bean>
+    <bean id="con" class="org.asciicerebrum.mydndgame.Ability">
+        <property name="id" value="con" />
+        <property name="name" value="constitution" />
+    </bean>
+    <bean id="int" class="org.asciicerebrum.mydndgame.Ability">
+        <property name="id" value="int" />
+        <property name="name" value="intelligence" />
+    </bean>
+    <bean id="wis" class="org.asciicerebrum.mydndgame.Ability">
+        <property name="id" value="wis" />
+        <property name="name" value="wisdom" />
+    </bean>
+    <bean id="cha" class="org.asciicerebrum.mydndgame.Ability">
+        <property name="id" value="cha" />
+        <property name="name" value="charisma" />
+    </bean>    
+</beans>

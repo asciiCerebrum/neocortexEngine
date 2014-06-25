@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="d2" class="org.asciicerebrum.mydndgame.Dice">
+        <property name="id" value="d2" />
+        <property name="sides" value="2" />
+    </bean>
+    <bean id="d3" class="org.asciicerebrum.mydndgame.Dice">
+        <property name="id" value="d3" />
+        <property name="sides" value="3" />
+    </bean>
+    <bean id="d4" class="org.asciicerebrum.mydndgame.Dice">
+        <property name="id" value="d4" />
+        <property name="sides" value="4" />
+    </bean>
+    <bean id="d6" class="org.asciicerebrum.mydndgame.Dice">
+        <property name="id" value="d6" />
+        <property name="sides" value="6" />
+    </bean>
+    <bean id="d8" class="org.asciicerebrum.mydndgame.Dice">
+        <property name="id" value="d8" />
+        <property name="sides" value="8" />
+    </bean>
+    <bean id="d10" class="org.asciicerebrum.mydndgame.Dice">
+        <property name="id" value="d10" />
+        <property name="sides" value="10" />
+    </bean>
+    <bean id="d12" class="org.asciicerebrum.mydndgame.Dice">
+        <property name="id" value="d12" />
+        <property name="sides" value="12" />
+    </bean>
+    <bean id="d20" class="org.asciicerebrum.mydndgame.Dice">
+        <property name="id" value="d20" />
+        <property name="sides" value="20" />
+    </bean>
+    <bean id="d100" class="org.asciicerebrum.mydndgame.Dice">
+        <property name="id" value="d100" />
+        <property name="sides" value="100" />
+    </bean>
+    
+</beans>
