@@ -1,15 +1,16 @@
 package org.asciicerebrum.mydndgame;
 
+import java.util.List;
+
 /**
  *
  * @author species8472
  */
-public class Ability {
+public class SizeCategory implements BonusSource {
 
     private String id;
+    private List<Bonus> boni;
 
-    private String name;
-    
     /**
      * @return the id
      */
@@ -25,17 +26,17 @@ public class Ability {
     }
 
     /**
-     * @return the name
+     * @return the boni
      */
-    public String getName() {
-        return name;
+    public List<Bonus> getBoni() {
+        return boni;
     }
 
     /**
-     * @param name the name to set
+     * @param boni the boni to set
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setBoni(List<Bonus> boni) {
+        this.boni = boni;
     }
 
 }

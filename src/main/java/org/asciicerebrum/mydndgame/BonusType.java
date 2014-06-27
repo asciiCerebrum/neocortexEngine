@@ -4,12 +4,12 @@ package org.asciicerebrum.mydndgame;
  *
  * @author species8472
  */
-public class Ability {
+public class BonusType {
 
     private String id;
 
-    private String name;
-    
+    private Boolean doesStack = Boolean.FALSE;
+
     /**
      * @return the id
      */
@@ -25,17 +25,17 @@ public class Ability {
     }
 
     /**
-     * @return the name
+     * @return the doesStack
      */
-    public String getName() {
-        return name;
+    public Boolean getDoesStack() {
+        return doesStack;
     }
 
     /**
-     * @param name the name to set
+     * @param doesStack the doesStack to set
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setDoesStack(Boolean doesStack) {
+        this.doesStack = doesStack;
     }
 
 }

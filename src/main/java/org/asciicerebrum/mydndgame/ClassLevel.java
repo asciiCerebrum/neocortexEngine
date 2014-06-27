@@ -11,8 +11,17 @@ public class ClassLevel {
 
     private Integer level;
     private CharacterClass characterClass;
-    private List<Long> baseAtkBoni = new ArrayList<Long>();
+    private List<Bonus> baseAtkBoni = new ArrayList<Bonus>();
 
+    public Bonus getBaseAtkBonusByRank(final Long rank) {
+        for (Bonus bonus : baseAtkBoni) {
+            if (bonus.getRank().equals(rank)) {
+                return bonus;
+            }
+        }
+        return null;
+    }
+    
     /**
      * @return the level
      */
@@ -28,20 +37,6 @@ public class ClassLevel {
     }
 
     /**
-     * @return the baseAtkBoni
-     */
-    public List<Long> getBaseAtkBoni() {
-        return baseAtkBoni;
-    }
-
-    /**
-     * @param baseAtkBoni the baseAtkBoni to set
-     */
-    public void setBaseAtkBoni(List<Long> baseAtkBoni) {
-        this.baseAtkBoni = baseAtkBoni;
-    }
-
-    /**
      * @return the characterClass
      */
     public CharacterClass getCharacterClass() {
@@ -53,6 +48,20 @@ public class ClassLevel {
      */
     public void setCharacterClass(CharacterClass characterClass) {
         this.characterClass = characterClass;
+    }
+
+    /**
+     * @return the baseAtkBoni
+     */
+    public List<Bonus> getBaseAtkBoni() {
+        return baseAtkBoni;
+    }
+
+    /**
+     * @param baseAtkBoni the baseAtkBoni to set
+     */
+    public void setBaseAtkBoni(List<Bonus> baseAtkBoni) {
+        this.baseAtkBoni = baseAtkBoni;
     }
 
 }

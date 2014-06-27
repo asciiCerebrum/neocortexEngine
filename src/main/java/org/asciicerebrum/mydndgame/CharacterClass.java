@@ -23,37 +23,6 @@ public class CharacterClass {
     }
 
     /**
-     * Between classLevel and level - 1.
-     *
-     * @param level
-     * @return
-     */
-    public List<Long> calculateBaseAtkIncrement(final Integer level) {
-        ClassLevel baseLevel = this.getClassLevelByLevel(level);
-        ClassLevel previousLevel = this.getClassLevelByLevel(level - 1);
-        if (previousLevel == null) {
-            return baseLevel.getBaseAtkBoni();
-        } else {
-            List<Long> atkIncrement = new ArrayList<Long>();
-
-            int size = Math.max(baseLevel.getBaseAtkBoni().size(),
-                    previousLevel.getBaseAtkBoni().size());
-            for (int i = 0; i < size; i++) {
-                Long singleIncrement = baseLevel.getBaseAtkBoni().get(i);
-                // previousLevel might have a smaller list of baseAtk boni
-                // but if not, it's value must be substracted.
-                if (previousLevel.getBaseAtkBoni().size() > i) {
-                    singleIncrement = singleIncrement
-                            - previousLevel.getBaseAtkBoni().get(i);
-                }
-                atkIncrement.add(singleIncrement);
-            }
-
-            return atkIncrement;
-        }
-    }
-
-    /**
      * @return the id
      */
     public String getId() {

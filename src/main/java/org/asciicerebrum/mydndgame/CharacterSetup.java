@@ -19,6 +19,7 @@ public class CharacterSetup {
     private String race;
     private int currentHp;
     private int currentHpNonlethal;
+    private int currentXp;
 
     /**
      * @return the name
@@ -102,6 +103,20 @@ public class CharacterSetup {
      */
     public void setBaseAbilityMap(Map<String, Long> baseAbilityMap) {
         this.baseAbilityMap = baseAbilityMap;
+    }
+
+    /**
+     * @return the currentXp
+     */
+    public int getCurrentXp() {
+        return currentXp;
+    }
+
+    /**
+     * @param currentXp the currentXp to set
+     */
+    public void setCurrentXp(int currentXp) {
+        this.currentXp = currentXp;
     }
 
 }

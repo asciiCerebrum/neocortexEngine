@@ -14,7 +14,12 @@
                     <property name="characterClass" ref="fighter" />
                     <property name="baseAtkBoni">
                         <list>
-                            <value>1</value>
+                            <bean class="org.asciicerebrum.mydndgame.Bonus">
+                                <property name="bonusType" ref="baseAttackBonus" />
+                                <property name="target" ref="attack" />
+                                <property name="value" value="1" />
+                                <property name="rank" value="0" />
+                            </bean>
                         </list>
                     </property>
                 </bean>
@@ -23,7 +28,12 @@
                     <property name="characterClass" ref="fighter" />
                     <property name="baseAtkBoni">
                         <list>
-                            <value>2</value>
+                            <bean class="org.asciicerebrum.mydndgame.Bonus">
+                                <property name="bonusType" ref="baseAttackBonus" />
+                                <property name="target" ref="attack" />
+                                <property name="value" value="2" />
+                                <property name="rank" value="0" />
+                            </bean>
                         </list>
                     </property>
                 </bean>

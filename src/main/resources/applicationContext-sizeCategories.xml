@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="small" class="org.asciicerebrum.mydndgame.SizeCategory">
+        <property name="id" value="small" />
+    </bean>
+
+    <bean id="medium" class="org.asciicerebrum.mydndgame.SizeCategory">
+        <property name="id" value="medium" />
+        <property name="boni">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="value" value="0" />
+                    <property name="target" ref="ac" />
+                    <property name="bonusType" ref="sizeBonus" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="large" class="org.asciicerebrum.mydndgame.SizeCategory">
+        <property name="id" value="large" />
+    </bean>
+            
+</beans>

@@ -1,29 +1,44 @@
 package org.asciicerebrum.mydndgame;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Stack;
 import org.springframework.context.ApplicationContext;
 
 /**
  *
  * @author species8472
  */
-public class DndCharacter {
+public class DndCharacter implements BonusSource {
 
     private CharacterSetup setup;
+
+    @BonusGranter
     private Race race;
-    private Stack<CharacterClass> classStack = new Stack<CharacterClass>();
+    @BonusGranter
+    private List<CharacterClass> classStack = new ArrayList<CharacterClass>();
+    @BonusGranter
     private Map<Ability, Long> abilityMap = new HashMap<Ability, Long>();
     private int maxHp = 0;
-    private List<Long> baseAtkBoni = new ArrayList<Long>();
 
+    private List<Bonus> boni = new ArrayList<Bonus>();
+
+    @BonusGranter
     private List<ClassLevel> classLevels = new ArrayList<ClassLevel>();
 
+    private final DiceAction acAction;
+    private final DiceAction attackAction;
+    private final BonusType baseAttackBonus;
+
     private DndCharacter(Builder builder) {
+        this.attackAction = builder.context.getBean("attack",
+                DiceAction.class);
+        this.baseAttackBonus = builder.context.getBean("baseAttackBonus",
+                BonusType.class);
+
         this.race = builder.context.getBean(
                 builder.setup.getRace(), Race.class);
 
@@ -39,24 +54,44 @@ public class DndCharacter {
             CharacterClass chClass
                     = builder.context.getBean(advance.getClassName(),
                             CharacterClass.class);
-            this.classStack.push(chClass);
+            this.classStack.add(chClass);
 
             // adding class levels as they come
             Integer classCount = this.countClassLevelsByCharacterClass(chClass);
-            this.classLevels.add(chClass.getClassLevelByLevel(classCount + 1));
+            ClassLevel cLevel = chClass.getClassLevelByLevel(classCount + 1);
+            this.classLevels.add(cLevel);
 
-            // calculate base atk boni
-            List<Long> baseAtkIncrement = chClass.calculateBaseAtkIncrement(
-                    classCount + 1);
-            int size = Math.max(this.baseAtkBoni.size(),
-                    baseAtkIncrement.size());
-            for (int i = 0; i < size; i++) {
-                // there is a chance that baseAtkIncrement might be longer!
-                if (this.baseAtkBoni.size() > i) {
-                    this.baseAtkBoni.set(i, this.baseAtkBoni.get(i)
-                            + baseAtkIncrement.get(i));
-                } else {
-                    this.baseAtkBoni.add(baseAtkIncrement.get(i));
+            // merge baseAtk boni
+            List<Bonus> newBoni = cLevel.getBaseAtkBoni();
+            for (Bonus newBonus : newBoni) {
+                final Long currentRank = newBonus.getRank();
+                Long valueDelta = newBonus.getValue();
+                boolean bonusFound = false;
+
+                for (Bonus existingBonus : this.boni) {
+                    if (existingBonus.getRank().equals(currentRank)) {
+                        // bonus of previous level with same rank
+
+                        final ClassLevel prevLevel
+                                = chClass.getClassLevelByLevel(
+                                        cLevel.getLevel() - 1);
+
+                        if (prevLevel != null) {
+                            final Bonus prevBonus
+                                    = prevLevel.getBaseAtkBonusByRank(
+                                            currentRank);
+
+                            valueDelta = valueDelta
+                                    - prevBonus.getValue();
+                        }
+                        existingBonus.setValue(existingBonus.getValue()
+                                + valueDelta);
+                        bonusFound = true;
+                        break;
+                    }
+                }
+                if (!bonusFound) {
+                    this.boni.add(newBonus.makeCopy());
                 }
             }
 
@@ -80,6 +115,8 @@ public class DndCharacter {
         // hp add con-modifier for each class level
         Ability con = builder.context.getBean("con", Ability.class);
         this.maxHp += this.classStack.size() * this.calculateAbilityMod(con);
+
+        this.acAction = builder.context.getBean("ac", DiceAction.class);
     }
 
     private Integer countClassLevelsByCharacterClass(
@@ -97,6 +134,33 @@ public class DndCharacter {
         Long score = this.getAbilityMap().get(ability);
 
         return Math.round(Math.floor((score - 10) / 2.0));
+    }
+    
+    public List<Bonus> getBaseAtkBoni() {
+        List<Bonus> baseAtkBoni = new ArrayList<Bonus>();
+        
+        for (Bonus potentialBonus : this.boni) {
+            if (potentialBonus.getBonusType().equals(this.baseAttackBonus)) {
+                baseAtkBoni.add(potentialBonus);
+            }
+        }
+        
+        return baseAtkBoni;
+    }
+
+    public Long getAc() {
+        //TODO search for anything in the object graph of this
+        // character that grants boni for ac.
+        // ProTipp: Use annotations to mark the path to follow
+        // for the corresponding fields!
+
+        System.out.println("Examining fields.");
+        for (Field field : DndCharacter.class.getDeclaredFields()) {
+            System.out.println("Field: " + field.getType()
+                    + " :: " + field.getGenericType());
+        }
+
+        return this.getAcAction().getConstValue();
     }
 
     /**
@@ -142,17 +206,45 @@ public class DndCharacter {
     }
 
     /**
-     * @return the baseAtkBoni
+     * @return the classStack
      */
-    public List<Long> getBaseAtkBoni() {
-        return baseAtkBoni;
+    public List<CharacterClass> getClassStack() {
+        return classStack;
     }
 
     /**
-     * @param baseAtkBoni the baseAtkBoni to set
+     * @param classStack the classStack to set
      */
-    public void setBaseAtkBoni(List<Long> baseAtkBoni) {
-        this.baseAtkBoni = baseAtkBoni;
+    public void setClassStack(List<CharacterClass> classStack) {
+        this.classStack = classStack;
+    }
+
+    /**
+     * @return the boni
+     */
+    public List<Bonus> getBoni() {
+        return boni;
+    }
+
+    /**
+     * @param boni the boni to set
+     */
+    public void setBoni(List<Bonus> boni) {
+        this.boni = boni;
+    }
+
+    /**
+     * @return the acAction
+     */
+    public DiceAction getAcAction() {
+        return acAction;
+    }
+
+    /**
+     * @return the attackAction
+     */
+    public DiceAction getAttackAction() {
+        return attackAction;
     }
 
     public static class Builder {
@@ -197,19 +289,5 @@ public class DndCharacter {
      */
     public void setRace(Race race) {
         this.race = race;
-    }
-
-    /**
-     * @return the classStack
-     */
-    public Stack<CharacterClass> getClassStack() {
-        return classStack;
-    }
-
-    /**
-     * @param classStack the classStack to set
-     */
-    public void setClassStack(Stack<CharacterClass> classStack) {
-        this.classStack = classStack;
     }
 }

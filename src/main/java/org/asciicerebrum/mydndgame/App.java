@@ -53,11 +53,13 @@ public class App {
 
         // HP
         System.out.println("Harsk HP :: " + harsk.getMaxHp()
-                + " :: baseAtk " + harsk.getBaseAtkBoni());
+                + " :: baseAtk_1 " + harsk.getBaseAtkBoni().get(0).getValue());
         System.out.println("Valeros HP :: " + valeros.getMaxHp()
-                + " :: baseAtk " + valeros.getBaseAtkBoni());
+                + " :: baseAtk_1 " + valeros.getBaseAtkBoni().get(0).getValue());
 
         //TODO Melee Attack Bonus
-        //TODO armor class
+        //TODO armor class (size bonus, dynamic dex bonus)
+        
+        valeros.getAc();
     }
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="ac" class="org.asciicerebrum.mydndgame.DiceAction">
+        <property name="id" value="ac" />
+        <property name="constValue" value="10" />
+    </bean>
+
+    <bean id="attack" class="org.asciicerebrum.mydndgame.DiceAction">
+        <property name="id" value="attack" />
+        <property name="diceNumber" value="1" />
+        <property name="diceType" ref="d20" />
+    </bean>
+                                                                                                   
+</beans>

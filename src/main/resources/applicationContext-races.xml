@@ -6,10 +6,12 @@
 
     <bean id="human" class="org.asciicerebrum.mydndgame.Race">
         <property name="id" value="human" />
+        <property name="size" ref="medium" />
     </bean>
 
     <bean id="dwarf" class="org.asciicerebrum.mydndgame.Race">
         <property name="id" value="dwarf" />
+        <property name="size" ref="medium" />
     </bean>
             
 </beans>
