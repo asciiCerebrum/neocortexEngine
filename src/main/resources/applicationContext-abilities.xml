@@ -41,6 +41,7 @@
         <property name="boni">
             <list>
                 <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="bonusType" ref="conBonus" />
                     <property name="target" ref="hp" />
                     <property name="dynamicValueProvider" ref="conAbilityBonusValueProvider" />
                 </bean>

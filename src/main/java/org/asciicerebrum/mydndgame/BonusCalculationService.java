@@ -36,7 +36,7 @@ public class BonusCalculationService {
                 bonusVal = bonus.getValue();
             }
             
-            System.out.println("Bonus " //+ bonus.getBonusType().getId() 
+            System.out.println("Bonus " + bonus.getBonusType().getId() 
                     + " :: " + bonusVal);
             totalBonusVal += bonusVal;
         }

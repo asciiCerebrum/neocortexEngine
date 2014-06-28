@@ -20,4 +20,8 @@
         <property name="id" value="strBonus" />
     </bean> 
 
+    <bean id="conBonus" class="org.asciicerebrum.mydndgame.BonusType">
+        <property name="id" value="conBonus" />
+    </bean>
+
 </beans>
