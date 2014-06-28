@@ -1,8 +1,9 @@
 package org.asciicerebrum.mydndgame;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
 /**
  *
@@ -11,8 +12,8 @@ import java.util.Stack;
 public class CharacterSetup {
 
     private String name;
-    private Stack<LevelAdvancement> levelAdvancementStack
-            = new Stack<LevelAdvancement>();
+    private List<LevelAdvancement> levelAdvancementStack
+            = new ArrayList<LevelAdvancement>();
     // the abilities from character creation
     private Map<String, Long> baseAbilityMap
             = new HashMap<String, Long>();
@@ -78,20 +79,6 @@ public class CharacterSetup {
     }
 
     /**
-     * @return the levelAdvancementStack
-     */
-    public Stack<LevelAdvancement> getLevelAdvancementStack() {
-        return levelAdvancementStack;
-    }
-
-    /**
-     * @param levelAdvancementStack the levelAdvancementStack to set
-     */
-    public void setLevelAdvancementStack(Stack<LevelAdvancement> levelAdvancementStack) {
-        this.levelAdvancementStack = levelAdvancementStack;
-    }
-
-    /**
      * @return the baseAbilityMap
      */
     public Map<String, Long> getBaseAbilityMap() {
@@ -117,6 +104,20 @@ public class CharacterSetup {
      */
     public void setCurrentXp(int currentXp) {
         this.currentXp = currentXp;
+    }
+
+    /**
+     * @return the levelAdvancementStack
+     */
+    public List<LevelAdvancement> getLevelAdvancementStack() {
+        return levelAdvancementStack;
+    }
+
+    /**
+     * @param levelAdvancementStack the levelAdvancementStack to set
+     */
+    public void setLevelAdvancementStack(List<LevelAdvancement> levelAdvancementStack) {
+        this.levelAdvancementStack = levelAdvancementStack;
     }
 
 }

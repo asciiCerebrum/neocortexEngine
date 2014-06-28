@@ -11,7 +11,12 @@ public class Bonus {
     // boni +2/+1 and the like; rank start from 0
     private Long rank;
     private BonusType bonusType;
-    private DiceAction target;
+    private BonusTarget target;
+    // for dynamic bonus values, e.g. the dex-bonus on ac is dynamic because
+    // it depends on the dex-value and so on the dex modifier, which is
+    // calculated.
+    // dynamic value has priority over static one.
+    private BonusValueProvider dynamicValueProvider;
 
     /**
      * @return the value
@@ -25,20 +30,6 @@ public class Bonus {
      */
     public void setValue(Long value) {
         this.value = value;
-    }
-
-    /**
-     * @return the target
-     */
-    public DiceAction getTarget() {
-        return target;
-    }
-
-    /**
-     * @param target the target to set
-     */
-    public void setTarget(DiceAction target) {
-        this.target = target;
     }
 
     /**
@@ -68,15 +59,43 @@ public class Bonus {
     public void setRank(Long rank) {
         this.rank = rank;
     }
-    
+
     public Bonus makeCopy() {
         Bonus clonedBonus = new Bonus();
-        clonedBonus.setBonusType(this.bonusType);
-        clonedBonus.setRank(this.rank);
-        clonedBonus.setTarget(this.target);
-        clonedBonus.setValue(this.value);
-        
+        clonedBonus.setBonusType(this.getBonusType());
+        clonedBonus.setRank(this.getRank());
+        clonedBonus.setTarget(this.getTarget());
+        clonedBonus.setValue(this.getValue());
+
         return clonedBonus;
+    }
+
+    /**
+     * @return the dynamicValueProvider
+     */
+    public BonusValueProvider getDynamicValueProvider() {
+        return dynamicValueProvider;
+    }
+
+    /**
+     * @param dynamicValueProvider the dynamicValueProvider to set
+     */
+    public void setDynamicValueProvider(BonusValueProvider dynamicValueProvider) {
+        this.dynamicValueProvider = dynamicValueProvider;
+    }
+
+    /**
+     * @return the target
+     */
+    public BonusTarget getTarget() {
+        return target;
+    }
+
+    /**
+     * @param target the target to set
+     */
+    public void setTarget(BonusTarget target) {
+        this.target = target;
     }
 
 }

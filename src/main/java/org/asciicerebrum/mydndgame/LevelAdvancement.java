@@ -7,11 +7,11 @@ package org.asciicerebrum.mydndgame;
 public class LevelAdvancement {
 
     private final String className;
-    private final Integer hpAddition;
+    private final Long hpAddition;
     private final String abilityName;
 
     public LevelAdvancement(final String classNameInput,
-            final Integer hpAdditionInput, final String abilityNameInput) {
+            final Long hpAdditionInput, final String abilityNameInput) {
         this.className = classNameInput;
         this.hpAddition = hpAdditionInput;
         this.abilityName = abilityNameInput;
@@ -34,7 +34,7 @@ public class LevelAdvancement {
     /**
      * @return the hpAddition
      */
-    public Integer getHpAddition() {
+    public Long getHpAddition() {
         return hpAddition;
     }
 }

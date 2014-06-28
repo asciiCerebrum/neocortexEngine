@@ -4,7 +4,7 @@ package org.asciicerebrum.mydndgame;
  *
  * @author species8472
  */
-public class DiceAction {
+public class DiceAction implements BonusTarget {
 
     private String id;
     private Dice diceType;

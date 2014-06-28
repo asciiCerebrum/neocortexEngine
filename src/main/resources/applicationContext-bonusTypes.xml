@@ -11,4 +11,13 @@
     <bean id="baseAttackBonus" class="org.asciicerebrum.mydndgame.BonusType">
         <property name="id" value="baseAttackBonus" />
     </bean>            
+
+    <bean id="dexBonus" class="org.asciicerebrum.mydndgame.BonusType">
+        <property name="id" value="dexBonus" />
+    </bean> 
+
+    <bean id="strBonus" class="org.asciicerebrum.mydndgame.BonusType">
+        <property name="id" value="strBonus" />
+    </bean> 
+
 </beans>

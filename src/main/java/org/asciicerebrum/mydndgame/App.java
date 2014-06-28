@@ -29,10 +29,10 @@ public class App {
         setupHarsk.getBaseAbilityMap().put("int", 10L);
         setupHarsk.getBaseAbilityMap().put("wis", 10L);
         setupHarsk.getBaseAbilityMap().put("cha", 8L);
-        setupHarsk.getLevelAdvancementStack().push(
+        setupHarsk.getLevelAdvancementStack().add(
                 new LevelAdvancement("fighter", null, null));
-        setupHarsk.getLevelAdvancementStack().push(
-                new LevelAdvancement("fighter", 7, null));
+        setupHarsk.getLevelAdvancementStack().add(
+                new LevelAdvancement("fighter", 7L, null));
         
         CharacterSetup setupValeros = new CharacterSetup();
         setupValeros.setName("Valeros");
@@ -43,7 +43,7 @@ public class App {
         setupValeros.getBaseAbilityMap().put("int", 9L);
         setupValeros.getBaseAbilityMap().put("wis", 11L);
         setupValeros.getBaseAbilityMap().put("cha", 10L);
-        setupValeros.getLevelAdvancementStack().push(
+        setupValeros.getLevelAdvancementStack().add(
                 new LevelAdvancement("fighter", null, null));
 
         DndCharacter harsk
@@ -57,7 +57,7 @@ public class App {
         System.out.println("Valeros HP :: " + valeros.getMaxHp()
                 + " :: baseAtk_1 " + valeros.getBaseAtkBoni().get(0).getValue());
 
-        //TODO Melee Attack Bonus
+        //TODO Melee Attack Bonus (dynamic str bonus)
         //TODO armor class (size bonus, dynamic dex bonus)
         
         valeros.getAc();

@@ -7,14 +7,45 @@
     <bean id="str" class="org.asciicerebrum.mydndgame.Ability">
         <property name="id" value="str" />
         <property name="name" value="strength" />
+        <property name="boni">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="bonusType" ref="strBonus" />
+                    <property name="target" ref="meleeAttack" />
+                    <property name="dynamicValueProvider" ref="strAbilityBonusValueProvider" />
+                </bean>
+            </list>
+        </property>
     </bean>
     <bean id="dex" class="org.asciicerebrum.mydndgame.Ability">
         <property name="id" value="dex" />
         <property name="name" value="dexterity" />
+        <property name="boni">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="bonusType" ref="dexBonus" />
+                    <property name="target" ref="ac" />
+                    <property name="dynamicValueProvider" ref="dexAbilityBonusValueProvider" />
+                </bean>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="bonusType" ref="dexBonus" />
+                    <property name="target" ref="rangedAttack" />
+                    <property name="dynamicValueProvider" ref="dexAbilityBonusValueProvider" />
+                </bean>
+            </list>
+        </property>
     </bean>
     <bean id="con" class="org.asciicerebrum.mydndgame.Ability">
         <property name="id" value="con" />
         <property name="name" value="constitution" />
+        <property name="boni">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="target" ref="hp" />
+                    <property name="dynamicValueProvider" ref="conAbilityBonusValueProvider" />
+                </bean>
+            </list>
+        </property>
     </bean>
     <bean id="int" class="org.asciicerebrum.mydndgame.Ability">
         <property name="id" value="int" />

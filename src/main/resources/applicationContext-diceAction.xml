@@ -4,6 +4,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="hp" class="org.asciicerebrum.mydndgame.DiceAction">
+        <property name="id" value="hp" />
+    </bean>
+
     <bean id="ac" class="org.asciicerebrum.mydndgame.DiceAction">
         <property name="id" value="ac" />
         <property name="constValue" value="10" />
@@ -14,5 +18,16 @@
         <property name="diceNumber" value="1" />
         <property name="diceType" ref="d20" />
     </bean>
-                                                                                                   
+ 
+    <bean id="meleeAttack" class="org.asciicerebrum.mydndgame.DiceAction">
+        <property name="id" value="meleeAttack" />
+        <property name="diceNumber" value="1" />
+        <property name="diceType" ref="d20" />
+    </bean>
+    
+    <bean id="rangedAttack" class="org.asciicerebrum.mydndgame.DiceAction">
+        <property name="id" value="rangedAttack" />
+        <property name="diceNumber" value="1" />
+        <property name="diceType" ref="d20" />
+    </bean>                                                                                                  
 </beans>
