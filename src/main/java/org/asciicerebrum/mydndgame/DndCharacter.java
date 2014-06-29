@@ -11,35 +11,77 @@ import org.springframework.context.ApplicationContext;
  *
  * @author species8472
  */
-public class DndCharacter implements BonusSource {
+public final class DndCharacter implements BonusSource {
 
+    /**
+     * The setup for the character creation.
+     */
     private final CharacterSetup setup;
 
+    /**
+     * The race of this dnd character.
+     */
     @BonusGranter
     private Race race;
-    // classMap: tupel from characterClass, Hp-Addition for this class
+
+    /**
+     * The ordered list of classes this character advanced in.
+     */
     @BonusGranter
     private List<CharacterClass> classList
             = new ArrayList<CharacterClass>();
+    /**
+     * The ordered list of additions to the hit points this character acquired
+     * during class level advancements.
+     */
     private List<Long> hpAdditionList
             = new ArrayList<Long>();
+    /**
+     * The map of abilities together with their values.
+     */
     @BonusGranter
     private Map<Ability, Long> abilityMap
             = new HashMap<Ability, Long>();
+    /**
+     * The ordered list of class levels this character advanced in.
+     */
     @BonusGranter
     private List<ClassLevel> classLevels = new ArrayList<ClassLevel>();
 
+    /**
+     * The complete collection of all boni which are associated with this
+     * character.
+     */
     private List<Bonus> boni = new ArrayList<Bonus>();
 
     //TODO make DndCharacter Spring Prototype and set these values via
     // application context xml
+    /**
+     * The bonus calculation service needed for dynamic bonus value calculation.
+     */
     private final BonusCalculationService bonusService;
+    /**
+     * The diceAction with id hp.
+     */
     private final DiceAction hp;
+    /**
+     * The diceAction with id acAction.
+     */
     private final DiceAction acAction;
+    /**
+     * The diceAction with id attackAction.
+     */
     private final DiceAction attackAction;
+    /**
+     * The bonusType with id baseAttackBonus.
+     */
     private final BonusType baseAttackBonus;
 
-    private DndCharacter(Builder builder) {
+    /**
+     *
+     * @param builder Character creation with a builder.
+     */
+    private DndCharacter(final Builder builder) {
         this.hp = builder.context.getBean("hp", DiceAction.class);
         this.attackAction = builder.context.getBean("attack",
                 DiceAction.class);
@@ -120,6 +162,12 @@ public class DndCharacter implements BonusSource {
         this.acAction = builder.context.getBean("ac", DiceAction.class);
     }
 
+    /**
+     *
+     * @param charCl The character class which needs to be counted.
+     * @return The number of class levels this character has for the given
+     * character class.
+     */
     private Integer countClassLevelsByCharacterClass(
             final CharacterClass charCl) {
         Integer count = 0;
@@ -131,6 +179,10 @@ public class DndCharacter implements BonusSource {
         return count;
     }
 
+    /**
+     *
+     * @return the list of base attack boni for this character.
+     */
     public List<Bonus> getBaseAtkBoni() {
         List<Bonus> baseAtkBoni = new ArrayList<Bonus>();
 
@@ -144,15 +196,6 @@ public class DndCharacter implements BonusSource {
         return baseAtkBoni;
     }
 
-    public Long getAc() {
-        //TODO search for anything in the object graph of this
-        // character that grants boni for ac.
-        // ProTipp: Use annotations to mark the path to follow
-        // for the corresponding fields!
-
-        return this.getAcAction().getConstValue();
-    }
-
     /**
      * @return the abilityMap
      */
@@ -161,10 +204,10 @@ public class DndCharacter implements BonusSource {
     }
 
     /**
-     * @param abilityMap the abilityMap to set
+     * @param abilityMapInput the abilityMap to set
      */
-    public void setAbilityMap(Map<Ability, Long> abilityMap) {
-        this.abilityMap = abilityMap;
+    public void setAbilityMap(final Map<Ability, Long> abilityMapInput) {
+        this.abilityMap = abilityMapInput;
     }
 
     /**
@@ -175,10 +218,10 @@ public class DndCharacter implements BonusSource {
     }
 
     /**
-     * @param classLevels the classLevels to set
+     * @param classLevelsInput the classLevels to set
      */
-    public void setClassLevels(List<ClassLevel> classLevels) {
-        this.classLevels = classLevels;
+    public void setClassLevels(final List<ClassLevel> classLevelsInput) {
+        this.classLevels = classLevelsInput;
     }
 
     /**
@@ -189,10 +232,10 @@ public class DndCharacter implements BonusSource {
     }
 
     /**
-     * @param boni the boni to set
+     * @param boniInput the boni to set
      */
-    public void setBoni(List<Bonus> boni) {
-        this.boni = boni;
+    public void setBoni(final List<Bonus> boniInput) {
+        this.boni = boniInput;
     }
 
     /**
@@ -217,7 +260,7 @@ public class DndCharacter implements BonusSource {
         Long maxHp = 0L;
 
         for (int i = 0; i < this.getClassList().size(); i++) {
-            // in case of null use max hp addition, defined by 
+            // in case of null use max hp addition, defined by
             // the class' hitdice
             if (this.getHpAdditionList().get(i) != null) {
                 maxHp += this.getHpAdditionList().get(i);
@@ -232,6 +275,16 @@ public class DndCharacter implements BonusSource {
                         this, this, this.hp);
 
         return maxHp;
+    }
+
+    /**
+     *
+     * @return the calculated armor class of this character.
+     */
+    public Long getAc() {
+        return this.acAction.getConstValue()
+                + this.bonusService.retrieveEffectiveBonusValueByTarget(
+                        this, this, this.acAction);
     }
 
     /**
@@ -263,10 +316,10 @@ public class DndCharacter implements BonusSource {
     }
 
     /**
-     * @param classList the classList to set
+     * @param classListInput the classList to set
      */
-    public void setClassList(List<CharacterClass> classList) {
-        this.classList = classList;
+    public void setClassList(final List<CharacterClass> classListInput) {
+        this.classList = classListInput;
     }
 
     /**
@@ -277,24 +330,43 @@ public class DndCharacter implements BonusSource {
     }
 
     /**
-     * @param hpAdditionList the hpAdditionList to set
+     * @param hpAdditionListInput the hpAdditionList to set
      */
-    public void setHpAdditionList(List<Long> hpAdditionList) {
-        this.hpAdditionList = hpAdditionList;
+    public void setHpAdditionList(final List<Long> hpAdditionListInput) {
+        this.hpAdditionList = hpAdditionListInput;
     }
 
+    /**
+     *
+     */
     public static class Builder {
 
+        /**
+         * The setup needed for character creation.
+         */
         private final CharacterSetup setup;
+        /**
+         * The spring application context to find beans.
+         */
         private final ApplicationContext context;
 
+        /**
+         *
+         * @param setupInput the setup object with information of how to create
+         * the character.
+         * @param contextInput the spring application context to find the beans.
+         */
         public Builder(final CharacterSetup setupInput,
                 final ApplicationContext contextInput) {
             this.setup = setupInput;
             this.context = contextInput;
         }
 
-        public DndCharacter build() {
+        /**
+         *
+         * @return the newly created character.
+         */
+        public final DndCharacter build() {
             return new DndCharacter(this);
         }
     }
@@ -314,9 +386,9 @@ public class DndCharacter implements BonusSource {
     }
 
     /**
-     * @param race the race to set
+     * @param raceInput the race to set
      */
-    public void setRace(Race race) {
-        this.race = race;
+    public void setRace(final Race raceInput) {
+        this.race = raceInput;
     }
 }

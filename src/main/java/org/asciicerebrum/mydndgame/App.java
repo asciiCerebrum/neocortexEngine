@@ -4,21 +4,20 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * Hello world!
  *
+ * @author species8472
  */
 public class App {
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
-        System.out.println("Hello World!");
 
         ApplicationContext context
                 = new ClassPathXmlApplicationContext(
                         new String[]{"applicationContext.xml"});
-
-        Race human = context.getBean("human", Race.class);
-
-        System.out.println("CharacterClass :: " + human.getId());
 
         CharacterSetup setupHarsk = new CharacterSetup();
         setupHarsk.setName("Harsk");
@@ -33,7 +32,7 @@ public class App {
                 new LevelAdvancement("fighter", null, null));
         setupHarsk.getLevelAdvancementStack().add(
                 new LevelAdvancement("fighter", 7L, null));
-        
+
         CharacterSetup setupValeros = new CharacterSetup();
         setupValeros.setName("Valeros");
         setupValeros.setRace("human");
@@ -53,13 +52,12 @@ public class App {
 
         // HP
         System.out.println("Harsk HP :: " + harsk.getMaxHp()
-                + " :: baseAtk_1 " + harsk.getBaseAtkBoni().get(0).getValue());
+                + " :: baseAtk_1 " + harsk.getBaseAtkBoni().get(0).getValue()
+                + " :: AC " + harsk.getAc());
         System.out.println("Valeros HP :: " + valeros.getMaxHp()
-                + " :: baseAtk_1 " + valeros.getBaseAtkBoni().get(0).getValue());
+                + " :: baseAtk_1 " + valeros.getBaseAtkBoni().get(0).getValue()
+                + " :: AC " + valeros.getAc());
 
         //TODO Melee Attack Bonus (dynamic str bonus)
-        //TODO armor class (size bonus, dynamic dex bonus)
-        
-        valeros.getAc();
     }
 }

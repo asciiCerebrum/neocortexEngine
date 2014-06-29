@@ -9,11 +9,27 @@ import java.util.List;
  */
 public class ClassLevel {
 
+    /**
+     * The level number of this class level.
+     */
     private Integer level;
+    /**
+     * The character class associated with this class level.
+     */
     private CharacterClass characterClass;
+    /**
+     * The list of base attack boni that are granted with this level of this
+     * character class.
+     */
     private List<Bonus> baseAtkBoni = new ArrayList<Bonus>();
 
-    public Bonus getBaseAtkBonusByRank(final Long rank) {
+    /**
+     *
+     * @param rank the rank of the base attack bonus. E.g. when you have
+     * +10/+5/+1 then the bonus +5 is of rank 1, as rank starts with 0.
+     * @return the one base attack bonus of the given rank.
+     */
+    public final Bonus getBaseAtkBonusByRank(final Long rank) {
         for (Bonus bonus : baseAtkBoni) {
             if (bonus.getRank().equals(rank)) {
                 return bonus;
@@ -21,47 +37,48 @@ public class ClassLevel {
         }
         return null;
     }
-    
+
     /**
      * @return the level
      */
-    public Integer getLevel() {
+    public final Integer getLevel() {
         return level;
     }
 
     /**
-     * @param level the level to set
+     * @param levelInput the level to set
      */
-    public void setLevel(Integer level) {
-        this.level = level;
+    public final void setLevel(final Integer levelInput) {
+        this.level = levelInput;
     }
 
     /**
      * @return the characterClass
      */
-    public CharacterClass getCharacterClass() {
+    public final CharacterClass getCharacterClass() {
         return characterClass;
     }
 
     /**
-     * @param characterClass the characterClass to set
+     * @param characterClassInput the characterClass to set
      */
-    public void setCharacterClass(CharacterClass characterClass) {
-        this.characterClass = characterClass;
+    public final void setCharacterClass(
+            final CharacterClass characterClassInput) {
+        this.characterClass = characterClassInput;
     }
 
     /**
      * @return the baseAtkBoni
      */
-    public List<Bonus> getBaseAtkBoni() {
+    public final List<Bonus> getBaseAtkBoni() {
         return baseAtkBoni;
     }
 
     /**
-     * @param baseAtkBoni the baseAtkBoni to set
+     * @param baseAtkBoniInput the baseAtkBoni to set
      */
-    public void setBaseAtkBoni(List<Bonus> baseAtkBoni) {
-        this.baseAtkBoni = baseAtkBoni;
+    public final void setBaseAtkBoni(final List<Bonus> baseAtkBoniInput) {
+        this.baseAtkBoni = baseAtkBoniInput;
     }
 
 }

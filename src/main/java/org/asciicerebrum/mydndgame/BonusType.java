@@ -6,36 +6,42 @@ package org.asciicerebrum.mydndgame;
  */
 public class BonusType {
 
+    /**
+     * The unique id of the bonus type.
+     */
     private String id;
 
+    /**
+     * Determines, if boni of this type are stackable.
+     */
     private Boolean doesStack = Boolean.FALSE;
 
     /**
      * @return the id
      */
-    public String getId() {
+    public final String getId() {
         return id;
     }
 
     /**
-     * @param id the id to set
+     * @param idInput the id to set
      */
-    public void setId(String id) {
-        this.id = id;
+    public final void setId(final String idInput) {
+        this.id = idInput;
     }
 
     /**
      * @return the doesStack
      */
-    public Boolean getDoesStack() {
+    public final Boolean getDoesStack() {
         return doesStack;
     }
 
     /**
-     * @param doesStack the doesStack to set
+     * @param doesStackInput the doesStack to set
      */
-    public void setDoesStack(Boolean doesStack) {
-        this.doesStack = doesStack;
+    public final void setDoesStack(final Boolean doesStackInput) {
+        this.doesStack = doesStackInput;
     }
 
 }

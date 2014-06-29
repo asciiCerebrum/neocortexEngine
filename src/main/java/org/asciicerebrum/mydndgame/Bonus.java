@@ -6,61 +6,78 @@ package org.asciicerebrum.mydndgame;
  */
 public class Bonus {
 
+    /**
+     * The value of the bonus.
+     */
     private Long value;
-    // rank for multiple boni in a row, e.g. base attack
-    // boni +2/+1 and the like; rank start from 0
+    /**
+     * The rank for the bonus. rank for multiple boni in a row, e.g. base attack
+     * boni +2/+1 and the like; rank start from 0
+     */
     private Long rank;
+    /**
+     * The type of the bonus. E.g. size bonus.
+     */
     private BonusType bonusType;
+    /**
+     * The target where the bonus is applied. E.g. attack rolls.
+     */
     private BonusTarget target;
-    // for dynamic bonus values, e.g. the dex-bonus on ac is dynamic because
-    // it depends on the dex-value and so on the dex modifier, which is
-    // calculated.
-    // dynamic value has priority over static one.
+    /**
+     * The provider class for a dynamically calculated bonus value. For dynamic
+     * bonus values, e.g. the dex-bonus on ac is dynamic because it depends on
+     * the dex-value and so on the dex modifier, which is calculated. dynamic
+     * value has priority over static one.
+     */
     private BonusValueProvider dynamicValueProvider;
 
     /**
      * @return the value
      */
-    public Long getValue() {
+    public final Long getValue() {
         return value;
     }
 
     /**
-     * @param value the value to set
+     * @param valueInput the value to set
      */
-    public void setValue(Long value) {
-        this.value = value;
+    public final void setValue(final Long valueInput) {
+        this.value = valueInput;
     }
 
     /**
      * @return the bonusType
      */
-    public BonusType getBonusType() {
+    public final BonusType getBonusType() {
         return bonusType;
     }
 
     /**
-     * @param bonusType the bonusType to set
+     * @param bonusTypeInput the bonusType to set
      */
-    public void setBonusType(BonusType bonusType) {
-        this.bonusType = bonusType;
+    public final void setBonusType(final BonusType bonusTypeInput) {
+        this.bonusType = bonusTypeInput;
     }
 
     /**
      * @return the rank
      */
-    public Long getRank() {
+    public final Long getRank() {
         return rank;
     }
 
     /**
-     * @param rank the rank to set
+     * @param rankInput the rank to set
      */
-    public void setRank(Long rank) {
-        this.rank = rank;
+    public final void setRank(final Long rankInput) {
+        this.rank = rankInput;
     }
 
-    public Bonus makeCopy() {
+    /**
+     *
+     * @return the cloned version of this bonus.
+     */
+    public final Bonus makeCopy() {
         Bonus clonedBonus = new Bonus();
         clonedBonus.setBonusType(this.getBonusType());
         clonedBonus.setRank(this.getRank());
@@ -73,29 +90,30 @@ public class Bonus {
     /**
      * @return the dynamicValueProvider
      */
-    public BonusValueProvider getDynamicValueProvider() {
+    public final BonusValueProvider getDynamicValueProvider() {
         return dynamicValueProvider;
     }
 
     /**
-     * @param dynamicValueProvider the dynamicValueProvider to set
+     * @param dynamicValueProviderInput the dynamicValueProvider to set
      */
-    public void setDynamicValueProvider(BonusValueProvider dynamicValueProvider) {
-        this.dynamicValueProvider = dynamicValueProvider;
+    public final void setDynamicValueProvider(
+            final BonusValueProvider dynamicValueProviderInput) {
+        this.dynamicValueProvider = dynamicValueProviderInput;
     }
 
     /**
      * @return the target
      */
-    public BonusTarget getTarget() {
+    public final BonusTarget getTarget() {
         return target;
     }
 
     /**
-     * @param target the target to set
+     * @param targetInput the target to set
      */
-    public void setTarget(BonusTarget target) {
-        this.target = target;
+    public final void setTarget(final BonusTarget targetInput) {
+        this.target = targetInput;
     }
 
 }

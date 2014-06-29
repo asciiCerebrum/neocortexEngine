@@ -11,113 +11,135 @@ import java.util.Map;
  */
 public class CharacterSetup {
 
+    /**
+     * The name of the character.
+     */
     private String name;
+    /**
+     * The list of character class level advancements, the character has.
+     */
     private List<LevelAdvancement> levelAdvancementStack
             = new ArrayList<LevelAdvancement>();
-    // the abilities from character creation
+    /**
+     * The abilities from character creation together with their values.
+     */
     private Map<String, Long> baseAbilityMap
             = new HashMap<String, Long>();
+    /**
+     * The race of the character as a string, which is the bean-id.
+     */
     private String race;
+    /**
+     * The number of hitpints, the character currently has.
+     */
     private int currentHp;
+    /**
+     * The number of nonlethal hitpoints, the character currently has.
+     */
     private int currentHpNonlethal;
+    /**
+     * The number of experience points, the character currently has.
+     */
     private int currentXp;
 
     /**
      * @return the name
      */
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
     /**
-     * @param name the name to set
+     * @param nameInput the name to set
      */
-    public void setName(String name) {
-        this.name = name;
+    public final void setName(final String nameInput) {
+        this.name = nameInput;
     }
 
     /**
      * @return the race
      */
-    public String getRace() {
+    public final String getRace() {
         return race;
     }
 
     /**
-     * @param race the race to set
+     * @param raceInput the race to set
      */
-    public void setRace(String race) {
-        this.race = race;
+    public final void setRace(final String raceInput) {
+        this.race = raceInput;
     }
 
     /**
      * @return the currentHp
      */
-    public int getCurrentHp() {
+    public final int getCurrentHp() {
         return currentHp;
     }
 
     /**
-     * @param currentHp the currentHp to set
+     * @param currentHpInput the currentHp to set
      */
-    public void setCurrentHp(int currentHp) {
-        this.currentHp = currentHp;
+    public final void setCurrentHp(final int currentHpInput) {
+        this.currentHp = currentHpInput;
     }
 
     /**
      * @return the currentHpNonlethal
      */
-    public int getCurrentHpNonlethal() {
+    public final int getCurrentHpNonlethal() {
         return currentHpNonlethal;
     }
 
     /**
-     * @param currentHpNonlethal the currentHpNonlethal to set
+     * @param currentHpNonlethalInput the currentHpNonlethal to set
      */
-    public void setCurrentHpNonlethal(int currentHpNonlethal) {
-        this.currentHpNonlethal = currentHpNonlethal;
+    public final void setCurrentHpNonlethal(final int currentHpNonlethalInput) {
+        this.currentHpNonlethal = currentHpNonlethalInput;
     }
 
     /**
      * @return the baseAbilityMap
      */
-    public Map<String, Long> getBaseAbilityMap() {
+    public final Map<String, Long> getBaseAbilityMap() {
         return baseAbilityMap;
     }
 
     /**
-     * @param baseAbilityMap the baseAbilityMap to set
+     * @param baseAbilityMapInput the baseAbilityMap to set
      */
-    public void setBaseAbilityMap(Map<String, Long> baseAbilityMap) {
-        this.baseAbilityMap = baseAbilityMap;
+    public final void setBaseAbilityMap(
+            final Map<String, Long> baseAbilityMapInput) {
+        this.baseAbilityMap = baseAbilityMapInput;
     }
 
     /**
      * @return the currentXp
      */
-    public int getCurrentXp() {
+    public final int getCurrentXp() {
         return currentXp;
     }
 
     /**
-     * @param currentXp the currentXp to set
+     * @param currentXpInput the currentXp to set
      */
-    public void setCurrentXp(int currentXp) {
-        this.currentXp = currentXp;
+    public final void setCurrentXp(final int currentXpInput) {
+        this.currentXp = currentXpInput;
     }
 
     /**
      * @return the levelAdvancementStack
      */
-    public List<LevelAdvancement> getLevelAdvancementStack() {
+    public final List<LevelAdvancement> getLevelAdvancementStack() {
         return levelAdvancementStack;
     }
 
     /**
-     * @param levelAdvancementStack the levelAdvancementStack to set
+     * @param levelAdvancementStackInput the levelAdvancementStack to set
      */
-    public void setLevelAdvancementStack(List<LevelAdvancement> levelAdvancementStack) {
-        this.levelAdvancementStack = levelAdvancementStack;
+    public final void setLevelAdvancementStack(
+            final List<LevelAdvancement> levelAdvancementStackInput) {
+        this.levelAdvancementStack = levelAdvancementStackInput;
     }
 
 }

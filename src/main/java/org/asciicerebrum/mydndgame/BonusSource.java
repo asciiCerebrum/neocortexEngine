@@ -8,6 +8,10 @@ import java.util.List;
  */
 public interface BonusSource {
 
+    /**
+     *
+     * @return the list of all boni this source can provide.
+     */
     List<Bonus> getBoni();
-    
+
 }

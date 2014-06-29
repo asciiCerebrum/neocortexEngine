@@ -7,8 +7,7 @@ import java.lang.annotation.RetentionPolicy;
  *
  * @author species8472
  */
-
-@Retention( RetentionPolicy.RUNTIME )
+@Retention(RetentionPolicy.RUNTIME)
 public @interface BonusGranter {
-    
+
 }

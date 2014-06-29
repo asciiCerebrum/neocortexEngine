@@ -6,37 +6,43 @@ package org.asciicerebrum.mydndgame;
  */
 public class Race {
 
+    /**
+     * The unique id of this race.
+     */
     private String id;
-    
+
+    /**
+     * The sizeCategory which is associated with this race.
+     */
     @BonusGranter
     private SizeCategory size;
 
     /**
      * @return the id
      */
-    public String getId() {
+    public final String getId() {
         return id;
     }
 
     /**
      * @param idInput the id to set
      */
-    public void setId(final String idInput) {
+    public final void setId(final String idInput) {
         this.id = idInput;
     }
 
     /**
      * @return the size
      */
-    public SizeCategory getSize() {
+    public final SizeCategory getSize() {
         return size;
     }
 
     /**
-     * @param size the size to set
+     * @param sizeInput the size to set
      */
-    public void setSize(SizeCategory size) {
-        this.size = size;
+    public final void setSize(final SizeCategory sizeInput) {
+        this.size = sizeInput;
     }
 
 }

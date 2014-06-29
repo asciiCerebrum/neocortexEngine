@@ -16,7 +16,16 @@ import org.springframework.util.StringUtils;
  */
 public class BonusCalculationService {
 
-    public Long retrieveEffectiveBonusValueByTarget(
+    /**
+     *
+     * @param dndCharacter the context as a dndCharacter.
+     * @param source the source to start collecting boni from (and then going
+     * down the tree).
+     * @param target the bonus target of interest.
+     * @return the total bonus value calculated from all boni given by the
+     * source object in the context of the dndCharacter.
+     */
+    public final Long retrieveEffectiveBonusValueByTarget(
             final DndCharacter dndCharacter, final Object source,
             final BonusTarget target) {
 
@@ -35,15 +44,22 @@ public class BonusCalculationService {
             } else {
                 bonusVal = bonus.getValue();
             }
-            
-            System.out.println("Bonus " + bonus.getBonusType().getId() 
+
+            System.out.println("Bonus " + bonus.getBonusType().getId()
                     + " :: " + bonusVal);
             totalBonusVal += bonusVal;
         }
         return totalBonusVal;
     }
 
-    public List<Bonus> traverseBoniByTarget(final Object source,
+    /**
+     *
+     * @param source the bonus source as the starting point for the tree
+     * taversal.
+     * @param target the bonus target of interest.
+     * @return the collection list of all boni found through the object graph.
+     */
+    public final List<Bonus> traverseBoniByTarget(final Object source,
             final BonusTarget target) {
 
         List<Bonus> traversedBoni = new ArrayList<Bonus>();
@@ -73,7 +89,8 @@ public class BonusCalculationService {
                         for (Object listElement : (List) getterResult) {
                             // go recursively into the list elements
                             traversedBoni.addAll(
-                                    this.traverseBoniByTarget(listElement, target));
+                                    this.traverseBoniByTarget(
+                                            listElement, target));
                         }
 
                     } else if (field.getType().equals(Map.class)) {
@@ -89,24 +106,35 @@ public class BonusCalculationService {
                         // single object
                         System.out.println("is standard type");
                         traversedBoni.addAll(
-                                this.traverseBoniByTarget(getterResult, target));
+                                this.traverseBoniByTarget(
+                                        getterResult, target));
                     }
 
                 } catch (NoSuchMethodException ex) {
-                    Logger.getLogger(BonusCalculationService.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BonusCalculationService.class.getName())
+                            .log(Level.SEVERE, null, ex);
                 } catch (SecurityException ex) {
-                    Logger.getLogger(BonusCalculationService.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BonusCalculationService.class.getName())
+                            .log(Level.SEVERE, null, ex);
                 } catch (IllegalAccessException ex) {
-                    Logger.getLogger(BonusCalculationService.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BonusCalculationService.class.getName())
+                            .log(Level.SEVERE, null, ex);
                 } catch (InvocationTargetException ex) {
-                    Logger.getLogger(BonusCalculationService.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BonusCalculationService.class.getName())
+                            .log(Level.SEVERE, null, ex);
                 }
             }
         }
         return traversedBoni;
     }
 
-    public List<Bonus> filterBonusListByTarget(final List<Bonus> boni,
+    /**
+     *
+     * @param boni the list of boni to be filtered.
+     * @param target the filter bonus target.
+     * @return the list of boni filtered by the target.
+     */
+    public final List<Bonus> filterBonusListByTarget(final List<Bonus> boni,
             final BonusTarget target) {
         List<Bonus> filteredBoni = new ArrayList<Bonus>();
 

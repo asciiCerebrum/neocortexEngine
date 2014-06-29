@@ -9,11 +9,27 @@ import java.util.List;
  */
 public class CharacterClass {
 
+    /**
+     * The unique id of the character class.
+     */
     private String id;
+    /**
+     * The type of hit die associated with this character class.
+     */
     private Dice hitDice;
+    /**
+     * The list of class levels which define the character advancement within
+     * this character class.
+     */
     private List<ClassLevel> classLevels = new ArrayList<ClassLevel>();
 
-    public ClassLevel getClassLevelByLevel(final Integer level) {
+    /**
+     *
+     * @param level the position in the classLevel list. That is the class
+     * level.
+     * @return the level-th element of the classLevel list.
+     */
+    public final ClassLevel getClassLevelByLevel(final Integer level) {
         for (ClassLevel cl : this.classLevels) {
             if (cl.getLevel().equals(level)) {
                 return cl;
@@ -25,43 +41,43 @@ public class CharacterClass {
     /**
      * @return the id
      */
-    public String getId() {
+    public final String getId() {
         return id;
     }
 
     /**
      * @param idInput the id to set
      */
-    public void setId(final String idInput) {
+    public final void setId(final String idInput) {
         this.id = idInput;
     }
 
     /**
      * @return the hitDice
      */
-    public Dice getHitDice() {
+    public final Dice getHitDice() {
         return hitDice;
     }
 
     /**
-     * @param hitDice the hitDice to set
+     * @param hitDiceInput the hitDice to set
      */
-    public void setHitDice(Dice hitDice) {
-        this.hitDice = hitDice;
+    public final void setHitDice(final Dice hitDiceInput) {
+        this.hitDice = hitDiceInput;
     }
 
     /**
      * @return the classLevels
      */
-    public List<ClassLevel> getClassLevels() {
+    public final List<ClassLevel> getClassLevels() {
         return classLevels;
     }
 
     /**
-     * @param classLevels the classLevels to set
+     * @param classLevelsInput the classLevels to set
      */
-    public void setClassLevels(List<ClassLevel> classLevels) {
-        this.classLevels = classLevels;
+    public final void setClassLevels(final List<ClassLevel> classLevelsInput) {
+        this.classLevels = classLevelsInput;
     }
 
 }

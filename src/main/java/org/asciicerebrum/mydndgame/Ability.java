@@ -9,50 +9,59 @@ import java.util.List;
  */
 public class Ability implements BonusSource, BonusTarget {
 
+    /**
+     * Unique id of the ability.
+     */
     private String id;
+    /**
+     * Descriptive name of the ability.
+     */
     private String name;
+    /**
+     * Collection of all boni associated with this ability.
+     */
     private List<Bonus> boni = new ArrayList<Bonus>();
 
     /**
      * @return the id
      */
-    public String getId() {
+    public final String getId() {
         return id;
     }
 
     /**
-     * @param id the id to set
+     * @param idInput the id to set
      */
-    public void setId(String id) {
-        this.id = id;
+    public final void setId(final String idInput) {
+        this.id = idInput;
     }
 
     /**
      * @return the name
      */
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
     /**
-     * @param name the name to set
+     * @param nameInput the name to set
      */
-    public void setName(String name) {
-        this.name = name;
+    public final void setName(final String nameInput) {
+        this.name = nameInput;
     }
 
     /**
      * @return the boni
      */
-    public List<Bonus> getBoni() {
+    public final List<Bonus> getBoni() {
         return boni;
     }
 
     /**
-     * @param boni the boni to set
+     * @param boniInput the boni to set
      */
-    public void setBoni(List<Bonus> boni) {
-        this.boni = boni;
+    public final void setBoni(final List<Bonus> boniInput) {
+        this.boni = boniInput;
     }
 
 }

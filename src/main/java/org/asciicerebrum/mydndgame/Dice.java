@@ -6,35 +6,41 @@ package org.asciicerebrum.mydndgame;
  */
 public class Dice {
 
+    /**
+     * The unique id of this die type.
+     */
     private String id;
+    /**
+     * The number of sides this die has.
+     */
     private int sides;
 
     /**
      * @return the id
      */
-    public String getId() {
+    public final String getId() {
         return id;
     }
 
     /**
-     * @param id the id to set
+     * @param idInput the id to set
      */
-    public void setId(String id) {
-        this.id = id;
+    public final void setId(final String idInput) {
+        this.id = idInput;
     }
 
     /**
      * @return the sides
      */
-    public int getSides() {
+    public final int getSides() {
         return sides;
     }
 
     /**
-     * @param sides the sides to set
+     * @param sidesInput the sides to set
      */
-    public void setSides(int sides) {
-        this.sides = sides;
+    public final void setSides(final int sidesInput) {
+        this.sides = sidesInput;
     }
 
 }

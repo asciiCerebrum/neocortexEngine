@@ -8,35 +8,41 @@ import java.util.List;
  */
 public class SizeCategory implements BonusSource {
 
+    /**
+     * The unique if of this size category. E.g. small, medium, etc.
+     */
     private String id;
+    /**
+     * The list of boni associated with this size category.
+     */
     private List<Bonus> boni;
 
     /**
      * @return the id
      */
-    public String getId() {
+    public final String getId() {
         return id;
     }
 
     /**
-     * @param id the id to set
+     * @param idInput the id to set
      */
-    public void setId(String id) {
-        this.id = id;
+    public final void setId(final String idInput) {
+        this.id = idInput;
     }
 
     /**
      * @return the boni
      */
-    public List<Bonus> getBoni() {
+    public final List<Bonus> getBoni() {
         return boni;
     }
 
     /**
-     * @param boni the boni to set
+     * @param boniInput the boni to set
      */
-    public void setBoni(List<Bonus> boni) {
-        this.boni = boni;
+    public final void setBoni(final List<Bonus> boniInput) {
+        this.boni = boniInput;
     }
 
 }
