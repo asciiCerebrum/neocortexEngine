@@ -117,38 +117,7 @@ public final class DndCharacter implements BonusSource {
             this.classLevels.add(cLevel);
 
             // merge baseAtk boni
-            List<Bonus> newBoni = cLevel.getBaseAtkBoni();
-            for (Bonus newBonus : newBoni) {
-                final Long currentRank = newBonus.getRank();
-                Long valueDelta = newBonus.getValue();
-                boolean bonusFound = false;
-
-                for (Bonus existingBonus : this.boni) {
-                    if (existingBonus.getRank().equals(currentRank)) {
-                        // bonus of previous level with same rank
-
-                        final ClassLevel prevLevel
-                                = chClass.getClassLevelByLevel(
-                                        cLevel.getLevel() - 1);
-
-                        if (prevLevel != null) {
-                            final Bonus prevBonus
-                                    = prevLevel.getBaseAtkBonusByRank(
-                                            currentRank);
-
-                            valueDelta = valueDelta
-                                    - prevBonus.getValue();
-                        }
-                        existingBonus.setValue(existingBonus.getValue()
-                                + valueDelta);
-                        bonusFound = true;
-                        break;
-                    }
-                }
-                if (!bonusFound) {
-                    this.boni.add(newBonus.makeCopy());
-                }
-            }
+            this.mergeBaseAtkBoni(chClass, cLevel);
 
             if (advance.getAbilityName() != null) {
                 Ability additionalAbility
@@ -160,6 +129,44 @@ public final class DndCharacter implements BonusSource {
         }
 
         this.acAction = builder.context.getBean("ac", DiceAction.class);
+    }
+
+    /**
+     *
+     * @param chClass the character class to merge to boni from.
+     * @param cLevel the specific level of the given character class.
+     */
+    private void mergeBaseAtkBoni(final CharacterClass chClass,
+            final ClassLevel cLevel) {
+
+        // iteration over all base Atk boni of NEW class level
+        for (Bonus newBonus : cLevel.getBaseAtkBoni()) {
+
+            final Long currentRank = newBonus.getRank();
+            boolean bonusFound = false;
+
+            // iteration over all accumulated boni of the dnd character to
+            // find matches based on rank
+            for (Bonus existingBonus : this.boni) {
+                if (existingBonus.getRank().equals(currentRank)) {
+
+                    Long valueDelta
+                            = chClass.getBaseAtkBonusValueDeltaByLevelAndRank(
+                                    cLevel, currentRank);
+
+                    existingBonus.setValue(existingBonus.getValue()
+                            + valueDelta);
+
+                    bonusFound = true;
+                    break;
+                }
+            }
+            // when the rank is not yet present, the whole bonus is added as a
+            // clone
+            if (!bonusFound) {
+                this.boni.add(newBonus.makeCopy());
+            }
+        }
     }
 
     /**

@@ -39,6 +39,37 @@ public class CharacterClass {
     }
 
     /**
+     *
+     * @param cLevel the base class level.
+     * @param currentRank the rank of interest.
+     * @return the difference between the bonus of level and level - 1 of the
+     * given rank.
+     */
+    public final Long getBaseAtkBonusValueDeltaByLevelAndRank(
+            final ClassLevel cLevel, final Long currentRank) {
+        Long valueDelta = cLevel.getBaseAtkBonusByRank(currentRank).getValue();
+
+        // bonus of previous level with same rank
+        final ClassLevel prevLevel
+                = this.getClassLevelByLevel(
+                        cLevel.getLevel() - 1);
+        if (prevLevel != null) {
+            // prevBonus could be null if the given currentRank is not
+            // available in the previous class level!
+            final Bonus prevBonus
+                    = prevLevel.getBaseAtkBonusByRank(
+                            currentRank);
+
+            if (prevBonus != null) {
+                // the bonus difference between the two levels
+                valueDelta = valueDelta
+                        - prevBonus.getValue();
+            }
+        }
+        return valueDelta;
+    }
+
+    /**
      * @return the id
      */
     public final String getId() {

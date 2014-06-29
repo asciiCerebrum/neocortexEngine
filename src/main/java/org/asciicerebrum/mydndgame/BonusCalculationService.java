@@ -6,8 +6,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
 
 /**
@@ -15,6 +14,12 @@ import org.springframework.util.StringUtils;
  * @author species8472
  */
 public class BonusCalculationService {
+
+    /**
+     * Logger for this class.
+     */
+    private static final Logger LOGGER
+            = Logger.getLogger(BonusCalculationService.class);
 
     /**
      *
@@ -35,7 +40,9 @@ public class BonusCalculationService {
         //TODO track the origin of the bonus, e.g. from ability Constitution
         // for hp
         Long totalBonusVal = 0L;
-        System.out.println("Found boni for " + target.getId() + ":");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Found boni for " + target.getId() + ":");
+        }
         for (Bonus bonus : foundBoni) {
             Long bonusVal;
             if (bonus.getDynamicValueProvider() != null) {
@@ -45,8 +52,10 @@ public class BonusCalculationService {
                 bonusVal = bonus.getValue();
             }
 
-            System.out.println("Bonus " + bonus.getBonusType().getId()
-                    + " :: " + bonusVal);
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Bonus " + bonus.getBonusType().getId()
+                        + " :: " + bonusVal);
+            }
             totalBonusVal += bonusVal;
         }
         return totalBonusVal;
@@ -73,8 +82,9 @@ public class BonusCalculationService {
         for (Field field : source.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(BonusGranter.class)) {
 
-                System.out.println("Found field: " + field.getName());
-
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Found field: " + field.getName());
+                }
                 try {
                     Method getter = source.getClass().getMethod(
                             "get" + StringUtils.capitalize(field.getName()));
@@ -82,50 +92,59 @@ public class BonusCalculationService {
                     // invoke getter of annotated field
                     Object getterResult = getter.invoke(source);
 
-                    if (field.getType().equals(List.class)) {
-                        // list of objects
-                        System.out.println("is list");
-
-                        for (Object listElement : (List) getterResult) {
-                            // go recursively into the list elements
-                            traversedBoni.addAll(
-                                    this.traverseBoniByTarget(
-                                            listElement, target));
-                        }
-
-                    } else if (field.getType().equals(Map.class)) {
-                        // map of objects = list of key entries
-                        System.out.println("is map");
-
-                        for (Object mapKey : ((Map) getterResult).keySet()) {
-                            traversedBoni.addAll(
-                                    this.traverseBoniByTarget(mapKey, target));
-                        }
-
-                    } else {
-                        // single object
-                        System.out.println("is standard type");
-                        traversedBoni.addAll(
-                                this.traverseBoniByTarget(
-                                        getterResult, target));
-                    }
+                    this.traversePerField(field, getterResult,
+                            traversedBoni, target);
 
                 } catch (NoSuchMethodException ex) {
-                    Logger.getLogger(BonusCalculationService.class.getName())
-                            .log(Level.SEVERE, null, ex);
+                    LOGGER.error("Annotated field does not have an associated"
+                            + " getter.", ex);
                 } catch (SecurityException ex) {
-                    Logger.getLogger(BonusCalculationService.class.getName())
-                            .log(Level.SEVERE, null, ex);
+                    LOGGER.error("Security problems occured.", ex);
                 } catch (IllegalAccessException ex) {
-                    Logger.getLogger(BonusCalculationService.class.getName())
-                            .log(Level.SEVERE, null, ex);
+                    LOGGER.error("Access to getter of annotated field "
+                            + "found to be illegal.", ex);
                 } catch (InvocationTargetException ex) {
-                    Logger.getLogger(BonusCalculationService.class.getName())
-                            .log(Level.SEVERE, null, ex);
+                    LOGGER.error("Invocation of getter of annotated field "
+                            + "seems problematic.", ex);
                 }
             }
         }
         return traversedBoni;
+    }
+
+    /**
+     *
+     * @param field The base for the continuation of the tree traversal.
+     * @param getterResult The rsult of the getter to continue with.
+     * @param traversedBoni The so far collected list of boni.
+     * @param target The bonus target which filters the type of boni needed.
+     */
+    private void traversePerField(final Field field, final Object getterResult,
+            final List<Bonus> traversedBoni, final BonusTarget target) {
+        if (field.getType().equals(List.class)) {
+            // list of objects
+
+            for (Object listElement : (List) getterResult) {
+                // go recursively into the list elements
+                traversedBoni.addAll(
+                        this.traverseBoniByTarget(
+                                listElement, target));
+            }
+
+        } else if (field.getType().equals(Map.class)) {
+            // map of objects = list of key entries
+
+            for (Object mapKey : ((Map) getterResult).keySet()) {
+                traversedBoni.addAll(
+                        this.traverseBoniByTarget(mapKey, target));
+            }
+
+        } else {
+            // single object
+            traversedBoni.addAll(
+                    this.traverseBoniByTarget(
+                            getterResult, target));
+        }
     }
 
     /**

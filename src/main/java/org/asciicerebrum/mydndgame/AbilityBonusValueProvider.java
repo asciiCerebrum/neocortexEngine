@@ -30,9 +30,7 @@ public class AbilityBonusValueProvider implements BonusValueProvider {
         // or some potions can grant a +4 bonus on Dexterity (Cat's Grace)
         final Long abilityScore
                 = dndCharacter.getAbilityMap().get(this.ability);
-        Long abilityMod = this.calculateAbilityMod(abilityScore);
-
-        return abilityMod;
+        return this.calculateAbilityMod(abilityScore);
     }
 
     /**
