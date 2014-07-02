@@ -148,18 +148,19 @@ public final class DndCharacter implements BonusSource {
             // iteration over all accumulated boni of the dnd character to
             // find matches based on rank
             for (Bonus existingBonus : this.boni) {
-                if (existingBonus.getRank().equals(currentRank)) {
-
-                    Long valueDelta
-                            = chClass.getBaseAtkBonusValueDeltaByLevelAndRank(
-                                    cLevel, currentRank);
-
-                    existingBonus.setValue(existingBonus.getValue()
-                            + valueDelta);
-
-                    bonusFound = true;
-                    break;
+                if (!existingBonus.getRank().equals(currentRank)) {
+                    continue;
                 }
+
+                Long valueDelta
+                        = chClass.getBaseAtkBonusValueDeltaByLevelAndRank(
+                                cLevel, currentRank);
+
+                existingBonus.setValue(existingBonus.getValue()
+                        + valueDelta);
+
+                bonusFound = true;
+                break;
             }
             // when the rank is not yet present, the whole bonus is added as a
             // clone

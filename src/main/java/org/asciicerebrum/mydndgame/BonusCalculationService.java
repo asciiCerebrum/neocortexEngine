@@ -22,6 +22,7 @@ public class BonusCalculationService {
             = Logger.getLogger(BonusCalculationService.class);
 
     /**
+     * Calculation of the effective bonus as a summation over all granted boni.
      *
      * @param dndCharacter the context as a dndCharacter.
      * @param source the source to start collecting boni from (and then going
@@ -38,6 +39,8 @@ public class BonusCalculationService {
 
         //TODO filter out non-stacking boni
         //TODO track the origin of the bonus, e.g. from ability Constitution
+        //TODO skip boni of value 0 - really erase them from the list or don't
+        // put them into the list in the first place
         // for hp
         Long totalBonusVal = 0L;
         if (LOGGER.isDebugEnabled()) {
@@ -80,33 +83,32 @@ public class BonusCalculationService {
         }
 
         for (Field field : source.getClass().getDeclaredFields()) {
-            if (field.isAnnotationPresent(BonusGranter.class)) {
 
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Found field: " + field.getName());
-                }
-                try {
-                    Method getter = source.getClass().getMethod(
-                            "get" + StringUtils.capitalize(field.getName()));
+            if (!field.isAnnotationPresent(BonusGranter.class)) {
+                continue;
+            }
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Found field: " + field.getName());
+            }
+            try {
+                Method getter = source.getClass().getMethod(
+                        "get" + StringUtils.capitalize(field.getName()));
 
-                    // invoke getter of annotated field
-                    Object getterResult = getter.invoke(source);
+                // invoke getter of annotated field
+                Object getterResult = getter.invoke(source);
 
-                    this.traversePerField(field, getterResult,
-                            traversedBoni, target);
+                this.traversePerField(field, getterResult,
+                        traversedBoni, target);
 
-                } catch (NoSuchMethodException ex) {
-                    LOGGER.error("Annotated field does not have an associated"
-                            + " getter.", ex);
-                } catch (SecurityException ex) {
-                    LOGGER.error("Security problems occured.", ex);
-                } catch (IllegalAccessException ex) {
-                    LOGGER.error("Access to getter of annotated field "
-                            + "found to be illegal.", ex);
-                } catch (InvocationTargetException ex) {
-                    LOGGER.error("Invocation of getter of annotated field "
-                            + "seems problematic.", ex);
-                }
+            } catch (NoSuchMethodException ex) {
+                LOGGER.error("Annotated field does not have an associated"
+                        + " getter.", ex);
+            } catch (IllegalAccessException ex) {
+                LOGGER.error("Access to getter of annotated field "
+                        + "found to be illegal.", ex);
+            } catch (InvocationTargetException ex) {
+                LOGGER.error("Invocation of getter of annotated field "
+                        + "seems problematic.", ex);
             }
         }
         return traversedBoni;
