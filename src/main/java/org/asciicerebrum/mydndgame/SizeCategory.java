@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ public class SizeCategory implements BonusSource {
     /**
      * The list of boni associated with this size category.
      */
-    private List<Bonus> boni;
+    private List<Bonus> boni = new ArrayList<Bonus>();
 
     /**
      * @return the id

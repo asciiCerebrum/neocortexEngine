@@ -119,13 +119,16 @@ public final class DndCharacter implements BonusSource {
             // merge baseAtk boni
             this.mergeBaseAtkBoni(chClass, cLevel);
 
-            if (advance.getAbilityName() != null) {
-                Ability additionalAbility
-                        = builder.context.getBean(
-                                advance.getAbilityName(), Ability.class);
-                this.abilityMap.put(additionalAbility,
-                        this.abilityMap.get(additionalAbility) + 1);
+            // ability increment with level advancement
+            if (advance.getAbilityName() == null) {
+                continue;
             }
+            Ability additionalAbility
+                    = builder.context.getBean(
+                            advance.getAbilityName(), Ability.class);
+            this.abilityMap.put(additionalAbility,
+                    this.abilityMap.get(additionalAbility) + 1);
+
         }
 
         this.acAction = builder.context.getBean("ac", DiceAction.class);
@@ -146,21 +149,21 @@ public final class DndCharacter implements BonusSource {
             boolean bonusFound = false;
 
             // iteration over all accumulated boni of the dnd character to
-            // find matches based on rank
+            // find matches based on rank - then the difference to the previous
+            // level's bonus can be added
             for (Bonus existingBonus : this.boni) {
-                if (!existingBonus.getRank().equals(currentRank)) {
-                    continue;
+                if (existingBonus.getRank().equals(currentRank)) {
+
+                    Long valueDelta
+                            = chClass.getBaseAtkBonusValueDeltaByLevelAndRank(
+                                    cLevel, currentRank);
+
+                    existingBonus.setValue(existingBonus.getValue()
+                            + valueDelta);
+
+                    bonusFound = true;
+                    break;
                 }
-
-                Long valueDelta
-                        = chClass.getBaseAtkBonusValueDeltaByLevelAndRank(
-                                cLevel, currentRank);
-
-                existingBonus.setValue(existingBonus.getValue()
-                        + valueDelta);
-
-                bonusFound = true;
-                break;
             }
             // when the rank is not yet present, the whole bonus is added as a
             // clone

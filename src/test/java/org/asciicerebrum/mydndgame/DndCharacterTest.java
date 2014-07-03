@@ -1,0 +1,140 @@
+package org.asciicerebrum.mydndgame;
+
+import java.util.List;
+import org.junit.After;
+import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.mockito.Mock;
+import static org.mockito.Mockito.when;
+import org.mockito.MockitoAnnotations;
+import org.springframework.context.ApplicationContext;
+
+/**
+ *
+ * @author species8472
+ */
+public class DndCharacterTest {
+
+    @Mock
+    private ApplicationContext context;
+
+    private final BonusCalculationService bcService
+            = new BonusCalculationService();
+
+    private DndCharacter testChar;
+
+    private static final Integer HIT_DICE = 10;
+    private static final Long ADDITIONAL_HP = 5L;
+    private static final Long BASE_ATK_BONUS = 2L;
+
+    @BeforeClass
+    public static void setUpClass() {
+    }
+
+    @AfterClass
+    public static void tearDownClass() {
+    }
+
+    @Before
+    public void setUp() {
+
+        MockitoAnnotations.initMocks(this);
+
+        CharacterSetup setup = new CharacterSetup();
+        setup.setRace("characterRace");
+        setup.getBaseAbilityMap().put("ability", 0L);
+        setup.getLevelAdvancementStack().add(
+                new LevelAdvancement("characterClass", null, null));
+        setup.getLevelAdvancementStack().add(
+                new LevelAdvancement("characterClass", ADDITIONAL_HP, null));
+        setup.getLevelAdvancementStack().add(
+                new LevelAdvancement("otherCharacterClass", null, null));
+
+        BonusType baseAtkBonusType = new BonusType();
+        Dice hitDice = new Dice();
+        hitDice.setSides(HIT_DICE);
+        CharacterClass chClass = new CharacterClass();
+        chClass.setHitDice(hitDice);
+        chClass.setId("characterClass");
+        ClassLevel cLevel1 = new ClassLevel();
+        cLevel1.setLevel(1);
+        Bonus baseAtkBonus = new Bonus();
+        baseAtkBonus.setRank(0L);
+        baseAtkBonus.setValue(BASE_ATK_BONUS);
+        baseAtkBonus.setTarget(new DiceAction());
+        baseAtkBonus.setBonusType(baseAtkBonusType);
+        cLevel1.getBaseAtkBoni().add(baseAtkBonus);
+        cLevel1.setCharacterClass(chClass);
+        chClass.getClassLevels().add(cLevel1);
+        ClassLevel cLevel2 = new ClassLevel();
+        cLevel2.setLevel(2);
+        cLevel2.setCharacterClass(chClass);
+        chClass.getClassLevels().add(cLevel2);
+        Race race = new Race();
+        race.setSize(new SizeCategory());
+
+        CharacterClass otherChClass = new CharacterClass();
+        otherChClass.setHitDice(hitDice);
+        ClassLevel otherCLevel1 = new ClassLevel();
+        otherCLevel1.setLevel(1);
+        otherCLevel1.setCharacterClass(otherChClass);
+        otherChClass.getClassLevels().add(otherCLevel1);
+
+        when(this.context.getBean("hp", DiceAction.class))
+                .thenReturn(new DiceAction());
+        when(this.context.getBean("characterRace", Race.class))
+                .thenReturn(race);
+        when(this.context.getBean("ability", Ability.class))
+                .thenReturn(new Ability());
+        when(this.context.getBean("characterClass", CharacterClass.class))
+                .thenReturn(chClass);
+        when(this.context.getBean("otherCharacterClass", CharacterClass.class))
+                .thenReturn(otherChClass);
+        when(this.context.getBean("baseAttackBonus", BonusType.class))
+                .thenReturn(baseAtkBonusType);
+        when(this.context.getBean("bonusCalculationService",
+                BonusCalculationService.class))
+                .thenReturn(this.bcService);
+
+        this.testChar = new DndCharacter.Builder(setup, this.context).build();
+    }
+
+    @After
+    public void tearDown() {
+    }
+
+    /**
+     * Calculate max hp directly from the hitdice and an additionally given
+     * bonus. The boni come from two different character classes.
+     */
+    @Test
+    public void testGetMaxHp() {
+        Long maxHp = this.testChar.getMaxHp();
+
+        assertEquals(Long.valueOf(HIT_DICE + ADDITIONAL_HP + HIT_DICE), maxHp);
+    }
+
+    /**
+     * Testing the size of the baseAtk boni.
+     */
+    @Test
+    public void testGetBaseAtkBoni() {
+        List<Bonus> baseAtkBoni = this.testChar.getBaseAtkBoni();
+
+        assertEquals(1, baseAtkBoni.size());
+    }
+
+    /**
+     * Testing the value of the one base atk bonus.
+     */
+    @Test
+    public void testGetBaseAtkBoniValue() {
+        List<Bonus> baseAtkBoni = this.testChar.getBaseAtkBoni();
+
+        assertEquals(BASE_ATK_BONUS, baseAtkBoni.get(0).getValue());
+    }
+
+}
