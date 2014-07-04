@@ -21,8 +21,8 @@ public class DndCharacterTest {
     @Mock
     private ApplicationContext context;
 
-    private final BonusCalculationService bcService
-            = new BonusCalculationService();
+    @Mock
+    private DefaultBonusCalculationServiceImpl bcService;
 
     private DndCharacter testChar;
 
@@ -69,9 +69,24 @@ public class DndCharacterTest {
         cLevel1.getBaseAtkBoni().add(baseAtkBonus);
         cLevel1.setCharacterClass(chClass);
         chClass.getClassLevels().add(cLevel1);
+
+        Bonus baseAtkBonus2_1 = new Bonus();
+        baseAtkBonus2_1.setRank(0L);
+        baseAtkBonus2_1.setValue(BASE_ATK_BONUS);
+        baseAtkBonus2_1.setTarget(new DiceAction());
+        baseAtkBonus2_1.setBonusType(baseAtkBonusType);
+
+        Bonus baseAtkBonus2_2 = new Bonus();
+        baseAtkBonus2_2.setRank(1L);
+        baseAtkBonus2_2.setValue(BASE_ATK_BONUS);
+        baseAtkBonus2_2.setTarget(new DiceAction());
+        baseAtkBonus2_2.setBonusType(baseAtkBonusType);
+
         ClassLevel cLevel2 = new ClassLevel();
         cLevel2.setLevel(2);
         cLevel2.setCharacterClass(chClass);
+        cLevel2.getBaseAtkBoni().add(baseAtkBonus2_1);
+        cLevel2.getBaseAtkBoni().add(baseAtkBonus2_2);
         chClass.getClassLevels().add(cLevel2);
         Race race = new Race();
         race.setSize(new SizeCategory());
@@ -124,14 +139,31 @@ public class DndCharacterTest {
     public void testGetBaseAtkBoni() {
         List<Bonus> baseAtkBoni = this.testChar.getBaseAtkBoni();
 
-        assertEquals(1, baseAtkBoni.size());
+        assertEquals(2, baseAtkBoni.size());
     }
 
     /**
-     * Testing the value of the one base atk bonus.
+     * Testing the value of the first base atk bonus.
      */
     @Test
     public void testGetBaseAtkBoniValue() {
+        List<Bonus> baseAtkBoni = this.testChar.getBaseAtkBoni();
+
+        assertEquals(BASE_ATK_BONUS, baseAtkBoni.get(0).getValue());
+    }
+
+    /**
+     * Testing the value of the one base atk bonus. Adding a false bonus to test
+     * its exclusion.
+     */
+    @Test
+    public void testGetBaseAtkBoniValueWithFalseBonus() {
+        Bonus nonAtkBonus = new Bonus();
+        BonusType nonAtkBonusType = new BonusType();
+        nonAtkBonusType.setId("nonAtkBonus");
+        nonAtkBonus.setBonusType(nonAtkBonusType);
+        this.testChar.getBoni().add(nonAtkBonus);
+
         List<Bonus> baseAtkBoni = this.testChar.getBaseAtkBoni();
 
         assertEquals(BASE_ATK_BONUS, baseAtkBoni.get(0).getValue());

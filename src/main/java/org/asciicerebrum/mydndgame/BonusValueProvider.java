@@ -12,5 +12,5 @@ public interface BonusValueProvider {
      * a dndCharacter.
      * @return the result of the dynamic bonus value calculation.
      */
-    Long getDynamicValue(DndCharacter dndCharacter);
+    Long getDynamicValue(ICharacter dndCharacter);
 }

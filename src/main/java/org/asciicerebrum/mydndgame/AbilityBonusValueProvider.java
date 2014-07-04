@@ -23,7 +23,7 @@ public class AbilityBonusValueProvider implements BonusValueProvider {
      * @return the dynamically calculated bonus value of the given ability -
      * depending on the character.
      */
-    public final Long getDynamicValue(final DndCharacter dndCharacter) {
+    public final Long getDynamicValue(final ICharacter dndCharacter) {
 
         //TODO collect all boni/mali with this ability as target
         // e.g. sicknesses can give a -4 malus on Constitution.

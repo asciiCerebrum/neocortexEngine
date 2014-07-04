@@ -21,7 +21,7 @@ import org.mockito.Mock;
  *
  * @author species8472
  */
-public class BonusCalculationServiceTest {
+public class DefaultBonusCalculationServiceImplTest {
 
     private static class ListBonusGranter {
 
@@ -89,7 +89,7 @@ public class BonusCalculationServiceTest {
         private BonusSource bonusSource;
     }
 
-    private BonusCalculationService bcService;
+    private DefaultBonusCalculationServiceImpl bcService;
     private List<Bonus> boni;
     private DiceAction targetTrue;
     private DiceAction targetFalse;
@@ -100,7 +100,7 @@ public class BonusCalculationServiceTest {
     @Mock
     private DndCharacter dndCharacter;
 
-    public BonusCalculationServiceTest() {
+    public DefaultBonusCalculationServiceImplTest() {
     }
 
     @BeforeClass
@@ -114,7 +114,7 @@ public class BonusCalculationServiceTest {
     @Before
     public void setUp() {
 
-        this.bcService = new BonusCalculationService();
+        this.bcService = new DefaultBonusCalculationServiceImpl();
         this.targetTrue = new DiceAction();
         this.targetTrue.setId("testTargetTrue");
 
@@ -129,7 +129,7 @@ public class BonusCalculationServiceTest {
         bonusFalse.setTarget(this.targetFalse);
         bonusFalse.setDynamicValueProvider(new BonusValueProvider() {
 
-            public Long getDynamicValue(DndCharacter dndCharacter) {
+            public Long getDynamicValue(ICharacter dndCharacter) {
                 return 7L;
             }
         });

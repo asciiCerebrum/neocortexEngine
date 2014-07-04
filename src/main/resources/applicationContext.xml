@@ -6,7 +6,7 @@
 
     <!-- service infrastructure beans -->
     <bean id="bonusCalculationService"
-          class="org.asciicerebrum.mydndgame.BonusCalculationService" />
+          class="org.asciicerebrum.mydndgame.DefaultBonusCalculationServiceImpl" />
     
     <bean id="strAbilityBonusValueProvider"
           class="org.asciicerebrum.mydndgame.AbilityBonusValueProvider">

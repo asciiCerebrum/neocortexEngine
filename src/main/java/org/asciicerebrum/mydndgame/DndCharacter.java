@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext;
  *
  * @author species8472
  */
-public final class DndCharacter implements BonusSource {
+public final class DndCharacter implements ICharacter {
 
     /**
      * The setup for the character creation.
@@ -194,6 +194,7 @@ public final class DndCharacter implements BonusSource {
      *
      * @return the list of base attack boni for this character.
      */
+    @Override
     public List<Bonus> getBaseAtkBoni() {
         List<Bonus> baseAtkBoni = new ArrayList<Bonus>();
 
@@ -210,6 +211,7 @@ public final class DndCharacter implements BonusSource {
     /**
      * @return the abilityMap
      */
+    @Override
     public Map<Ability, Long> getAbilityMap() {
         return abilityMap;
     }
@@ -217,6 +219,7 @@ public final class DndCharacter implements BonusSource {
     /**
      * @param abilityMapInput the abilityMap to set
      */
+    @Override
     public void setAbilityMap(final Map<Ability, Long> abilityMapInput) {
         this.abilityMap = abilityMapInput;
     }
@@ -224,6 +227,7 @@ public final class DndCharacter implements BonusSource {
     /**
      * @return the classLevels
      */
+    @Override
     public List<ClassLevel> getClassLevels() {
         return classLevels;
     }
@@ -231,6 +235,7 @@ public final class DndCharacter implements BonusSource {
     /**
      * @param classLevelsInput the classLevels to set
      */
+    @Override
     public void setClassLevels(final List<ClassLevel> classLevelsInput) {
         this.classLevels = classLevelsInput;
     }
@@ -238,6 +243,7 @@ public final class DndCharacter implements BonusSource {
     /**
      * @return the boni
      */
+    @Override
     public List<Bonus> getBoni() {
         return boni;
     }
@@ -245,6 +251,7 @@ public final class DndCharacter implements BonusSource {
     /**
      * @param boniInput the boni to set
      */
+    @Override
     public void setBoni(final List<Bonus> boniInput) {
         this.boni = boniInput;
     }
@@ -252,6 +259,7 @@ public final class DndCharacter implements BonusSource {
     /**
      * @return the acAction
      */
+    @Override
     public DiceAction getAcAction() {
         return acAction;
     }
@@ -259,6 +267,7 @@ public final class DndCharacter implements BonusSource {
     /**
      * @return the attackAction
      */
+    @Override
     public DiceAction getAttackAction() {
         return attackAction;
     }
@@ -266,6 +275,7 @@ public final class DndCharacter implements BonusSource {
     /**
      * @return the maxHp
      */
+    @Override
     public Long getMaxHp() {
 
         Long maxHp = 0L;
@@ -292,6 +302,7 @@ public final class DndCharacter implements BonusSource {
      *
      * @return the calculated armor class of this character.
      */
+    @Override
     public Long getAc() {
         return this.acAction.getConstValue()
                 + this.bonusService.retrieveEffectiveBonusValueByTarget(
@@ -299,15 +310,10 @@ public final class DndCharacter implements BonusSource {
     }
 
     /**
-     * @return the bonusService
+     *
+     * @return the hp dice action.
      */
-    public BonusCalculationService getBonusService() {
-        return bonusService;
-    }
-
-    /**
-     * @return the hp
-     */
+    @Override
     public DiceAction getHp() {
         return hp;
     }
@@ -315,6 +321,7 @@ public final class DndCharacter implements BonusSource {
     /**
      * @return the baseAttackBonus
      */
+    @Override
     public BonusType getBaseAttackBonus() {
         return baseAttackBonus;
     }
@@ -322,6 +329,7 @@ public final class DndCharacter implements BonusSource {
     /**
      * @return the classList
      */
+    @Override
     public List<CharacterClass> getClassList() {
         return classList;
     }
@@ -329,6 +337,7 @@ public final class DndCharacter implements BonusSource {
     /**
      * @param classListInput the classList to set
      */
+    @Override
     public void setClassList(final List<CharacterClass> classListInput) {
         this.classList = classListInput;
     }
@@ -336,6 +345,7 @@ public final class DndCharacter implements BonusSource {
     /**
      * @return the hpAdditionList
      */
+    @Override
     public List<Long> getHpAdditionList() {
         return hpAdditionList;
     }
@@ -343,6 +353,7 @@ public final class DndCharacter implements BonusSource {
     /**
      * @param hpAdditionListInput the hpAdditionList to set
      */
+    @Override
     public void setHpAdditionList(final List<Long> hpAdditionListInput) {
         this.hpAdditionList = hpAdditionListInput;
     }
@@ -385,6 +396,7 @@ public final class DndCharacter implements BonusSource {
     /**
      * @return the setup
      */
+    @Override
     public CharacterSetup getSetup() {
         return setup;
     }
@@ -392,6 +404,7 @@ public final class DndCharacter implements BonusSource {
     /**
      * @return the race
      */
+    @Override
     public Race getRace() {
         return race;
     }
@@ -399,6 +412,7 @@ public final class DndCharacter implements BonusSource {
     /**
      * @param raceInput the race to set
      */
+    @Override
     public void setRace(final Race raceInput) {
         this.race = raceInput;
     }
