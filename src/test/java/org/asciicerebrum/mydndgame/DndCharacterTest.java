@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -25,6 +26,7 @@ public class DndCharacterTest {
     private DefaultBonusCalculationServiceImpl bcService;
 
     private DndCharacter testChar;
+    private BodySlotType bodySlot;
 
     private static final Integer HIT_DICE = 10;
     private static final Long ADDITIONAL_HP = 5L;
@@ -47,11 +49,12 @@ public class DndCharacterTest {
         setup.setRace("characterRace");
         setup.getBaseAbilityMap().put("ability", 0L);
         setup.getLevelAdvancementStack().add(
-                new LevelAdvancement("characterClass", null, null));
+                new LevelAdvancement("characterClass", null, null, null));
         setup.getLevelAdvancementStack().add(
-                new LevelAdvancement("characterClass", ADDITIONAL_HP, null));
+                new LevelAdvancement("characterClass", ADDITIONAL_HP, null,
+                        null));
         setup.getLevelAdvancementStack().add(
-                new LevelAdvancement("otherCharacterClass", null, null));
+                new LevelAdvancement("otherCharacterClass", null, null, null));
 
         BonusType baseAtkBonusType = new BonusType();
         Dice hitDice = new Dice();
@@ -82,6 +85,11 @@ public class DndCharacterTest {
         baseAtkBonus2_2.setTarget(new DiceAction());
         baseAtkBonus2_2.setBonusType(baseAtkBonusType);
 
+        this.bodySlot = new BodySlotType();
+        this.bodySlot.setId("bodySlotType");
+        List<BodySlotType> bodySlots = new ArrayList<BodySlotType>();
+        bodySlots.add(this.bodySlot);
+        
         ClassLevel cLevel2 = new ClassLevel();
         cLevel2.setLevel(2);
         cLevel2.setCharacterClass(chClass);
@@ -90,6 +98,7 @@ public class DndCharacterTest {
         chClass.getClassLevels().add(cLevel2);
         Race race = new Race();
         race.setSize(new SizeCategory());
+        race.setProvidedBodySlotTypes(bodySlots);
 
         CharacterClass otherChClass = new CharacterClass();
         otherChClass.setHitDice(hitDice);
@@ -167,6 +176,17 @@ public class DndCharacterTest {
         List<Bonus> baseAtkBoni = this.testChar.getBaseAtkBoni();
 
         assertEquals(BASE_ATK_BONUS, baseAtkBoni.get(0).getValue());
+    }
+
+    /**
+     * Testing the value of the melee atk bonus.
+     */
+    @Test
+    public void testGetMeleeAtkBonusFirstValue() {
+
+        List<Long> boniList = this.testChar.getMeleeAtkBonus(this.bodySlot);
+
+        assertEquals(Long.valueOf(2), boniList.get(0));
     }
 
 }

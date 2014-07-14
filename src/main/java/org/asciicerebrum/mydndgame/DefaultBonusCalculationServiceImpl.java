@@ -31,16 +31,17 @@ public class DefaultBonusCalculationServiceImpl
             final BonusTarget target) {
 
         List<Bonus> foundBoni = this.traverseBoniByTarget(source, target);
-
-        //TODO filter out non-stacking boni
+        return this.accumulateBonusValue(dndCharacter, foundBoni);
+    }
+    
+    public final Long accumulateBonusValue(final DndCharacter dndCharacter,
+            final List<Bonus> foundBoni) {
+                //TODO filter out non-stacking boni
         //TODO track the origin of the bonus, e.g. from ability Constitution
         //TODO skip boni of value 0 - really erase them from the list or don't
         // put them into the list in the first place
         // for hp
         Long totalBonusVal = 0L;
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Found boni for " + target.getId() + ":");
-        }
         for (Bonus bonus : foundBoni) {
             Long bonusVal;
             if (bonus.getDynamicValueProvider() != null) {

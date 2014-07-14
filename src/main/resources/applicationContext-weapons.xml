@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Damage types -->
+    <bean id="slashing" class="org.asciicerebrum.mydndgame.DamageType">
+        <property name="id" value="slashing" />
+    </bean>
+    <bean id="piercing" class="org.asciicerebrum.mydndgame.DamageType">
+        <property name="id" value="piercing" />
+    </bean>
+    <bean id="bludgeoning" class="org.asciicerebrum.mydndgame.DamageType">
+        <property name="id" value="bludgeoning" />
+    </bean>
+    <bean id="bludgeoningAndPiercing" class="org.asciicerebrum.mydndgame.DamageType">
+        <property name="id" value="bludgeoningAndPiercing" />
+        <property name="compoundDamageTypes">
+            <list>
+                <ref bean="bludgeoning" />
+                <ref bean="piercing" />
+            </list>
+        </property>
+    </bean>    
+                
+    <!-- Encumbrances -->
+    <bean id="light" class="org.asciicerebrum.mydndgame.Encumbrance">
+        <property name="id" value="light" />
+    </bean>
+    <bean id="oneHanded" class="org.asciicerebrum.mydndgame.Encumbrance">
+        <property name="id" value="oneHanded" />
+    </bean>
+
+    <!-- Proficiencies -->
+    <bean id="simpleWeapon" class="org.asciicerebrum.mydndgame.Proficiency">
+        <property name="id" value="simpleWeapon" />
+    </bean>
+    <bean id="martialWeapon" class="org.asciicerebrum.mydndgame.Proficiency">
+        <property name="id" value="martialWeapon" />
+    </bean>
+
+    <!-- Weapon Categories -->
+    <bean id="meleeWeapon" class="org.asciicerebrum.mydndgame.WeaponCategory">
+        <property name="id" value="meleeWeapon" />
+    </bean>
+    <bean id="rangedWeapon" class="org.asciicerebrum.mydndgame.WeaponCategory">
+        <property name="id" value="rangedWeapon" />
+    </bean>
+                                                                                                                                                
+    <!-- Weapon prototypes -->    
+    <bean id="longsword" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype">
+        <property name="name" value="longsword" />
+        <property name="cost" value="15" />
+        <property name="weight" value="4" />
+        <property name="size" ref="medium" />
+        <property name="damage">
+            <bean class="org.asciicerebrum.mydndgame.DiceAction">
+                <property name="diceNumber" value="1" />
+                <property name="diceType" ref="d8" />
+            </bean>
+        </property>
+        <property name="criticalMinimumLevel" value="19" />
+        <property name="defaultDamageTypes">
+            <list>
+                <ref bean="slashing" />
+            </list>
+        </property>
+        <property name="encumbrance" ref="oneHanded" />
+        <property name="proficiency" ref="martialWeapon" />
+        <property name="defaultCategories">
+            <list>
+                <ref bean="meleeWeapon" />
+            </list>
+        </property>
+        <property name="designatedBodySlots">
+            <list>
+                <ref bean="primaryHand" />
+                <ref bean="secondaryHand" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="battleaxe" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype">
+        <property name="name" value="battleaxe" />
+        <property name="cost" value="10" />
+        <property name="weight" value="6" />
+        <property name="size" ref="medium" />
+        <property name="damage">
+            <bean class="org.asciicerebrum.mydndgame.DiceAction">
+                <property name="diceNumber" value="1" />
+                <property name="diceType" ref="d8" />
+            </bean>
+        </property>
+        <property name="criticalFactor" value="3" />
+        <property name="defaultDamageTypes">
+            <list>
+                <ref bean="slashing" />
+            </list>
+        </property>
+        <property name="encumbrance" ref="oneHanded" />
+        <property name="proficiency" ref="martialWeapon" />
+        <property name="defaultCategories">
+            <list>
+                <ref bean="meleeWeapon" />
+            </list>
+        </property>
+        <property name="designatedBodySlots">
+            <list>
+                <ref bean="primaryHand" />
+                <ref bean="secondaryHand" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="rapier" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype">
+        <property name="name" value="rapier" />
+        <property name="cost" value="20" />
+        <property name="weight" value="2" />
+        <property name="size" ref="medium" />
+        <property name="damage">
+            <bean class="org.asciicerebrum.mydndgame.DiceAction">
+                <property name="diceNumber" value="1" />
+                <property name="diceType" ref="d6" />
+            </bean>
+        </property>
+        <property name="criticalMinimumLevel" value="18" />
+        <property name="defaultDamageTypes">
+            <list>
+                <ref bean="piercing" />
+            </list>
+        </property>
+        <property name="encumbrance" ref="oneHanded" />
+        <property name="proficiency" ref="martialWeapon" />
+        <property name="defaultCategories">
+            <list>
+                <ref bean="meleeWeapon" />
+            </list>
+        </property>
+        <property name="designatedBodySlots">
+            <list>
+                <ref bean="primaryHand" />
+                <ref bean="secondaryHand" />
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="dagger" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype">
+        <property name="name" value="dagger" />
+        <property name="cost" value="2" />
+        <property name="weight" value="1" />
+        <property name="size" ref="medium" />
+        <property name="damage">
+            <bean class="org.asciicerebrum.mydndgame.DiceAction">
+                <property name="diceNumber" value="1" />
+                <property name="diceType" ref="d4" />
+            </bean>
+        </property>
+        <property name="criticalMinimumLevel" value="19" />
+        <property name="rangeIncrement" value="10" />
+        <property name="defaultDamageTypes">
+            <list>
+                <ref bean="piercing" />
+                <ref bean="slashing" />
+            </list>
+        </property>
+        <property name="encumbrance" ref="light" />
+        <property name="proficiency" ref="simpleWeapon" />
+        <property name="defaultCategories">
+            <list>
+                <ref bean="meleeWeapon" />
+                <ref bean="rangedWeapon" />
+            </list>
+        </property>
+        <property name="designatedBodySlots">
+            <list>
+                <ref bean="primaryHand" />
+                <ref bean="secondaryHand" />
+            </list>
+        </property>
+    </bean>
+                                                                                                            
+</beans>

@@ -6,6 +6,25 @@
 
     <bean id="small" class="org.asciicerebrum.mydndgame.SizeCategory">
         <property name="id" value="small" />
+        <property name="boni">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="value" value="1" />
+                    <property name="target" ref="ac" />
+                    <property name="bonusType" ref="sizeBonus" />
+                </bean>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="value" value="1" />
+                    <property name="target" ref="meleeAttack" />
+                    <property name="bonusType" ref="sizeBonus" />
+                </bean>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="value" value="1" />
+                    <property name="target" ref="rangedAttack" />
+                    <property name="bonusType" ref="sizeBonus" />
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <bean id="medium" class="org.asciicerebrum.mydndgame.SizeCategory">
@@ -17,12 +36,41 @@
                     <property name="target" ref="ac" />
                     <property name="bonusType" ref="sizeBonus" />
                 </bean>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="value" value="0" />
+                    <property name="target" ref="meleeAttack" />
+                    <property name="bonusType" ref="sizeBonus" />
+                </bean>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="value" value="0" />
+                    <property name="target" ref="rangedAttack" />
+                    <property name="bonusType" ref="sizeBonus" />
+                </bean>
             </list>
         </property>
     </bean>
 
     <bean id="large" class="org.asciicerebrum.mydndgame.SizeCategory">
         <property name="id" value="large" />
+        <property name="boni">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="value" value="-1" />
+                    <property name="target" ref="ac" />
+                    <property name="bonusType" ref="sizeBonus" />
+                </bean>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="value" value="-1" />
+                    <property name="target" ref="meleeAttack" />
+                    <property name="bonusType" ref="sizeBonus" />
+                </bean>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="value" value="-1" />
+                    <property name="target" ref="rangedAttack" />
+                    <property name="bonusType" ref="sizeBonus" />
+                </bean>
+            </list>
+        </property>
     </bean>
             
 </beans>

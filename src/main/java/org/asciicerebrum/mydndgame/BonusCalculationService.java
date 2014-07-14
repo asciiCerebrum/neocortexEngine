@@ -27,6 +27,9 @@ public interface BonusCalculationService {
 
     /**
      * Calculation of the effective bonus as a summation over all granted boni.
+     * This method is a sequence of
+     * {@link #traverseBoniByTarget(Object, BonusTarget)} and
+     * {@link #accumulateBonusValue(DndCharacter, jList)}.
      *
      * @param dndCharacter the context as a dndCharacter.
      * @param source the source to start collecting boni from (and then going
@@ -37,4 +40,14 @@ public interface BonusCalculationService {
      */
     Long retrieveEffectiveBonusValueByTarget(DndCharacter dndCharacter,
             Object source, BonusTarget target);
+
+    /**
+     * Accumulates the list of found boni into a single effective bonus value.
+     *
+     * @param dndCharacter
+     * @param foundBoni
+     * @return the accumulated bonus value.
+     */
+    Long accumulateBonusValue(DndCharacter dndCharacter,
+            List<Bonus> foundBoni);
 }

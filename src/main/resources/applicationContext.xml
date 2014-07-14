@@ -28,6 +28,8 @@
     <import resource="applicationContext-sizeCategories.xml"/>
     <import resource="applicationContext-abilities.xml"/>
     <import resource="applicationContext-characterClasses.xml"/>
+    <import resource="applicationContext-weapons.xml"/>
     <import resource="applicationContext-races.xml"/>
+    <import resource="applicationContext-feats.xml"/>
     
 </beans>

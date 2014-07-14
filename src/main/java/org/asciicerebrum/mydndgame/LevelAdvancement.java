@@ -18,18 +18,25 @@ public class LevelAdvancement {
      * The name of the ability that gains one more point in this advancement.
      */
     private final String abilityName;
+    /**
+     * The name of the feat that is acquired in this advancement.
+     */
+    private final String featName;
 
     /**
      *
      * @param classNameInput the name of the character class.
      * @param hpAdditionInput the additional number of hit points.
      * @param abilityNameInput the name of the ability that gains 1 point.
+     * @param featNameInput the name of the additional feat that is acquired.
      */
     public LevelAdvancement(final String classNameInput,
-            final Long hpAdditionInput, final String abilityNameInput) {
+            final Long hpAdditionInput, final String abilityNameInput,
+            final String featNameInput) {
         this.className = classNameInput;
         this.hpAddition = hpAdditionInput;
         this.abilityName = abilityNameInput;
+        this.featName = featNameInput;
     }
 
     /**
@@ -51,5 +58,12 @@ public class LevelAdvancement {
      */
     public final Long getHpAddition() {
         return hpAddition;
+    }
+
+    /**
+     * @return the featName
+     */
+    public final String getFeatName() {
+        return featName;
     }
 }

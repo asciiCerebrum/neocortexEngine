@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -73,9 +74,24 @@ public final class DndCharacter implements ICharacter {
      */
     private final DiceAction attackAction;
     /**
+     * The diceAction with id meleeAttackAction.
+     */
+    private final DiceAction meleeAttackAction;
+    /**
      * The bonusType with id baseAttackBonus.
      */
     private final BonusType baseAttackBonus;
+    /**
+     * The list of specific body slots provided by the race of the dnd
+     * character.
+     */
+    @BonusGranter
+    private List<BodySlot> bodySlots = new ArrayList<BodySlot>();
+
+    /**
+     * The feats of a character.
+     */
+    private final List<Feat> feats = new ArrayList<Feat>();
 
     /**
      *
@@ -89,9 +105,17 @@ public final class DndCharacter implements ICharacter {
                 BonusType.class);
         this.bonusService = builder.context.getBean("bonusCalculationService",
                 BonusCalculationService.class);
+        this.meleeAttackAction = builder.context.getBean("meleeAttack",
+                DiceAction.class);
 
         this.race = builder.context.getBean(
                 builder.setup.getRace(), Race.class);
+        // setup of body slots by the race
+        for (BodySlotType bsType : this.race.getProvidedBodySlotTypes()) {
+            BodySlot bs = new BodySlot();
+            bs.setBodySlotType(bsType);
+            this.getBodySlots().add(bs);
+        }
 
         this.setup = builder.setup;
 
@@ -120,18 +144,133 @@ public final class DndCharacter implements ICharacter {
             this.mergeBaseAtkBoni(chClass, cLevel);
 
             // ability increment with level advancement
-            if (advance.getAbilityName() == null) {
-                continue;
+            if (StringUtils.isNotBlank(advance.getAbilityName())) {
+                Ability additionalAbility
+                        = builder.context.getBean(
+                                advance.getAbilityName(), Ability.class);
+                this.abilityMap.put(additionalAbility,
+                        this.abilityMap.get(additionalAbility) + 1);
             }
-            Ability additionalAbility
-                    = builder.context.getBean(
-                            advance.getAbilityName(), Ability.class);
-            this.abilityMap.put(additionalAbility,
-                    this.abilityMap.get(additionalAbility) + 1);
 
+            // adding feats
+            if (StringUtils.isNotBlank(advance.getFeatName())) {
+                Feat feat = builder.context.getBean(
+                        advance.getFeatName(), Feat.class);
+                this.feats.add(feat);
+            }
+        }
+
+        // adding possessions
+        for (Entry<String, String> posEntry
+                : builder.setup.getPossessionContainer().entrySet()) {
+
+            BodySlot slot = this.getBodySlotByType(
+                    builder.context.getBean(posEntry.getValue(),
+                            BodySlotType.class));
+            InventoryItem item = builder.context.getBean(posEntry.getKey(),
+                    InventoryItem.class);
+            if (slot != null) {
+                slot.setItem(item);
+                //TODO throw exception if body slot is null
+            }
         }
 
         this.acAction = builder.context.getBean("ac", DiceAction.class);
+    }
+
+    /**
+     * Finds the body slot by its type.
+     *
+     * @param bsType the type of the body slot.
+     * @return the found body slot or null if nothing was found.
+     */
+    private BodySlot getBodySlotByType(final BodySlotType bsType) {
+        for (BodySlot bSlot : this.bodySlots) {
+            if (bSlot.getBodySlotType().equals(bsType)) {
+                return bSlot;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the list of boni for the given body slot type. All boni are
+     * applied. The weapon in the slot is regarded as a melee weapon - e.g. you
+     * can hit someone with a bow.
+     *
+     * @param bodySlotType
+     * @return the list of boni.
+     */
+    public List<Long> getMeleeAtkBonus(final BodySlotType bodySlotType) {
+        // TODO get body slot by body slot type
+        // is there a weapon in this slot?
+        // is it ranged or melee? - no if-construct here. let the weapon
+        // category decide and associate the bonus to it (Dex for ranged, Str
+        // for melee)
+        // collect all boni associated with attack
+        // collect all boni associated with meleeattack/rangedattack, depending
+        // on the weapon category in this slot
+        // IMPORTANT: consider only this weapon's boni as the other weapon's
+        // boni are irrelevant in this case!!!
+
+        // KEEP THE FOLLOWING USE CASES IN MIND:
+        // 1st: Feat Weapon Finesse: With a light weapon, rapier, whip, or
+        // spiked chain made for a creature of your size category, you may use
+        // your Dexterity modifier instead of your Strength modifier on attack
+        // rolls. If you carry a shield, its armor check penalty applies to
+        // your attack rolls.
+        //
+        // 2nd: Feat Power Attack: On your action, before making attack rolls
+        // for a round, you may choose to subtract a number from all melee
+        // attack rolls and add the same number to all melee damage rolls. This
+        // number may not exceed your base attack bonus. The penalty on attacks
+        // and bonus on damage apply until your next turn.
+        //
+        // 3rd: Masterwork weapon: Wielding it provides a +1 enhancement bonus
+        // on attack rolls. This also affects the price of the weapon!
+        //
+        // 4th: a thrown dagger in your secondary hand (which is actually a
+        // melee weapon). I could also hit someone with a bow. Could this be
+        // solved by differentiating two methods: getMeleeAtkBonus() /
+        // getRangedAtkBonus() and I as a player have to decide what to do with
+        // the weapon in my hand (attack in melee or ranged)?
+        List<Long> atkBoni = new ArrayList<Long>();
+
+        Weapon weapon = null;
+        InventoryItem item = this.getBodySlotByType(bodySlotType).getItem();
+        if (item instanceof Weapon) {
+            weapon = (Weapon) item;
+        }
+        // gather all non-weapon-dependent boni for melee attack
+        List<Bonus> meleeBoni = this.bonusService
+                .traverseBoniByTarget(this, this.meleeAttackAction);
+
+        //TODO post processing of the bonus list, e.g. by registered feat
+        // methods. (observer pattern)
+        
+        
+        Long meleeBonusValue = this.bonusService.accumulateBonusValue(
+                this, meleeBoni);
+
+        for (Bonus baseAtkBonus : this.getBaseAtkBoni()) {
+            atkBoni.add(baseAtkBonus.getValue() + meleeBonusValue);
+        }
+
+        return atkBoni;
+    }
+
+    /**
+     * Returns the list of boni for the given body slot type. All boni are
+     * applied. The weapon in the slot is regarded as a ranged weapon - e.g. you
+     * can throw a longsword at somebody.
+     *
+     * @param bodySlotType
+     * @return the list of boni.
+     */
+    public List<Long> getRangedAtkBonus(final BodySlotType bodySlotType) {
+        //TODO to be implemented
+
+        return new ArrayList<Long>();
     }
 
     /**
@@ -359,7 +498,28 @@ public final class DndCharacter implements ICharacter {
     }
 
     /**
-     *
+     * @return the bodySlots
+     */
+    public List<BodySlot> getBodySlots() {
+        return bodySlots;
+    }
+
+    /**
+     * @param bodySlotsInput the bodySlots to set
+     */
+    public void setBodySlots(final List<BodySlot> bodySlotsInput) {
+        this.bodySlots = bodySlotsInput;
+    }
+
+    /**
+     * @return the feats
+     */
+    public List<Feat> getFeats() {
+        return feats;
+    }
+
+    /**
+     * Builder for the character.
      */
     public static class Builder {
 
@@ -389,7 +549,15 @@ public final class DndCharacter implements ICharacter {
          * @return the newly created character.
          */
         public final DndCharacter build() {
-            return new DndCharacter(this);
+            DndCharacter dndCharacter = new DndCharacter(this);
+
+            // post processing - all that cannot be done in the constructor.
+            // backreference for body slots to their owner
+            for (BodySlot bs : dndCharacter.getBodySlots()) {
+                bs.setHolder(dndCharacter);
+            }
+
+            return dndCharacter;
         }
     }
 

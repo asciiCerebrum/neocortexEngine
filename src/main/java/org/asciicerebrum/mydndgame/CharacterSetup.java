@@ -43,6 +43,22 @@ public class CharacterSetup {
     private int currentXp;
 
     /**
+     * Holds the possessions of a character: key = the unique id of the item,
+     * value = the name of the body slot type or other position where it is
+     * located.
+     */
+    private final Map<String, String> possessionContainer
+            = new HashMap<String, String>();
+
+    /**
+     * Keeps the state settings of a character: key = unique state identifier,
+     * value = object related to this setting. (normally it is a string or a
+     * number of any kind.)
+     */
+    private final Map<String, Object> stateRegistry
+            = new HashMap<String, Object>();
+
+    /**
      * @return the name
      */
     public final String getName() {
@@ -140,6 +156,20 @@ public class CharacterSetup {
     public final void setLevelAdvancementStack(
             final List<LevelAdvancement> levelAdvancementStackInput) {
         this.levelAdvancementStack = levelAdvancementStackInput;
+    }
+
+    /**
+     * @return the possessionContainer
+     */
+    public final Map<String, String> getPossessionContainer() {
+        return possessionContainer;
+    }
+
+    /**
+     * @return the stateRegistry
+     */
+    public final Map<String, Object> getStateRegistry() {
+        return stateRegistry;
     }
 
 }
