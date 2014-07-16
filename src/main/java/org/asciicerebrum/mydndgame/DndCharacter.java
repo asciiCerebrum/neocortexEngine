@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.context.ApplicationContext;
 
 /**
  *
@@ -17,7 +14,7 @@ public final class DndCharacter implements ICharacter {
     /**
      * The setup for the character creation.
      */
-    private final CharacterSetup setup;
+    private CharacterSetup setup;
 
     /**
      * The race of this dnd character.
@@ -60,27 +57,31 @@ public final class DndCharacter implements ICharacter {
     /**
      * The bonus calculation service needed for dynamic bonus value calculation.
      */
-    private final BonusCalculationService bonusService;
+    private BonusCalculationService bonusService;
     /**
      * The diceAction with id hp.
      */
-    private final DiceAction hp;
+    private DiceAction hp;
     /**
      * The diceAction with id acAction.
      */
-    private final DiceAction acAction;
+    private DiceAction acAction;
     /**
      * The diceAction with id attackAction.
      */
-    private final DiceAction attackAction;
+    private DiceAction attackAction;
     /**
      * The diceAction with id meleeAttackAction.
      */
-    private final DiceAction meleeAttackAction;
+    private DiceAction meleeAttackAction;
+    /**
+     * The diceAction with id rangedAttackAction.
+     */
+    private DiceAction rangedAttackAction;
     /**
      * The bonusType with id baseAttackBonus.
      */
-    private final BonusType baseAttackBonus;
+    private BonusType baseAttackBonus;
     /**
      * The list of specific body slots provided by the race of the dnd
      * character.
@@ -94,97 +95,12 @@ public final class DndCharacter implements ICharacter {
     private final List<Feat> feats = new ArrayList<Feat>();
 
     /**
-     *
-     * @param builder Character creation with a builder.
-     */
-    private DndCharacter(final Builder builder) {
-        this.hp = builder.context.getBean("hp", DiceAction.class);
-        this.attackAction = builder.context.getBean("attack",
-                DiceAction.class);
-        this.baseAttackBonus = builder.context.getBean("baseAttackBonus",
-                BonusType.class);
-        this.bonusService = builder.context.getBean("bonusCalculationService",
-                BonusCalculationService.class);
-        this.meleeAttackAction = builder.context.getBean("meleeAttack",
-                DiceAction.class);
-
-        this.race = builder.context.getBean(
-                builder.setup.getRace(), Race.class);
-        // setup of body slots by the race
-        for (BodySlotType bsType : this.race.getProvidedBodySlotTypes()) {
-            BodySlot bs = new BodySlot();
-            bs.setBodySlotType(bsType);
-            this.getBodySlots().add(bs);
-        }
-
-        this.setup = builder.setup;
-
-        for (Entry<String, Long> abilityEntry
-                : builder.setup.getBaseAbilityMap().entrySet()) {
-            Ability ability = builder.context.getBean(abilityEntry.getKey(),
-                    Ability.class);
-            this.abilityMap.put(ability, abilityEntry.getValue());
-        }
-
-        for (LevelAdvancement advance
-                : builder.setup.getLevelAdvancementStack()) {
-            CharacterClass chClass
-                    = builder.context.getBean(advance.getClassName(),
-                            CharacterClass.class);
-
-            this.classList.add(chClass);
-            this.hpAdditionList.add(advance.getHpAddition());
-
-            // adding class levels as they come
-            Integer classCount = this.countClassLevelsByCharacterClass(chClass);
-            ClassLevel cLevel = chClass.getClassLevelByLevel(classCount + 1);
-            this.classLevels.add(cLevel);
-
-            // merge baseAtk boni
-            this.mergeBaseAtkBoni(chClass, cLevel);
-
-            // ability increment with level advancement
-            if (StringUtils.isNotBlank(advance.getAbilityName())) {
-                Ability additionalAbility
-                        = builder.context.getBean(
-                                advance.getAbilityName(), Ability.class);
-                this.abilityMap.put(additionalAbility,
-                        this.abilityMap.get(additionalAbility) + 1);
-            }
-
-            // adding feats
-            if (StringUtils.isNotBlank(advance.getFeatName())) {
-                Feat feat = builder.context.getBean(
-                        advance.getFeatName(), Feat.class);
-                this.feats.add(feat);
-            }
-        }
-
-        // adding possessions
-        for (Entry<String, String> posEntry
-                : builder.setup.getPossessionContainer().entrySet()) {
-
-            BodySlot slot = this.getBodySlotByType(
-                    builder.context.getBean(posEntry.getValue(),
-                            BodySlotType.class));
-            InventoryItem item = builder.context.getBean(posEntry.getKey(),
-                    InventoryItem.class);
-            if (slot != null) {
-                slot.setItem(item);
-                //TODO throw exception if body slot is null
-            }
-        }
-
-        this.acAction = builder.context.getBean("ac", DiceAction.class);
-    }
-
-    /**
      * Finds the body slot by its type.
      *
      * @param bsType the type of the body slot.
      * @return the found body slot or null if nothing was found.
      */
-    private BodySlot getBodySlotByType(final BodySlotType bsType) {
+    public BodySlot getBodySlotByType(final BodySlotType bsType) {
         for (BodySlot bSlot : this.bodySlots) {
             if (bSlot.getBodySlotType().equals(bsType)) {
                 return bSlot;
@@ -198,7 +114,7 @@ public final class DndCharacter implements ICharacter {
      * applied. The weapon in the slot is regarded as a melee weapon - e.g. you
      * can hit someone with a bow.
      *
-     * @param bodySlotType
+     * @param bodySlotType the body slot type to calculate the boni for.
      * @return the list of boni.
      */
     public List<Long> getMeleeAtkBonus(final BodySlotType bodySlotType) {
@@ -247,8 +163,6 @@ public final class DndCharacter implements ICharacter {
 
         //TODO post processing of the bonus list, e.g. by registered feat
         // methods. (observer pattern)
-        
-        
         Long meleeBonusValue = this.bonusService.accumulateBonusValue(
                 this, meleeBoni);
 
@@ -264,7 +178,7 @@ public final class DndCharacter implements ICharacter {
      * applied. The weapon in the slot is regarded as a ranged weapon - e.g. you
      * can throw a longsword at somebody.
      *
-     * @param bodySlotType
+     * @param bodySlotType the body slot type to calculate the boni for.
      * @return the list of boni.
      */
     public List<Long> getRangedAtkBonus(final BodySlotType bodySlotType) {
@@ -278,7 +192,7 @@ public final class DndCharacter implements ICharacter {
      * @param chClass the character class to merge to boni from.
      * @param cLevel the specific level of the given character class.
      */
-    private void mergeBaseAtkBoni(final CharacterClass chClass,
+    public void mergeBaseAtkBoni(final CharacterClass chClass,
             final ClassLevel cLevel) {
 
         // iteration over all base Atk boni of NEW class level
@@ -318,7 +232,7 @@ public final class DndCharacter implements ICharacter {
      * @return The number of class levels this character has for the given
      * character class.
      */
-    private Integer countClassLevelsByCharacterClass(
+    public Integer countClassLevelsByCharacterClass(
             final CharacterClass charCl) {
         Integer count = 0;
         for (ClassLevel cl : this.getClassLevels()) {
@@ -519,46 +433,61 @@ public final class DndCharacter implements ICharacter {
     }
 
     /**
-     * Builder for the character.
+     * @param bonusServiceInput the bonusService to set
      */
-    public static class Builder {
+    public void setBonusService(
+            final BonusCalculationService bonusServiceInput) {
+        this.bonusService = bonusServiceInput;
+    }
 
-        /**
-         * The setup needed for character creation.
-         */
-        private final CharacterSetup setup;
-        /**
-         * The spring application context to find beans.
-         */
-        private final ApplicationContext context;
+    /**
+     * @param hpInput the hp to set
+     */
+    public void setHp(final DiceAction hpInput) {
+        this.hp = hpInput;
+    }
 
-        /**
-         *
-         * @param setupInput the setup object with information of how to create
-         * the character.
-         * @param contextInput the spring application context to find the beans.
-         */
-        public Builder(final CharacterSetup setupInput,
-                final ApplicationContext contextInput) {
-            this.setup = setupInput;
-            this.context = contextInput;
-        }
+    /**
+     * @param acActionInput the acAction to set
+     */
+    public void setAcAction(final DiceAction acActionInput) {
+        this.acAction = acActionInput;
+    }
 
-        /**
-         *
-         * @return the newly created character.
-         */
-        public final DndCharacter build() {
-            DndCharacter dndCharacter = new DndCharacter(this);
+    /**
+     * @param attackActionInput the attackAction to set
+     */
+    public void setAttackAction(final DiceAction attackActionInput) {
+        this.attackAction = attackActionInput;
+    }
 
-            // post processing - all that cannot be done in the constructor.
-            // backreference for body slots to their owner
-            for (BodySlot bs : dndCharacter.getBodySlots()) {
-                bs.setHolder(dndCharacter);
-            }
+    /**
+     * @param meleeAttackActionInput the meleeAttackAction to set
+     */
+    public void setMeleeAttackAction(final DiceAction meleeAttackActionInput) {
+        this.meleeAttackAction = meleeAttackActionInput;
+    }
 
-            return dndCharacter;
-        }
+    /**
+     * @param baseAttackBonusInput the baseAttackBonus to set
+     */
+    public void setBaseAttackBonus(final BonusType baseAttackBonusInput) {
+        this.baseAttackBonus = baseAttackBonusInput;
+    }
+
+    /**
+     * @return the rangedAttackAction
+     */
+    public DiceAction getRangedAttackAction() {
+        return rangedAttackAction;
+    }
+
+    /**
+     * @param rangedAttackActionInput the rangedAttackAction to set
+     */
+    public void setRangedAttackAction(
+            final DiceAction rangedAttackActionInput) {
+        this.rangedAttackAction = rangedAttackActionInput;
     }
 
     /**
@@ -583,5 +512,12 @@ public final class DndCharacter implements ICharacter {
     @Override
     public void setRace(final Race raceInput) {
         this.race = raceInput;
+    }
+
+    /**
+     * @param setupInput the setup to set
+     */
+    public void setSetup(final CharacterSetup setupInput) {
+        this.setup = setupInput;
     }
 }

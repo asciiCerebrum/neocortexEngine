@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="dndCharacter" class="org.asciicerebrum.mydndgame.DndCharacter" scope="prototype">
+        <property name="bonusService" ref="bonusCalculationService" />
+        <property name="hp" ref="hp" />
+        <property name="acAction" ref="ac" />
+        <property name="attackAction" ref="attack" />
+        <property name="meleeAttackAction" ref="meleeAttack" />
+        <property name="rangedAttackAction" ref="rangedAttack" />
+        <property name="baseAttackBonus" ref="baseAttackBonus" />
+    </bean>
+    
+</beans>

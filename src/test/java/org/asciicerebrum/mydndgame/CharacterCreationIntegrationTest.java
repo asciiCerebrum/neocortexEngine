@@ -102,9 +102,9 @@ public class CharacterCreationIntegrationTest {
         this.primaryHand = context.getBean(PRIMARY_HAND_TYPE, BodySlotType.class);
 
         this.harsk
-                = new DndCharacter.Builder(setupHarsk, context).build();
+                = new DndCharacterBuilder(setupHarsk, context).build();
         this.valeros
-                = new DndCharacter.Builder(setupValeros, context).build();
+                = new DndCharacterBuilder(setupValeros, context).build();
     }
 
     @Test

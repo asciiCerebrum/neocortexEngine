@@ -31,5 +31,6 @@
     <import resource="applicationContext-weapons.xml"/>
     <import resource="applicationContext-races.xml"/>
     <import resource="applicationContext-feats.xml"/>
+    <import resource="applicationContext-dndCharacter.xml"/>
     
 </beans>

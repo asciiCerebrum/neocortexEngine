@@ -44,8 +44,8 @@ public interface BonusCalculationService {
     /**
      * Accumulates the list of found boni into a single effective bonus value.
      *
-     * @param dndCharacter
-     * @param foundBoni
+     * @param dndCharacter the context as a dndCharacter.
+     * @param foundBoni the list of boni to accumulate the result over.
      * @return the accumulated bonus value.
      */
     Long accumulateBonusValue(DndCharacter dndCharacter,

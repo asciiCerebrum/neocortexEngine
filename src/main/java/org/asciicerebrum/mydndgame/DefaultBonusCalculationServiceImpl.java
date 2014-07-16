@@ -33,10 +33,14 @@ public class DefaultBonusCalculationServiceImpl
         List<Bonus> foundBoni = this.traverseBoniByTarget(source, target);
         return this.accumulateBonusValue(dndCharacter, foundBoni);
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final Long accumulateBonusValue(final DndCharacter dndCharacter,
             final List<Bonus> foundBoni) {
-                //TODO filter out non-stacking boni
+        //TODO filter out non-stacking boni
         //TODO track the origin of the bonus, e.g. from ability Constitution
         //TODO skip boni of value 0 - really erase them from the list or don't
         // put them into the list in the first place
