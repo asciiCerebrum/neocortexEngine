@@ -43,18 +43,22 @@ public class DndCharacterBuilder {
         DndCharacter dndCharacter = this.context.getBean(
                 DND_CHARACTER_PROTOTYPE_ID, DndCharacter.class);
 
+        // trivial setup
         dndCharacter.setRace(this.context.getBean(
                 this.setup.getRace(), Race.class));
-        // setup of body slots by the race
+        dndCharacter.setSetup(this.setup);
+
+        // setup of body slots by the types given by the race
         for (BodySlotType bsType : dndCharacter.getRace()
                 .getProvidedBodySlotTypes()) {
             BodySlot bs = new BodySlot();
             bs.setBodySlotType(bsType);
+            bs.setHolder(dndCharacter);
             dndCharacter.getBodySlots().add(bs);
         }
 
-        dndCharacter.setSetup(this.setup);
-
+        // ability map from character creation (advancement in this area
+        // follows later)
         for (Map.Entry<String, Long> abilityEntry
                 : this.setup.getBaseAbilityMap().entrySet()) {
             Ability ability = this.context.getBean(abilityEntry.getKey(),
@@ -62,34 +66,44 @@ public class DndCharacterBuilder {
             dndCharacter.getAbilityMap().put(ability, abilityEntry.getValue());
         }
 
+        // advancement
         for (LevelAdvancement advance
                 : this.setup.getLevelAdvancementStack()) {
+
+            // adding class to the list
             CharacterClass chClass
                     = this.context.getBean(advance.getClassName(),
                             CharacterClass.class);
-
             dndCharacter.getClassList().add(chClass);
+
+            // adding additional hit points (to the list)
             dndCharacter.getHpAdditionList().add(advance.getHpAddition());
 
             // adding class levels as they come
             Integer classCount = dndCharacter
                     .countClassLevelsByCharacterClass(chClass);
             ClassLevel cLevel = chClass.getClassLevelByLevel(classCount + 1);
-            dndCharacter.getClassLevels().add(cLevel);
-
-            // merge baseAtk boni
-            dndCharacter.mergeBaseAtkBoni(chClass, cLevel);
-
-            // ability increment with level advancement
-            if (StringUtils.isNotBlank(advance.getAbilityName())) {
-                Ability additionalAbility
-                        = this.context.getBean(
-                                advance.getAbilityName(), Ability.class);
-                dndCharacter.getAbilityMap().put(additionalAbility,
-                        dndCharacter.getAbilityMap()
-                        .get(additionalAbility) + 1);
+            if (cLevel != null) {
+                dndCharacter.getClassLevels().add(cLevel);
             }
 
+            // merge baseAtk boni
+            //TODO make this calculated in realtime
+            //dndCharacter.mergeBaseAtkBoni(chClass, cLevel);
+            // ability increment with level advancement
+            //TODO save ability advancements differntly to calculate the
+            // effective score in realtime!!! this calculation is then done in
+            // the dndCharacter class.
+            /*
+             if (StringUtils.isNotBlank(advance.getAbilityName())) {
+             Ability additionalAbility
+             = this.context.getBean(
+             advance.getAbilityName(), Ability.class);
+             dndCharacter.getAbilityMap().put(additionalAbility,
+             dndCharacter.getAbilityMap()
+             .get(additionalAbility) + 1);
+             }
+             */
             // adding feats
             if (StringUtils.isNotBlank(advance.getFeatName())) {
                 Feat feat = this.context.getBean(
@@ -111,12 +125,6 @@ public class DndCharacterBuilder {
                 slot.setItem(item);
                 //TODO throw exception if body slot is null
             }
-        }
-
-        // post processing
-        // backreference for body slots to their owner
-        for (BodySlot bs : dndCharacter.getBodySlots()) {
-            bs.setHolder(dndCharacter);
         }
 
         return dndCharacter;

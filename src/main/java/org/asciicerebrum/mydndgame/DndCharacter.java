@@ -203,7 +203,11 @@ public final class DndCharacter implements ICharacter {
 
             // iteration over all accumulated boni of the dnd character to
             // find matches based on rank - then the difference to the previous
-            // level's bonus can be added
+            // level's bonus can be added, e.g.
+            // level 3: +5/+1
+            // level 4: +8/+3
+            // on rank 0 we have a difference of 3, which is added, and
+            // on rank 1 we have a difference of 2, which is added.
             for (Bonus existingBonus : this.boni) {
                 if (existingBonus.getRank().equals(currentRank)) {
 

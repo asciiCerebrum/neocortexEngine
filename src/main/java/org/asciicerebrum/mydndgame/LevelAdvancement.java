@@ -30,6 +30,7 @@ public class LevelAdvancement {
      * @param abilityNameInput the name of the ability that gains 1 point.
      * @param featNameInput the name of the additional feat that is acquired.
      */
+    //TODO change to fluid interface
     public LevelAdvancement(final String classNameInput,
             final Long hpAdditionInput, final String abilityNameInput,
             final String featNameInput) {
