@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.asciicerebrum.mydndgame.exceptions.UndefinedCharacterClassLevelException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -103,11 +104,9 @@ public class CharacterClassTest {
      * Test of getClassLevelByLevel method, of class CharacterClass. Level out
      * of range.
      */
-    @Test
+    @Test(expected = UndefinedCharacterClassLevelException.class)
     public void testGetClassLevelByLevelOutOfRange() {
-        ClassLevel cLevel = this.chClass.getClassLevelByLevel(5);
-
-        assertNull(cLevel);
+        this.chClass.getClassLevelByLevel(5);
     }
 
     /**

@@ -2,12 +2,19 @@ package org.asciicerebrum.mydndgame;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.Logger;
+import org.asciicerebrum.mydndgame.exceptions.UndefinedCharacterClassLevelException;
 
 /**
  *
  * @author species8472
  */
 public class CharacterClass {
+
+    /**
+     * Specific logger for this class.
+     */
+    private static final Logger LOG = Logger.getLogger(CharacterClass.class);
 
     /**
      * The unique id of the character class.
@@ -35,7 +42,7 @@ public class CharacterClass {
                 return cl;
             }
         }
-        return null;
+        throw new UndefinedCharacterClassLevelException(this, level);
     }
 
     /**
@@ -49,11 +56,11 @@ public class CharacterClass {
             final ClassLevel cLevel, final Long currentRank) {
         Long valueDelta = cLevel.getBaseAtkBonusByRank(currentRank).getValue();
 
-        // bonus of previous level with same rank
-        final ClassLevel prevLevel
-                = this.getClassLevelByLevel(
-                        cLevel.getLevel() - 1);
-        if (prevLevel != null) {
+        try {
+            // bonus of previous level with same rank
+            final ClassLevel prevLevel
+                    = this.getClassLevelByLevel(
+                            cLevel.getLevel() - 1);
             // prevBonus could be null if the given currentRank is not
             // available in the previous class level!
             final Bonus prevBonus
@@ -65,6 +72,9 @@ public class CharacterClass {
                 valueDelta = valueDelta
                         - prevBonus.getValue();
             }
+        } catch (final UndefinedCharacterClassLevelException e) {
+            //TODO test this output
+            LOG.info(e.getMessage() + " Using original value for delta.");
         }
         return valueDelta;
     }

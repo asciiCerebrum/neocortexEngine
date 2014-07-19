@@ -83,9 +83,7 @@ public class DndCharacterBuilder {
             Integer classCount = dndCharacter
                     .countClassLevelsByCharacterClass(chClass);
             ClassLevel cLevel = chClass.getClassLevelByLevel(classCount + 1);
-            if (cLevel != null) {
-                dndCharacter.getClassLevels().add(cLevel);
-            }
+            dndCharacter.getClassLevels().add(cLevel);
 
             // merge baseAtk boni
             //TODO make this calculated in realtime
