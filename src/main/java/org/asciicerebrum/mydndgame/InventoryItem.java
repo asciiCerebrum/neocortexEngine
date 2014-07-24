@@ -1,11 +1,13 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
+
 /**
  * Abstract prototype class for everything a DND Character can carry.
  *
  * @author species8472
  */
-public abstract class InventoryItem {
+public abstract class InventoryItem implements IInventoryItem {
 
     /**
      * Unique id String. This is not set in the prototype spring bean

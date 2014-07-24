@@ -1,7 +1,10 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import java.util.HashMap;
 import java.util.Map;
+import org.asciicerebrum.mydndgame.interfaces.entities.IAbility;
+import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -20,12 +23,12 @@ public class AbilityBonusValueProviderTest {
 
     private static final Long ABILITY_SCORE = 10L;
 
-    @Mock
+    @Mock(extraInterfaces = {BonusValueContext.class})
     private ICharacter dndCharacter;
 
     private AbilityBonusValueProvider abilityBonusValueProvider;
     private Ability ability;
-    private Map<Ability, Long> abilityMap;
+    private Map<IAbility, Long> abilityMap;
 
     public AbilityBonusValueProviderTest() {
     }
@@ -44,10 +47,10 @@ public class AbilityBonusValueProviderTest {
         MockitoAnnotations.initMocks(this);
 
         this.ability = new Ability();
-        this.abilityMap = new HashMap<Ability, Long>();
+        this.abilityMap = new HashMap<IAbility, Long>();
         this.abilityMap.put(this.ability, ABILITY_SCORE);
 
-        when(this.dndCharacter.getAbilityMap()).thenReturn(this.abilityMap);
+        when(this.dndCharacter.getBaseAbilityMap()).thenReturn(this.abilityMap);
 
         this.abilityBonusValueProvider = new AbilityBonusValueProvider();
         this.abilityBonusValueProvider.setAbility(this.ability);
@@ -64,7 +67,7 @@ public class AbilityBonusValueProviderTest {
     public void testGetDynamicValue() {
 
         Long dynBonusValue = this.abilityBonusValueProvider.getDynamicValue(
-                this.dndCharacter);
+                (BonusValueContext) this.dndCharacter);
 
         assertEquals(Long.valueOf(0), dynBonusValue);
     }
@@ -78,7 +81,7 @@ public class AbilityBonusValueProviderTest {
 
         this.abilityMap.put(this.ability, 6L);
         Long dynBonusValue = this.abilityBonusValueProvider.getDynamicValue(
-                this.dndCharacter);
+                (BonusValueContext) this.dndCharacter);
 
         assertEquals(Long.valueOf(-2), dynBonusValue);
     }
@@ -92,7 +95,7 @@ public class AbilityBonusValueProviderTest {
 
         this.abilityMap.put(this.ability, 14L);
         Long dynBonusValue = this.abilityBonusValueProvider.getDynamicValue(
-                this.dndCharacter);
+                (BonusValueContext) this.dndCharacter);
 
         assertEquals(Long.valueOf(2), dynBonusValue);
     }

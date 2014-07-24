@@ -1,5 +1,8 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.BonusSource;
+import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
+import org.asciicerebrum.mydndgame.interfaces.services.BonusCalculationService;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -7,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
+import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
+import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
 import org.springframework.util.StringUtils;
 
 /**
@@ -27,30 +33,30 @@ public class DefaultBonusCalculationServiceImpl
      */
     @Override
     public final Long retrieveEffectiveBonusValueByTarget(
-            final DndCharacter dndCharacter, final Object source,
+            final ICharacter iCharacter, final Object source,
             final BonusTarget target) {
 
-        List<Bonus> foundBoni = this.traverseBoniByTarget(source, target);
-        return this.accumulateBonusValue(dndCharacter, foundBoni);
+        List<IBonus> foundBoni = this.traverseBoniByTarget(source, target);
+        return this.accumulateBonusValue(iCharacter, foundBoni);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final Long accumulateBonusValue(final DndCharacter dndCharacter,
-            final List<Bonus> foundBoni) {
+    public final Long accumulateBonusValue(final ICharacter iCharacter,
+            final List<IBonus> foundBoni) {
         //TODO filter out non-stacking boni
         //TODO track the origin of the bonus, e.g. from ability Constitution
         //TODO skip boni of value 0 - really erase them from the list or don't
         // put them into the list in the first place
         // for hp
         Long totalBonusVal = 0L;
-        for (Bonus bonus : foundBoni) {
+        for (IBonus bonus : foundBoni) {
             Long bonusVal;
             if (bonus.getDynamicValueProvider() != null) {
                 bonusVal = bonus.getDynamicValueProvider()
-                        .getDynamicValue(dndCharacter);
+                        .getDynamicValue((BonusValueContext) iCharacter);
             } else {
                 bonusVal = bonus.getValue();
             }
@@ -68,10 +74,10 @@ public class DefaultBonusCalculationServiceImpl
      * {@inheritDoc}
      */
     @Override
-    public final List<Bonus> traverseBoniByTarget(final Object source,
+    public final List<IBonus> traverseBoniByTarget(final Object source,
             final BonusTarget target) {
 
-        List<Bonus> traversedBoni = new ArrayList<Bonus>();
+        List<IBonus> traversedBoni = new ArrayList<IBonus>();
 
         if (source instanceof BonusSource) {
             BonusSource bonusSource = (BonusSource) source;
@@ -119,7 +125,7 @@ public class DefaultBonusCalculationServiceImpl
      * @param target The bonus target which filters the type of boni needed.
      */
     private void traversePerField(final Field field, final Object getterResult,
-            final List<Bonus> traversedBoni, final BonusTarget target) {
+            final List<IBonus> traversedBoni, final BonusTarget target) {
         if (field.getType().equals(List.class)) {
             // list of objects
 
@@ -150,11 +156,11 @@ public class DefaultBonusCalculationServiceImpl
      * {@inheritDoc}
      */
     @Override
-    public final List<Bonus> filterBonusListByTarget(final List<Bonus> boni,
+    public final List<IBonus> filterBonusListByTarget(final List<IBonus> boni,
             final BonusTarget target) {
-        List<Bonus> filteredBoni = new ArrayList<Bonus>();
+        List<IBonus> filteredBoni = new ArrayList<IBonus>();
 
-        for (Bonus bonus : boni) {
+        for (IBonus bonus : boni) {
             if (bonus.getTarget().equals(target)) {
                 filteredBoni.add(bonus);
             }

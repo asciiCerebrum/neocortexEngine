@@ -1,10 +1,12 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.IBonusType;
+
 /**
  *
  * @author species8472
  */
-public class BonusType {
+public class BonusType implements IBonusType {
 
     /**
      * The unique id of the bonus type.

@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacterSetup;
 
 /**
  *
  * @author species8472
  */
-public class CharacterSetup {
+public class CharacterSetup implements ICharacterSetup {
 
     /**
      * The name of the character.

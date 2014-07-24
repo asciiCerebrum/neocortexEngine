@@ -59,7 +59,6 @@ public class DndCharacterBuilderTest {
         CharacterClass chClass = new CharacterClass();
         chClass.setId("someClass");
         ClassLevel cLevel = new ClassLevel();
-        cLevel.setCharacterClass(chClass);
         cLevel.setLevel(1);
         chClass.getClassLevels().add(cLevel);
         Ability ability = new Ability();
@@ -109,21 +108,21 @@ public class DndCharacterBuilderTest {
     public void testBuildAbilityMapSize() {
         DndCharacter character = this.dndCharacterBuilder.build();
 
-        assertEquals(1L, character.getAbilityMap().size());
+        assertEquals(1L, character.getBaseAbilityMap().size());
     }
 
     @Test
     public void testBuildAbilityMapFirstElementId() {
         DndCharacter character = this.dndCharacterBuilder.build();
 
-        assertEquals("someAbility", character.getAbilityMap().keySet().iterator().next().getId());
+        assertEquals("someAbility", character.getBaseAbilityMap().keySet().iterator().next().getId());
     }
 
     @Test
     public void testBuildAbilityMapFirstElementValue() {
         DndCharacter character = this.dndCharacterBuilder.build();
 
-        assertEquals(Long.valueOf(10), character.getAbilityMap().values().iterator().next());
+        assertEquals(Long.valueOf(10), character.getBaseAbilityMap().values().iterator().next());
     }
 
     @Test
@@ -132,15 +131,15 @@ public class DndCharacterBuilderTest {
 
         assertEquals(1L, character.getFeats().size());
     }
-    
+
     @Test
     public void testBlankFeatName() {
         this.setup.getLevelAdvancementStack().clear();
         this.setup.getLevelAdvancementStack().add(new LevelAdvancement("someClass",
                 5L, null, null));
-        
+
         DndCharacter character = this.dndCharacterBuilder.build();
-        
+
         assertEquals(0L, character.getFeats().size());
     }
 
@@ -190,7 +189,7 @@ public class DndCharacterBuilderTest {
     public void testPossessionsUnavailableSlotType() {
         this.setup.getPossessionContainer().clear();
         this.setup.getPossessionContainer().put("somitItem", "someUnavailableBodySlotType");
-        
+
         DndCharacter character = this.dndCharacterBuilder.build();
         assertNull(character.getBodySlotByType(this.bsType).getItem());
     }

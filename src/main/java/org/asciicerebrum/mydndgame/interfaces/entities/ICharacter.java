@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame;
+package org.asciicerebrum.mydndgame.interfaces.entities;
 
 import java.util.List;
 import java.util.Map;
@@ -12,7 +12,7 @@ public interface ICharacter extends BonusSource {
     /**
      * @return the abilityMap
      */
-    Map<Ability, Long> getAbilityMap();
+    Map<IAbility, Long> getBaseAbilityMap();
 
     /**
      *
@@ -23,44 +23,44 @@ public interface ICharacter extends BonusSource {
     /**
      * @return the acAction
      */
-    DiceAction getAcAction();
+    IDiceAction getAcAction();
 
     /**
      * @return the attackAction
      */
-    DiceAction getAttackAction();
+    IDiceAction getAttackAction();
 
     /**
      *
      * @return the list of base attack boni for this character.
      */
-    List<Bonus> getBaseAtkBoni();
+    List<IBonus> getBaseAtkBoni();
 
     /**
      * @return the baseAttackBonus
      */
-    BonusType getBaseAttackBonus();
+    IBonusType getBaseAttackBonus();
 
     /**
      * @return the boni
      */
-    List<Bonus> getBoni();
+    List<IBonus> getBoni();
 
     /**
      * @return the classLevels
      */
-    List<ClassLevel> getClassLevels();
+    List<ILevel> getClassLevels();
 
     /**
      * @return the classList
      */
-    List<CharacterClass> getClassList();
+    List<IClass> getClassList();
 
     /**
      *
      * @return the hp dice action.
      */
-    DiceAction getHp();
+    IDiceAction getHp();
 
     /**
      * @return the hpAdditionList
@@ -75,32 +75,32 @@ public interface ICharacter extends BonusSource {
     /**
      * @return the race
      */
-    Race getRace();
+    IRace getRace();
 
     /**
      * @return the setup
      */
-    CharacterSetup getSetup();
+    ICharacterSetup getSetup();
 
     /**
      * @param abilityMapInput the abilityMap to set
      */
-    void setAbilityMap(final Map<Ability, Long> abilityMapInput);
+    void setBaseAbilityMap(final Map<IAbility, Long> abilityMapInput);
 
     /**
      * @param boniInput the boni to set
      */
-    void setBoni(final List<Bonus> boniInput);
+    void setBoni(final List<IBonus> boniInput);
 
     /**
      * @param classLevelsInput the classLevels to set
      */
-    void setClassLevels(final List<ClassLevel> classLevelsInput);
+    void setClassLevels(final List<ILevel> classLevelsInput);
 
     /**
      * @param classListInput the classList to set
      */
-    void setClassList(final List<CharacterClass> classListInput);
+    void setClassList(final List<IClass> classListInput);
 
     /**
      * @param hpAdditionListInput the hpAdditionList to set
@@ -110,6 +110,19 @@ public interface ICharacter extends BonusSource {
     /**
      * @param raceInput the race to set
      */
-    void setRace(final Race raceInput);
+    void setRace(final IRace raceInput);
+
+    /**
+     *
+     * @return the list of ability advancements.
+     */
+    List<IAbility> getAbilityAdvances();
+
+    /**
+     *
+     * @param abilityAdvancesInput the complete list of advancements in
+     * abilities.
+     */
+    void setAbilityAdvances(List<IAbility> abilityAdvancesInput);
 
 }

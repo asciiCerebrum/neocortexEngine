@@ -2,12 +2,14 @@ package org.asciicerebrum.mydndgame;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
+import org.asciicerebrum.mydndgame.interfaces.entities.IRace;
 
 /**
  *
  * @author species8472
  */
-public class Race {
+public class Race implements IRace {
 
     /**
      * The unique id of this race.
@@ -23,8 +25,8 @@ public class Race {
     /**
      * All the body slots this race is providing.
      */
-    private List<BodySlotType> providedBodySlotTypes
-            = new ArrayList<BodySlotType>();
+    private List<IBodySlotType> providedBodySlotTypes
+            = new ArrayList<IBodySlotType>();
 
     /**
      * @return the id
@@ -57,7 +59,7 @@ public class Race {
     /**
      * @return the providedBodySlotTypes
      */
-    public final List<BodySlotType> getProvidedBodySlotTypes() {
+    public final List<IBodySlotType> getProvidedBodySlotTypes() {
         return providedBodySlotTypes;
     }
 
@@ -65,7 +67,7 @@ public class Race {
      * @param providedBodySlotTypesInput the providedBodySlotTypes to set
      */
     public final void setProvidedBodySlotTypes(
-            final List<BodySlotType> providedBodySlotTypesInput) {
+            final List<IBodySlotType> providedBodySlotTypesInput) {
         this.providedBodySlotTypes = providedBodySlotTypesInput;
     }
 

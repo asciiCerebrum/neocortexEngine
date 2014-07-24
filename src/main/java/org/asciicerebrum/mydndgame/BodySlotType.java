@@ -1,10 +1,12 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
+
 /**
  *
  * @author species8472
  */
-public class BodySlotType {
+public class BodySlotType implements IBodySlotType {
 
     /**
      * The unique id of this body slot type. E.g. primaryHand.

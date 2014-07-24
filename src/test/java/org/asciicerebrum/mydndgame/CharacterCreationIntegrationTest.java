@@ -115,7 +115,8 @@ public class CharacterCreationIntegrationTest {
     @Test
     public void harskBaseAtk1() {
         assertEquals(Long.valueOf(2),
-                this.harsk.getBaseAtkBoni().get(0).getValue());
+                this.harsk.getBaseAtkBoni().get(0).getDynamicValueProvider()
+                .getDynamicValue(this.harsk));
     }
 
     @Test
@@ -123,6 +124,7 @@ public class CharacterCreationIntegrationTest {
         assertEquals(1, this.harsk.getBaseAtkBoni().size());
     }
 
+    //TODO test rank ordered bonus list of a size of at least 2.
     @Test
     public void harskAC() {
         assertEquals(Long.valueOf(10), this.harsk.getAc());
@@ -134,9 +136,15 @@ public class CharacterCreationIntegrationTest {
     }
 
     @Test
+    public void valerosMaxAttackNumber() {
+        assertEquals(Long.valueOf(1), this.valeros.getMaxAttackNumber());
+    }
+
+    @Test
     public void valerosBaseAtk1() {
         assertEquals(Long.valueOf(1),
-                this.valeros.getBaseAtkBoni().get(0).getValue());
+                this.valeros.getBaseAtkBoni().get(0).getDynamicValueProvider()
+                .getDynamicValue(this.valeros));
     }
 
     @Test

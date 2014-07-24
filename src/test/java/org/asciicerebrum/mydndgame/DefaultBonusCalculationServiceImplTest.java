@@ -1,5 +1,7 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.BonusSource;
+import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueProvider;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +10,8 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
+import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
+import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
 import org.asciicerebrum.mydndgame.logappender.RecordingAppender;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -90,7 +94,7 @@ public class DefaultBonusCalculationServiceImplTest {
     }
 
     private DefaultBonusCalculationServiceImpl bcService;
-    private List<Bonus> boni;
+    private List<IBonus> boni;
     private DiceAction targetTrue;
     private DiceAction targetFalse;
     private Bonus bonusTrue;
@@ -121,7 +125,7 @@ public class DefaultBonusCalculationServiceImplTest {
         this.targetFalse = new DiceAction();
         this.targetFalse.setId("testTargetFalse");
 
-        this.boni = new ArrayList<Bonus>();
+        this.boni = new ArrayList<IBonus>();
         this.bonusTrue = new Bonus();
         this.bonusTrue.setTarget(this.targetTrue);
         this.bonusTrue.setValue(3L);
@@ -129,7 +133,7 @@ public class DefaultBonusCalculationServiceImplTest {
         bonusFalse.setTarget(this.targetFalse);
         bonusFalse.setDynamicValueProvider(new BonusValueProvider() {
 
-            public Long getDynamicValue(ICharacter dndCharacter) {
+            public Long getDynamicValue(BonusValueContext contect) {
                 return 7L;
             }
         });
@@ -138,7 +142,7 @@ public class DefaultBonusCalculationServiceImplTest {
 
         this.objBonusGranter = new ObjectBonusGranter();
         this.objBonusGranter.setBonusSource(new BonusSource() {
-            public List<Bonus> getBoni() {
+            public List<IBonus> getBoni() {
                 return boni;
             }
         });
@@ -147,19 +151,19 @@ public class DefaultBonusCalculationServiceImplTest {
         List<BonusSource> bonusSources = new ArrayList<BonusSource>();
         bonusSources.add(new BonusSource() {
 
-            public List<Bonus> getBoni() {
+            public List<IBonus> getBoni() {
                 return boni;
             }
         });
         bonusSources.add(new BonusSource() {
 
-            public List<Bonus> getBoni() {
+            public List<IBonus> getBoni() {
                 return boni;
             }
         });
         bonusSources.add(new BonusSource() {
 
-            public List<Bonus> getBoni() {
+            public List<IBonus> getBoni() {
                 return boni;
             }
         });
@@ -188,7 +192,7 @@ public class DefaultBonusCalculationServiceImplTest {
      */
     @Test
     public void testFilterBonusListByTarget() {
-        List<Bonus> resultBoni
+        List<IBonus> resultBoni
                 = this.bcService.filterBonusListByTarget(
                         this.boni, this.targetTrue);
 
@@ -201,7 +205,7 @@ public class DefaultBonusCalculationServiceImplTest {
      */
     @Test
     public void testFilterBonusListByTargetCorrectFilterResult() {
-        List<Bonus> resultBoni
+        List<IBonus> resultBoni
                 = this.bcService.filterBonusListByTarget(
                         this.boni, this.targetTrue);
 
@@ -213,7 +217,7 @@ public class DefaultBonusCalculationServiceImplTest {
      */
     @Test
     public void testTraverseBoniByTargetList() {
-        List<Bonus> traversedBoni = this.bcService.traverseBoniByTarget(
+        List<IBonus> traversedBoni = this.bcService.traverseBoniByTarget(
                 this.listBonusGranter, this.targetTrue);
 
         assertEquals(3, traversedBoni.size());
@@ -229,19 +233,19 @@ public class DefaultBonusCalculationServiceImplTest {
                 = new HashMap<BonusSource, Integer>();
         bonusSources.put(new BonusSource() {
 
-            public List<Bonus> getBoni() {
+            public List<IBonus> getBoni() {
                 return boni;
             }
         }, 1);
         bonusSources.put(new BonusSource() {
 
-            public List<Bonus> getBoni() {
+            public List<IBonus> getBoni() {
                 return boni;
             }
         }, 2);
         mapBonusGranter.setBonusSources(bonusSources);
 
-        List<Bonus> traversedBoni = this.bcService.traverseBoniByTarget(
+        List<IBonus> traversedBoni = this.bcService.traverseBoniByTarget(
                 mapBonusGranter, this.targetTrue);
 
         assertEquals(2, traversedBoni.size());
@@ -254,7 +258,7 @@ public class DefaultBonusCalculationServiceImplTest {
     @Test
     public void testTraverseBoniByTargetObject() {
 
-        List<Bonus> traversedBoni = this.bcService.traverseBoniByTarget(
+        List<IBonus> traversedBoni = this.bcService.traverseBoniByTarget(
                 this.objBonusGranter, this.targetTrue);
 
         assertEquals(1, traversedBoni.size());
@@ -267,7 +271,7 @@ public class DefaultBonusCalculationServiceImplTest {
     @Test
     public void testTraverseBoniByTargetObjectContent() {
 
-        List<Bonus> traversedBoni = this.bcService.traverseBoniByTarget(
+        List<IBonus> traversedBoni = this.bcService.traverseBoniByTarget(
                 this.objBonusGranter, this.targetTrue);
 
         assertEquals(this.targetTrue, traversedBoni.get(0).getTarget());

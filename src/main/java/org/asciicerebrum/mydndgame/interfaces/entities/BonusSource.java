@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame;
+package org.asciicerebrum.mydndgame.interfaces.entities;
 
 import java.util.List;
 
@@ -12,6 +12,6 @@ public interface BonusSource {
      *
      * @return the list of all boni this source can provide.
      */
-    List<Bonus> getBoni();
+    List<IBonus> getBoni();
 
 }

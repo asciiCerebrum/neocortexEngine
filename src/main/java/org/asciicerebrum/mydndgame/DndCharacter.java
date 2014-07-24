@@ -1,15 +1,26 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.services.BonusCalculationService;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.asciicerebrum.mydndgame.interfaces.entities.IAbility;
+import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
+import org.asciicerebrum.mydndgame.interfaces.entities.IClass;
+import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
+import org.asciicerebrum.mydndgame.interfaces.entities.ILevel;
+import org.asciicerebrum.mydndgame.interfaces.entities.IRace;
+import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
+import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
 
 /**
  *
  * @author species8472
  */
-public final class DndCharacter implements ICharacter {
+public final class DndCharacter implements ICharacter, BonusValueContext {
 
     /**
      * The setup for the character creation.
@@ -20,14 +31,14 @@ public final class DndCharacter implements ICharacter {
      * The race of this dnd character.
      */
     @BonusGranter
-    private Race race;
+    private IRace race;
 
     /**
      * The ordered list of classes this character advanced in.
      */
     @BonusGranter
-    private List<CharacterClass> classList
-            = new ArrayList<CharacterClass>();
+    private List<IClass> classList
+            = new ArrayList<IClass>();
     /**
      * The ordered list of additions to the hit points this character acquired
      * during class level advancements.
@@ -35,22 +46,29 @@ public final class DndCharacter implements ICharacter {
     private List<Long> hpAdditionList
             = new ArrayList<Long>();
     /**
-     * The map of abilities together with their values.
+     * The map of abilities together with their original base values.
      */
     @BonusGranter
-    private Map<Ability, Long> abilityMap
-            = new HashMap<Ability, Long>();
+    private Map<IAbility, Long> baseAbilityMap
+            = new HashMap<IAbility, Long>();
+    /**
+     * When a level advancement grants an increase in the ability score, this
+     * ability is recorded in this list. Later on the effective score is
+     * calculated by the original base value from the abilityMap and the number
+     * of entries of the same ability within this list.
+     */
+    private List<IAbility> abilityAdvances = new ArrayList<IAbility>();
     /**
      * The ordered list of class levels this character advanced in.
      */
     @BonusGranter
-    private List<ClassLevel> classLevels = new ArrayList<ClassLevel>();
+    private List<ILevel> classLevels = new ArrayList<ILevel>();
 
     /**
      * The complete collection of all boni which are associated with this
      * character.
      */
-    private List<Bonus> boni = new ArrayList<Bonus>();
+    private List<IBonus> boni = new ArrayList<IBonus>();
 
     //TODO make DndCharacter Spring Prototype and set these values via
     // application context xml
@@ -87,7 +105,7 @@ public final class DndCharacter implements ICharacter {
      * character.
      */
     @BonusGranter
-    private List<BodySlot> bodySlots = new ArrayList<BodySlot>();
+    private List<Slotable> bodySlots = new ArrayList<Slotable>();
 
     /**
      * The feats of a character.
@@ -100,8 +118,8 @@ public final class DndCharacter implements ICharacter {
      * @param bsType the type of the body slot.
      * @return the found body slot or null if nothing was found.
      */
-    public BodySlot getBodySlotByType(final BodySlotType bsType) {
-        for (BodySlot bSlot : this.bodySlots) {
+    public Slotable getBodySlotByType(final BodySlotType bsType) {
+        for (Slotable bSlot : this.bodySlots) {
             if (bSlot.getBodySlotType().equals(bsType)) {
                 return bSlot;
             }
@@ -153,12 +171,12 @@ public final class DndCharacter implements ICharacter {
         List<Long> atkBoni = new ArrayList<Long>();
 
         Weapon weapon = null;
-        InventoryItem item = this.getBodySlotByType(bodySlotType).getItem();
+        IInventoryItem item = this.getBodySlotByType(bodySlotType).getItem();
         if (item instanceof Weapon) {
             weapon = (Weapon) item;
         }
         // gather all non-weapon-dependent boni for melee attack
-        List<Bonus> meleeBoni = this.bonusService
+        List<IBonus> meleeBoni = this.bonusService
                 .traverseBoniByTarget(this, this.meleeAttackAction);
 
         //TODO post processing of the bonus list, e.g. by registered feat
@@ -166,7 +184,7 @@ public final class DndCharacter implements ICharacter {
         Long meleeBonusValue = this.bonusService.accumulateBonusValue(
                 this, meleeBoni);
 
-        for (Bonus baseAtkBonus : this.getBaseAtkBoni()) {
+        for (IBonus baseAtkBonus : this.getBaseAtkBoni()) {
             atkBoni.add(baseAtkBonus.getValue() + meleeBonusValue);
         }
 
@@ -196,7 +214,7 @@ public final class DndCharacter implements ICharacter {
             final ClassLevel cLevel) {
 
         // iteration over all base Atk boni of NEW class level
-        for (Bonus newBonus : cLevel.getBaseAtkBoni()) {
+        for (IBonus newBonus : cLevel.getBaseAtkBoni()) {
 
             final Long currentRank = newBonus.getRank();
             boolean bonusFound = false;
@@ -208,12 +226,12 @@ public final class DndCharacter implements ICharacter {
             // level 4: +8/+3
             // on rank 0 we have a difference of 3, which is added, and
             // on rank 1 we have a difference of 2, which is added.
-            for (Bonus existingBonus : this.boni) {
+            for (IBonus existingBonus : this.boni) {
                 if (existingBonus.getRank().equals(currentRank)) {
 
                     Long valueDelta
-                            = chClass.getBaseAtkBonusValueDeltaByLevelAndRank(
-                                    cLevel, currentRank);
+                            = cLevel.getBaseAtkBonusValueDeltaByRank(
+                                    currentRank);
 
                     existingBonus.setValue(existingBonus.getValue()
                             + valueDelta);
@@ -238,54 +256,43 @@ public final class DndCharacter implements ICharacter {
      */
     public Integer countClassLevelsByCharacterClass(
             final CharacterClass charCl) {
-        Integer count = 0;
-        for (ClassLevel cl : this.getClassLevels()) {
-            if (cl.getCharacterClass().equals(charCl)) {
-                count++;
-            }
-        }
-        return count;
+
+        return Collections.frequency(this.getClassList(), charCl);
     }
 
     /**
+     * The list is rank-ordered from low to high. Its size is equal to the max
+     * attack number.
      *
      * @return the list of base attack boni for this character.
      */
     @Override
-    public List<Bonus> getBaseAtkBoni() {
-        List<Bonus> baseAtkBoni = new ArrayList<Bonus>();
+    public List<IBonus> getBaseAtkBoni() {
+        List<IBonus> baseAtkBoni = new ArrayList<IBonus>();
 
-        for (Bonus potentialBonus : this.getBoni()) {
+        Long maxSize = this.getMaxAttackNumber();
+
+        for (IBonus potentialBonus : this.getBoni()) {
             if (potentialBonus.getBonusType().equals(
                     this.getBaseAttackBonus())) {
                 baseAtkBoni.add(potentialBonus);
             }
         }
 
+        // order the list
+        Collections.sort(baseAtkBoni, new Bonus.RankComparator());
+
+        // make a sublist of size maxSize
+        baseAtkBoni = baseAtkBoni.subList(0, maxSize.intValue());
+
         return baseAtkBoni;
-    }
-
-    /**
-     * @return the abilityMap
-     */
-    @Override
-    public Map<Ability, Long> getAbilityMap() {
-        return abilityMap;
-    }
-
-    /**
-     * @param abilityMapInput the abilityMap to set
-     */
-    @Override
-    public void setAbilityMap(final Map<Ability, Long> abilityMapInput) {
-        this.abilityMap = abilityMapInput;
     }
 
     /**
      * @return the classLevels
      */
     @Override
-    public List<ClassLevel> getClassLevels() {
+    public List<ILevel> getClassLevels() {
         return classLevels;
     }
 
@@ -293,7 +300,7 @@ public final class DndCharacter implements ICharacter {
      * @param classLevelsInput the classLevels to set
      */
     @Override
-    public void setClassLevels(final List<ClassLevel> classLevelsInput) {
+    public void setClassLevels(final List<ILevel> classLevelsInput) {
         this.classLevels = classLevelsInput;
     }
 
@@ -301,7 +308,7 @@ public final class DndCharacter implements ICharacter {
      * @return the boni
      */
     @Override
-    public List<Bonus> getBoni() {
+    public List<IBonus> getBoni() {
         return boni;
     }
 
@@ -309,7 +316,7 @@ public final class DndCharacter implements ICharacter {
      * @param boniInput the boni to set
      */
     @Override
-    public void setBoni(final List<Bonus> boniInput) {
+    public void setBoni(final List<IBonus> boniInput) {
         this.boni = boniInput;
     }
 
@@ -387,7 +394,7 @@ public final class DndCharacter implements ICharacter {
      * @return the classList
      */
     @Override
-    public List<CharacterClass> getClassList() {
+    public List<IClass> getClassList() {
         return classList;
     }
 
@@ -395,7 +402,7 @@ public final class DndCharacter implements ICharacter {
      * @param classListInput the classList to set
      */
     @Override
-    public void setClassList(final List<CharacterClass> classListInput) {
+    public void setClassList(final List<IClass> classListInput) {
         this.classList = classListInput;
     }
 
@@ -418,14 +425,14 @@ public final class DndCharacter implements ICharacter {
     /**
      * @return the bodySlots
      */
-    public List<BodySlot> getBodySlots() {
+    public List<Slotable> getBodySlots() {
         return bodySlots;
     }
 
     /**
      * @param bodySlotsInput the bodySlots to set
      */
-    public void setBodySlots(final List<BodySlot> bodySlotsInput) {
+    public void setBodySlots(final List<Slotable> bodySlotsInput) {
         this.bodySlots = bodySlotsInput;
     }
 
@@ -506,7 +513,7 @@ public final class DndCharacter implements ICharacter {
      * @return the race
      */
     @Override
-    public Race getRace() {
+    public IRace getRace() {
         return race;
     }
 
@@ -514,7 +521,7 @@ public final class DndCharacter implements ICharacter {
      * @param raceInput the race to set
      */
     @Override
-    public void setRace(final Race raceInput) {
+    public void setRace(final IRace raceInput) {
         this.race = raceInput;
     }
 
@@ -523,5 +530,50 @@ public final class DndCharacter implements ICharacter {
      */
     public void setSetup(final CharacterSetup setupInput) {
         this.setup = setupInput;
+    }
+
+    /**
+     * Calculates the number of attacks a dnd character has during a full attack
+     * action.
+     *
+     * @return the maximum number of attacks.
+     */
+    public Long getMaxAttackNumber() {
+        Long maxAttackNumber = 0L;
+        for (ILevel cLevel : this.classLevels) {
+            if (cLevel.getBaseAtkBoni().size() > maxAttackNumber) {
+                maxAttackNumber = Long.valueOf(cLevel.getBaseAtkBoni().size());
+            }
+        }
+        return maxAttackNumber;
+    }
+
+    /**
+     * @return the baseAbilityMap
+     */
+    public Map<IAbility, Long> getBaseAbilityMap() {
+        return baseAbilityMap;
+    }
+
+    /**
+     * @param baseAbilityMapInput the baseAbilityMap to set
+     */
+    public void setBaseAbilityMap(
+            final Map<IAbility, Long> baseAbilityMapInput) {
+        this.baseAbilityMap = baseAbilityMapInput;
+    }
+
+    /**
+     * @return the abilityAdvances
+     */
+    public List<IAbility> getAbilityAdvances() {
+        return abilityAdvances;
+    }
+
+    /**
+     * @param abilityAdvancesInput the abilityAdvances to set
+     */
+    public void setAbilityAdvances(final List<IAbility> abilityAdvancesInput) {
+        this.abilityAdvances = abilityAdvancesInput;
     }
 }

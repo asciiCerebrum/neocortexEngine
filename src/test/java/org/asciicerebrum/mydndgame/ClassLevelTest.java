@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -32,7 +33,7 @@ public class ClassLevelTest {
     @Before
     public void setUp() {
         this.cLevel = new ClassLevel();
-        List<Bonus> rankedBoni = new ArrayList<Bonus>();
+        List<IBonus> rankedBoni = new ArrayList<IBonus>();
         Bonus bonusRank0 = new Bonus();
         bonusRank0.setRank(0L);
         this.bonusRank1 = new Bonus();
@@ -56,7 +57,7 @@ public class ClassLevelTest {
     @Test
     public void testGetBaseAtkBonusByRank() {
 
-        Bonus resultBonus = this.cLevel.getBaseAtkBonusByRank(1L);
+        IBonus resultBonus = this.cLevel.getBaseAtkBonusByRank(1L);
 
         assertEquals(this.bonusRank1, resultBonus);
     }
@@ -68,7 +69,7 @@ public class ClassLevelTest {
     @Test
     public void testGetBaseAtkBonusByRankOutOfRange() {
 
-        Bonus resultBonus = this.cLevel.getBaseAtkBonusByRank(5L);
+        IBonus resultBonus = this.cLevel.getBaseAtkBonusByRank(5L);
 
         assertNull(resultBonus);
     }

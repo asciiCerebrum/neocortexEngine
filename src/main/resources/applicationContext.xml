@@ -20,6 +20,26 @@
           class="org.asciicerebrum.mydndgame.AbilityBonusValueProvider">
         <property name="ability" ref="con" />
     </bean>
+    <bean id="rank0AtkBonusValueProvider"
+          class="org.asciicerebrum.mydndgame.AtkBonusValueProvider">
+        <property name="rank" value="0" />
+    </bean>
+    <bean id="rank1AtkBonusValueProvider"
+          class="org.asciicerebrum.mydndgame.AtkBonusValueProvider">
+        <property name="rank" value="1" />
+    </bean>
+    <bean id="rank2AtkBonusValueProvider"
+          class="org.asciicerebrum.mydndgame.AtkBonusValueProvider">
+        <property name="rank" value="2" />
+    </bean>
+    <bean id="rank3AtkBonusValueProvider"
+          class="org.asciicerebrum.mydndgame.AtkBonusValueProvider">
+        <property name="rank" value="3" />
+    </bean>
+    <bean id="rank4AtkBonusValueProvider"
+          class="org.asciicerebrum.mydndgame.AtkBonusValueProvider">
+        <property name="rank" value="4" />
+    </bean>
 
     <!-- d20 rule entity beans -->
     <import resource="applicationContext-dice.xml"/>

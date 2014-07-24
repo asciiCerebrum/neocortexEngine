@@ -1,10 +1,13 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
+import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
+
 /**
  *
  * @author species8472
  */
-public class DiceAction implements BonusTarget {
+public class DiceAction implements IDiceAction, BonusTarget {
 
     /**
      * The unique id of this dice action.

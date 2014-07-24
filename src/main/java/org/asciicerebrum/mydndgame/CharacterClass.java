@@ -1,15 +1,18 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.Identifiable;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.asciicerebrum.mydndgame.exceptions.UndefinedCharacterClassLevelException;
+import org.asciicerebrum.mydndgame.interfaces.entities.IClass;
+import org.asciicerebrum.mydndgame.interfaces.entities.ILevel;
 
 /**
  *
  * @author species8472
  */
-public class CharacterClass {
+public class CharacterClass implements Identifiable, IClass {
 
     /**
      * Specific logger for this class.
@@ -28,7 +31,7 @@ public class CharacterClass {
      * The list of class levels which define the character advancement within
      * this character class.
      */
-    private List<ClassLevel> classLevels = new ArrayList<ClassLevel>();
+    private List<ILevel> classLevels = new ArrayList<ILevel>();
 
     /**
      *
@@ -36,8 +39,8 @@ public class CharacterClass {
      * level.
      * @return the level-th element of the classLevel list.
      */
-    public final ClassLevel getClassLevelByLevel(final Integer level) {
-        for (ClassLevel cl : this.classLevels) {
+    public final ILevel getClassLevelByLevel(final Integer level) {
+        for (ILevel cl : this.classLevels) {
             if (cl.getLevel().equals(level)) {
                 return cl;
             }
@@ -46,42 +49,9 @@ public class CharacterClass {
     }
 
     /**
-     *
-     * @param cLevel the base class level.
-     * @param currentRank the rank of interest.
-     * @return the difference between the bonus of level and level - 1 of the
-     * given rank.
+     * {@inheritDoc}
      */
-    public final Long getBaseAtkBonusValueDeltaByLevelAndRank(
-            final ClassLevel cLevel, final Long currentRank) {
-        Long valueDelta = cLevel.getBaseAtkBonusByRank(currentRank).getValue();
-
-        try {
-            // bonus of previous level with same rank
-            final ClassLevel prevLevel
-                    = this.getClassLevelByLevel(
-                            cLevel.getLevel() - 1);
-            // prevBonus could be null if the given currentRank is not
-            // available in the previous class level!
-            final Bonus prevBonus
-                    = prevLevel.getBaseAtkBonusByRank(
-                            currentRank);
-
-            if (prevBonus != null) {
-                // the bonus difference between the two levels
-                valueDelta = valueDelta
-                        - prevBonus.getValue();
-            }
-        } catch (final UndefinedCharacterClassLevelException e) {
-            //TODO test this output
-            LOG.info(e.getMessage() + " Using original value for delta.");
-        }
-        return valueDelta;
-    }
-
-    /**
-     * @return the id
-     */
+    @Override
     public final String getId() {
         return id;
     }
@@ -110,14 +80,14 @@ public class CharacterClass {
     /**
      * @return the classLevels
      */
-    public final List<ClassLevel> getClassLevels() {
+    public final List<ILevel> getClassLevels() {
         return classLevels;
     }
 
     /**
      * @param classLevelsInput the classLevels to set
      */
-    public final void setClassLevels(final List<ClassLevel> classLevelsInput) {
+    public final void setClassLevels(final List<ILevel> classLevelsInput) {
         this.classLevels = classLevelsInput;
     }
 

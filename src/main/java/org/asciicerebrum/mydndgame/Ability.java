@@ -1,13 +1,17 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.BonusSource;
+import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
 import java.util.ArrayList;
 import java.util.List;
+import org.asciicerebrum.mydndgame.interfaces.entities.IAbility;
+import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 
 /**
  *
  * @author species8472
  */
-public class Ability implements BonusSource, BonusTarget {
+public class Ability implements IAbility, BonusSource, BonusTarget {
 
     /**
      * Unique id of the ability.
@@ -20,7 +24,7 @@ public class Ability implements BonusSource, BonusTarget {
     /**
      * Collection of all boni associated with this ability.
      */
-    private List<Bonus> boni = new ArrayList<Bonus>();
+    private List<IBonus> boni = new ArrayList<IBonus>();
 
     /**
      * @return the id
@@ -53,14 +57,14 @@ public class Ability implements BonusSource, BonusTarget {
     /**
      * @return the boni
      */
-    public final List<Bonus> getBoni() {
+    public final List<IBonus> getBoni() {
         return boni;
     }
 
     /**
      * @param boniInput the boni to set
      */
-    public final void setBoni(final List<Bonus> boniInput) {
+    public final void setBoni(final List<IBonus> boniInput) {
         this.boni = boniInput;
     }
 

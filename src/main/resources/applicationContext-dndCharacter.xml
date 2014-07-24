@@ -12,6 +12,40 @@
         <property name="meleeAttackAction" ref="meleeAttack" />
         <property name="rangedAttackAction" ref="rangedAttack" />
         <property name="baseAttackBonus" ref="baseAttackBonus" />
+        <property name="boni">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="bonusType" ref="baseAttackBonus" />
+                    <property name="target" ref="attack" />
+                    <property name="rank" value="0" />
+                    <property name="dynamicValueProvider" ref="rank0AtkBonusValueProvider" />
+                </bean>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="bonusType" ref="baseAttackBonus" />
+                    <property name="target" ref="attack" />
+                    <property name="rank" value="1" />
+                    <property name="dynamicValueProvider" ref="rank1AtkBonusValueProvider" />
+                </bean>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="bonusType" ref="baseAttackBonus" />
+                    <property name="target" ref="attack" />
+                    <property name="rank" value="2" />
+                    <property name="dynamicValueProvider" ref="rank2AtkBonusValueProvider" />
+                </bean>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="bonusType" ref="baseAttackBonus" />
+                    <property name="target" ref="attack" />
+                    <property name="rank" value="3" />
+                    <property name="dynamicValueProvider" ref="rank3AtkBonusValueProvider" />
+                </bean>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="bonusType" ref="baseAttackBonus" />
+                    <property name="target" ref="attack" />
+                    <property name="rank" value="4" />
+                    <property name="dynamicValueProvider" ref="rank4AtkBonusValueProvider" />
+                </bean>
+            </list>
+        </property>
     </bean>
     
 </beans>

@@ -1,7 +1,11 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.services.BonusCalculationService;
 import java.util.ArrayList;
 import java.util.List;
+import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
+import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
+import org.asciicerebrum.mydndgame.interfaces.entities.IClass;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -66,7 +70,6 @@ public class DndCharacterTest {
         baseAtkBonus.setTarget(new DiceAction());
         baseAtkBonus.setBonusType(baseAtkBonusType);
         cLevel1.getBaseAtkBoni().add(baseAtkBonus);
-        cLevel1.setCharacterClass(chClass);
         chClass.getClassLevels().add(cLevel1);
         
         Bonus baseAtkBonus2_1 = new Bonus();
@@ -83,12 +86,11 @@ public class DndCharacterTest {
         
         this.bodySlot = new BodySlotType();
         this.bodySlot.setId("bodySlotType");
-        List<BodySlotType> bodySlots = new ArrayList<BodySlotType>();
+        List<IBodySlotType> bodySlots = new ArrayList<IBodySlotType>();
         bodySlots.add(this.bodySlot);
         
         ClassLevel cLevel2 = new ClassLevel();
         cLevel2.setLevel(2);
-        cLevel2.setCharacterClass(chClass);
         cLevel2.getBaseAtkBoni().add(baseAtkBonus2_1);
         cLevel2.getBaseAtkBoni().add(baseAtkBonus2_2);
         chClass.getClassLevels().add(cLevel2);
@@ -100,11 +102,10 @@ public class DndCharacterTest {
         otherChClass.setHitDice(hitDice);
         ClassLevel otherCLevel1 = new ClassLevel();
         otherCLevel1.setLevel(1);
-        otherCLevel1.setCharacterClass(otherChClass);
         otherChClass.getClassLevels().add(otherCLevel1);
         
         this.testChar = new DndCharacter();
-        this.testChar.setClassList(new ArrayList<CharacterClass>() {
+        this.testChar.setClassList(new ArrayList<IClass>() {
             {
                 this.add(chClass);
                 this.add(otherChClass);
@@ -123,6 +124,8 @@ public class DndCharacterTest {
         this.testChar.setBonusService(this.bcService);
         this.testChar.getBoni().add(baseAtkBonus2_1);
         this.testChar.getBoni().add(baseAtkBonus2_2);
+        this.testChar.getClassLevels().add(cLevel1);
+        this.testChar.getClassLevels().add(cLevel2);
         
         BodySlot rawBodySlot = new BodySlot();
         rawBodySlot.setBodySlotType(this.bodySlot);
@@ -149,7 +152,7 @@ public class DndCharacterTest {
      */
     @Test
     public void testGetBaseAtkBoni() {
-        List<Bonus> baseAtkBoni = this.testChar.getBaseAtkBoni();
+        List<IBonus> baseAtkBoni = this.testChar.getBaseAtkBoni();
         
         assertEquals(2, baseAtkBoni.size());
     }
@@ -159,7 +162,7 @@ public class DndCharacterTest {
      */
     @Test
     public void testGetBaseAtkBoniValue() {
-        List<Bonus> baseAtkBoni = this.testChar.getBaseAtkBoni();
+        List<IBonus> baseAtkBoni = this.testChar.getBaseAtkBoni();
         
         assertEquals(BASE_ATK_BONUS, baseAtkBoni.get(0).getValue());
     }
@@ -176,7 +179,7 @@ public class DndCharacterTest {
         nonAtkBonus.setBonusType(nonAtkBonusType);
         this.testChar.getBoni().add(nonAtkBonus);
         
-        List<Bonus> baseAtkBoni = this.testChar.getBaseAtkBoni();
+        List<IBonus> baseAtkBoni = this.testChar.getBaseAtkBoni();
         
         assertEquals(BASE_ATK_BONUS, baseAtkBoni.get(0).getValue());
     }

@@ -2,6 +2,9 @@ package org.asciicerebrum.mydndgame;
 
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
+import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
+import org.asciicerebrum.mydndgame.interfaces.entities.ILevel;
+import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -49,7 +52,7 @@ public class DndCharacterBuilder {
         dndCharacter.setSetup(this.setup);
 
         // setup of body slots by the types given by the race
-        for (BodySlotType bsType : dndCharacter.getRace()
+        for (IBodySlotType bsType : dndCharacter.getRace()
                 .getProvidedBodySlotTypes()) {
             BodySlot bs = new BodySlot();
             bs.setBodySlotType(bsType);
@@ -63,7 +66,8 @@ public class DndCharacterBuilder {
                 : this.setup.getBaseAbilityMap().entrySet()) {
             Ability ability = this.context.getBean(abilityEntry.getKey(),
                     Ability.class);
-            dndCharacter.getAbilityMap().put(ability, abilityEntry.getValue());
+            dndCharacter.getBaseAbilityMap()
+                    .put(ability, abilityEntry.getValue());
         }
 
         // advancement
@@ -82,26 +86,23 @@ public class DndCharacterBuilder {
             // adding class levels as they come
             Integer classCount = dndCharacter
                     .countClassLevelsByCharacterClass(chClass);
-            ClassLevel cLevel = chClass.getClassLevelByLevel(classCount + 1);
+            ILevel cLevel = chClass.getClassLevelByLevel(classCount);
             dndCharacter.getClassLevels().add(cLevel);
 
-            // merge baseAtk boni
-            //TODO make this calculated in realtime
-            //dndCharacter.mergeBaseAtkBoni(chClass, cLevel);
-            // ability increment with level advancement
-            //TODO save ability advancements differntly to calculate the
-            // effective score in realtime!!! this calculation is then done in
-            // the dndCharacter class.
             /*
-             if (StringUtils.isNotBlank(advance.getAbilityName())) {
-             Ability additionalAbility
-             = this.context.getBean(
-             advance.getAbilityName(), Ability.class);
-             dndCharacter.getAbilityMap().put(additionalAbility,
-             dndCharacter.getAbilityMap()
-             .get(additionalAbility) + 1);
-             }
+             Every dndCharacter has per default a baseAtk bonus instance (via
+             application context). This bonus has a dynamic value. It uses a
+             dynamic value provider spring bean that dynamically adds together
+             all the atk boni from all the character class levels of all
+             character classes. The dndCharacter gets multiple of these boni,
+             each one with a separate rank - up to 5 (rank 0, ..., 4).
              */
+            if (StringUtils.isNotBlank(advance.getAbilityName())) {
+                Ability additionalAbility = this.context.getBean(
+                        advance.getAbilityName(), Ability.class);
+                dndCharacter.getAbilityAdvances().add(additionalAbility);
+            }
+
             // adding feats
             if (StringUtils.isNotBlank(advance.getFeatName())) {
                 Feat feat = this.context.getBean(
@@ -114,7 +115,7 @@ public class DndCharacterBuilder {
         for (Map.Entry<String, String> posEntry
                 : this.setup.getPossessionContainer().entrySet()) {
 
-            BodySlot slot = dndCharacter.getBodySlotByType(
+            Slotable slot = dndCharacter.getBodySlotByType(
                     this.context.getBean(posEntry.getValue(),
                             BodySlotType.class));
             InventoryItem item = this.context.getBean(posEntry.getKey(),

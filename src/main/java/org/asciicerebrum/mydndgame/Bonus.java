@@ -1,10 +1,37 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
+import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueProvider;
+import java.io.Serializable;
+import java.util.Comparator;
+import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
+import org.asciicerebrum.mydndgame.interfaces.entities.IBonusType;
+
 /**
  *
  * @author species8472
  */
-public class Bonus {
+public class Bonus implements IBonus {
+
+    /**
+     * For sorting boni by their ranks.
+     */
+    public static class RankComparator implements Comparator<IBonus>,
+            Serializable {
+
+        /**
+         * The serial version uid.
+         */
+        private static final long serialVersionUID = 1L;
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public final int compare(final IBonus o1, final IBonus o2) {
+            return o1.getRank().compareTo(o2.getRank());
+        }
+    }
 
     /**
      * The value of the bonus.
@@ -18,7 +45,7 @@ public class Bonus {
     /**
      * The type of the bonus. E.g. size bonus.
      */
-    private BonusType bonusType;
+    private IBonusType bonusType;
     /**
      * The target where the bonus is applied. E.g. attack rolls.
      */
@@ -48,14 +75,14 @@ public class Bonus {
     /**
      * @return the bonusType
      */
-    public final BonusType getBonusType() {
+    public final IBonusType getBonusType() {
         return bonusType;
     }
 
     /**
      * @param bonusTypeInput the bonusType to set
      */
-    public final void setBonusType(final BonusType bonusTypeInput) {
+    public final void setBonusType(final IBonusType bonusTypeInput) {
         this.bonusType = bonusTypeInput;
     }
 
@@ -77,8 +104,8 @@ public class Bonus {
      *
      * @return the cloned version of this bonus.
      */
-    public final Bonus makeCopy() {
-        Bonus clonedBonus = new Bonus();
+    public final IBonus makeCopy() {
+        IBonus clonedBonus = new Bonus();
         clonedBonus.setBonusType(this.getBonusType());
         clonedBonus.setRank(this.getRank());
         clonedBonus.setTarget(this.getTarget());

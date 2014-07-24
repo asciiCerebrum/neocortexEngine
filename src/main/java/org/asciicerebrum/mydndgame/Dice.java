@@ -1,10 +1,12 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.IDice;
+
 /**
  *
  * @author species8472
  */
-public class Dice {
+public class Dice implements IDice {
 
     /**
      * The unique id of this die type.

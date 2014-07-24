@@ -4,39 +4,42 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="fighter1" class="org.asciicerebrum.mydndgame.ClassLevel">
+        <property name="level" value="1" />
+        <property name="nextClassLevel" ref="fighter2" />
+        <property name="baseAtkBoni">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="bonusType" ref="baseAttackBonus" />
+                    <property name="target" ref="attack" />
+                    <property name="value" value="1" />
+                    <property name="rank" value="0" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="fighter2" class="org.asciicerebrum.mydndgame.ClassLevel">
+        <property name="level" value="2" />
+        <property name="previousClassLevel" ref="fighter1" />
+        <property name="baseAtkBoni">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="bonusType" ref="baseAttackBonus" />
+                    <property name="target" ref="attack" />
+                    <property name="value" value="2" />
+                    <property name="rank" value="0" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
     <bean id="fighter" class="org.asciicerebrum.mydndgame.CharacterClass">
         <property name="id" value="fighter" />
         <property name="hitDice" ref="d10" />
         <property name="classLevels">
             <list>
-                <bean class="org.asciicerebrum.mydndgame.ClassLevel">
-                    <property name="level" value="1" />
-                    <property name="characterClass" ref="fighter" />
-                    <property name="baseAtkBoni">
-                        <list>
-                            <bean class="org.asciicerebrum.mydndgame.Bonus">
-                                <property name="bonusType" ref="baseAttackBonus" />
-                                <property name="target" ref="attack" />
-                                <property name="value" value="1" />
-                                <property name="rank" value="0" />
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-                <bean class="org.asciicerebrum.mydndgame.ClassLevel">
-                    <property name="level" value="2" />
-                    <property name="characterClass" ref="fighter" />
-                    <property name="baseAtkBoni">
-                        <list>
-                            <bean class="org.asciicerebrum.mydndgame.Bonus">
-                                <property name="bonusType" ref="baseAttackBonus" />
-                                <property name="target" ref="attack" />
-                                <property name="value" value="2" />
-                                <property name="rank" value="0" />
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
+                <ref bean="fighter1" />
+                <ref bean="fighter2" />
             </list>
         </property>
     </bean>
