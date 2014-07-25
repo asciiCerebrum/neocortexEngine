@@ -3,7 +3,6 @@ package org.asciicerebrum.mydndgame;
 import org.asciicerebrum.mydndgame.interfaces.entities.Identifiable;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
 import org.asciicerebrum.mydndgame.exceptions.UndefinedCharacterClassLevelException;
 import org.asciicerebrum.mydndgame.interfaces.entities.IClass;
 import org.asciicerebrum.mydndgame.interfaces.entities.ILevel;
@@ -13,11 +12,6 @@ import org.asciicerebrum.mydndgame.interfaces.entities.ILevel;
  * @author species8472
  */
 public class CharacterClass implements Identifiable, IClass {
-
-    /**
-     * Specific logger for this class.
-     */
-    private static final Logger LOG = Logger.getLogger(CharacterClass.class);
 
     /**
      * The unique id of the character class.

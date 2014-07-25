@@ -207,49 +207,6 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
 
     /**
      *
-     * @param chClass the character class to merge to boni from.
-     * @param cLevel the specific level of the given character class.
-     */
-    public void mergeBaseAtkBoni(final CharacterClass chClass,
-            final ClassLevel cLevel) {
-
-        // iteration over all base Atk boni of NEW class level
-        for (IBonus newBonus : cLevel.getBaseAtkBoni()) {
-
-            final Long currentRank = newBonus.getRank();
-            boolean bonusFound = false;
-
-            // iteration over all accumulated boni of the dnd character to
-            // find matches based on rank - then the difference to the previous
-            // level's bonus can be added, e.g.
-            // level 3: +5/+1
-            // level 4: +8/+3
-            // on rank 0 we have a difference of 3, which is added, and
-            // on rank 1 we have a difference of 2, which is added.
-            for (IBonus existingBonus : this.boni) {
-                if (existingBonus.getRank().equals(currentRank)) {
-
-                    Long valueDelta
-                            = cLevel.getBaseAtkBonusValueDeltaByRank(
-                                    currentRank);
-
-                    existingBonus.setValue(existingBonus.getValue()
-                            + valueDelta);
-
-                    bonusFound = true;
-                    break;
-                }
-            }
-            // when the rank is not yet present, the whole bonus is added as a
-            // clone
-            if (!bonusFound) {
-                this.boni.add(newBonus.makeCopy());
-            }
-        }
-    }
-
-    /**
-     *
      * @param charCl The character class which needs to be counted.
      * @return The number of class levels this character has for the given
      * character class.

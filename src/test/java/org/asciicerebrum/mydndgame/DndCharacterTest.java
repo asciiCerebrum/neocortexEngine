@@ -147,6 +147,14 @@ public class DndCharacterTest {
         assertEquals(Long.valueOf(HIT_DICE + ADDITIONAL_HP + HIT_DICE), maxHp);
     }
 
+    @Test
+    public void testGetMaxHpFromClassHitDice() {
+        this.testChar.getHpAdditionList().set(0, null);
+        Long maxHp = this.testChar.getMaxHp();
+        
+        assertEquals(Long.valueOf(HIT_DICE + ADDITIONAL_HP + HIT_DICE), maxHp);
+    }
+    
     /**
      * Testing the size of the baseAtk boni.
      */
@@ -193,6 +201,14 @@ public class DndCharacterTest {
         List<Long> boniList = this.testChar.getMeleeAtkBonus(this.bodySlot);
         
         assertEquals(Long.valueOf(2), boniList.get(0));
+    }
+    
+    @Test
+    public void testGetMaxAttackNumber() {
+        this.testChar.getClassLevels().get(0).getBaseAtkBoni().clear();
+        Long maxAttackNumber = this.testChar.getMaxAttackNumber();
+        
+        assertEquals(Long.valueOf(2), maxAttackNumber);
     }
     
 }

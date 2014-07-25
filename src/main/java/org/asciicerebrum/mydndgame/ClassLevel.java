@@ -23,19 +23,19 @@ public class ClassLevel implements ILevel {
     /**
      * The next class level in the list of class levels of this character class.
      */
-    private ClassLevel nextClassLevel;
+    private ILevel nextClassLevel;
     /**
      * The previous class level in the list of class levels of this character
      * class.
      */
-    private ClassLevel previousClassLevel;
+    private ILevel previousClassLevel;
 
     /**
      * {@inheritDoc}
      */
     @Override
     public final IBonus getBaseAtkBonusByRank(final Long rank) {
-        for (IBonus bonus : baseAtkBoni) {
+        for (IBonus bonus : this.baseAtkBoni) {
             if (bonus.getRank().equals(rank)) {
                 return bonus;
             }
@@ -51,7 +51,7 @@ public class ClassLevel implements ILevel {
         IBonus currentBonus = this.getBaseAtkBonusByRank(rank);
         Long deltaValue = currentBonus.getValue();
 
-        ClassLevel prevCLevel = this.getPreviousClassLevel();
+        ILevel prevCLevel = this.getPreviousClassLevel();
         if (prevCLevel == null) {
             return deltaValue;
         }
@@ -95,7 +95,7 @@ public class ClassLevel implements ILevel {
     /**
      * @return the nextClassLevel
      */
-    public final ClassLevel getNextClassLevel() {
+    public final ILevel getNextClassLevel() {
         return nextClassLevel;
     }
 
@@ -109,7 +109,7 @@ public class ClassLevel implements ILevel {
     /**
      * @return the previousClassLevel
      */
-    public final ClassLevel getPreviousClassLevel() {
+    public final ILevel getPreviousClassLevel() {
         return previousClassLevel;
     }
 
@@ -117,7 +117,7 @@ public class ClassLevel implements ILevel {
      * @param previousClassLevelInput the previousClassLevel to set
      */
     public final void setPreviousClassLevel(
-            final ClassLevel previousClassLevelInput) {
+            final ILevel previousClassLevelInput) {
         this.previousClassLevel = previousClassLevelInput;
     }
 
