@@ -59,51 +59,57 @@ public class Bonus implements IBonus {
     private BonusValueProvider dynamicValueProvider;
 
     /**
-     * @return the value
+     * {@inheritDoc}
      */
+    @Override
     public final Long getValue() {
         return value;
     }
 
     /**
-     * @param valueInput the value to set
+     * {@inheritDoc}
      */
+    @Override
     public final void setValue(final Long valueInput) {
         this.value = valueInput;
     }
 
     /**
-     * @return the bonusType
+     * {@inheritDoc}
      */
+    @Override
     public final IBonusType getBonusType() {
         return bonusType;
     }
 
     /**
-     * @param bonusTypeInput the bonusType to set
+     * {@inheritDoc}
      */
+    @Override
     public final void setBonusType(final IBonusType bonusTypeInput) {
         this.bonusType = bonusTypeInput;
     }
 
     /**
-     * @return the rank
+     * {@inheritDoc}
      */
+    @Override
     public final Long getRank() {
         return rank;
     }
 
     /**
-     * @param rankInput the rank to set
+     * {@inheritDoc}
      */
+    @Override
     public final void setRank(final Long rankInput) {
         this.rank = rankInput;
     }
 
     /**
-     *
-     * @return the cloned version of this bonus.
+     * {@inheritDoc}
      */
+    @Override
     public final IBonus makeCopy() {
         IBonus clonedBonus = new Bonus();
         clonedBonus.setBonusType(this.getBonusType());
@@ -115,8 +121,9 @@ public class Bonus implements IBonus {
     }
 
     /**
-     * @return the dynamicValueProvider
+     * {@inheritDoc}
      */
+    @Override
     public final BonusValueProvider getDynamicValueProvider() {
         return dynamicValueProvider;
     }
@@ -130,17 +137,19 @@ public class Bonus implements IBonus {
     }
 
     /**
-     * @return the target
+     * {@inheritDoc}
      */
+    @Override
     public final BonusTarget getTarget() {
         return target;
     }
 
     /**
-     * @param targetInput the target to set
+     * {@inheritDoc}
      */
-    public final void setTarget(final BonusTarget targetInput) {
-        this.target = targetInput;
+    @Override
+    public final void setTarget(final BonusTarget bonusTargetInput) {
+        this.target = bonusTargetInput;
     }
 
 }

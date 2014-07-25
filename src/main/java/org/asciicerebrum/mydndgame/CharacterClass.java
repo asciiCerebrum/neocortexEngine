@@ -64,8 +64,9 @@ public class CharacterClass implements Identifiable, IClass {
     }
 
     /**
-     * @return the hitDice
+     * {@inheritDoc}
      */
+    @Override
     public final Dice getHitDice() {
         return hitDice;
     }

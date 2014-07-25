@@ -8,24 +8,55 @@ import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueProvider;
  */
 public interface IBonus {
 
+    /**
+     * @return the dynamicValueProvider.
+     */
     BonusValueProvider getDynamicValueProvider();
-    
-    void setValue(Long value);
-    
+
+    /**
+     * @param valueInput the value to set.
+     */
+    void setValue(Long valueInput);
+
+    /**
+     * @return the value.
+     */
     Long getValue();
-    
-    void setTarget(BonusTarget bonusTarget);
-    
+
+    /**
+     * @param bonusTargetInput the target to set.
+     */
+    void setTarget(BonusTarget bonusTargetInput);
+
+    /**
+     * @return the target.
+     */
     BonusTarget getTarget();
-    
-    void setRank(Long rank);
-    
+
+    /**
+     * @param rankInput the rank to set.
+     */
+    void setRank(Long rankInput);
+
+    /**
+     * @return the rank.
+     */
     Long getRank();
-    
-    void setBonusType(IBonusType bonusType);
-    
+
+    /**
+     * @param bonusTypeInput the bonusType to set.
+     */
+    void setBonusType(IBonusType bonusTypeInput);
+
+    /**
+     * @return the bonusType.
+     */
     IBonusType getBonusType();
-    
+
+    /**
+     *
+     * @return the cloned version of this bonus.
+     */
     IBonus makeCopy();
 
 }

@@ -32,8 +32,9 @@ public class Dice implements IDice {
     }
 
     /**
-     * @return the sides
+     * {@inheritDoc}
      */
+    @Override
     public final int getSides() {
         return sides;
     }

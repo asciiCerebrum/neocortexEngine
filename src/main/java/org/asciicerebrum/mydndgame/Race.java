@@ -57,15 +57,17 @@ public class Race implements IRace {
     }
 
     /**
-     * @return the providedBodySlotTypes
+     * {@inheritDoc}
      */
+    @Override
     public final List<IBodySlotType> getProvidedBodySlotTypes() {
         return providedBodySlotTypes;
     }
 
     /**
-     * @param providedBodySlotTypesInput the providedBodySlotTypes to set
+     * {@inheritDoc}
      */
+    @Override
     public final void setProvidedBodySlotTypes(
             final List<IBodySlotType> providedBodySlotTypesInput) {
         this.providedBodySlotTypes = providedBodySlotTypesInput;

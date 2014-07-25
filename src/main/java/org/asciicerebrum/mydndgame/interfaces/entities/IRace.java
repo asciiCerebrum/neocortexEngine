@@ -8,8 +8,14 @@ import java.util.List;
  */
 public interface IRace {
 
+    /**
+     * @return the providedBodySlotTypes.
+     */
     List<IBodySlotType> getProvidedBodySlotTypes();
 
+    /**
+     * @param providedBodySlotTypesInput the providedBodySlotTypes to set.
+     */
     void setProvidedBodySlotTypes(
             List<IBodySlotType> providedBodySlotTypesInput);
 

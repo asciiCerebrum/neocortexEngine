@@ -31,7 +31,7 @@ public class AbilityBonusValueProvider implements BonusValueProvider {
     public final Long getDynamicValue(final BonusValueContext context) {
 
         ICharacter dndCharacter = (ICharacter) context;
-        
+
         //TODO collect all boni/mali with this ability as target
         // e.g. sicknesses can give a -4 malus on Constitution.
         // or some potions can grant a +4 bonus on Dexterity (Cat's Grace)

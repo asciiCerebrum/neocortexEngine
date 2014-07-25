@@ -6,5 +6,8 @@ package org.asciicerebrum.mydndgame.interfaces.entities;
  */
 public interface IClass extends Identifiable {
 
+    /**
+     * @return the hitDice.
+     */
     IDice getHitDice();
 }

@@ -31,11 +31,9 @@ public class ClassLevel implements ILevel {
     private ClassLevel previousClassLevel;
 
     /**
-     *
-     * @param rank the rank of the base attack bonus. E.g. when you have
-     * +10/+5/+1 then the bonus +5 is of rank 1, as rank starts with 0.
-     * @return the one base attack bonus of the given rank.
+     * {@inheritDoc}
      */
+    @Override
     public final IBonus getBaseAtkBonusByRank(final Long rank) {
         for (IBonus bonus : baseAtkBoni) {
             if (bonus.getRank().equals(rank)) {
@@ -46,12 +44,9 @@ public class ClassLevel implements ILevel {
     }
 
     /**
-     * Calculate the difference of base attack bonus of given rank of this level
-     * and the previous one.
-     *
-     * @param rank the rank of the class level in question.
-     * @return the difference of base attack boni.
+     * {@inheritDoc}
      */
+    @Override
     public final Long getBaseAtkBonusValueDeltaByRank(final Long rank) {
         IBonus currentBonus = this.getBaseAtkBonusByRank(rank);
         Long deltaValue = currentBonus.getValue();
@@ -83,8 +78,9 @@ public class ClassLevel implements ILevel {
     }
 
     /**
-     * @return the baseAtkBoni
+     * {@inheritDoc}
      */
+    @Override
     public final List<IBonus> getBaseAtkBoni() {
         return baseAtkBoni;
     }

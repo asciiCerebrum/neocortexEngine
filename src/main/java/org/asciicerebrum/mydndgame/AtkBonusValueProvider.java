@@ -22,7 +22,7 @@ public class AtkBonusValueProvider implements BonusValueProvider {
     public final Long getDynamicValue(final BonusValueContext context) {
 
         DndCharacter dndCharacter = (DndCharacter) context;
-        
+
         Long totalBonus = 0L;
         for (ILevel cLevel : dndCharacter.getClassLevels()) {
 
