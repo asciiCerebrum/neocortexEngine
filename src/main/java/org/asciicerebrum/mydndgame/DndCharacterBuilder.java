@@ -4,6 +4,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
 import org.asciicerebrum.mydndgame.interfaces.entities.ILevel;
+import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
 import org.springframework.context.ApplicationContext;
 
@@ -108,6 +109,11 @@ public class DndCharacterBuilder {
                 Feat feat = this.context.getBean(
                         advance.getFeatName(), Feat.class);
                 dndCharacter.getFeats().add(feat);
+
+                // registering feat hooks
+                for (IObserver observer : feat.getObservers()) {
+                    dndCharacter.registerListener(observer.getHook(), observer);
+                }
             }
         }
 

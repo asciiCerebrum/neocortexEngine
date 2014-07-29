@@ -1,9 +1,11 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.ObserverHook;
 import org.asciicerebrum.mydndgame.interfaces.services.BonusCalculationService;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +14,7 @@ import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.IClass;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
 import org.asciicerebrum.mydndgame.interfaces.entities.ILevel;
+import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import org.asciicerebrum.mydndgame.interfaces.entities.IRace;
 import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
 import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
@@ -113,6 +116,62 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
     private final List<Feat> feats = new ArrayList<Feat>();
 
     /**
+     * Holder for the observer hooks and their corresponding list of observers.
+     */
+    private final Map<ObserverHook, List<IObserver>> observerMap
+            = new EnumMap<ObserverHook, List<IObserver>>(ObserverHook.class);
+
+    /**
+     * Register an observer together with its designated hook enum.
+     *
+     * @param hook the enum hook for the given observer.
+     * @param observer the observer object registered for this hook.
+     */
+    public void registerListener(final ObserverHook hook,
+            final IObserver observer) {
+        
+        List<IObserver> hookList = this.observerMap.get(hook);
+        if (hookList == null) {
+            hookList = new ArrayList<IObserver>();
+            this.observerMap.put(hook, hookList);
+        }
+        hookList.add(observer);
+    }
+
+    /**
+     * Removes an observer from the hook's list.
+     *
+     * @param hook the enum hook for the given observer.
+     * @param observer the observer object that is to be removed.
+     */
+    public void unregisterListener(final ObserverHook hook,
+            final IObserver observer) {
+        
+        List<IObserver> hookList = this.observerMap.get(hook);
+        if (hookList != null) {
+            hookList.remove(observer);
+        }
+    }
+
+    /**
+     * Runs the list of overservers associated with the given hook.
+     *
+     * @param hook the hook to identify the correct list of observers.
+     */
+    private Object triggerObservers(final ObserverHook hook,
+            final Object object) {
+        List<IObserver> hookList = this.observerMap.get(hook);
+        if (hookList == null) {
+            return object;
+        }
+        Object modifiableObject = object;
+        for (IObserver observer : hookList) {
+            modifiableObject = observer.trigger(modifiableObject, this);
+        }
+        return modifiableObject;
+    }
+
+    /**
      * Finds the body slot by its type.
      *
      * @param bsType the type of the body slot.
@@ -169,7 +228,7 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
         // getRangedAtkBonus() and I as a player have to decide what to do with
         // the weapon in my hand (attack in melee or ranged)?
         List<Long> atkBoni = new ArrayList<Long>();
-
+        
         Weapon weapon = null;
         IInventoryItem item = this.getBodySlotByType(bodySlotType).getItem();
         if (item instanceof Weapon) {
@@ -179,15 +238,18 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
         List<IBonus> meleeBoni = this.bonusService
                 .traverseBoniByTarget(this, this.meleeAttackAction);
 
-        //TODO post processing of the bonus list, e.g. by registered feat
+        // post processing of the bonus list, e.g. by registered feat
         // methods. (observer pattern)
+        meleeBoni = (List<IBonus>) this.triggerObservers(
+                ObserverHook.MELEE_ATTACK, meleeBoni);
+        
         Long meleeBonusValue = this.bonusService.accumulateBonusValue(
                 this, meleeBoni);
-
+        
         for (IBonus baseAtkBonus : this.getBaseAtkBoni()) {
-            atkBoni.add(baseAtkBonus.getValue() + meleeBonusValue);
+            atkBoni.add(baseAtkBonus.getEffectiveValue(this) + meleeBonusValue);
         }
-
+        
         return atkBoni;
     }
 
@@ -213,7 +275,7 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
      */
     public Integer countClassLevelsByCharacterClass(
             final CharacterClass charCl) {
-
+        
         return Collections.frequency(this.getClassList(), charCl);
     }
 
@@ -226,9 +288,9 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
     @Override
     public List<IBonus> getBaseAtkBoni() {
         List<IBonus> baseAtkBoni = new ArrayList<IBonus>();
-
+        
         Long maxSize = this.getMaxAttackNumber();
-
+        
         for (IBonus potentialBonus : this.getBoni()) {
             if (potentialBonus.getBonusType().equals(
                     this.getBaseAttackBonus())) {
@@ -241,7 +303,7 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
 
         // make a sublist of size maxSize
         baseAtkBoni = baseAtkBoni.subList(0, maxSize.intValue());
-
+        
         return baseAtkBoni;
     }
 
@@ -298,9 +360,9 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
      */
     @Override
     public Long getMaxHp() {
-
+        
         Long maxHp = 0L;
-
+        
         for (int i = 0; i < this.getClassList().size(); i++) {
             // in case of null use max hp addition, defined by
             // the class' hitdice
@@ -309,13 +371,13 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
             } else {
                 maxHp += this.getClassList().get(i).getHitDice().getSides();
             }
-
+            
         }
         // hp add con-modifier for each class level
         maxHp += this.getClassList().size()
                 * this.bonusService.retrieveEffectiveBonusValueByTarget(
                         this, this, this.hp);
-
+        
         return maxHp;
     }
 

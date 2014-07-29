@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.interfaces.entities;
 
+import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
 import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueProvider;
 
 /**
@@ -58,5 +59,14 @@ public interface IBonus {
      * @return the cloned version of this bonus.
      */
     IBonus makeCopy();
+
+    /**
+     * Use either the constant value of the bonus or (if null) the dynamic
+     * value.
+     *
+     * @param context the context for the dynamic version.
+     * @return either the constant or dynamic value.
+     */
+    Long getEffectiveValue(BonusValueContext context);
 
 }

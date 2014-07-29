@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Comparator;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonusType;
+import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
 
 /**
  *
@@ -150,6 +151,21 @@ public class Bonus implements IBonus {
     @Override
     public final void setTarget(final BonusTarget bonusTargetInput) {
         this.target = bonusTargetInput;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final Long getEffectiveValue(final BonusValueContext context) {
+
+        if (this.value != null) {
+            return this.value;
+        }
+        if (this.getDynamicValueProvider() != null) {
+            return this.getDynamicValueProvider().getDynamicValue(context);
+        }
+        return null;
     }
 
 }

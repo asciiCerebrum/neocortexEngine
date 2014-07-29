@@ -167,8 +167,9 @@ public class CharacterSetup implements ICharacterSetup {
     }
 
     /**
-     * @return the stateRegistry
+     * {@inheritDoc}
      */
+    @Override
     public final Map<String, Object> getStateRegistry() {
         return stateRegistry;
     }

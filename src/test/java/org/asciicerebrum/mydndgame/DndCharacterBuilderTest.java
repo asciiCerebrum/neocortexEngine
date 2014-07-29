@@ -47,8 +47,11 @@ public class DndCharacterBuilderTest {
 
         this.setup.setRace("someRace");
         this.setup.getBaseAbilityMap().put("someAbility", 10L);
-        this.setup.getLevelAdvancementStack().add(new LevelAdvancement("someClass",
-                5L, null, "someFeat"));
+        this.setup.getLevelAdvancementStack().add(
+                new LevelAdvancement()
+                .setClassName("someClass")
+                .setHpAddition(5L)
+                .setFeatName("someFeat"));
         this.setup.getPossessionContainer().put("someItem", "someBodySlotType");
 
         Race race = new Race();
@@ -135,8 +138,10 @@ public class DndCharacterBuilderTest {
     @Test
     public void testBlankFeatName() {
         this.setup.getLevelAdvancementStack().clear();
-        this.setup.getLevelAdvancementStack().add(new LevelAdvancement("someClass",
-                5L, null, null));
+        this.setup.getLevelAdvancementStack().add(
+                new LevelAdvancement()
+                .setClassName("someClass")
+                .setHpAddition(5L));
 
         DndCharacter character = this.dndCharacterBuilder.build();
 

@@ -24,4 +24,8 @@
         <property name="id" value="conBonus" />
     </bean>
 
+    <bean id="powerAttackBonus" class="org.asciicerebrum.mydndgame.BonusType">
+        <property name="id" value="powerAttackBonus" />
+    </bean>
+
 </beans>

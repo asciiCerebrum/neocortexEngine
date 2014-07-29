@@ -9,36 +9,19 @@ public class LevelAdvancement {
     /**
      * The class name of the associated character class of this advancement.
      */
-    private final String className;
+    private String className;
     /**
      * How many hit points are gained in this advancement.
      */
-    private final Long hpAddition;
+    private Long hpAddition;
     /**
      * The name of the ability that gains one more point in this advancement.
      */
-    private final String abilityName;
+    private String abilityName;
     /**
      * The name of the feat that is acquired in this advancement.
      */
-    private final String featName;
-
-    /**
-     *
-     * @param classNameInput the name of the character class.
-     * @param hpAdditionInput the additional number of hit points.
-     * @param abilityNameInput the name of the ability that gains 1 point.
-     * @param featNameInput the name of the additional feat that is acquired.
-     */
-    //TODO change to fluid interface
-    public LevelAdvancement(final String classNameInput,
-            final Long hpAdditionInput, final String abilityNameInput,
-            final String featNameInput) {
-        this.className = classNameInput;
-        this.hpAddition = hpAdditionInput;
-        this.abilityName = abilityNameInput;
-        this.featName = featNameInput;
-    }
+    private String featName;
 
     /**
      * @return the className
@@ -67,4 +50,42 @@ public class LevelAdvancement {
     public final String getFeatName() {
         return featName;
     }
+
+    /**
+     * @param classNameInput the className to set
+     * @return this instance.
+     */
+    public final LevelAdvancement setClassName(final String classNameInput) {
+        this.className = classNameInput;
+        return this;
+    }
+
+    /**
+     * @param hpAdditionInput the hpAddition to set
+     * @return this instance.
+     */
+    public final LevelAdvancement setHpAddition(final Long hpAdditionInput) {
+        this.hpAddition = hpAdditionInput;
+        return this;
+    }
+
+    /**
+     * @param abilityNameInput the abilityName to set
+     * @return this instance.
+     */
+    public final LevelAdvancement setAbilityName(
+            final String abilityNameInput) {
+        this.abilityName = abilityNameInput;
+        return this;
+    }
+
+    /**
+     * @param featNameInput the featName to set
+     * @return this instance.
+     */
+    public final LevelAdvancement setFeatName(final String featNameInput) {
+        this.featName = featNameInput;
+        return this;
+    }
+
 }

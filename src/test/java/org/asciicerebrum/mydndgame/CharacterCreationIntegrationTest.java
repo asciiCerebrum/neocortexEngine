@@ -76,9 +76,13 @@ public class CharacterCreationIntegrationTest {
         setupHarsk.getBaseAbilityMap().put("wis", 10L);
         setupHarsk.getBaseAbilityMap().put("cha", 8L);
         setupHarsk.getLevelAdvancementStack().add(
-                new LevelAdvancement(CLASS_FIGHTER, null, null, "powerAttack"));
+                new LevelAdvancement()
+                .setClassName(CLASS_FIGHTER)
+                .setFeatName("powerAttack"));
         setupHarsk.getLevelAdvancementStack().add(
-                new LevelAdvancement(CLASS_FIGHTER, 7L, null, null));
+                new LevelAdvancement()
+                .setClassName(CLASS_FIGHTER)
+                .setHpAddition(7L));
         setupHarsk.getPossessionContainer().put(AXE4HARSK_ID, PRIMARY_HAND_TYPE);
         setupHarsk.getStateRegistry().put("powerAttackValue", 1L); // first parameter is the stateKey, which is defined in the feat bean, as well as the type of the value - here Long
 
@@ -92,7 +96,9 @@ public class CharacterCreationIntegrationTest {
         setupValeros.getBaseAbilityMap().put("wis", 11L);
         setupValeros.getBaseAbilityMap().put("cha", 10L);
         setupValeros.getLevelAdvancementStack().add(
-                new LevelAdvancement(CLASS_FIGHTER, null, null, FEAT_WEAPON_FINESSE));
+                new LevelAdvancement()
+                .setClassName(CLASS_FIGHTER)
+                .setFeatName(FEAT_WEAPON_FINESSE));
         setupValeros.getPossessionContainer().put(RAPIER4VALEROS_ID, PRIMARY_HAND_TYPE);
         setupValeros.getPossessionContainer().put(DAGGER4VALEROS_ID, "secondaryHand");
         setupValeros.getStateRegistry().put("weaponFinesseMode." + RAPIER4VALEROS_ID, "true"); // this must not be directly saved at the weapon; stateKey and value type Weapon (or String?)
@@ -186,7 +192,10 @@ public class CharacterCreationIntegrationTest {
         List<Long> meleeAtkBoni
                 = this.harsk.getMeleeAtkBonus(this.primaryHand);
 
-        assertEquals(Long.valueOf(3), meleeAtkBoni.get(0));
+        // base atk of fighter lvl 2
+        // str 13 -> +1
+        // power attack +1
+        assertEquals(Long.valueOf(4), meleeAtkBoni.get(0));
     }
 
     //TODO Melee Attack Bonus (dynamic str bonus)

@@ -6,6 +6,16 @@
 
     <bean id="powerAttack" class="org.asciicerebrum.mydndgame.Feat">
         <property name="id" value="powerAttack" />
+        <property name="observers">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.AddBonusObserver">
+                    <property name="hook" value="MELEE_ATTACK" />
+                    <property name="bonusType" ref="powerAttackBonus" />
+                    <property name="registryKey" value="powerAttackValue" />
+                    <property name="bonusTarget" ref="meleeAttack" />
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <bean id="weaponFinesse" class="org.asciicerebrum.mydndgame.Feat">
