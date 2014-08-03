@@ -19,4 +19,9 @@ public interface IRace {
     void setProvidedBodySlotTypes(
             List<IBodySlotType> providedBodySlotTypesInput);
 
+    /**
+     * @return the size.
+     */
+    ISizeCategory getSize();
+
 }

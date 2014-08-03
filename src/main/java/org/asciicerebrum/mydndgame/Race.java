@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IRace;
+import org.asciicerebrum.mydndgame.interfaces.entities.ISizeCategory;
 
 /**
  *
@@ -43,9 +44,10 @@ public class Race implements IRace {
     }
 
     /**
-     * @return the size
+     * {@inheritDoc}
      */
-    public final SizeCategory getSize() {
+    @Override
+    public final ISizeCategory getSize() {
         return size;
     }
 

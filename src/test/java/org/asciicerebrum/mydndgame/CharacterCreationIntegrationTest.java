@@ -184,7 +184,9 @@ public class CharacterCreationIntegrationTest {
         List<Long> meleeAtkBoni
                 = this.valeros.getMeleeAtkBonus(this.primaryHand);
 
-        assertEquals(Long.valueOf(2), meleeAtkBoni.get(0));
+        // base atk of fighter lvl 1: 1
+        // dex 9 instead of str 12 due to weapon finesse: -1
+        assertEquals(Long.valueOf(0), meleeAtkBoni.get(0));
     }
 
     @Test

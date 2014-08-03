@@ -69,4 +69,14 @@ public interface IBonus {
      */
     Long getEffectiveValue(BonusValueContext context);
 
+    /**
+     * Works similar to equals. Two boni resemble each other if a specific list
+     * of attributes are equal. Equality by reference must be contained so we do
+     * not overwrite the equals method!
+     *
+     * @param bonus the bonus to test the resemblance with.
+     * @return true if all attributes match. False otherwise.
+     */
+    Boolean resembles(IBonus bonus);
+
 }

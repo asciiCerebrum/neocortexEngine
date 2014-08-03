@@ -15,6 +15,25 @@ import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
 public class Bonus implements IBonus {
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final Boolean resembles(final IBonus bonus) {
+        if (!bonus.getBonusType().equals(this.getBonusType())) {
+            return Boolean.FALSE;
+        }
+        if (!bonus.getTarget().equals(this.getTarget())) {
+            return Boolean.FALSE;
+        }
+        if (!bonus.getDynamicValueProvider().equals(
+                this.getDynamicValueProvider())) {
+            return Boolean.FALSE;
+        }
+
+        return Boolean.TRUE;
+    }
+
+    /**
      * For sorting boni by their ranks.
      */
     public static class RankComparator implements Comparator<IBonus>,

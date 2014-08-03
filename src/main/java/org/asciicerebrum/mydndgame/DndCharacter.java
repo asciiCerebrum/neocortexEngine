@@ -10,12 +10,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.asciicerebrum.mydndgame.interfaces.entities.IAbility;
+import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.IClass;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
 import org.asciicerebrum.mydndgame.interfaces.entities.ILevel;
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import org.asciicerebrum.mydndgame.interfaces.entities.IRace;
+import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
 import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
 
@@ -129,7 +131,7 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
      */
     public void registerListener(final ObserverHook hook,
             final IObserver observer) {
-        
+
         List<IObserver> hookList = this.observerMap.get(hook);
         if (hookList == null) {
             hookList = new ArrayList<IObserver>();
@@ -146,7 +148,7 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
      */
     public void unregisterListener(final ObserverHook hook,
             final IObserver observer) {
-        
+
         List<IObserver> hookList = this.observerMap.get(hook);
         if (hookList != null) {
             hookList.remove(observer);
@@ -157,27 +159,29 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
      * Runs the list of overservers associated with the given hook.
      *
      * @param hook the hook to identify the correct list of observers.
+     * @param object the object to modify and return again.
+     * @param sitCon the situation context needed to make the correct
+     * modifications.
+     * @return the modified object.
      */
     private Object triggerObservers(final ObserverHook hook,
-            final Object object) {
+            final Object object, final ISituationContext sitCon) {
         List<IObserver> hookList = this.observerMap.get(hook);
         if (hookList == null) {
             return object;
         }
         Object modifiableObject = object;
         for (IObserver observer : hookList) {
-            modifiableObject = observer.trigger(modifiableObject, this);
+            modifiableObject = observer.trigger(modifiableObject, sitCon);
         }
         return modifiableObject;
     }
 
     /**
-     * Finds the body slot by its type.
-     *
-     * @param bsType the type of the body slot.
-     * @return the found body slot or null if nothing was found.
+     * {@inheritDoc}
      */
-    public Slotable getBodySlotByType(final BodySlotType bsType) {
+    @Override
+    public Slotable getBodySlotByType(final IBodySlotType bsType) {
         for (Slotable bSlot : this.bodySlots) {
             if (bSlot.getBodySlotType().equals(bsType)) {
                 return bSlot;
@@ -228,7 +232,7 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
         // getRangedAtkBonus() and I as a player have to decide what to do with
         // the weapon in my hand (attack in melee or ranged)?
         List<Long> atkBoni = new ArrayList<Long>();
-        
+
         Weapon weapon = null;
         IInventoryItem item = this.getBodySlotByType(bodySlotType).getItem();
         if (item instanceof Weapon) {
@@ -241,16 +245,32 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
         // post processing of the bonus list, e.g. by registered feat
         // methods. (observer pattern)
         meleeBoni = (List<IBonus>) this.triggerObservers(
-                ObserverHook.MELEE_ATTACK, meleeBoni);
-        
+                ObserverHook.MELEE_ATTACK, meleeBoni,
+                this.generateSituationContext(bodySlotType));
+
         Long meleeBonusValue = this.bonusService.accumulateBonusValue(
                 this, meleeBoni);
-        
+
         for (IBonus baseAtkBonus : this.getBaseAtkBoni()) {
             atkBoni.add(baseAtkBonus.getEffectiveValue(this) + meleeBonusValue);
         }
-        
+
         return atkBoni;
+    }
+
+    /**
+     * Generates a specific situation context by this character and all relevant
+     * active entities.
+     *
+     * @param bsType the body slot type important for context.
+     * @return the created situation context.
+     */
+    private ISituationContext generateSituationContext(
+            final IBodySlotType bsType) {
+        ISituationContext sitCon = new SituationContext();
+        sitCon.setCharacter(this);
+        sitCon.setBodySlotType(bsType);
+        return sitCon;
     }
 
     /**
@@ -275,7 +295,7 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
      */
     public Integer countClassLevelsByCharacterClass(
             final CharacterClass charCl) {
-        
+
         return Collections.frequency(this.getClassList(), charCl);
     }
 
@@ -288,9 +308,9 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
     @Override
     public List<IBonus> getBaseAtkBoni() {
         List<IBonus> baseAtkBoni = new ArrayList<IBonus>();
-        
+
         Long maxSize = this.getMaxAttackNumber();
-        
+
         for (IBonus potentialBonus : this.getBoni()) {
             if (potentialBonus.getBonusType().equals(
                     this.getBaseAttackBonus())) {
@@ -303,7 +323,7 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
 
         // make a sublist of size maxSize
         baseAtkBoni = baseAtkBoni.subList(0, maxSize.intValue());
-        
+
         return baseAtkBoni;
     }
 
@@ -360,9 +380,9 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
      */
     @Override
     public Long getMaxHp() {
-        
+
         Long maxHp = 0L;
-        
+
         for (int i = 0; i < this.getClassList().size(); i++) {
             // in case of null use max hp addition, defined by
             // the class' hitdice
@@ -371,13 +391,13 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
             } else {
                 maxHp += this.getClassList().get(i).getHitDice().getSides();
             }
-            
+
         }
         // hp add con-modifier for each class level
         maxHp += this.getClassList().size()
                 * this.bonusService.retrieveEffectiveBonusValueByTarget(
                         this, this, this.hp);
-        
+
         return maxHp;
     }
 

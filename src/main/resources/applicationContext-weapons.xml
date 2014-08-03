@@ -179,5 +179,11 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="whip" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype">        
+    </bean>
+    
+    <bean id="spikedChain" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype">
+    </bean>
                                                                                                             
 </beans>

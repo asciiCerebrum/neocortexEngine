@@ -125,4 +125,12 @@ public interface ICharacter extends BonusSource {
      */
     void setAbilityAdvances(List<IAbility> abilityAdvancesInput);
 
+    /**
+     * Finds the body slot by its type.
+     *
+     * @param bsType the type of the body slot.
+     * @return the found body slot or null if nothing was found.
+     */
+    Slotable getBodySlotByType(IBodySlotType bsType);
+
 }

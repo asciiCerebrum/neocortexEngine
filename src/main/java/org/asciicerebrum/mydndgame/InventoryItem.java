@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
+import org.asciicerebrum.mydndgame.interfaces.entities.ISizeCategory;
 
 /**
  * Abstract prototype class for everything a DND Character can carry.
@@ -50,8 +51,9 @@ public abstract class InventoryItem implements IInventoryItem {
     }
 
     /**
-     * @return the name
+     * {@inheritDoc}
      */
+    @Override
     public final String getName() {
         return name;
     }
@@ -92,9 +94,10 @@ public abstract class InventoryItem implements IInventoryItem {
     }
 
     /**
-     * @return the size
+     * {@inheritDoc}
      */
-    public final SizeCategory getSize() {
+    @Override
+    public final ISizeCategory getSize() {
         return size;
     }
 

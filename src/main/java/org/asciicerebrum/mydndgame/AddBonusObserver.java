@@ -4,7 +4,7 @@ import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonusType;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
+import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 
 /**
  *
@@ -30,10 +30,10 @@ public class AddBonusObserver extends AbstractObserver {
      */
     @Override
     public final Object trigger(final Object object,
-            final ICharacter characterContext) {
+            final ISituationContext situationContext) {
         List<IBonus> boni = (List<IBonus>) object;
 
-        Long addBonusValue = (Long) characterContext.getSetup()
+        Long addBonusValue = (Long) situationContext.getCharacter().getSetup()
                 .getStateRegistry().get(this.getRegistryKey());
 
         if (addBonusValue != null

@@ -20,6 +20,36 @@
 
     <bean id="weaponFinesse" class="org.asciicerebrum.mydndgame.Feat">
         <property name="id" value="weaponFinesse" />
+        <property name="observers">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.WeaponFinesseObserver">
+                    <property name="hook" value="MELEE_ATTACK" />
+                    <property name="registryKey" value="weaponFinesseMode" />
+                    <property name="removeBonus">
+                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                            <property name="bonusType" ref="strBonus" />
+                            <property name="target" ref="meleeAttack" />
+                            <property name="dynamicValueProvider" ref="strAbilityBonusValueProvider" />
+                        </bean>
+                    </property>
+                    <property name="replacementBonus">
+                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                            <property name="bonusType" ref="dexBonus" />
+                            <property name="target" ref="meleeAttack" />
+                            <property name="dynamicValueProvider" ref="dexAbilityBonusValueProvider" />
+                        </bean>
+                    </property>
+                    <property name="validEncumbrance" ref="light" />
+                    <property name="validWeaponPrototypes">
+                        <list>
+                            <ref bean="rapier" />
+                            <ref bean="whip" />
+                            <ref bean="spikedChain" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
     </bean>
 
 </beans>

@@ -23,9 +23,10 @@ public interface IObserver {
      * Makes the observer fulfill its destiny.
      *
      * @param object the object to act and modify on.
-     * @param characterContext the character to act upon.
+     * @param situationContext the situation (character, body slot type, etc.)
+     * to act upon.
      * @return the modified object.
      */
-    Object trigger(Object object, ICharacter characterContext);
+    Object trigger(Object object, ISituationContext situationContext);
 
 }

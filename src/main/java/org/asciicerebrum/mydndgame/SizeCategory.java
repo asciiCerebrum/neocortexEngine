@@ -4,12 +4,13 @@ import org.asciicerebrum.mydndgame.interfaces.entities.BonusSource;
 import java.util.ArrayList;
 import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
+import org.asciicerebrum.mydndgame.interfaces.entities.ISizeCategory;
 
 /**
  *
  * @author species8472
  */
-public class SizeCategory implements BonusSource {
+public class SizeCategory implements ISizeCategory, BonusSource {
 
     /**
      * The unique if of this size category. E.g. small, medium, etc.

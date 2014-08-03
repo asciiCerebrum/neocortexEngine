@@ -2,13 +2,15 @@ package org.asciicerebrum.mydndgame;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.asciicerebrum.mydndgame.interfaces.entities.IEncumbrance;
+import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 import org.springframework.context.ApplicationContext;
 
 /**
  *
  * @author species8472
  */
-public class Weapon extends InventoryItem {
+public class Weapon extends InventoryItem implements IWeapon {
 
     /**
      * The damage dice throw.
@@ -241,9 +243,10 @@ public class Weapon extends InventoryItem {
     }
 
     /**
-     * @return the encumbrance
+     * {@inheritDoc}
      */
-    public final Encumbrance getEncumbrance() {
+    @Override
+    public final IEncumbrance getEncumbrance() {
         return encumbrance;
     }
 
