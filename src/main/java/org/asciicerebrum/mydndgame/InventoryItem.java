@@ -34,7 +34,7 @@ public abstract class InventoryItem implements IInventoryItem {
     /**
      * Size category of the object.
      */
-    private SizeCategory size;
+    private ISizeCategory size;
 
     /**
      * @return the id
@@ -44,8 +44,9 @@ public abstract class InventoryItem implements IInventoryItem {
     }
 
     /**
-     * @param idInput the id to set
+     * {@inheritDoc}
      */
+    @Override
     public final void setId(final String idInput) {
         this.id = idInput;
     }
@@ -59,8 +60,9 @@ public abstract class InventoryItem implements IInventoryItem {
     }
 
     /**
-     * @param nameInput the name to set
+     * {@inheritDoc}
      */
+    @Override
     public final void setName(final String nameInput) {
         this.name = nameInput;
     }
@@ -102,9 +104,10 @@ public abstract class InventoryItem implements IInventoryItem {
     }
 
     /**
-     * @param sizeInput the size to set
+     * {@inheritDoc}
      */
-    public final void setSize(final SizeCategory sizeInput) {
+    @Override
+    public final void setSize(final ISizeCategory sizeInput) {
         this.size = sizeInput;
     }
 }

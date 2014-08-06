@@ -24,4 +24,9 @@ public interface IRace {
      */
     ISizeCategory getSize();
 
+    /**
+     * @param sizeCategory the size to set
+     */
+    void setSize(ISizeCategory sizeCategory);
+
 }

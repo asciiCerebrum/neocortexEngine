@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
+import org.asciicerebrum.mydndgame.interfaces.entities.IEncumbrance;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 
@@ -21,22 +22,22 @@ public class WeaponFinesseObserver extends AbstractObserver {
     /**
      * The valid encumbrance of the weapon to use this feat.
      */
-    private Encumbrance validEncumbrance;
+    private IEncumbrance validEncumbrance;
 
     /**
      * Valid weapons this feat is made for.
      */
-    private List<Weapon> validWeaponPrototypes;
+    private List<IWeapon> validWeaponPrototypes;
 
     /**
      * Bonus to remove from the list. Normally the STR bonus.
      */
-    private Bonus removeBonus;
+    private IBonus removeBonus;
 
     /**
      * Bonus to add to the list. Normally the DEX bonus.
      */
-    private Bonus replacementBonus;
+    private IBonus replacementBonus;
 
     /**
      * {@inheritDoc}
@@ -68,7 +69,7 @@ public class WeaponFinesseObserver extends AbstractObserver {
         Iterator<IBonus> boniIterator = boni.iterator();
         while (boniIterator.hasNext()) {
             IBonus bonus = boniIterator.next();
-            if (bonus.resembles(this.getRemoveBonus())) {
+            if (this.getRemoveBonus().resembles(bonus)) {
                 boniIterator.remove();
             }
         }
@@ -101,7 +102,7 @@ public class WeaponFinesseObserver extends AbstractObserver {
         }
 
         // test specific name
-        for (Weapon prototype : this.getValidWeaponPrototypes()) {
+        for (IWeapon prototype : this.getValidWeaponPrototypes()) {
             if (prototype.getName().equals(usedWeapon.getName())) {
                 return Boolean.TRUE;
             }
@@ -128,7 +129,7 @@ public class WeaponFinesseObserver extends AbstractObserver {
     /**
      * @return the validEncumbrance
      */
-    public final Encumbrance getValidEncumbrance() {
+    public final IEncumbrance getValidEncumbrance() {
         return validEncumbrance;
     }
 
@@ -136,14 +137,14 @@ public class WeaponFinesseObserver extends AbstractObserver {
      * @param validEncumbranceInput the validEncumbrance to set
      */
     public final void setValidEncumbrance(
-            final Encumbrance validEncumbranceInput) {
+            final IEncumbrance validEncumbranceInput) {
         this.validEncumbrance = validEncumbranceInput;
     }
 
     /**
      * @return the validWeaponPrototypes
      */
-    public final List<Weapon> getValidWeaponPrototypes() {
+    public final List<IWeapon> getValidWeaponPrototypes() {
         return validWeaponPrototypes;
     }
 
@@ -151,35 +152,35 @@ public class WeaponFinesseObserver extends AbstractObserver {
      * @param validWeaponPrototypesInput the validWeaponPrototypes to set
      */
     public final void setValidWeaponPrototypes(
-            final List<Weapon> validWeaponPrototypesInput) {
+            final List<IWeapon> validWeaponPrototypesInput) {
         this.validWeaponPrototypes = validWeaponPrototypesInput;
     }
 
     /**
      * @return the removeBonus
      */
-    public final Bonus getRemoveBonus() {
+    public final IBonus getRemoveBonus() {
         return removeBonus;
     }
 
     /**
      * @param removeBonusInput the removeBonus to set
      */
-    public final void setRemoveBonus(final Bonus removeBonusInput) {
+    public final void setRemoveBonus(final IBonus removeBonusInput) {
         this.removeBonus = removeBonusInput;
     }
 
     /**
      * @return the replacementBonus
      */
-    public final Bonus getReplacementBonus() {
+    public final IBonus getReplacementBonus() {
         return replacementBonus;
     }
 
     /**
      * @param replacementBonusInput the replacementBonus to set
      */
-    public final void setReplacementBonus(final Bonus replacementBonusInput) {
+    public final void setReplacementBonus(final IBonus replacementBonusInput) {
         this.replacementBonus = replacementBonusInput;
     }
 

@@ -44,7 +44,7 @@ public class Weapon extends InventoryItem implements IWeapon {
     /**
      * Unarmed, light, one-handed or two-handed.
      */
-    private Encumbrance encumbrance;
+    private IEncumbrance encumbrance;
 
     /**
      * Simple, martial or exotic.
@@ -251,9 +251,10 @@ public class Weapon extends InventoryItem implements IWeapon {
     }
 
     /**
-     * @param encumbranceInput the encumbrance to set
+     * {@inheritDoc}
      */
-    public final void setEncumbrance(final Encumbrance encumbranceInput) {
+    @Override
+    public final void setEncumbrance(final IEncumbrance encumbranceInput) {
         this.encumbrance = encumbranceInput;
     }
 

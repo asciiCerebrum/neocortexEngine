@@ -21,7 +21,7 @@ public class Race implements IRace {
      * The sizeCategory which is associated with this race.
      */
     @BonusGranter
-    private SizeCategory size;
+    private ISizeCategory size;
 
     /**
      * All the body slots this race is providing.
@@ -52,9 +52,10 @@ public class Race implements IRace {
     }
 
     /**
-     * @param sizeInput the size to set
+     * {@inheritDoc}
      */
-    public final void setSize(final SizeCategory sizeInput) {
+    @Override
+    public final void setSize(final ISizeCategory sizeInput) {
         this.size = sizeInput;
     }
 

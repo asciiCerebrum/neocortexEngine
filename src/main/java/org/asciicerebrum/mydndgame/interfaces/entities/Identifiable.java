@@ -12,4 +12,9 @@ public interface Identifiable {
      */
     String getId();
 
+    /**
+     * @param id the id to set
+     */
+    void setId(String id);
+
 }

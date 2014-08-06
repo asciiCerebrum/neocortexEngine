@@ -12,8 +12,18 @@ public interface IInventoryItem extends Identifiable {
     String getName();
 
     /**
+     * @param name the name to set
+     */
+    void setName(String name);
+
+    /**
      * @return the size
      */
     ISizeCategory getSize();
+
+    /**
+     * @param sizeCategory the size to set
+     */
+    void setSize(ISizeCategory sizeCategory);
 
 }

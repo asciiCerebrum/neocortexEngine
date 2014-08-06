@@ -11,4 +11,9 @@ public interface IWeapon extends IInventoryItem, Identifiable {
      */
     IEncumbrance getEncumbrance();
 
+    /**
+     * @param encumbrance the encumbrance to set
+     */
+    void setEncumbrance(IEncumbrance encumbrance);
+
 }

@@ -15,6 +15,31 @@ import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
 public class Bonus implements IBonus {
 
     /**
+     * The value of the bonus.
+     */
+    private Long value;
+    /**
+     * The rank for the bonus. rank for multiple boni in a row, e.g. base attack
+     * boni +2/+1 and the like; rank start from 0
+     */
+    private Long rank;
+    /**
+     * The type of the bonus. E.g. size bonus.
+     */
+    private IBonusType bonusType;
+    /**
+     * The target where the bonus is applied. E.g. attack rolls.
+     */
+    private BonusTarget target;
+    /**
+     * The provider class for a dynamically calculated bonus value. For dynamic
+     * bonus values, e.g. the dex-bonus on ac is dynamic because it depends on
+     * the dex-value and so on the dex modifier, which is calculated. dynamic
+     * value has priority over static one.
+     */
+    private BonusValueProvider dynamicValueProvider;
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -52,31 +77,6 @@ public class Bonus implements IBonus {
             return o1.getRank().compareTo(o2.getRank());
         }
     }
-
-    /**
-     * The value of the bonus.
-     */
-    private Long value;
-    /**
-     * The rank for the bonus. rank for multiple boni in a row, e.g. base attack
-     * boni +2/+1 and the like; rank start from 0
-     */
-    private Long rank;
-    /**
-     * The type of the bonus. E.g. size bonus.
-     */
-    private IBonusType bonusType;
-    /**
-     * The target where the bonus is applied. E.g. attack rolls.
-     */
-    private BonusTarget target;
-    /**
-     * The provider class for a dynamically calculated bonus value. For dynamic
-     * bonus values, e.g. the dex-bonus on ac is dynamic because it depends on
-     * the dex-value and so on the dex modifier, which is calculated. dynamic
-     * value has priority over static one.
-     */
-    private BonusValueProvider dynamicValueProvider;
 
     /**
      * {@inheritDoc}
