@@ -38,7 +38,7 @@ public class AddBonusObserver extends AbstractObserver {
 
         if (addBonusValue != null
                 && addBonusValue != 0L) {
-            Bonus addBonus = new Bonus();
+            IBonus addBonus = new Bonus();
             addBonus.setBonusType(this.getBonusType());
             addBonus.setTarget(this.getBonusTarget());
             addBonus.setValue(addBonusValue);
