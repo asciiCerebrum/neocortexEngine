@@ -15,6 +15,11 @@ public interface IBonus {
     BonusValueProvider getDynamicValueProvider();
 
     /**
+     * @param dynamicValueProvider the dynamicValueProvider to set
+     */
+    void setDynamicValueProvider(BonusValueProvider dynamicValueProvider);
+
+    /**
      * @param valueInput the value to set.
      */
     void setValue(Long valueInput);
@@ -55,6 +60,8 @@ public interface IBonus {
     IBonusType getBonusType();
 
     /**
+     * Makes a clone of the bonus which resembles it. That means the clones
+     * passes the resembles test.
      *
      * @return the cloned version of this bonus.
      */

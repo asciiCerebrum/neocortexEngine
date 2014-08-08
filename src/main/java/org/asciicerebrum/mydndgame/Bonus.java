@@ -4,6 +4,7 @@ import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
 import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueProvider;
 import java.io.Serializable;
 import java.util.Comparator;
+import org.apache.commons.lang.ObjectUtils;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonusType;
 import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
@@ -44,14 +45,70 @@ public class Bonus implements IBonus {
      */
     @Override
     public final Boolean resembles(final IBonus bonus) {
-        if (!bonus.getBonusType().equals(this.getBonusType())) {
+        return this.resemblesValue(bonus);
+    }
+
+    /**
+     * 1st test in chain of resemblance.
+     *
+     * @param bonus the bonus.
+     * @return false or further delegate result.
+     */
+    private Boolean resemblesValue(final IBonus bonus) {
+        if (!ObjectUtils.equals(this.getValue(), bonus.getValue())) {
             return Boolean.FALSE;
         }
-        if (!bonus.getTarget().equals(this.getTarget())) {
+        return this.resemblesRank(bonus);
+    }
+
+    /**
+     * 2nd test in chain of resemblance.
+     *
+     * @param bonus the bonus.
+     * @return false or further delegate result.
+     */
+    private Boolean resemblesRank(final IBonus bonus) {
+        if (!ObjectUtils.equals(this.getRank(), bonus.getRank())) {
             return Boolean.FALSE;
         }
-        if (!bonus.getDynamicValueProvider().equals(
-                this.getDynamicValueProvider())) {
+        return this.resemblesBonusType(bonus);
+    }
+
+    /**
+     * 3rd test in chain of resemblance.
+     *
+     * @param bonus the bonus.
+     * @return false or further delegate result.
+     */
+    private Boolean resemblesBonusType(final IBonus bonus) {
+        if (!ObjectUtils.equals(bonus.getBonusType(), this.getBonusType())) {
+            return Boolean.FALSE;
+        }
+        return this.resemblesTarget(bonus);
+    }
+
+    /**
+     * 4th test in chain of resemblance.
+     *
+     * @param bonus the bonus.
+     * @return false or further delegate result.
+     */
+    private Boolean resemblesTarget(final IBonus bonus) {
+        if (!ObjectUtils.equals(bonus.getTarget(), this.getTarget())) {
+            return Boolean.FALSE;
+        }
+        return this.resemblesDynamicValueProvider(bonus);
+    }
+
+    /**
+     * 5th test in chain of resemblance.
+     *
+     * @param bonus the bonus.
+     * @return false or further delegate result, which is true in this case.
+     */
+    private Boolean resemblesDynamicValueProvider(final IBonus bonus) {
+        if (!ObjectUtils.equals(this.getDynamicValueProvider(),
+                bonus.getDynamicValueProvider())) {
             return Boolean.FALSE;
         }
 
@@ -136,6 +193,7 @@ public class Bonus implements IBonus {
         clonedBonus.setRank(this.getRank());
         clonedBonus.setTarget(this.getTarget());
         clonedBonus.setValue(this.getValue());
+        clonedBonus.setDynamicValueProvider(this.getDynamicValueProvider());
 
         return clonedBonus;
     }
@@ -149,8 +207,9 @@ public class Bonus implements IBonus {
     }
 
     /**
-     * @param dynamicValueProviderInput the dynamicValueProvider to set
+     * {@inheritDoc}
      */
+    @Override
     public final void setDynamicValueProvider(
             final BonusValueProvider dynamicValueProviderInput) {
         this.dynamicValueProvider = dynamicValueProviderInput;
