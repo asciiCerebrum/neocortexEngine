@@ -5,9 +5,12 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- service infrastructure beans -->
+    <bean id="observableDelegate"
+          class="org.asciicerebrum.mydndgame.DefaultObservableDelegate" />
+
     <bean id="bonusCalculationService"
-          class="org.asciicerebrum.mydndgame.DefaultBonusCalculationServiceImpl" />
-    
+              class="org.asciicerebrum.mydndgame.DefaultBonusCalculationServiceImpl" />
+
     <bean id="strAbilityBonusValueProvider"
           class="org.asciicerebrum.mydndgame.AbilityBonusValueProvider">
         <property name="ability" ref="str" />
@@ -48,6 +51,7 @@
     <import resource="applicationContext-sizeCategories.xml"/>
     <import resource="applicationContext-abilities.xml"/>
     <import resource="applicationContext-characterClasses.xml"/>
+    <import resource="applicationContext-weaponSpecialAbilities.xml"/>
     <import resource="applicationContext-weapons.xml"/>
     <import resource="applicationContext-races.xml"/>
     <import resource="applicationContext-feats.xml"/>

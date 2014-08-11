@@ -6,6 +6,7 @@ import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.IClass;
+import org.asciicerebrum.mydndgame.interfaces.observing.ObservableDelegate;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -24,6 +25,9 @@ public class DndCharacterTest {
 
     @Mock
     private BonusCalculationService bcService;
+    
+    @Mock
+    private ObservableDelegate observableDelegate;
 
     private DndCharacter testChar;
     private BodySlotType bodySlot;
@@ -125,6 +129,7 @@ public class DndCharacterTest {
         this.testChar.getHpAdditionList().add(Long.valueOf(HIT_DICE));
         this.testChar.getHpAdditionList().add(ADDITIONAL_HP);
         this.testChar.setBonusService(this.bcService);
+        this.testChar.setObservableDelegate(this.observableDelegate);
         this.testChar.getBoni().add(baseAtkBonus2_1);
         this.testChar.getBoni().add(baseAtkBonus2_2);
         this.testChar.getClassLevels().add(cLevel1);

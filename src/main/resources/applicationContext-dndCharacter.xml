@@ -6,6 +6,7 @@
 
     <bean id="dndCharacter" class="org.asciicerebrum.mydndgame.DndCharacter" scope="prototype">
         <property name="bonusService" ref="bonusCalculationService" />
+        <property name="observableDelegate" ref="observableDelegate" />
         <property name="hp" ref="hp" />
         <property name="acAction" ref="ac" />
         <property name="attackAction" ref="attack" />

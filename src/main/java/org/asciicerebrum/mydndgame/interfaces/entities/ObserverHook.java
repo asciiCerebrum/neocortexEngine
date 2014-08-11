@@ -13,6 +13,10 @@ public enum ObserverHook {
     /**
      * The melee attack action.
      */
-    MELEE_ATTACK;
+    MELEE_ATTACK,
+    /**
+     * For the price calculation.
+     */
+    PRICE;
 
 }

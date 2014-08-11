@@ -1,6 +1,7 @@
-package org.asciicerebrum.mydndgame;
+package org.asciicerebrum.mydndgame.observers;
 
 import java.util.List;
+import org.asciicerebrum.mydndgame.Bonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonusType;

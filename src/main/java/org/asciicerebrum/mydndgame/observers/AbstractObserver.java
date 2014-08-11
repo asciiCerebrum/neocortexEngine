@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame;
+package org.asciicerebrum.mydndgame.observers;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import org.asciicerebrum.mydndgame.interfaces.entities.ObserverHook;

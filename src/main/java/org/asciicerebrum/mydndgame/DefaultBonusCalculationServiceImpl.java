@@ -85,34 +85,40 @@ public class DefaultBonusCalculationServiceImpl
                     bonusSource.getBoni(), target));
         }
 
-        for (Field field : source.getClass().getDeclaredFields()) {
+        Class currentClass = source.getClass();
 
-            if (!field.isAnnotationPresent(BonusGranter.class)) {
-                continue;
+        // traverse all fields and all the fields from the superclasses!
+        while (currentClass != null) {
+            for (Field field : currentClass.getDeclaredFields()) {
+
+                if (!field.isAnnotationPresent(BonusGranter.class)) {
+                    continue;
+                }
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("Found field: " + field.getName());
+                }
+                try {
+                    Method getter = source.getClass().getMethod(
+                            "get" + StringUtils.capitalize(field.getName()));
+
+                    // invoke getter of annotated field
+                    Object getterResult = getter.invoke(source);
+
+                    this.traversePerField(field, getterResult,
+                            traversedBoni, target);
+
+                } catch (NoSuchMethodException ex) {
+                    LOGGER.error("Annotated field does not have an associated"
+                            + " getter.", ex);
+                } catch (IllegalAccessException ex) {
+                    LOGGER.error("Access to getter of annotated field "
+                            + "found to be illegal.", ex);
+                } catch (InvocationTargetException ex) {
+                    LOGGER.error("Invocation of getter of annotated field "
+                            + "seems problematic.", ex);
+                }
             }
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Found field: " + field.getName());
-            }
-            try {
-                Method getter = source.getClass().getMethod(
-                        "get" + StringUtils.capitalize(field.getName()));
-
-                // invoke getter of annotated field
-                Object getterResult = getter.invoke(source);
-
-                this.traversePerField(field, getterResult,
-                        traversedBoni, target);
-
-            } catch (NoSuchMethodException ex) {
-                LOGGER.error("Annotated field does not have an associated"
-                        + " getter.", ex);
-            } catch (IllegalAccessException ex) {
-                LOGGER.error("Access to getter of annotated field "
-                        + "found to be illegal.", ex);
-            } catch (InvocationTargetException ex) {
-                LOGGER.error("Invocation of getter of annotated field "
-                        + "seems problematic.", ex);
-            }
+            currentClass = currentClass.getSuperclass();
         }
         return traversedBoni;
     }

@@ -1,5 +1,8 @@
 package org.asciicerebrum.mydndgame;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author species8472
@@ -18,6 +21,10 @@ public class WeaponSetup {
      * The size category of this weapon.
      */
     private String sizeCategory;
+    /**
+     * Mwk, magic, material like cold iron etc.
+     */
+    private List<String> specialAbilities = new ArrayList<String>();
 
     /**
      * @return the id
@@ -59,6 +66,21 @@ public class WeaponSetup {
      */
     public final void setSizeCategory(final String sizeCategoryInput) {
         this.sizeCategory = sizeCategoryInput;
+    }
+
+    /**
+     * @return the weaponFeatures
+     */
+    public final List<String> getSpecialAbilities() {
+        return this.specialAbilities;
+    }
+
+    /**
+     * @param specialAbilitiesInput the weaponFeatures to set
+     */
+    public final void setSpecialAbilities(
+            final List<String> specialAbilitiesInput) {
+        this.specialAbilities = specialAbilitiesInput;
     }
 
 }

@@ -1,14 +1,23 @@
 package org.asciicerebrum.mydndgame;
 
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
+import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISizeCategory;
+import org.asciicerebrum.mydndgame.interfaces.entities.ISpecialAbility;
+import org.asciicerebrum.mydndgame.interfaces.entities.ObserverHook;
+import org.asciicerebrum.mydndgame.interfaces.observing.Observable;
+import org.asciicerebrum.mydndgame.interfaces.observing.ObservableDelegate;
 
 /**
  * Abstract prototype class for everything a DND Character can carry.
  *
  * @author species8472
  */
-public abstract class InventoryItem implements IInventoryItem {
+public abstract class InventoryItem implements IInventoryItem, Observable {
 
     /**
      * Unique id String. This is not set in the prototype spring bean
@@ -27,14 +36,34 @@ public abstract class InventoryItem implements IInventoryItem {
     private Long weight;
 
     /**
-     * Price always in gp of the object.
+     * Base price without modifications (like mwk, magic, etc.) always in gp of
+     * the object.
      */
-    private Long cost;
+    private Long baseCost;
 
     /**
      * Size category of the object.
      */
     private ISizeCategory size;
+
+    /**
+     * Collection of special abilities of this item. E.g. mwk, magical, etc.
+     */
+    @BonusGranter
+    private List<ISpecialAbility> specialAbilities
+            = new ArrayList<ISpecialAbility>();
+
+    /**
+     * Service for the handling of observable calls and registering into the
+     * hooks.
+     */
+    private ObservableDelegate observableDelegate;
+
+    /**
+     * Holder for the observer hooks and their corresponding list of observers.
+     */
+    private Map<ObserverHook, List<IObserver>> observerMap
+            = new EnumMap<ObserverHook, List<IObserver>>(ObserverHook.class);
 
     /**
      * @return the id
@@ -82,17 +111,19 @@ public abstract class InventoryItem implements IInventoryItem {
     }
 
     /**
-     * @return the cost
+     * {@inheritDoc}
      */
-    public final Long getCost() {
-        return this.cost;
+    @Override
+    public final Long getBaseCost() {
+        return this.baseCost;
     }
 
     /**
-     * @param costInput the cost to set
+     * {@inheritDoc}
      */
-    public final void setCost(final Long costInput) {
-        this.cost = costInput;
+    @Override
+    public final void setBaseCost(final Long baseCostInput) {
+        this.baseCost = baseCostInput;
     }
 
     /**
@@ -109,5 +140,67 @@ public abstract class InventoryItem implements IInventoryItem {
     @Override
     public final void setSize(final ISizeCategory sizeInput) {
         this.size = sizeInput;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final ObservableDelegate getObservableDelegate() {
+        return observableDelegate;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void setObservableDelegate(
+            final ObservableDelegate observableDelegateInput) {
+        this.observableDelegate = observableDelegateInput;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final Map<ObserverHook, List<IObserver>> getObserverMap() {
+        return observerMap;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void setObserverMap(
+            final Map<ObserverHook, List<IObserver>> observerMapInput) {
+        this.observerMap = observerMapInput;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final Long getCost() {
+        return (Long) this.getObservableDelegate()
+                .triggerObservers(
+                        ObserverHook.PRICE, this.baseCost,
+                        this.getObserverMap(), null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final List<ISpecialAbility> getSpecialAbilities() {
+        return specialAbilities;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void setSpecialAbilities(
+            final List<ISpecialAbility> specialAbilitiesInput) {
+        this.specialAbilities = specialAbilitiesInput;
     }
 }

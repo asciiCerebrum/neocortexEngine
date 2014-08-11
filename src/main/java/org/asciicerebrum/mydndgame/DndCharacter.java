@@ -19,13 +19,16 @@ import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import org.asciicerebrum.mydndgame.interfaces.entities.IRace;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
+import org.asciicerebrum.mydndgame.interfaces.observing.Observable;
+import org.asciicerebrum.mydndgame.interfaces.observing.ObservableDelegate;
 import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
 
 /**
  *
  * @author species8472
  */
-public final class DndCharacter implements ICharacter, BonusValueContext {
+public final class DndCharacter implements ICharacter, BonusValueContext,
+        Observable {
 
     /**
      * The setup for the character creation.
@@ -118,64 +121,16 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
     private final List<Feat> feats = new ArrayList<Feat>();
 
     /**
+     * Service for the handling of observable calls and registering into the
+     * hooks.
+     */
+    private ObservableDelegate observableDelegate;
+
+    /**
      * Holder for the observer hooks and their corresponding list of observers.
      */
-    private final Map<ObserverHook, List<IObserver>> observerMap
+    private Map<ObserverHook, List<IObserver>> observerMap
             = new EnumMap<ObserverHook, List<IObserver>>(ObserverHook.class);
-
-    /**
-     * Register an observer together with its designated hook enum.
-     *
-     * @param hook the enum hook for the given observer.
-     * @param observer the observer object registered for this hook.
-     */
-    public void registerListener(final ObserverHook hook,
-            final IObserver observer) {
-
-        List<IObserver> hookList = this.observerMap.get(hook);
-        if (hookList == null) {
-            hookList = new ArrayList<IObserver>();
-            this.observerMap.put(hook, hookList);
-        }
-        hookList.add(observer);
-    }
-
-    /**
-     * Removes an observer from the hook's list.
-     *
-     * @param hook the enum hook for the given observer.
-     * @param observer the observer object that is to be removed.
-     */
-    public void unregisterListener(final ObserverHook hook,
-            final IObserver observer) {
-
-        List<IObserver> hookList = this.observerMap.get(hook);
-        if (hookList != null) {
-            hookList.remove(observer);
-        }
-    }
-
-    /**
-     * Runs the list of overservers associated with the given hook.
-     *
-     * @param hook the hook to identify the correct list of observers.
-     * @param object the object to modify and return again.
-     * @param sitCon the situation context needed to make the correct
-     * modifications.
-     * @return the modified object.
-     */
-    private Object triggerObservers(final ObserverHook hook,
-            final Object object, final ISituationContext sitCon) {
-        List<IObserver> hookList = this.observerMap.get(hook);
-        if (hookList == null) {
-            return object;
-        }
-        Object modifiableObject = object;
-        for (IObserver observer : hookList) {
-            modifiableObject = observer.trigger(modifiableObject, sitCon);
-        }
-        return modifiableObject;
-    }
 
     /**
      * {@inheritDoc}
@@ -233,20 +188,25 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
         // the weapon in my hand (attack in melee or ranged)?
         List<Long> atkBoni = new ArrayList<Long>();
 
-        Weapon weapon = null;
-        IInventoryItem item = this.getBodySlotByType(bodySlotType).getItem();
-        if (item instanceof Weapon) {
-            weapon = (Weapon) item;
-        }
         // gather all non-weapon-dependent boni for melee attack
         List<IBonus> meleeBoni = this.bonusService
                 .traverseBoniByTarget(this, this.meleeAttackAction);
 
+        IInventoryItem item = this.getBodySlotByType(bodySlotType).getItem();
+        if (item instanceof Weapon) {
+            Weapon weapon = (Weapon) item;
+
+            meleeBoni.addAll(this.bonusService.traverseBoniByTarget(
+                    weapon, this.attackAction));
+        }
+
         // post processing of the bonus list, e.g. by registered feat
         // methods. (observer pattern)
-        meleeBoni = (List<IBonus>) this.triggerObservers(
-                ObserverHook.MELEE_ATTACK, meleeBoni,
-                this.generateSituationContext(bodySlotType));
+        meleeBoni = (List<IBonus>) this.getObservableDelegate()
+                .triggerObservers(
+                        ObserverHook.MELEE_ATTACK, meleeBoni,
+                        this.getObserverMap(),
+                        this.generateSituationContext(bodySlotType));
 
         Long meleeBonusValue = this.bonusService.accumulateBonusValue(
                 this, meleeBoni);
@@ -614,5 +574,39 @@ public final class DndCharacter implements ICharacter, BonusValueContext {
      */
     public void setAbilityAdvances(final List<IAbility> abilityAdvancesInput) {
         this.abilityAdvances = abilityAdvancesInput;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ObservableDelegate getObservableDelegate() {
+        return observableDelegate;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setObservableDelegate(
+            final ObservableDelegate observableDelegateInput) {
+        this.observableDelegate = observableDelegateInput;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Map<ObserverHook, List<IObserver>> getObserverMap() {
+        return observerMap;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setObserverMap(
+            final Map<ObserverHook, List<IObserver>> observerMapInput) {
+        this.observerMap = observerMapInput;
     }
 }

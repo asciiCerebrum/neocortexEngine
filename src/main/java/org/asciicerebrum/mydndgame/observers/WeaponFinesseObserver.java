@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame;
+package org.asciicerebrum.mydndgame.observers;
 
 import java.util.Iterator;
 import java.util.List;

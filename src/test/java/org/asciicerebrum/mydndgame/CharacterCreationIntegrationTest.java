@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame;
 
 import java.util.List;
+import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -24,11 +25,13 @@ public class CharacterCreationIntegrationTest {
     private static final String RAPIER4VALEROS_ID = "rapierValeros";
     private static final String DAGGER4VALEROS_ID = "mwkRapierValeros";
     private static final String PRIMARY_HAND_TYPE = "primaryHand";
+    private static final String SECONDARY_HAND_TYPE = "secondaryHand";
 
     private DndCharacter harsk;
     private DndCharacter valeros;
 
     private BodySlotType primaryHand;
+    private BodySlotType secondaryHand;
 
     @Before
     public void setUp() {
@@ -59,6 +62,7 @@ public class CharacterCreationIntegrationTest {
         dagger4ValerosSetup.setId(DAGGER4VALEROS_ID);
         dagger4ValerosSetup.setName("dagger");
         dagger4ValerosSetup.setSizeCategory("medium");
+        dagger4ValerosSetup.getSpecialAbilities().add("masterwork");
         Weapon dagger4Valeros
                 = new Weapon.Builder(dagger4ValerosSetup, context).build();
 
@@ -106,6 +110,7 @@ public class CharacterCreationIntegrationTest {
         setupValeros.getStateRegistry().put("weaponDamageMode." + DAGGER4VALEROS_ID, "slashing");
 
         this.primaryHand = context.getBean(PRIMARY_HAND_TYPE, BodySlotType.class);
+        this.secondaryHand = context.getBean(SECONDARY_HAND_TYPE, BodySlotType.class);
 
         this.harsk
                 = new DndCharacterBuilder(setupHarsk, context).build();
@@ -187,6 +192,24 @@ public class CharacterCreationIntegrationTest {
         // base atk of fighter lvl 1: 1
         // dex 9 instead of str 12 due to weapon finesse: -1
         assertEquals(Long.valueOf(0), meleeAtkBoni.get(0));
+    }
+
+    @Test
+    public void valerosMeleeAtkBonusFirstValueSecHand() {
+        List<Long> meleeAtkBoni
+                = this.valeros.getMeleeAtkBonus(this.secondaryHand);
+
+        // base atk of fighter lvl 1: 1
+        // dex 9 instead of str 12 due to weapon finesse: -1
+        // mwk dagger: 1
+        assertEquals(Long.valueOf(1), meleeAtkBoni.get(0));
+    }
+
+    @Test
+    public void valerosMwkDaggerCost() {
+        IInventoryItem mwkDagger
+                = this.valeros.getBodySlotByType(this.secondaryHand).getItem();
+        assertEquals(Long.valueOf(302), mwkDagger.getCost());
     }
 
     @Test

@@ -27,5 +27,9 @@
     <bean id="powerAttackBonus" class="org.asciicerebrum.mydndgame.BonusType">
         <property name="id" value="powerAttackBonus" />
     </bean>
+    
+    <bean id="enhancementBonus" class="org.asciicerebrum.mydndgame.BonusType">
+        <property name="id" value="enhancementBonus" />
+    </bean>
 
 </beans>

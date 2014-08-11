@@ -48,10 +48,15 @@
         <property name="id" value="rangedWeapon" />
     </bean>
                                                                                                                                                 
-    <!-- Weapon prototypes -->    
-    <bean id="longsword" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype">
+    <!-- Weapon prototypes -->
+    <bean id="abstractWeapon" class="org.asciicerebrum.mydndgame.InventoryItem" scope="prototype" abstract="true">
+        <property name="observableDelegate" ref="observableDelegate" />
+    </bean>
+    
+    <bean id="longsword" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
+          parent="abstractWeapon">
         <property name="name" value="longsword" />
-        <property name="cost" value="15" />
+        <property name="baseCost" value="15" />
         <property name="weight" value="4" />
         <property name="size" ref="medium" />
         <property name="damage">
@@ -81,9 +86,10 @@
         </property>
     </bean>
 
-    <bean id="battleaxe" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype">
+    <bean id="battleaxe" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
+          parent="abstractWeapon">
         <property name="name" value="battleaxe" />
-        <property name="cost" value="10" />
+        <property name="baseCost" value="10" />
         <property name="weight" value="6" />
         <property name="size" ref="medium" />
         <property name="damage">
@@ -113,9 +119,10 @@
         </property>
     </bean>
 
-    <bean id="rapier" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype">
+    <bean id="rapier" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
+          parent="abstractWeapon">
         <property name="name" value="rapier" />
-        <property name="cost" value="20" />
+        <property name="baseCost" value="20" />
         <property name="weight" value="2" />
         <property name="size" ref="medium" />
         <property name="damage">
@@ -145,9 +152,10 @@
         </property>
     </bean>
     
-    <bean id="dagger" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype">
+    <bean id="dagger" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
+          parent="abstractWeapon">
         <property name="name" value="dagger" />
-        <property name="cost" value="2" />
+        <property name="baseCost" value="2" />
         <property name="weight" value="1" />
         <property name="size" ref="medium" />
         <property name="damage">
@@ -180,10 +188,12 @@
         </property>
     </bean>
     
-    <bean id="whip" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype">        
+    <bean id="whip" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
+          parent="abstractWeapon">
     </bean>
     
-    <bean id="spikedChain" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype">
+    <bean id="spikedChain" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
+          parent="abstractWeapon">
     </bean>
                                                                                                             
 </beans>

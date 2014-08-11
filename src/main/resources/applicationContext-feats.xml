@@ -8,7 +8,7 @@
         <property name="id" value="powerAttack" />
         <property name="observers">
             <list>
-                <bean class="org.asciicerebrum.mydndgame.AddBonusObserver">
+                <bean class="org.asciicerebrum.mydndgame.observers.AddBonusObserver">
                     <property name="hook" value="MELEE_ATTACK" />
                     <property name="bonusType" ref="powerAttackBonus" />
                     <property name="registryKey" value="powerAttackValue" />
@@ -22,7 +22,7 @@
         <property name="id" value="weaponFinesse" />
         <property name="observers">
             <list>
-                <bean class="org.asciicerebrum.mydndgame.WeaponFinesseObserver">
+                <bean class="org.asciicerebrum.mydndgame.observers.WeaponFinesseObserver">
                     <property name="hook" value="MELEE_ATTACK" />
                     <property name="registryKey" value="weaponFinesseMode" />
                     <property name="removeBonus">

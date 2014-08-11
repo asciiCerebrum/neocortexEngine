@@ -112,7 +112,9 @@ public class DndCharacterBuilder {
 
                 // registering feat hooks
                 for (IObserver observer : feat.getObservers()) {
-                    dndCharacter.registerListener(observer.getHook(), observer);
+                    dndCharacter.getObservableDelegate()
+                            .registerListener(observer.getHook(), observer,
+                                    dndCharacter.getObserverMap());
                 }
             }
         }

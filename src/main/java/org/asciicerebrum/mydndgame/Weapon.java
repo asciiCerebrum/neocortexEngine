@@ -3,7 +3,9 @@ package org.asciicerebrum.mydndgame;
 import java.util.ArrayList;
 import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.IEncumbrance;
+import org.asciicerebrum.mydndgame.interfaces.entities.ISpecialAbility;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
+import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -159,6 +161,21 @@ public class Weapon extends InventoryItem implements IWeapon {
                     setup.getSizeCategory(), SizeCategory.class);
 
             weapon.adaptToSize(size);
+
+            //TODO move this (partially) to Inventory item build process.
+            // adding special abilities
+            for (String specialAbilityKey : setup.getSpecialAbilities()) {
+                ISpecialAbility specAb = this.context.getBean(
+                        specialAbilityKey, WeaponSpecialAbility.class);
+                weapon.getSpecialAbilities().add(specAb);
+
+                // registering special abillity hooks
+                for (IObserver observer : specAb.getObservers()) {
+                    weapon.getObservableDelegate().registerListener(
+                            observer.getHook(), observer,
+                            weapon.getObserverMap());
+                }
+            }
 
             //TODO if not given, set default values for criticalFactor,
             // criticalMinimumLevel.
