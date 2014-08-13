@@ -49,14 +49,14 @@ public class CharacterCreationIntegrationTest {
         axe4HarskSetup.setName("battleaxe");
         axe4HarskSetup.setSizeCategory("medium");
         Weapon axe4Harsk
-                = new Weapon.Builder(axe4HarskSetup, context).build();
+                = new WeaponBuilder(axe4HarskSetup, context).build();
 
         WeaponSetup rapier4ValerosSetup = new WeaponSetup();
         rapier4ValerosSetup.setId(RAPIER4VALEROS_ID);
         rapier4ValerosSetup.setName("rapier");
         rapier4ValerosSetup.setSizeCategory("medium");
         Weapon rapier4Valeros
-                = new Weapon.Builder(rapier4ValerosSetup, context).build();
+                = new WeaponBuilder(rapier4ValerosSetup, context).build();
 
         WeaponSetup dagger4ValerosSetup = new WeaponSetup();
         dagger4ValerosSetup.setId(DAGGER4VALEROS_ID);
@@ -64,7 +64,7 @@ public class CharacterCreationIntegrationTest {
         dagger4ValerosSetup.setSizeCategory("medium");
         dagger4ValerosSetup.getSpecialAbilities().add("masterwork");
         Weapon dagger4Valeros
-                = new Weapon.Builder(dagger4ValerosSetup, context).build();
+                = new WeaponBuilder(dagger4ValerosSetup, context).build();
 
         beanFactory.registerSingleton(AXE4HARSK_ID, axe4Harsk);
         beanFactory.registerSingleton(RAPIER4VALEROS_ID, rapier4Valeros);

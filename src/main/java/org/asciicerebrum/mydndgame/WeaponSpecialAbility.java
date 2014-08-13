@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusSource;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
@@ -26,7 +27,7 @@ public class WeaponSpecialAbility implements ISpecialAbility, BonusSource {
      * The list of observers that hook into the weapon to modify certain
      * attributes dynamically.
      */
-    private List<IObserver> observers;
+    private List<IObserver> observers = new ArrayList<IObserver>();
 
     /**
      * For example a magic weapon is always a masterwork. So the masterwork is

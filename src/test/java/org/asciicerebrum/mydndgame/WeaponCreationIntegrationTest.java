@@ -37,9 +37,9 @@ public class WeaponCreationIntegrationTest {
         axe4HarskSetup.setSizeCategory("medium");
 
         this.sword4Valeros
-                = new Weapon.Builder(sword4ValerosSetup, context).build();
+                = new WeaponBuilder(sword4ValerosSetup, context).build();
         this.axe4Harsk
-                = new Weapon.Builder(axe4HarskSetup, context).build();
+                = new WeaponBuilder(axe4HarskSetup, context).build();
     }
 
     @Test
