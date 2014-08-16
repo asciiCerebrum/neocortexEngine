@@ -4,6 +4,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="weaponForProficiencyFeatSetter" class="org.asciicerebrum.mydndgame.parametersetters.WeaponForProficiencyFeatSetter" />
+    
     <bean id="powerAttack" class="org.asciicerebrum.mydndgame.Feat">
         <property name="id" value="powerAttack" />
         <property name="observers">
@@ -46,6 +48,150 @@
                             <ref bean="whip" />
                             <ref bean="spikedChain" />
                         </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="simpleWeaponProficiency" class="org.asciicerebrum.mydndgame.Feat" scope="prototype">
+        <property name="id" value="simpleWeaponProficiency" />
+        <property name="observers">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
+                    <property name="hook" value="ATTACK" />
+                    <property name="removeBonus" ref="nonproficiencyPenaltyBonus" />
+                    <property name="conditionEvaluator">
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.AndListEvaluator">
+                            <property name="conditionEvaluators">
+                                <list>
+                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectProficiencyEvaluator">
+                                        <property name="proficiency" ref="simpleWeapon" />
+                                    </bean>
+                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectWeaponAttackModeEvaluator" />
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="martialWeaponProficiency" class="org.asciicerebrum.mydndgame.Feat" scope="prototype">
+        <property name="id" value="martialWeaponProficiency" />
+        <property name="parameterSetter" ref="weaponForProficiencyFeatSetter" /> <!-- This class with method setFeatParameter(feat, parameter) knows how to set the weapon deep into the feat's oberserver's guts. -->
+        <!-- This is useful during character building when I have the feat "exoticWeaponProficiency [scimitar]" for example. -->
+        <property name="observers">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver"><!-- removes bonus from list -->
+                    <property name="hook" value="ATTACK" />
+                    <property name="removeBonus" ref="nonproficiencyPenaltyBonus" /><!-- the bonus to be added/removed must resemble this one -->
+                    <property name="conditionEvaluator"><!-- all condition evaluators take an ISituationContext object -->
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.AndListEvaluator"><!-- to be true, all evaluators in the list must be true -->
+                            <property name="conditionEvaluators">
+                                <list>
+                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectWeaponEvaluator" /><!-- here goes the correct weapon; return true if not set -->
+                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectProficiencyEvaluator">
+                                        <property name="proficiency" ref="martialWeapon" /><!-- Proficiency of the weapon - e.g. needed when no name is given and thus the feat is valid for all weapons of this proficiency -->
+                                    </bean>
+                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectWeaponAttackModeEvaluator" /><!-- e.g. false, if melee weapon used as ranged weapon, or an improvised weapon for melee/ranged attacks -->
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="simpleWeaponProficiencyClub" class="org.asciicerebrum.mydndgame.Feat">
+        <property name="id" value="simpleWeaponProficiencyClub" />
+        <property name="observers">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
+                    <property name="hook" value="ATTACK" />
+                    <property name="removeBonus" ref="nonproficiencyPenaltyBonus" />
+                    <property name="conditionEvaluator">
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.AndListEvaluator">
+                            <property name="conditionEvaluators">
+                                <list>
+                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectWeaponEvaluator">
+                                        <property name="weapon" ref="club" />
+                                    </bean>
+                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectWeaponAttackModeEvaluator" />
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="simpleWeaponProficiencyDagger" class="org.asciicerebrum.mydndgame.Feat">
+        <property name="id" value="simpleWeaponProficiencyDagger" />
+        <property name="observers">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
+                    <property name="hook" value="ATTACK" />
+                    <property name="removeBonus" ref="nonproficiencyPenaltyBonus" />
+                    <property name="conditionEvaluator">
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.AndListEvaluator">
+                            <property name="conditionEvaluators">
+                                <list>
+                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectWeaponEvaluator">
+                                        <property name="weapon" ref="dagger" />
+                                    </bean>
+                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectWeaponAttackModeEvaluator" />
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="simpleWeaponProficiencyDart" class="org.asciicerebrum.mydndgame.Feat">
+        <property name="id" value="simpleWeaponProficiencyDart" />
+        <property name="observers">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
+                    <property name="hook" value="ATTACK" />
+                    <property name="removeBonus" ref="nonproficiencyPenaltyBonus" />
+                    <property name="conditionEvaluator">
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.AndListEvaluator">
+                            <property name="conditionEvaluators">
+                                <list>
+                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectWeaponEvaluator">
+                                        <property name="weapon" ref="dart" />
+                                    </bean>
+                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectWeaponAttackModeEvaluator" />
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="simpleWeaponProficiencyQuarterstaff" class="org.asciicerebrum.mydndgame.Feat">
+        <property name="id" value="simpleWeaponProficiencyQuarterstaff" />
+        <property name="observers">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
+                    <property name="hook" value="ATTACK" />
+                    <property name="removeBonus" ref="nonproficiencyPenaltyBonus" />
+                    <property name="conditionEvaluator">
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.AndListEvaluator">
+                            <property name="conditionEvaluators">
+                                <list>
+                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectWeaponEvaluator">
+                                        <property name="weapon" ref="quarterstaff" />
+                                    </bean>
+                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectWeaponAttackModeEvaluator" />
+                                </list>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
             </list>

@@ -48,6 +48,7 @@
     <import resource="applicationContext-dice.xml"/>
     <import resource="applicationContext-diceAction.xml"/>
     <import resource="applicationContext-bonusTypes.xml"/>
+    <import resource="applicationContext-boni.xml"/>
     <import resource="applicationContext-sizeCategories.xml"/>
     <import resource="applicationContext-abilities.xml"/>
     <import resource="applicationContext-characterClasses.xml"/>

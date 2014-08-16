@@ -53,13 +53,8 @@ public class DefaultBonusCalculationServiceImpl
         // for hp
         Long totalBonusVal = 0L;
         for (IBonus bonus : foundBoni) {
-            Long bonusVal;
-            if (bonus.getDynamicValueProvider() != null) {
-                bonusVal = bonus.getDynamicValueProvider()
-                        .getDynamicValue((BonusValueContext) iCharacter);
-            } else {
-                bonusVal = bonus.getValue();
-            }
+            Long bonusVal
+                    = bonus.getEffectiveValue((BonusValueContext) iCharacter);
 
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("Bonus " + bonus.getBonusType().getId()

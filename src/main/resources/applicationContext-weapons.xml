@@ -195,5 +195,17 @@
     <bean id="spikedChain" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
           parent="abstractWeapon">
     </bean>
-                                                                                                            
+
+    <bean id="club" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
+          parent="abstractWeapon">
+    </bean>
+    
+    <bean id="dart" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
+          parent="abstractWeapon">
+    </bean>
+    
+    <bean id="quarterstaff" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
+          parent="abstractWeapon">
+    </bean>
+                                                                                                                                                                                                                                                                                                                                    
 </beans>

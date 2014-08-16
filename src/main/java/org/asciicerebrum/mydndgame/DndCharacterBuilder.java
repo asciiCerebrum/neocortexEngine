@@ -3,6 +3,7 @@ package org.asciicerebrum.mydndgame;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
+import org.asciicerebrum.mydndgame.interfaces.entities.IFeat;
 import org.asciicerebrum.mydndgame.interfaces.entities.ILevel;
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
@@ -81,6 +82,11 @@ public class DndCharacterBuilder {
                             CharacterClass.class);
             dndCharacter.getClassList().add(chClass);
 
+            // adding feats of class
+            for (IFeat feat : chClass.getClassFeats()) {
+                this.addFeat(dndCharacter, feat);
+            }
+
             // adding additional hit points (to the list)
             dndCharacter.getHpAdditionList().add(advance.getHpAddition());
 
@@ -106,16 +112,9 @@ public class DndCharacterBuilder {
 
             // adding feats
             if (StringUtils.isNotBlank(advance.getFeatName())) {
-                Feat feat = this.context.getBean(
+                IFeat feat = this.context.getBean(
                         advance.getFeatName(), Feat.class);
-                dndCharacter.getFeats().add(feat);
-
-                // registering feat hooks
-                for (IObserver observer : feat.getObservers()) {
-                    dndCharacter.getObservableDelegate()
-                            .registerListener(observer.getHook(), observer,
-                                    dndCharacter.getObserverMap());
-                }
+                this.addFeat(dndCharacter, feat);
             }
         }
 
@@ -135,5 +134,22 @@ public class DndCharacterBuilder {
         }
 
         return dndCharacter;
+    }
+
+    /**
+     * Adding a feat to a character and registering its observers.
+     *
+     * @param dndCharacter the dnd Character.
+     * @param feat the feat.
+     */
+    private void addFeat(final DndCharacter dndCharacter, final IFeat feat) {
+        dndCharacter.getFeats().add(feat);
+
+        // registering feat hooks
+        for (IObserver observer : feat.getObservers()) {
+            dndCharacter.getObservableDelegate()
+                    .registerListener(observer.getHook(), observer,
+                            dndCharacter.getObserverMap());
+        }
     }
 }

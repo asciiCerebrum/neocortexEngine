@@ -36,10 +36,29 @@
     <bean id="fighter" class="org.asciicerebrum.mydndgame.CharacterClass">
         <property name="id" value="fighter" />
         <property name="hitDice" ref="d10" />
+        <property name="classFeats">
+            <list>
+                <ref bean="simpleWeaponProficiency" />
+                <ref bean="martialWeaponProficiency" />
+            </list>
+        </property>
         <property name="classLevels">
             <list>
                 <ref bean="fighter1" />
                 <ref bean="fighter2" />
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="druid" class="org.asciicerebrum.mydndgame.CharacterClass">
+        <property name="id" value="druid" />
+        <property name="hitDice" ref="d8" />
+        <property name="classFeats">
+            <list>
+                <ref bean="simpleWeaponProficiencyClub" />
+                <ref bean="simpleWeaponProficiencyDagger" />
+                <ref bean="simpleWeaponProficiencyDart" />
+                <ref bean="simpleWeaponProficiencyQuarterstaff" />
             </list>
         </property>
     </bean>

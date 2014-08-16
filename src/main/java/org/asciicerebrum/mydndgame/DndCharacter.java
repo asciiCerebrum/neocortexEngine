@@ -13,11 +13,13 @@ import org.asciicerebrum.mydndgame.interfaces.entities.IAbility;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.IClass;
+import org.asciicerebrum.mydndgame.interfaces.entities.IFeat;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
 import org.asciicerebrum.mydndgame.interfaces.entities.ILevel;
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import org.asciicerebrum.mydndgame.interfaces.entities.IRace;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
 import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
 import org.asciicerebrum.mydndgame.interfaces.observing.Observable;
 import org.asciicerebrum.mydndgame.interfaces.observing.ObservableDelegate;
@@ -78,6 +80,13 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
      */
     private List<IBonus> boni = new ArrayList<IBonus>();
 
+    /**
+     * The collection of base attack boni. This list MUST NOT BE mixed with the
+     * normal boni list because these are special boni that do not participate
+     * in the bonus accumulation process. So they are left out!!!
+     */
+    private List<IBonus> baseAtkBoni = new ArrayList<IBonus>();
+
     //TODO make DndCharacter Spring Prototype and set these values via
     // application context xml
     /**
@@ -101,9 +110,17 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
      */
     private DiceAction meleeAttackAction;
     /**
+     * The weapon category with id meleeWeapon.
+     */
+    private IWeaponCategory meleeAttackMode;
+    /**
      * The diceAction with id rangedAttackAction.
      */
     private DiceAction rangedAttackAction;
+    /**
+     * The weapon category with id rangedWeapon.
+     */
+    private IWeaponCategory rangedAttackMode;
     /**
      * The bonusType with id baseAttackBonus.
      */
@@ -118,7 +135,7 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
     /**
      * The feats of a character.
      */
-    private final List<Feat> feats = new ArrayList<Feat>();
+    private final List<IFeat> feats = new ArrayList<IFeat>();
 
     /**
      * Service for the handling of observable calls and registering into the
@@ -186,11 +203,17 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
         // solved by differentiating two methods: getMeleeAtkBonus() /
         // getRangedAtkBonus() and I as a player have to decide what to do with
         // the weapon in my hand (attack in melee or ranged)?
+        // Sometimes objects not crafted to be weapons nonetheless see use in
+        // combat. Because such objects are not designed for this use, any
+        // creature that uses one in combat is considered to be nonproficient
+        // with it and takes a -4 penalty on attack rolls made with that object.
         List<Long> atkBoni = new ArrayList<Long>();
 
-        // gather all non-weapon-dependent boni for melee attack
+        // gather all non-weapon-dependent boni for melee attack + attack
         List<IBonus> meleeBoni = this.bonusService
                 .traverseBoniByTarget(this, this.meleeAttackAction);
+        meleeBoni.addAll(this.bonusService
+                .traverseBoniByTarget(this, this.attackAction));
 
         IInventoryItem item = this.getBodySlotByType(bodySlotType).getItem();
         if (item instanceof Weapon) {
@@ -202,11 +225,19 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
 
         // post processing of the bonus list, e.g. by registered feat
         // methods. (observer pattern)
+        ISituationContext attackSitCon
+                = this.generateSituationContext(bodySlotType,
+                        this.meleeAttackMode);
         meleeBoni = (List<IBonus>) this.getObservableDelegate()
                 .triggerObservers(
                         ObserverHook.MELEE_ATTACK, meleeBoni,
                         this.getObserverMap(),
-                        this.generateSituationContext(bodySlotType));
+                        attackSitCon);
+        meleeBoni = (List<IBonus>) this.getObservableDelegate()
+                .triggerObservers(
+                        ObserverHook.ATTACK, meleeBoni,
+                        this.getObserverMap(),
+                        attackSitCon);
 
         Long meleeBonusValue = this.bonusService.accumulateBonusValue(
                 this, meleeBoni);
@@ -223,13 +254,15 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
      * active entities.
      *
      * @param bsType the body slot type important for context.
+     * @param attackMode how the attack is executed, melee or ranged.
      * @return the created situation context.
      */
     private ISituationContext generateSituationContext(
-            final IBodySlotType bsType) {
+            final IBodySlotType bsType, final IWeaponCategory attackMode) {
         ISituationContext sitCon = new SituationContext();
         sitCon.setCharacter(this);
         sitCon.setBodySlotType(bsType);
+        sitCon.setAttackMode(attackMode);
         return sitCon;
     }
 
@@ -267,24 +300,14 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
      */
     @Override
     public List<IBonus> getBaseAtkBoni() {
-        List<IBonus> baseAtkBoni = new ArrayList<IBonus>();
 
         Long maxSize = this.getMaxAttackNumber();
 
-        for (IBonus potentialBonus : this.getBoni()) {
-            if (potentialBonus.getBonusType().equals(
-                    this.getBaseAttackBonus())) {
-                baseAtkBoni.add(potentialBonus);
-            }
-        }
-
         // order the list
-        Collections.sort(baseAtkBoni, new Bonus.RankComparator());
+        Collections.sort(this.baseAtkBoni, new Bonus.RankComparator());
 
         // make a sublist of size maxSize
-        baseAtkBoni = baseAtkBoni.subList(0, maxSize.intValue());
-
-        return baseAtkBoni;
+        return this.baseAtkBoni.subList(0, maxSize.intValue());
     }
 
     /**
@@ -438,7 +461,7 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
     /**
      * @return the feats
      */
-    public List<Feat> getFeats() {
+    public List<IFeat> getFeats() {
         return feats;
     }
 
@@ -608,5 +631,41 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
     public void setObserverMap(
             final Map<ObserverHook, List<IObserver>> observerMapInput) {
         this.observerMap = observerMapInput;
+    }
+
+    /**
+     * @param baseAtkBoniInput the baseAtkBoni to set
+     */
+    public void setBaseAtkBoni(final List<IBonus> baseAtkBoniInput) {
+        this.baseAtkBoni = baseAtkBoniInput;
+    }
+
+    /**
+     * @return the meleeAttackMode
+     */
+    public IWeaponCategory getMeleeAttackMode() {
+        return meleeAttackMode;
+    }
+
+    /**
+     * @param meleeAttackModeInput the meleeAttackMode to set
+     */
+    public void setMeleeAttackMode(final IWeaponCategory meleeAttackModeInput) {
+        this.meleeAttackMode = meleeAttackModeInput;
+    }
+
+    /**
+     * @return the rangedAttackMode
+     */
+    public IWeaponCategory getRangedAttackMode() {
+        return rangedAttackMode;
+    }
+
+    /**
+     * @param rangedAttackModeInput the rangedAttackMode to set
+     */
+    public void setRangedAttackMode(
+            final IWeaponCategory rangedAttackModeInput) {
+        this.rangedAttackMode = rangedAttackModeInput;
     }
 }

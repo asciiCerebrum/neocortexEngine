@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.asciicerebrum.mydndgame.exceptions.UndefinedCharacterClassLevelException;
 import org.asciicerebrum.mydndgame.interfaces.entities.IClass;
+import org.asciicerebrum.mydndgame.interfaces.entities.IFeat;
 import org.asciicerebrum.mydndgame.interfaces.entities.ILevel;
 
 /**
@@ -26,6 +27,12 @@ public class CharacterClass implements Identifiable, IClass {
      * this character class.
      */
     private List<ILevel> classLevels = new ArrayList<ILevel>();
+
+    /**
+     * The list of feats which are automatically granted to the character when
+     * acquiring this class.
+     */
+    private List<IFeat> classFeats = new ArrayList<IFeat>();
 
     /**
      *
@@ -84,6 +91,20 @@ public class CharacterClass implements Identifiable, IClass {
      */
     public final void setClassLevels(final List<ILevel> classLevelsInput) {
         this.classLevels = classLevelsInput;
+    }
+
+    /**
+     * @return the classFeats
+     */
+    public final List<IFeat> getClassFeats() {
+        return classFeats;
+    }
+
+    /**
+     * @param classFeatsInput the classFeats to set
+     */
+    public final void setClassFeats(final List<IFeat> classFeatsInput) {
+        this.classFeats = classFeatsInput;
     }
 
 }

@@ -2,13 +2,15 @@ package org.asciicerebrum.mydndgame;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.asciicerebrum.mydndgame.interfaces.entities.IFeat;
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
+import org.asciicerebrum.mydndgame.interfaces.entities.IParameterSetter;
 
 /**
  *
  * @author species8472
  */
-public class Feat {
+public class Feat implements IFeat {
 
     /**
      * Unique id of the feat.
@@ -22,22 +24,31 @@ public class Feat {
     private List<IObserver> observers = new ArrayList<IObserver>();
 
     /**
-     * @return the id
+     * Some feats are restricted with a parameter. E.g. exotic weapon
+     * proficiency is valid only for a certain type of weapon.
      */
+    private IParameterSetter parameterSetter;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final String getId() {
         return id;
     }
 
     /**
-     * @param idInput the id to set
+     * {@inheritDoc}
      */
+    @Override
     public final void setId(final String idInput) {
         this.id = idInput;
     }
 
     /**
-     * @return the observers
+     * {@inheritDoc}
      */
+    @Override
     public final List<IObserver> getObservers() {
         return observers;
     }
@@ -47,6 +58,31 @@ public class Feat {
      */
     public final void setObservers(final List<IObserver> observersInput) {
         this.observers = observersInput;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void setParameter(final Object parameter) {
+        this.getParameterSetter().setFeatParameter(this, parameter);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final IParameterSetter getParameterSetter() {
+        return parameterSetter;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void setParameterSetter(
+            final IParameterSetter parameterSetterInput) {
+        this.parameterSetter = parameterSetterInput;
     }
 
 }

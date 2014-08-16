@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="nonproficiencyPenaltyBonus" class="org.asciicerebrum.mydndgame.Bonus" scope="prototype">
+        <property name="bonusType" ref="nonproficiencyPenalty" />
+        <property name="target" ref="attack" />
+        <property name="value" value="-4" />
+    </bean>
+
+</beans>

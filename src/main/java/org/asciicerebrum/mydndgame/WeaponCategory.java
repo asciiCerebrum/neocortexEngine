@@ -1,10 +1,12 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
+
 /**
  *
  * @author species8472
  */
-public class WeaponCategory {
+public class WeaponCategory implements IWeaponCategory {
 
     /**
      * Unique id of the weapon category.
@@ -12,15 +14,17 @@ public class WeaponCategory {
     private String id;
 
     /**
-     * @return the id
+     * {@inheritDoc}
      */
+    @Override
     public final String getId() {
         return id;
     }
 
     /**
-     * @param idInput the id to set
+     * {@inheritDoc}
      */
+    @Override
     public final void setId(final String idInput) {
         this.id = idInput;
     }

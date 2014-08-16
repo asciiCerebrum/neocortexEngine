@@ -29,4 +29,18 @@ public interface IObserver {
      */
     Object trigger(Object object, ISituationContext situationContext);
 
+    /**
+     *
+     * @return the evaluator for checking if the conditions are given that a
+     * trigger can be activated.
+     */
+    ConditionEvaluator getConditionEvaluator();
+
+    /**
+     * Sets the condition evaluation bean.
+     *
+     * @param conditionEvaluator the conditionEvaluator.
+     */
+    void setConditionEvaluator(ConditionEvaluator conditionEvaluator);
+
 }

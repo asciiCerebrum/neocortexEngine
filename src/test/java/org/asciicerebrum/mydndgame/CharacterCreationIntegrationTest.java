@@ -170,12 +170,15 @@ public class CharacterCreationIntegrationTest {
 
     @Test
     public void valerosFeatNumber() {
-        assertEquals(1, this.valeros.getFeats().size());
+        // 2 from class: simpleWeaponProficiency, martialWeaponProficiency
+        // 1 from character: weaponFinesse
+        assertEquals(3, this.valeros.getFeats().size());
     }
 
     @Test
-    public void valerosFirstFeatName() {
-        assertEquals(FEAT_WEAPON_FINESSE, this.valeros.getFeats().get(0).getId());
+    public void valeros3rdFeatName() {
+        // feat 0 and 1 come from the class, feat 2 from the character.
+        assertEquals(FEAT_WEAPON_FINESSE, this.valeros.getFeats().get(2).getId());
     }
 
     @Test
@@ -223,5 +226,5 @@ public class CharacterCreationIntegrationTest {
         assertEquals(Long.valueOf(4), meleeAtkBoni.get(0));
     }
 
-    //TODO Melee Attack Bonus (dynamic str bonus)
+    //TODO Test a use case where the weaponProficiencyPenalty is NOT removed!
 }

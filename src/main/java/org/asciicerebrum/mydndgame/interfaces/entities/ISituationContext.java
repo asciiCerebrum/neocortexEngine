@@ -29,4 +29,13 @@ public interface ISituationContext {
      */
     void setBodySlotType(IBodySlotType iBodySlotType);
 
+    /**
+     * @return the attackMode
+     */
+    IWeaponCategory getAttackMode();
+
+    /**
+     * @param attackMode the attackMode to set
+     */
+    void setAttackMode(IWeaponCategory attackMode);
 }

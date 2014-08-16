@@ -3,7 +3,9 @@ package org.asciicerebrum.mydndgame;
 import java.util.ArrayList;
 import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.IEncumbrance;
+import org.asciicerebrum.mydndgame.interfaces.entities.IProficiency;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
+import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
 
 /**
  *
@@ -48,7 +50,7 @@ public class Weapon extends InventoryItem implements IWeapon {
     /**
      * Simple, martial or exotic.
      */
-    private Proficiency proficiency;
+    private IProficiency proficiency;
 
     /**
      * Melee or ranged.
@@ -58,8 +60,8 @@ public class Weapon extends InventoryItem implements IWeapon {
     // operation. It should be a list because the dagger has two default modes
     // (like all melee weapons with a range increment!)
     // while a sword only has one.
-    private List<WeaponCategory> defaultCategories
-            = new ArrayList<WeaponCategory>();
+    private List<IWeaponCategory> defaultCategories
+            = new ArrayList<IWeaponCategory>();
 
     /**
      * A list of types this weapon represents. E.g. double weapon, thrown
@@ -88,17 +90,19 @@ public class Weapon extends InventoryItem implements IWeapon {
     }
 
     /**
-     * @return the defaultCategories
+     * {@inheritDoc}
      */
-    public final List<WeaponCategory> getDefaultCategories() {
+    @Override
+    public final List<IWeaponCategory> getDefaultCategories() {
         return defaultCategories;
     }
 
     /**
-     * @param defaultCategoriesInput the defaultCategories to set
+     * {@inheritDoc}
      */
+    @Override
     public final void setDefaultCategories(
-            final List<WeaponCategory> defaultCategoriesInput) {
+            final List<IWeaponCategory> defaultCategoriesInput) {
         this.defaultCategories = defaultCategoriesInput;
     }
 
@@ -208,16 +212,18 @@ public class Weapon extends InventoryItem implements IWeapon {
     }
 
     /**
-     * @return the proficiency
+     * {@inheritDoc}
      */
-    public final Proficiency getProficiency() {
+    @Override
+    public final IProficiency getProficiency() {
         return proficiency;
     }
 
     /**
-     * @param proficiencyInput the proficiency to set
+     * {@inheritDoc}
      */
-    public final void setProficiency(final Proficiency proficiencyInput) {
+    @Override
+    public final void setProficiency(final IProficiency proficiencyInput) {
         this.proficiency = proficiencyInput;
     }
 
@@ -233,5 +239,16 @@ public class Weapon extends InventoryItem implements IWeapon {
      */
     public final void setWeaponTypes(final List<WeaponType> weaponTypesInput) {
         this.weaponTypes = weaponTypesInput;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final Boolean resembles(final IWeapon weapon) {
+        if (weapon == null) {
+            return Boolean.FALSE;
+        }
+        return weapon.getName().equals(this.getName());
     }
 }

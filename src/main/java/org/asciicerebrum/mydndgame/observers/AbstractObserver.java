@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.observers;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import org.asciicerebrum.mydndgame.interfaces.entities.ObserverHook;
 
@@ -15,6 +16,11 @@ public abstract class AbstractObserver implements IObserver {
     private ObserverHook hook;
 
     /**
+     * To evaluate the condition if the observer is really triggered or not.
+     */
+    private ConditionEvaluator conditionEvaluator;
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -28,6 +34,23 @@ public abstract class AbstractObserver implements IObserver {
     @Override
     public final void setHook(final ObserverHook hookInput) {
         this.hook = hookInput;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final ConditionEvaluator getConditionEvaluator() {
+        return conditionEvaluator;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void setConditionEvaluator(
+            final ConditionEvaluator conditionEvaluatorInput) {
+        this.conditionEvaluator = conditionEvaluatorInput;
     }
 
 }

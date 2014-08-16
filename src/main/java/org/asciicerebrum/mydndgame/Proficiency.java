@@ -1,10 +1,12 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.IProficiency;
+
 /**
  *
  * @author species8472
  */
-public class Proficiency {
+public class Proficiency implements IProficiency {
 
     /**
      * Unique id of the proficiency.
@@ -12,15 +14,17 @@ public class Proficiency {
     private String id;
 
     /**
-     * @return the id
+     * {@inheritDoc}
      */
+    @Override
     public final String getId() {
         return id;
     }
 
     /**
-     * @param idInput the id to set
+     * {@inheritDoc}
      */
+    @Override
     public final void setId(final String idInput) {
         this.id = idInput;
     }

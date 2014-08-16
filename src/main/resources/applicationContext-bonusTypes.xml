@@ -32,4 +32,8 @@
         <property name="id" value="enhancementBonus" />
     </bean>
 
+    <bean id="nonproficiencyPenalty" class="org.asciicerebrum.mydndgame.BonusType">
+        <property name="id" value="nonproficiencyPenalty" />
+    </bean>
+
 </beans>

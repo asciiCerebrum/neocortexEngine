@@ -11,9 +11,11 @@
         <property name="acAction" ref="ac" />
         <property name="attackAction" ref="attack" />
         <property name="meleeAttackAction" ref="meleeAttack" />
+        <property name="meleeAttackMode" ref="meleeWeapon" />
         <property name="rangedAttackAction" ref="rangedAttack" />
+        <property name="rangedAttackMode" ref="rangedWeapon" />
         <property name="baseAttackBonus" ref="baseAttackBonus" />
-        <property name="boni">
+        <property name="baseAtkBoni">
             <list>
                 <bean class="org.asciicerebrum.mydndgame.Bonus">
                     <property name="bonusType" ref="baseAttackBonus" />
@@ -45,6 +47,11 @@
                     <property name="rank" value="4" />
                     <property name="dynamicValueProvider" ref="rank4AtkBonusValueProvider" />
                 </bean>
+            </list>
+        </property>
+        <property name="boni">
+            <list>
+                <ref bean="nonproficiencyPenaltyBonus" />
             </list>
         </property>
     </bean>

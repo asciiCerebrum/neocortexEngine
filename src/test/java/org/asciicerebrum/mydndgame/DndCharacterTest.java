@@ -130,8 +130,8 @@ public class DndCharacterTest {
         this.testChar.getHpAdditionList().add(ADDITIONAL_HP);
         this.testChar.setBonusService(this.bcService);
         this.testChar.setObservableDelegate(this.observableDelegate);
-        this.testChar.getBoni().add(baseAtkBonus2_1);
-        this.testChar.getBoni().add(baseAtkBonus2_2);
+        this.testChar.getBaseAtkBoni().add(baseAtkBonus2_1);
+        this.testChar.getBaseAtkBoni().add(baseAtkBonus2_2);
         this.testChar.getClassLevels().add(cLevel1);
         this.testChar.getClassLevels().add(cLevel2);
 
@@ -178,23 +178,6 @@ public class DndCharacterTest {
      */
     @Test
     public void testGetBaseAtkBoniValue() {
-        List<IBonus> baseAtkBoni = this.testChar.getBaseAtkBoni();
-
-        assertEquals(BASE_ATK_BONUS, baseAtkBoni.get(0).getValue());
-    }
-
-    /**
-     * Testing the value of the one base atk bonus. Adding a false bonus to test
-     * its exclusion.
-     */
-    @Test
-    public void testGetBaseAtkBoniValueWithFalseBonus() {
-        Bonus nonAtkBonus = new Bonus();
-        BonusType nonAtkBonusType = new BonusType();
-        nonAtkBonusType.setId("nonAtkBonus");
-        nonAtkBonus.setBonusType(nonAtkBonusType);
-        this.testChar.getBoni().add(nonAtkBonus);
-
         List<IBonus> baseAtkBoni = this.testChar.getBaseAtkBoni();
 
         assertEquals(BASE_ATK_BONUS, baseAtkBoni.get(0).getValue());
