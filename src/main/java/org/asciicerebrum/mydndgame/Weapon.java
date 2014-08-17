@@ -245,10 +245,8 @@ public class Weapon extends InventoryItem implements IWeapon {
      * {@inheritDoc}
      */
     @Override
-    public final Boolean resembles(final IWeapon weapon) {
-        if (weapon == null) {
-            return Boolean.FALSE;
-        }
-        return weapon.getName().equals(this.getName());
+    public final Boolean isAttackModeCompatible(
+            final IWeaponCategory attackMode) {
+        return this.getDefaultCategories().contains(attackMode);
     }
 }

@@ -55,4 +55,12 @@ public interface IInventoryItem extends Identifiable {
      */
     void setSpecialAbilities(List<ISpecialAbility> specialAbilities);
 
+    /**
+     * Two items resemble each other if they have the same name.
+     *
+     * @param item the weapon to check the resemblance with.
+     * @return true if they have the same name.
+     */
+    Boolean resembles(IInventoryItem item);
+
 }

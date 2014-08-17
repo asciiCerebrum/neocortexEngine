@@ -27,15 +27,20 @@ public class CorrectProficiencyEvaluator implements ConditionEvaluator {
     @Override
     public final Boolean evaluate(final ISituationContext situationContext) {
 
+        if (this.getProficiency() == null) {
+            return Boolean.FALSE;
+        }
+
         final IInventoryItem item = situationContext.getCharacter()
                 .getBodySlotByType(situationContext.getBodySlotType())
                 .getItem();
 
-        if (item instanceof IWeapon) {
-            return ((IWeapon) item).getProficiency().equals(this.proficiency);
-        } else {
-            return Boolean.FALSE;
+        if (item != null && item instanceof IWeapon) {
+            return ((IWeapon) item).getProficiency()
+                    .equals(this.getProficiency());
         }
+
+        return Boolean.FALSE;
     }
 
     /**

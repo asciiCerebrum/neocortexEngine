@@ -14,6 +14,11 @@ public interface IFeat extends Identifiable {
     List<IObserver> getObservers();
 
     /**
+     * @param observers the observers to set
+     */
+    void setObservers(List<IObserver> observers);
+
+    /**
      * Sets the parameter for the feat. Normally it is delegated to the
      * parameter setter bean.
      *

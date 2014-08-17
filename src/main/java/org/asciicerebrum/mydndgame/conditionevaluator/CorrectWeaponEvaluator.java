@@ -26,11 +26,15 @@ public class CorrectWeaponEvaluator implements ConditionEvaluator {
     @Override
     public final Boolean evaluate(final ISituationContext situationContext) {
 
-        if (this.weapon == null) {
+        if (this.getWeapon() == null) {
             return Boolean.TRUE;
         }
 
         final IBodySlotType bsType = situationContext.getBodySlotType();
+
+        if (bsType == null) {
+            return Boolean.FALSE;
+        }
 
         final IInventoryItem item = situationContext.getCharacter()
                 .getBodySlotByType(bsType).getItem();
@@ -39,9 +43,13 @@ public class CorrectWeaponEvaluator implements ConditionEvaluator {
             return Boolean.FALSE;
         }
 
-        final IWeapon checkWeapon = (IWeapon) item;
+        if (item instanceof IWeapon) {
+            final IWeapon checkWeapon = (IWeapon) item;
 
-        return this.weapon.resembles(checkWeapon);
+            return this.getWeapon().resembles(checkWeapon);
+        }
+
+        return Boolean.FALSE;
     }
 
     /**

@@ -23,13 +23,19 @@ public class WeaponForProficiencyFeatSetter implements IParameterSetter {
             final Object parameter) {
 
         final IWeapon weapon = (IWeapon) parameter;
-        final IObserver observer = feat.getObservers().get(0);
 
-        if (observer == null) {
+        RemoveBonusObserver rbObserver = null;
+        for (IObserver observer : feat.getObservers()) {
+            if (observer != null && observer instanceof RemoveBonusObserver) {
+                rbObserver = (RemoveBonusObserver) observer;
+                break;
+            }
+        }
+
+        if (rbObserver == null) {
             return;
         }
 
-        final RemoveBonusObserver rbObserver = (RemoveBonusObserver) observer;
         final ConditionEvaluator evaluator = rbObserver.getConditionEvaluator();
 
         if (evaluator == null) {
@@ -37,10 +43,6 @@ public class WeaponForProficiencyFeatSetter implements IParameterSetter {
         }
 
         final AndListEvaluator andEval = (AndListEvaluator) evaluator;
-
-        if (andEval.getConditionEvaluators().isEmpty()) {
-            return;
-        }
 
         for (ConditionEvaluator subEval : andEval.getConditionEvaluators()) {
             if (subEval instanceof CorrectWeaponEvaluator) {

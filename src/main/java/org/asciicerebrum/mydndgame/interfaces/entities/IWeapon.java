@@ -29,12 +29,13 @@ public interface IWeapon extends IInventoryItem, Identifiable {
     void setProficiency(IProficiency proficiency);
 
     /**
-     * Two weapons resemble each other if they have the same name.
+     * Checks if the given attack mode is contained in the weapon's list of
+     * weapon categories.
      *
-     * @param weapon the weapon to check the resemblance with.
-     * @return true if they have the same name.
+     * @param attackMode the attack mode in question.
+     * @return the compatibility of this attack mode.
      */
-    Boolean resembles(IWeapon weapon);
+    Boolean isAttackModeCompatible(IWeaponCategory attackMode);
 
     /**
      * @return the defaultCategories

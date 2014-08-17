@@ -203,4 +203,15 @@ public abstract class InventoryItem implements IInventoryItem, Observable {
             final List<ISpecialAbility> specialAbilitiesInput) {
         this.specialAbilities = specialAbilitiesInput;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final Boolean resembles(final IInventoryItem item) {
+        if (item == null) {
+            return Boolean.FALSE;
+        }
+        return item.getName().equals(this.getName());
+    }
 }

@@ -22,16 +22,19 @@ public class CorrectWeaponAttackModeEvaluator implements ConditionEvaluator {
 
         final IWeaponCategory refAttackMode = situationContext.getAttackMode();
 
+        if (refAttackMode == null) {
+            return Boolean.FALSE;
+        }
+
         final IInventoryItem item = situationContext.getCharacter()
                 .getBodySlotByType(situationContext.getBodySlotType())
                 .getItem();
 
-        if (item instanceof IWeapon) {
-            return ((IWeapon) item).getDefaultCategories()
-                    .contains(refAttackMode);
-        } else {
-            return Boolean.FALSE;
+        if (item != null && item instanceof IWeapon) {
+            return ((IWeapon) item).isAttackModeCompatible(refAttackMode);
         }
+
+        return Boolean.FALSE;
     }
 
 }

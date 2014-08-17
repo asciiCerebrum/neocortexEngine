@@ -54,8 +54,9 @@ public class Feat implements IFeat {
     }
 
     /**
-     * @param observersInput the observers to set
+     * {@inheritDoc}
      */
+    @Override
     public final void setObservers(final List<IObserver> observersInput) {
         this.observers = observersInput;
     }
