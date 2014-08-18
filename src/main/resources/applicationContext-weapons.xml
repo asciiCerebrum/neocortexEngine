@@ -39,6 +39,9 @@
     <bean id="martialWeapon" class="org.asciicerebrum.mydndgame.Proficiency">
         <property name="id" value="martialWeapon" />
     </bean>
+    <bean id="exoticWeapon" class="org.asciicerebrum.mydndgame.Proficiency">
+        <property name="id" value="exoticWeapon" />
+    </bean>
 
     <!-- Weapon Categories -->
     <bean id="meleeWeapon" class="org.asciicerebrum.mydndgame.WeaponCategory">
@@ -206,6 +209,39 @@
     
     <bean id="quarterstaff" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
           parent="abstractWeapon">
+    </bean>
+    
+    <bean id="bastardsword" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
+              parent="abstractWeapon">
+        <property name="name" value="bastardsword" />
+        <property name="baseCost" value="35" />
+        <property name="weight" value="6" />
+        <property name="size" ref="medium" />
+        <property name="damage">
+            <bean class="org.asciicerebrum.mydndgame.DiceAction">
+                <property name="diceNumber" value="1" />
+                <property name="diceType" ref="d8" />
+            </bean>
+        </property>
+        <property name="criticalMinimumLevel" value="19" />
+        <property name="defaultDamageTypes">
+            <list>
+                <ref bean="slashing" />
+            </list>
+        </property>
+        <property name="encumbrance" ref="oneHanded" />
+        <property name="proficiency" ref="exoticWeapon" />
+        <property name="defaultCategories">
+            <list>
+                <ref bean="meleeWeapon" />
+            </list>
+        </property>
+        <property name="designatedBodySlots">
+            <list>
+                <ref bean="primaryHand" />
+                <ref bean="secondaryHand" />
+            </list>
+        </property>
     </bean>
                                                                                                                                                                                                                                                                                                                                     
 </beans>

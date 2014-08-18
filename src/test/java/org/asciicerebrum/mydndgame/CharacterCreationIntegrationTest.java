@@ -22,6 +22,7 @@ public class CharacterCreationIntegrationTest {
     private static final String CLASS_FIGHTER = "fighter";
     private static final String FEAT_WEAPON_FINESSE = "weaponFinesse";
     private static final String AXE4HARSK_ID = "battleAxeHarsk";
+    private static final String BASTARD4HARSK_ID = "bastardSwordHarsk";
     private static final String RAPIER4VALEROS_ID = "rapierValeros";
     private static final String DAGGER4VALEROS_ID = "mwkRapierValeros";
     private static final String PRIMARY_HAND_TYPE = "primaryHand";
@@ -51,6 +52,13 @@ public class CharacterCreationIntegrationTest {
         Weapon axe4Harsk
                 = new WeaponBuilder(axe4HarskSetup, context).build();
 
+        WeaponSetup bastard4HarskSetup = new WeaponSetup();
+        bastard4HarskSetup.setId(BASTARD4HARSK_ID);
+        bastard4HarskSetup.setName("bastardsword");
+        bastard4HarskSetup.setSizeCategory("medium");
+        Weapon bastard4Harsk
+                = new WeaponBuilder(bastard4HarskSetup, context).build();
+
         WeaponSetup rapier4ValerosSetup = new WeaponSetup();
         rapier4ValerosSetup.setId(RAPIER4VALEROS_ID);
         rapier4ValerosSetup.setName("rapier");
@@ -67,6 +75,7 @@ public class CharacterCreationIntegrationTest {
                 = new WeaponBuilder(dagger4ValerosSetup, context).build();
 
         beanFactory.registerSingleton(AXE4HARSK_ID, axe4Harsk);
+        beanFactory.registerSingleton(BASTARD4HARSK_ID, bastard4Harsk);
         beanFactory.registerSingleton(RAPIER4VALEROS_ID, rapier4Valeros);
         beanFactory.registerSingleton(DAGGER4VALEROS_ID, dagger4Valeros);
 
@@ -88,6 +97,7 @@ public class CharacterCreationIntegrationTest {
                 .setClassName(CLASS_FIGHTER)
                 .setHpAddition(7L));
         setupHarsk.getPossessionContainer().put(AXE4HARSK_ID, PRIMARY_HAND_TYPE);
+        setupHarsk.getPossessionContainer().put(BASTARD4HARSK_ID, "secondaryHand");
         setupHarsk.getStateRegistry().put("powerAttackValue", 1L); // first parameter is the stateKey, which is defined in the feat bean, as well as the type of the value - here Long
 
         CharacterSetup setupValeros = new CharacterSetup();
@@ -226,5 +236,40 @@ public class CharacterCreationIntegrationTest {
         assertEquals(Long.valueOf(4), meleeAtkBoni.get(0));
     }
 
-    //TODO Test a use case where the weaponProficiencyPenalty is NOT removed!
+    @Test
+    public void valerosRangedAtkBonusFirstValue() {
+        List<Long> meleeAtkBoni
+                = this.valeros.getRangedAtkBonus(this.primaryHand);
+
+        // base atk of fighter lvl 1: 1
+        // dex 9 instead of str 12 due to weapon finesse: -1
+        // improvised weapon: rapier is not for throwing,
+        // so you gain a nonproficiency penalty: -4
+        assertEquals(Long.valueOf(-4), meleeAtkBoni.get(0));
+    }
+
+    @Test
+    public void valerosRangedAtkBonusFirstValueSecHand() {
+        List<Long> meleeAtkBoni
+                = this.valeros.getRangedAtkBonus(this.secondaryHand);
+
+        // base atk of fighter lvl 1: 1
+        // dex 9: -1
+        // mwk dagger: 1
+        // dagger is also good for ranged so no changes here.
+        assertEquals(Long.valueOf(1), meleeAtkBoni.get(0));
+    }
+
+    @Test
+    public void harskMeleeAtkBonusFirstValueSecHand() {
+        List<Long> meleeAtkBoni
+                = this.harsk.getMeleeAtkBonus(this.secondaryHand);
+
+        // base atk of fighter lvl 2
+        // str 13 -> +1
+        // power attack +1
+        // exotic weapon -> nonproficiencyPenalty: -4
+        assertEquals(Long.valueOf(0), meleeAtkBoni.get(0));
+    }
+
 }

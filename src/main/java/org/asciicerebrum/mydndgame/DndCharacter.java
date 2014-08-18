@@ -207,46 +207,21 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
         // combat. Because such objects are not designed for this use, any
         // creature that uses one in combat is considered to be nonproficient
         // with it and takes a -4 penalty on attack rolls made with that object.
-        List<Long> atkBoni = new ArrayList<Long>();
+        return this.getGenericAtkBonus(bodySlotType, this.meleeAttackAction,
+                this.meleeAttackMode, ObserverHook.MELEE_ATTACK);
+    }
 
-        // gather all non-weapon-dependent boni for melee attack + attack
-        List<IBonus> meleeBoni = this.bonusService
-                .traverseBoniByTarget(this, this.meleeAttackAction);
-        meleeBoni.addAll(this.bonusService
-                .traverseBoniByTarget(this, this.attackAction));
-
-        IInventoryItem item = this.getBodySlotByType(bodySlotType).getItem();
-        if (item instanceof Weapon) {
-            Weapon weapon = (Weapon) item;
-
-            meleeBoni.addAll(this.bonusService.traverseBoniByTarget(
-                    weapon, this.attackAction));
-        }
-
-        // post processing of the bonus list, e.g. by registered feat
-        // methods. (observer pattern)
-        ISituationContext attackSitCon
-                = this.generateSituationContext(bodySlotType,
-                        this.meleeAttackMode);
-        meleeBoni = (List<IBonus>) this.getObservableDelegate()
-                .triggerObservers(
-                        ObserverHook.MELEE_ATTACK, meleeBoni,
-                        this.getObserverMap(),
-                        attackSitCon);
-        meleeBoni = (List<IBonus>) this.getObservableDelegate()
-                .triggerObservers(
-                        ObserverHook.ATTACK, meleeBoni,
-                        this.getObserverMap(),
-                        attackSitCon);
-
-        Long meleeBonusValue = this.bonusService.accumulateBonusValue(
-                this, meleeBoni);
-
-        for (IBonus baseAtkBonus : this.getBaseAtkBoni()) {
-            atkBoni.add(baseAtkBonus.getEffectiveValue(this) + meleeBonusValue);
-        }
-
-        return atkBoni;
+    /**
+     * Returns the list of boni for the given body slot type. All boni are
+     * applied. The weapon in the slot is regarded as a ranged weapon - e.g. you
+     * can throw a longsword at somebody.
+     *
+     * @param bodySlotType the body slot type to calculate the boni for.
+     * @return the list of boni.
+     */
+    public List<Long> getRangedAtkBonus(final BodySlotType bodySlotType) {
+        return this.getGenericAtkBonus(bodySlotType, this.rangedAttackAction,
+                this.rangedAttackMode, ObserverHook.RANGED_ATTACK);
     }
 
     /**
@@ -267,17 +242,56 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
     }
 
     /**
-     * Returns the list of boni for the given body slot type. All boni are
-     * applied. The weapon in the slot is regarded as a ranged weapon - e.g. you
-     * can throw a longsword at somebody.
+     * Generic method to retrieve the attack boni for a certain type of attack
+     * (melee or ranged).
      *
-     * @param bodySlotType the body slot type to calculate the boni for.
-     * @return the list of boni.
+     * @param bodySlotType de facto the wielded weapon to attack with.
+     * @param attackAction melee or ranged attack.
+     * @param attackMode melee or ranged attack.
+     * @param attackHook melee or ranged attack.
+     * @return the list of attack boni with that weapon in that mode.
      */
-    public List<Long> getRangedAtkBonus(final BodySlotType bodySlotType) {
-        //TODO to be implemented
+    private List<Long> getGenericAtkBonus(final BodySlotType bodySlotType,
+            final DiceAction attackAction, final IWeaponCategory attackMode,
+            final ObserverHook attackHook) {
+        List<Long> atkBoni = new ArrayList<Long>();
 
-        return new ArrayList<Long>();
+        // gather all non-weapon-dependent boni for melee/ranged attack + attack
+        List<IBonus> genericBoni = this.bonusService
+                .traverseBoniByTarget(this, attackAction);
+        genericBoni.addAll(this.bonusService
+                .traverseBoniByTarget(this, this.attackAction));
+
+        IInventoryItem item = this.getBodySlotByType(bodySlotType).getItem();
+        if (item instanceof Weapon) {
+            Weapon weapon = (Weapon) item;
+
+            genericBoni.addAll(this.bonusService.traverseBoniByTarget(
+                    weapon, this.attackAction));
+        }
+
+        // post processing of the bonus list, e.g. by registered feat
+        // methods. (observer pattern)
+        ISituationContext attackSitCon
+                = this.generateSituationContext(bodySlotType, attackMode);
+        genericBoni = (List<IBonus>) this.getObservableDelegate()
+                .triggerObservers(
+                        attackHook, genericBoni, this.getObserverMap(),
+                        attackSitCon);
+        genericBoni = (List<IBonus>) this.getObservableDelegate()
+                .triggerObservers(
+                        ObserverHook.ATTACK, genericBoni,
+                        this.getObserverMap(),
+                        attackSitCon);
+
+        Long bonusValue = this.bonusService.accumulateBonusValue(
+                this, genericBoni);
+
+        for (IBonus baseAtkBonus : this.getBaseAtkBoni()) {
+            atkBoni.add(baseAtkBonus.getEffectiveValue(this) + bonusValue);
+        }
+
+        return atkBoni;
     }
 
     /**
