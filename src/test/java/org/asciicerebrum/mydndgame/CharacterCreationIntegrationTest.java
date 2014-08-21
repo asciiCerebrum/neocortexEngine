@@ -1,7 +1,9 @@
 package org.asciicerebrum.mydndgame;
 
 import java.util.List;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
+import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -28,8 +30,8 @@ public class CharacterCreationIntegrationTest {
     private static final String PRIMARY_HAND_TYPE = "primaryHand";
     private static final String SECONDARY_HAND_TYPE = "secondaryHand";
 
-    private DndCharacter harsk;
-    private DndCharacter valeros;
+    private ICharacter harsk;
+    private ICharacter valeros;
 
     private BodySlotType primaryHand;
     private BodySlotType secondaryHand;
@@ -137,7 +139,7 @@ public class CharacterCreationIntegrationTest {
     public void harskBaseAtk1() {
         assertEquals(Long.valueOf(2),
                 this.harsk.getBaseAtkBoni().get(0).getDynamicValueProvider()
-                .getDynamicValue(this.harsk));
+                .getDynamicValue((BonusValueContext) this.harsk));
     }
 
     @Test
@@ -165,7 +167,7 @@ public class CharacterCreationIntegrationTest {
     public void valerosBaseAtk1() {
         assertEquals(Long.valueOf(1),
                 this.valeros.getBaseAtkBoni().get(0).getDynamicValueProvider()
-                .getDynamicValue(this.valeros));
+                .getDynamicValue((BonusValueContext) this.valeros));
     }
 
     @Test

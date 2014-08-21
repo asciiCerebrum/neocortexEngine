@@ -12,6 +12,7 @@ import java.util.Map;
 import org.asciicerebrum.mydndgame.interfaces.entities.IAbility;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacterSetup;
 import org.asciicerebrum.mydndgame.interfaces.entities.IClass;
 import org.asciicerebrum.mydndgame.interfaces.entities.IFeat;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
@@ -35,7 +36,7 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
     /**
      * The setup for the character creation.
      */
-    private CharacterSetup setup;
+    private ICharacterSetup setup;
 
     /**
      * The race of this dnd character.
@@ -163,14 +164,10 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
     }
 
     /**
-     * Returns the list of boni for the given body slot type. All boni are
-     * applied. The weapon in the slot is regarded as a melee weapon - e.g. you
-     * can hit someone with a bow.
-     *
-     * @param bodySlotType the body slot type to calculate the boni for.
-     * @return the list of boni.
+     * {@inheritDoc}
      */
-    public List<Long> getMeleeAtkBonus(final BodySlotType bodySlotType) {
+    @Override
+    public List<Long> getMeleeAtkBonus(final IBodySlotType bodySlotType) {
         // TODO get body slot by body slot type
         // is there a weapon in this slot?
         // is it ranged or melee? - no if-construct here. let the weapon
@@ -212,14 +209,10 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
     }
 
     /**
-     * Returns the list of boni for the given body slot type. All boni are
-     * applied. The weapon in the slot is regarded as a ranged weapon - e.g. you
-     * can throw a longsword at somebody.
-     *
-     * @param bodySlotType the body slot type to calculate the boni for.
-     * @return the list of boni.
+     * {@inheritDoc}
      */
-    public List<Long> getRangedAtkBonus(final BodySlotType bodySlotType) {
+    @Override
+    public List<Long> getRangedAtkBonus(final IBodySlotType bodySlotType) {
         return this.getGenericAtkBonus(bodySlotType, this.rangedAttackAction,
                 this.rangedAttackMode, ObserverHook.RANGED_ATTACK);
     }
@@ -251,7 +244,7 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
      * @param attackHook melee or ranged attack.
      * @return the list of attack boni with that weapon in that mode.
      */
-    private List<Long> getGenericAtkBonus(final BodySlotType bodySlotType,
+    private List<Long> getGenericAtkBonus(final IBodySlotType bodySlotType,
             final DiceAction attackAction, final IWeaponCategory attackMode,
             final ObserverHook attackHook) {
         List<Long> atkBoni = new ArrayList<Long>();
@@ -295,13 +288,10 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
     }
 
     /**
-     *
-     * @param charCl The character class which needs to be counted.
-     * @return The number of class levels this character has for the given
-     * character class.
+     * {@inheritDoc}
      */
-    public Integer countClassLevelsByCharacterClass(
-            final CharacterClass charCl) {
+    @Override
+    public Integer countClassLevelsByCharacterClass(final IClass charCl) {
 
         return Collections.frequency(this.getClassList(), charCl);
     }
@@ -459,8 +449,9 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
     }
 
     /**
-     * @return the bodySlots
+     * {@inheritDoc}
      */
+    @Override
     public List<Slotable> getBodySlots() {
         return bodySlots;
     }
@@ -473,8 +464,9 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
     }
 
     /**
-     * @return the feats
+     * {@inheritDoc}
      */
+    @Override
     public List<IFeat> getFeats() {
         return feats;
     }
@@ -541,7 +533,7 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
      * @return the setup
      */
     @Override
-    public CharacterSetup getSetup() {
+    public ICharacterSetup getSetup() {
         return setup;
     }
 
@@ -562,18 +554,17 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
     }
 
     /**
-     * @param setupInput the setup to set
+     * {@inheritDoc}
      */
-    public void setSetup(final CharacterSetup setupInput) {
+    @Override
+    public void setSetup(final ICharacterSetup setupInput) {
         this.setup = setupInput;
     }
 
     /**
-     * Calculates the number of attacks a dnd character has during a full attack
-     * action.
-     *
-     * @return the maximum number of attacks.
+     * {@inheritDoc}
      */
+    @Override
     public Long getMaxAttackNumber() {
         Long maxAttackNumber = 0L;
         for (ILevel cLevel : this.classLevels) {

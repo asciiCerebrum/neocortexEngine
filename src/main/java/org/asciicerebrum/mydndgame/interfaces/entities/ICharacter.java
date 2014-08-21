@@ -133,4 +133,55 @@ public interface ICharacter extends BonusSource {
      */
     Slotable getBodySlotByType(IBodySlotType bsType);
 
+    /**
+     * @param setup the setup to set
+     */
+    void setSetup(ICharacterSetup setup);
+
+    /**
+     * @return the bodySlots
+     */
+    List<Slotable> getBodySlots();
+
+    /**
+     *
+     * @param charCl The character class which needs to be counted.
+     * @return The number of class levels this character has for the given
+     * character class.
+     */
+    Integer countClassLevelsByCharacterClass(IClass charCl);
+
+    /**
+     * @return the feats
+     */
+    List<IFeat> getFeats();
+
+    /**
+     * Calculates the number of attacks a dnd character has during a full attack
+     * action.
+     *
+     * @return the maximum number of attacks.
+     */
+    Long getMaxAttackNumber();
+
+    /**
+     * Returns the list of boni for the given body slot type. All boni are
+     * applied. The weapon in the slot is regarded as a melee weapon - e.g. you
+     * can hit someone with a bow.
+     *
+     * @param bodySlotType the body slot type to calculate the boni for.
+     * @return the list of boni.
+     */
+    List<Long> getMeleeAtkBonus(IBodySlotType bodySlotType);
+
+    /**
+     * Returns the list of boni for the given body slot type. All boni are
+     * applied. The weapon in the slot is regarded as a ranged weapon - e.g. you
+     * can throw a longsword at somebody.
+     *
+     * @param bodySlotType the body slot type to calculate the boni for.
+     * @return the list of boni.
+     */
+    List<Long> getRangedAtkBonus(IBodySlotType bodySlotType);
+
 }

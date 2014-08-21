@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -94,7 +95,7 @@ public class DndCharacterBuilderTest {
     @Test
     public void testBuildBodySlotsCount() {
 
-        DndCharacter character = this.dndCharacterBuilder.build();
+        ICharacter character = this.dndCharacterBuilder.build();
 
         assertEquals(1L, character.getBodySlots().size());
     }
@@ -102,35 +103,35 @@ public class DndCharacterBuilderTest {
     @Test
     public void testBuildBodySlotsFirstType() {
 
-        DndCharacter character = this.dndCharacterBuilder.build();
+        ICharacter character = this.dndCharacterBuilder.build();
 
         assertEquals("someBodySlotType", character.getBodySlots().get(0).getBodySlotType().getId());
     }
 
     @Test
     public void testBuildAbilityMapSize() {
-        DndCharacter character = this.dndCharacterBuilder.build();
+        ICharacter character = this.dndCharacterBuilder.build();
 
         assertEquals(1L, character.getBaseAbilityMap().size());
     }
 
     @Test
     public void testBuildAbilityMapFirstElementId() {
-        DndCharacter character = this.dndCharacterBuilder.build();
+        ICharacter character = this.dndCharacterBuilder.build();
 
         assertEquals("someAbility", character.getBaseAbilityMap().keySet().iterator().next().getId());
     }
 
     @Test
     public void testBuildAbilityMapFirstElementValue() {
-        DndCharacter character = this.dndCharacterBuilder.build();
+        ICharacter character = this.dndCharacterBuilder.build();
 
         assertEquals(Long.valueOf(10), character.getBaseAbilityMap().values().iterator().next());
     }
 
     @Test
     public void testBuildFeatsSize() {
-        DndCharacter character = this.dndCharacterBuilder.build();
+        ICharacter character = this.dndCharacterBuilder.build();
 
         assertEquals(1L, character.getFeats().size());
     }
@@ -143,49 +144,49 @@ public class DndCharacterBuilderTest {
                 .setClassName("someClass")
                 .setHpAddition(5L));
 
-        DndCharacter character = this.dndCharacterBuilder.build();
+        ICharacter character = this.dndCharacterBuilder.build();
 
         assertEquals(0L, character.getFeats().size());
     }
 
     @Test
     public void testBuildClassListSize() {
-        DndCharacter character = this.dndCharacterBuilder.build();
+        ICharacter character = this.dndCharacterBuilder.build();
 
         assertEquals(1L, character.getClassList().size());
     }
 
     @Test
     public void testBuildClassLevelsSize() {
-        DndCharacter character = this.dndCharacterBuilder.build();
+        ICharacter character = this.dndCharacterBuilder.build();
 
         assertEquals(1L, character.getClassLevels().size());
     }
 
     @Test
     public void testBuildClassListFirstValue() {
-        DndCharacter character = this.dndCharacterBuilder.build();
+        ICharacter character = this.dndCharacterBuilder.build();
 
         assertEquals("someClass", character.getClassList().get(0).getId());
     }
 
     @Test
     public void testBuildHpAdditionsSize() {
-        DndCharacter character = this.dndCharacterBuilder.build();
+        ICharacter character = this.dndCharacterBuilder.build();
 
         assertEquals(1L, character.getHpAdditionList().size());
     }
 
     @Test
     public void testBuildHpAdditionsFirstValue() {
-        DndCharacter character = this.dndCharacterBuilder.build();
+        ICharacter character = this.dndCharacterBuilder.build();
 
         assertEquals(Long.valueOf(5), character.getHpAdditionList().get(0));
     }
 
     @Test
     public void testPossessionsCorrectSlotAndId() {
-        DndCharacter character = this.dndCharacterBuilder.build();
+        ICharacter character = this.dndCharacterBuilder.build();
 
         assertEquals("someItem", character.getBodySlotByType(this.bsType).getItem().getId());
     }
@@ -195,7 +196,7 @@ public class DndCharacterBuilderTest {
         this.setup.getPossessionContainer().clear();
         this.setup.getPossessionContainer().put("somitItem", "someUnavailableBodySlotType");
 
-        DndCharacter character = this.dndCharacterBuilder.build();
+        ICharacter character = this.dndCharacterBuilder.build();
         assertNull(character.getBodySlotByType(this.bsType).getItem());
     }
 

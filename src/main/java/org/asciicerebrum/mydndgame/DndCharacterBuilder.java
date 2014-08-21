@@ -3,10 +3,12 @@ package org.asciicerebrum.mydndgame;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IFeat;
 import org.asciicerebrum.mydndgame.interfaces.entities.ILevel;
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
+import org.asciicerebrum.mydndgame.interfaces.observing.Observable;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -44,8 +46,8 @@ public class DndCharacterBuilder {
      *
      * @return the newly created character.
      */
-    public final DndCharacter build() {
-        DndCharacter dndCharacter = this.context.getBean(
+    public final ICharacter build() {
+        ICharacter dndCharacter = this.context.getBean(
                 DND_CHARACTER_PROTOTYPE_ID, DndCharacter.class);
 
         // trivial setup
@@ -142,14 +144,14 @@ public class DndCharacterBuilder {
      * @param dndCharacter the dnd Character.
      * @param feat the feat.
      */
-    private void addFeat(final DndCharacter dndCharacter, final IFeat feat) {
+    private void addFeat(final ICharacter dndCharacter, final IFeat feat) {
         dndCharacter.getFeats().add(feat);
 
         // registering feat hooks
         for (IObserver observer : feat.getObservers()) {
-            dndCharacter.getObservableDelegate()
+            ((Observable) dndCharacter).getObservableDelegate()
                     .registerListener(observer.getHook(), observer,
-                            dndCharacter.getObserverMap());
+                            ((Observable) dndCharacter).getObserverMap());
         }
     }
 }
