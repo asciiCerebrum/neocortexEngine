@@ -6,6 +6,7 @@ import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.IClass;
+import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.observing.ObservableDelegate;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -13,6 +14,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.eq;
 import org.mockito.Mock;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
@@ -25,7 +28,7 @@ public class DndCharacterTest {
 
     @Mock
     private BonusCalculationService bcService;
-    
+
     @Mock
     private ObservableDelegate observableDelegate;
 
@@ -121,8 +124,9 @@ public class DndCharacterTest {
 
         DiceAction hp = new DiceAction();
 
-        when(this.bcService.retrieveEffectiveBonusValueByTarget(this.testChar,
-                this.testChar, hp)).thenReturn(ADDITIONAL_HP);
+        when(this.bcService.retrieveEffectiveBonusValueByTarget(
+                (ISituationContext) anyObject(), eq(this.testChar), eq(hp)))
+                .thenReturn(ADDITIONAL_HP);
 
         this.testChar.setHp(hp);
         this.testChar.setBaseAttackBonus(baseAtkBonusType);
@@ -134,6 +138,7 @@ public class DndCharacterTest {
         this.testChar.getBaseAtkBoni().add(baseAtkBonus2_2);
         this.testChar.getClassLevels().add(cLevel1);
         this.testChar.getClassLevels().add(cLevel2);
+        this.testChar.setMeleeAttackAction(new DiceAction());
 
         BodySlot rawBodySlot = new BodySlot();
         rawBodySlot.setBodySlotType(this.bodySlot);

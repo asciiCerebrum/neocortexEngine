@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonusType;
-import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueProvider;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -23,7 +23,7 @@ public class BonusTest {
 
     private IBonus referenceBonus;
     private IBonus testBonus;
-    private BonusValueContext context;
+    private ISituationContext context;
 
     public BonusTest() {
     }
@@ -41,7 +41,7 @@ public class BonusTest {
 
         this.referenceBonus = new Bonus();
         this.testBonus = new Bonus();
-        this.context = mock(BonusValueContext.class);
+        this.context = mock(ISituationContext.class);
 
         IBonusType bType = new BonusType();
         BonusTarget bTarget = new DiceAction();

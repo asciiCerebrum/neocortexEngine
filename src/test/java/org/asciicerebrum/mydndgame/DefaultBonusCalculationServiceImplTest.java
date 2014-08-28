@@ -11,7 +11,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
-import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.logappender.RecordingAppender;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -19,7 +19,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.mockito.Mock;
+import static org.mockito.Mockito.mock;
 
 /**
  *
@@ -101,8 +101,7 @@ public class DefaultBonusCalculationServiceImplTest {
     private ObjectBonusGranter objBonusGranter;
     private ListBonusGranter listBonusGranter;
 
-    @Mock
-    private DndCharacter dndCharacter;
+    private ISituationContext sitCon;
 
     public DefaultBonusCalculationServiceImplTest() {
     }
@@ -117,6 +116,7 @@ public class DefaultBonusCalculationServiceImplTest {
 
     @Before
     public void setUp() {
+        this.sitCon = mock(ISituationContext.class);
 
         this.bcService = new DefaultBonusCalculationServiceImpl();
         this.targetTrue = new DiceAction();
@@ -133,7 +133,7 @@ public class DefaultBonusCalculationServiceImplTest {
         bonusFalse.setTarget(this.targetFalse);
         bonusFalse.setDynamicValueProvider(new BonusValueProvider() {
 
-            public Long getDynamicValue(BonusValueContext contect) {
+            public Long getDynamicValue(ISituationContext context) {
                 return 7L;
             }
         });
@@ -308,7 +308,7 @@ public class DefaultBonusCalculationServiceImplTest {
     public void testRetrieveEffectiveBonusValueByTarget() {
         Long effectiveBonus
                 = this.bcService.retrieveEffectiveBonusValueByTarget(
-                        this.dndCharacter, this.listBonusGranter,
+                        this.sitCon, this.listBonusGranter,
                         this.targetTrue);
 
         assertEquals(Long.valueOf(9), effectiveBonus);
@@ -321,7 +321,7 @@ public class DefaultBonusCalculationServiceImplTest {
     public void testRetrieveEffectiveBonusValueByTargetDynamic() {
         Long effectiveBonus
                 = this.bcService.retrieveEffectiveBonusValueByTarget(
-                        this.dndCharacter, this.listBonusGranter,
+                        this.sitCon, this.listBonusGranter,
                         this.targetFalse);
 
         assertEquals(Long.valueOf(21), effectiveBonus);

@@ -11,9 +11,8 @@
         <property name="acAction" ref="ac" />
         <property name="attackAction" ref="attack" />
         <property name="meleeAttackAction" ref="meleeAttack" />
-        <property name="meleeAttackMode" ref="meleeWeapon" />
         <property name="rangedAttackAction" ref="rangedAttack" />
-        <property name="rangedAttackMode" ref="rangedWeapon" />
+        <property name="damageAction" ref="damage" />
         <property name="baseAttackBonus" ref="baseAttackBonus" />
         <property name="baseAtkBoni">
             <list>
@@ -52,6 +51,57 @@
         <property name="boni">
             <list>
                 <ref bean="nonproficiencyPenaltyBonus" />
+            </list>
+        </property>
+        <property name="observers">
+            <list>
+                <!--1.5 times the bonus when wielded in two hands, except light weapon-->
+                <bean class="org.asciicerebrum.mydndgame.observers.BonusValueModificationObserver">
+                    <property name="hook" value="DAMAGE" />
+                    <property name="operation" value="MULTIPLICATION" />
+                    <property name="modValue" value="1.5" />
+                    <property name="referenceBonus"><!-- The bonus to modify must resemble this one. -->
+                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                            <property name="bonusType" ref="strBonus" />
+                            <property name="target" ref="damage" />
+                        </bean>
+                    </property>
+                    <property name="conditionEvaluator">
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.AndListEvaluator">
+                            <property name="conditionEvaluators">
+                                <list>
+                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectInventoryItemWieldingEvaluator">
+                                        <property name="wieldingType" value="BOTH" /><!--use enums here for wielding type-->
+                                    </bean>
+                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.NotEvaluator">
+                                        <property name="conditionEvaluator">
+                                            <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectWeaponEncumbranceEvaluator">
+                                                <property name="encumbrance" ref="light" />
+                                            </bean>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <!--0.5 times the bonus when wielded in secondary hand-->
+                <bean class="org.asciicerebrum.mydndgame.observers.BonusValueModificationObserver">
+                    <property name="hook" value="DAMAGE" />
+                    <property name="operation" value="MULTIPLICATION" />
+                    <property name="modValue" value="0.5" />
+                    <property name="referenceBonus"><!-- The bonus to modify must resemble this one. -->
+                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                            <property name="bonusType" ref="strBonus" />
+                            <property name="target" ref="damage" />
+                        </bean>
+                    </property>
+                    <property name="conditionEvaluator">
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectInventoryItemWieldingEvaluator">
+                            <property name="wieldingType" value="SECONDARY" /><!--use enums here for wielding type-->
+                        </bean>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

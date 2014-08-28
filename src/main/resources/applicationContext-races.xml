@@ -7,10 +7,14 @@
     <!-- body slot types -->
     <bean id="primaryHand" class="org.asciicerebrum.mydndgame.BodySlotType">
         <property name="id" value="primaryHand" />
+        <property name="counterSlot" ref="secondaryHand" /><!-- The opposite slot. Easy way of switching between both. -->
+        <property name="isPrimaryAttackSlot" value="true" />
     </bean>
 
     <bean id="secondaryHand" class="org.asciicerebrum.mydndgame.BodySlotType">
         <property name="id" value="secondaryHand" />
+        <property name="counterSlot" ref="primaryHand" /><!-- The opposite slot. Easy way of switching between both. -->
+        <property name="isPrimaryAttackSlot" value="false" />
     </bean>
     
     <!-- races -->        

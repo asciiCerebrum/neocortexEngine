@@ -4,6 +4,7 @@ import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
+import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 
 /**
  *
@@ -21,12 +22,12 @@ public interface BonusCalculationService {
 
     /**
      *
-     * @param source the bonus source as the starting point for the tree
+     * @param origin the bonus source as the starting point for the tree
      * taversal.
      * @param target the bonus target of interest.
      * @return the collection list of all boni found through the object graph.
      */
-    List<IBonus> traverseBoniByTarget(Object source, BonusTarget target);
+    List<IBonus> traverseBoniByTarget(Object origin, BonusTarget target);
 
     /**
      * Calculation of the effective bonus as a summation over all granted boni.
@@ -34,23 +35,23 @@ public interface BonusCalculationService {
      * {@link #traverseBoniByTarget(Object, BonusTarget)} and
      * {@link #accumulateBonusValue(ICharacter, jList)}.
      *
-     * @param iCharacter the context as a dndCharacter.
-     * @param source the source to start collecting boni from (and then going
+     * @param context the context as a dndCharacter.
+     * @param origin the source to start collecting boni from (and then going
      * down the tree).
      * @param target the bonus target of interest.
      * @return the total bonus value calculated from all boni given by the
      * source object in the context of the dndCharacter.
      */
-    Long retrieveEffectiveBonusValueByTarget(ICharacter iCharacter,
-            Object source, BonusTarget target);
+    Long retrieveEffectiveBonusValueByTarget(ISituationContext context,
+            Object origin, BonusTarget target);
 
     /**
      * Accumulates the list of found boni into a single effective bonus value.
      *
-     * @param iCharacter the context as a dndCharacter.
+     * @param context the context as a dndCharacter.
      * @param foundBoni the list of boni to accumulate the result over.
      * @return the accumulated bonus value.
      */
-    Long accumulateBonusValue(ICharacter iCharacter,
+    Long accumulateBonusValue(ISituationContext context,
             List<IBonus> foundBoni);
 }

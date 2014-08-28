@@ -47,4 +47,14 @@ public interface IWeapon extends IInventoryItem, Identifiable {
      */
     void setDefaultCategories(List<IWeaponCategory> defaultCategories);
 
+    /**
+     * @return the weaponTypes
+     */
+    List<IWeaponType> getWeaponTypes();
+
+    /**
+     * @param weaponTypesInput the weaponTypes to set
+     */
+    void setWeaponTypes(List<IWeaponType> weaponTypesInput);
+
 }

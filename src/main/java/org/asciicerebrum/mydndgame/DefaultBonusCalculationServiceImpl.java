@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
-import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.springframework.util.StringUtils;
 
 /**
@@ -33,18 +32,18 @@ public class DefaultBonusCalculationServiceImpl
      */
     @Override
     public final Long retrieveEffectiveBonusValueByTarget(
-            final ICharacter iCharacter, final Object source,
+            final ISituationContext context, final Object origin,
             final BonusTarget target) {
 
-        List<IBonus> foundBoni = this.traverseBoniByTarget(source, target);
-        return this.accumulateBonusValue(iCharacter, foundBoni);
+        List<IBonus> foundBoni = this.traverseBoniByTarget(origin, target);
+        return this.accumulateBonusValue(context, foundBoni);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final Long accumulateBonusValue(final ICharacter iCharacter,
+    public final Long accumulateBonusValue(final ISituationContext context,
             final List<IBonus> foundBoni) {
         //TODO filter out non-stacking boni
         //TODO track the origin of the bonus, e.g. from ability Constitution
@@ -54,7 +53,7 @@ public class DefaultBonusCalculationServiceImpl
         Long totalBonusVal = 0L;
         for (IBonus bonus : foundBoni) {
             Long bonusVal
-                    = bonus.getEffectiveValue((BonusValueContext) iCharacter);
+                    = bonus.getEffectiveValue(context);
 
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("Bonus " + bonus.getBonusType().getId()
@@ -69,18 +68,18 @@ public class DefaultBonusCalculationServiceImpl
      * {@inheritDoc}
      */
     @Override
-    public final List<IBonus> traverseBoniByTarget(final Object source,
+    public final List<IBonus> traverseBoniByTarget(final Object origin,
             final BonusTarget target) {
 
         List<IBonus> traversedBoni = new ArrayList<IBonus>();
 
-        if (source instanceof BonusSource) {
-            BonusSource bonusSource = (BonusSource) source;
+        if (origin instanceof BonusSource) {
+            BonusSource bonusSource = (BonusSource) origin;
             traversedBoni.addAll(this.filterBonusListByTarget(
                     bonusSource.getBoni(), target));
         }
 
-        Class currentClass = source.getClass();
+        Class currentClass = origin.getClass();
 
         // traverse all fields and all the fields from the superclasses!
         while (currentClass != null) {
@@ -93,11 +92,11 @@ public class DefaultBonusCalculationServiceImpl
                     LOGGER.debug("Found field: " + field.getName());
                 }
                 try {
-                    Method getter = source.getClass().getMethod(
+                    Method getter = origin.getClass().getMethod(
                             "get" + StringUtils.capitalize(field.getName()));
 
                     // invoke getter of annotated field
-                    Object getterResult = getter.invoke(source);
+                    Object getterResult = getter.invoke(origin);
 
                     this.traversePerField(field, getterResult,
                             traversedBoni, target);
@@ -162,7 +161,11 @@ public class DefaultBonusCalculationServiceImpl
         List<IBonus> filteredBoni = new ArrayList<IBonus>();
 
         for (IBonus bonus : boni) {
-            if (bonus.getTarget().equals(target)) {
+            // e.g. boni for damage are not equal because every weapon has its
+            // own instance of a damage dice action (= bonus target) - so the
+            // equality has to be checked via the id string.
+            if (bonus.getTarget().equals(target)
+                    || bonus.getTarget().getId().equals(target.getId())) {
                 filteredBoni.add(bonus);
             }
         }

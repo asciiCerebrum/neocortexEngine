@@ -50,6 +50,11 @@
     <bean id="rangedWeapon" class="org.asciicerebrum.mydndgame.WeaponCategory">
         <property name="id" value="rangedWeapon" />
     </bean>
+    
+    <!-- Weapon Types -->
+    <bean id="thrownWeapon" class="org.asciicerebrum.mydndgame.WeaponType">
+        <property name="id" value="thrownWeapon" />
+    </bean>
                                                                                                                                                 
     <!-- Weapon prototypes -->
     <bean id="abstractWeapon" class="org.asciicerebrum.mydndgame.InventoryItem" scope="prototype" abstract="true">
@@ -64,6 +69,7 @@
         <property name="size" ref="medium" />
         <property name="damage">
             <bean class="org.asciicerebrum.mydndgame.DiceAction">
+                <property name="id" value="damage" />
                 <property name="diceNumber" value="1" />
                 <property name="diceType" ref="d8" />
             </bean>
@@ -97,6 +103,7 @@
         <property name="size" ref="medium" />
         <property name="damage">
             <bean class="org.asciicerebrum.mydndgame.DiceAction">
+                <property name="id" value="damage" />
                 <property name="diceNumber" value="1" />
                 <property name="diceType" ref="d8" />
             </bean>
@@ -130,6 +137,7 @@
         <property name="size" ref="medium" />
         <property name="damage">
             <bean class="org.asciicerebrum.mydndgame.DiceAction">
+                <property name="id" value="damage" />
                 <property name="diceNumber" value="1" />
                 <property name="diceType" ref="d6" />
             </bean>
@@ -153,6 +161,27 @@
                 <ref bean="secondaryHand" />
             </list>
         </property>
+        <property name="observers">
+            <list>
+                <!--1.5 times str bonus for damage when wielded in two hands does not apply.-->
+                <bean class="org.asciicerebrum.mydndgame.observers.BonusValueModificationObserver">
+                    <property name="hook" value="DAMAGE" />
+                    <property name="operation" value="DIVISION" />
+                    <property name="modValue" value="1.5" />
+                    <property name="referenceBonus"><!-- The bonus to modify must resemble this one. -->
+                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                            <property name="bonusType" ref="strBonus" />
+                            <property name="target" ref="damage" />
+                        </bean>
+                    </property>
+                    <property name="conditionEvaluator">
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectInventoryItemWieldingEvaluator">
+                            <property name="wieldingType" value="BOTH" /><!-- This is an enum defined in this evaluator. -->
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
     </bean>
     
     <bean id="dagger" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
@@ -163,6 +192,7 @@
         <property name="size" ref="medium" />
         <property name="damage">
             <bean class="org.asciicerebrum.mydndgame.DiceAction">
+                <property name="id" value="damage" />
                 <property name="diceNumber" value="1" />
                 <property name="diceType" ref="d4" />
             </bean>
@@ -189,6 +219,11 @@
                 <ref bean="secondaryHand" />
             </list>
         </property>
+        <property name="weaponTypes">
+            <list>
+                <ref bean="thrownWeapon" />
+            </list>
+        </property>
     </bean>
     
     <bean id="whip" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
@@ -205,20 +240,62 @@
     
     <bean id="dart" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
           parent="abstractWeapon">
+        <property name="weaponTypes">
+            <list>
+                <ref bean="thrownWeapon" />
+            </list>
+        </property>
     </bean>
     
     <bean id="quarterstaff" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
           parent="abstractWeapon">
     </bean>
     
+    <bean id="sling" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
+          parent="abstractWeapon">
+        <property name="name" value="sling" />
+        <property name="boni">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="bonusType" ref="strBonus" />
+                    <property name="target" ref="damage" />
+                    <property name="dynamicValueProvider" ref="strAbilityBonusValueProvider" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="longbow" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
+          parent="abstractWeapon">
+        <property name="name" value="longbow" />
+        <property name="boni">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="bonusType" ref="strBonus" />
+                    <property name="target" ref="damage" />
+                    <property name="dynamicValueProvider" ref="strAbilityBonusValueProvider" />
+                    <property name="conditionEvaluator">
+                        <!--bonus applies only when negative-->
+                        <bean class="abilityBonusComparisonEvaluator">
+                            <property name="abilityBonusValueProvider" ref="strAbilityBonusValueProvider" />
+                            <property name="comparator" value="LT" /><!-- Enum defined in this class: LT, LE, EQ, GE, GT -->
+                            <property name="referenceValue" value="0" />
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+            
     <bean id="bastardsword" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
-              parent="abstractWeapon">
+          parent="abstractWeapon">
         <property name="name" value="bastardsword" />
         <property name="baseCost" value="35" />
         <property name="weight" value="6" />
         <property name="size" ref="medium" />
         <property name="damage">
             <bean class="org.asciicerebrum.mydndgame.DiceAction">
+                <property name="id" value="damage" />
                 <property name="diceNumber" value="1" />
                 <property name="diceType" ref="d8" />
             </bean>

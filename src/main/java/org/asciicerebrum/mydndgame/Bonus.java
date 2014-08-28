@@ -5,9 +5,10 @@ import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueProvider;
 import java.io.Serializable;
 import java.util.Comparator;
 import org.apache.commons.lang.ObjectUtils;
+import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonusType;
-import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 
 /**
  *
@@ -39,6 +40,11 @@ public class Bonus implements IBonus {
      * value has priority over static one.
      */
     private BonusValueProvider dynamicValueProvider;
+
+    /**
+     * Checks if the bonus can be applied when the condition evaluates to true.
+     */
+    private ConditionEvaluator conditionEvaluator;
 
     /**
      * {@inheritDoc}
@@ -113,6 +119,23 @@ public class Bonus implements IBonus {
         }
 
         return Boolean.TRUE;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final ConditionEvaluator getConditionEvaluator() {
+        return conditionEvaluator;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void setConditionEvaluator(
+            final ConditionEvaluator conditionEvaluatorInput) {
+        this.conditionEvaluator = conditionEvaluatorInput;
     }
 
     /**
@@ -232,11 +255,17 @@ public class Bonus implements IBonus {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc} Remember there is a difference between an effective value
+     * of null and 0. Null: the bonus is defacto non-existent. 0: the bonus
+     * applies with a value of 0.
      */
     @Override
-    public final Long getEffectiveValue(final BonusValueContext context) {
+    public final Long getEffectiveValue(final ISituationContext context) {
 
+        if (this.getConditionEvaluator() != null
+                && !this.getConditionEvaluator().evaluate(context)) {
+            return null;
+        }
         if (this.value != null) {
             return this.value;
         }

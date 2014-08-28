@@ -1,12 +1,13 @@
 package org.asciicerebrum.mydndgame.interfaces.entities;
 
 import java.util.List;
+import org.asciicerebrum.mydndgame.interfaces.observing.Observable;
 
 /**
  *
  * @author Tabea Raab
  */
-public interface IInventoryItem extends Identifiable {
+public interface IInventoryItem extends Identifiable, Observable {
 
     /**
      * @return the name
@@ -62,5 +63,15 @@ public interface IInventoryItem extends Identifiable {
      * @return true if they have the same name.
      */
     Boolean resembles(IInventoryItem item);
+
+    /**
+     * @return the observers
+     */
+    List<IObserver> getObservers();
+
+    /**
+     * @param observers the observers to set
+     */
+    void setObservers(List<IObserver> observers);
 
 }

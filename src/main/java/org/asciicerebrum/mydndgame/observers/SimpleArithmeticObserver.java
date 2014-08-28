@@ -65,7 +65,7 @@ public class SimpleArithmeticObserver extends AbstractObserver {
      * {@inheritDoc}
      */
     @Override
-    public final Object trigger(final Object object,
+    protected final Object triggerCallback(final Object object,
             final ISituationContext situationContext) {
 
         Long numeric = (Long) object;

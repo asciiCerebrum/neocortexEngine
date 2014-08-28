@@ -1,5 +1,7 @@
 package org.asciicerebrum.mydndgame.interfaces.valueproviders;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+
 /**
  *
  * @author species8472
@@ -12,5 +14,5 @@ public interface BonusValueProvider {
      * dndCharacter.
      * @return the result of the dynamic bonus value calculation.
      */
-    Long getDynamicValue(BonusValueContext context);
+    Long getDynamicValue(ISituationContext context);
 }

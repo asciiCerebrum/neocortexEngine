@@ -8,6 +8,10 @@
         <property name="id" value="hp" />
     </bean>
 
+    <bean id="damage" class="org.asciicerebrum.mydndgame.DiceAction">
+        <property name="id" value="damage" />
+    </bean>
+
     <bean id="ac" class="org.asciicerebrum.mydndgame.DiceAction">
         <property name="id" value="ac" />
         <property name="constValue" value="10" />
@@ -23,11 +27,13 @@
         <property name="id" value="meleeAttack" />
         <property name="diceNumber" value="1" />
         <property name="diceType" ref="d20" />
+        <property name="associatedAttackMode" ref="meleeWeapon" />
     </bean>
     
     <bean id="rangedAttack" class="org.asciicerebrum.mydndgame.DiceAction">
         <property name="id" value="rangedAttack" />
         <property name="diceNumber" value="1" />
         <property name="diceType" ref="d20" />
+        <property name="associatedAttackMode" ref="rangedWeapon" />
     </bean>                                                                                                  
 </beans>

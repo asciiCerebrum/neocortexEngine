@@ -20,12 +20,8 @@ public class RemoveBonusObserver extends AbstractObserver {
      * {@inheritDoc}
      */
     @Override
-    public final Object trigger(final Object object,
+    protected final Object triggerCallback(final Object object,
             final ISituationContext situationContext) {
-
-        if (!this.getConditionEvaluator().evaluate(situationContext)) {
-            return object;
-        }
 
         List<IBonus> boni = (List<IBonus>) object;
         Iterator<IBonus> boniIterator = boni.iterator();

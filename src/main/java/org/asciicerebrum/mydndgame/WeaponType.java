@@ -1,10 +1,12 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponType;
+
 /**
  *
  * @author species8472
  */
-public class WeaponType {
+public class WeaponType implements IWeaponType {
 
     /**
      * Unique id of the weapon type.

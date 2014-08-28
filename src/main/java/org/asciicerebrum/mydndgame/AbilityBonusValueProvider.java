@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame;
 import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueProvider;
 import java.util.Collections;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
-import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 
 /**
  *
@@ -28,9 +28,9 @@ public class AbilityBonusValueProvider implements BonusValueProvider {
      * @return the dynamically calculated bonus value of the given ability -
      * depending on the character.
      */
-    public final Long getDynamicValue(final BonusValueContext context) {
+    public final Long getDynamicValue(final ISituationContext context) {
 
-        ICharacter dndCharacter = (ICharacter) context;
+        ICharacter dndCharacter = context.getCharacter();
 
         //TODO collect all boni/mali with this ability as target
         // e.g. sicknesses can give a -4 malus on Constitution.

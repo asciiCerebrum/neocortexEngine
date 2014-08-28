@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.ILevel;
-import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mock;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 
@@ -23,12 +24,12 @@ public class AtkBonusValueProviderTest {
 
     private AtkBonusValueProvider bonusValueProvider;
 
-    @Mock(extraInterfaces = {BonusValueContext.class})
-    private ICharacter dndCharacter;
-    
+    @Mock
+    private ISituationContext sitCon;
+
     @Mock
     private ILevel iLevel1;
-    
+
     @Mock
     private ILevel iLevel2;
 
@@ -47,15 +48,18 @@ public class AtkBonusValueProviderTest {
     public void setUp() {
 
         MockitoAnnotations.initMocks(this);
-        
+
         List<ILevel> levels = new ArrayList<ILevel>();
         levels.add(this.iLevel1);
         levels.add(this.iLevel2);
-        
-        when(this.dndCharacter.getClassLevels()).thenReturn(levels);
+
+        ICharacter characterMock = mock(ICharacter.class);
+
+        when(this.sitCon.getCharacter()).thenReturn(characterMock);
+        when(characterMock.getClassLevels()).thenReturn(levels);
         when(this.iLevel1.getBaseAtkBonusValueDeltaByRank(5L)).thenReturn(3L);
         when(this.iLevel2.getBaseAtkBonusValueDeltaByRank(5L)).thenReturn(7L);
-        
+
         this.bonusValueProvider = new AtkBonusValueProvider();
         this.bonusValueProvider.setRank(5L);
     }
@@ -70,8 +74,7 @@ public class AtkBonusValueProviderTest {
     @Test
     public void testGetDynamicValue() {
 
-        Long dynVal = this.bonusValueProvider.getDynamicValue(
-                (BonusValueContext) this.dndCharacter);
+        Long dynVal = this.bonusValueProvider.getDynamicValue(this.sitCon);
 
         assertEquals(Long.valueOf(10), dynVal);
     }

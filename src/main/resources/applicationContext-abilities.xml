@@ -14,6 +14,25 @@
                     <property name="target" ref="meleeAttack" />
                     <property name="dynamicValueProvider" ref="strAbilityBonusValueProvider" />
                 </bean>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="bonusType" ref="strBonus" />
+                    <property name="target" ref="damage" />
+                    <property name="dynamicValueProvider" ref="strAbilityBonusValueProvider" />
+                    <property name="conditionEvaluator">
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.OrListEvaluator">
+                            <property name="conditionEvaluators">
+                                <list>
+                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectAttackModeEvaluator"><!-- Better use the attack mode??? hit someone with bow - bow used as melee weapon! -->
+                                        <property name="weaponCategory" ref="meleeWeapon" />
+                                    </bean>
+                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectWeaponTypeEvaluator">
+                                        <property name="weaponType" ref="thrownWeapon" />
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

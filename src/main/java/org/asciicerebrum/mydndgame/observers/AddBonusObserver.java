@@ -30,7 +30,7 @@ public class AddBonusObserver extends AbstractObserver {
      * {@inheritDoc}
      */
     @Override
-    public final Object trigger(final Object object,
+    protected final Object triggerCallback(final Object object,
             final ISituationContext situationContext) {
         List<IBonus> boni = (List<IBonus>) object;
 

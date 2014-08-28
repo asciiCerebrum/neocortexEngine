@@ -9,6 +9,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
 import org.asciicerebrum.mydndgame.interfaces.entities.IAbility;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
@@ -24,14 +25,12 @@ import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
 import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
 import org.asciicerebrum.mydndgame.interfaces.observing.Observable;
 import org.asciicerebrum.mydndgame.interfaces.observing.ObservableDelegate;
-import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
 
 /**
  *
  * @author species8472
  */
-public final class DndCharacter implements ICharacter, BonusValueContext,
-        Observable {
+public final class DndCharacter implements ICharacter, Observable {
 
     /**
      * The setup for the character creation.
@@ -111,17 +110,13 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
      */
     private DiceAction meleeAttackAction;
     /**
-     * The weapon category with id meleeWeapon.
-     */
-    private IWeaponCategory meleeAttackMode;
-    /**
      * The diceAction with id rangedAttackAction.
      */
     private DiceAction rangedAttackAction;
     /**
-     * The weapon category with id rangedWeapon.
+     * The diceAction with id damage.
      */
-    private IWeaponCategory rangedAttackMode;
+    private DiceAction damageAction;
     /**
      * The bonusType with id baseAttackBonus.
      */
@@ -149,6 +144,13 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
      */
     private Map<ObserverHook, List<IObserver>> observerMap
             = new EnumMap<ObserverHook, List<IObserver>>(ObserverHook.class);
+
+    /**
+     * The observers of this character. They are designed to be registered in
+     * the targeted character to modify certain values of all kinds of
+     * attributes.
+     */
+    private List<IObserver> observers = new ArrayList<IObserver>();
 
     /**
      * {@inheritDoc}
@@ -205,7 +207,7 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
         // creature that uses one in combat is considered to be nonproficient
         // with it and takes a -4 penalty on attack rolls made with that object.
         return this.getGenericAtkBonus(bodySlotType, this.meleeAttackAction,
-                this.meleeAttackMode, ObserverHook.MELEE_ATTACK);
+                ObserverHook.MELEE_ATTACK);
     }
 
     /**
@@ -214,7 +216,7 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
     @Override
     public List<Long> getRangedAtkBonus(final IBodySlotType bodySlotType) {
         return this.getGenericAtkBonus(bodySlotType, this.rangedAttackAction,
-                this.rangedAttackMode, ObserverHook.RANGED_ATTACK);
+                ObserverHook.RANGED_ATTACK);
     }
 
     /**
@@ -235,41 +237,44 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ISituationContext generateSituationContextSimple() {
+        return this.generateSituationContext(null, null);
+    }
+
+    /**
      * Generic method to retrieve the attack boni for a certain type of attack
      * (melee or ranged).
      *
      * @param bodySlotType de facto the wielded weapon to attack with.
-     * @param attackAction melee or ranged attack.
-     * @param attackMode melee or ranged attack.
-     * @param attackHook melee or ranged attack.
+     * @param bonusTarget melee or ranged attack.
+     * @param observerHook melee or ranged attack.
      * @return the list of attack boni with that weapon in that mode.
      */
     private List<Long> getGenericAtkBonus(final IBodySlotType bodySlotType,
-            final DiceAction attackAction, final IWeaponCategory attackMode,
-            final ObserverHook attackHook) {
+            final BonusTarget bonusTarget, final ObserverHook observerHook) {
         List<Long> atkBoni = new ArrayList<Long>();
 
         // gather all non-weapon-dependent boni for melee/ranged attack + attack
         List<IBonus> genericBoni = this.bonusService
-                .traverseBoniByTarget(this, attackAction);
+                .traverseBoniByTarget(this, bonusTarget);
         genericBoni.addAll(this.bonusService
                 .traverseBoniByTarget(this, this.attackAction));
 
         IInventoryItem item = this.getBodySlotByType(bodySlotType).getItem();
-        if (item instanceof Weapon) {
-            Weapon weapon = (Weapon) item;
-
-            genericBoni.addAll(this.bonusService.traverseBoniByTarget(
-                    weapon, this.attackAction));
-        }
+        genericBoni.addAll(this.bonusService.traverseBoniByTarget(
+                item, this.attackAction));
 
         // post processing of the bonus list, e.g. by registered feat
         // methods. (observer pattern)
         ISituationContext attackSitCon
-                = this.generateSituationContext(bodySlotType, attackMode);
+                = this.generateSituationContext(bodySlotType,
+                        bonusTarget.getAssociatedAttackMode());
         genericBoni = (List<IBonus>) this.getObservableDelegate()
                 .triggerObservers(
-                        attackHook, genericBoni, this.getObserverMap(),
+                        observerHook, genericBoni, this.getObserverMap(),
                         attackSitCon);
         genericBoni = (List<IBonus>) this.getObservableDelegate()
                 .triggerObservers(
@@ -277,11 +282,12 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
                         this.getObserverMap(),
                         attackSitCon);
 
-        Long bonusValue = this.bonusService.accumulateBonusValue(
-                this, genericBoni);
+        Long bonusValue = this.bonusService.accumulateBonusValue(attackSitCon,
+                genericBoni);
 
         for (IBonus baseAtkBonus : this.getBaseAtkBoni()) {
-            atkBoni.add(baseAtkBonus.getEffectiveValue(this) + bonusValue);
+            atkBoni.add(baseAtkBonus.getEffectiveValue(attackSitCon)
+                    + bonusValue);
         }
 
         return atkBoni;
@@ -383,7 +389,7 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
         // hp add con-modifier for each class level
         maxHp += this.getClassList().size()
                 * this.bonusService.retrieveEffectiveBonusValueByTarget(
-                        this, this, this.hp);
+                        this.generateSituationContextSimple(), this, this.hp);
 
         return maxHp;
     }
@@ -396,7 +402,8 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
     public Long getAc() {
         return this.acAction.getConstValue()
                 + this.bonusService.retrieveEffectiveBonusValueByTarget(
-                        this, this, this.acAction);
+                        this.generateSituationContextSimple(), this,
+                        this.acAction);
     }
 
     /**
@@ -646,31 +653,94 @@ public final class DndCharacter implements ICharacter, BonusValueContext,
     }
 
     /**
-     * @return the meleeAttackMode
+     * {@inheritDoc}
      */
-    public IWeaponCategory getMeleeAttackMode() {
-        return meleeAttackMode;
+    @Override
+    //TODO there must be a melee and a ranged version because, for example,
+    // attacking with a bow in ranged mode gives other damage boni as hitting
+    // someone with it.
+    public Long getMeleeDamageBonus(final IBodySlotType bodySlotType) {
+        return this.getDamageBonus(bodySlotType,
+                this.meleeAttackAction.getAssociatedAttackMode());
     }
 
     /**
-     * @param meleeAttackModeInput the meleeAttackMode to set
+     * {@inheritDoc}
      */
-    public void setMeleeAttackMode(final IWeaponCategory meleeAttackModeInput) {
-        this.meleeAttackMode = meleeAttackModeInput;
+    @Override
+    public Long getRangedDamageBonus(final IBodySlotType bodySlotType) {
+        return this.getDamageBonus(bodySlotType,
+                this.rangedAttackAction.getAssociatedAttackMode());
     }
 
     /**
-     * @return the rangedAttackMode
+     * Calculates the damgage bonus in a generic way. The attack mode is
+     * important because you can hit someone with a bow in melee mode. Then the
+     * str bonus applies, even if it is positive!
+     *
+     * @param bodySlotType the body slot to take damage specific boni into
+     * account.
+     * @param attackMode the mode of attack (ranged or melee).
+     * @return the calculated bonus value.
      */
-    public IWeaponCategory getRangedAttackMode() {
-        return rangedAttackMode;
+    private Long getDamageBonus(final IBodySlotType bodySlotType,
+            final IWeaponCategory attackMode) {
+
+        // non-weapon dependent stuff
+        List<IBonus> genericBoni = this.bonusService
+                .traverseBoniByTarget(this, this.getDamageAction());
+
+        // weapon-dependent stuff
+        IInventoryItem item = this.getBodySlotByType(bodySlotType).getItem();
+        genericBoni.addAll(this.bonusService.traverseBoniByTarget(
+                item, this.getDamageAction()));
+
+        // post-processing with observers
+        ISituationContext attackSitCon
+                = this.generateSituationContext(bodySlotType, attackMode);
+        genericBoni = (List<IBonus>) this.getObservableDelegate()
+                .triggerObservers(
+                        ObserverHook.DAMAGE, genericBoni, this.getObserverMap(),
+                        attackSitCon);
+        // post-processing with item/weapon observers
+        genericBoni = (List<IBonus>) item.getObservableDelegate()
+                .triggerObservers(
+                        ObserverHook.DAMAGE, genericBoni, item.getObserverMap(),
+                        attackSitCon);
+
+        Long bonusValue = this.bonusService.accumulateBonusValue(
+                attackSitCon, genericBoni);
+
+        return bonusValue;
     }
 
     /**
-     * @param rangedAttackModeInput the rangedAttackMode to set
+     * @return the damageAction
      */
-    public void setRangedAttackMode(
-            final IWeaponCategory rangedAttackModeInput) {
-        this.rangedAttackMode = rangedAttackModeInput;
+    public DiceAction getDamageAction() {
+        return damageAction;
+    }
+
+    /**
+     * @param damageActionInput the damageAction to set
+     */
+    public void setDamageAction(final DiceAction damageActionInput) {
+        this.damageAction = damageActionInput;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final List<IObserver> getObservers() {
+        return observers;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void setObservers(final List<IObserver> observersInput) {
+        this.observers = observersInput;
     }
 }

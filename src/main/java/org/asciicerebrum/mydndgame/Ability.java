@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.IAbility;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
+import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
 
 /**
  *
@@ -25,6 +26,11 @@ public class Ability implements IAbility, BonusSource, BonusTarget {
      * Collection of all boni associated with this ability.
      */
     private List<IBonus> boni = new ArrayList<IBonus>();
+    /**
+     * The attack mode (ranged/melee) associated with this bonus target. Can
+     * also be null.
+     */
+    private IWeaponCategory associatedAttackMode;
 
     /**
      * @return the id
@@ -66,6 +72,23 @@ public class Ability implements IAbility, BonusSource, BonusTarget {
      */
     public final void setBoni(final List<IBonus> boniInput) {
         this.boni = boniInput;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final IWeaponCategory getAssociatedAttackMode() {
+        return this.associatedAttackMode;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void setAssociatedAttackMode(
+            final IWeaponCategory associatedAttackModeInput) {
+        this.associatedAttackMode = associatedAttackModeInput;
     }
 
 }

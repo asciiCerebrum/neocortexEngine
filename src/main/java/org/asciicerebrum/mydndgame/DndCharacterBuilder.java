@@ -74,6 +74,13 @@ public class DndCharacterBuilder {
                     .put(ability, abilityEntry.getValue());
         }
 
+        // registering own observers
+        for (IObserver observer : dndCharacter.getObservers()) {
+            ((Observable) dndCharacter).getObservableDelegate()
+                    .registerListener(observer.getHook(), observer,
+                            ((Observable) dndCharacter).getObserverMap());
+        }
+
         // advancement
         for (LevelAdvancement advance
                 : this.setup.getLevelAdvancementStack()) {

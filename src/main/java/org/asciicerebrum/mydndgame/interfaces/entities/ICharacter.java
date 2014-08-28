@@ -184,4 +184,39 @@ public interface ICharacter extends BonusSource {
      */
     List<Long> getRangedAtkBonus(IBodySlotType bodySlotType);
 
+    /**
+     * Returns the damage bonus value for the weapon in the body slot of the
+     * given type when used in melee mode. E.g. hitting someone with a bow.
+     *
+     * @param bodySlotType the body slot type holding the weapon.
+     * @return the effective bonus value.
+     */
+    Long getMeleeDamageBonus(IBodySlotType bodySlotType);
+
+    /**
+     * Returns the damage bonus value for the weapon in the body slot of the
+     * given type when used in ranged mode. E.g. shooting an arrow with a bow.
+     *
+     * @param bodySlotType the body slot type holding the weapon.
+     * @return the effective bonus value.
+     */
+    Long getRangedDamageBonus(IBodySlotType bodySlotType);
+
+    /**
+     * Generate a really simple situation context object. This is suitable if
+     * the character is not attacking and all attack values are of no interest.
+     *
+     * @return the created situation context.
+     */
+    ISituationContext generateSituationContextSimple();
+
+    /**
+     * @return the observers
+     */
+    List<IObserver> getObservers();
+
+    /**
+     * @param observers the observers to set
+     */
+    void setObservers(List<IObserver> observers);
 }

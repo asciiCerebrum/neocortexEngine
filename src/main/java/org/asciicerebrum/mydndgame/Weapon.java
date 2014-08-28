@@ -6,6 +6,7 @@ import org.asciicerebrum.mydndgame.interfaces.entities.IEncumbrance;
 import org.asciicerebrum.mydndgame.interfaces.entities.IProficiency;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
+import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponType;
 
 /**
  *
@@ -67,7 +68,7 @@ public class Weapon extends InventoryItem implements IWeapon {
      * A list of types this weapon represents. E.g. double weapon, thrown
      * weapon, projectile, ammunition, etc.
      */
-    private List<WeaponType> weaponTypes;
+    private List<IWeaponType> weaponTypes;
 
     /**
      * For which kinds of body slots this weapon is intendet.
@@ -228,16 +229,18 @@ public class Weapon extends InventoryItem implements IWeapon {
     }
 
     /**
-     * @return the weaponTypes
+     * {@inheritDoc}
      */
-    public final List<WeaponType> getWeaponTypes() {
+    @Override
+    public final List<IWeaponType> getWeaponTypes() {
         return weaponTypes;
     }
 
     /**
-     * @param weaponTypesInput the weaponTypes to set
+     * {@inheritDoc}
      */
-    public final void setWeaponTypes(final List<WeaponType> weaponTypesInput) {
+    @Override
+    public final void setWeaponTypes(final List<IWeaponType> weaponTypesInput) {
         this.weaponTypes = weaponTypesInput;
     }
 

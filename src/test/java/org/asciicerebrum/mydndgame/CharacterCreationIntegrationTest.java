@@ -3,7 +3,6 @@ package org.asciicerebrum.mydndgame;
 import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
-import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -139,7 +138,7 @@ public class CharacterCreationIntegrationTest {
     public void harskBaseAtk1() {
         assertEquals(Long.valueOf(2),
                 this.harsk.getBaseAtkBoni().get(0).getDynamicValueProvider()
-                .getDynamicValue((BonusValueContext) this.harsk));
+                .getDynamicValue(this.harsk.generateSituationContextSimple()));
     }
 
     @Test
@@ -167,7 +166,8 @@ public class CharacterCreationIntegrationTest {
     public void valerosBaseAtk1() {
         assertEquals(Long.valueOf(1),
                 this.valeros.getBaseAtkBoni().get(0).getDynamicValueProvider()
-                .getDynamicValue((BonusValueContext) this.valeros));
+                .getDynamicValue(this.valeros
+                        .generateSituationContextSimple()));
     }
 
     @Test
@@ -274,4 +274,43 @@ public class CharacterCreationIntegrationTest {
         assertEquals(Long.valueOf(0), meleeAtkBoni.get(0));
     }
 
+    @Test
+    public void valerosMeleeDamageBonusPrimHand() {
+        Long damageBonus = this.valeros.getMeleeDamageBonus(this.primaryHand);
+
+        // str-bonus +1
+        assertEquals(Long.valueOf(1), damageBonus);
+    }
+
+    @Test
+    public void valerosMeleeDamageBonusSecHand() {
+        Long damageBonus = this.valeros.getMeleeDamageBonus(this.secondaryHand);
+
+        // str-bonus +1 but off-hand: +0
+        assertEquals(Long.valueOf(0), damageBonus);
+    }
+
+    @Test
+    public void harskMeleeDamageBonusPrimHand() {
+        Long damageBonus = this.valeros.getMeleeDamageBonus(this.primaryHand);
+
+        // str-bonus +1
+        assertEquals(Long.valueOf(1), damageBonus);
+    }
+
+    @Test
+    public void harskMeleeDamageBonusSecHand() {
+        Long damageBonus = this.valeros.getMeleeDamageBonus(this.secondaryHand);
+
+        // str-bonus +1 but off-hand: +0
+        assertEquals(Long.valueOf(0), damageBonus);
+    }
+
+    //TODO test damage bonus of rapier in two hands (1.5 Str bonus does NOT
+    // apply).
+    //TODO test damage bonus of battle axe in two hands (1.5 Str bonus applies).
+    //TODO test attack with bow in ranged mode: str penalty applies (use weak
+    // character with negative str bonus).
+    //TODO test attack with bow in melee mode: str bonus applies normal (use
+    // strong character with positive str bonus).
 }

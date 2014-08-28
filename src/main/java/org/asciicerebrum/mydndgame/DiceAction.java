@@ -1,7 +1,9 @@
 package org.asciicerebrum.mydndgame;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
+import org.asciicerebrum.mydndgame.interfaces.entities.IDice;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
+import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
 
 /**
  *
@@ -17,7 +19,7 @@ public class DiceAction implements IDiceAction, BonusTarget {
      * The type of die associates with this dice action. E.g. attack roll has a
      * d20.
      */
-    private Dice diceType;
+    private IDice diceType;
     /**
      * The number of dice associated with this action. E.g. 1d20 in attack roll.
      */
@@ -26,6 +28,11 @@ public class DiceAction implements IDiceAction, BonusTarget {
      * The costant value, if there is no randomness given in this action.
      */
     private Long constValue;
+    /**
+     * The attack mode (ranged/melee) associated with this bonus target. Can
+     * also be null.
+     */
+    private IWeaponCategory associatedAttackMode;
 
     /**
      * @return the id
@@ -44,14 +51,14 @@ public class DiceAction implements IDiceAction, BonusTarget {
     /**
      * @return the diceType
      */
-    public final Dice getDiceType() {
+    public final IDice getDiceType() {
         return diceType;
     }
 
     /**
      * @param diceTypeInput the diceType to set
      */
-    public final void setDiceType(final Dice diceTypeInput) {
+    public final void setDiceType(final IDice diceTypeInput) {
         this.diceType = diceTypeInput;
     }
 
@@ -81,5 +88,22 @@ public class DiceAction implements IDiceAction, BonusTarget {
      */
     public final void setConstValue(final Long constValueInput) {
         this.constValue = constValueInput;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final IWeaponCategory getAssociatedAttackMode() {
+        return associatedAttackMode;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void setAssociatedAttackMode(
+            final IWeaponCategory associatedAttackModeInput) {
+        this.associatedAttackMode = associatedAttackModeInput;
     }
 }

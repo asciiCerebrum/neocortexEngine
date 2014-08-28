@@ -11,16 +11,19 @@ public enum ObserverHook {
      */
     ATTACK,
     /**
+     * The damage action.
+     */
+    DAMAGE,
+    /**
      * The melee attack action.
      */
     MELEE_ATTACK,
     /**
-     * The ranged attack action.
-     */
-    RANGED_ATTACK,
-    /**
      * For the price calculation.
      */
-    PRICE;
-
+    PRICE,
+    /**
+     * The ranged attack action.
+     */
+    RANGED_ATTACK;
 }

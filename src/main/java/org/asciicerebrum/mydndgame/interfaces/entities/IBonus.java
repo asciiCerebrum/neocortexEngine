@@ -1,6 +1,5 @@
 package org.asciicerebrum.mydndgame.interfaces.entities;
 
-import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
 import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueProvider;
 
 /**
@@ -74,7 +73,7 @@ public interface IBonus {
      * @param context the context for the dynamic version.
      * @return either the constant or dynamic value.
      */
-    Long getEffectiveValue(BonusValueContext context);
+    Long getEffectiveValue(ISituationContext context);
 
     /**
      * Works similar to equals. Two boni resemble each other if a specific list
@@ -86,4 +85,17 @@ public interface IBonus {
      */
     Boolean resembles(IBonus bonus);
 
+    /**
+     *
+     * @return the evaluator for checking if the conditions are given that a
+     * trigger can be activated.
+     */
+    ConditionEvaluator getConditionEvaluator();
+
+    /**
+     * Sets the condition evaluation bean.
+     *
+     * @param conditionEvaluator the conditionEvaluator.
+     */
+    void setConditionEvaluator(ConditionEvaluator conditionEvaluator);
 }

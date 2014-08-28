@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueProvider;
 import org.asciicerebrum.mydndgame.interfaces.entities.ILevel;
-import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 
 /**
  *
@@ -20,9 +20,9 @@ public class AtkBonusValueProvider implements BonusValueProvider {
      * {@inheritDoc}
      */
     @Override
-    public final Long getDynamicValue(final BonusValueContext context) {
+    public final Long getDynamicValue(final ISituationContext context) {
 
-        ICharacter dndCharacter = (ICharacter) context;
+        ICharacter dndCharacter = context.getCharacter();
 
         Long totalBonus = 0L;
         for (ILevel cLevel : dndCharacter.getClassLevels()) {
