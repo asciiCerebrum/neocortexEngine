@@ -31,6 +31,9 @@
     <bean id="oneHanded" class="org.asciicerebrum.mydndgame.Encumbrance">
         <property name="id" value="oneHanded" />
     </bean>
+    <bean id="twoHanded" class="org.asciicerebrum.mydndgame.Encumbrance">
+        <property name="id" value="twoHanded" />
+    </bean>
 
     <!-- Proficiencies -->
     <bean id="simpleWeapon" class="org.asciicerebrum.mydndgame.Proficiency">

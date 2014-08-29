@@ -234,8 +234,8 @@ public class CharacterCreationIntegrationTest {
 
         // base atk of fighter lvl 2
         // str 13 -> +1
-        // power attack +1
-        assertEquals(Long.valueOf(4), meleeAtkBoni.get(0));
+        // power attack 1 -> -1
+        assertEquals(Long.valueOf(2), meleeAtkBoni.get(0));
     }
 
     @Test
@@ -269,9 +269,9 @@ public class CharacterCreationIntegrationTest {
 
         // base atk of fighter lvl 2
         // str 13 -> +1
-        // power attack +1
+        // power attack 1 -> -1
         // exotic weapon -> nonproficiencyPenalty: -4
-        assertEquals(Long.valueOf(0), meleeAtkBoni.get(0));
+        assertEquals(Long.valueOf(-2), meleeAtkBoni.get(0));
     }
 
     @Test
@@ -292,18 +292,20 @@ public class CharacterCreationIntegrationTest {
 
     @Test
     public void harskMeleeDamageBonusPrimHand() {
-        Long damageBonus = this.valeros.getMeleeDamageBonus(this.primaryHand);
+        Long damageBonus = this.harsk.getMeleeDamageBonus(this.primaryHand);
 
-        // str-bonus +1
-        assertEquals(Long.valueOf(1), damageBonus);
+        // str-bonus -> +1
+        // power attack 1 -> +1
+        assertEquals(Long.valueOf(2), damageBonus);
     }
 
     @Test
     public void harskMeleeDamageBonusSecHand() {
-        Long damageBonus = this.valeros.getMeleeDamageBonus(this.secondaryHand);
+        Long damageBonus = this.harsk.getMeleeDamageBonus(this.secondaryHand);
 
         // str-bonus +1 but off-hand: +0
-        assertEquals(Long.valueOf(0), damageBonus);
+        // power attack 1 -> +1
+        assertEquals(Long.valueOf(1), damageBonus);
     }
 
     //TODO test damage bonus of rapier in two hands (1.5 Str bonus does NOT

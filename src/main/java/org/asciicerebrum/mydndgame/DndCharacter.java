@@ -661,7 +661,8 @@ public final class DndCharacter implements ICharacter, Observable {
     // someone with it.
     public Long getMeleeDamageBonus(final IBodySlotType bodySlotType) {
         return this.getDamageBonus(bodySlotType,
-                this.meleeAttackAction.getAssociatedAttackMode());
+                this.meleeAttackAction.getAssociatedAttackMode(),
+                ObserverHook.MELEE_DAMAGE);
     }
 
     /**
@@ -670,7 +671,8 @@ public final class DndCharacter implements ICharacter, Observable {
     @Override
     public Long getRangedDamageBonus(final IBodySlotType bodySlotType) {
         return this.getDamageBonus(bodySlotType,
-                this.rangedAttackAction.getAssociatedAttackMode());
+                this.rangedAttackAction.getAssociatedAttackMode(),
+                ObserverHook.RANGED_DAMAGE);
     }
 
     /**
@@ -684,7 +686,7 @@ public final class DndCharacter implements ICharacter, Observable {
      * @return the calculated bonus value.
      */
     private Long getDamageBonus(final IBodySlotType bodySlotType,
-            final IWeaponCategory attackMode) {
+            final IWeaponCategory attackMode, final ObserverHook hook) {
 
         // non-weapon dependent stuff
         List<IBonus> genericBoni = this.bonusService
@@ -702,11 +704,17 @@ public final class DndCharacter implements ICharacter, Observable {
                 .triggerObservers(
                         ObserverHook.DAMAGE, genericBoni, this.getObserverMap(),
                         attackSitCon);
+        genericBoni = (List<IBonus>) this.getObservableDelegate()
+                .triggerObservers(
+                        hook, genericBoni, this.getObserverMap(), attackSitCon);
         // post-processing with item/weapon observers
         genericBoni = (List<IBonus>) item.getObservableDelegate()
                 .triggerObservers(
                         ObserverHook.DAMAGE, genericBoni, item.getObserverMap(),
                         attackSitCon);
+        genericBoni = (List<IBonus>) item.getObservableDelegate()
+                .triggerObservers(
+                        hook, genericBoni, item.getObserverMap(), attackSitCon);
 
         Long bonusValue = this.bonusService.accumulateBonusValue(
                 attackSitCon, genericBoni);

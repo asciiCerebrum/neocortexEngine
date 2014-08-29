@@ -16,7 +16,7 @@ public class BonusValueModificationObserver extends AbstractObserver {
     public static enum Operation {
 
         /**
-         * Multiply by given value.
+         * Multiply with given value.
          */
         MULTIPLICATION {
 
@@ -86,8 +86,6 @@ public class BonusValueModificationObserver extends AbstractObserver {
         }
 
         for (IBonus bonus : boni) {
-            //TODO test if giving only two properties (bonusType and target) is
-            // enough for resemblance.
             // it is enough to check for bonus type and target
             if (!this.getReferenceBonus().getBonusType()
                     .equals(bonus.getBonusType())

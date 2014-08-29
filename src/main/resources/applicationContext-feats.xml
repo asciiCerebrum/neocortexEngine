@@ -16,6 +16,66 @@
                     <property name="registryKey" value="powerAttackValue" />
                     <property name="bonusTarget" ref="meleeAttack" />
                 </bean>
+                <bean class="org.asciicerebrum.mydndgame.observers.AddBonusObserver"><!-- does NOT apply to light weapons! -->
+                    <property name="hook" value="MELEE_DAMAGE" />
+                    <property name="bonusType" ref="powerAttackBonus" />
+                    <property name="registryKey" value="powerAttackValue" />
+                    <property name="bonusTarget" ref="damage" />
+                    <property name="conditionEvaluator">
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.NotEvaluator">
+                            <property name="conditionEvaluator">
+                                <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectWeaponEncumbranceEvaluator">
+                                    <property name="encumbrance" ref="light" />
+                                </bean>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean class="org.asciicerebrum.mydndgame.observers.BonusValueModificationObserver">
+                    <property name="hook" value="MELEE_ATTACK" />
+                    <property name="modValue" value="-1" /><!-- the upper powerAttackBonus for melee attack must be substracted! -->
+                    <property name="operation" value="MULTIPLICATION" />
+                    <property name="referenceBonus">
+                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                            <property name="bonusType" ref="powerAttackBonus" />
+                            <property name="target" ref="meleeAttack" />
+                        </bean>
+                    </property>
+                </bean>
+                <bean class="org.asciicerebrum.mydndgame.observers.BonusValueModificationObserver">
+                    <property name="hook" value="MELEE_DAMAGE" />
+                    <property name="modValue" value="2" /><!-- twice the damage bonus for two-handed weapon or one-handed weapon held in two hands -->
+                    <property name="operation" value="MULTIPLICATION" />
+                    <property name="referenceBonus">
+                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                            <property name="bonusType" ref="powerAttackBonus" />
+                            <property name="target" ref="damage" />
+                        </bean>
+                    </property>
+                    <property name="conditionEvaluator">
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.OrListEvaluator">
+                            <property name="conditionEvaluators">
+                                <list>
+                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectWeaponEncumbranceEvaluator">
+                                        <property name="encumbrance" ref="twoHanded" />
+                                    </bean>
+                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.AndListEvaluator">
+                                        <property name="conditionEvaluators">
+                                            <list>
+                                                <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectWeaponEncumbranceEvaluator">
+                                                    <property name="encumbrance" ref="oneHanded" />
+                                                </bean>
+                                                <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectInventoryItemWieldingEvaluator">
+                                                    <property name="wieldingType" value="BOTH" />
+                                                </bean>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
