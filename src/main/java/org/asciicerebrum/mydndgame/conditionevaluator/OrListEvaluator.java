@@ -23,7 +23,7 @@ public class OrListEvaluator implements ConditionEvaluator {
      */
     @Override
     public final Boolean evaluate(final ISituationContext situationContext) {
-        for (ConditionEvaluator singleEval : this.conditionEvaluators) {
+        for (ConditionEvaluator singleEval : this.getConditionEvaluators()) {
             if (singleEval.evaluate(situationContext)) {
                 return Boolean.TRUE;
             }
