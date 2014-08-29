@@ -1,7 +1,5 @@
 package org.asciicerebrum.mydndgame.interfaces.entities;
 
-import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueProvider;
-
 /**
  *
  * @author Tabea Raab

@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.valueproviders.AbilityBonusValueProvider;
 import java.util.HashMap;
 import java.util.Map;
 import org.asciicerebrum.mydndgame.interfaces.entities.IAbility;

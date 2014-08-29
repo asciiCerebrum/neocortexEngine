@@ -1,7 +1,8 @@
-package org.asciicerebrum.mydndgame;
+package org.asciicerebrum.mydndgame.interfaces.valueproviders;
 
-import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueProvider;
+import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
 import java.util.Collections;
+import org.asciicerebrum.mydndgame.Ability;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 

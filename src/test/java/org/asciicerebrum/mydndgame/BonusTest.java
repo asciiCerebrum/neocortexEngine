@@ -4,7 +4,7 @@ import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonusType;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
-import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueProvider;
+import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;

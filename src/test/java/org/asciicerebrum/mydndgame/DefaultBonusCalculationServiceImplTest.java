@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusSource;
-import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueProvider;
+import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

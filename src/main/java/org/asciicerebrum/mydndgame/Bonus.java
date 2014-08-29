@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
-import org.asciicerebrum.mydndgame.interfaces.valueproviders.BonusValueProvider;
+import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
 import java.io.Serializable;
 import java.util.Comparator;
 import org.apache.commons.lang.ObjectUtils;

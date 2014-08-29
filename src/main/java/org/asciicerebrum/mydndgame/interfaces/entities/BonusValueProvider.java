@@ -1,6 +1,4 @@
-package org.asciicerebrum.mydndgame.interfaces.valueproviders;
-
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+package org.asciicerebrum.mydndgame.interfaces.entities;
 
 /**
  *
