@@ -12,35 +12,35 @@
               class="org.asciicerebrum.mydndgame.DefaultBonusCalculationServiceImpl" />
 
     <bean id="strAbilityBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.AbilityBonusValueProvider">
+          class="org.asciicerebrum.mydndgame.valueproviders.AbilityBonusValueProvider">
         <property name="ability" ref="str" />
     </bean>
     <bean id="dexAbilityBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.AbilityBonusValueProvider">
+          class="org.asciicerebrum.mydndgame.valueproviders.AbilityBonusValueProvider">
         <property name="ability" ref="dex" />
     </bean>
     <bean id="conAbilityBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.AbilityBonusValueProvider">
+          class="org.asciicerebrum.mydndgame.valueproviders.AbilityBonusValueProvider">
         <property name="ability" ref="con" />
     </bean>
     <bean id="rank0AtkBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.AtkBonusValueProvider">
+          class="org.asciicerebrum.mydndgame.valueproviders.AtkBonusValueProvider">
         <property name="rank" value="0" />
     </bean>
     <bean id="rank1AtkBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.AtkBonusValueProvider">
+          class="org.asciicerebrum.mydndgame.valueproviders.AtkBonusValueProvider">
         <property name="rank" value="1" />
     </bean>
     <bean id="rank2AtkBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.AtkBonusValueProvider">
+          class="org.asciicerebrum.mydndgame.valueproviders.AtkBonusValueProvider">
         <property name="rank" value="2" />
     </bean>
     <bean id="rank3AtkBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.AtkBonusValueProvider">
+          class="org.asciicerebrum.mydndgame.valueproviders.AtkBonusValueProvider">
         <property name="rank" value="3" />
     </bean>
     <bean id="rank4AtkBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.AtkBonusValueProvider">
+          class="org.asciicerebrum.mydndgame.valueproviders.AtkBonusValueProvider">
         <property name="rank" value="4" />
     </bean>
 

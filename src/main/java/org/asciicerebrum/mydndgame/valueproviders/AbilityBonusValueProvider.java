@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.interfaces.valueproviders;
+package org.asciicerebrum.mydndgame.valueproviders;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
 import java.util.Collections;
