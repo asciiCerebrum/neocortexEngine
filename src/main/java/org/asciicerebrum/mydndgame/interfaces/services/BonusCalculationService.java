@@ -3,7 +3,6 @@ package org.asciicerebrum.mydndgame.interfaces.services;
 import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 
 /**
@@ -33,7 +32,7 @@ public interface BonusCalculationService {
      * Calculation of the effective bonus as a summation over all granted boni.
      * This method is a sequence of
      * {@link #traverseBoniByTarget(Object, BonusTarget)} and
-     * {@link #accumulateBonusValue(ICharacter, jList)}.
+     * {@link #accumulateBonusValue(ISituationContext, List) }.
      *
      * @param context the context as a dndCharacter.
      * @param origin the source to start collecting boni from (and then going

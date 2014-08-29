@@ -29,8 +29,7 @@ public class CorrectInventoryItemWieldingEvaluator
                     @Override
                     final Boolean evaluate(final Slotable bodySlot,
                             final ICharacter dndCharacter) {
-                        return !bodySlot.getBodySlotType()
-                        .getIsPrimaryAttackSlot();
+                        return this.evaluateSecondary(bodySlot, dndCharacter);
                     }
                 },
         /**
@@ -45,16 +44,7 @@ public class CorrectInventoryItemWieldingEvaluator
                     @Override
                     final Boolean evaluate(final Slotable bodySlot,
                             final ICharacter dndCharacter) {
-                        IBodySlotType otherSlot = bodySlot.getBodySlotType()
-                        .getCounterSlot();
-                        IInventoryItem otherItem = dndCharacter
-                        .getBodySlotByType(otherSlot).getItem();
-
-                        if (otherItem == null || bodySlot.getItem() == null) {
-                            return Boolean.FALSE;
-                        }
-
-                        return bodySlot.getItem().equals(otherItem);
+                        return this.evaluateBoth(bodySlot, dndCharacter);
                     }
                 };
 
@@ -67,6 +57,40 @@ public class CorrectInventoryItemWieldingEvaluator
          */
         abstract Boolean evaluate(Slotable bodySlot,
                 ICharacter dndCharacter);
+
+        /**
+         * Evaluator method for holding in secondary slot.
+         *
+         * @param bodySlot the body slot.
+         * @param dndCharacter the dnd character.
+         * @return whether it is in the secondary slot or not.
+         */
+        protected final Boolean evaluateSecondary(final Slotable bodySlot,
+                final ICharacter dndCharacter) {
+            return !bodySlot.getBodySlotType()
+                    .getIsPrimaryAttackSlot();
+        }
+
+        /**
+         * Evaluator method for holding in both slots (hands).
+         *
+         * @param bodySlot the body slot.
+         * @param dndCharacter the dnd character.
+         * @return whether it is in both slots or not.
+         */
+        protected final Boolean evaluateBoth(final Slotable bodySlot,
+                final ICharacter dndCharacter) {
+            IBodySlotType otherSlot = bodySlot.getBodySlotType()
+                    .getCounterSlot();
+            IInventoryItem otherItem = dndCharacter
+                    .getBodySlotByType(otherSlot).getItem();
+
+            if (otherItem == null || bodySlot.getItem() == null) {
+                return Boolean.FALSE;
+            }
+
+            return bodySlot.getItem().equals(otherItem);
+        }
     }
 
     /**

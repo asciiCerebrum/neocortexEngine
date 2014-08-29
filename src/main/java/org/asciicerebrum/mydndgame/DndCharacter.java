@@ -683,6 +683,8 @@ public final class DndCharacter implements ICharacter, Observable {
      * @param bodySlotType the body slot to take damage specific boni into
      * account.
      * @param attackMode the mode of attack (ranged or melee).
+     * @param hook the special observer hook that has to be applied here
+     * (normally melee or ranged damage)
      * @return the calculated bonus value.
      */
     private Long getDamageBonus(final IBodySlotType bodySlotType,
@@ -716,10 +718,8 @@ public final class DndCharacter implements ICharacter, Observable {
                 .triggerObservers(
                         hook, genericBoni, item.getObserverMap(), attackSitCon);
 
-        Long bonusValue = this.bonusService.accumulateBonusValue(
+        return this.bonusService.accumulateBonusValue(
                 attackSitCon, genericBoni);
-
-        return bonusValue;
     }
 
     /**
@@ -740,7 +740,7 @@ public final class DndCharacter implements ICharacter, Observable {
      * {@inheritDoc}
      */
     @Override
-    public final List<IObserver> getObservers() {
+    public List<IObserver> getObservers() {
         return observers;
     }
 
@@ -748,7 +748,7 @@ public final class DndCharacter implements ICharacter, Observable {
      * {@inheritDoc}
      */
     @Override
-    public final void setObservers(final List<IObserver> observersInput) {
+    public void setObservers(final List<IObserver> observersInput) {
         this.observers = observersInput;
     }
 }

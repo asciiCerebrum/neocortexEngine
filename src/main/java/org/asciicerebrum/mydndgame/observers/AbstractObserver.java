@@ -29,7 +29,7 @@ public abstract class AbstractObserver implements IObserver {
      * @param situationContext the situation context.
      * @return the manipulated object.
      */
-    abstract protected Object triggerCallback(Object object,
+    protected abstract Object triggerCallback(Object object,
             ISituationContext situationContext);
 
     /**
