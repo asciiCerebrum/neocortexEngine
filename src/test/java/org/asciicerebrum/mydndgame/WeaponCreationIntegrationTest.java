@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -17,8 +18,8 @@ public class WeaponCreationIntegrationTest {
 
     private static final String AXE4HARSK_ID = "axe4Harsk";
 
-    private Weapon sword4Valeros;
-    private Weapon axe4Harsk;
+    private IWeapon sword4Valeros;
+    private IWeapon axe4Harsk;
 
     @Before
     public void setUp() {

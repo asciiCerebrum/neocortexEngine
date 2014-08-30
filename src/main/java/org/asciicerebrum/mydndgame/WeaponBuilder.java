@@ -2,6 +2,8 @@ package org.asciicerebrum.mydndgame;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISpecialAbility;
+import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
+import org.asciicerebrum.mydndgame.interfaces.observing.Observable;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -37,8 +39,8 @@ public class WeaponBuilder {
      *
      * @return the created unique weapon.
      */
-    public final Weapon build() {
-        Weapon weapon = this.context.getBean(
+    public final IWeapon build() {
+        IWeapon weapon = this.context.getBean(
                 setup.getName(), Weapon.class);
 
         weapon.setId(setup.getId());
@@ -49,6 +51,13 @@ public class WeaponBuilder {
         weapon.adaptToSize(size);
 
         //TODO move this (partially) to Inventory item build process.
+        // registering weapon's own observers
+        for (IObserver observer : weapon.getObservers()) {
+            ((Observable) weapon).getObservableDelegate()
+                    .registerListener(observer.getHook(), observer,
+                            ((Observable) weapon).getObserverMap());
+        }
+
         // adding special abilities
         for (String specialAbilityKey : setup.getSpecialAbilities()) {
             ISpecialAbility specAb = this.context.getBean(

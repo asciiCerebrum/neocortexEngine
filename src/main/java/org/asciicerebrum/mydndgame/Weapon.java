@@ -68,7 +68,7 @@ public class Weapon extends InventoryItem implements IWeapon {
      * A list of types this weapon represents. E.g. double weapon, thrown
      * weapon, projectile, ammunition, etc.
      */
-    private List<IWeaponType> weaponTypes;
+    private List<IWeaponType> weaponTypes = new ArrayList<IWeaponType>();
 
     /**
      * For which kinds of body slots this weapon is intendet.
@@ -120,23 +120,6 @@ public class Weapon extends InventoryItem implements IWeapon {
     public final void setDefaultDamageTypes(
             final List<DamageType> defaultDamageTypesInput) {
         this.defaultDamageTypes = defaultDamageTypesInput;
-    }
-
-    /**
-     * Adjust attributes of this weapon according to the new size. The prototype
-     * is set up for a medium sized weapon.
-     *
-     * @param newSize the target size.
-     */
-    public final void adaptToSize(final SizeCategory newSize) {
-        //TODO implement this
-        // damage
-        // weight
-        // cost
-        // range increment
-        // shift in encumbrance regarding a medium sized creature
-
-        this.setSize(newSize);
     }
 
     /**

@@ -74,4 +74,12 @@ public interface IInventoryItem extends Identifiable, Observable {
      */
     void setObservers(List<IObserver> observers);
 
+    /**
+     * Adjust attributes of this weapon according to the new size. The prototype
+     * is set up for a medium sized weapon.
+     *
+     * @param newSize the target size.
+     */
+    void adaptToSize(ISizeCategory newSize);
+
 }

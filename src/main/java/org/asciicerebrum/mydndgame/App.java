@@ -5,6 +5,9 @@ package org.asciicerebrum.mydndgame;
  * @author species8472
  */
 public final class App {
+    
+    //TODO switch to slf4j as logging (better debug statements!)
+    //TODO switch to JaCoCo as code coverage (on the fly instrumentation)
 
     /**
      * App must not be instantiated.

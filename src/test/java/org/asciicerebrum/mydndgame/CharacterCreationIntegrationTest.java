@@ -1,8 +1,10 @@
 package org.asciicerebrum.mydndgame;
 
 import java.util.List;
+import org.asciicerebrum.mydndgame.interfaces.entities.IAbility;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
+import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -35,45 +37,47 @@ public class CharacterCreationIntegrationTest {
     private BodySlotType primaryHand;
     private BodySlotType secondaryHand;
 
+    private ApplicationContext context;
+
     @Before
     public void setUp() {
-        ApplicationContext context
-                = new ClassPathXmlApplicationContext(
-                        new String[]{"applicationContext.xml"});
+        this.context = new ClassPathXmlApplicationContext(
+                new String[]{"applicationContext.xml"});
 
         // instance of bean factory to add new beans programmatically, e.g.
         // all the weapons!
         ConfigurableListableBeanFactory beanFactory
-                = ((ConfigurableApplicationContext) context).getBeanFactory();
+                = ((ConfigurableApplicationContext) this.context)
+                .getBeanFactory();
 
         WeaponSetup axe4HarskSetup = new WeaponSetup();
         axe4HarskSetup.setId(AXE4HARSK_ID);
         axe4HarskSetup.setName("battleaxe");
         axe4HarskSetup.setSizeCategory("medium");
-        Weapon axe4Harsk
-                = new WeaponBuilder(axe4HarskSetup, context).build();
+        IWeapon axe4Harsk
+                = new WeaponBuilder(axe4HarskSetup, this.context).build();
 
         WeaponSetup bastard4HarskSetup = new WeaponSetup();
         bastard4HarskSetup.setId(BASTARD4HARSK_ID);
         bastard4HarskSetup.setName("bastardsword");
         bastard4HarskSetup.setSizeCategory("medium");
-        Weapon bastard4Harsk
-                = new WeaponBuilder(bastard4HarskSetup, context).build();
+        IWeapon bastard4Harsk
+                = new WeaponBuilder(bastard4HarskSetup, this.context).build();
 
         WeaponSetup rapier4ValerosSetup = new WeaponSetup();
         rapier4ValerosSetup.setId(RAPIER4VALEROS_ID);
         rapier4ValerosSetup.setName("rapier");
         rapier4ValerosSetup.setSizeCategory("medium");
-        Weapon rapier4Valeros
-                = new WeaponBuilder(rapier4ValerosSetup, context).build();
+        IWeapon rapier4Valeros
+                = new WeaponBuilder(rapier4ValerosSetup, this.context).build();
 
         WeaponSetup dagger4ValerosSetup = new WeaponSetup();
         dagger4ValerosSetup.setId(DAGGER4VALEROS_ID);
         dagger4ValerosSetup.setName("dagger");
         dagger4ValerosSetup.setSizeCategory("medium");
         dagger4ValerosSetup.getSpecialAbilities().add("masterwork");
-        Weapon dagger4Valeros
-                = new WeaponBuilder(dagger4ValerosSetup, context).build();
+        IWeapon dagger4Valeros
+                = new WeaponBuilder(dagger4ValerosSetup, this.context).build();
 
         beanFactory.registerSingleton(AXE4HARSK_ID, axe4Harsk);
         beanFactory.registerSingleton(BASTARD4HARSK_ID, bastard4Harsk);
@@ -83,7 +87,7 @@ public class CharacterCreationIntegrationTest {
         CharacterSetup setupHarsk = new CharacterSetup();
         setupHarsk.setName("Harsk");
         setupHarsk.setRace("dwarf");
-        setupHarsk.getBaseAbilityMap().put("str", 13L);
+        setupHarsk.getBaseAbilityMap().put("str", 14L);
         setupHarsk.getBaseAbilityMap().put("dex", 11L);
         setupHarsk.getBaseAbilityMap().put("con", 13L);
         setupHarsk.getBaseAbilityMap().put("int", 10L);
@@ -104,7 +108,7 @@ public class CharacterCreationIntegrationTest {
         CharacterSetup setupValeros = new CharacterSetup();
         setupValeros.setName("Valeros");
         setupValeros.setRace("human");
-        setupValeros.getBaseAbilityMap().put("str", 12L);
+        setupValeros.getBaseAbilityMap().put("str", 14L);
         setupValeros.getBaseAbilityMap().put("dex", 9L);
         setupValeros.getBaseAbilityMap().put("con", 14L);
         setupValeros.getBaseAbilityMap().put("int", 9L);
@@ -120,13 +124,15 @@ public class CharacterCreationIntegrationTest {
         setupValeros.getStateRegistry().put("weaponFinesseMode." + DAGGER4VALEROS_ID, "true");
         setupValeros.getStateRegistry().put("weaponDamageMode." + DAGGER4VALEROS_ID, "slashing");
 
-        this.primaryHand = context.getBean(PRIMARY_HAND_TYPE, BodySlotType.class);
-        this.secondaryHand = context.getBean(SECONDARY_HAND_TYPE, BodySlotType.class);
+        this.primaryHand = this.context.getBean(PRIMARY_HAND_TYPE,
+                BodySlotType.class);
+        this.secondaryHand = this.context.getBean(SECONDARY_HAND_TYPE,
+                BodySlotType.class);
 
         this.harsk
-                = new DndCharacterBuilder(setupHarsk, context).build();
+                = new DndCharacterBuilder(setupHarsk, this.context).build();
         this.valeros
-                = new DndCharacterBuilder(setupValeros, context).build();
+                = new DndCharacterBuilder(setupValeros, this.context).build();
     }
 
     @Test
@@ -233,9 +239,9 @@ public class CharacterCreationIntegrationTest {
                 = this.harsk.getMeleeAtkBonus(this.primaryHand);
 
         // base atk of fighter lvl 2
-        // str 13 -> +1
+        // str 14 -> +2
         // power attack 1 -> -1
-        assertEquals(Long.valueOf(2), meleeAtkBoni.get(0));
+        assertEquals(Long.valueOf(3), meleeAtkBoni.get(0));
     }
 
     @Test
@@ -268,51 +274,143 @@ public class CharacterCreationIntegrationTest {
                 = this.harsk.getMeleeAtkBonus(this.secondaryHand);
 
         // base atk of fighter lvl 2
-        // str 13 -> +1
+        // str 14 -> +2
         // power attack 1 -> -1
         // exotic weapon -> nonproficiencyPenalty: -4
-        assertEquals(Long.valueOf(-2), meleeAtkBoni.get(0));
+        assertEquals(Long.valueOf(-1), meleeAtkBoni.get(0));
     }
 
     @Test
     public void valerosMeleeDamageBonusPrimHand() {
         Long damageBonus = this.valeros.getMeleeDamageBonus(this.primaryHand);
 
-        // str-bonus +1
-        assertEquals(Long.valueOf(1), damageBonus);
+        // str-bonus +2
+        assertEquals(Long.valueOf(2), damageBonus);
     }
 
     @Test
     public void valerosMeleeDamageBonusSecHand() {
         Long damageBonus = this.valeros.getMeleeDamageBonus(this.secondaryHand);
 
-        // str-bonus +1 but off-hand: +0
-        assertEquals(Long.valueOf(0), damageBonus);
+        // str-bonus +2 but off-hand: +1 (1/2!)
+        assertEquals(Long.valueOf(1), damageBonus);
     }
 
     @Test
     public void harskMeleeDamageBonusPrimHand() {
         Long damageBonus = this.harsk.getMeleeDamageBonus(this.primaryHand);
 
-        // str-bonus -> +1
+        // str-bonus -> +2
         // power attack 1 -> +1
-        assertEquals(Long.valueOf(2), damageBonus);
+        assertEquals(Long.valueOf(3), damageBonus);
     }
 
     @Test
     public void harskMeleeDamageBonusSecHand() {
         Long damageBonus = this.harsk.getMeleeDamageBonus(this.secondaryHand);
 
-        // str-bonus +1 but off-hand: +0
+        // str-bonus +2 but off-hand: +1
         // power attack 1 -> +1
-        assertEquals(Long.valueOf(1), damageBonus);
+        assertEquals(Long.valueOf(2), damageBonus);
     }
 
-    //TODO test damage bonus of rapier in two hands (1.5 Str bonus does NOT
-    // apply).
-    //TODO test damage bonus of battle axe in two hands (1.5 Str bonus applies).
-    //TODO test attack with bow in ranged mode: str penalty applies (use weak
-    // character with negative str bonus).
-    //TODO test attack with bow in melee mode: str bonus applies normal (use
-    // strong character with positive str bonus).
+    /**
+     * test damage bonus of rapier in two hands (1.5 Str bonus does NOT apply).
+     */
+    @Test
+    public void valerosMeleeDamageBonusBothHandsRapier() {
+        //TODO create API to easily sitch position of items.
+        this.valeros.getBodySlotByType(this.secondaryHand).setItem(
+                this.valeros.getBodySlotByType(this.primaryHand).getItem()
+        );
+        Long damageBonus = this.valeros.getMeleeDamageBonus(this.primaryHand);
+
+        // str-bonus +2
+        assertEquals(Long.valueOf(2), damageBonus);
+    }
+
+    /**
+     * test damage bonus of battle axe in two hands (1.5 Str bonus applies).
+     */
+    @Test
+    public void harskMeleeDamageBonusBothHandsBattleAxe() {
+        this.harsk.getBodySlotByType(this.secondaryHand).setItem(
+                this.harsk.getBodySlotByType(this.primaryHand).getItem()
+        );
+
+        Long damageBonus = this.harsk.getMeleeDamageBonus(this.primaryHand);
+
+        // str-bonus -> +2 (*1.5 both hands) -> +3
+        // power attack 1 -> +1 (*2 both hands) -> +2
+        assertEquals(Long.valueOf(5), damageBonus);
+    }
+
+    @Test
+    public void valerosRangedDamageBonusBow() {
+
+        WeaponSetup bowSetup = new WeaponSetup();
+        bowSetup.setId("bowValeros");
+        bowSetup.setName("longbow");
+        bowSetup.setSizeCategory("medium");
+        IWeapon bowValeros
+                = new WeaponBuilder(bowSetup, this.context).build();
+
+        this.valeros.getBodySlotByType(this.primaryHand).setItem(bowValeros);
+        this.valeros.getBodySlotByType(this.secondaryHand).setItem(bowValeros);
+
+        Long damageBonus = this.valeros.getRangedDamageBonus(this.primaryHand);
+
+        // str-bonus not applied!
+        assertEquals(Long.valueOf(0), damageBonus);
+    }
+
+    /**
+     * test attack with bow in ranged mode: str penalty applies (use weak
+     * character with negative str bonus).
+     */
+    @Test
+    public void valerosWeakRangedDamageBonusBow() {
+
+        WeaponSetup bowSetup = new WeaponSetup();
+        bowSetup.setId("bowValeros");
+        bowSetup.setName("longbow");
+        bowSetup.setSizeCategory("medium");
+        IWeapon bowValeros
+                = new WeaponBuilder(bowSetup, this.context).build();
+
+        this.valeros.getBodySlotByType(this.primaryHand).setItem(bowValeros);
+        this.valeros.getBodySlotByType(this.secondaryHand).setItem(bowValeros);
+
+        IAbility str = this.context.getBean("str", Ability.class);
+        this.valeros.getBaseAbilityMap().put(str, 8L); // --> bonus -1
+
+        Long damageBonus = this.valeros.getRangedDamageBonus(this.primaryHand);
+
+        // str-bonus: -1 is applied!
+        assertEquals(Long.valueOf(-1), damageBonus);
+    }
+
+    /**
+     * test attack with bow in melee mode: str bonus applies normal (use strong
+     * character with positive str bonus).
+     */
+    @Test
+    public void valerosWeakMeleeDamageBonusBow() {
+
+        WeaponSetup bowSetup = new WeaponSetup();
+        bowSetup.setId("bowValeros");
+        bowSetup.setName("longbow");
+        bowSetup.setSizeCategory("medium");
+        IWeapon bowValeros
+                = new WeaponBuilder(bowSetup, this.context).build();
+
+        this.valeros.getBodySlotByType(this.primaryHand).setItem(bowValeros);
+        this.valeros.getBodySlotByType(this.secondaryHand).setItem(bowValeros);
+
+        Long damageBonus = this.valeros.getMeleeDamageBonus(this.primaryHand);
+
+        // str-bonus: +2 is applied! (*1.5 both hands)
+        assertEquals(Long.valueOf(3), damageBonus);
+    }
+
 }

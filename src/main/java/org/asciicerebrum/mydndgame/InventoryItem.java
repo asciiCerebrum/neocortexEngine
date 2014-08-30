@@ -257,4 +257,19 @@ public abstract class InventoryItem implements IInventoryItem, BonusSource {
     public final void setObservers(final List<IObserver> observersInput) {
         this.observers = observersInput;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void adaptToSize(final ISizeCategory newSize) {
+        //TODO implement this
+        // damage
+        // weight
+        // cost
+        // range increment
+        // shift in encumbrance regarding a medium sized creature
+
+        this.setSize(newSize);
+    }
 }

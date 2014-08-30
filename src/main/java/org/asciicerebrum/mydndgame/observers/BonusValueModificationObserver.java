@@ -86,17 +86,23 @@ public class BonusValueModificationObserver extends AbstractObserver {
         }
 
         for (IBonus bonus : boni) {
+            Long bonusEffectiveValue
+                    = bonus.getEffectiveValue(situationContext);
+
             // it is enough to check for bonus type and target
+            // keep in mind that the effectValue might be null
+            // --> the bonus does not exist --> continue!
             if (!this.getReferenceBonus().getBonusType()
                     .equals(bonus.getBonusType())
                     || !this.getReferenceBonus().getTarget()
-                    .equals(bonus.getTarget())) {
+                    .equals(bonus.getTarget())
+                    || bonusEffectiveValue == null) {
                 continue;
             }
 
             Long modifiedBonus = this.getOperation()
-                    .operate(bonus.getEffectiveValue(situationContext)
-                            .doubleValue(), this.getModValue());
+                    .operate(bonusEffectiveValue.doubleValue(),
+                            this.getModValue());
 
             bonus.setValue(modifiedBonus);
             bonus.setDynamicValueProvider(null);

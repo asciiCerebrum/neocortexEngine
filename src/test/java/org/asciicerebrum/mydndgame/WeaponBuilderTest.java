@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
+import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 import org.asciicerebrum.mydndgame.interfaces.entities.ObserverHook;
 import org.asciicerebrum.mydndgame.interfaces.observing.ObservableDelegate;
 import org.junit.After;
@@ -83,28 +84,28 @@ public class WeaponBuilderTest {
      */
     @Test
     public void testBuild() {
-        Weapon localWeapon = this.weaponBuilder.build();
+        IWeapon localWeapon = this.weaponBuilder.build();
 
         assertNotNull(localWeapon);
     }
 
     @Test
     public void testBuildCorrectId() {
-        Weapon localWeapon = this.weaponBuilder.build();
+        IWeapon localWeapon = this.weaponBuilder.build();
 
         assertEquals("someId", localWeapon.getId());
     }
 
     @Test
     public void testBuildCorrectSpecialAbilitiesCount() {
-        Weapon localWeapon = this.weaponBuilder.build();
+        IWeapon localWeapon = this.weaponBuilder.build();
 
         assertEquals(1, localWeapon.getSpecialAbilities().size());
     }
 
     @Test
     public void testBuildCorrectSpecialAbilitiesObject() {
-        Weapon localWeapon = this.weaponBuilder.build();
+        IWeapon localWeapon = this.weaponBuilder.build();
 
         assertEquals(this.weaponSpecialAbility,
                 localWeapon.getSpecialAbilities().get(0));

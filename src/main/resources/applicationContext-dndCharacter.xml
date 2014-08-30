@@ -55,7 +55,7 @@
         </property>
         <property name="observers">
             <list>
-                <!--1.5 times the bonus when wielded in two hands, except light weapon-->
+                <!--1.5 times the bonus when wielded in two hands, except light weapon, only melee of course -->
                 <bean class="org.asciicerebrum.mydndgame.observers.BonusValueModificationObserver">
                     <property name="hook" value="DAMAGE" />
                     <property name="operation" value="MULTIPLICATION" />
@@ -79,6 +79,9 @@
                                                 <property name="encumbrance" ref="light" />
                                             </bean>
                                         </property>
+                                    </bean>
+                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectAttackModeEvaluator">
+                                        <property name="weaponCategory" ref="meleeWeapon" />
                                     </bean>
                                 </list>
                             </property>

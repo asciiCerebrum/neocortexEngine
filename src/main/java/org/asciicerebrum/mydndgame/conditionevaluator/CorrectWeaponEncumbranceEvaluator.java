@@ -34,7 +34,10 @@ public class CorrectWeaponEncumbranceEvaluator implements ConditionEvaluator {
                 .getBodySlotByType(situationContext.getBodySlotType())
                 .getItem();
 
-        if (item != null && item instanceof IWeapon) {
+        // keep in mind: ranged weapons might not have an encumbrance!
+        if (item != null
+                && item instanceof IWeapon
+                && ((IWeapon) item).getEncumbrance() != null) {
             return ((IWeapon) item).getEncumbrance()
                     .equals(this.getEncumbrance());
         }

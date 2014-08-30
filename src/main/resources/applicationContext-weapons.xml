@@ -271,6 +271,35 @@
     <bean id="longbow" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
           parent="abstractWeapon">
         <property name="name" value="longbow" />
+        <property name="baseCost" value="75" />
+        <property name="weight" value="3" />
+        <property name="size" ref="medium" />
+        <property name="damage">
+            <bean class="org.asciicerebrum.mydndgame.DiceAction">
+                <property name="id" value="damage" />
+                <property name="diceNumber" value="1" />
+                <property name="diceType" ref="d8" />
+            </bean>
+        </property>
+        <property name="criticalFactor" value="3" />
+        <property name="rangeIncrement" value="100" />
+        <property name="defaultDamageTypes">
+            <list>
+                <ref bean="piercing" />
+            </list>
+        </property>
+        <property name="proficiency" ref="martialWeapon" />
+        <property name="defaultCategories">
+            <list>
+                <ref bean="rangedWeapon" />
+            </list>
+        </property>
+        <property name="designatedBodySlots">
+            <list>
+                <ref bean="primaryHand" />
+                <ref bean="secondaryHand" />
+            </list>
+        </property>        
         <property name="boni">
             <list>
                 <bean class="org.asciicerebrum.mydndgame.Bonus">
@@ -279,7 +308,7 @@
                     <property name="dynamicValueProvider" ref="strAbilityBonusValueProvider" />
                     <property name="conditionEvaluator">
                         <!--bonus applies only when negative-->
-                        <bean class="abilityBonusComparisonEvaluator">
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.AbilityBonusComparisonEvaluator">
                             <property name="abilityBonusValueProvider" ref="strAbilityBonusValueProvider" />
                             <property name="comparator" value="LT" /><!-- Enum defined in this class: LT, LE, EQ, GE, GT -->
                             <property name="referenceValue" value="0" />

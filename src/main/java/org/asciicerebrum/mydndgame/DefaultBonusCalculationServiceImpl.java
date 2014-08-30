@@ -55,6 +55,12 @@ public class DefaultBonusCalculationServiceImpl
             Long bonusVal
                     = bonus.getEffectiveValue(context);
 
+            // keep in mind that the effectValue might be null
+            // --> the bonus does not exist --> continue!
+            if (bonusVal == null) {
+                continue;
+            }
+
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("Bonus " + bonus.getBonusType().getId()
                         + " :: " + bonusVal);
