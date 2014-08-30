@@ -113,4 +113,13 @@ public class CorrectWeaponEncumbranceEvaluatorTest {
         assertFalse(resultEval);
     }
 
+    @Test
+    public void testEvaluateNoEncumbrance() {
+        when(this.weaponMock.getEncumbrance()).thenReturn(null);
+
+        Boolean resultEval = this.cweEvaluator.evaluate(this.sitCon);
+
+        assertFalse(resultEval);
+    }
+
 }

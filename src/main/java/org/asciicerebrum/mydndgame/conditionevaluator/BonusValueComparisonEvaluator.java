@@ -1,15 +1,15 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
-import org.asciicerebrum.mydndgame.conditionevaluator.AbilityBonusComparisonEvaluator.ArithmeticComparator;
+import org.asciicerebrum.mydndgame.conditionevaluator.BonusValueComparisonEvaluator.ArithmeticComparator;
+import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
 import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
-import org.asciicerebrum.mydndgame.valueproviders.AbilityBonusValueProvider;
 
 /**
  *
  * @author species8472
  */
-public class AbilityBonusComparisonEvaluator implements ConditionEvaluator {
+public class BonusValueComparisonEvaluator implements ConditionEvaluator {
 
     /**
      * Definition of the simple arithmetic comparators.
@@ -25,7 +25,8 @@ public class AbilityBonusComparisonEvaluator implements ConditionEvaluator {
                      * {@inheritDoc}
                      */
                     @Override
-                    Boolean compare(Double leftOperand, Double rightOperand) {
+                    final Boolean compare(final Double leftOperand,
+                            final Double rightOperand) {
                         return leftOperand.compareTo(rightOperand) < 0;
                     }
 
@@ -38,7 +39,8 @@ public class AbilityBonusComparisonEvaluator implements ConditionEvaluator {
                      * {@inheritDoc}
                      */
                     @Override
-                    Boolean compare(Double leftOperand, Double rightOperand) {
+                    final Boolean compare(final Double leftOperand,
+                            final Double rightOperand) {
                         return leftOperand.compareTo(rightOperand) <= 0;
                     }
                 },
@@ -50,7 +52,8 @@ public class AbilityBonusComparisonEvaluator implements ConditionEvaluator {
                      * {@inheritDoc}
                      */
                     @Override
-                    Boolean compare(Double leftOperand, Double rightOperand) {
+                    final Boolean compare(final Double leftOperand,
+                            final Double rightOperand) {
                         return leftOperand.compareTo(rightOperand) == 0;
                     }
                 },
@@ -62,7 +65,8 @@ public class AbilityBonusComparisonEvaluator implements ConditionEvaluator {
                      * {@inheritDoc}
                      */
                     @Override
-                    Boolean compare(Double leftOperand, Double rightOperand) {
+                    final Boolean compare(final Double leftOperand,
+                            final Double rightOperand) {
                         return leftOperand.compareTo(rightOperand) >= 0;
                     }
                 },
@@ -74,7 +78,8 @@ public class AbilityBonusComparisonEvaluator implements ConditionEvaluator {
                      * {@inheritDoc}
                      */
                     @Override
-                    Boolean compare(Double leftOperand, Double rightOperand) {
+                    final Boolean compare(final Double leftOperand,
+                            final Double rightOperand) {
                         return leftOperand.compareTo(rightOperand) > 0;
                     }
                 };
@@ -93,7 +98,7 @@ public class AbilityBonusComparisonEvaluator implements ConditionEvaluator {
      * The ability bonus value provider to retrieve the ability bonus from the
      * character.
      */
-    private AbilityBonusValueProvider abilityBonusValueProvider;
+    private BonusValueProvider bonusValueProvider;
 
     /**
      * The comparator to make the correct comparison.
@@ -112,7 +117,7 @@ public class AbilityBonusComparisonEvaluator implements ConditionEvaluator {
     @Override
     public final Boolean evaluate(final ISituationContext situationContext) {
         Long abilityBonus
-                = this.getAbilityBonusValueProvider()
+                = this.getBonusValueProvider()
                 .getDynamicValue(situationContext);
 
         return this.getComparator().compare(
@@ -123,17 +128,16 @@ public class AbilityBonusComparisonEvaluator implements ConditionEvaluator {
     /**
      * @return the abilityBonusValueProvider
      */
-    public final AbilityBonusValueProvider getAbilityBonusValueProvider() {
-        return abilityBonusValueProvider;
+    public final BonusValueProvider getBonusValueProvider() {
+        return bonusValueProvider;
     }
 
     /**
-     * @param abilityBonusValueProviderInput the abilityBonusValueProvider to
-     * set
+     * @param bonusValueProviderInput the abilityBonusValueProvider to set
      */
-    public final void setAbilityBonusValueProvider(
-            final AbilityBonusValueProvider abilityBonusValueProviderInput) {
-        this.abilityBonusValueProvider = abilityBonusValueProviderInput;
+    public final void setBonusValueProvider(
+            final BonusValueProvider bonusValueProviderInput) {
+        this.bonusValueProvider = bonusValueProviderInput;
     }
 
     /**

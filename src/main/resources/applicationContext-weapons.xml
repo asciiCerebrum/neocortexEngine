@@ -308,8 +308,8 @@
                     <property name="dynamicValueProvider" ref="strAbilityBonusValueProvider" />
                     <property name="conditionEvaluator">
                         <!--bonus applies only when negative-->
-                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.AbilityBonusComparisonEvaluator">
-                            <property name="abilityBonusValueProvider" ref="strAbilityBonusValueProvider" />
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.BonusValueComparisonEvaluator">
+                            <property name="bonusValueProvider" ref="strAbilityBonusValueProvider" />
                             <property name="comparator" value="LT" /><!-- Enum defined in this class: LT, LE, EQ, GE, GT -->
                             <property name="referenceValue" value="0" />
                         </bean>

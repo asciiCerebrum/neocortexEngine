@@ -37,9 +37,9 @@ public class AbilityBonusValueProvider implements BonusValueProvider {
         // e.g. sicknesses can give a -4 malus on Constitution.
         // or some potions can grant a +4 bonus on Dexterity (Cat's Grace)
         final Long abilityScore
-                = dndCharacter.getBaseAbilityMap().get(this.ability)
+                = dndCharacter.getBaseAbilityMap().get(this.getAbility())
                 + Collections.frequency(dndCharacter.getAbilityAdvances(),
-                        this.ability);
+                        this.getAbility());
 
         return this.calculateAbilityMod(abilityScore);
     }

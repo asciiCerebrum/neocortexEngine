@@ -32,6 +32,8 @@ public class BonusValueModificationObserverTest {
 
     private IBonus referenceBonus;
 
+    private IBonus checkBonus;
+
     public BonusValueModificationObserverTest() {
     }
 
@@ -66,12 +68,12 @@ public class BonusValueModificationObserverTest {
 
         this.bonusList = new ArrayList<IBonus>();
 
-        IBonus checkBonus = mock(IBonus.class);
-        when(checkBonus.getEffectiveValue(this.sitCon)).thenReturn(5L);
-        when(checkBonus.getTarget()).thenReturn(target);
-        when(checkBonus.getBonusType()).thenReturn(bonusType);
+        this.checkBonus = mock(IBonus.class);
+        when(this.checkBonus.getEffectiveValue(this.sitCon)).thenReturn(5L);
+        when(this.checkBonus.getTarget()).thenReturn(target);
+        when(this.checkBonus.getBonusType()).thenReturn(bonusType);
 
-        this.bonusList.add(checkBonus);
+        this.bonusList.add(this.checkBonus);
     }
 
     @After
@@ -151,6 +153,17 @@ public class BonusValueModificationObserverTest {
                 .triggerCallback(this.bonusList, this.sitCon);
 
         verify(resultBoni.get(0)).setValue(0L);
+    }
+
+    @Test
+    public void testTriggerCallbackNullEffectiveBonusValue() {
+        when(this.checkBonus.getEffectiveValue(this.sitCon)).thenReturn(null);
+
+        List<IBonus> resultBoni
+                = (List<IBonus>) this.bonusValueModificationObserver
+                .triggerCallback(this.bonusList, this.sitCon);
+
+        verify(resultBoni.get(0), never()).setValue(anyLong());
     }
 
 }
