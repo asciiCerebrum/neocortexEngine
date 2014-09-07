@@ -71,26 +71,6 @@ public class Weapon extends InventoryItem implements IWeapon {
     private List<IWeaponType> weaponTypes = new ArrayList<IWeaponType>();
 
     /**
-     * For which kinds of body slots this weapon is intendet.
-     */
-    private List<BodySlotType> designatedBodySlots;
-
-    /**
-     * @return the designatedBodySlots
-     */
-    public final List<BodySlotType> getDesignatedBodySlots() {
-        return designatedBodySlots;
-    }
-
-    /**
-     * @param designatedBodySlotsInput the designatedBodySlots to set
-     */
-    public final void setDesignatedBodySlots(
-            final List<BodySlotType> designatedBodySlotsInput) {
-        this.designatedBodySlots = designatedBodySlotsInput;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

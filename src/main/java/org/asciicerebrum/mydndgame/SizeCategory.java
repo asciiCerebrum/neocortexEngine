@@ -13,7 +13,7 @@ import org.asciicerebrum.mydndgame.interfaces.entities.ISizeCategory;
 public class SizeCategory implements ISizeCategory, BonusSource {
 
     /**
-     * The unique if of this size category. E.g. small, medium, etc.
+     * The unique id of this size category. E.g. small, medium, etc.
      */
     private String id;
     /**
@@ -22,15 +22,17 @@ public class SizeCategory implements ISizeCategory, BonusSource {
     private List<IBonus> boni = new ArrayList<IBonus>();
 
     /**
-     * @return the id
+     * {@inheritDoc}
      */
+    @Override
     public final String getId() {
         return id;
     }
 
     /**
-     * @param idInput the id to set
+     * {@inheritDoc}
      */
+    @Override
     public final void setId(final String idInput) {
         this.id = idInput;
     }

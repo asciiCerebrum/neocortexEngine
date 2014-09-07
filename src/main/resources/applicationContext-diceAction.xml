@@ -14,15 +14,30 @@
 
     <bean id="ac" class="org.asciicerebrum.mydndgame.DiceAction">
         <property name="id" value="ac" />
-        <property name="constValue" value="10" />
     </bean>
 
+    <bean id="acBase" class="org.asciicerebrum.mydndgame.DiceAction">
+        <property name="id" value="acBase" />
+        <property name="constValue" value="10" />
+    </bean>
+    
     <bean id="attack" class="org.asciicerebrum.mydndgame.DiceAction">
         <property name="id" value="attack" />
         <property name="diceNumber" value="1" />
         <property name="diceType" ref="d20" />
     </bean>
- 
+
+    <bean id="touchAttack" class="org.asciicerebrum.mydndgame.DiceAction">
+        <property name="id" value="attack" />
+        <property name="diceNumber" value="1" />
+        <property name="diceType" ref="d20" />
+        <property name="targetObservers">
+            <list>
+                <!-- TODO When you are the target of a touch attack, your AC doesn’t include any armor bonus, shield bonus, or natural armor bonus. -->
+            </list>
+        </property>
+    </bean>
+   
     <bean id="meleeAttack" class="org.asciicerebrum.mydndgame.DiceAction">
         <property name="id" value="meleeAttack" />
         <property name="diceNumber" value="1" />

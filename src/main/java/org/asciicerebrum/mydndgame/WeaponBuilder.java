@@ -1,9 +1,6 @@
 package org.asciicerebrum.mydndgame;
 
-import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISpecialAbility;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
-import org.asciicerebrum.mydndgame.interfaces.observing.Observable;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -11,16 +8,7 @@ import org.springframework.context.ApplicationContext;
  *
  * @author species8472
  */
-public class WeaponBuilder {
-
-    /**
-     * Setup information for the weapon.
-     */
-    private final WeaponSetup setup;
-    /**
-     * Spring context to get the beans from.
-     */
-    private final ApplicationContext context;
+public class WeaponBuilder extends InventoryItemBuilder {
 
     /**
      * Constructor for creating a weapon builder.
@@ -30,8 +18,7 @@ public class WeaponBuilder {
      */
     public WeaponBuilder(final WeaponSetup setupInput,
             final ApplicationContext contextInput) {
-        this.setup = setupInput;
-        this.context = contextInput;
+        super(setupInput, contextInput);
     }
 
     /**
@@ -40,37 +27,9 @@ public class WeaponBuilder {
      * @return the created unique weapon.
      */
     public final IWeapon build() {
-        IWeapon weapon = this.context.getBean(
-                setup.getName(), Weapon.class);
 
-        weapon.setId(setup.getId());
-
-        SizeCategory size = this.context.getBean(
-                setup.getSizeCategory(), SizeCategory.class);
-
-        weapon.adaptToSize(size);
-
-        //TODO move this (partially) to Inventory item build process.
-        // registering weapon's own observers
-        for (IObserver observer : weapon.getObservers()) {
-            ((Observable) weapon).getObservableDelegate()
-                    .registerListener(observer.getHook(), observer,
-                            ((Observable) weapon).getObserverMap());
-        }
-
-        // adding special abilities
-        for (String specialAbilityKey : setup.getSpecialAbilities()) {
-            ISpecialAbility specAb = this.context.getBean(
-                    specialAbilityKey, WeaponSpecialAbility.class);
-            weapon.getSpecialAbilities().add(specAb);
-
-            // registering special abillity hooks
-            for (IObserver observer : specAb.getObservers()) {
-                weapon.getObservableDelegate().registerListener(
-                        observer.getHook(), observer,
-                        weapon.getObserverMap());
-            }
-        }
+        IWeapon weapon = (IWeapon) super.build(this.context.getBean(
+                setup.getName(), Weapon.class));
 
         //TODO if not given, set default values for criticalFactor,
         // criticalMinimumLevel.

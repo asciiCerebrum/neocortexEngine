@@ -15,8 +15,36 @@ public interface ICharacter extends BonusSource {
     Map<IAbility, Long> getBaseAbilityMap();
 
     /**
+     * This method is for statistical purpose only. What would be the ideal AC
+     * of this character if nothing else (no special negative conditions, etc.)
+     * would apply.
      *
-     * @return the calculated armor class of this character.
+     * @return the calculated standard armor class of this character.
+     */
+    Long getAcStandard();
+
+    /**
+     * This method is for statistcial purpose only. What would be AC be if the
+     * character was flat-footed and nothing else would apply.
+     *
+     * @return the armor class under the condition flat-footed.
+     */
+    Long getAcFlatFooted();
+
+    /**
+     * This method is for statistical purpose only. What would the AC be if it
+     * was a touch attack and nothing else would apply.
+     *
+     * @return the armor class when experiencing a touch attack.
+     */
+    Long getAcTouch();
+
+    /**
+     * It is this method that matters in this situation of being attacked - here
+     * all real boni and conditions apply.
+     *
+     * @return the calculated armor class of this character depending on the
+     * attack of the opponent.
      */
     Long getAc();
 
@@ -219,4 +247,12 @@ public interface ICharacter extends BonusSource {
      * @param observers the observers to set
      */
     void setObservers(List<IObserver> observers);
+
+    /**
+     * Gets the list of worn armor. Only armor which is worn according to its
+     * designated body slot types is taken into account.
+     *
+     * @return the list of worn armor.
+     */
+    List<IArmor> getWieldedArmor();
 }

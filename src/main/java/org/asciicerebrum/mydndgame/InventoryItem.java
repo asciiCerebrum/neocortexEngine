@@ -5,6 +5,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusSource;
+import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
@@ -76,6 +77,27 @@ public abstract class InventoryItem implements IInventoryItem, BonusSource {
      * targeted item to modify certain values of all kinds of attributes.
      */
     private List<IObserver> observers = new ArrayList<IObserver>();
+    /**
+     * For which kinds of body slots this weapon is intendet.
+     */
+    private List<IBodySlotType> designatedBodySlots;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final List<IBodySlotType> getDesignatedBodySlots() {
+        return designatedBodySlots;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void setDesignatedBodySlots(
+            final List<IBodySlotType> designatedBodySlotsInput) {
+        this.designatedBodySlots = designatedBodySlotsInput;
+    }
 
     /**
      * @return the id
@@ -271,5 +293,13 @@ public abstract class InventoryItem implements IInventoryItem, BonusSource {
         // shift in encumbrance regarding a medium sized creature
 
         this.setSize(newSize);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Boolean isCorrectlyWielded(IBodySlotType bodySlotType) {
+        return this.getDesignatedBodySlots().contains(bodySlotType);
     }
 }

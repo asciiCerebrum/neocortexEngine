@@ -8,8 +8,11 @@
         <property name="bonusService" ref="bonusCalculationService" />
         <property name="observableDelegate" ref="observableDelegate" />
         <property name="hp" ref="hp" />
+        <property name="acBaseAction" ref="acBase" />
         <property name="acAction" ref="ac" />
+        <property name="flatFooted" ref="flatFooted" />
         <property name="attackAction" ref="attack" />
+        <property name="touchAttackAction" ref="touchAttack" />
         <property name="meleeAttackAction" ref="meleeAttack" />
         <property name="rangedAttackAction" ref="rangedAttack" />
         <property name="damageAction" ref="damage" />
@@ -105,6 +108,7 @@
                         </bean>
                     </property>
                 </bean>
+                <!-- TODO non proficiency penalty for armor / shields: A character who is wearing armor with which she is not proficient applies its armor check penalty to attack rolls and to all skill checks that involve moving, including Ride. -->
             </list>
         </property>
     </bean>

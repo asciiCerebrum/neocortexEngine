@@ -82,4 +82,22 @@ public interface IInventoryItem extends Identifiable, Observable {
      */
     void adaptToSize(ISizeCategory newSize);
 
+    /**
+     * @return the designatedBodySlots
+     */
+    List<IBodySlotType> getDesignatedBodySlots();
+
+    /**
+     * @param designatedBodySlots the designatedBodySlots to set
+     */
+    void setDesignatedBodySlots(List<IBodySlotType> designatedBodySlots);
+
+    /**
+     * Determines if the wielding of this item is according to the
+     * specifications given in the designatedBodySlots.
+     *
+     * @param bodySlotType the type of body slot this item is wielded in.
+     * @return if it is designated for this slot.
+     */
+    Boolean isCorrectlyWielded(IBodySlotType bodySlotType);
 }

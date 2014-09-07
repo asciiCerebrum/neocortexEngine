@@ -4,18 +4,18 @@ import java.util.List;
 
 /**
  *
- * @author Tabea Raab
+ * @author species8472
  */
-public interface IDiceAction {
+public interface IConditionType extends Identifiable {
 
     /**
      * @return the observers
      */
-    List<IObserver> getTargetObservers();
+    List<IObserver> getObservers();
 
     /**
      * @param observers the observers to set
      */
-    void setTargetObservers(List<IObserver> observers);
+    void setObservers(List<IObserver> observers);
 
 }

@@ -1,8 +1,11 @@
 package org.asciicerebrum.mydndgame;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDice;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
+import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
 
 /**
@@ -33,6 +36,12 @@ public class DiceAction implements IDiceAction, BonusTarget {
      * also be null.
      */
     private IWeaponCategory associatedAttackMode;
+    /**
+     * The observers of this dice action. They are designed to be registered in
+     * the targeted character to modify certain values of all kinds of
+     * attributes.
+     */
+    private List<IObserver> targetObservers = new ArrayList<IObserver>();
 
     /**
      * @return the id
@@ -105,5 +114,22 @@ public class DiceAction implements IDiceAction, BonusTarget {
     public final void setAssociatedAttackMode(
             final IWeaponCategory associatedAttackModeInput) {
         this.associatedAttackMode = associatedAttackModeInput;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final List<IObserver> getTargetObservers() {
+        return targetObservers;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void setTargetObservers(
+            final List<IObserver> targetObserversInput) {
+        this.targetObservers = targetObserversInput;
     }
 }

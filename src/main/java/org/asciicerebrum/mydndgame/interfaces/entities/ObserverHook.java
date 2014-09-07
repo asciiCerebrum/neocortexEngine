@@ -7,6 +7,16 @@ package org.asciicerebrum.mydndgame.interfaces.entities;
 public enum ObserverHook {
 
     /**
+     * Armor Class. Everything that does not go into the base armor class. E.g.
+     * something from conditions like flat-footed.
+     */
+    AC,
+    /**
+     * The base armor class. Everything that goes into the standard ac value,
+     * like dex modifier etc.
+     */
+    AC_BASE,
+    /**
      * The attack action.
      */
     ATTACK,

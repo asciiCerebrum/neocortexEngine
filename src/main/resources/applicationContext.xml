@@ -51,9 +51,11 @@
     <import resource="applicationContext-boni.xml"/>
     <import resource="applicationContext-sizeCategories.xml"/>
     <import resource="applicationContext-abilities.xml"/>
+    <import resource="applicationContext-conditions.xml"/>
     <import resource="applicationContext-characterClasses.xml"/>
     <import resource="applicationContext-weaponSpecialAbilities.xml"/>
     <import resource="applicationContext-weapons.xml"/>
+    <import resource="applicationContext-armor.xml"/>
     <import resource="applicationContext-races.xml"/>
     <import resource="applicationContext-feats.xml"/>
     <import resource="applicationContext-dndCharacter.xml"/>

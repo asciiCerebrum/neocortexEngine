@@ -11,10 +11,12 @@ import java.util.List;
 import java.util.Map;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
 import org.asciicerebrum.mydndgame.interfaces.entities.IAbility;
+import org.asciicerebrum.mydndgame.interfaces.entities.IArmor;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacterSetup;
 import org.asciicerebrum.mydndgame.interfaces.entities.IClass;
+import org.asciicerebrum.mydndgame.interfaces.entities.IConditionType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IFeat;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
 import org.asciicerebrum.mydndgame.interfaces.entities.ILevel;
@@ -94,9 +96,17 @@ public final class DndCharacter implements ICharacter, Observable {
      */
     private BonusCalculationService bonusService;
     /**
+     * The condition of being flat footed.
+     */
+    private IConditionType flatFooted;
+    /**
      * The diceAction with id hp.
      */
     private DiceAction hp;
+    /**
+     * The diceAction with id acBaseAction.
+     */
+    private DiceAction acBaseAction;
     /**
      * The diceAction with id acAction.
      */
@@ -105,6 +115,10 @@ public final class DndCharacter implements ICharacter, Observable {
      * The diceAction with id attackAction.
      */
     private DiceAction attackAction;
+    /**
+     * The diceAction with id touchAttackAction.
+     */
+    private DiceAction touchAttackAction;
     /**
      * The diceAction with id meleeAttackAction.
      */
@@ -206,8 +220,8 @@ public final class DndCharacter implements ICharacter, Observable {
         // combat. Because such objects are not designed for this use, any
         // creature that uses one in combat is considered to be nonproficient
         // with it and takes a -4 penalty on attack rolls made with that object.
-        return this.getGenericAtkBonus(bodySlotType, this.meleeAttackAction,
-                ObserverHook.MELEE_ATTACK);
+        return this.getGenericAtkBonus(bodySlotType,
+                this.getMeleeAttackAction(), ObserverHook.MELEE_ATTACK);
     }
 
     /**
@@ -395,15 +409,166 @@ public final class DndCharacter implements ICharacter, Observable {
     }
 
     /**
+     * TODO: Keep the following use cases in mind.
      *
-     * @return the calculated armor class of this character.
+     * 1. Flat-footed: A character who has not yet acted during a combat is
+     * flat-footed, not yet reacting normally to the situation. A flat-footed
+     * character loses his Dexterity bonus to AC (if any) and cannot make
+     * attacks of opportunity.<br />
+     * 2. Touch attack<br />
+     * 3. Wearing a shield and armor (both mwk)<br />
+     * 3a. Armor that can also be used as a weapon<br />
+     * 3b. Armor that is not worn/wielded does not contribute to the ac.<br />
+     * 4. Feat Dodge: against a designated opponent --> this is only relevant
+     * the real current AC method.<br />
+     * 5. Armor proficiency.<br />
+     * 6. Max Dexterity Bonus limit.
+     *
+     * This method is for statistical purpose only. What would be the ideal AC
+     * of this character if nothing else (no special negative conditions, etc.)
+     * would apply.
+     *
+     * @return the calculated standard armor class of this character.
+     */
+    @Override
+    public Long getAcStandard() {
+        List<IArmor> wieldedArmor = this.getWieldedArmor();
+
+        List<IBonus> acBoni = this.bonusService.traverseBoniByTarget(this,
+                this.acBaseAction);
+        for (IArmor singleArmor : wieldedArmor) {
+            acBoni.addAll(this.bonusService.traverseBoniByTarget(singleArmor,
+                    this.acBaseAction));
+        }
+
+        ISituationContext simpleSitCon = this.generateSituationContextSimple();
+
+        // observers with hook ac_base only
+        acBoni = (List<IBonus>) this.getObservableDelegate()
+                .triggerObservers(
+                        ObserverHook.AC_BASE, acBoni, this.getObserverMap(),
+                        simpleSitCon);
+        // shields and armor with max-dex!
+        for (IArmor singleArmor : wieldedArmor) {
+            acBoni = (List<IBonus>) singleArmor.getObservableDelegate()
+                    .triggerObservers(
+                            ObserverHook.AC_BASE, acBoni,
+                            singleArmor.getObserverMap(), simpleSitCon);
+        }
+
+        return this.acBaseAction.getConstValue()
+                + this.bonusService.accumulateBonusValue(simpleSitCon, acBoni);
+    }
+
+    /**
+     * This method is for statistcial purpose only. What would be AC be if the
+     * character was flat-footed and nothing else would apply. It is a
+     * simulation of this condition.
+     *
+     * @return the armor class under the condition flat-footed.
+     */
+    @Override
+    public Long getAcFlatFooted() {
+        // register the flat footed condition as an AC_BASE observer,
+        // call getAcStandard() and unregister it again!
+        for (IObserver observer : this.flatFooted.getObservers()) {
+            this.getObservableDelegate().registerListener(ObserverHook.AC_BASE,
+                    observer, this.getObserverMap());
+        }
+
+        Long acValue = this.getAcStandard();
+
+        for (IObserver observer : this.flatFooted.getObservers()) {
+            this.getObservableDelegate().unregisterListener(
+                    ObserverHook.AC_BASE, observer, this.getObserverMap());
+        }
+
+        return acValue;
+    }
+
+    /**
+     * This method is for statistical purpose only. What would the AC be if it
+     * was a touch attack and nothing else would apply.
+     *
+     * @return the armor class when experiencing a touch attack.
+     */
+    @Override
+    public Long getAcTouch() {
+        // register the observers of the touch attack as an AC_BASE observer,
+        // call getAcStandard() and unregister it again!
+        for (IObserver observer : this.getTouchAttackAction()
+                .getTargetObservers()) {
+            this.getObservableDelegate().registerListener(ObserverHook.AC_BASE,
+                    observer, this.getObserverMap());
+        }
+
+        Long acValue = this.getAcStandard();
+
+        for (IObserver observer : this.getTouchAttackAction()
+                .getTargetObservers()) {
+            this.getObservableDelegate().unregisterListener(
+                    ObserverHook.AC_BASE, observer, this.getObserverMap());
+        }
+
+        return acValue;
+    }
+
+    /**
+     * It is this method that matters in this situation of being attacked - here
+     * all real boni and conditions apply. It might also be a touch attack!
+     *
+     * @return the calculated armor class of this character depending on the
+     * attack of the opponent.
      */
     @Override
     public Long getAc() {
-        return this.acAction.getConstValue()
-                + this.bonusService.retrieveEffectiveBonusValueByTarget(
-                        this.generateSituationContextSimple(), this,
-                        this.acAction);
+        List<IArmor> wieldedArmor = this.getWieldedArmor();
+
+        List<IBonus> acBoni = this.bonusService.traverseBoniByTarget(this,
+                this.acBaseAction);
+        acBoni.addAll(this.bonusService.traverseBoniByTarget(this,
+                this.acAction));
+        for (IArmor singleArmor : wieldedArmor) {
+            acBoni.addAll(this.bonusService.traverseBoniByTarget(singleArmor,
+                    this.acBaseAction));
+            acBoni.addAll(this.bonusService.traverseBoniByTarget(singleArmor,
+                    this.acAction));
+        }
+
+        ISituationContext simpleSitCon = this.generateSituationContextSimple();
+
+        //shields and armor with max-dex!
+        //observers with hook ac and ac_base
+        //TODO the observers of the touch attack must be registered before it
+        // comes to the call of this method. Here we need a central class
+        // responsible for registering everything necessary that comes with the
+        // attack. This class is also responsible for unregistering them as
+        // soon as they run out. The the case of the touch attack this is
+        // directly in the next moment.
+        acBoni = (List<IBonus>) this.getObservableDelegate()
+                .triggerObservers(
+                        ObserverHook.AC_BASE, acBoni, this.getObserverMap(),
+                        simpleSitCon);
+        acBoni = (List<IBonus>) this.getObservableDelegate()
+                .triggerObservers(
+                        ObserverHook.AC, acBoni, this.getObserverMap(),
+                        simpleSitCon);
+        for (IArmor singleArmor : wieldedArmor) {
+            acBoni = (List<IBonus>) singleArmor.getObservableDelegate()
+                    .triggerObservers(
+                            ObserverHook.AC_BASE, acBoni,
+                            singleArmor.getObserverMap(), simpleSitCon);
+            acBoni = (List<IBonus>) singleArmor.getObservableDelegate()
+                    .triggerObservers(
+                            ObserverHook.AC, acBoni,
+                            singleArmor.getObserverMap(), simpleSitCon);
+        }
+
+        //TODO test for correct handling of touch attacks!
+        //TODO test for correct handling of flatfootedness at the beginning of
+        // a combat round.
+        return this.acBaseAction.getConstValue()
+                + this.bonusService.accumulateBonusValue(simpleSitCon, acBoni);
     }
 
     /**
@@ -661,7 +826,7 @@ public final class DndCharacter implements ICharacter, Observable {
     // someone with it.
     public Long getMeleeDamageBonus(final IBodySlotType bodySlotType) {
         return this.getDamageBonus(bodySlotType,
-                this.meleeAttackAction.getAssociatedAttackMode(),
+                this.getMeleeAttackAction().getAssociatedAttackMode(),
                 ObserverHook.MELEE_DAMAGE);
     }
 
@@ -750,5 +915,72 @@ public final class DndCharacter implements ICharacter, Observable {
     @Override
     public void setObservers(final List<IObserver> observersInput) {
         this.observers = observersInput;
+    }
+
+    /**
+     * @return the acBaseAction
+     */
+    public DiceAction getAcBaseAction() {
+        return acBaseAction;
+    }
+
+    /**
+     * @param acBaseActionInput the acBaseAction to set
+     */
+    public void setAcBaseAction(final DiceAction acBaseActionInput) {
+        this.acBaseAction = acBaseActionInput;
+    }
+
+    /**
+     * @return the flatFooted
+     */
+    public IConditionType getFlatFooted() {
+        return flatFooted;
+    }
+
+    /**
+     * @param flatFootedInput the flatFooted to set
+     */
+    public void setFlatFooted(final IConditionType flatFootedInput) {
+        this.flatFooted = flatFootedInput;
+    }
+
+    /**
+     * @return the touchAttackAction
+     */
+    public DiceAction getTouchAttackAction() {
+        return touchAttackAction;
+    }
+
+    /**
+     * @param touchAttackActionInput the touchAttackAction to set
+     */
+    public void setTouchAttackAction(final DiceAction touchAttackActionInput) {
+        this.touchAttackAction = touchAttackActionInput;
+    }
+
+    /**
+     * @return the meleeAttackAction
+     */
+    public DiceAction getMeleeAttackAction() {
+        return meleeAttackAction;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<IArmor> getWieldedArmor() {
+        List<IArmor> armor = new ArrayList<IArmor>();
+
+        for (Slotable slot : this.getBodySlots()) {
+            if (slot.getItem() instanceof IArmor
+                    && slot.getItem().isCorrectlyWielded(
+                            slot.getBodySlotType())) {
+                armor.add((IArmor) slot.getItem());
+            }
+        }
+
+        return armor;
     }
 }

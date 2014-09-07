@@ -75,7 +75,7 @@ public class CharacterCreationIntegrationTest {
         dagger4ValerosSetup.setId(DAGGER4VALEROS_ID);
         dagger4ValerosSetup.setName("dagger");
         dagger4ValerosSetup.setSizeCategory("medium");
-        dagger4ValerosSetup.getSpecialAbilities().add("masterwork");
+        dagger4ValerosSetup.getSpecialAbilities().add("masterworkWeapon");
         IWeapon dagger4Valeros
                 = new WeaponBuilder(dagger4ValerosSetup, this.context).build();
 
@@ -155,7 +155,7 @@ public class CharacterCreationIntegrationTest {
     //TODO test rank ordered bonus list of a size of at least 2.
     @Test
     public void harskAC() {
-        assertEquals(Long.valueOf(10), this.harsk.getAc());
+        assertEquals(Long.valueOf(10), this.harsk.getAcStandard());
     }
 
     @Test
@@ -183,7 +183,7 @@ public class CharacterCreationIntegrationTest {
 
     @Test
     public void valerosAC() {
-        assertEquals(Long.valueOf(9), this.valeros.getAc());
+        assertEquals(Long.valueOf(9), this.valeros.getAcStandard());
     }
 
     @Test

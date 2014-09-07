@@ -17,6 +17,10 @@
         <property name="isPrimaryAttackSlot" value="false" />
     </bean>
     
+    <bean id="torso" class="org.asciicerebrum.mydndgame.BodySlotType">
+        <property name="id" value="torso" />
+    </bean>
+    
     <!-- races -->        
     <bean id="human" class="org.asciicerebrum.mydndgame.Race">
         <property name="id" value="human" />
@@ -25,6 +29,7 @@
             <list>
                 <ref bean="primaryHand" />
                 <ref bean="secondaryHand" />
+                <ref bean="torso" />
             </list>
         </property>
     </bean>
@@ -36,6 +41,7 @@
             <list>
                 <ref bean="primaryHand" />
                 <ref bean="secondaryHand" />
+                <ref bean="torso" />
             </list>
         </property>
     </bean>

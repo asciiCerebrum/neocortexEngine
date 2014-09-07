@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="flatFooted" class="org.asciicerebrum.mydndgame.ConditionType">
+        <property name="id" value="flatFooted" />
+        <property name="observers">
+            <list>
+                <!-- TODO You can’t use your Dexterity bonus to AC (if any) while flat-footed. -->
+            </list>
+        </property>
+    </bean>
+    
+</beans>
