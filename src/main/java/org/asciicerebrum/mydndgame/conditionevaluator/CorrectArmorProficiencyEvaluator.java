@@ -1,46 +1,38 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
+import org.asciicerebrum.mydndgame.interfaces.entities.IArmor;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IProficiency;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
-import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 
 /**
  *
  * @author species8472
  */
-public class CorrectProficiencyEvaluator implements ConditionEvaluator {
+public class CorrectArmorProficiencyEvaluator implements ConditionEvaluator {
 
     /**
-     * The proficiency to compare with.
+     * The proficiency in question.
      */
     private IProficiency proficiency;
 
     /**
-     * {@inheritDoc} Checks if the given weapon's (weapon in the active slot)
-     * proficiency corresponds to the one from the situation context. The
-     * proficiency can be compared with equals as it is a singleton (equality by
-     * reference).
-     *
-     * @return
+     * {@inheritDoc} Checks if the worn armor is of the given proficiency.
      */
     @Override
     public final Boolean evaluate(final ISituationContext situationContext) {
-
         if (this.getProficiency() == null) {
             return Boolean.FALSE;
         }
 
-        final IInventoryItem item = situationContext.getCharacter()
-                .getBodySlotByType(situationContext.getBodySlotType())
-                .getItem();
-
-        if (item != null && item instanceof IWeapon) {
-            return ((IWeapon) item).getProficiency()
-                    .equals(this.getProficiency());
+        ICharacter dndCharacter = situationContext.getCharacter();
+        for (IArmor armor : dndCharacter.getWieldedArmor()) {
+            if (armor.getProficiency() != null
+                    && armor.getProficiency().equals(this.getProficiency())) {
+                return Boolean.TRUE;
+            }
         }
-
         return Boolean.FALSE;
     }
 

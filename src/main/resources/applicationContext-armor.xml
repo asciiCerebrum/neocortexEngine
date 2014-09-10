@@ -25,18 +25,19 @@
     <bean id="heavyArmor" class="org.asciicerebrum.mydndgame.Proficiency">
         <property name="id" value="heavyArmor" />
     </bean>
-    <bean id="shieldArmor" class="org.asciicerebrum.mydndgame.Proficiency">
-        <property name="id" value="shieldArmor" />
+    <bean id="lightShieldArmor" class="org.asciicerebrum.mydndgame.Proficiency">
+        <property name="id" value="lightShieldArmor" />
+    </bean>
+    <bean id="heavyShieldArmor" class="org.asciicerebrum.mydndgame.Proficiency">
+        <property name="id" value="heavyShieldArmor" />
+    </bean>
+    <bean id="towerShieldArmor" class="org.asciicerebrum.mydndgame.Proficiency">
+        <property name="id" value="towerShieldArmor" />
     </bean>
     
     <!-- armor prototypes -->
     <bean id="abstractArmor" class="org.asciicerebrum.mydndgame.InventoryItem" scope="prototype" abstract="true">
         <property name="observableDelegate" ref="observableDelegate" />
-        <property name="observers">
-            <list>
-                <!-- TODO applying the maximum limit of the dexterity bonus, the value for the limit is taken from the concrete armor prototype -->
-            </list>
-        </property>
     </bean>
     
     <bean id="studdedLeather" class="org.asciicerebrum.mydndgame.Armor" scope="prototype"
@@ -121,7 +122,7 @@
           parent="abstractArmor">
         <property name="name" value="lightWoodenShield" />
         <property name="armorCategory" ref="shield" />
-        <property name="proficiency" ref="shieldArmor" />
+        <property name="proficiency" ref="lightShieldArmor" />
         <property name="baseCost" value="3" />
         <property name="armorCheckPenalty" value="-1" />
         <property name="arcaneSpellFailure" value="5" />
@@ -147,7 +148,7 @@
           parent="abstractArmor">
         <property name="name" value="heavySteelShield" />
         <property name="armorCategory" ref="shield" />
-        <property name="proficiency" ref="shieldArmor" />
+        <property name="proficiency" ref="heavyShieldArmor" />
         <property name="baseCost" value="20" />
         <property name="armorCheckPenalty" value="-2" />
         <property name="arcaneSpellFailure" value="15" />

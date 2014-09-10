@@ -17,6 +17,7 @@
         <property name="rangedAttackAction" ref="rangedAttack" />
         <property name="damageAction" ref="damage" />
         <property name="baseAttackBonus" ref="baseAttackBonus" />
+        <property name="abilityBonusOffset" value="10" />
         <property name="baseAtkBoni">
             <list>
                 <bean class="org.asciicerebrum.mydndgame.Bonus">
@@ -54,6 +55,9 @@
         <property name="boni">
             <list>
                 <ref bean="nonproficiencyPenaltyBonus" />
+                <!-- non proficiency penalty for armor / shields: A character who is wearing armor with which she is not proficient applies its armor check penalty to attack rolls and to all skill checks that involve moving, including Ride. -->
+                <ref bean="armorsArmorCheckPenaltyBonus" />
+                <ref bean="shieldsArmorCheckPenaltyBonus" />
             </list>
         </property>
         <property name="observers">
@@ -108,7 +112,14 @@
                         </bean>
                     </property>
                 </bean>
-                <!-- TODO non proficiency penalty for armor / shields: A character who is wearing armor with which she is not proficient applies its armor check penalty to attack rolls and to all skill checks that involve moving, including Ride. -->
+                <!-- applying the maximum limit of the dexterity bonus, the value for the limit is taken from the concrete armor prototype -->
+                <bean class="org.asciicerebrum.mydndgame.observers.SimpleArithmeticObserver">
+                    <property name="hook" value="ABILITY_DEX" />
+                    <property name="operation" value="MINIMUM" />
+                    <property name="modValueProvider">
+                        <bean class="ArmorDexterityLimitProvider" />
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

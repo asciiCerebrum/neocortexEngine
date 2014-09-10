@@ -412,5 +412,8 @@ public class CharacterCreationIntegrationTest {
         // str-bonus: +2 is applied! (*1.5 both hands)
         assertEquals(Long.valueOf(3), damageBonus);
     }
+    
+    //TODO test what happens when wearing two shields!!! the penalties on attack
+    // should not stack!
 
 }

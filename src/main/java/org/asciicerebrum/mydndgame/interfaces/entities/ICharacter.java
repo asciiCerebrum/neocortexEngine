@@ -255,4 +255,14 @@ public interface ICharacter extends BonusSource {
      * @return the list of worn armor.
      */
     List<IArmor> getWieldedArmor();
+
+    /**
+     * Returns the modifier (bonus value) of the given ability. The modifier is
+     * based on the base value, the advances and all the registered observers
+     * for this hook.
+     *
+     * @param ability the ability in question.
+     * @return the modifier.
+     */
+    Long getAbilityMod(IAbility ability);
 }

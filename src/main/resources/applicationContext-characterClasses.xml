@@ -40,6 +40,12 @@
             <list>
                 <ref bean="simpleWeaponProficiency" />
                 <ref bean="martialWeaponProficiency" />
+                <ref bean="lightArmorProficiency" />
+                <ref bean="mediumArmorProficiency" />
+                <ref bean="heavyArmorProficiency" />
+                <ref bean="lightShieldProficiency" />
+                <ref bean="heavyShieldProficiency" />
+                <ref bean="towerShieldProficiency" />
             </list>
         </property>
         <property name="classLevels">
@@ -59,6 +65,10 @@
                 <ref bean="simpleWeaponProficiencyDagger" />
                 <ref bean="simpleWeaponProficiencyDart" />
                 <ref bean="simpleWeaponProficiencyQuarterstaff" />
+                <ref bean="lightArmorProficiency" />
+                <ref bean="mediumArmorProficiency" />
+                <ref bean="lightShieldProficiency" />
+                <ref bean="heavyShieldProficiency" />
             </list>
         </property>
     </bean>

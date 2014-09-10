@@ -7,6 +7,10 @@ package org.asciicerebrum.mydndgame.interfaces.entities;
 public enum ObserverHook {
 
     /**
+     * The dexterity ability.
+     */
+    ABILITY_DEX,
+    /**
      * Armor Class. Everything that does not go into the base armor class. E.g.
      * something from conditions like flat-footed.
      */
@@ -16,6 +20,10 @@ public enum ObserverHook {
      * like dex modifier etc.
      */
     AC_BASE,
+    /**
+     * The armor's check penalty.
+     */
+    ARMOR_CHECK_PENALTY,
     /**
      * The attack action.
      */

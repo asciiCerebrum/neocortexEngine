@@ -7,6 +7,7 @@ import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.IAbility;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
+import org.asciicerebrum.mydndgame.interfaces.entities.ObserverHook;
 
 /**
  *
@@ -31,6 +32,10 @@ public class Ability implements IAbility, BonusSource, BonusTarget {
      * also be null.
      */
     private IWeaponCategory associatedAttackMode;
+    /**
+     * The observer hook associated with this ability.
+     */
+    private ObserverHook associatedHook;
 
     /**
      * @return the id
@@ -89,6 +94,21 @@ public class Ability implements IAbility, BonusSource, BonusTarget {
     public final void setAssociatedAttackMode(
             final IWeaponCategory associatedAttackModeInput) {
         this.associatedAttackMode = associatedAttackModeInput;
+    }
+
+    /**
+     * @return the associatedHook
+     */
+    public final ObserverHook getAssociatedHook() {
+        return associatedHook;
+    }
+
+    /**
+     * @param associatedHookInput the associatedHook to set
+     */
+    public final void setAssociatedHook(
+            final ObserverHook associatedHookInput) {
+        this.associatedHook = associatedHookInput;
     }
 
 }

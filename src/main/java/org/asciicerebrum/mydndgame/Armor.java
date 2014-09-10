@@ -3,6 +3,7 @@ package org.asciicerebrum.mydndgame;
 import org.asciicerebrum.mydndgame.interfaces.entities.IArmor;
 import org.asciicerebrum.mydndgame.interfaces.entities.IArmorCategory;
 import org.asciicerebrum.mydndgame.interfaces.entities.IProficiency;
+import org.asciicerebrum.mydndgame.interfaces.entities.ObserverHook;
 
 /**
  *
@@ -74,7 +75,10 @@ public class Armor extends InventoryItem implements IArmor {
      */
     @Override
     public final Long getArmorCheckPenalty() {
-        return armorCheckPenalty;
+        return (Long) this.getObservableDelegate()
+                .triggerObservers(
+                        ObserverHook.ARMOR_CHECK_PENALTY,
+                        this.armorCheckPenalty, this.getObserverMap(), null);
     }
 
     /**

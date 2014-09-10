@@ -258,4 +258,106 @@
         </property>
     </bean>
 
+    <bean id="lightArmorProficiency" class="org.asciicerebrum.mydndgame.Feat" scope="prototype">
+        <property name="id" value="lightArmorProficiency" />
+        <property name="observers">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
+                    <property name="hook" value="ATTACK" />
+                    <property name="removeBonus" ref="armorsArmorCheckPenaltyBonus" />
+                    <property name="conditionEvaluator">
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectArmorProficiencyEvaluator">
+                            <property name="proficiency" ref="lightArmor" />
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="mediumArmorProficiency" class="org.asciicerebrum.mydndgame.Feat" scope="prototype">
+        <property name="id" value="mediumArmorProficiency" />
+        <property name="observers">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
+                    <property name="hook" value="ATTACK" />
+                    <property name="removeBonus" ref="armorsArmorCheckPenaltyBonus" />
+                    <property name="conditionEvaluator">
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectArmorProficiencyEvaluator">
+                            <property name="proficiency" ref="mediumArmor" />
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="heavyArmorProficiency" class="org.asciicerebrum.mydndgame.Feat" scope="prototype">
+        <property name="id" value="heavyArmorProficiency" />
+        <property name="observers">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
+                    <property name="hook" value="ATTACK" />
+                    <property name="removeBonus" ref="armorsArmorCheckPenaltyBonus" />
+                    <property name="conditionEvaluator">
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectArmorProficiencyEvaluator">
+                            <property name="proficiency" ref="heavyArmor" />
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="lightShieldProficiency" class="org.asciicerebrum.mydndgame.Feat" scope="prototype">
+        <property name="id" value="lightShieldProficiency" />
+        <property name="observers">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
+                    <property name="hook" value="ATTACK" />
+                    <property name="removeBonus" ref="shieldsArmorCheckPenaltyBonus" />
+                    <property name="conditionEvaluator">
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectArmorProficiencyEvaluator">
+                            <property name="proficiency" ref="lightShieldArmor" />
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="heavyShieldProficiency" class="org.asciicerebrum.mydndgame.Feat" scope="prototype">
+        <property name="id" value="heavyShieldProficiency" />
+        <property name="observers">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
+                    <property name="hook" value="ATTACK" />
+                    <property name="removeBonus" ref="shieldsArmorCheckPenaltyBonus" />
+                    <property name="conditionEvaluator">
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectArmorProficiencyEvaluator">
+                            <property name="proficiency" ref="heavyShieldArmor" />
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="towerShieldProficiency" class="org.asciicerebrum.mydndgame.Feat" scope="prototype">
+        <property name="id" value="towerShieldProficiency" />
+        <property name="observers">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
+                    <property name="hook" value="ATTACK" />
+                    <property name="removeBonus" ref="shieldsArmorCheckPenaltyBonus" />
+                    <property name="conditionEvaluator">
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectArmorProficiencyEvaluator">
+                            <property name="proficiency" ref="towerShieldArmor" />
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
 </beans>

@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.observers;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 
 /**
@@ -39,6 +40,15 @@ public class SimpleArithmeticObserver extends AbstractObserver {
                     Long operate(final Long operandA, final Long operandB) {
                         return operandA * operandB;
                     }
+                },
+        /**
+         * Use the minimum of both values.
+         */
+        MINIMUM {
+                    @Override
+                    Long operate(final Long operandA, final Long operandB) {
+                        return Math.min(operandA, operandB);
+                    }
                 };
 
         /**
@@ -57,6 +67,12 @@ public class SimpleArithmeticObserver extends AbstractObserver {
     private Long modValue;
 
     /**
+     * Not a static but a dynamic mod value. The dynamic value has priority over
+     * the static one.
+     */
+    private BonusValueProvider modValueProvider;
+
+    /**
      * How to modificate the base value.
      */
     private Operation operation;
@@ -70,7 +86,17 @@ public class SimpleArithmeticObserver extends AbstractObserver {
 
         Long numeric = (Long) object;
 
-        return getOperation().operate(numeric, this.getModValue());
+        Long effectiveModValue = this.getModValue();
+        if (this.getModValueProvider() != null) {
+            effectiveModValue = this.getModValueProvider()
+                    .getDynamicValue(situationContext);
+        }
+
+        if (effectiveModValue == null) {
+            return numeric;
+        }
+
+        return getOperation().operate(numeric, effectiveModValue);
     }
 
     /**
@@ -99,6 +125,21 @@ public class SimpleArithmeticObserver extends AbstractObserver {
      */
     public final void setOperation(final Operation operationInput) {
         this.operation = operationInput;
+    }
+
+    /**
+     * @return the modValueProvider
+     */
+    public final BonusValueProvider getModValueProvider() {
+        return modValueProvider;
+    }
+
+    /**
+     * @param modValueProviderInput the modValueProvider to set
+     */
+    public final void setModValueProvider(
+            final BonusValueProvider modValueProviderInput) {
+        this.modValueProvider = modValueProviderInput;
     }
 
 }

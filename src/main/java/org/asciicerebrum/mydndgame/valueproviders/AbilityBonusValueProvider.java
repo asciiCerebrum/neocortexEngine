@@ -1,8 +1,7 @@
 package org.asciicerebrum.mydndgame.valueproviders;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
-import java.util.Collections;
-import org.asciicerebrum.mydndgame.Ability;
+import org.asciicerebrum.mydndgame.interfaces.entities.IAbility;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 
@@ -13,14 +12,9 @@ import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 public class AbilityBonusValueProvider implements BonusValueProvider {
 
     /**
-     * Offset for calculating the ability bonus from its score.
-     */
-    private static final Integer ABILITY_BONUS_OFFSET = 10;
-
-    /**
      * The associated ability for this value provider.
      */
-    private Ability ability;
+    private IAbility ability;
 
     /**
      *
@@ -33,37 +27,20 @@ public class AbilityBonusValueProvider implements BonusValueProvider {
 
         ICharacter dndCharacter = context.getCharacter();
 
-        //TODO collect all boni/mali with this ability as target
-        // e.g. sicknesses can give a -4 malus on Constitution.
-        // or some potions can grant a +4 bonus on Dexterity (Cat's Grace)
-        final Long abilityScore
-                = dndCharacter.getBaseAbilityMap().get(this.getAbility())
-                + Collections.frequency(dndCharacter.getAbilityAdvances(),
-                        this.getAbility());
-
-        return this.calculateAbilityMod(abilityScore);
-    }
-
-    /**
-     *
-     * @param score The ability score to calculate the bonus for.
-     * @return The calculated ability bonus.
-     */
-    private Long calculateAbilityMod(final Long score) {
-        return Math.round(Math.floor((score - ABILITY_BONUS_OFFSET) / 2.0));
+        return dndCharacter.getAbilityMod(this.getAbility());
     }
 
     /**
      * @return the ability
      */
-    public final Ability getAbility() {
+    public final IAbility getAbility() {
         return ability;
     }
 
     /**
      * @param abilityInput the ability to set
      */
-    public final void setAbility(final Ability abilityInput) {
+    public final void setAbility(final IAbility abilityInput) {
         this.ability = abilityInput;
     }
 

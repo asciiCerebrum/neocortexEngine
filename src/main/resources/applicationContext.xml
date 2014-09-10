@@ -54,6 +54,7 @@
     <import resource="applicationContext-conditions.xml"/>
     <import resource="applicationContext-characterClasses.xml"/>
     <import resource="applicationContext-weaponSpecialAbilities.xml"/>
+    <import resource="applicationContext-armorSpecialAbilities.xml"/>
     <import resource="applicationContext-weapons.xml"/>
     <import resource="applicationContext-armor.xml"/>
     <import resource="applicationContext-races.xml"/>

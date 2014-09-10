@@ -36,6 +36,14 @@
         <property name="id" value="nonproficiencyPenalty" />
     </bean>
 
+    <bean id="armorsArmorCheckPenalty" class="org.asciicerebrum.mydndgame.BonusType">
+        <property name="id" value="armorsArmorCheckPenalty" />
+    </bean>
+    
+    <bean id="shieldsArmorCheckPenalty" class="org.asciicerebrum.mydndgame.BonusType">
+        <property name="id" value="shieldsArmorCheckPenalty" />
+    </bean>
+
     <bean id="armorBonus" class="org.asciicerebrum.mydndgame.BonusType">
         <property name="id" value="armorBonus" />
     </bean>

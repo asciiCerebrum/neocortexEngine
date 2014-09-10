@@ -7,6 +7,7 @@
     <bean id="str" class="org.asciicerebrum.mydndgame.Ability">
         <property name="id" value="str" />
         <property name="name" value="strength" />
+        <property name="associatedHook" value="ABILITY_STR" />
         <property name="boni">
             <list>
                 <bean class="org.asciicerebrum.mydndgame.Bonus">
@@ -39,11 +40,12 @@
     <bean id="dex" class="org.asciicerebrum.mydndgame.Ability">
         <property name="id" value="dex" />
         <property name="name" value="dexterity" />
+        <property name="associatedHook" value="ABILITY_DEX" />
         <property name="boni">
             <list>
                 <bean class="org.asciicerebrum.mydndgame.Bonus">
                     <property name="bonusType" ref="dexBonus" />
-                    <property name="target" ref="ac" />
+                    <property name="target" ref="acBase" />
                     <property name="dynamicValueProvider" ref="dexAbilityBonusValueProvider" />
                 </bean>
                 <bean class="org.asciicerebrum.mydndgame.Bonus">
@@ -57,6 +59,7 @@
     <bean id="con" class="org.asciicerebrum.mydndgame.Ability">
         <property name="id" value="con" />
         <property name="name" value="constitution" />
+        <property name="associatedHook" value="ABILITY_CON" />
         <property name="boni">
             <list>
                 <bean class="org.asciicerebrum.mydndgame.Bonus">
@@ -70,13 +73,16 @@
     <bean id="int" class="org.asciicerebrum.mydndgame.Ability">
         <property name="id" value="int" />
         <property name="name" value="intelligence" />
+        <property name="associatedHook" value="ABILITY_INT" />
     </bean>
     <bean id="wis" class="org.asciicerebrum.mydndgame.Ability">
         <property name="id" value="wis" />
         <property name="name" value="wisdom" />
+        <property name="associatedHook" value="ABILITY_WIS" />
     </bean>
     <bean id="cha" class="org.asciicerebrum.mydndgame.Ability">
         <property name="id" value="cha" />
         <property name="name" value="charisma" />
+        <property name="associatedHook" value="ABILITY_CHA" />
     </bean>    
 </beans>

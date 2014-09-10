@@ -141,6 +141,10 @@ public final class DndCharacter implements ICharacter, Observable {
      */
     @BonusGranter
     private List<Slotable> bodySlots = new ArrayList<Slotable>();
+    /**
+     * Offset for calculating the ability bonus from its score.
+     */
+    private Integer abilityBonusOffset;
 
     /**
      * The feats of a character.
@@ -983,4 +987,49 @@ public final class DndCharacter implements ICharacter, Observable {
 
         return armor;
     }
+
+    //TODO collect all boni/mali with this ability as target
+    // e.g. sicknesses can give a -4 malus on Constitution.
+    // or some potions can grant a +4 bonus on Dexterity (Cat's Grace)
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Long getAbilityMod(final IAbility ability) {
+        final Long abilityScore
+                = this.getBaseAbilityMap().get(ability)
+                + Collections.frequency(this.getAbilityAdvances(), ability);
+
+        Long abilityMod = this.calculateAbilityMod(abilityScore);
+
+        return (Long) this.getObservableDelegate()
+                .triggerObservers(ability.getAssociatedHook(), abilityMod,
+                        this.getObserverMap(),
+                        this.generateSituationContextSimple());
+    }
+
+    /**
+     *
+     * @param score The ability score to calculate the bonus for.
+     * @return The calculated ability bonus.
+     */
+    private Long calculateAbilityMod(final Long score) {
+        return Math.round(Math.floor((score
+                - this.getAbilityBonusOffset()) / 2.0));
+    }
+
+    /**
+     * @return the abilityBonusOffset
+     */
+    public Integer getAbilityBonusOffset() {
+        return abilityBonusOffset;
+    }
+
+    /**
+     * @param abilityBonusOffsetInput the abilityBonusOffset to set
+     */
+    public void setAbilityBonusOffset(final Integer abilityBonusOffsetInput) {
+        this.abilityBonusOffset = abilityBonusOffsetInput;
+    }
+
 }
