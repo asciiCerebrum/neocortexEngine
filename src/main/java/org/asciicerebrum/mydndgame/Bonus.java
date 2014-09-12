@@ -3,7 +3,9 @@ package org.asciicerebrum.mydndgame;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import org.apache.commons.lang.ObjectUtils;
 import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
@@ -51,7 +53,22 @@ public class Bonus implements IBonus {
      */
     @Override
     public final Boolean resembles(final IBonus bonus) {
-        return this.resemblesValue(bonus);
+        return this.resemblesValue(bonus,
+                Arrays.asList(ResemblanceFacet.values()));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final Boolean resembles(final IBonus bonus,
+            final List<ResemblanceFacet> facets) {
+
+        if (facets == null || facets.isEmpty()) {
+            return this.resembles(bonus);
+        }
+
+        return this.resemblesValue(bonus, facets);
     }
 
     /**
@@ -60,11 +77,13 @@ public class Bonus implements IBonus {
      * @param bonus the bonus.
      * @return false or further delegate result.
      */
-    private Boolean resemblesValue(final IBonus bonus) {
-        if (!ObjectUtils.equals(this.getValue(), bonus.getValue())) {
+    private Boolean resemblesValue(final IBonus bonus,
+            final List<ResemblanceFacet> facets) {
+        if (facets.contains(ResemblanceFacet.VALUE)
+                && !ObjectUtils.equals(this.getValue(), bonus.getValue())) {
             return Boolean.FALSE;
         }
-        return this.resemblesRank(bonus);
+        return this.resemblesRank(bonus, facets);
     }
 
     /**
@@ -73,11 +92,13 @@ public class Bonus implements IBonus {
      * @param bonus the bonus.
      * @return false or further delegate result.
      */
-    private Boolean resemblesRank(final IBonus bonus) {
-        if (!ObjectUtils.equals(this.getRank(), bonus.getRank())) {
+    private Boolean resemblesRank(final IBonus bonus,
+            final List<ResemblanceFacet> facets) {
+        if (facets.contains(ResemblanceFacet.RANK)
+                && !ObjectUtils.equals(this.getRank(), bonus.getRank())) {
             return Boolean.FALSE;
         }
-        return this.resemblesBonusType(bonus);
+        return this.resemblesBonusType(bonus, facets);
     }
 
     /**
@@ -86,11 +107,14 @@ public class Bonus implements IBonus {
      * @param bonus the bonus.
      * @return false or further delegate result.
      */
-    private Boolean resemblesBonusType(final IBonus bonus) {
-        if (!ObjectUtils.equals(bonus.getBonusType(), this.getBonusType())) {
+    private Boolean resemblesBonusType(final IBonus bonus,
+            final List<ResemblanceFacet> facets) {
+        if (facets.contains(ResemblanceFacet.BONUS_TYPE)
+                && !ObjectUtils.equals(bonus.getBonusType(),
+                        this.getBonusType())) {
             return Boolean.FALSE;
         }
-        return this.resemblesTarget(bonus);
+        return this.resemblesTarget(bonus, facets);
     }
 
     /**
@@ -99,11 +123,13 @@ public class Bonus implements IBonus {
      * @param bonus the bonus.
      * @return false or further delegate result.
      */
-    private Boolean resemblesTarget(final IBonus bonus) {
-        if (!ObjectUtils.equals(bonus.getTarget(), this.getTarget())) {
+    private Boolean resemblesTarget(final IBonus bonus,
+            final List<ResemblanceFacet> facets) {
+        if (facets.contains(ResemblanceFacet.TARGET)
+                && !ObjectUtils.equals(bonus.getTarget(), this.getTarget())) {
             return Boolean.FALSE;
         }
-        return this.resemblesDynamicValueProvider(bonus);
+        return this.resemblesDynamicValueProvider(bonus, facets);
     }
 
     /**
@@ -112,9 +138,11 @@ public class Bonus implements IBonus {
      * @param bonus the bonus.
      * @return false or further delegate result, which is true in this case.
      */
-    private Boolean resemblesDynamicValueProvider(final IBonus bonus) {
-        if (!ObjectUtils.equals(this.getDynamicValueProvider(),
-                bonus.getDynamicValueProvider())) {
+    private Boolean resemblesDynamicValueProvider(final IBonus bonus,
+            final List<ResemblanceFacet> facets) {
+        if (facets.contains(ResemblanceFacet.DYNAMIC_VALUE_PROVIDER)
+                && !ObjectUtils.equals(this.getDynamicValueProvider(),
+                        bonus.getDynamicValueProvider())) {
             return Boolean.FALSE;
         }
 

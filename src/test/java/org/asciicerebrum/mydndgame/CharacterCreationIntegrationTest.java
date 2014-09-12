@@ -188,15 +188,19 @@ public class CharacterCreationIntegrationTest {
 
     @Test
     public void valerosFeatNumber() {
-        // 2 from class: simpleWeaponProficiency, martialWeaponProficiency
+        // 8 from class: simpleWeaponProficiency, martialWeaponProficiency,
+        // lightArmorProficiency, mediumArmorProficiency, heavyArmorProficiency,
+        // lightShieldProficiency, heavyShieldProficiency,
+        // towerShieldProficiency
         // 1 from character: weaponFinesse
-        assertEquals(3, this.valeros.getFeats().size());
+        assertEquals(9, this.valeros.getFeats().size());
     }
 
     @Test
     public void valeros3rdFeatName() {
-        // feat 0 and 1 come from the class, feat 2 from the character.
-        assertEquals(FEAT_WEAPON_FINESSE, this.valeros.getFeats().get(2).getId());
+        // feat 0 till 7 come from the class, feat 8 from the character.
+        assertEquals(FEAT_WEAPON_FINESSE,
+                this.valeros.getFeats().get(8).getId());
     }
 
     @Test
@@ -412,8 +416,7 @@ public class CharacterCreationIntegrationTest {
         // str-bonus: +2 is applied! (*1.5 both hands)
         assertEquals(Long.valueOf(3), damageBonus);
     }
-    
+
     //TODO test what happens when wearing two shields!!! the penalties on attack
     // should not stack!
-
 }

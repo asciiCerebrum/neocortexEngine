@@ -33,7 +33,52 @@
         <property name="diceType" ref="d20" />
         <property name="targetObservers">
             <list>
-                <!-- TODO When you are the target of a touch attack, your AC doesn’t include any armor bonus, shield bonus, or natural armor bonus. -->
+                <!-- When you are the target of a touch attack, your AC doesn’t include any armor bonus, shield bonus, or natural armor bonus. -->
+                <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
+                    <property name="hook" value="AC" />
+                    <property name="removeBonus">
+                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                            <property name="bonusType" ref="armorBonus" />
+                            <property name="target" ref="acBase" />
+                        </bean>
+                    </property>
+                    <property name="resemblanceFacets">
+                        <list>
+                            <value>BONUS_TYPE</value>
+                            <value>TARGET</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
+                    <property name="hook" value="AC" />
+                    <property name="removeBonus">
+                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                            <property name="bonusType" ref="shieldBonus" />
+                            <property name="target" ref="acBase" />
+                        </bean>
+                    </property>
+                    <property name="resemblanceFacets">
+                        <list>
+                            <value>BONUS_TYPE</value>
+                            <value>TARGET</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
+                    <property name="hook" value="AC" />
+                    <property name="removeBonus">
+                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                            <property name="bonusType" ref="naturalArmorBonus" />
+                            <property name="target" ref="acBase" />
+                        </bean>
+                    </property>
+                    <property name="resemblanceFacets">
+                        <list>
+                            <value>BONUS_TYPE</value>
+                            <value>TARGET</value>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

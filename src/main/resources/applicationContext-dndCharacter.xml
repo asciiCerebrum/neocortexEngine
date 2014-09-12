@@ -117,7 +117,7 @@
                     <property name="hook" value="ABILITY_DEX" />
                     <property name="operation" value="MINIMUM" />
                     <property name="modValueProvider">
-                        <bean class="ArmorDexterityLimitProvider" />
+                        <bean class="org.asciicerebrum.mydndgame.valueproviders.ArmorDexterityLimitProvider" />
                     </property>
                 </bean>
             </list>

@@ -93,7 +93,7 @@
     </bean>
 
     <bean id="halfPlate" class="org.asciicerebrum.mydndgame.Armor" scope="prototype"
-          parent="halfPlate">
+          parent="abstractArmor">
         <property name="name" value="halfPlate" />
         <property name="armorCategory" ref="armor" />
         <property name="proficiency" ref="heavyArmor" />

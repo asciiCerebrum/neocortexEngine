@@ -8,7 +8,7 @@
     A masterwork suit of armor or shield costs an extra 150 gp over and above the normal cost for that type of armor or shield. 
     The masterwork quality of a suit of armor or shield never provides a bonus on attack or damage rolls, even if the armor or shield is used as a weapon.  -->
 
-    <bean id="masterworkArmor" class="ArmorSpecialAbility">
+    <bean id="masterworkArmor" class="org.asciicerebrum.mydndgame.ArmorSpecialAbility">
         <property name="id" value="masterworkArmor" />
         <property name="observers">
             <list>

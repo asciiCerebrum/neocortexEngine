@@ -7,9 +7,29 @@ package org.asciicerebrum.mydndgame.interfaces.entities;
 public enum ObserverHook {
 
     /**
-     * The dexterity ability.
+     * The dexterity ability modifier.
      */
     ABILITY_DEX,
+    /**
+     * The strength ability modifier.
+     */
+    ABILITY_STR,
+    /**
+     * The intelligence ability modifier.
+     */
+    ABILITY_INT,
+    /**
+     * The wisdom ability modifier.
+     */
+    ABILITY_WIS,
+    /**
+     * The constitution ability modifier.
+     */
+    ABILITY_CON,
+    /**
+     * The charisma ability modifier.
+     */
+    ABILITY_CHA,
     /**
      * Armor Class. Everything that does not go into the base armor class. E.g.
      * something from conditions like flat-footed.

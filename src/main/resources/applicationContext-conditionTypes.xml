@@ -8,9 +8,25 @@
         <property name="id" value="flatFooted" />
         <property name="observers">
             <list>
-                <!-- TODO You can’t use your Dexterity bonus to AC (if any) while flat-footed. -->
+                <!-- You can’t use your Dexterity bonus to AC (if any) while flat-footed.
+                Any situation that denies you your Dexterity bonus also denies you dodge bonuses. -->
+                <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
+                    <property name="hook" value="AC" />
+                    <property name="removeBonus">
+                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                            <property name="bonusType" ref="dexBonus" />
+                            <property name="target" ref="acBase" />
+                        </bean>
+                    </property>
+                    <property name="resemblanceFacets">
+                        <list>
+                            <value>BONUS_TYPE</value>
+                            <value>TARGET</value>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
-    
+
 </beans>

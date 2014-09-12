@@ -3,6 +3,7 @@ package org.asciicerebrum.mydndgame.observers;
 import java.util.Iterator;
 import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
+import org.asciicerebrum.mydndgame.interfaces.entities.IBonus.ResemblanceFacet;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 
 /**
@@ -17,6 +18,11 @@ public class RemoveBonusObserver extends AbstractObserver {
     private IBonus removeBonus;
 
     /**
+     * Defines the aspects which create resemblance between two boni.
+     */
+    private List<ResemblanceFacet> resemblanceFacets;
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -27,7 +33,8 @@ public class RemoveBonusObserver extends AbstractObserver {
         Iterator<IBonus> boniIterator = boni.iterator();
         while (boniIterator.hasNext()) {
             IBonus bonus = boniIterator.next();
-            if (this.getRemoveBonus().resembles(bonus)) {
+            if (this.getRemoveBonus().resembles(bonus,
+                    this.getResemblanceFacets())) {
                 boniIterator.remove();
             }
         }
@@ -48,4 +55,18 @@ public class RemoveBonusObserver extends AbstractObserver {
         this.removeBonus = removeBonusInput;
     }
 
+    /**
+     * @return the resemblanceFacets
+     */
+    public final List<ResemblanceFacet> getResemblanceFacets() {
+        return resemblanceFacets;
+    }
+
+    /**
+     * @param resemblanceFacetsInput the resemblanceFacets to set
+     */
+    public final void setResemblanceFacets(
+            final List<ResemblanceFacet> resemblanceFacetsInput) {
+        this.resemblanceFacets = resemblanceFacetsInput;
+    }
 }

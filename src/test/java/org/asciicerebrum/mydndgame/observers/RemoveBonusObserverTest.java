@@ -57,7 +57,7 @@ public class RemoveBonusObserverTest {
 
         IBonus refBonus = mock(IBonus.class);
 
-        when(refBonus.resembles(bonusB)).thenReturn(Boolean.TRUE);
+        when(refBonus.resembles(bonusB, null)).thenReturn(Boolean.TRUE);
         when(this.conditionEval.evaluate(this.mockSitCon))
                 .thenReturn(Boolean.TRUE);
 
