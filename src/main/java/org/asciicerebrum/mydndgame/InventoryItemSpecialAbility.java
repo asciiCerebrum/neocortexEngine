@@ -22,7 +22,7 @@ public abstract class InventoryItemSpecialAbility
     /**
      * The list of quasi static boni that are granted by this special ability.
      */
-    private List<IBonus> boni;
+    private List<IBonus> boni = new ArrayList<IBonus>();
 
     /**
      * The list of observers that hook into the weapon to modify certain

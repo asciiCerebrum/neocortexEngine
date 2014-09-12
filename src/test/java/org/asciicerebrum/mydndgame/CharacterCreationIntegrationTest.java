@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame;
 
 import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.IAbility;
+import org.asciicerebrum.mydndgame.interfaces.entities.IArmor;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
@@ -29,13 +30,16 @@ public class CharacterCreationIntegrationTest {
     private static final String RAPIER4VALEROS_ID = "rapierValeros";
     private static final String DAGGER4VALEROS_ID = "mwkRapierValeros";
     private static final String PRIMARY_HAND_TYPE = "primaryHand";
+    private static final String TORSO_TYPE = "torso";
     private static final String SECONDARY_HAND_TYPE = "secondaryHand";
+    private static final String CHAINMAIL4VALEROS_ID = "chainmailValeros";
 
     private ICharacter harsk;
     private ICharacter valeros;
 
     private BodySlotType primaryHand;
     private BodySlotType secondaryHand;
+    private BodySlotType torso;
 
     private ApplicationContext context;
 
@@ -79,10 +83,19 @@ public class CharacterCreationIntegrationTest {
         IWeapon dagger4Valeros
                 = new WeaponBuilder(dagger4ValerosSetup, this.context).build();
 
+        ArmorSetup chainmail4ValerosSetup = new ArmorSetup();
+        chainmail4ValerosSetup.setId(CHAINMAIL4VALEROS_ID);
+        chainmail4ValerosSetup.setName("chainmail");
+        chainmail4ValerosSetup.setSizeCategory("medium");
+        chainmail4ValerosSetup.getSpecialAbilities().add("masterworkArmor");
+        IArmor chainmail4Valeros = new ArmorBuilder(chainmail4ValerosSetup,
+                this.context).build();
+
         beanFactory.registerSingleton(AXE4HARSK_ID, axe4Harsk);
         beanFactory.registerSingleton(BASTARD4HARSK_ID, bastard4Harsk);
         beanFactory.registerSingleton(RAPIER4VALEROS_ID, rapier4Valeros);
         beanFactory.registerSingleton(DAGGER4VALEROS_ID, dagger4Valeros);
+        beanFactory.registerSingleton(CHAINMAIL4VALEROS_ID, chainmail4Valeros);
 
         CharacterSetup setupHarsk = new CharacterSetup();
         setupHarsk.setName("Harsk");
@@ -120,6 +133,7 @@ public class CharacterCreationIntegrationTest {
                 .setFeatName(FEAT_WEAPON_FINESSE));
         setupValeros.getPossessionContainer().put(RAPIER4VALEROS_ID, PRIMARY_HAND_TYPE);
         setupValeros.getPossessionContainer().put(DAGGER4VALEROS_ID, "secondaryHand");
+        setupValeros.getPossessionContainer().put(CHAINMAIL4VALEROS_ID, "torso");
         setupValeros.getStateRegistry().put("weaponFinesseMode." + RAPIER4VALEROS_ID, "true"); // this must not be directly saved at the weapon; stateKey and value type Weapon (or String?)
         setupValeros.getStateRegistry().put("weaponFinesseMode." + DAGGER4VALEROS_ID, "true");
         setupValeros.getStateRegistry().put("weaponDamageMode." + DAGGER4VALEROS_ID, "slashing");
@@ -128,6 +142,7 @@ public class CharacterCreationIntegrationTest {
                 BodySlotType.class);
         this.secondaryHand = this.context.getBean(SECONDARY_HAND_TYPE,
                 BodySlotType.class);
+        this.torso = this.context.getBean(TORSO_TYPE, BodySlotType.class);
 
         this.harsk
                 = new DndCharacterBuilder(setupHarsk, this.context).build();
@@ -183,7 +198,33 @@ public class CharacterCreationIntegrationTest {
 
     @Test
     public void valerosAC() {
-        assertEquals(Long.valueOf(9), this.valeros.getAcStandard());
+        // dex: -1
+        // chainmail: +5
+        assertEquals(Long.valueOf(14), this.valeros.getAcStandard());
+    }
+
+    @Test
+    public void valerosACFlatFooted() {
+        // dex: -1 -> stays when flat footed!
+        // chainmail: +5
+        assertEquals(Long.valueOf(14), this.valeros.getAcFlatFooted());
+    }
+
+    @Test
+    public void valerosACTouch() {
+        // dex: -1
+        // chainmail: +5 -> not active when touched
+        assertEquals(Long.valueOf(9), this.valeros.getAcTouch());
+    }
+
+    @Test
+    public void valerosChainmailCost() {
+        // mwk chainmail!
+
+        Long cost = this.valeros.getBodySlotByType(this.torso)
+                .getItem().getCost();
+
+        assertEquals(Long.valueOf(300), cost);
     }
 
     @Test

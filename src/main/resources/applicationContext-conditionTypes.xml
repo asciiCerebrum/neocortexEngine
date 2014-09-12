@@ -9,7 +9,8 @@
         <property name="observers">
             <list>
                 <!-- You can’t use your Dexterity bonus to AC (if any) while flat-footed.
-                Any situation that denies you your Dexterity bonus also denies you dodge bonuses. -->
+                Any situation that denies you your Dexterity bonus also denies you dodge bonuses.
+                But a dexterity penalty still applies! -->
                 <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
                     <property name="hook" value="AC" />
                     <property name="removeBonus">
@@ -23,6 +24,13 @@
                             <value>BONUS_TYPE</value>
                             <value>TARGET</value>
                         </list>
+                    </property>
+                    <property name="conditionEvaluator">
+                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.BonusValueComparisonEvaluator">
+                            <property name="bonusValueProvider" ref="dexAbilityBonusValueProvider" />
+                            <property name="comparator" value="GE" />
+                            <property name="referenceValue" value="0" />
+                        </bean>
                     </property>
                 </bean>
             </list>

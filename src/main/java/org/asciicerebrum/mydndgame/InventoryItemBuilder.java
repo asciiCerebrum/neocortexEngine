@@ -57,8 +57,8 @@ public abstract class InventoryItemBuilder {
 
         // adding special abilities
         for (String specialAbilityKey : setup.getSpecialAbilities()) {
-            ISpecialAbility specAb = this.context.getBean(
-                    specialAbilityKey, WeaponSpecialAbility.class);
+            ISpecialAbility specAb = this.getSpecialAbilityFromContext(
+                    specialAbilityKey);
             item.getSpecialAbilities().add(specAb);
 
             // registering special abillity hooks
@@ -71,5 +71,16 @@ public abstract class InventoryItemBuilder {
 
         return item;
     }
+
+    /**
+     * Retrieves the special ability object from the context. The subclasses
+     * must manage this because they have the knowledge of what type is needed
+     * exactly.
+     *
+     * @param specialAbilityKey the id of the context bean.
+     * @return the special ability object.
+     */
+    protected abstract ISpecialAbility getSpecialAbilityFromContext(
+            final String specialAbilityKey);
 
 }

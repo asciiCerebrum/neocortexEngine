@@ -264,7 +264,18 @@
             <list>
                 <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
                     <property name="hook" value="ATTACK" />
-                    <property name="removeBonus" ref="armorsArmorCheckPenaltyBonus" />
+                    <property name="removeBonus">
+                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                            <property name="bonusType" ref="armorsArmorCheckPenalty" />
+                            <property name="target" ref="attack" />
+                        </bean>
+                    </property>
+                    <property name="resemblanceFacets">
+                        <list>
+                            <value>BONUS_TYPE</value>
+                            <value>TARGET</value>
+                        </list>
+                    </property>
                     <property name="conditionEvaluator">
                         <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectArmorProficiencyEvaluator">
                             <property name="proficiency" ref="lightArmor" />
@@ -281,7 +292,18 @@
             <list>
                 <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
                     <property name="hook" value="ATTACK" />
-                    <property name="removeBonus" ref="armorsArmorCheckPenaltyBonus" />
+                    <property name="removeBonus">
+                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                            <property name="bonusType" ref="armorsArmorCheckPenalty" />
+                            <property name="target" ref="attack" />
+                        </bean>
+                    </property>
+                    <property name="resemblanceFacets">
+                        <list>
+                            <value>BONUS_TYPE</value>
+                            <value>TARGET</value>
+                        </list>
+                    </property>
                     <property name="conditionEvaluator">
                         <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectArmorProficiencyEvaluator">
                             <property name="proficiency" ref="mediumArmor" />
@@ -298,7 +320,18 @@
             <list>
                 <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
                     <property name="hook" value="ATTACK" />
-                    <property name="removeBonus" ref="armorsArmorCheckPenaltyBonus" />
+                    <property name="removeBonus">
+                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                            <property name="bonusType" ref="armorsArmorCheckPenalty" />
+                            <property name="target" ref="attack" />
+                        </bean>
+                    </property>
+                    <property name="resemblanceFacets">
+                        <list>
+                            <value>BONUS_TYPE</value>
+                            <value>TARGET</value>
+                        </list>
+                    </property>
                     <property name="conditionEvaluator">
                         <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectArmorProficiencyEvaluator">
                             <property name="proficiency" ref="heavyArmor" />
@@ -315,7 +348,18 @@
             <list>
                 <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
                     <property name="hook" value="ATTACK" />
-                    <property name="removeBonus" ref="shieldsArmorCheckPenaltyBonus" />
+                    <property name="removeBonus">
+                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                            <property name="bonusType" ref="shieldsArmorCheckPenalty" />
+                            <property name="target" ref="attack" />
+                        </bean>
+                    </property>
+                    <property name="resemblanceFacets">
+                        <list>
+                            <value>BONUS_TYPE</value>
+                            <value>TARGET</value>
+                        </list>
+                    </property>
                     <property name="conditionEvaluator">
                         <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectArmorProficiencyEvaluator">
                             <property name="proficiency" ref="lightShieldArmor" />
@@ -332,7 +376,18 @@
             <list>
                 <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
                     <property name="hook" value="ATTACK" />
-                    <property name="removeBonus" ref="shieldsArmorCheckPenaltyBonus" />
+                    <property name="removeBonus">
+                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                            <property name="bonusType" ref="shieldsArmorCheckPenalty" />
+                            <property name="target" ref="attack" />
+                        </bean>
+                    </property>
+                    <property name="resemblanceFacets">
+                        <list>
+                            <value>BONUS_TYPE</value>
+                            <value>TARGET</value>
+                        </list>
+                    </property>
                     <property name="conditionEvaluator">
                         <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectArmorProficiencyEvaluator">
                             <property name="proficiency" ref="heavyShieldArmor" />
@@ -349,7 +404,18 @@
             <list>
                 <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
                     <property name="hook" value="ATTACK" />
-                    <property name="removeBonus" ref="shieldsArmorCheckPenaltyBonus" />
+                    <property name="removeBonus">
+                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                            <property name="bonusType" ref="shieldsArmorCheckPenalty" />
+                            <property name="target" ref="attack" />
+                        </bean>
+                    </property>
+                    <property name="resemblanceFacets">
+                        <list>
+                            <value>BONUS_TYPE</value>
+                            <value>TARGET</value>
+                        </list>
+                    </property>
                     <property name="conditionEvaluator">
                         <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectArmorProficiencyEvaluator">
                             <property name="proficiency" ref="towerShieldArmor" />

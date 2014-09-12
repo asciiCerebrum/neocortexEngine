@@ -23,7 +23,8 @@ public class ArmorDexterityLimitProvider implements BonusValueProvider {
         Long minMaxDexBonus = null;
         for (IArmor armor : dndCharacter.getWieldedArmor()) {
             if (armor.getMaxDexBonus() != null
-                    && armor.getMaxDexBonus() < minMaxDexBonus) {
+                    && (minMaxDexBonus == null
+                    || armor.getMaxDexBonus() < minMaxDexBonus)) {
                 minMaxDexBonus = armor.getMaxDexBonus();
             }
         }

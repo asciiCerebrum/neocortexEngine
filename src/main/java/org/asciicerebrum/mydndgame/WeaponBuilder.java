@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.interfaces.entities.ISpecialAbility;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 import org.springframework.context.ApplicationContext;
 
@@ -36,5 +37,16 @@ public class WeaponBuilder extends InventoryItemBuilder {
         // to achive this, use a defaultValuesProvider bean and define
         // those default values in the application context xml.
         return weapon;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected final ISpecialAbility getSpecialAbilityFromContext(
+            final String specialAbilityKey) {
+
+        return this.context.getBean(
+                specialAbilityKey, WeaponSpecialAbility.class);
     }
 }

@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.IArmor;
+import org.asciicerebrum.mydndgame.interfaces.entities.ISpecialAbility;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -31,5 +32,16 @@ public class ArmorBuilder extends InventoryItemBuilder {
                 setup.getName(), Armor.class));
 
         return armor;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected final ISpecialAbility getSpecialAbilityFromContext(
+            final String specialAbilityKey) {
+
+        return this.context.getBean(
+                specialAbilityKey, ArmorSpecialAbility.class);
     }
 }
