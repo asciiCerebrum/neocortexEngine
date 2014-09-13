@@ -96,7 +96,7 @@ public class Condition implements ICondition {
      * {@inheritDoc}
      */
     @Override
-    public final void setDuration(Long durationInput) {
+    public final void setDuration(final Long durationInput) {
         this.duration = durationInput;
     }
 

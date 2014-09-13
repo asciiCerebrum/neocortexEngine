@@ -75,6 +75,7 @@ public class Bonus implements IBonus {
      * 1st test in chain of resemblance.
      *
      * @param bonus the bonus.
+     * @param facets the facets to take into account.
      * @return false or further delegate result.
      */
     private Boolean resemblesValue(final IBonus bonus,
@@ -90,6 +91,7 @@ public class Bonus implements IBonus {
      * 2nd test in chain of resemblance.
      *
      * @param bonus the bonus.
+     * @param facets the facets to take into account.
      * @return false or further delegate result.
      */
     private Boolean resemblesRank(final IBonus bonus,
@@ -105,6 +107,7 @@ public class Bonus implements IBonus {
      * 3rd test in chain of resemblance.
      *
      * @param bonus the bonus.
+     * @param facets the facets to take into account.
      * @return false or further delegate result.
      */
     private Boolean resemblesBonusType(final IBonus bonus,
@@ -121,6 +124,7 @@ public class Bonus implements IBonus {
      * 4th test in chain of resemblance.
      *
      * @param bonus the bonus.
+     * @param facets the facets to take into account.
      * @return false or further delegate result.
      */
     private Boolean resemblesTarget(final IBonus bonus,
@@ -136,6 +140,7 @@ public class Bonus implements IBonus {
      * 5th test in chain of resemblance.
      *
      * @param bonus the bonus.
+     * @param facets the facets to take into account.
      * @return false or further delegate result, which is true in this case.
      */
     private Boolean resemblesDynamicValueProvider(final IBonus bonus,

@@ -15,11 +15,11 @@ public abstract class InventoryItemBuilder {
     /**
      * Setup information for the weapon.
      */
-    protected final InventoryItemSetup setup;
+    private final InventoryItemSetup setup;
     /**
      * Spring context to get the beans from.
      */
-    protected final ApplicationContext context;
+    private final ApplicationContext context;
 
     /**
      * Constructor for creating an inventory item builder.
@@ -41,10 +41,10 @@ public abstract class InventoryItemBuilder {
      */
     protected final IInventoryItem build(final IInventoryItem item) {
 
-        item.setId(setup.getId());
+        item.setId(getSetup().getId());
 
-        SizeCategory size = this.context.getBean(
-                setup.getSizeCategory(), SizeCategory.class);
+        SizeCategory size = this.getContext().getBean(
+                getSetup().getSizeCategory(), SizeCategory.class);
 
         item.adaptToSize(size);
 
@@ -56,7 +56,7 @@ public abstract class InventoryItemBuilder {
         }
 
         // adding special abilities
-        for (String specialAbilityKey : setup.getSpecialAbilities()) {
+        for (String specialAbilityKey : getSetup().getSpecialAbilities()) {
             ISpecialAbility specAb = this.getSpecialAbilityFromContext(
                     specialAbilityKey);
             item.getSpecialAbilities().add(specAb);
@@ -82,5 +82,19 @@ public abstract class InventoryItemBuilder {
      */
     protected abstract ISpecialAbility getSpecialAbilityFromContext(
             final String specialAbilityKey);
+
+    /**
+     * @return the setup
+     */
+    protected final InventoryItemSetup getSetup() {
+        return setup;
+    }
+
+    /**
+     * @return the context
+     */
+    protected final ApplicationContext getContext() {
+        return context;
+    }
 
 }

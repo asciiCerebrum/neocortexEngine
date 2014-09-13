@@ -280,7 +280,7 @@ public final class DndCharacter implements ICharacter, Observable {
                 .traverseBoniByTarget(this, bonusTarget);
         genericBoni.addAll(this.bonusService
                 .traverseBoniByTarget(this, this.attackAction));
-        
+
         IInventoryItem item = this.getBodySlotByType(bodySlotType).getItem();
         genericBoni.addAll(this.bonusService.traverseBoniByTarget(
                 item, this.attackAction));
@@ -299,15 +299,15 @@ public final class DndCharacter implements ICharacter, Observable {
                         ObserverHook.ATTACK, genericBoni,
                         this.getObserverMap(),
                         attackSitCon);
-        
+
         Long bonusValue = this.bonusService.accumulateBonusValue(attackSitCon,
                 genericBoni);
-        
+
         for (IBonus baseAtkBonus : this.getBaseAtkBoni()) {
             atkBoni.add(baseAtkBonus.getEffectiveValue(attackSitCon)
                     + bonusValue);
         }
-        
+
         return atkBoni;
     }
 
@@ -316,7 +316,7 @@ public final class DndCharacter implements ICharacter, Observable {
      */
     @Override
     public Integer countClassLevelsByCharacterClass(final IClass charCl) {
-        
+
         return Collections.frequency(this.getClassList(), charCl);
     }
 
@@ -328,7 +328,7 @@ public final class DndCharacter implements ICharacter, Observable {
      */
     @Override
     public List<IBonus> getBaseAtkBoni() {
-        
+
         Long maxSize = this.getMaxAttackNumber();
 
         // order the list
@@ -391,9 +391,9 @@ public final class DndCharacter implements ICharacter, Observable {
      */
     @Override
     public Long getMaxHp() {
-        
+
         Long maxHp = 0L;
-        
+
         for (int i = 0; i < this.getClassList().size(); i++) {
             // in case of null use max hp addition, defined by
             // the class' hitdice
@@ -402,18 +402,18 @@ public final class DndCharacter implements ICharacter, Observable {
             } else {
                 maxHp += this.getClassList().get(i).getHitDice().getSides();
             }
-            
+
         }
         // hp add con-modifier for each class level
         maxHp += this.getClassList().size()
                 * this.bonusService.retrieveEffectiveBonusValueByTarget(
                         this.generateSituationContextSimple(), this, this.hp);
-        
+
         return maxHp;
     }
 
     /**
-     * TODO: Keep the following use cases in mind.
+     * Keep the following use cases in mind.
      *
      * 1. Flat-footed: A character who has not yet acted during a combat is
      * flat-footed, not yet reacting normally to the situation. A flat-footed
@@ -434,17 +434,18 @@ public final class DndCharacter implements ICharacter, Observable {
      *
      * @return the calculated standard armor class of this character.
      */
+    //TODO implement all use cases mentioned above.
     @Override
     public Long getAcStandard() {
         List<IArmor> wieldedArmor = this.getWieldedArmor();
-        
+
         List<IBonus> acBoni = this.bonusService.traverseBoniByTarget(this,
                 this.acBaseAction);
         for (IArmor singleArmor : wieldedArmor) {
             acBoni.addAll(this.bonusService.traverseBoniByTarget(singleArmor,
                     this.acBaseAction));
         }
-        
+
         ISituationContext simpleSitCon = this.generateSituationContextSimple();
 
         // observers with hook ac_base only
@@ -459,7 +460,7 @@ public final class DndCharacter implements ICharacter, Observable {
                             ObserverHook.AC_BASE, acBoni,
                             singleArmor.getObserverMap(), simpleSitCon);
         }
-        
+
         return this.acBaseAction.getConstValue()
                 + this.bonusService.accumulateBonusValue(simpleSitCon, acBoni);
     }
@@ -479,14 +480,14 @@ public final class DndCharacter implements ICharacter, Observable {
             this.getObservableDelegate().registerListener(ObserverHook.AC_BASE,
                     observer, this.getObserverMap());
         }
-        
+
         Long acValue = this.getAcStandard();
-        
+
         for (IObserver observer : this.flatFooted.getObservers()) {
             this.getObservableDelegate().unregisterListener(
                     ObserverHook.AC_BASE, observer, this.getObserverMap());
         }
-        
+
         return acValue;
     }
 
@@ -505,15 +506,15 @@ public final class DndCharacter implements ICharacter, Observable {
             this.getObservableDelegate().registerListener(ObserverHook.AC_BASE,
                     observer, this.getObserverMap());
         }
-        
+
         Long acValue = this.getAcStandard();
-        
+
         for (IObserver observer : this.getTouchAttackAction()
                 .getTargetObservers()) {
             this.getObservableDelegate().unregisterListener(
                     ObserverHook.AC_BASE, observer, this.getObserverMap());
         }
-        
+
         return acValue;
     }
 
@@ -527,7 +528,7 @@ public final class DndCharacter implements ICharacter, Observable {
     @Override
     public Long getAc() {
         List<IArmor> wieldedArmor = this.getWieldedArmor();
-        
+
         List<IBonus> acBoni = this.bonusService.traverseBoniByTarget(this,
                 this.acBaseAction);
         acBoni.addAll(this.bonusService.traverseBoniByTarget(this,
@@ -538,7 +539,7 @@ public final class DndCharacter implements ICharacter, Observable {
             acBoni.addAll(this.bonusService.traverseBoniByTarget(singleArmor,
                     this.acAction));
         }
-        
+
         ISituationContext simpleSitCon = this.generateSituationContextSimple();
 
         //shields and armor with max-dex!
@@ -886,7 +887,7 @@ public final class DndCharacter implements ICharacter, Observable {
         genericBoni = (List<IBonus>) item.getObservableDelegate()
                 .triggerObservers(
                         hook, genericBoni, item.getObserverMap(), attackSitCon);
-        
+
         return this.bonusService.accumulateBonusValue(
                 attackSitCon, genericBoni);
     }
@@ -976,7 +977,7 @@ public final class DndCharacter implements ICharacter, Observable {
     @Override
     public List<IArmor> getWieldedArmor() {
         List<IArmor> armor = new ArrayList<IArmor>();
-        
+
         for (Slotable slot : this.getBodySlots()) {
             if (slot.getItem() instanceof IArmor
                     && slot.getItem().isCorrectlyWielded(
@@ -985,7 +986,7 @@ public final class DndCharacter implements ICharacter, Observable {
                 armor.add((IArmor) slot.getItem());
             }
         }
-        
+
         return armor;
     }
 
@@ -1000,9 +1001,9 @@ public final class DndCharacter implements ICharacter, Observable {
         final Long abilityScore
                 = this.getBaseAbilityMap().get(ability)
                 + Collections.frequency(this.getAbilityAdvances(), ability);
-        
+
         Long abilityMod = this.calculateAbilityMod(abilityScore);
-        
+
         return (Long) this.getObservableDelegate()
                 .triggerObservers(ability.getAssociatedHook(), abilityMod,
                         this.getObserverMap(),
@@ -1032,5 +1033,5 @@ public final class DndCharacter implements ICharacter, Observable {
     public void setAbilityBonusOffset(final Integer abilityBonusOffsetInput) {
         this.abilityBonusOffset = abilityBonusOffsetInput;
     }
-    
+
 }

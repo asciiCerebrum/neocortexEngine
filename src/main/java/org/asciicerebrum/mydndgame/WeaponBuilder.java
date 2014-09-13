@@ -29,8 +29,8 @@ public class WeaponBuilder extends InventoryItemBuilder {
      */
     public final IWeapon build() {
 
-        IWeapon weapon = (IWeapon) super.build(this.context.getBean(
-                setup.getName(), Weapon.class));
+        IWeapon weapon = (IWeapon) super.build(this.getContext().getBean(
+                this.getSetup().getName(), Weapon.class));
 
         //TODO if not given, set default values for criticalFactor,
         // criticalMinimumLevel.
@@ -46,7 +46,7 @@ public class WeaponBuilder extends InventoryItemBuilder {
     protected final ISpecialAbility getSpecialAbilityFromContext(
             final String specialAbilityKey) {
 
-        return this.context.getBean(
+        return this.getContext().getBean(
                 specialAbilityKey, WeaponSpecialAbility.class);
     }
 }

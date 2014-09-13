@@ -299,7 +299,7 @@ public abstract class InventoryItem implements IInventoryItem, BonusSource {
      * {@inheritDoc}
      */
     @Override
-    public Boolean isCorrectlyWielded(IBodySlotType bodySlotType) {
+    public final Boolean isCorrectlyWielded(final IBodySlotType bodySlotType) {
         return this.getDesignatedBodySlots().contains(bodySlotType);
     }
 }
