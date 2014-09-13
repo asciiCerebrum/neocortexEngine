@@ -33,6 +33,7 @@ public class CharacterCreationIntegrationTest {
     private static final String TORSO_TYPE = "torso";
     private static final String SECONDARY_HAND_TYPE = "secondaryHand";
     private static final String CHAINMAIL4VALEROS_ID = "chainmailValeros";
+    private static final String STUDDEDLEATHER4HARSK_ID = "studdedLeatherHarsk";
 
     private ICharacter harsk;
     private ICharacter valeros;
@@ -68,6 +69,13 @@ public class CharacterCreationIntegrationTest {
         IWeapon bastard4Harsk
                 = new WeaponBuilder(bastard4HarskSetup, this.context).build();
 
+        ArmorSetup studdedLeather4HarskSetup = new ArmorSetup();
+        studdedLeather4HarskSetup.setId(STUDDEDLEATHER4HARSK_ID);
+        studdedLeather4HarskSetup.setName("studdedLeather");
+        studdedLeather4HarskSetup.setSizeCategory("medium");
+        IArmor studdedLeather4Harsk = new ArmorBuilder(
+                studdedLeather4HarskSetup, this.context).build();
+
         WeaponSetup rapier4ValerosSetup = new WeaponSetup();
         rapier4ValerosSetup.setId(RAPIER4VALEROS_ID);
         rapier4ValerosSetup.setName("rapier");
@@ -96,6 +104,8 @@ public class CharacterCreationIntegrationTest {
         beanFactory.registerSingleton(RAPIER4VALEROS_ID, rapier4Valeros);
         beanFactory.registerSingleton(DAGGER4VALEROS_ID, dagger4Valeros);
         beanFactory.registerSingleton(CHAINMAIL4VALEROS_ID, chainmail4Valeros);
+        beanFactory.registerSingleton(STUDDEDLEATHER4HARSK_ID,
+                studdedLeather4Harsk);
 
         CharacterSetup setupHarsk = new CharacterSetup();
         setupHarsk.setName("Harsk");
@@ -116,6 +126,7 @@ public class CharacterCreationIntegrationTest {
                 .setHpAddition(7L));
         setupHarsk.getPossessionContainer().put(AXE4HARSK_ID, PRIMARY_HAND_TYPE);
         setupHarsk.getPossessionContainer().put(BASTARD4HARSK_ID, "secondaryHand");
+        setupHarsk.getPossessionContainer().put(STUDDEDLEATHER4HARSK_ID, "torso");
         setupHarsk.getStateRegistry().put("powerAttackValue", 1L); // first parameter is the stateKey, which is defined in the feat bean, as well as the type of the value - here Long
 
         CharacterSetup setupValeros = new CharacterSetup();
@@ -170,7 +181,105 @@ public class CharacterCreationIntegrationTest {
     //TODO test rank ordered bonus list of a size of at least 2.
     @Test
     public void harskAC() {
+        // dex: +0
+        // studded leather: +3
+        assertEquals(Long.valueOf(13), this.harsk.getAcStandard());
+    }
+
+    @Test
+    public void harskACFlatFooted() {
+        // studded leather: +3
+        assertEquals(Long.valueOf(13), this.harsk.getAcFlatFooted());
+    }
+
+    @Test
+    public void harskACTouch() {
+        // studded leather not applied
+        assertEquals(Long.valueOf(10), this.harsk.getAcTouch());
+    }
+
+    @Test
+    public void harskACWithShield() {
+        // dex: +0
+        // studded leather: +3
+        // heavy steel shield: +2
+        ArmorSetup shield4HarskSetup = new ArmorSetup();
+        shield4HarskSetup.setId("shield4Harsk");
+        shield4HarskSetup.setName("heavySteelShield");
+        shield4HarskSetup.setSizeCategory("medium");
+        IArmor shield4Harsk = new ArmorBuilder(
+                shield4HarskSetup, this.context).build();
+
+        this.harsk.getBodySlotByType(this.secondaryHand).setItem(shield4Harsk);
+
+        assertEquals(Long.valueOf(15), this.harsk.getAcStandard());
+    }
+
+    @Test
+    public void harskACWithShieldInBothHands() {
+        // dex: +0
+        // studded leather: +3
+        // heavy steel shield: +2
+        ArmorSetup shield4HarskSetup = new ArmorSetup();
+        shield4HarskSetup.setId("shield4Harsk");
+        shield4HarskSetup.setName("heavySteelShield");
+        shield4HarskSetup.setSizeCategory("medium");
+        IArmor shield4Harsk = new ArmorBuilder(
+                shield4HarskSetup, this.context).build();
+
+        this.harsk.getBodySlotByType(this.primaryHand).setItem(shield4Harsk);
+        this.harsk.getBodySlotByType(this.secondaryHand).setItem(shield4Harsk);
+
+        assertEquals(Long.valueOf(15), this.harsk.getAcStandard());
+    }
+
+    @Test
+    public void harskACWithShieldInWrongSlot() {
+        // dex: +0
+        // studded leather: +3 --> replaced by shield, so not applied
+        // heavy steel shield: +2 --> is on torso, so not applied
+        ArmorSetup shield4HarskSetup = new ArmorSetup();
+        shield4HarskSetup.setId("shield4Harsk");
+        shield4HarskSetup.setName("heavySteelShield");
+        shield4HarskSetup.setSizeCategory("medium");
+        IArmor shield4Harsk = new ArmorBuilder(
+                shield4HarskSetup, this.context).build();
+
+        this.harsk.getBodySlotByType(this.torso).setItem(shield4Harsk);
+
         assertEquals(Long.valueOf(10), this.harsk.getAcStandard());
+    }
+
+    @Test
+    public void harskACFlatFootedWithShield() {
+        // studded leather: +3
+        // heavy steel shield: +2
+        ArmorSetup shield4HarskSetup = new ArmorSetup();
+        shield4HarskSetup.setId("shield4Harsk");
+        shield4HarskSetup.setName("heavySteelShield");
+        shield4HarskSetup.setSizeCategory("medium");
+        IArmor shield4Harsk = new ArmorBuilder(
+                shield4HarskSetup, this.context).build();
+
+        this.harsk.getBodySlotByType(this.secondaryHand).setItem(shield4Harsk);
+
+        assertEquals(Long.valueOf(15), this.harsk.getAcFlatFooted());
+    }
+
+    @Test
+    public void harskACTouchWithShield() {
+        // studded leather not applied
+        // heavy steel shield not applied
+        ArmorSetup shield4HarskSetup = new ArmorSetup();
+        shield4HarskSetup.setId("shield4Harsk");
+        shield4HarskSetup.setName("heavySteelShield");
+        shield4HarskSetup.setSizeCategory("medium");
+        IArmor shield4Harsk = new ArmorBuilder(
+                shield4HarskSetup, this.context).build();
+
+        this.harsk.getBodySlotByType(this.secondaryHand).setItem(shield4Harsk);
+
+        assertEquals(Long.valueOf(10), this.harsk.getAcTouch());
     }
 
     @Test
