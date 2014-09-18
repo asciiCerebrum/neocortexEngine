@@ -60,10 +60,8 @@ public class ConditionBuilder {
                         DndCharacter.class);
         condition.setCauseCharacter(causeCharacter);
 
-        ICharacter affectedCharacter
-                = this.context.getBean(this.setup.getAffectedCharacterId(),
-                        DndCharacter.class);
-
+        //TODO acquire affected character by the affected character id in the
+        // setup and dndCharacter as class.
         //TODO register the condition in the character.
         // registering it in the context.
         //TODO do this registering also for weapon and character!

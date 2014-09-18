@@ -5,6 +5,7 @@ import java.util.List;
 import org.asciicerebrum.mydndgame.Bonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
+import org.asciicerebrum.mydndgame.interfaces.entities.IBonus.ResemblanceFacet;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -28,6 +29,8 @@ public class RemoveBonusObserverTest {
     private ISituationContext mockSitCon;
 
     private ConditionEvaluator conditionEval;
+
+    private IBonus refBonus;
 
     public RemoveBonusObserverTest() {
     }
@@ -55,13 +58,13 @@ public class RemoveBonusObserverTest {
         this.boni.add(bonusA);
         this.boni.add(bonusB);
 
-        IBonus refBonus = mock(IBonus.class);
+        this.refBonus = mock(IBonus.class);
 
-        when(refBonus.resembles(bonusB, null)).thenReturn(Boolean.TRUE);
+        when(this.refBonus.resembles(bonusB, null)).thenReturn(Boolean.TRUE);
         when(this.conditionEval.evaluate(this.mockSitCon))
                 .thenReturn(Boolean.TRUE);
 
-        this.rbObserver.setRemoveBonus(refBonus);
+        this.rbObserver.setRemoveBonus(this.refBonus);
         this.rbObserver.setConditionEvaluator(this.conditionEval);
     }
 
@@ -103,6 +106,22 @@ public class RemoveBonusObserverTest {
                 .trigger(this.boni, this.mockSitCon);
 
         assertEquals(Integer.valueOf(2), Integer.valueOf(resultBoni.size()));
+    }
+
+    @Test
+    public void testTriggerWithFacets() {
+        List<ResemblanceFacet> facets = new ArrayList<ResemblanceFacet>();
+        facets.add(ResemblanceFacet.BONUS_TYPE);
+
+        this.rbObserver.setResemblanceFacets(facets);
+
+        when(this.refBonus.resembles(this.boni.get(1), facets))
+                .thenReturn(Boolean.TRUE);
+
+        List<IBonus> resultBoni = (List<IBonus>) this.rbObserver
+                .trigger(this.boni, this.mockSitCon);
+
+        assertEquals(Integer.valueOf(1), Integer.valueOf(resultBoni.size()));
     }
 
 }

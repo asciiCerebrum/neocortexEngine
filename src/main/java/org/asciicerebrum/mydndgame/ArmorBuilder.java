@@ -28,10 +28,8 @@ public class ArmorBuilder extends InventoryItemBuilder {
      */
     public final IArmor build() {
 
-        IArmor armor = (IArmor) super.build(this.getContext().getBean(
+        return (IArmor) super.build(this.getContext().getBean(
                 this.getSetup().getName(), Armor.class));
-
-        return armor;
     }
 
     /**

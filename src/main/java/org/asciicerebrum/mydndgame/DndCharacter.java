@@ -17,6 +17,7 @@ import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacterSetup;
 import org.asciicerebrum.mydndgame.interfaces.entities.IClass;
 import org.asciicerebrum.mydndgame.interfaces.entities.IConditionType;
+import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
 import org.asciicerebrum.mydndgame.interfaces.entities.IFeat;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
 import org.asciicerebrum.mydndgame.interfaces.entities.ILevel;
@@ -118,7 +119,7 @@ public final class DndCharacter implements ICharacter, Observable {
     /**
      * The diceAction with id touchAttackAction.
      */
-    private DiceAction touchAttackAction;
+    private IDiceAction touchAttackAction;
     /**
      * The diceAction with id meleeAttackAction.
      */
@@ -953,14 +954,14 @@ public final class DndCharacter implements ICharacter, Observable {
     /**
      * @return the touchAttackAction
      */
-    public DiceAction getTouchAttackAction() {
+    public IDiceAction getTouchAttackAction() {
         return touchAttackAction;
     }
 
     /**
      * @param touchAttackActionInput the touchAttackAction to set
      */
-    public void setTouchAttackAction(final DiceAction touchAttackActionInput) {
+    public void setTouchAttackAction(final IDiceAction touchAttackActionInput) {
         this.touchAttackAction = touchAttackActionInput;
     }
 

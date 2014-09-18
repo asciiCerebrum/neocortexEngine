@@ -170,8 +170,7 @@ public class DefaultBonusCalculationServiceImpl
             // e.g. boni for damage are not equal because every weapon has its
             // own instance of a damage dice action (= bonus target) - so the
             // equality has to be checked via the id string.
-            if (bonus.getTarget().equals(target)
-                    || bonus.getTarget().getId().equals(target.getId())) {
+            if (bonus.getTarget().getId().equals(target.getId())) {
                 filteredBoni.add(bonus);
             }
         }

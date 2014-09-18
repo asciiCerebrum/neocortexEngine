@@ -29,14 +29,13 @@ public class WeaponBuilder extends InventoryItemBuilder {
      */
     public final IWeapon build() {
 
-        IWeapon weapon = (IWeapon) super.build(this.getContext().getBean(
+        return (IWeapon) super.build(this.getContext().getBean(
                 this.getSetup().getName(), Weapon.class));
 
         //TODO if not given, set default values for criticalFactor,
         // criticalMinimumLevel.
         // to achive this, use a defaultValuesProvider bean and define
         // those default values in the application context xml.
-        return weapon;
     }
 
     /**

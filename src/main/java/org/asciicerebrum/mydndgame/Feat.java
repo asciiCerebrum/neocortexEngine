@@ -33,22 +33,6 @@ public class Feat implements IFeat {
      * {@inheritDoc}
      */
     @Override
-    public final String getId() {
-        return id;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void setId(final String idInput) {
-        this.id = idInput;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public final List<IObserver> getObservers() {
         return observers;
     }
@@ -59,6 +43,22 @@ public class Feat implements IFeat {
     @Override
     public final void setObservers(final List<IObserver> observersInput) {
         this.observers = observersInput;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final String getId() {
+        return id;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void setId(final String idInput) {
+        this.id = idInput;
     }
 
     /**

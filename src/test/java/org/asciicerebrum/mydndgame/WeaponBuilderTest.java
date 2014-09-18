@@ -34,6 +34,8 @@ public class WeaponBuilderTest {
 
     private IObserver observer;
 
+    private IObserver itemObserver;
+
     private ObservableDelegate observableDelegate;
 
     public WeaponBuilderTest() {
@@ -59,12 +61,15 @@ public class WeaponBuilderTest {
         this.observer = mock(IObserver.class);
         this.observableDelegate = mock(ObservableDelegate.class);
         this.weapon.setObservableDelegate(this.observableDelegate);
+        this.itemObserver = mock(IObserver.class);
 
         when(this.context.getBean(name, Weapon.class)).thenReturn(this.weapon);
         when(this.context.getBean(specAbName, WeaponSpecialAbility.class))
                 .thenReturn(this.weaponSpecialAbility);
         when(this.observer.getHook()).thenReturn(ObserverHook.ATTACK);
+        when(this.itemObserver.getHook()).thenReturn(ObserverHook.DAMAGE);
 
+        this.weapon.getObservers().add(this.itemObserver);
         this.weaponSpecialAbility.getObservers().add(this.observer);
         this.setup = new WeaponSetup();
 
@@ -117,6 +122,15 @@ public class WeaponBuilderTest {
 
         verify(this.observableDelegate).registerListener(
                 ObserverHook.ATTACK, this.observer,
+                this.weapon.getObserverMap());
+    }
+
+    @Test
+    public void testBuildCorrectItemObserver() {
+        this.weaponBuilder.build();
+
+        verify(this.observableDelegate).registerListener(
+                ObserverHook.DAMAGE, this.itemObserver,
                 this.weapon.getObserverMap());
     }
 

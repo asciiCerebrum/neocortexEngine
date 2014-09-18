@@ -1,10 +1,14 @@
 package org.asciicerebrum.mydndgame;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonusType;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
+import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.interfaces.entities.IBonus.ResemblanceFacet;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -24,6 +28,7 @@ public class BonusTest {
     private IBonus referenceBonus;
     private IBonus testBonus;
     private ISituationContext context;
+    private ConditionEvaluator evaluator;
 
     public BonusTest() {
     }
@@ -46,12 +51,15 @@ public class BonusTest {
         IBonusType bType = new BonusType();
         BonusTarget bTarget = new DiceAction();
         BonusValueProvider dvProvider = mock(BonusValueProvider.class);
+        this.evaluator = mock(ConditionEvaluator.class);
 
         when(dvProvider.getDynamicValue(this.context)).thenReturn(42L);
+        when(this.evaluator.evaluate(this.context)).thenReturn(Boolean.TRUE);
 
         this.referenceBonus.setBonusType(bType);
         this.referenceBonus.setTarget(bTarget);
         this.referenceBonus.setDynamicValueProvider(dvProvider);
+        this.referenceBonus.setConditionEvaluator(this.evaluator);
 
         this.testBonus.setBonusType(bType);
         this.testBonus.setTarget(bTarget);
@@ -175,6 +183,68 @@ public class BonusTest {
 
         assertNull(this.referenceBonus
                 .getEffectiveValue(this.context));
+    }
+
+    @Test
+    public void testGetEffectiveValueNullEvaluator() {
+        this.referenceBonus.setConditionEvaluator(null);
+        Long bonVal = 1L;
+        this.referenceBonus.setValue(bonVal);
+
+        assertEquals(bonVal, this.referenceBonus
+                .getEffectiveValue(this.context));
+    }
+
+    @Test
+    public void testGetEffectiveValueFalseEvaluator() {
+        when(this.evaluator.evaluate(this.context)).thenReturn(Boolean.FALSE);
+
+        Long bonVal = 1L;
+        this.referenceBonus.setValue(bonVal);
+
+        assertNull(this.referenceBonus.getEffectiveValue(this.context));
+    }
+
+    @Test
+    public void testResemblesWithFacetsNull() {
+        List<ResemblanceFacet> facets = null;
+
+        Boolean resembles = this.referenceBonus.resembles(this.testBonus,
+                facets);
+
+        assertEquals(Boolean.TRUE, resembles);
+    }
+
+    @Test
+    public void testResemblesWithFacetsEmpty() {
+        List<ResemblanceFacet> facets = new ArrayList<ResemblanceFacet>();
+
+        Boolean resembles = this.referenceBonus.resembles(this.testBonus,
+                facets);
+
+        assertEquals(Boolean.TRUE, resembles);
+    }
+
+    @Test
+    public void testResemblesWithFacetsBonusType() {
+        List<ResemblanceFacet> facets = new ArrayList<ResemblanceFacet>();
+        facets.add(ResemblanceFacet.BONUS_TYPE);
+
+        Boolean resembles = this.referenceBonus.resembles(this.testBonus,
+                facets);
+
+        assertEquals(Boolean.TRUE, resembles);
+    }
+
+    @Test
+    public void testResemblesWithFacetsTarget() {
+        List<ResemblanceFacet> facets = new ArrayList<ResemblanceFacet>();
+        facets.add(ResemblanceFacet.TARGET);
+
+        Boolean resembles = this.referenceBonus.resembles(this.testBonus,
+                facets);
+
+        assertEquals(Boolean.TRUE, resembles);
     }
 
 }

@@ -326,4 +326,23 @@ public class DefaultBonusCalculationServiceImplTest {
 
         assertEquals(Long.valueOf(21), effectiveBonus);
     }
+
+    @Test
+    public void testAccumulateBonusValue() {
+        Long totalBonus
+                = this.bcService.accumulateBonusValue(this.sitCon, this.boni);
+
+        assertEquals(Long.valueOf(10L), totalBonus);
+    }
+
+    @Test
+    public void testAccumulateBonusValueWithNullValue() {
+        this.boni.get(1).setValue(null);
+        this.boni.get(1).setDynamicValueProvider(null);
+        
+        Long totalBonus
+                = this.bcService.accumulateBonusValue(this.sitCon, this.boni);
+
+        assertEquals(Long.valueOf(3L), totalBonus);
+    }
 }
