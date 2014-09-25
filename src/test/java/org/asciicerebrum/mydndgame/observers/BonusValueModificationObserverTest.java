@@ -5,7 +5,7 @@ import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonusType;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -28,7 +28,7 @@ public class BonusValueModificationObserverTest {
 
     private List<IBonus> bonusList;
 
-    private ISituationContext sitCon;
+    private ICharacter character;
 
     private IBonus referenceBonus;
 
@@ -64,12 +64,12 @@ public class BonusValueModificationObserverTest {
         this.bonusValueModificationObserver.setReferenceBonus(
                 this.referenceBonus);
 
-        this.sitCon = mock(ISituationContext.class);
+        this.character = mock(ICharacter.class);
 
         this.bonusList = new ArrayList<IBonus>();
 
         this.checkBonus = mock(IBonus.class);
-        when(this.checkBonus.getEffectiveValue(this.sitCon)).thenReturn(5L);
+        when(this.checkBonus.getEffectiveValue(this.character)).thenReturn(5L);
         when(this.checkBonus.getTarget()).thenReturn(target);
         when(this.checkBonus.getBonusType()).thenReturn(bonusType);
 
@@ -87,7 +87,7 @@ public class BonusValueModificationObserverTest {
     public void testTriggerCallbackResultSize() {
         List<IBonus> resultBoni
                 = (List<IBonus>) this.bonusValueModificationObserver
-                .triggerCallback(this.bonusList, this.sitCon);
+                .triggerCallback(this.bonusList, this.character);
 
         assertEquals(Integer.valueOf(1), Integer.valueOf(resultBoni.size()));
     }
@@ -96,7 +96,7 @@ public class BonusValueModificationObserverTest {
     public void testTriggerCallbackBonusValue() {
         List<IBonus> resultBoni
                 = (List<IBonus>) this.bonusValueModificationObserver
-                .triggerCallback(this.bonusList, this.sitCon);
+                .triggerCallback(this.bonusList, this.character);
 
         verify(resultBoni.get(0)).setValue(25L);
     }
@@ -105,7 +105,7 @@ public class BonusValueModificationObserverTest {
     public void testTriggerCallbackNoDynProvider() {
         List<IBonus> resultBoni
                 = (List<IBonus>) this.bonusValueModificationObserver
-                .triggerCallback(this.bonusList, this.sitCon);
+                .triggerCallback(this.bonusList, this.character);
 
         verify(resultBoni.get(0)).setDynamicValueProvider(null);
     }
@@ -115,7 +115,7 @@ public class BonusValueModificationObserverTest {
         this.bonusValueModificationObserver.setReferenceBonus(null);
         List<IBonus> resultBoni
                 = (List<IBonus>) this.bonusValueModificationObserver
-                .triggerCallback(this.bonusList, this.sitCon);
+                .triggerCallback(this.bonusList, this.character);
 
         verify(resultBoni.get(0), never()).setValue(anyLong());
     }
@@ -126,7 +126,7 @@ public class BonusValueModificationObserverTest {
                 .thenReturn(mock(IBonusType.class));
         List<IBonus> resultBoni
                 = (List<IBonus>) this.bonusValueModificationObserver
-                .triggerCallback(this.bonusList, this.sitCon);
+                .triggerCallback(this.bonusList, this.character);
 
         verify(resultBoni.get(0), never()).setValue(anyLong());
     }
@@ -137,7 +137,7 @@ public class BonusValueModificationObserverTest {
                 .thenReturn(mock(BonusTarget.class));
         List<IBonus> resultBoni
                 = (List<IBonus>) this.bonusValueModificationObserver
-                .triggerCallback(this.bonusList, this.sitCon);
+                .triggerCallback(this.bonusList, this.character);
 
         verify(resultBoni.get(0), never()).setValue(anyLong());
     }
@@ -150,18 +150,18 @@ public class BonusValueModificationObserverTest {
 
         List<IBonus> resultBoni
                 = (List<IBonus>) this.bonusValueModificationObserver
-                .triggerCallback(this.bonusList, this.sitCon);
+                .triggerCallback(this.bonusList, this.character);
 
         verify(resultBoni.get(0)).setValue(0L);
     }
 
     @Test
     public void testTriggerCallbackNullEffectiveBonusValue() {
-        when(this.checkBonus.getEffectiveValue(this.sitCon)).thenReturn(null);
+        when(this.checkBonus.getEffectiveValue(this.character)).thenReturn(null);
 
         List<IBonus> resultBoni
                 = (List<IBonus>) this.bonusValueModificationObserver
-                .triggerCallback(this.bonusList, this.sitCon);
+                .triggerCallback(this.bonusList, this.character);
 
         verify(resultBoni.get(0), never()).setValue(anyLong());
     }

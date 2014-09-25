@@ -2,7 +2,7 @@ package org.asciicerebrum.mydndgame.observers;
 
 import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 
 /**
  *
@@ -77,7 +77,7 @@ public class BonusValueModificationObserver extends AbstractObserver {
      */
     @Override
     protected final Object triggerCallback(final Object object,
-            final ISituationContext situationContext) {
+            final ICharacter character) {
 
         List<IBonus> boni = (List<IBonus>) object;
 
@@ -87,7 +87,7 @@ public class BonusValueModificationObserver extends AbstractObserver {
 
         for (IBonus bonus : boni) {
             Long bonusEffectiveValue
-                    = bonus.getEffectiveValue(situationContext);
+                    = bonus.getEffectiveValue(character);
 
             // it is enough to check for bonus type and target
             // keep in mind that the effectValue might be null

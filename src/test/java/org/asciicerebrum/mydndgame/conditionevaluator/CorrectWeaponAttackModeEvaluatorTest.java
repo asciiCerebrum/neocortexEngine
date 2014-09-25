@@ -27,6 +27,8 @@ public class CorrectWeaponAttackModeEvaluatorTest {
 
     private ISituationContext mockSitCon;
 
+    private ICharacter mockCharacter;
+
     private Slotable bodySlot;
 
     public CorrectWeaponAttackModeEvaluatorTest() {
@@ -48,13 +50,13 @@ public class CorrectWeaponAttackModeEvaluatorTest {
         this.mockSitCon = mock(ISituationContext.class);
 
         IWeaponCategory attackMode = mock(IWeaponCategory.class);
-        ICharacter mockCharacter = mock(ICharacter.class);
+        this.mockCharacter = mock(ICharacter.class);
         IBodySlotType bsType = mock(IBodySlotType.class);
         this.bodySlot = mock(Slotable.class);
         IWeapon mockWeapon = mock(IWeapon.class);
 
+        when(this.mockCharacter.getSituationContext()).thenReturn(this.mockSitCon);
         when(this.mockSitCon.getAttackMode()).thenReturn(attackMode);
-        when(this.mockSitCon.getCharacter()).thenReturn(mockCharacter);
         when(this.mockSitCon.getBodySlotType()).thenReturn(bsType);
 
         when(mockCharacter.getBodySlotByType(bsType)).thenReturn(this.bodySlot);
@@ -74,7 +76,7 @@ public class CorrectWeaponAttackModeEvaluatorTest {
      */
     @Test
     public void testEvaluate() {
-        Boolean isCorrect = this.cwamEval.evaluate(this.mockSitCon);
+        Boolean isCorrect = this.cwamEval.evaluate(this.mockCharacter);
 
         assertTrue(isCorrect);
     }
@@ -87,7 +89,7 @@ public class CorrectWeaponAttackModeEvaluatorTest {
     public void testEvaluateNullAttackMode() {
         when(this.mockSitCon.getAttackMode()).thenReturn(null);
 
-        Boolean isCorrect = this.cwamEval.evaluate(this.mockSitCon);
+        Boolean isCorrect = this.cwamEval.evaluate(this.mockCharacter);
 
         assertFalse(isCorrect);
     }
@@ -100,7 +102,7 @@ public class CorrectWeaponAttackModeEvaluatorTest {
     public void testEvaluateNoItem() {
         when(this.bodySlot.getItem()).thenReturn(null);
 
-        Boolean isCorrect = this.cwamEval.evaluate(this.mockSitCon);
+        Boolean isCorrect = this.cwamEval.evaluate(this.mockCharacter);
 
         assertFalse(isCorrect);
     }
@@ -113,7 +115,7 @@ public class CorrectWeaponAttackModeEvaluatorTest {
     public void testEvaluateNoWeapon() {
         when(this.bodySlot.getItem()).thenReturn(mock(IInventoryItem.class));
 
-        Boolean isCorrect = this.cwamEval.evaluate(this.mockSitCon);
+        Boolean isCorrect = this.cwamEval.evaluate(this.mockCharacter);
 
         assertFalse(isCorrect);
     }

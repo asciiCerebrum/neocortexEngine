@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.springframework.util.StringUtils;
 
 /**
@@ -32,18 +32,18 @@ public class DefaultBonusCalculationServiceImpl
      */
     @Override
     public final Long retrieveEffectiveBonusValueByTarget(
-            final ISituationContext context, final Object origin,
+            final ICharacter character, final Object origin,
             final BonusTarget target) {
 
         List<IBonus> foundBoni = this.traverseBoniByTarget(origin, target);
-        return this.accumulateBonusValue(context, foundBoni);
+        return this.accumulateBonusValue(character, foundBoni);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final Long accumulateBonusValue(final ISituationContext context,
+    public final Long accumulateBonusValue(final ICharacter character,
             final List<IBonus> foundBoni) {
         //TODO filter out non-stacking boni
         //TODO track the origin of the bonus, e.g. from ability Constitution
@@ -53,7 +53,7 @@ public class DefaultBonusCalculationServiceImpl
         Long totalBonusVal = 0L;
         for (IBonus bonus : foundBoni) {
             Long bonusVal
-                    = bonus.getEffectiveValue(context);
+                    = bonus.getEffectiveValue(character);
 
             // keep in mind that the effectValue might be null
             // --> the bonus does not exist --> continue!

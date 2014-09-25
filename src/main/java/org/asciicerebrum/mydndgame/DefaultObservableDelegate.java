@@ -3,8 +3,8 @@ package org.asciicerebrum.mydndgame;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.ObserverHook;
 import org.asciicerebrum.mydndgame.interfaces.observing.ObservableDelegate;
 
@@ -51,14 +51,14 @@ public class DefaultObservableDelegate implements ObservableDelegate {
     public final Object triggerObservers(final ObserverHook hook,
             final Object object,
             final Map<ObserverHook, List<IObserver>> observerMap,
-            final ISituationContext sitCon) {
+            final ICharacter character) {
         List<IObserver> hookList = observerMap.get(hook);
         if (hookList == null) {
             return object;
         }
         Object modifiableObject = object;
         for (IObserver observer : hookList) {
-            modifiableObject = observer.trigger(modifiableObject, sitCon);
+            modifiableObject = observer.trigger(modifiableObject, character);
         }
         return modifiableObject;
     }

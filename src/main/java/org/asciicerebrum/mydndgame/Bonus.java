@@ -10,7 +10,7 @@ import org.apache.commons.lang.ObjectUtils;
 import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonusType;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 
 /**
  *
@@ -293,17 +293,17 @@ public class Bonus implements IBonus {
      * applies with a value of 0.
      */
     @Override
-    public final Long getEffectiveValue(final ISituationContext context) {
+    public final Long getEffectiveValue(final ICharacter character) {
 
         if (this.getConditionEvaluator() != null
-                && !this.getConditionEvaluator().evaluate(context)) {
+                && !this.getConditionEvaluator().evaluate(character)) {
             return null;
         }
         if (this.value != null) {
             return this.value;
         }
         if (this.getDynamicValueProvider() != null) {
-            return this.getDynamicValueProvider().getDynamicValue(context);
+            return this.getDynamicValueProvider().getDynamicValue(character);
         }
         return null;
     }

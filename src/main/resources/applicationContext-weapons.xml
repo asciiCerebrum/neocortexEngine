@@ -49,9 +49,13 @@
     <!-- Weapon Categories -->
     <bean id="meleeWeapon" class="org.asciicerebrum.mydndgame.WeaponCategory">
         <property name="id" value="meleeWeapon" />
+        <property name="associatedAttackDiceAction" ref="meleeAttack" />
+        <property name="associatedDamageHook" value="MELEE_DAMAGE" />
     </bean>
     <bean id="rangedWeapon" class="org.asciicerebrum.mydndgame.WeaponCategory">
         <property name="id" value="rangedWeapon" />
+        <property name="associatedAttackDiceAction" ref="rangedAttack" />
+        <property name="associatedDamageHook" value="RANGED_DAMAGE" />
     </bean>
     
     <!-- Weapon Types -->

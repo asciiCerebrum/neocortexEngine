@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame.conditionevaluator;
 import java.util.ArrayList;
 import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertFalse;
@@ -31,7 +31,7 @@ public class OrListEvaluatorTest {
 
     private ConditionEvaluator condEval2;
 
-    private ISituationContext sitCon;
+    private ICharacter character;
 
     public OrListEvaluatorTest() {
     }
@@ -48,12 +48,12 @@ public class OrListEvaluatorTest {
     public void setUp() {
         this.orListEvaluator = new OrListEvaluator();
 
-        this.sitCon = mock(ISituationContext.class);
+        this.character = mock(ICharacter.class);
 
         this.condEval1 = mock(ConditionEvaluator.class);
         this.condEval2 = mock(ConditionEvaluator.class);
 
-        when(this.condEval1.evaluate(this.sitCon)).thenReturn(Boolean.TRUE);
+        when(this.condEval1.evaluate(this.character)).thenReturn(Boolean.TRUE);
 
         this.subEvaluators = new ArrayList<ConditionEvaluator>();
         this.subEvaluators.add(this.condEval1);
@@ -71,53 +71,53 @@ public class OrListEvaluatorTest {
      */
     @Test
     public void testEvaluate() {
-        Boolean evalResult = this.orListEvaluator.evaluate(this.sitCon);
+        Boolean evalResult = this.orListEvaluator.evaluate(this.character);
 
         assertTrue(evalResult);
     }
 
     @Test
     public void testEvaluateUncheckedSecondEvaluator() {
-        this.orListEvaluator.evaluate(this.sitCon);
+        this.orListEvaluator.evaluate(this.character);
 
-        verify(this.condEval2, never()).evaluate(this.sitCon);
+        verify(this.condEval2, never()).evaluate(this.character);
     }
 
     @Test
     public void testEvaluateFirstEvaluatorFalseResult() {
-        when(this.condEval1.evaluate(this.sitCon)).thenReturn(Boolean.FALSE);
-        when(this.condEval2.evaluate(this.sitCon)).thenReturn(Boolean.TRUE);
+        when(this.condEval1.evaluate(this.character)).thenReturn(Boolean.FALSE);
+        when(this.condEval2.evaluate(this.character)).thenReturn(Boolean.TRUE);
 
-        Boolean evalResult = this.orListEvaluator.evaluate(this.sitCon);
+        Boolean evalResult = this.orListEvaluator.evaluate(this.character);
 
         assertTrue(evalResult);
     }
 
     @Test
     public void testEvaluateFirstEvaluatorFalse() {
-        when(this.condEval1.evaluate(this.sitCon)).thenReturn(Boolean.FALSE);
-        when(this.condEval2.evaluate(this.sitCon)).thenReturn(Boolean.TRUE);
+        when(this.condEval1.evaluate(this.character)).thenReturn(Boolean.FALSE);
+        when(this.condEval2.evaluate(this.character)).thenReturn(Boolean.TRUE);
 
-        this.orListEvaluator.evaluate(this.sitCon);
+        this.orListEvaluator.evaluate(this.character);
 
-        verify(this.condEval2, times(1)).evaluate(this.sitCon);
+        verify(this.condEval2, times(1)).evaluate(this.character);
     }
 
     @Test
     public void testEvaluateEmptyList() {
         this.subEvaluators.clear();
 
-        Boolean evalResult = this.orListEvaluator.evaluate(this.sitCon);
+        Boolean evalResult = this.orListEvaluator.evaluate(this.character);
 
         assertFalse(evalResult);
     }
 
     @Test
     public void testEvaluateBothFalse() {
-        when(this.condEval1.evaluate(this.sitCon)).thenReturn(Boolean.FALSE);
-        when(this.condEval2.evaluate(this.sitCon)).thenReturn(Boolean.FALSE);
+        when(this.condEval1.evaluate(this.character)).thenReturn(Boolean.FALSE);
+        when(this.condEval2.evaluate(this.character)).thenReturn(Boolean.FALSE);
 
-        Boolean evalResult = this.orListEvaluator.evaluate(this.sitCon);
+        Boolean evalResult = this.orListEvaluator.evaluate(this.character);
 
         assertFalse(evalResult);
     }

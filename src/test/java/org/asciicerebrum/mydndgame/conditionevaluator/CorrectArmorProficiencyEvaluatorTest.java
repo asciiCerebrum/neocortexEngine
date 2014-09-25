@@ -24,7 +24,7 @@ public class CorrectArmorProficiencyEvaluatorTest {
 
     private CorrectArmorProficiencyEvaluator capEvaluator;
 
-    private ISituationContext sitCon;
+    private ICharacter character;
 
     private IProficiency proficiency;
 
@@ -44,10 +44,11 @@ public class CorrectArmorProficiencyEvaluatorTest {
     @Before
     public void setUp() {
         this.capEvaluator = new CorrectArmorProficiencyEvaluator();
-        this.sitCon = mock(ISituationContext.class);
+        ISituationContext sitCon = mock(ISituationContext.class);
+        this.character = mock(ICharacter.class);
         this.proficiency = mock(IProficiency.class);
 
-        ICharacter character = mock(ICharacter.class);
+        this.character = mock(ICharacter.class);
         this.wieldedArmor = new ArrayList<IArmor>();
 
         IArmor armor1 = mock(IArmor.class);
@@ -59,8 +60,8 @@ public class CorrectArmorProficiencyEvaluatorTest {
         this.wieldedArmor.add(armor1);
         this.wieldedArmor.add(armor2);
 
-        when(this.sitCon.getCharacter()).thenReturn(character);
-        when(character.getWieldedArmor()).thenReturn(this.wieldedArmor);
+        when(this.character.getSituationContext()).thenReturn(sitCon);
+        when(this.character.getWieldedArmor()).thenReturn(this.wieldedArmor);
 
         this.capEvaluator.setProficiency(this.proficiency);
     }
@@ -74,7 +75,7 @@ public class CorrectArmorProficiencyEvaluatorTest {
      */
     @Test
     public void testEvaluate() {
-        Boolean evalResult = this.capEvaluator.evaluate(this.sitCon);
+        Boolean evalResult = this.capEvaluator.evaluate(this.character);
 
         assertTrue(evalResult);
     }
@@ -83,7 +84,7 @@ public class CorrectArmorProficiencyEvaluatorTest {
     public void testEvaluateEmptyList() {
         this.wieldedArmor.clear();
 
-        Boolean evalResult = this.capEvaluator.evaluate(this.sitCon);
+        Boolean evalResult = this.capEvaluator.evaluate(this.character);
 
         assertFalse(evalResult);
     }
@@ -92,7 +93,7 @@ public class CorrectArmorProficiencyEvaluatorTest {
     public void testEvaluateNullProficiency() {
         this.capEvaluator.setProficiency(null);
 
-        Boolean evalResult = this.capEvaluator.evaluate(this.sitCon);
+        Boolean evalResult = this.capEvaluator.evaluate(this.character);
 
         assertFalse(evalResult);
     }
@@ -102,7 +103,7 @@ public class CorrectArmorProficiencyEvaluatorTest {
         when(this.wieldedArmor.get(1).getProficiency())
                 .thenReturn(mock(IProficiency.class));
 
-        Boolean evalResult = this.capEvaluator.evaluate(this.sitCon);
+        Boolean evalResult = this.capEvaluator.evaluate(this.character);
 
         assertFalse(evalResult);
     }
@@ -112,7 +113,7 @@ public class CorrectArmorProficiencyEvaluatorTest {
         when(this.wieldedArmor.get(1).getProficiency())
                 .thenReturn(null);
 
-        Boolean evalResult = this.capEvaluator.evaluate(this.sitCon);
+        Boolean evalResult = this.capEvaluator.evaluate(this.character);
 
         assertFalse(evalResult);
     }

@@ -7,6 +7,7 @@ import org.asciicerebrum.mydndgame.interfaces.entities.IDice;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
+import org.asciicerebrum.mydndgame.interfaces.entities.ObserverHook;
 
 /**
  *
@@ -44,6 +45,12 @@ public class DiceAction implements IDiceAction, BonusTarget {
     private List<IObserver> targetObservers = new ArrayList<IObserver>();
 
     /**
+     * The observer hook (ranged/melee) associated with this bonus target. Can
+     * also be null.
+     */
+    private ObserverHook associatedHook;
+
+    /**
      * @return the id
      */
     public final String getId() {
@@ -58,29 +65,33 @@ public class DiceAction implements IDiceAction, BonusTarget {
     }
 
     /**
-     * @return the diceType
+     * {@inheritDoc}
      */
+    @Override
     public final IDice getDiceType() {
         return diceType;
     }
 
     /**
-     * @param diceTypeInput the diceType to set
+     * {@inheritDoc}
      */
+    @Override
     public final void setDiceType(final IDice diceTypeInput) {
         this.diceType = diceTypeInput;
     }
 
     /**
-     * @return the diceNumber
+     * {@inheritDoc}
      */
+    @Override
     public final Long getDiceNumber() {
         return diceNumber;
     }
 
     /**
-     * @param diceNumberInput the diceNumber to set
+     * {@inheritDoc}
      */
+    @Override
     public final void setDiceNumber(final Long diceNumberInput) {
         this.diceNumber = diceNumberInput;
     }
@@ -131,5 +142,19 @@ public class DiceAction implements IDiceAction, BonusTarget {
     public final void setTargetObservers(
             final List<IObserver> targetObserversInput) {
         this.targetObservers = targetObserversInput;
+    }
+
+    /**
+     * @return the associatedHook
+     */
+    public ObserverHook getAssociatedHook() {
+        return associatedHook;
+    }
+
+    /**
+     * @param associatedHook the associatedHook to set
+     */
+    public void setAssociatedHook(ObserverHook associatedHook) {
+        this.associatedHook = associatedHook;
     }
 }

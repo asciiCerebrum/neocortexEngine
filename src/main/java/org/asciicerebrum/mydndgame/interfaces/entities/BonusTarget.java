@@ -16,4 +16,14 @@ public interface BonusTarget extends Identifiable {
      */
     void setAssociatedAttackMode(IWeaponCategory associatedAttackMode);
 
+    /**
+     * @return the associatedHook
+     */
+    ObserverHook getAssociatedHook();
+
+    /**
+     * @param associatedHook the associatedHook to set
+     */
+    void setAssociatedHook(ObserverHook associatedHook);
+
 }

@@ -4,7 +4,6 @@ import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.interfaces.entities.IArmor;
 import org.asciicerebrum.mydndgame.interfaces.entities.IArmorCategory;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 
 /**
  *
@@ -22,15 +21,13 @@ public class CorrectArmorCategoryWearingEvaluator
      * {@inheritDoc} Checks if the character wears armor of the given category.
      */
     @Override
-    public final Boolean evaluate(final ISituationContext situationContext) {
+    public final Boolean evaluate(final ICharacter character) {
 
         if (this.getArmorCategory() == null) {
             return Boolean.FALSE;
         }
 
-        ICharacter dndCharacter = situationContext.getCharacter();
-
-        for (IArmor armor : dndCharacter.getWieldedArmor()) {
+        for (IArmor armor : character.getWieldedArmor()) {
             if (armor.getArmorCategory() != null
                     && armor.getArmorCategory()
                     .equals(this.getArmorCategory())) {

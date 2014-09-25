@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus.ResemblanceFacet;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 
 /**
  *
@@ -27,7 +27,7 @@ public class RemoveBonusObserver extends AbstractObserver {
      */
     @Override
     protected final Object triggerCallback(final Object object,
-            final ISituationContext situationContext) {
+            final ICharacter character) {
 
         List<IBonus> boni = (List<IBonus>) object;
         Iterator<IBonus> boniIterator = boni.iterator();

@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
 
 /**
@@ -22,9 +22,10 @@ public class CorrectAttackModeEvaluator implements ConditionEvaluator {
      * @return
      */
     @Override
-    public final Boolean evaluate(final ISituationContext situationContext) {
+    public final Boolean evaluate(final ICharacter character) {
 
-        final IWeaponCategory refAttackMode = situationContext.getAttackMode();
+        final IWeaponCategory refAttackMode = character.getSituationContext()
+                .getAttackMode();
 
         if (refAttackMode == null) {
             return Boolean.FALSE;

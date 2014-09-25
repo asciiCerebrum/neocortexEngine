@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame.conditionevaluator;
 import java.util.ArrayList;
 import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertFalse;
@@ -22,7 +22,7 @@ public class AndListEvaluatorTest {
 
     private AndListEvaluator andEval;
 
-    private ISituationContext mockSitCon;
+    private ICharacter character;
 
     private ConditionEvaluator subEval;
 
@@ -40,11 +40,11 @@ public class AndListEvaluatorTest {
     @Before
     public void setUp() {
         this.andEval = new AndListEvaluator();
-        this.mockSitCon = mock(ISituationContext.class);
+        this.character = mock(ICharacter.class);
 
         this.subEval = mock(ConditionEvaluator.class);
 
-        when(this.subEval.evaluate(this.mockSitCon)).thenReturn(Boolean.TRUE);
+        when(this.subEval.evaluate(this.character)).thenReturn(Boolean.TRUE);
 
         List<ConditionEvaluator> condEvalList
                 = new ArrayList<ConditionEvaluator>();
@@ -62,16 +62,16 @@ public class AndListEvaluatorTest {
      */
     @Test
     public void testEvaluate() {
-        Boolean isCorrect = this.andEval.evaluate(this.mockSitCon);
+        Boolean isCorrect = this.andEval.evaluate(this.character);
 
         assertTrue(isCorrect);
     }
 
     @Test
     public void testEvaluateFalse() {
-        when(this.subEval.evaluate(this.mockSitCon)).thenReturn(Boolean.FALSE);
+        when(this.subEval.evaluate(this.character)).thenReturn(Boolean.FALSE);
 
-        Boolean isCorrect = this.andEval.evaluate(this.mockSitCon);
+        Boolean isCorrect = this.andEval.evaluate(this.character);
 
         assertFalse(isCorrect);
     }

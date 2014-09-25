@@ -3,7 +3,6 @@ package org.asciicerebrum.mydndgame.valueproviders;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
 import org.asciicerebrum.mydndgame.interfaces.entities.IAbility;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 
 /**
  *
@@ -18,16 +17,14 @@ public class AbilityBonusValueProvider implements BonusValueProvider {
 
     /**
      *
-     * @param context The character as the context for calculating the bonus of
-     * the given ability.
+     * @param character The character as the context for calculating the bonus
+     * of the given ability.
      * @return the dynamically calculated bonus value of the given ability -
      * depending on the character.
      */
-    public final Long getDynamicValue(final ISituationContext context) {
+    public final Long getDynamicValue(final ICharacter character) {
 
-        ICharacter dndCharacter = context.getCharacter();
-
-        return dndCharacter.getAbilityMod(this.getAbility());
+        return character.getAbilityMod(this.getAbility());
     }
 
     /**

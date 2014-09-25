@@ -4,7 +4,7 @@ import org.asciicerebrum.mydndgame.interfaces.entities.ObserverHook;
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import java.util.List;
 import java.util.Map;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 
 /**
  *
@@ -38,11 +38,11 @@ public interface ObservableDelegate {
      * @param hook the hook to identify the correct list of observers.
      * @param object the object to modify and return again.
      * @param observerMap the map to get the registered listeners from.
-     * @param sitCon the situation context needed to make the correct
+     * @param character the contextual character needed to make the correct
      * modifications.
      * @return the modified object.
      */
     Object triggerObservers(ObserverHook hook, Object object,
             Map<ObserverHook, List<IObserver>> observerMap,
-            ISituationContext sitCon);
+            ICharacter character);
 }

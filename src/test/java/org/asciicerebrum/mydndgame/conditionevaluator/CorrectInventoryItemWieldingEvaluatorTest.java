@@ -25,6 +25,8 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
 
     private ISituationContext sitCon;
 
+    private ICharacter character;
+
     private IBodySlotType bodySlotTypeMock;
 
     private IBodySlotType counterSlotTypeMock;
@@ -52,22 +54,22 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
         this.ciiwEvaluator = new CorrectInventoryItemWieldingEvaluator();
 
         this.sitCon = mock(ISituationContext.class);
-        ICharacter characterMock = mock(ICharacter.class);
         this.bodySlotTypeMock = mock(IBodySlotType.class);
         this.bodySlotMock = mock(Slotable.class);
         this.itemMock = mock(IInventoryItem.class);
         this.counterSlotTypeMock = mock(IBodySlotType.class);
         this.counterSlot = mock(Slotable.class);
+        this.character = mock(ICharacter.class);
 
+        when(this.character.getSituationContext()).thenReturn(this.sitCon);
         when(this.sitCon.getBodySlotType()).thenReturn(this.bodySlotTypeMock);
-        when(this.sitCon.getCharacter()).thenReturn(characterMock);
-        when(characterMock.getBodySlotByType(this.bodySlotTypeMock))
+        when(this.character.getBodySlotByType(this.bodySlotTypeMock))
                 .thenReturn(this.bodySlotMock);
         when(this.bodySlotMock.getItem()).thenReturn(this.itemMock);
         when(this.bodySlotMock.getBodySlotType()).thenReturn(this.bodySlotTypeMock);
         when(this.bodySlotTypeMock.getCounterSlot())
                 .thenReturn(this.counterSlotTypeMock);
-        when(characterMock.getBodySlotByType(this.counterSlotTypeMock))
+        when(this.character.getBodySlotByType(this.counterSlotTypeMock))
                 .thenReturn(this.counterSlot);
         when(this.counterSlot.getItem()).thenReturn(null);
 
@@ -87,7 +89,7 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
      */
     @Test
     public void testEvaluate() {
-        Boolean resultEval = this.ciiwEvaluator.evaluate(this.sitCon);
+        Boolean resultEval = this.ciiwEvaluator.evaluate(this.character);
 
         assertTrue(resultEval);
     }
@@ -97,7 +99,7 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
         when(this.bodySlotTypeMock.getIsPrimaryAttackSlot())
                 .thenReturn(Boolean.TRUE);
 
-        Boolean resultEval = this.ciiwEvaluator.evaluate(this.sitCon);
+        Boolean resultEval = this.ciiwEvaluator.evaluate(this.character);
 
         assertFalse(resultEval);
     }
@@ -106,7 +108,7 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
     public void testEvaluateNoWieldingType() {
         this.ciiwEvaluator.setWieldingType(null);
 
-        Boolean resultEval = this.ciiwEvaluator.evaluate(this.sitCon);
+        Boolean resultEval = this.ciiwEvaluator.evaluate(this.character);
 
         assertFalse(resultEval);
     }
@@ -116,7 +118,7 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
         this.ciiwEvaluator.setWieldingType(
                 CorrectInventoryItemWieldingEvaluator.WieldingType.BOTH);
 
-        Boolean resultEval = this.ciiwEvaluator.evaluate(this.sitCon);
+        Boolean resultEval = this.ciiwEvaluator.evaluate(this.character);
 
         assertFalse(resultEval);
     }
@@ -128,7 +130,7 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
         this.ciiwEvaluator.setWieldingType(
                 CorrectInventoryItemWieldingEvaluator.WieldingType.BOTH);
 
-        Boolean resultEval = this.ciiwEvaluator.evaluate(this.sitCon);
+        Boolean resultEval = this.ciiwEvaluator.evaluate(this.character);
 
         assertTrue(resultEval);
     }
@@ -140,7 +142,7 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
         this.ciiwEvaluator.setWieldingType(
                 CorrectInventoryItemWieldingEvaluator.WieldingType.BOTH);
 
-        Boolean resultEval = this.ciiwEvaluator.evaluate(this.sitCon);
+        Boolean resultEval = this.ciiwEvaluator.evaluate(this.character);
 
         assertFalse(resultEval);
     }
@@ -153,7 +155,7 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
         this.ciiwEvaluator.setWieldingType(
                 CorrectInventoryItemWieldingEvaluator.WieldingType.BOTH);
 
-        Boolean resultEval = this.ciiwEvaluator.evaluate(this.sitCon);
+        Boolean resultEval = this.ciiwEvaluator.evaluate(this.character);
 
         assertFalse(resultEval);
     }

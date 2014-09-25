@@ -88,6 +88,7 @@
         <property name="diceNumber" value="1" />
         <property name="diceType" ref="d20" />
         <property name="associatedAttackMode" ref="meleeWeapon" />
+        <property name="associatedHook" value="MELEE_ATTACK" />
     </bean>
     
     <bean id="rangedAttack" class="org.asciicerebrum.mydndgame.DiceAction">
@@ -95,5 +96,6 @@
         <property name="diceNumber" value="1" />
         <property name="diceType" ref="d20" />
         <property name="associatedAttackMode" ref="rangedWeapon" />
+        <property name="associatedHook" value="RANGED_ATTACK" />
     </bean>                                                                                                  
 </beans>

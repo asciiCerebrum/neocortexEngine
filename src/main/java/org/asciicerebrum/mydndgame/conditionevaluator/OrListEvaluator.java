@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame.conditionevaluator;
 import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
 import java.util.ArrayList;
 import java.util.List;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 
 /**
  *
@@ -22,9 +22,9 @@ public class OrListEvaluator implements ConditionEvaluator {
      * {@inheritDoc} Only true, if one element in the list evaluates to true.
      */
     @Override
-    public final Boolean evaluate(final ISituationContext situationContext) {
+    public final Boolean evaluate(final ICharacter character) {
         for (ConditionEvaluator singleEval : this.getConditionEvaluators()) {
-            if (singleEval.evaluate(situationContext)) {
+            if (singleEval.evaluate(character)) {
                 return Boolean.TRUE;
             }
         }

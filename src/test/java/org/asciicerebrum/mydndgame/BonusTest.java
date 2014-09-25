@@ -5,10 +5,10 @@ import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonusType;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
 import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus.ResemblanceFacet;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -27,7 +27,7 @@ public class BonusTest {
 
     private IBonus referenceBonus;
     private IBonus testBonus;
-    private ISituationContext context;
+    private ICharacter character;
     private ConditionEvaluator evaluator;
 
     public BonusTest() {
@@ -46,15 +46,15 @@ public class BonusTest {
 
         this.referenceBonus = new Bonus();
         this.testBonus = new Bonus();
-        this.context = mock(ISituationContext.class);
+        this.character = mock(ICharacter.class);
 
         IBonusType bType = new BonusType();
         BonusTarget bTarget = new DiceAction();
         BonusValueProvider dvProvider = mock(BonusValueProvider.class);
         this.evaluator = mock(ConditionEvaluator.class);
 
-        when(dvProvider.getDynamicValue(this.context)).thenReturn(42L);
-        when(this.evaluator.evaluate(this.context)).thenReturn(Boolean.TRUE);
+        when(dvProvider.getDynamicValue(this.character)).thenReturn(42L);
+        when(this.evaluator.evaluate(this.character)).thenReturn(Boolean.TRUE);
 
         this.referenceBonus.setBonusType(bType);
         this.referenceBonus.setTarget(bTarget);
@@ -166,14 +166,14 @@ public class BonusTest {
         this.referenceBonus.setValue(bonVal);
 
         assertEquals(bonVal, this.referenceBonus
-                .getEffectiveValue(this.context));
+                .getEffectiveValue(this.character));
     }
 
     @Test
     public void testGetEffectiveValueByValueProvider() {
 
         assertEquals(Long.valueOf(42), this.referenceBonus
-                .getEffectiveValue(this.context));
+                .getEffectiveValue(this.character));
     }
 
     @Test
@@ -182,7 +182,7 @@ public class BonusTest {
         this.referenceBonus.setDynamicValueProvider(null);
 
         assertNull(this.referenceBonus
-                .getEffectiveValue(this.context));
+                .getEffectiveValue(this.character));
     }
 
     @Test
@@ -192,17 +192,17 @@ public class BonusTest {
         this.referenceBonus.setValue(bonVal);
 
         assertEquals(bonVal, this.referenceBonus
-                .getEffectiveValue(this.context));
+                .getEffectiveValue(this.character));
     }
 
     @Test
     public void testGetEffectiveValueFalseEvaluator() {
-        when(this.evaluator.evaluate(this.context)).thenReturn(Boolean.FALSE);
+        when(this.evaluator.evaluate(this.character)).thenReturn(Boolean.FALSE);
 
         Long bonVal = 1L;
         this.referenceBonus.setValue(bonVal);
 
-        assertNull(this.referenceBonus.getEffectiveValue(this.context));
+        assertNull(this.referenceBonus.getEffectiveValue(this.character));
     }
 
     @Test

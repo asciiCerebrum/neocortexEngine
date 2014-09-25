@@ -4,16 +4,18 @@ import org.asciicerebrum.mydndgame.interfaces.services.BonusCalculationService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
 import org.asciicerebrum.mydndgame.interfaces.entities.IAbility;
 import org.asciicerebrum.mydndgame.interfaces.entities.IArmor;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IClass;
 import org.asciicerebrum.mydndgame.interfaces.entities.IConditionType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
+import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
 import org.asciicerebrum.mydndgame.interfaces.entities.ObserverHook;
 import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
 import org.asciicerebrum.mydndgame.interfaces.observing.ObservableDelegate;
@@ -31,6 +33,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
+import org.springframework.context.ApplicationContext;
 
 /**
  *
@@ -46,6 +49,8 @@ public class DndCharacterTest {
 
     private DndCharacter testChar;
     private BodySlotType bodySlot;
+    private IWeaponCategory meleeAttackMode;
+    private IWeaponCategory rangedAttackMode;
 
     private static final Integer HIT_DICE = 10;
     private static final Long ADDITIONAL_HP = 5L;
@@ -64,7 +69,20 @@ public class DndCharacterTest {
 
         MockitoAnnotations.initMocks(this);
 
-        CharacterSetup setup = new CharacterSetup();
+        this.meleeAttackMode = mock(IWeaponCategory.class);
+        this.rangedAttackMode = mock(IWeaponCategory.class);
+
+        BonusTarget meleeAttackDiceAction = mock(BonusTarget.class);
+        BonusTarget rangedAttackDiceAction = mock(BonusTarget.class);
+
+        when(this.meleeAttackMode.getAssociatedAttackDiceAction())
+                .thenReturn(meleeAttackDiceAction);
+        when(this.rangedAttackMode.getAssociatedAttackDiceAction())
+                .thenReturn(rangedAttackDiceAction);
+
+        ApplicationContext appContext = mock(ApplicationContext.class);
+
+        CharacterSetup setup = new CharacterSetup(appContext);
         setup.setRace("characterRace");
         setup.getBaseAbilityMap().put("ability", 0L);
         setup.getLevelAdvancementStack().add(
@@ -137,7 +155,7 @@ public class DndCharacterTest {
         DiceAction hp = new DiceAction();
 
         when(this.bcService.retrieveEffectiveBonusValueByTarget(
-                (ISituationContext) anyObject(), eq(this.testChar), eq(hp)))
+                (ICharacter) anyObject(), eq(this.testChar), eq(hp)))
                 .thenReturn(ADDITIONAL_HP);
 
         this.testChar.setHp(hp);
@@ -228,7 +246,8 @@ public class DndCharacterTest {
     @Test
     public void testGetMeleeAtkBonusFirstValue() {
 
-        List<Long> boniList = this.testChar.getMeleeAtkBonus(this.bodySlot);
+        List<Long> boniList = this.testChar.getAtkBoni(this.bodySlot,
+                this.meleeAttackMode);
 
         assertEquals(Long.valueOf(2), boniList.get(0));
     }
@@ -248,7 +267,7 @@ public class DndCharacterTest {
         when(this.observableDelegate.triggerObservers(
                 eq(ObserverHook.ABILITY_STR),
                 eq(1L), eq(this.testChar.getObserverMap()),
-                (ISituationContext) anyObject())).thenReturn(1L);
+                (ICharacter) anyObject())).thenReturn(1L);
 
         this.testChar.getBaseAbilityMap().put(ability, 12L);
         this.testChar.setAbilityBonusOffset(10);
@@ -265,7 +284,7 @@ public class DndCharacterTest {
         when(this.observableDelegate.triggerObservers(
                 eq(ObserverHook.ABILITY_STR),
                 eq(-2L), eq(this.testChar.getObserverMap()),
-                (ISituationContext) anyObject())).thenReturn(-2L);
+                (ICharacter) anyObject())).thenReturn(-2L);
 
         this.testChar.getBaseAbilityMap().put(ability, 6L);
         this.testChar.setAbilityBonusOffset(10);
@@ -386,7 +405,8 @@ public class DndCharacterTest {
         when(weapon.getObservableDelegate()).thenReturn(obsDel);
         this.testChar.getBodySlotByType(this.bodySlot)
                 .setItem(weapon);
-        Long dmgBon = this.testChar.getMeleeDamageBonus(this.bodySlot);
+        Long dmgBon = this.testChar.getDamageBonus(this.bodySlot,
+                this.meleeAttackMode);
 
         assertEquals(Long.valueOf(0L), dmgBon);
     }
@@ -398,7 +418,8 @@ public class DndCharacterTest {
         when(weapon.getObservableDelegate()).thenReturn(obsDel);
         this.testChar.getBodySlotByType(this.bodySlot)
                 .setItem(weapon);
-        Long dmgBon = this.testChar.getRangedDamageBonus(this.bodySlot);
+        Long dmgBon = this.testChar.getDamageBonus(this.bodySlot,
+                this.rangedAttackMode);
 
         assertEquals(Long.valueOf(0L), dmgBon);
     }
@@ -425,7 +446,7 @@ public class DndCharacterTest {
         verify(this.observableDelegate, times(2)).triggerObservers(
                 (ObserverHook) anyObject(), anyObject(),
                 (Map<ObserverHook, List<IObserver>>) anyObject(),
-                (ISituationContext) anyObject());
+                (ICharacter) anyObject());
     }
 
     @Test
@@ -459,7 +480,7 @@ public class DndCharacterTest {
         verify(obsDel, times(2)).triggerObservers(
                 (ObserverHook) anyObject(), anyObject(),
                 (Map<ObserverHook, List<IObserver>>) anyObject(),
-                (ISituationContext) anyObject());
+                (ICharacter) anyObject());
     }
 
     @Test
@@ -560,7 +581,7 @@ public class DndCharacterTest {
                 eq(ObserverHook.AC),
                 anyObject(),
                 (Map<ObserverHook, List<IObserver>>) anyObject(),
-                (ISituationContext) anyObject());
+                (ICharacter) anyObject());
     }
 
 }

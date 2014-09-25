@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 
 /**
  *
@@ -18,8 +18,8 @@ public class NotEvaluator implements ConditionEvaluator {
      * {@inheritDoc} Checks if the given sub evaluator is false.
      */
     @Override
-    public final Boolean evaluate(final ISituationContext situationContext) {
-        return !this.getConditionEvaluator().evaluate(situationContext);
+    public final Boolean evaluate(final ICharacter character) {
+        return !this.getConditionEvaluator().evaluate(character);
     }
 
     /**

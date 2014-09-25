@@ -26,7 +26,7 @@ public class AtkBonusValueProviderTest {
     private AtkBonusValueProvider bonusValueProvider;
 
     @Mock
-    private ISituationContext sitCon;
+    private ICharacter characterMock;
 
     @Mock
     private ILevel iLevel1;
@@ -54,9 +54,9 @@ public class AtkBonusValueProviderTest {
         levels.add(this.iLevel1);
         levels.add(this.iLevel2);
 
-        ICharacter characterMock = mock(ICharacter.class);
+        ISituationContext sitCon = mock(ISituationContext.class);
 
-        when(this.sitCon.getCharacter()).thenReturn(characterMock);
+        when(this.characterMock.getSituationContext()).thenReturn(sitCon);
         when(characterMock.getClassLevels()).thenReturn(levels);
         when(this.iLevel1.getBaseAtkBonusValueDeltaByRank(5L)).thenReturn(3L);
         when(this.iLevel2.getBaseAtkBonusValueDeltaByRank(5L)).thenReturn(7L);
@@ -75,7 +75,8 @@ public class AtkBonusValueProviderTest {
     @Test
     public void testGetDynamicValue() {
 
-        Long dynVal = this.bonusValueProvider.getDynamicValue(this.sitCon);
+        Long dynVal = this.bonusValueProvider
+                .getDynamicValue(this.characterMock);
 
         assertEquals(Long.valueOf(10), dynVal);
     }

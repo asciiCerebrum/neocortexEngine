@@ -193,50 +193,53 @@ public interface ICharacter extends BonusSource {
     Long getMaxAttackNumber();
 
     /**
-     * Returns the list of boni for the given body slot type. All boni are
-     * applied. The weapon in the slot is regarded as a melee weapon - e.g. you
-     * can hit someone with a bow.
+     * Returns the list of attack boni for the given body slot type and attack
+     * mode. This method is for statistcial purpose only. All boni are applied.
+     * The attack mode is either ranged or melee - e.g. you can hit someone with
+     * a bow or throw a sword at someone.
      *
      * @param bodySlotType the body slot type to calculate the boni for.
+     * @param attackMode the mode of attack (ranged, melee, etc.).
      * @return the list of boni.
      */
-    List<Long> getMeleeAtkBonus(IBodySlotType bodySlotType);
+    List<Long> getAtkBoni(IBodySlotType bodySlotType,
+            IWeaponCategory attackMode);
 
     /**
-     * Returns the list of boni for the given body slot type. All boni are
-     * applied. The weapon in the slot is regarded as a ranged weapon - e.g. you
-     * can throw a longsword at somebody.
+     * Returns the list of attack boni. The body slot and the attack mode are
+     * taken from the setting of the state registry.
      *
-     * @param bodySlotType the body slot type to calculate the boni for.
      * @return the list of boni.
      */
-    List<Long> getRangedAtkBonus(IBodySlotType bodySlotType);
+    List<Long> getAtkBoni();
 
     /**
      * Returns the damage bonus value for the weapon in the body slot of the
-     * given type when used in melee mode. E.g. hitting someone with a bow.
+     * given type when used in the given attack mode. This method is for
+     * statistcial purpose only. E.g. hitting someone with a bow or throwing a
+     * sword at someone.
      *
      * @param bodySlotType the body slot type holding the weapon.
+     * @param attackMode the mode of attack (ranged, melee, etc.).
      * @return the effective bonus value.
      */
-    Long getMeleeDamageBonus(IBodySlotType bodySlotType);
+    Long getDamageBonus(IBodySlotType bodySlotType, IWeaponCategory attackMode);
 
     /**
-     * Returns the damage bonus value for the weapon in the body slot of the
-     * given type when used in ranged mode. E.g. shooting an arrow with a bow.
+     * Returns the damage bonus value. The body slot and the attack mode are
+     * taken from the setting of the state registry.
      *
-     * @param bodySlotType the body slot type holding the weapon.
      * @return the effective bonus value.
      */
-    Long getRangedDamageBonus(IBodySlotType bodySlotType);
+    Long getDamageBonus();
 
     /**
-     * Generate a really simple situation context object. This is suitable if
-     * the character is not attacking and all attack values are of no interest.
+     * Generate a situation context object. The values are taken from the state
+     * registry and converted into the real corresponding object.
      *
      * @return the created situation context.
      */
-    ISituationContext generateSituationContextSimple();
+    ISituationContext getSituationContext();
 
     /**
      * @return the observers

@@ -4,7 +4,6 @@ import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
 
 /**
@@ -102,16 +101,15 @@ public class CorrectInventoryItemWieldingEvaluator
      * {@inheritDoc} Checks if the current weapon is wielded in the given way.
      */
     @Override
-    public final Boolean evaluate(final ISituationContext situationContext) {
+    public final Boolean evaluate(final ICharacter character) {
 
         if (this.getWieldingType() == null) {
             return Boolean.FALSE;
         }
 
         return this.getWieldingType().evaluate(
-                situationContext.getCharacter()
-                .getBodySlotByType(situationContext.getBodySlotType()),
-                situationContext.getCharacter());
+                character.getBodySlotByType(character.getSituationContext()
+                        .getBodySlotType()), character);
     }
 
     /**

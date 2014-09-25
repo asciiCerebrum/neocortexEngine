@@ -27,6 +27,8 @@ public class CorrectWeaponEvaluatorTest {
 
     private ISituationContext mockContext;
 
+    private ICharacter mockCharacter;
+
     public CorrectWeaponEvaluatorTest() {
     }
 
@@ -43,15 +45,15 @@ public class CorrectWeaponEvaluatorTest {
         IWeapon mockWeapon = mock(IWeapon.class);
         this.mockContext = mock(ISituationContext.class);
 
-        ICharacter mockCharacter = mock(ICharacter.class);
+        this.mockCharacter = mock(ICharacter.class);
         IBodySlotType mockBsType = mock(IBodySlotType.class);
         Slotable mockBs = mock(Slotable.class);
         IWeapon mockRefWeapon = mock(IWeapon.class);
 
+        when(this.mockCharacter.getSituationContext()).thenReturn(this.mockContext);
         when(this.mockContext.getBodySlotType()).thenReturn(mockBsType);
-        when(this.mockContext.getCharacter()).thenReturn(mockCharacter);
 
-        when(mockCharacter.getBodySlotByType(mockBsType)).thenReturn(mockBs);
+        when(this.mockCharacter.getBodySlotByType(mockBsType)).thenReturn(mockBs);
         when(mockBs.getItem()).thenReturn(mockRefWeapon);
 
         when(mockWeapon.resembles(mockRefWeapon)).thenReturn(Boolean.TRUE);
@@ -70,8 +72,11 @@ public class CorrectWeaponEvaluatorTest {
      */
     @Test
     public void testEvaluateEmptySitCon() {
+        when(this.mockCharacter.getSituationContext())
+                .thenReturn(new SituationContext());
+
         Boolean isCorrect = this.correctWeaponEval
-                .evaluate(new SituationContext());
+                .evaluate(this.mockCharacter);
 
         assertFalse(isCorrect);
     }
@@ -81,7 +86,7 @@ public class CorrectWeaponEvaluatorTest {
      */
     @Test
     public void testEvaluate() {
-        Boolean isCorrect = this.correctWeaponEval.evaluate(this.mockContext);
+        Boolean isCorrect = this.correctWeaponEval.evaluate(this.mockCharacter);
 
         assertTrue(isCorrect);
     }
@@ -92,7 +97,7 @@ public class CorrectWeaponEvaluatorTest {
     @Test
     public void testEvaluateNullWeapon() {
         this.correctWeaponEval.setWeapon(null);
-        Boolean isCorrect = this.correctWeaponEval.evaluate(this.mockContext);
+        Boolean isCorrect = this.correctWeaponEval.evaluate(this.mockCharacter);
 
         assertTrue(isCorrect);
     }
@@ -103,19 +108,19 @@ public class CorrectWeaponEvaluatorTest {
     @Test
     public void testEvaluateEmptyBodySlot() {
 
+        ICharacter noItemCharacter = mock(ICharacter.class);
         ISituationContext noItemContext = mock(ISituationContext.class);
 
-        ICharacter mockCharacter = mock(ICharacter.class);
         IBodySlotType mockBsType = mock(IBodySlotType.class);
         Slotable mockBs = mock(Slotable.class);
 
+        when(noItemCharacter.getSituationContext()).thenReturn(noItemContext);
         when(noItemContext.getBodySlotType()).thenReturn(mockBsType);
-        when(noItemContext.getCharacter()).thenReturn(mockCharacter);
 
-        when(mockCharacter.getBodySlotByType(mockBsType)).thenReturn(mockBs);
+        when(noItemCharacter.getBodySlotByType(mockBsType)).thenReturn(mockBs);
         when(mockBs.getItem()).thenReturn(null);
 
-        Boolean isCorrect = this.correctWeaponEval.evaluate(noItemContext);
+        Boolean isCorrect = this.correctWeaponEval.evaluate(noItemCharacter);
 
         assertFalse(isCorrect);
     }
@@ -126,19 +131,19 @@ public class CorrectWeaponEvaluatorTest {
     @Test
     public void testEvaluateWrongItemInBodySlot() {
 
+        ICharacter wrongItemCharacter = mock(ICharacter.class);
         ISituationContext wrongItemContext = mock(ISituationContext.class);
 
-        ICharacter mockCharacter = mock(ICharacter.class);
         IBodySlotType mockBsType = mock(IBodySlotType.class);
         Slotable mockBs = mock(Slotable.class);
 
+        when(wrongItemCharacter.getSituationContext()).thenReturn(wrongItemContext);
         when(wrongItemContext.getBodySlotType()).thenReturn(mockBsType);
-        when(wrongItemContext.getCharacter()).thenReturn(mockCharacter);
 
-        when(mockCharacter.getBodySlotByType(mockBsType)).thenReturn(mockBs);
+        when(wrongItemCharacter.getBodySlotByType(mockBsType)).thenReturn(mockBs);
         when(mockBs.getItem()).thenReturn(mock(IInventoryItem.class));
 
-        Boolean isCorrect = this.correctWeaponEval.evaluate(wrongItemContext);
+        Boolean isCorrect = this.correctWeaponEval.evaluate(wrongItemCharacter);
 
         assertFalse(isCorrect);
     }

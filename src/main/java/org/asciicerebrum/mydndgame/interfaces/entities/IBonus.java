@@ -99,10 +99,10 @@ public interface IBonus {
      * Use either the constant value of the bonus or (if null) the dynamic
      * value.
      *
-     * @param context the context for the dynamic version.
+     * @param character the contextual character for the dynamic version.
      * @return either the constant or dynamic value.
      */
-    Long getEffectiveValue(ISituationContext context);
+    Long getEffectiveValue(ICharacter character);
 
     /**
      * Works similar to equals. Two boni resemble each other if all possible

@@ -16,6 +16,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import org.springframework.context.ApplicationContext;
 
 /**
  *
@@ -27,7 +28,7 @@ public class AddBonusObserverTest {
 
     private List<IBonus> bonusList;
 
-    private ISituationContext sitCon;
+    private ICharacter character;
 
     private ICharacterSetup setup;
 
@@ -48,15 +49,16 @@ public class AddBonusObserverTest {
     public void setUp() {
         this.abObserver = new AddBonusObserver();
         this.bonusList = new ArrayList<IBonus>();
-        this.sitCon = new SituationContext();
+        ISituationContext sitCon = new SituationContext();
+        ApplicationContext appContext = mock(ApplicationContext.class);
 
-        this.setup = new CharacterSetup();
+        this.setup = new CharacterSetup(appContext);
         this.setup.getStateRegistry().put(this.regKey, 42L);
 
-        ICharacter character = mock(ICharacter.class);
+        this.character = mock(ICharacter.class);
         when(character.getSetup()).thenReturn(this.setup);
+        when(character.getSituationContext()).thenReturn(sitCon);
 
-        this.sitCon.setCharacter(character);
         this.abObserver.setRegistryKey(this.regKey);
         this.abObserver.setBonusTarget(mock(BonusTarget.class));
         this.abObserver.setBonusType(new BonusType());
@@ -72,7 +74,7 @@ public class AddBonusObserverTest {
     @Test
     public void testTriggerSize() {
         List<IBonus> boni = (List<IBonus>) this.abObserver
-                .trigger(this.bonusList, this.sitCon);
+                .trigger(this.bonusList, this.character);
 
         assertEquals(1, boni.size());
     }
@@ -80,7 +82,7 @@ public class AddBonusObserverTest {
     @Test
     public void testTriggerValue() {
         List<IBonus> boni = (List<IBonus>) this.abObserver
-                .trigger(this.bonusList, this.sitCon);
+                .trigger(this.bonusList, this.character);
 
         assertEquals(Long.valueOf(42), boni.get(0).getValue());
     }
@@ -90,7 +92,7 @@ public class AddBonusObserverTest {
         this.setup.getStateRegistry().put(this.regKey, null);
 
         List<IBonus> boni = (List<IBonus>) this.abObserver
-                .trigger(this.bonusList, this.sitCon);
+                .trigger(this.bonusList, this.character);
 
         assertEquals(0, boni.size());
     }
@@ -100,7 +102,7 @@ public class AddBonusObserverTest {
         this.setup.getStateRegistry().put(this.regKey, 0L);
 
         List<IBonus> boni = (List<IBonus>) this.abObserver
-                .trigger(this.bonusList, this.sitCon);
+                .trigger(this.bonusList, this.character);
 
         assertEquals(0, boni.size());
     }

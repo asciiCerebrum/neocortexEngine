@@ -1,9 +1,9 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IEncumbrance;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 
 /**
@@ -24,15 +24,15 @@ public class CorrectWeaponEncumbranceEvaluator implements ConditionEvaluator {
      * @return
      */
     @Override
-    public final Boolean evaluate(final ISituationContext situationContext) {
+    public final Boolean evaluate(final ICharacter character) {
 
         if (this.getEncumbrance() == null) {
             return Boolean.FALSE;
         }
 
-        final IInventoryItem item = situationContext.getCharacter()
-                .getBodySlotByType(situationContext.getBodySlotType())
-                .getItem();
+        final IInventoryItem item = character
+                .getBodySlotByType(character.getSituationContext()
+                        .getBodySlotType()).getItem();
 
         // keep in mind: ranged weapons might not have an encumbrance!
         if (item != null

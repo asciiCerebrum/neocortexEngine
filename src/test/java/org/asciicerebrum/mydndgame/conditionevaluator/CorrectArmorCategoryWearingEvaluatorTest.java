@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 public class CorrectArmorCategoryWearingEvaluatorTest {
 
     private CorrectArmorCategoryWearingEvaluator cacwEvaluator;
-    private ISituationContext sitCon;
+    private ICharacter character;
     private List<IArmor> wieldedArmor;
 
     public CorrectArmorCategoryWearingEvaluatorTest() {
@@ -40,9 +40,9 @@ public class CorrectArmorCategoryWearingEvaluatorTest {
     @Before
     public void setUp() {
         this.cacwEvaluator = new CorrectArmorCategoryWearingEvaluator();
-        this.sitCon = mock(ISituationContext.class);
+        ISituationContext sitCon = mock(ISituationContext.class);
 
-        ICharacter character = mock(ICharacter.class);
+        this.character = mock(ICharacter.class);
         this.wieldedArmor = new ArrayList<IArmor>();
         IArmorCategory armorCategory = mock(IArmorCategory.class);
 
@@ -55,8 +55,8 @@ public class CorrectArmorCategoryWearingEvaluatorTest {
         this.wieldedArmor.add(armor1);
         this.wieldedArmor.add(armor2);
 
-        when(this.sitCon.getCharacter()).thenReturn(character);
-        when(character.getWieldedArmor()).thenReturn(this.wieldedArmor);
+        when(this.character.getSituationContext()).thenReturn(sitCon);
+        when(this.character.getWieldedArmor()).thenReturn(this.wieldedArmor);
 
         this.cacwEvaluator.setArmorCategory(armorCategory);
     }
@@ -70,7 +70,7 @@ public class CorrectArmorCategoryWearingEvaluatorTest {
      */
     @Test
     public void testEvaluate() {
-        Boolean evalValue = this.cacwEvaluator.evaluate(this.sitCon);
+        Boolean evalValue = this.cacwEvaluator.evaluate(this.character);
 
         assertTrue(evalValue);
     }
@@ -78,7 +78,7 @@ public class CorrectArmorCategoryWearingEvaluatorTest {
     @Test
     public void testEvaluateNullCategory() {
         this.cacwEvaluator.setArmorCategory(null);
-        Boolean evalValue = this.cacwEvaluator.evaluate(this.sitCon);
+        Boolean evalValue = this.cacwEvaluator.evaluate(this.character);
 
         assertFalse(evalValue);
     }
@@ -86,7 +86,7 @@ public class CorrectArmorCategoryWearingEvaluatorTest {
     @Test
     public void testEvaluateArmorWithNullCategory() {
         when(this.wieldedArmor.get(1).getArmorCategory()).thenReturn(null);
-        Boolean evalValue = this.cacwEvaluator.evaluate(this.sitCon);
+        Boolean evalValue = this.cacwEvaluator.evaluate(this.character);
 
         assertFalse(evalValue);
     }

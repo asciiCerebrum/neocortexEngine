@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame.interfaces.services;
 import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 
 /**
  *
@@ -32,25 +32,24 @@ public interface BonusCalculationService {
      * Calculation of the effective bonus as a summation over all granted boni.
      * This method is a sequence of
      * {@link #traverseBoniByTarget(Object, BonusTarget)} and
-     * {@link #accumulateBonusValue(ISituationContext, List) }.
+     * {@link #accumulateBonusValue(ICharacter, List) }.
      *
-     * @param context the context as a dndCharacter.
+     * @param character the contextual dndCharacter.
      * @param origin the source to start collecting boni from (and then going
      * down the tree).
      * @param target the bonus target of interest.
      * @return the total bonus value calculated from all boni given by the
      * source object in the context of the dndCharacter.
      */
-    Long retrieveEffectiveBonusValueByTarget(ISituationContext context,
+    Long retrieveEffectiveBonusValueByTarget(ICharacter character,
             Object origin, BonusTarget target);
 
     /**
      * Accumulates the list of found boni into a single effective bonus value.
      *
-     * @param context the context as a dndCharacter.
+     * @param character the contextual dndCharacter.
      * @param foundBoni the list of boni to accumulate the result over.
      * @return the accumulated bonus value.
      */
-    Long accumulateBonusValue(ISituationContext context,
-            List<IBonus> foundBoni);
+    Long accumulateBonusValue(ICharacter character, List<IBonus> foundBoni);
 }

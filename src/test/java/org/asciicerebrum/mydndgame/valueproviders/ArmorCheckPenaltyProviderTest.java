@@ -23,6 +23,7 @@ public class ArmorCheckPenaltyProviderTest {
 
     private ArmorCheckPenaltyProvider acpProvider;
     private ISituationContext sitCon;
+    private ICharacter character;
     private List<IArmor> wieldedArmor;
     private IArmorCategory armorCategory;
 
@@ -59,10 +60,10 @@ public class ArmorCheckPenaltyProviderTest {
         this.wieldedArmor.add(armor2);
         this.wieldedArmor.add(armor3);
 
-        ICharacter character = mock(ICharacter.class);
+        this.character = mock(ICharacter.class);
 
-        when(this.sitCon.getCharacter()).thenReturn(character);
-        when(character.getWieldedArmor()).thenReturn(this.wieldedArmor);
+        when(this.character.getSituationContext()).thenReturn(this.sitCon);
+        when(this.character.getWieldedArmor()).thenReturn(this.wieldedArmor);
 
         this.acpProvider.setArmorCategory(this.armorCategory);
     }
@@ -76,7 +77,7 @@ public class ArmorCheckPenaltyProviderTest {
      */
     @Test
     public void testGetDynamicValue() {
-        Long dynVal = this.acpProvider.getDynamicValue(this.sitCon);
+        Long dynVal = this.acpProvider.getDynamicValue(this.character);
 
         assertEquals(Long.valueOf(-42L), dynVal);
     }
@@ -85,7 +86,7 @@ public class ArmorCheckPenaltyProviderTest {
     public void testGetDynamicValueNullArmorCategory() {
         this.acpProvider.setArmorCategory(null);
 
-        Long dynVal = this.acpProvider.getDynamicValue(this.sitCon);
+        Long dynVal = this.acpProvider.getDynamicValue(this.character);
 
         assertEquals(Long.valueOf(0L), dynVal);
     }
@@ -94,7 +95,7 @@ public class ArmorCheckPenaltyProviderTest {
     public void testGetDynamicValueArmorWithNullCategory() {
         when(this.wieldedArmor.get(1).getArmorCategory()).thenReturn(null);
 
-        Long dynVal = this.acpProvider.getDynamicValue(this.sitCon);
+        Long dynVal = this.acpProvider.getDynamicValue(this.character);
 
         assertEquals(Long.valueOf(-10L), dynVal);
     }
@@ -103,7 +104,7 @@ public class ArmorCheckPenaltyProviderTest {
     public void testGetDynamicValueArmorWithNullCheckPenalty() {
         when(this.wieldedArmor.get(1).getArmorCheckPenalty()).thenReturn(null);
 
-        Long dynVal = this.acpProvider.getDynamicValue(this.sitCon);
+        Long dynVal = this.acpProvider.getDynamicValue(this.character);
 
         assertEquals(Long.valueOf(-10L), dynVal);
     }

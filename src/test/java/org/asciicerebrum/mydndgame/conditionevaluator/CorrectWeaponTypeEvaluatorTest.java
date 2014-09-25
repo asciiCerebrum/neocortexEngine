@@ -31,6 +31,8 @@ public class CorrectWeaponTypeEvaluatorTest {
 
     private ISituationContext sitCon;
 
+    private ICharacter characterMock;
+
     private Slotable bodySlotMock;
 
     private IWeapon weaponMock;
@@ -54,7 +56,7 @@ public class CorrectWeaponTypeEvaluatorTest {
         this.weaponType = mock(IWeaponType.class);
 
         this.sitCon = mock(ISituationContext.class);
-        ICharacter characterMock = mock(ICharacter.class);
+        this.characterMock = mock(ICharacter.class);
         IBodySlotType bodySlotTypeMock = mock(IBodySlotType.class);
         this.bodySlotMock = mock(Slotable.class);
         this.weaponMock = mock(IWeapon.class);
@@ -62,9 +64,9 @@ public class CorrectWeaponTypeEvaluatorTest {
         List<IWeaponType> weaponTypes = new ArrayList<IWeaponType>();
         weaponTypes.add(this.weaponType);
 
+        when(this.characterMock.getSituationContext()).thenReturn(this.sitCon);
         when(this.sitCon.getBodySlotType()).thenReturn(bodySlotTypeMock);
-        when(this.sitCon.getCharacter()).thenReturn(characterMock);
-        when(characterMock.getBodySlotByType(bodySlotTypeMock))
+        when(this.characterMock.getBodySlotByType(bodySlotTypeMock))
                 .thenReturn(this.bodySlotMock);
         when(this.bodySlotMock.getItem()).thenReturn(this.weaponMock);
         when(this.weaponMock.getWeaponTypes()).thenReturn(weaponTypes);
@@ -81,7 +83,7 @@ public class CorrectWeaponTypeEvaluatorTest {
      */
     @Test
     public void testEvaluate() {
-        Boolean evalResult = this.cwtEvaluator.evaluate(this.sitCon);
+        Boolean evalResult = this.cwtEvaluator.evaluate(this.characterMock);
 
         assertTrue(evalResult);
     }
@@ -89,7 +91,7 @@ public class CorrectWeaponTypeEvaluatorTest {
     @Test
     public void testEvaluateNoReferenceWeaponType() {
         this.cwtEvaluator.setWeaponType(null);
-        Boolean evalResult = this.cwtEvaluator.evaluate(this.sitCon);
+        Boolean evalResult = this.cwtEvaluator.evaluate(this.characterMock);
 
         assertFalse(evalResult);
     }
@@ -97,7 +99,7 @@ public class CorrectWeaponTypeEvaluatorTest {
     @Test
     public void testEvaluateNoItemInSlot() {
         when(this.bodySlotMock.getItem()).thenReturn(null);
-        Boolean evalResult = this.cwtEvaluator.evaluate(this.sitCon);
+        Boolean evalResult = this.cwtEvaluator.evaluate(this.characterMock);
 
         assertFalse(evalResult);
     }
@@ -105,7 +107,7 @@ public class CorrectWeaponTypeEvaluatorTest {
     @Test
     public void testEvaluateItemNotWeapon() {
         when(this.bodySlotMock.getItem()).thenReturn(mock(IInventoryItem.class));
-        Boolean evalResult = this.cwtEvaluator.evaluate(this.sitCon);
+        Boolean evalResult = this.cwtEvaluator.evaluate(this.characterMock);
 
         assertFalse(evalResult);
     }
@@ -115,7 +117,7 @@ public class CorrectWeaponTypeEvaluatorTest {
         List<IWeaponType> otherWeaponTypes = new ArrayList<IWeaponType>();
         otherWeaponTypes.add(mock(IWeaponType.class));
         when(this.weaponMock.getWeaponTypes()).thenReturn(otherWeaponTypes);
-        Boolean evalResult = this.cwtEvaluator.evaluate(this.sitCon);
+        Boolean evalResult = this.cwtEvaluator.evaluate(this.characterMock);
 
         assertFalse(evalResult);
     }

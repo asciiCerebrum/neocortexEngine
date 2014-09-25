@@ -18,4 +18,24 @@ public interface IDiceAction {
      */
     void setTargetObservers(List<IObserver> observers);
 
+    /**
+     * @return the diceType
+     */
+    IDice getDiceType();
+
+    /**
+     * @param diceType the diceType to set
+     */
+    void setDiceType(IDice diceType);
+
+    /**
+     * @return the diceNumber
+     */
+    Long getDiceNumber();
+
+    /**
+     * @param diceNumber the diceNumber to set
+     */
+    void setDiceNumber(Long diceNumber);
+
 }

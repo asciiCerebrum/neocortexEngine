@@ -4,7 +4,6 @@ import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
 import org.asciicerebrum.mydndgame.interfaces.entities.IArmor;
 import org.asciicerebrum.mydndgame.interfaces.entities.IArmorCategory;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 
 /**
  *
@@ -22,16 +21,14 @@ public class ArmorCheckPenaltyProvider implements BonusValueProvider {
      * minimum check penalty. The lowest value counts!
      */
     @Override
-    public final Long getDynamicValue(final ISituationContext context) {
-        ICharacter dndCharacter = context.getCharacter();
-
+    public final Long getDynamicValue(final ICharacter character) {
         Long checkPenalty = 0L;
 
         if (this.getArmorCategory() == null) {
             return checkPenalty;
         }
 
-        for (IArmor armor : dndCharacter.getWieldedArmor()) {
+        for (IArmor armor : character.getWieldedArmor()) {
             if (armor.getArmorCategory() == null
                     || !armor.getArmorCategory()
                     .equals(this.getArmorCategory())) {

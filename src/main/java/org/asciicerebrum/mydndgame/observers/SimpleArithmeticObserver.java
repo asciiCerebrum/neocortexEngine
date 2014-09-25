@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.observers;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 
 /**
  *
@@ -82,14 +82,14 @@ public class SimpleArithmeticObserver extends AbstractObserver {
      */
     @Override
     protected final Object triggerCallback(final Object object,
-            final ISituationContext situationContext) {
+            final ICharacter character) {
 
         Long numeric = (Long) object;
 
         Long effectiveModValue = this.getModValue();
         if (this.getModValueProvider() != null) {
             effectiveModValue = this.getModValueProvider()
-                    .getDynamicValue(situationContext);
+                    .getDynamicValue(character);
         }
 
         if (effectiveModValue == null) {

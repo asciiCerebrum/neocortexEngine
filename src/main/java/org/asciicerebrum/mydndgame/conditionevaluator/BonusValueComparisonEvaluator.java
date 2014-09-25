@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame.conditionevaluator;
 import org.asciicerebrum.mydndgame.conditionevaluator.BonusValueComparisonEvaluator.ArithmeticComparator;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
 import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 
 /**
  *
@@ -115,10 +115,10 @@ public class BonusValueComparisonEvaluator implements ConditionEvaluator {
      * context with a given number. The comparator is also definable.
      */
     @Override
-    public final Boolean evaluate(final ISituationContext situationContext) {
+    public final Boolean evaluate(final ICharacter character) {
         Long abilityBonus
                 = this.getBonusValueProvider()
-                .getDynamicValue(situationContext);
+                .getDynamicValue(character);
 
         return this.getComparator().compare(
                 abilityBonus.doubleValue(),

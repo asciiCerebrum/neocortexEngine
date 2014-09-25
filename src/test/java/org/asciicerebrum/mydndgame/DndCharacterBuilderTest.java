@@ -57,7 +57,7 @@ public class DndCharacterBuilderTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         
-        this.setup = new CharacterSetup();
+        this.setup = new CharacterSetup(this.context);
         this.character = new DndCharacter();
         
         this.observableDelegate = mock(ObservableDelegate.class);

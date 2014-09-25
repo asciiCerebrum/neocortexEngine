@@ -28,6 +28,8 @@ public class CorrectProficiencyEvaluatorTest {
 
     private ISituationContext mockSitCon;
 
+    private ICharacter character;
+
     private Slotable mockBodySlot;
 
     public CorrectProficiencyEvaluatorTest() {
@@ -46,17 +48,17 @@ public class CorrectProficiencyEvaluatorTest {
 
         this.cpEval = new CorrectProficiencyEvaluator();
 
+        this.character = mock(ICharacter.class);
         this.mockSitCon = mock(ISituationContext.class);
 
-        ICharacter mockCharacter = mock(ICharacter.class);
         IBodySlotType bsType = mock(IBodySlotType.class);
         this.mockBodySlot = mock(Slotable.class);
         IWeapon mockWeapon = mock(IWeapon.class);
 
-        when(this.mockSitCon.getCharacter()).thenReturn(mockCharacter);
+        when(this.character.getSituationContext()).thenReturn(this.mockSitCon);
         when(this.mockSitCon.getBodySlotType()).thenReturn(bsType);
 
-        when(mockCharacter.getBodySlotByType(bsType))
+        when(this.character.getBodySlotByType(bsType))
                 .thenReturn(this.mockBodySlot);
 
         when(this.mockBodySlot.getItem()).thenReturn(mockWeapon);
@@ -77,7 +79,7 @@ public class CorrectProficiencyEvaluatorTest {
      */
     @Test
     public void testEvaluate() {
-        Boolean isCorrect = this.cpEval.evaluate(this.mockSitCon);
+        Boolean isCorrect = this.cpEval.evaluate(this.character);
 
         assertTrue(isCorrect);
     }
@@ -89,7 +91,7 @@ public class CorrectProficiencyEvaluatorTest {
     @Test
     public void testEvaluateNullProficiency() {
         this.cpEval.setProficiency(null);
-        Boolean isCorrect = this.cpEval.evaluate(this.mockSitCon);
+        Boolean isCorrect = this.cpEval.evaluate(this.character);
 
         assertFalse(isCorrect);
     }
@@ -102,7 +104,7 @@ public class CorrectProficiencyEvaluatorTest {
     public void testEvaluateNoItem() {
         when(this.mockBodySlot.getItem()).thenReturn(null);
 
-        Boolean isCorrect = this.cpEval.evaluate(this.mockSitCon);
+        Boolean isCorrect = this.cpEval.evaluate(this.character);
 
         assertFalse(isCorrect);
     }
@@ -116,7 +118,7 @@ public class CorrectProficiencyEvaluatorTest {
         when(this.mockBodySlot.getItem())
                 .thenReturn(mock(IInventoryItem.class));
 
-        Boolean isCorrect = this.cpEval.evaluate(this.mockSitCon);
+        Boolean isCorrect = this.cpEval.evaluate(this.character);
 
         assertFalse(isCorrect);
     }

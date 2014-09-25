@@ -8,9 +8,8 @@ public interface BonusValueProvider {
 
     /**
      *
-     * @param context the context of the bonus value calculation in form of a
-     * dndCharacter.
+     * @param character the contextual Character.
      * @return the result of the dynamic bonus value calculation.
      */
-    Long getDynamicValue(ISituationContext context);
+    Long getDynamicValue(ICharacter character);
 }

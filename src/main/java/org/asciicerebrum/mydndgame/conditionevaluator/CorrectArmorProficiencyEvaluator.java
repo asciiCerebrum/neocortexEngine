@@ -4,7 +4,6 @@ import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.interfaces.entities.IArmor;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IProficiency;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 
 /**
  *
@@ -21,13 +20,12 @@ public class CorrectArmorProficiencyEvaluator implements ConditionEvaluator {
      * {@inheritDoc} Checks if the worn armor is of the given proficiency.
      */
     @Override
-    public final Boolean evaluate(final ISituationContext situationContext) {
+    public final Boolean evaluate(final ICharacter character) {
         if (this.getProficiency() == null) {
             return Boolean.FALSE;
         }
 
-        ICharacter dndCharacter = situationContext.getCharacter();
-        for (IArmor armor : dndCharacter.getWieldedArmor()) {
+        for (IArmor armor : character.getWieldedArmor()) {
             if (armor.getProficiency() != null
                     && armor.getProficiency().equals(this.getProficiency())) {
                 return Boolean.TRUE;

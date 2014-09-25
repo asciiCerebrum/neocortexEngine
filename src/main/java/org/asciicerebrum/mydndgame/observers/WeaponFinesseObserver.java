@@ -5,7 +5,6 @@ import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IEncumbrance;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 
 /**
@@ -44,13 +43,12 @@ public class WeaponFinesseObserver extends AbstractObserver {
      */
     @Override
     protected final Object triggerCallback(final Object object,
-            final ISituationContext situationContext) {
+            final ICharacter character) {
 
         List<IBonus> boni = (List<IBonus>) object;
 
-        ICharacter character = situationContext.getCharacter();
         IWeapon usedWeapon = (IWeapon) character.getBodySlotByType(
-                situationContext.getBodySlotType()).getItem();
+                character.getSituationContext().getBodySlotType()).getItem();
 
         Boolean situationContextValidity
                 = this.determineSituationContextValidity(character,

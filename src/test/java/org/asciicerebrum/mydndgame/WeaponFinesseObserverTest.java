@@ -9,7 +9,6 @@ import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacterSetup;
 import org.asciicerebrum.mydndgame.interfaces.entities.IEncumbrance;
 import org.asciicerebrum.mydndgame.interfaces.entities.IRace;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISizeCategory;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 import org.junit.After;
@@ -21,6 +20,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import org.springframework.context.ApplicationContext;
 
 /**
  *
@@ -32,7 +32,7 @@ public class WeaponFinesseObserverTest {
 
     private List<IBonus> bonusList;
 
-    private ISituationContext sitcon;
+    private ICharacter character;
 
     private IBonus standardBonus;
 
@@ -57,7 +57,7 @@ public class WeaponFinesseObserverTest {
 
     @Before
     public void setUp() {
-        this.sitcon = new SituationContext();
+        SituationContext sitcon = new SituationContext();
         this.bonusList = new ArrayList<IBonus>();
         this.standardBonus = new Bonus();
         this.replacementBonus = new Bonus();
@@ -92,18 +92,19 @@ public class WeaponFinesseObserverTest {
         this.validWeapons.add(weaponB);
         this.validWeapons.add(weaponC);
 
-        this.setup = new CharacterSetup();
+        sitcon.setBodySlotType(bsType);
 
-        ICharacter character = mock(ICharacter.class);
-        when(character.getBodySlotByType(bsType)).thenReturn(bs);
-        when(character.getRace()).thenReturn(race);
-        when(character.getSetup()).thenReturn(this.setup);
+        ApplicationContext appContext = mock(ApplicationContext.class);
+        this.setup = new CharacterSetup(appContext);
 
-        this.sitcon.setCharacter(character);
-        this.sitcon.setBodySlotType(bsType);
+        this.character = mock(ICharacter.class);
+        when(this.character.getBodySlotByType(bsType)).thenReturn(bs);
+        when(this.character.getRace()).thenReturn(race);
+        when(this.character.getSetup()).thenReturn(this.setup);
+        when(this.character.getSituationContext()).thenReturn(sitcon);
 
         this.bonusList.add(new Bonus()); // some unaffected pseudo bonus
-        this.bonusList.add(this.standardBonus);        
+        this.bonusList.add(this.standardBonus);
 
         IBonus referenceBonus = mock(IBonus.class);
         when(referenceBonus.resembles(this.standardBonus))
@@ -133,7 +134,7 @@ public class WeaponFinesseObserverTest {
     public void testTriggerBonusListSize() {
         List<IBonus> triggeredBoni
                 = (List<IBonus>) this.wfObserver
-                .trigger(this.bonusList, this.sitcon);
+                .trigger(this.bonusList, this.character);
         assertEquals(2, triggeredBoni.size());
     }
 
@@ -145,7 +146,7 @@ public class WeaponFinesseObserverTest {
     public void testTriggerBonusListElement() {
         List<IBonus> triggeredBoni
                 = (List<IBonus>) this.wfObserver
-                .trigger(this.bonusList, this.sitcon);
+                .trigger(this.bonusList, this.character);
         assertEquals(this.replacementBonus, triggeredBoni.get(1));
     }
 
@@ -161,7 +162,7 @@ public class WeaponFinesseObserverTest {
 
         List<IBonus> triggeredBoni
                 = (List<IBonus>) this.wfObserver
-                .trigger(this.bonusList, this.sitcon);
+                .trigger(this.bonusList, this.character);
         assertEquals(2, triggeredBoni.size());
     }
 
@@ -177,7 +178,7 @@ public class WeaponFinesseObserverTest {
 
         List<IBonus> triggeredBoni
                 = (List<IBonus>) this.wfObserver
-                .trigger(this.bonusList, this.sitcon);
+                .trigger(this.bonusList, this.character);
         assertEquals(this.standardBonus, triggeredBoni.get(1));
     }
 
@@ -193,7 +194,7 @@ public class WeaponFinesseObserverTest {
 
         List<IBonus> triggeredBoni
                 = (List<IBonus>) this.wfObserver
-                .trigger(this.bonusList, this.sitcon);
+                .trigger(this.bonusList, this.character);
         assertNotEquals(this.replacementBonus, triggeredBoni.get(1));
     }
 
@@ -209,7 +210,7 @@ public class WeaponFinesseObserverTest {
 
         List<IBonus> triggeredBoni
                 = (List<IBonus>) this.wfObserver
-                .trigger(this.bonusList, this.sitcon);
+                .trigger(this.bonusList, this.character);
         assertEquals(this.replacementBonus, triggeredBoni.get(1));
     }
 
@@ -225,7 +226,7 @@ public class WeaponFinesseObserverTest {
 
         List<IBonus> triggeredBoni
                 = (List<IBonus>) this.wfObserver
-                .trigger(this.bonusList, this.sitcon);
+                .trigger(this.bonusList, this.character);
         assertEquals(this.standardBonus, triggeredBoni.get(1));
     }
 
@@ -241,7 +242,7 @@ public class WeaponFinesseObserverTest {
 
         List<IBonus> triggeredBoni
                 = (List<IBonus>) this.wfObserver
-                .trigger(this.bonusList, this.sitcon);
+                .trigger(this.bonusList, this.character);
         assertEquals(this.standardBonus, triggeredBoni.get(1));
     }
 

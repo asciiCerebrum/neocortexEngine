@@ -41,6 +41,11 @@ public final class DndCharacter implements ICharacter, Observable {
     private ICharacterSetup setup;
 
     /**
+     * The actual situation context, which is cached.
+     */
+    private ISituationContext cachedSituationContext;
+
+    /**
      * The race of this dnd character.
      */
     @BonusGranter
@@ -188,7 +193,8 @@ public final class DndCharacter implements ICharacter, Observable {
      * {@inheritDoc}
      */
     @Override
-    public List<Long> getMeleeAtkBonus(final IBodySlotType bodySlotType) {
+    public List<Long> getAtkBoni(final IBodySlotType bodySlotType,
+            final IWeaponCategory attackMode) {
         // TODO get body slot by body slot type
         // is there a weapon in this slot?
         // is it ranged or melee? - no if-construct here. let the weapon
@@ -225,42 +231,50 @@ public final class DndCharacter implements ICharacter, Observable {
         // combat. Because such objects are not designed for this use, any
         // creature that uses one in combat is considered to be nonproficient
         // with it and takes a -4 penalty on attack rolls made with that object.
-        return this.getGenericAtkBonus(bodySlotType,
-                this.getMeleeAttackAction(), ObserverHook.MELEE_ATTACK);
+        //
+        // faking the situation context because observers, evaluators, etc.
+        // access it.
+        this.cachedSituationContext = new SituationContext();
+        this.cachedSituationContext.setAttackMode(attackMode);
+        this.cachedSituationContext.setBodySlotType(bodySlotType);
+
+        List<Long> atkBoni = this.getGenericAtkBoni(bodySlotType,
+                attackMode.getAssociatedAttackDiceAction());
+
+        // invalidating the cached situation context again.
+        this.cachedSituationContext = null;
+        return atkBoni;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<Long> getRangedAtkBonus(final IBodySlotType bodySlotType) {
-        return this.getGenericAtkBonus(bodySlotType, this.rangedAttackAction,
-                ObserverHook.RANGED_ATTACK);
-    }
+    public List<Long> getAtkBoni() {
+        ISituationContext sitCon = this.getSituationContext();
 
-    /**
-     * Generates a specific situation context by this character and all relevant
-     * active entities.
-     *
-     * @param bsType the body slot type important for context.
-     * @param attackMode how the attack is executed, melee or ranged.
-     * @return the created situation context.
-     */
-    private ISituationContext generateSituationContext(
-            final IBodySlotType bsType, final IWeaponCategory attackMode) {
-        ISituationContext sitCon = new SituationContext();
-        sitCon.setCharacter(this);
-        sitCon.setBodySlotType(bsType);
-        sitCon.setAttackMode(attackMode);
-        return sitCon;
+        return this.getGenericAtkBoni(sitCon.getBodySlotType(),
+                sitCon.getAttackMode().getAssociatedAttackDiceAction());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ISituationContext generateSituationContextSimple() {
-        return this.generateSituationContext(null, null);
+    public ISituationContext getSituationContext() {
+
+        if (this.cachedSituationContext == null) {
+            IBodySlotType bsType = this.getSetup().getStateRegistryBeanForKey(
+                    ICharacterSetup.ACTIVE_BODY_SLOT_TYPE, BodySlotType.class);
+            IWeaponCategory attackMode = this.getSetup().getStateRegistryBeanForKey(
+                    ICharacterSetup.ACTIVE_ATTACK_MODE, WeaponCategory.class);
+
+            this.cachedSituationContext = new SituationContext();
+            this.cachedSituationContext.setBodySlotType(bsType);
+            this.cachedSituationContext.setAttackMode(attackMode);
+        }
+
+        return this.cachedSituationContext;
     }
 
     /**
@@ -272,8 +286,8 @@ public final class DndCharacter implements ICharacter, Observable {
      * @param observerHook melee or ranged attack.
      * @return the list of attack boni with that weapon in that mode.
      */
-    private List<Long> getGenericAtkBonus(final IBodySlotType bodySlotType,
-            final BonusTarget bonusTarget, final ObserverHook observerHook) {
+    private List<Long> getGenericAtkBoni(final IBodySlotType bodySlotType,
+            final BonusTarget bonusTarget) {
         List<Long> atkBoni = new ArrayList<Long>();
 
         // gather all non-weapon-dependent boni for melee/ranged attack + attack
@@ -288,25 +302,21 @@ public final class DndCharacter implements ICharacter, Observable {
 
         // post processing of the bonus list, e.g. by registered feat
         // methods. (observer pattern)
-        ISituationContext attackSitCon
-                = this.generateSituationContext(bodySlotType,
-                        bonusTarget.getAssociatedAttackMode());
         genericBoni = (List<IBonus>) this.getObservableDelegate()
                 .triggerObservers(
-                        observerHook, genericBoni, this.getObserverMap(),
-                        attackSitCon);
+                        bonusTarget.getAssociatedHook(), genericBoni,
+                        this.getObserverMap(), this);
         genericBoni = (List<IBonus>) this.getObservableDelegate()
                 .triggerObservers(
                         ObserverHook.ATTACK, genericBoni,
                         this.getObserverMap(),
-                        attackSitCon);
+                        this);
 
-        Long bonusValue = this.bonusService.accumulateBonusValue(attackSitCon,
+        Long bonusValue = this.bonusService.accumulateBonusValue(this,
                 genericBoni);
 
         for (IBonus baseAtkBonus : this.getBaseAtkBoni()) {
-            atkBoni.add(baseAtkBonus.getEffectiveValue(attackSitCon)
-                    + bonusValue);
+            atkBoni.add(baseAtkBonus.getEffectiveValue(this) + bonusValue);
         }
 
         return atkBoni;
@@ -408,7 +418,7 @@ public final class DndCharacter implements ICharacter, Observable {
         // hp add con-modifier for each class level
         maxHp += this.getClassList().size()
                 * this.bonusService.retrieveEffectiveBonusValueByTarget(
-                        this.generateSituationContextSimple(), this, this.hp);
+                        this, this, this.hp);
 
         return maxHp;
     }
@@ -447,23 +457,21 @@ public final class DndCharacter implements ICharacter, Observable {
                     this.acBaseAction));
         }
 
-        ISituationContext simpleSitCon = this.generateSituationContextSimple();
-
         // observers with hook ac_base only
         acBoni = (List<IBonus>) this.getObservableDelegate()
                 .triggerObservers(
                         ObserverHook.AC_BASE, acBoni, this.getObserverMap(),
-                        simpleSitCon);
+                        this);
         // shields and armor with max-dex!
         for (IArmor singleArmor : wieldedArmor) {
             acBoni = (List<IBonus>) singleArmor.getObservableDelegate()
                     .triggerObservers(
                             ObserverHook.AC_BASE, acBoni,
-                            singleArmor.getObserverMap(), simpleSitCon);
+                            singleArmor.getObserverMap(), this);
         }
 
         return this.acBaseAction.getConstValue()
-                + this.bonusService.accumulateBonusValue(simpleSitCon, acBoni);
+                + this.bonusService.accumulateBonusValue(this, acBoni);
     }
 
     /**
@@ -541,8 +549,6 @@ public final class DndCharacter implements ICharacter, Observable {
                     this.acAction));
         }
 
-        ISituationContext simpleSitCon = this.generateSituationContextSimple();
-
         //shields and armor with max-dex!
         //observers with hook ac and ac_base
         //TODO the observers of the touch attack must be registered before it
@@ -554,27 +560,27 @@ public final class DndCharacter implements ICharacter, Observable {
         acBoni = (List<IBonus>) this.getObservableDelegate()
                 .triggerObservers(
                         ObserverHook.AC_BASE, acBoni, this.getObserverMap(),
-                        simpleSitCon);
+                        this);
         acBoni = (List<IBonus>) this.getObservableDelegate()
                 .triggerObservers(
                         ObserverHook.AC, acBoni, this.getObserverMap(),
-                        simpleSitCon);
+                        this);
         for (IArmor singleArmor : wieldedArmor) {
             acBoni = (List<IBonus>) singleArmor.getObservableDelegate()
                     .triggerObservers(
                             ObserverHook.AC_BASE, acBoni,
-                            singleArmor.getObserverMap(), simpleSitCon);
+                            singleArmor.getObserverMap(), this);
             acBoni = (List<IBonus>) singleArmor.getObservableDelegate()
                     .triggerObservers(
                             ObserverHook.AC, acBoni,
-                            singleArmor.getObserverMap(), simpleSitCon);
+                            singleArmor.getObserverMap(), this);
         }
 
         //TODO test for correct handling of touch attacks!
         //TODO test for correct handling of flatfootedness at the beginning of
         // a combat round.
         return this.acBaseAction.getConstValue()
-                + this.bonusService.accumulateBonusValue(simpleSitCon, acBoni);
+                + this.bonusService.accumulateBonusValue(this, acBoni);
     }
 
     /**
@@ -830,20 +836,32 @@ public final class DndCharacter implements ICharacter, Observable {
     //TODO there must be a melee and a ranged version because, for example,
     // attacking with a bow in ranged mode gives other damage boni as hitting
     // someone with it.
-    public Long getMeleeDamageBonus(final IBodySlotType bodySlotType) {
-        return this.getDamageBonus(bodySlotType,
-                this.getMeleeAttackAction().getAssociatedAttackMode(),
-                ObserverHook.MELEE_DAMAGE);
+    public Long getDamageBonus(final IBodySlotType bodySlotType,
+            final IWeaponCategory attackMode) {
+
+        // faking the situation context because observers, evaluators, etc.
+        // access it.
+        this.cachedSituationContext = new SituationContext();
+        this.cachedSituationContext.setAttackMode(attackMode);
+        this.cachedSituationContext.setBodySlotType(bodySlotType);
+
+        Long damageBonus = this.getGenericDamageBonus(bodySlotType, attackMode);
+
+        // invalidating the cached situation context again.
+        this.cachedSituationContext = null;
+
+        return damageBonus;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Long getRangedDamageBonus(final IBodySlotType bodySlotType) {
-        return this.getDamageBonus(bodySlotType,
-                this.rangedAttackAction.getAssociatedAttackMode(),
-                ObserverHook.RANGED_DAMAGE);
+    public Long getDamageBonus() {
+        ISituationContext sitCon = this.getSituationContext();
+
+        return this.getGenericDamageBonus(sitCon.getBodySlotType(),
+                sitCon.getAttackMode());
     }
 
     /**
@@ -858,8 +876,8 @@ public final class DndCharacter implements ICharacter, Observable {
      * (normally melee or ranged damage)
      * @return the calculated bonus value.
      */
-    private Long getDamageBonus(final IBodySlotType bodySlotType,
-            final IWeaponCategory attackMode, final ObserverHook hook) {
+    private Long getGenericDamageBonus(final IBodySlotType bodySlotType,
+            final IWeaponCategory attackMode) {
 
         // non-weapon dependent stuff
         List<IBonus> genericBoni = this.bonusService
@@ -871,26 +889,25 @@ public final class DndCharacter implements ICharacter, Observable {
                 item, this.getDamageAction()));
 
         // post-processing with observers
-        ISituationContext attackSitCon
-                = this.generateSituationContext(bodySlotType, attackMode);
         genericBoni = (List<IBonus>) this.getObservableDelegate()
                 .triggerObservers(
                         ObserverHook.DAMAGE, genericBoni, this.getObserverMap(),
-                        attackSitCon);
+                        this);
         genericBoni = (List<IBonus>) this.getObservableDelegate()
                 .triggerObservers(
-                        hook, genericBoni, this.getObserverMap(), attackSitCon);
+                        attackMode.getAssociatedDamageHook(), genericBoni,
+                        this.getObserverMap(), this);
         // post-processing with item/weapon observers
         genericBoni = (List<IBonus>) item.getObservableDelegate()
                 .triggerObservers(
                         ObserverHook.DAMAGE, genericBoni, item.getObserverMap(),
-                        attackSitCon);
+                        this);
         genericBoni = (List<IBonus>) item.getObservableDelegate()
                 .triggerObservers(
-                        hook, genericBoni, item.getObserverMap(), attackSitCon);
+                        attackMode.getAssociatedDamageHook(), genericBoni,
+                        item.getObserverMap(), this);
 
-        return this.bonusService.accumulateBonusValue(
-                attackSitCon, genericBoni);
+        return this.bonusService.accumulateBonusValue(this, genericBoni);
     }
 
     /**
@@ -1007,8 +1024,7 @@ public final class DndCharacter implements ICharacter, Observable {
 
         return (Long) this.getObservableDelegate()
                 .triggerObservers(ability.getAssociatedHook(), abilityMod,
-                        this.getObserverMap(),
-                        this.generateSituationContextSimple());
+                        this.getObserverMap(), this);
     }
 
     /**

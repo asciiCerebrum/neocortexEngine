@@ -1,7 +1,6 @@
 package org.asciicerebrum.mydndgame;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
 
@@ -12,11 +11,6 @@ import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
 public class SituationContext implements ISituationContext {
 
     /**
-     * The character of the context.
-     */
-    private ICharacter character;
-
-    /**
      * The contextual body slot type of the character.
      */
     private IBodySlotType bodySlotType;
@@ -25,22 +19,6 @@ public class SituationContext implements ISituationContext {
      * The mode in which the attack is executed: melee or ranged.
      */
     private IWeaponCategory attackMode;
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final ICharacter getCharacter() {
-        return this.character;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void setCharacter(final ICharacter iCharacter) {
-        this.character = iCharacter;
-    }
 
     /**
      * {@inheritDoc}

@@ -2,8 +2,8 @@ package org.asciicerebrum.mydndgame.conditionevaluator;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 
 /**
@@ -24,20 +24,21 @@ public class CorrectWeaponEvaluator implements ConditionEvaluator {
      * @return if weapons resemble each other. True if weapon is not set.
      */
     @Override
-    public final Boolean evaluate(final ISituationContext situationContext) {
+    public final Boolean evaluate(final ICharacter character) {
 
         if (this.getWeapon() == null) {
             return Boolean.TRUE;
         }
 
-        final IBodySlotType bsType = situationContext.getBodySlotType();
+        final IBodySlotType bsType = character.getSituationContext()
+                .getBodySlotType();
 
         if (bsType == null) {
             return Boolean.FALSE;
         }
 
-        final IInventoryItem item = situationContext.getCharacter()
-                .getBodySlotByType(bsType).getItem();
+        final IInventoryItem item = character.getBodySlotByType(bsType)
+                .getItem();
 
         if (item == null) {
             return Boolean.FALSE;

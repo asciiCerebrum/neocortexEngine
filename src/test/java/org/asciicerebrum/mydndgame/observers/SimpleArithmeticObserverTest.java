@@ -6,7 +6,7 @@
 package org.asciicerebrum.mydndgame.observers;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -24,7 +24,7 @@ public class SimpleArithmeticObserverTest {
 
     private SimpleArithmeticObserver saObserver;
 
-    private ISituationContext sitCon;
+    private ICharacter character;
 
     public SimpleArithmeticObserverTest() {
     }
@@ -41,10 +41,10 @@ public class SimpleArithmeticObserverTest {
     public void setUp() {
 
         this.saObserver = new SimpleArithmeticObserver();
-        this.sitCon = mock(ISituationContext.class);
+        this.character = mock(ICharacter.class);
 
         BonusValueProvider valProvider = mock(BonusValueProvider.class);
-        when(valProvider.getDynamicValue(this.sitCon)).thenReturn(37L);
+        when(valProvider.getDynamicValue(this.character)).thenReturn(37L);
 
         this.saObserver.setModValueProvider(valProvider);
 
@@ -62,7 +62,7 @@ public class SimpleArithmeticObserverTest {
         this.saObserver.setOperation(
                 SimpleArithmeticObserver.Operation.ADDITION);
 
-        Long result = (Long) this.saObserver.triggerCallback(42L, this.sitCon);
+        Long result = (Long) this.saObserver.triggerCallback(42L, this.character);
 
         assertEquals(Long.valueOf(79L), result);
     }
@@ -72,7 +72,7 @@ public class SimpleArithmeticObserverTest {
         this.saObserver.setOperation(
                 SimpleArithmeticObserver.Operation.MULTIPLICATION);
 
-        Long result = (Long) this.saObserver.triggerCallback(42L, this.sitCon);
+        Long result = (Long) this.saObserver.triggerCallback(42L, this.character);
 
         assertEquals(Long.valueOf(1554L), result);
     }
@@ -82,7 +82,7 @@ public class SimpleArithmeticObserverTest {
         this.saObserver.setOperation(
                 SimpleArithmeticObserver.Operation.MINIMUM);
 
-        Long result = (Long) this.saObserver.triggerCallback(42L, this.sitCon);
+        Long result = (Long) this.saObserver.triggerCallback(42L, this.character);
 
         assertEquals(Long.valueOf(37L), result);
     }
@@ -95,7 +95,7 @@ public class SimpleArithmeticObserverTest {
         this.saObserver.setModValueProvider(null);
         this.saObserver.setModValue(41L);
 
-        Long result = (Long) this.saObserver.triggerCallback(42L, this.sitCon);
+        Long result = (Long) this.saObserver.triggerCallback(42L, this.character);
 
         assertEquals(Long.valueOf(83L), result);
     }
@@ -108,7 +108,7 @@ public class SimpleArithmeticObserverTest {
         this.saObserver.setModValueProvider(null);
         this.saObserver.setModValue(null);
 
-        Long result = (Long) this.saObserver.triggerCallback(42L, this.sitCon);
+        Long result = (Long) this.saObserver.triggerCallback(42L, this.character);
 
         assertEquals(Long.valueOf(42L), result);
     }

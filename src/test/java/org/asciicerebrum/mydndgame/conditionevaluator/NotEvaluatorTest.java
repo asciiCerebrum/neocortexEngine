@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertFalse;
@@ -20,7 +20,7 @@ public class NotEvaluatorTest {
 
     private NotEvaluator notEvaluator;
 
-    private ISituationContext sitCon;
+    private ICharacter character;
 
     public NotEvaluatorTest() {
     }
@@ -36,10 +36,10 @@ public class NotEvaluatorTest {
     @Before
     public void setUp() {
         this.notEvaluator = new NotEvaluator();
-        this.sitCon = mock(ISituationContext.class);
+        this.character = mock(ICharacter.class);
 
         ConditionEvaluator subEvaluator = mock(ConditionEvaluator.class);
-        when(subEvaluator.evaluate(this.sitCon)).thenReturn(Boolean.TRUE);
+        when(subEvaluator.evaluate(this.character)).thenReturn(Boolean.TRUE);
 
         this.notEvaluator.setConditionEvaluator(subEvaluator);
 
@@ -54,7 +54,7 @@ public class NotEvaluatorTest {
      */
     @Test
     public void testEvaluate() {
-        Boolean evalResult = this.notEvaluator.evaluate(this.sitCon);
+        Boolean evalResult = this.notEvaluator.evaluate(this.character);
 
         assertFalse(evalResult);
     }
@@ -62,11 +62,11 @@ public class NotEvaluatorTest {
     @Test
     public void testEvaluateOpposite() {
         ConditionEvaluator subEvaluator = mock(ConditionEvaluator.class);
-        when(subEvaluator.evaluate(this.sitCon)).thenReturn(Boolean.FALSE);
+        when(subEvaluator.evaluate(this.character)).thenReturn(Boolean.FALSE);
 
         this.notEvaluator.setConditionEvaluator(subEvaluator);
 
-        Boolean evalResult = this.notEvaluator.evaluate(this.sitCon);
+        Boolean evalResult = this.notEvaluator.evaluate(this.character);
 
         assertTrue(evalResult);
     }

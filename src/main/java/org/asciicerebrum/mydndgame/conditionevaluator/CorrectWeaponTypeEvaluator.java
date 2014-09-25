@@ -1,8 +1,8 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponType;
 
@@ -24,15 +24,15 @@ public class CorrectWeaponTypeEvaluator implements ConditionEvaluator {
      * @return
      */
     @Override
-    public final Boolean evaluate(final ISituationContext situationContext) {
+    public final Boolean evaluate(final ICharacter character) {
 
         if (this.getWeaponType() == null) {
             return Boolean.FALSE;
         }
 
-        final IInventoryItem item = situationContext.getCharacter()
-                .getBodySlotByType(situationContext.getBodySlotType())
-                .getItem();
+        final IInventoryItem item = character
+                .getBodySlotByType(character.getSituationContext()
+                        .getBodySlotType()).getItem();
 
         if (item != null && item instanceof IWeapon) {
             return ((IWeapon) item).getWeaponTypes()

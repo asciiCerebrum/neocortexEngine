@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang.StringUtils;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacterSetup;
+import org.springframework.context.ApplicationContext;
 
 /**
  *
@@ -12,6 +14,10 @@ import org.asciicerebrum.mydndgame.interfaces.entities.ICharacterSetup;
  */
 public class CharacterSetup implements ICharacterSetup {
 
+    /**
+     * Spring application context for finding beans from id strings.
+     */
+    private final ApplicationContext appContext;
     /**
      * The name of the character.
      */
@@ -58,6 +64,17 @@ public class CharacterSetup implements ICharacterSetup {
      */
     private final Map<String, Object> stateRegistry
             = new HashMap<String, Object>();
+
+    /**
+     * Creation of a character setup object. The application context is needed
+     * for wrapping functionality of the state registry. Beans must be created
+     * from IDs.
+     *
+     * @param appContextInput the application context.
+     */
+    public CharacterSetup(final ApplicationContext appContextInput) {
+        this.appContext = appContextInput;
+    }
 
     /**
      * @return the name
@@ -172,6 +189,26 @@ public class CharacterSetup implements ICharacterSetup {
     @Override
     public final Map<String, Object> getStateRegistry() {
         return stateRegistry;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final <T> T getStateRegistryBeanForKey(final String registryKey,
+            final Class<T> beanClass) {
+
+        String beanId = null;
+        Object mapValue = this.stateRegistry.get(registryKey);
+
+        if (mapValue instanceof String) {
+            beanId = (String) mapValue;
+        }
+        if (StringUtils.isBlank(beanId)) {
+            return null;
+        }
+
+        return this.appContext.getBean(beanId, beanClass);
     }
 
 }

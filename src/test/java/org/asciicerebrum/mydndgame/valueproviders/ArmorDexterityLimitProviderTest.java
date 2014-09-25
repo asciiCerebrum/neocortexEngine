@@ -25,6 +25,8 @@ public class ArmorDexterityLimitProviderTest {
 
     private ISituationContext sitCon;
 
+    private ICharacter character;
+
     private List<IArmor> wieldedArmor;
 
     public ArmorDexterityLimitProviderTest() {
@@ -43,7 +45,7 @@ public class ArmorDexterityLimitProviderTest {
         this.adlProvider = new ArmorDexterityLimitProvider();
         this.sitCon = mock(ISituationContext.class);
 
-        ICharacter character = mock(ICharacter.class);
+        this.character = mock(ICharacter.class);
         this.wieldedArmor = new ArrayList<IArmor>();
 
         IArmor armor1 = mock(IArmor.class);
@@ -58,8 +60,8 @@ public class ArmorDexterityLimitProviderTest {
         this.wieldedArmor.add(armor2);
         this.wieldedArmor.add(armor3);
 
-        when(this.sitCon.getCharacter()).thenReturn(character);
-        when(character.getWieldedArmor()).thenReturn(wieldedArmor);
+        when(this.character.getSituationContext()).thenReturn(this.sitCon);
+        when(this.character.getWieldedArmor()).thenReturn(wieldedArmor);
     }
 
     @After
@@ -72,7 +74,7 @@ public class ArmorDexterityLimitProviderTest {
     @Test
     public void testGetDynamicValue() {
 
-        Long minMaxDex = this.adlProvider.getDynamicValue(this.sitCon);
+        Long minMaxDex = this.adlProvider.getDynamicValue(this.character);
 
         assertEquals(Long.valueOf(2L), minMaxDex);
     }
@@ -81,7 +83,7 @@ public class ArmorDexterityLimitProviderTest {
     public void testGetDynamicValueEmptyList() {
         this.wieldedArmor.clear();
 
-        Long minMaxDex = this.adlProvider.getDynamicValue(this.sitCon);
+        Long minMaxDex = this.adlProvider.getDynamicValue(this.character);
 
         assertNull(minMaxDex);
     }
@@ -90,7 +92,7 @@ public class ArmorDexterityLimitProviderTest {
     public void testGetDynamicValueNullMaxDex() {
         when(this.wieldedArmor.get(1).getMaxDexBonus()).thenReturn(null);
 
-        Long minMaxDex = this.adlProvider.getDynamicValue(this.sitCon);
+        Long minMaxDex = this.adlProvider.getDynamicValue(this.character);
 
         assertEquals(Long.valueOf(3L), minMaxDex);
     }

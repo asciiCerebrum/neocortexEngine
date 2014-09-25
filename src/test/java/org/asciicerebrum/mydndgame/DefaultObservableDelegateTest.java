@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.ObserverHook;
@@ -32,7 +33,7 @@ public class DefaultObservableDelegateTest {
 
     private Object someObject;
 
-    private ISituationContext sitCon;
+    private ICharacter character;
 
     public DefaultObservableDelegateTest() {
     }
@@ -49,9 +50,11 @@ public class DefaultObservableDelegateTest {
     public void setUp() {
         this.defObsDelegate = new DefaultObservableDelegate();
         this.observer = mock(IObserver.class);
-        this.sitCon = mock(ISituationContext.class);
+        ISituationContext sitCon = mock(ISituationContext.class);
+        this.character = mock(ICharacter.class);
+        when(this.character.getSituationContext()).thenReturn(sitCon);
 
-        when(this.observer.trigger(this.someObject, this.sitCon))
+        when(this.observer.trigger(this.someObject, this.character))
                 .thenReturn(this.someObject);
 
         this.observerMap = new EnumMap<ObserverHook, List<IObserver>>(
@@ -125,7 +128,7 @@ public class DefaultObservableDelegateTest {
 
         Object resultObject = this.defObsDelegate.triggerObservers(
                 ObserverHook.PRICE, this.someObject, this.observerMap,
-                this.sitCon);
+                this.character);
 
         assertEquals(this.someObject, resultObject);
     }
@@ -136,7 +139,7 @@ public class DefaultObservableDelegateTest {
 
         Object resultObject = this.defObsDelegate.triggerObservers(
                 ObserverHook.PRICE, this.someObject, this.observerMap,
-                this.sitCon);
+                this.character);
 
         assertEquals(this.someObject, resultObject);
     }

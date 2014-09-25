@@ -27,6 +27,8 @@ public class CorrectWeaponEncumbranceEvaluatorTest {
 
     private ISituationContext sitCon;
 
+    private ICharacter characterMock;
+
     private IEncumbrance refEncumbrance;
 
     private Slotable bodySlotMock;
@@ -50,15 +52,15 @@ public class CorrectWeaponEncumbranceEvaluatorTest {
 
         this.sitCon = mock(ISituationContext.class);
 
-        ICharacter characterMock = mock(ICharacter.class);
+        this.characterMock = mock(ICharacter.class);
         IBodySlotType bodySlotTypeMock = mock(IBodySlotType.class);
         this.bodySlotMock = mock(Slotable.class);
         this.weaponMock = mock(IWeapon.class);
         this.refEncumbrance = mock(IEncumbrance.class);
 
+        when(this.characterMock.getSituationContext()).thenReturn(this.sitCon);
         when(this.sitCon.getBodySlotType()).thenReturn(bodySlotTypeMock);
-        when(this.sitCon.getCharacter()).thenReturn(characterMock);
-        when(characterMock.getBodySlotByType(bodySlotTypeMock))
+        when(this.characterMock.getBodySlotByType(bodySlotTypeMock))
                 .thenReturn(this.bodySlotMock);
         when(this.bodySlotMock.getItem()).thenReturn(this.weaponMock);
         when(this.weaponMock.getEncumbrance()).thenReturn(this.refEncumbrance);
@@ -75,7 +77,7 @@ public class CorrectWeaponEncumbranceEvaluatorTest {
      */
     @Test
     public void testEvaluate() {
-        Boolean resultEval = this.cweEvaluator.evaluate(this.sitCon);
+        Boolean resultEval = this.cweEvaluator.evaluate(this.characterMock);
 
         assertTrue(resultEval);
     }
@@ -83,7 +85,7 @@ public class CorrectWeaponEncumbranceEvaluatorTest {
     @Test
     public void testEvaluateNullRefEncumbrance() {
         this.cweEvaluator.setEncumbrance(null);
-        Boolean resultEval = this.cweEvaluator.evaluate(this.sitCon);
+        Boolean resultEval = this.cweEvaluator.evaluate(this.characterMock);
 
         assertFalse(resultEval);
     }
@@ -91,7 +93,7 @@ public class CorrectWeaponEncumbranceEvaluatorTest {
     @Test
     public void testEvaluateDifferentRefEncumbrance() {
         this.cweEvaluator.setEncumbrance(mock(IEncumbrance.class));
-        Boolean resultEval = this.cweEvaluator.evaluate(this.sitCon);
+        Boolean resultEval = this.cweEvaluator.evaluate(this.characterMock);
 
         assertFalse(resultEval);
     }
@@ -99,7 +101,7 @@ public class CorrectWeaponEncumbranceEvaluatorTest {
     @Test
     public void testEvaluateNoItemInSlot() {
         when(this.bodySlotMock.getItem()).thenReturn(null);
-        Boolean resultEval = this.cweEvaluator.evaluate(this.sitCon);
+        Boolean resultEval = this.cweEvaluator.evaluate(this.characterMock);
 
         assertFalse(resultEval);
     }
@@ -108,7 +110,7 @@ public class CorrectWeaponEncumbranceEvaluatorTest {
     public void testEvaluateNotWeaponInSlot() {
         when(this.bodySlotMock.getItem())
                 .thenReturn(mock(IInventoryItem.class));
-        Boolean resultEval = this.cweEvaluator.evaluate(this.sitCon);
+        Boolean resultEval = this.cweEvaluator.evaluate(this.characterMock);
 
         assertFalse(resultEval);
     }
@@ -117,7 +119,7 @@ public class CorrectWeaponEncumbranceEvaluatorTest {
     public void testEvaluateNoEncumbrance() {
         when(this.weaponMock.getEncumbrance()).thenReturn(null);
 
-        Boolean resultEval = this.cweEvaluator.evaluate(this.sitCon);
+        Boolean resultEval = this.cweEvaluator.evaluate(this.characterMock);
 
         assertFalse(resultEval);
     }

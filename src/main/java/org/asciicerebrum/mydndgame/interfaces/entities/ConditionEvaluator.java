@@ -9,9 +9,9 @@ public interface ConditionEvaluator {
     /**
      * Checks if the condition is met.
      *
-     * @param situationContext the situation context.
+     * @param character the affected character.
      * @return the status of the condition.
      */
-    Boolean evaluate(ISituationContext situationContext);
+    Boolean evaluate(ICharacter character);
 
 }

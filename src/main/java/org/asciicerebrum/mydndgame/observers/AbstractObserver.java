@@ -1,8 +1,8 @@
 package org.asciicerebrum.mydndgame.observers;
 
 import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.ObserverHook;
 
 /**
@@ -26,11 +26,11 @@ public abstract class AbstractObserver implements IObserver {
      * triggering after the check of the valid evaluators.
      *
      * @param object the object to manipulate by the trigger.
-     * @param situationContext the situation context.
+     * @param character the contextual character.
      * @return the manipulated object.
      */
     protected abstract Object triggerCallback(Object object,
-            ISituationContext situationContext);
+            ICharacter character);
 
     /**
      * {@inheritDoc} Assures that the condition evalator is always checked
@@ -38,14 +38,14 @@ public abstract class AbstractObserver implements IObserver {
      */
     @Override
     public final Object trigger(final Object object,
-            final ISituationContext situationContext) {
+            final ICharacter character) {
 
         if (this.getConditionEvaluator() != null
-                && !this.getConditionEvaluator().evaluate(situationContext)) {
+                && !this.getConditionEvaluator().evaluate(character)) {
             return object;
         }
 
-        return this.triggerCallback(object, situationContext);
+        return this.triggerCallback(object, character);
     }
 
     /**

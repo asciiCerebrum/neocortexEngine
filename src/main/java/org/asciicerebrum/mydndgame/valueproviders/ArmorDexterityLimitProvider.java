@@ -3,7 +3,6 @@ package org.asciicerebrum.mydndgame.valueproviders;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
 import org.asciicerebrum.mydndgame.interfaces.entities.IArmor;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 
 /**
  *
@@ -16,12 +15,10 @@ public class ArmorDexterityLimitProvider implements BonusValueProvider {
      * worn armor.
      */
     @Override
-    public final Long getDynamicValue(final ISituationContext context) {
-
-        ICharacter dndCharacter = context.getCharacter();
+    public final Long getDynamicValue(final ICharacter character) {
 
         Long minMaxDexBonus = null;
-        for (IArmor armor : dndCharacter.getWieldedArmor()) {
+        for (IArmor armor : character.getWieldedArmor()) {
             if (armor.getMaxDexBonus() != null
                     && (minMaxDexBonus == null
                     || armor.getMaxDexBonus() < minMaxDexBonus)) {

@@ -6,7 +6,7 @@ import org.asciicerebrum.mydndgame.Bonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus.ResemblanceFacet;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -26,7 +26,7 @@ public class RemoveBonusObserverTest {
 
     private List<IBonus> boni;
 
-    private ISituationContext mockSitCon;
+    private ICharacter character;
 
     private ConditionEvaluator conditionEval;
 
@@ -47,7 +47,7 @@ public class RemoveBonusObserverTest {
     public void setUp() {
         this.rbObserver = new RemoveBonusObserver();
         this.boni = new ArrayList<IBonus>();
-        this.mockSitCon = mock(ISituationContext.class);
+        this.character = mock(ICharacter.class);
         this.conditionEval = mock(ConditionEvaluator.class);
 
         IBonus bonusA = new Bonus();
@@ -61,7 +61,7 @@ public class RemoveBonusObserverTest {
         this.refBonus = mock(IBonus.class);
 
         when(this.refBonus.resembles(bonusB, null)).thenReturn(Boolean.TRUE);
-        when(this.conditionEval.evaluate(this.mockSitCon))
+        when(this.conditionEval.evaluate(this.character))
                 .thenReturn(Boolean.TRUE);
 
         this.rbObserver.setRemoveBonus(this.refBonus);
@@ -78,7 +78,7 @@ public class RemoveBonusObserverTest {
     @Test
     public void testTrigger() {
         List<IBonus> resultBoni = (List<IBonus>) this.rbObserver
-                .trigger(this.boni, this.mockSitCon);
+                .trigger(this.boni, this.character);
 
         assertEquals(Integer.valueOf(1), Integer.valueOf(resultBoni.size()));
     }
@@ -89,7 +89,7 @@ public class RemoveBonusObserverTest {
     @Test
     public void testTriggerCorrectBonus() {
         List<IBonus> resultBoni = (List<IBonus>) this.rbObserver
-                .trigger(this.boni, this.mockSitCon);
+                .trigger(this.boni, this.character);
 
         assertEquals(Long.valueOf(42L), resultBoni.get(0).getValue());
     }
@@ -99,11 +99,11 @@ public class RemoveBonusObserverTest {
      */
     @Test
     public void testTriggerCorrectBonusInvalidCondition() {
-        when(this.conditionEval.evaluate(this.mockSitCon))
+        when(this.conditionEval.evaluate(this.character))
                 .thenReturn(Boolean.FALSE);
 
         List<IBonus> resultBoni = (List<IBonus>) this.rbObserver
-                .trigger(this.boni, this.mockSitCon);
+                .trigger(this.boni, this.character);
 
         assertEquals(Integer.valueOf(2), Integer.valueOf(resultBoni.size()));
     }
@@ -119,7 +119,7 @@ public class RemoveBonusObserverTest {
                 .thenReturn(Boolean.TRUE);
 
         List<IBonus> resultBoni = (List<IBonus>) this.rbObserver
-                .trigger(this.boni, this.mockSitCon);
+                .trigger(this.boni, this.character);
 
         assertEquals(Integer.valueOf(1), Integer.valueOf(resultBoni.size()));
     }
