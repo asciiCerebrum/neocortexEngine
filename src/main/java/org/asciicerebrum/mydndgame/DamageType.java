@@ -1,12 +1,13 @@
 package org.asciicerebrum.mydndgame;
 
 import java.util.List;
+import org.asciicerebrum.mydndgame.interfaces.entities.IDamageType;
 
 /**
  *
  * @author species8472
  */
-public class DamageType {
+public class DamageType implements IDamageType {
 
     /**
      * Unique id of the damage type.
@@ -34,15 +35,17 @@ public class DamageType {
     }
 
     /**
-     * @return the compoundDamageTypes
+     * {@inheritDoc}
      */
+    @Override
     public final List<DamageType> getCompoundDamageTypes() {
         return compoundDamageTypes;
     }
 
     /**
-     * @param compoundDamageTypesInput the compoundDamageTypes to set
+     * {@inheritDoc}
      */
+    @Override
     public final void setCompoundDamageTypes(
             final List<DamageType> compoundDamageTypesInput) {
         this.compoundDamageTypes = compoundDamageTypesInput;

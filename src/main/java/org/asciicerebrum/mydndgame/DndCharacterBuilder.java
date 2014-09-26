@@ -142,6 +142,11 @@ public class DndCharacterBuilder {
             }
         }
 
+        // setting default value for current hp
+        if (this.setup.getCurrentHp() == null) {
+            this.setup.setCurrentHp(dndCharacter.getMaxHp());
+        }
+
         return dndCharacter;
     }
 
@@ -151,7 +156,7 @@ public class DndCharacterBuilder {
      * @param dndCharacter the dnd Character.
      * @param feat the feat.
      */
-    private void addFeat(final ICharacter dndCharacter, final IFeat feat) {
+    void addFeat(final ICharacter dndCharacter, final IFeat feat) {
         dndCharacter.getFeats().add(feat);
 
         // registering feat hooks

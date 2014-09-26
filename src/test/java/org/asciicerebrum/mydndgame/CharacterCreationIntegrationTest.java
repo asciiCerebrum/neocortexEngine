@@ -151,7 +151,7 @@ public class CharacterCreationIntegrationTest {
         setupValeros.getPossessionContainer().put(CHAINMAIL4VALEROS_ID, "torso");
         setupValeros.getStateRegistry().put("weaponFinesseMode." + RAPIER4VALEROS_ID, "true"); // this must not be directly saved at the weapon; stateKey and value type Weapon (or String?)
         setupValeros.getStateRegistry().put("weaponFinesseMode." + DAGGER4VALEROS_ID, "true");
-        setupValeros.getStateRegistry().put("weaponDamageMode." + DAGGER4VALEROS_ID, "slashing");
+        setupValeros.getStateRegistry().put("weaponDamageType." + DAGGER4VALEROS_ID, "slashing");
 
         this.primaryHand = this.context.getBean(PRIMARY_HAND_TYPE,
                 BodySlotType.class);
@@ -589,4 +589,8 @@ public class CharacterCreationIntegrationTest {
 
     //TODO test what happens when wearing two shields!!! the penalties on attack
     // should not stack!
+    
+    //TODO test if situation context invalidation works: get damage bonus for
+    // ranged directly before damage bonus for melee. There should be no
+    // difference to when you only get damage bonus for melee!!!
 }

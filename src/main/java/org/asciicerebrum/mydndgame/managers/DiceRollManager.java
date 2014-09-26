@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.managers;
 
 import java.security.SecureRandom;
-import org.asciicerebrum.mydndgame.interfaces.entities.IDice;
+import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
 
 /**
  *
@@ -17,18 +17,17 @@ public class DiceRollManager {
     /**
      * Rolling the dice.
      *
-     * @param diceType the type of dice. E.g. D20, D10, D6, etc.
-     * @param diceNumber the number of dice to roll.
+     * @param diceAction that contains information about the roll.
      * @return the summation of all roll results.
      */
-    public final Long rollDice(final IDice diceType, final Long diceNumber) {
+    public final Long rollDice(final IDiceAction diceAction) {
 
         Long randomValue = 0L;
 
-        for (long i = 0; i < diceNumber; i++) {
+        for (long i = 0; i < diceAction.getDiceNumber(); i++) {
 
             randomValue += 1L + (long) (this.random.nextDouble()
-                    * ((double) diceType.getSides() - 1.0D));
+                    * ((double) diceAction.getDiceType().getSides() - 1.0D));
 
         }
 

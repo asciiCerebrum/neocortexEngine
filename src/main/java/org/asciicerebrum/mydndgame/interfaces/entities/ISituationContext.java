@@ -27,4 +27,14 @@ public interface ISituationContext {
      * @param attackMode the attackMode to set
      */
     void setAttackMode(IWeaponCategory attackMode);
+
+    /**
+     * @return the damageType
+     */
+    IDamageType getDamageType();
+
+    /**
+     * @param damageType the damageType to set
+     */
+    void setDamageType(IDamageType damageType);
 }

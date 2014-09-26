@@ -145,16 +145,19 @@ public class DiceAction implements IDiceAction, BonusTarget {
     }
 
     /**
-     * @return the associatedHook
+     * {@inheritDoc}
      */
-    public ObserverHook getAssociatedHook() {
+    @Override
+    public final ObserverHook getAssociatedHook() {
         return associatedHook;
     }
 
     /**
-     * @param associatedHook the associatedHook to set
+     * {@inheritDoc}
      */
-    public void setAssociatedHook(ObserverHook associatedHook) {
-        this.associatedHook = associatedHook;
+    @Override
+    public final void setAssociatedHook(
+            final ObserverHook associatedHookInput) {
+        this.associatedHook = associatedHookInput;
     }
 }

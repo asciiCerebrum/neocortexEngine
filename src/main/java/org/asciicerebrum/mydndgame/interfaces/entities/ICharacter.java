@@ -268,4 +268,19 @@ public interface ICharacter extends BonusSource {
      * @return the modifier.
      */
     Long getAbilityMod(IAbility ability);
+
+    /**
+     * Processes the damage that was inflicted during an attack. Observers like
+     * from special abilities can be processed upon the damage list. (E.g.
+     * immunities, damage reduction, etc.)
+     *
+     * @param damages the list of damages this attack is inflicting.
+     */
+    void applyDamage(IDamage... damages);
+
+    /**
+     * @return the value of the current HPs of the character. Taken from the
+     * setup.
+     */
+    Long getCurrentHp();
 }

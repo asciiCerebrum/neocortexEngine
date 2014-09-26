@@ -39,7 +39,7 @@ public class CharacterSetup implements ICharacterSetup {
     /**
      * The number of hitpints, the character currently has.
      */
-    private int currentHp;
+    private Long currentHp;
     /**
      * The number of nonlethal hitpoints, the character currently has.
      */
@@ -105,16 +105,18 @@ public class CharacterSetup implements ICharacterSetup {
     }
 
     /**
-     * @return the currentHp
+     * {@inheritDoc}
      */
-    public final int getCurrentHp() {
+    @Override
+    public final Long getCurrentHp() {
         return currentHp;
     }
 
     /**
-     * @param currentHpInput the currentHp to set
+     * {@inheritDoc}
      */
-    public final void setCurrentHp(final int currentHpInput) {
+    @Override
+    public final void setCurrentHp(final Long currentHpInput) {
         this.currentHp = currentHpInput;
     }
 

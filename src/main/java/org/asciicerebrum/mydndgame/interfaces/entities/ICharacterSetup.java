@@ -11,12 +11,18 @@ public interface ICharacterSetup {
     /**
      * Defines the key for the active body slot type.
      */
-    static final String ACTIVE_BODY_SLOT_TYPE = "activeBodySlotType";
+    String ACTIVE_BODY_SLOT_TYPE = "activeBodySlotType";
 
     /**
      * Defines the key for the active attack mode.
      */
-    static final String ACTIVE_ATTACK_MODE = "activeAttackMode";
+    String ACTIVE_ATTACK_MODE = "activeAttackMode";
+
+    /**
+     * Defines the key for the active damage type selected for the weapon of
+     * given id. It is followed by the weapons's id.
+     */
+    String WEAPON_DAMAGE_TYPE_PREFIX = "weaponDamageType.";
 
     /**
      *
@@ -35,4 +41,13 @@ public interface ICharacterSetup {
      */
     <T> T getStateRegistryBeanForKey(String registryKey, Class<T> beanClass);
 
+    /**
+     * @return the currentHp
+     */
+    Long getCurrentHp();
+
+    /**
+     * @param currentHpInput the currentHp to set
+     */
+    void setCurrentHp(Long currentHpInput);
 }

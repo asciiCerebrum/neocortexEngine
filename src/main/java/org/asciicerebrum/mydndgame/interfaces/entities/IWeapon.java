@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.interfaces.entities;
 
 import java.util.List;
+import org.asciicerebrum.mydndgame.DiceAction;
 
 /**
  *
@@ -56,5 +57,40 @@ public interface IWeapon extends IInventoryItem, Identifiable {
      * @param weaponTypesInput the weaponTypes to set
      */
     void setWeaponTypes(List<IWeaponType> weaponTypesInput);
+
+    /**
+     * @return the damage
+     */
+    DiceAction getDamage();
+
+    /**
+     * @param damage the damage to set
+     */
+    void setDamage(DiceAction damage);
+
+    /**
+     * @return the criticalFactor
+     */
+    Integer getCriticalFactor();
+
+    /**
+     * @param criticalFactor the criticalFactor to set
+     */
+    void setCriticalFactor(Integer criticalFactor);
+
+    /**
+     * @return the criticalMinimumLevel
+     */
+    Integer getCriticalMinimumLevel();
+
+    /**
+     * @param criticalMinimumLevel the criticalMinimumLevel to set
+     */
+    void setCriticalMinimumLevel(Integer criticalMinimumLevel);
+
+    /**
+     * @return the default damage type among the list of possibilities.
+     */
+    IDamageType getDefaultDamageType();
 
 }

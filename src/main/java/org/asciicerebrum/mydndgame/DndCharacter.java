@@ -17,6 +17,8 @@ import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacterSetup;
 import org.asciicerebrum.mydndgame.interfaces.entities.IClass;
 import org.asciicerebrum.mydndgame.interfaces.entities.IConditionType;
+import org.asciicerebrum.mydndgame.interfaces.entities.IDamage;
+import org.asciicerebrum.mydndgame.interfaces.entities.IDamageType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
 import org.asciicerebrum.mydndgame.interfaces.entities.IFeat;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
@@ -24,6 +26,7 @@ import org.asciicerebrum.mydndgame.interfaces.entities.ILevel;
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import org.asciicerebrum.mydndgame.interfaces.entities.IRace;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
+import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
 import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
 import org.asciicerebrum.mydndgame.interfaces.observing.Observable;
@@ -232,7 +235,7 @@ public final class DndCharacter implements ICharacter, Observable {
         // creature that uses one in combat is considered to be nonproficient
         // with it and takes a -4 penalty on attack rolls made with that object.
         //
-        // faking the situation context because observers, evaluators, etc.
+        // overriding the situation context because observers, evaluators, etc.
         // access it.
         this.cachedSituationContext = new SituationContext();
         this.cachedSituationContext.setAttackMode(attackMode);
@@ -251,10 +254,21 @@ public final class DndCharacter implements ICharacter, Observable {
      */
     @Override
     public List<Long> getAtkBoni() {
-        ISituationContext sitCon = this.getSituationContext();
+        ISituationContext sitCon = this.getFreshSituationContext();
 
         return this.getGenericAtkBoni(sitCon.getBodySlotType(),
                 sitCon.getAttackMode().getAssociatedAttackDiceAction());
+    }
+
+    /**
+     * Constructs a totally new situation context. The cached version is
+     * invalidated. USE ONLY THIS METHOD INTERNALLY!
+     *
+     * @return a freshly created situation context.
+     */
+    private ISituationContext getFreshSituationContext() {
+        this.cachedSituationContext = null;
+        return this.getSituationContext();
     }
 
     /**
@@ -266,12 +280,29 @@ public final class DndCharacter implements ICharacter, Observable {
         if (this.cachedSituationContext == null) {
             IBodySlotType bsType = this.getSetup().getStateRegistryBeanForKey(
                     ICharacterSetup.ACTIVE_BODY_SLOT_TYPE, BodySlotType.class);
-            IWeaponCategory attackMode = this.getSetup().getStateRegistryBeanForKey(
-                    ICharacterSetup.ACTIVE_ATTACK_MODE, WeaponCategory.class);
+            IWeaponCategory attackMode = this.getSetup()
+                    .getStateRegistryBeanForKey(
+                            ICharacterSetup.ACTIVE_ATTACK_MODE,
+                            WeaponCategory.class);
+
+            IDamageType damageType = null;
+            IInventoryItem item = this.getBodySlotByType(bsType).getItem();
+            if (item instanceof IWeapon) {
+
+                damageType = this.getSetup()
+                        .getStateRegistryBeanForKey(
+                                ICharacterSetup.WEAPON_DAMAGE_TYPE_PREFIX
+                                + item.getId(),
+                                DamageType.class);
+                if (damageType == null) {
+                    damageType = ((IWeapon) item).getDefaultDamageType();
+                }
+            }
 
             this.cachedSituationContext = new SituationContext();
             this.cachedSituationContext.setBodySlotType(bsType);
             this.cachedSituationContext.setAttackMode(attackMode);
+            this.cachedSituationContext.setDamageType(damageType);
         }
 
         return this.cachedSituationContext;
@@ -283,7 +314,6 @@ public final class DndCharacter implements ICharacter, Observable {
      *
      * @param bodySlotType de facto the wielded weapon to attack with.
      * @param bonusTarget melee or ranged attack.
-     * @param observerHook melee or ranged attack.
      * @return the list of attack boni with that weapon in that mode.
      */
     private List<Long> getGenericAtkBoni(final IBodySlotType bodySlotType,
@@ -416,9 +446,11 @@ public final class DndCharacter implements ICharacter, Observable {
 
         }
         // hp add con-modifier for each class level
-        maxHp += this.getClassList().size()
-                * this.bonusService.retrieveEffectiveBonusValueByTarget(
-                        this, this, this.hp);
+        if (this.getClassList() != null) {
+            maxHp += this.getClassList().size()
+                    * this.bonusService.retrieveEffectiveBonusValueByTarget(
+                            this, this, this.hp);
+        }
 
         return maxHp;
     }
@@ -839,7 +871,7 @@ public final class DndCharacter implements ICharacter, Observable {
     public Long getDamageBonus(final IBodySlotType bodySlotType,
             final IWeaponCategory attackMode) {
 
-        // faking the situation context because observers, evaluators, etc.
+        // overriding the situation context because observers, evaluators, etc.
         // access it.
         this.cachedSituationContext = new SituationContext();
         this.cachedSituationContext.setAttackMode(attackMode);
@@ -858,7 +890,7 @@ public final class DndCharacter implements ICharacter, Observable {
      */
     @Override
     public Long getDamageBonus() {
-        ISituationContext sitCon = this.getSituationContext();
+        ISituationContext sitCon = this.getFreshSituationContext();
 
         return this.getGenericDamageBonus(sitCon.getBodySlotType(),
                 sitCon.getAttackMode());
@@ -872,8 +904,6 @@ public final class DndCharacter implements ICharacter, Observable {
      * @param bodySlotType the body slot to take damage specific boni into
      * account.
      * @param attackMode the mode of attack (ranged or melee).
-     * @param hook the special observer hook that has to be applied here
-     * (normally melee or ranged damage)
      * @return the calculated bonus value.
      */
     private Long getGenericDamageBonus(final IBodySlotType bodySlotType,
@@ -1049,6 +1079,33 @@ public final class DndCharacter implements ICharacter, Observable {
      */
     public void setAbilityBonusOffset(final Integer abilityBonusOffsetInput) {
         this.abilityBonusOffset = abilityBonusOffsetInput;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void applyDamage(final IDamage... damages) {
+
+        for (IDamage damage : damages) {
+
+            damage = (IDamage) this.getObservableDelegate()
+                    .triggerObservers(
+                            ObserverHook.DAMAGE_APPLICATION, damage,
+                            this.getObserverMap(), this);
+
+            this.setup.setCurrentHp(this.setup.getCurrentHp()
+                    - damage.getDamageValue());
+        }
+        //TODO what happens when negative HPs are reached?
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Long getCurrentHp() {
+        return this.setup.getCurrentHp();
     }
 
 }

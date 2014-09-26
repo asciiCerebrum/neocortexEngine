@@ -53,6 +53,10 @@ public enum ObserverHook {
      */
     DAMAGE,
     /**
+     * The processes of applying inflicted damage.
+     */
+    DAMAGE_APPLICATION,
+    /**
      * The melee attack action.
      */
     MELEE_ATTACK,

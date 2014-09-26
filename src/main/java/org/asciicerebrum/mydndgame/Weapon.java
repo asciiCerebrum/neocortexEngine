@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.asciicerebrum.mydndgame.interfaces.entities.IDamageType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IEncumbrance;
 import org.asciicerebrum.mydndgame.interfaces.entities.IProficiency;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
@@ -103,43 +104,49 @@ public class Weapon extends InventoryItem implements IWeapon {
     }
 
     /**
-     * @return the damage
+     * {@inheritDoc}
      */
+    @Override
     public final DiceAction getDamage() {
         return damage;
     }
 
     /**
-     * @param damageInput the damage to set
+     * {@inheritDoc}
      */
+    @Override
     public final void setDamage(final DiceAction damageInput) {
         this.damage = damageInput;
     }
 
     /**
-     * @return the criticalFactor
+     * {@inheritDoc}
      */
+    @Override
     public final Integer getCriticalFactor() {
         return criticalFactor;
     }
 
     /**
-     * @param criticalFactorInput the criticalFactor to set
+     * {@inheritDoc}
      */
+    @Override
     public final void setCriticalFactor(final Integer criticalFactorInput) {
         this.criticalFactor = criticalFactorInput;
     }
 
     /**
-     * @return the criticalMinimumLevel
+     * {@inheritDoc}
      */
+    @Override
     public final Integer getCriticalMinimumLevel() {
         return criticalMinimumLevel;
     }
 
     /**
-     * @param criticalMinimumLevelInput the criticalMinimumLevel to set
+     * {@inheritDoc}
      */
+    @Override
     public final void setCriticalMinimumLevel(
             final Integer criticalMinimumLevelInput) {
         this.criticalMinimumLevel = criticalMinimumLevelInput;
@@ -214,5 +221,14 @@ public class Weapon extends InventoryItem implements IWeapon {
     public final Boolean isAttackModeCompatible(
             final IWeaponCategory attackMode) {
         return this.getDefaultCategories().contains(attackMode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final IDamageType getDefaultDamageType() {
+        // the first from all the or-connected alternatives.
+        return this.defaultDamageTypes.get(0);
     }
 }
