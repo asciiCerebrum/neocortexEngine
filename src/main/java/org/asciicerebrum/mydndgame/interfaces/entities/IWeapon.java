@@ -1,7 +1,6 @@
 package org.asciicerebrum.mydndgame.interfaces.entities;
 
 import java.util.List;
-import org.asciicerebrum.mydndgame.DiceAction;
 
 /**
  *
@@ -61,12 +60,12 @@ public interface IWeapon extends IInventoryItem, Identifiable {
     /**
      * @return the damage
      */
-    DiceAction getDamage();
+    IDiceAction getDamage();
 
     /**
      * @param damage the damage to set
      */
-    void setDamage(DiceAction damage);
+    void setDamage(IDiceAction damage);
 
     /**
      * @return the criticalFactor

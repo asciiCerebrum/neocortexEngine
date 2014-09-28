@@ -1,5 +1,8 @@
-package org.asciicerebrum.mydndgame;
+package org.asciicerebrum.mydndgame.builders;
 
+import org.asciicerebrum.mydndgame.Armor;
+import org.asciicerebrum.mydndgame.ArmorSetup;
+import org.asciicerebrum.mydndgame.ArmorSpecialAbility;
 import org.asciicerebrum.mydndgame.interfaces.entities.IArmor;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISpecialAbility;
 import org.springframework.context.ApplicationContext;

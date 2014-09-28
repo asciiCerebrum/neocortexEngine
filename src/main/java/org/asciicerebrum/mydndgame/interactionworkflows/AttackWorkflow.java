@@ -7,7 +7,7 @@ import org.asciicerebrum.mydndgame.interfaces.entities.IInteraction;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWorkflow;
-import org.asciicerebrum.mydndgame.managers.DiceRollManager;
+import org.asciicerebrum.mydndgame.interfaces.managers.IDiceRollManager;
 
 /**
  *
@@ -23,7 +23,7 @@ public class AttackWorkflow implements IWorkflow {
     /**
      * Service for rolling dice.
      */
-    private DiceRollManager diceRollManager;
+    private IDiceRollManager diceRollManager;
 
     /**
      * Roll results that leads to automatic failure.
@@ -144,7 +144,7 @@ public class AttackWorkflow implements IWorkflow {
     /**
      * @return the diceRollManager
      */
-    public final DiceRollManager getDiceRollManager() {
+    public final IDiceRollManager getDiceRollManager() {
         return diceRollManager;
     }
 
@@ -152,7 +152,7 @@ public class AttackWorkflow implements IWorkflow {
      * @param diceRollManagerInput the diceRollManager to set
      */
     public final void setDiceRollManager(
-            final DiceRollManager diceRollManagerInput) {
+            final IDiceRollManager diceRollManagerInput) {
         this.diceRollManager = diceRollManagerInput;
     }
 

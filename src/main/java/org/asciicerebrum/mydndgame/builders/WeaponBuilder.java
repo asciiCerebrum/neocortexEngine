@@ -1,5 +1,8 @@
-package org.asciicerebrum.mydndgame;
+package org.asciicerebrum.mydndgame.builders;
 
+import org.asciicerebrum.mydndgame.Weapon;
+import org.asciicerebrum.mydndgame.WeaponSetup;
+import org.asciicerebrum.mydndgame.WeaponSpecialAbility;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISpecialAbility;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 import org.springframework.context.ApplicationContext;

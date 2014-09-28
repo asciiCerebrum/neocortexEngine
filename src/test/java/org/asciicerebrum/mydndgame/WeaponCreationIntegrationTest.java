@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.builders.WeaponBuilder;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
 import static org.junit.Assert.assertEquals;

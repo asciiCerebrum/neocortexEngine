@@ -1,5 +1,7 @@
-package org.asciicerebrum.mydndgame;
+package org.asciicerebrum.mydndgame.builders;
 
+import org.asciicerebrum.mydndgame.InventoryItemSetup;
+import org.asciicerebrum.mydndgame.SizeCategory;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISpecialAbility;

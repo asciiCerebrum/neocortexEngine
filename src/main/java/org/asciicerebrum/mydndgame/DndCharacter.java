@@ -29,6 +29,7 @@ import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
 import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
+import org.asciicerebrum.mydndgame.interfaces.entities.StateRegistryKey;
 import org.asciicerebrum.mydndgame.interfaces.observing.Observable;
 import org.asciicerebrum.mydndgame.interfaces.observing.ObservableDelegate;
 
@@ -279,10 +280,11 @@ public final class DndCharacter implements ICharacter, Observable {
 
         if (this.cachedSituationContext == null) {
             IBodySlotType bsType = this.getSetup().getStateRegistryBeanForKey(
-                    ICharacterSetup.ACTIVE_BODY_SLOT_TYPE, BodySlotType.class);
+                    StateRegistryKey.ACTIVE_BODY_SLOT_TYPE.toString(),
+                    BodySlotType.class);
             IWeaponCategory attackMode = this.getSetup()
                     .getStateRegistryBeanForKey(
-                            ICharacterSetup.ACTIVE_ATTACK_MODE,
+                            StateRegistryKey.ACTIVE_ATTACK_MODE.toString(),
                             WeaponCategory.class);
 
             IDamageType damageType = null;
@@ -291,8 +293,8 @@ public final class DndCharacter implements ICharacter, Observable {
 
                 damageType = this.getSetup()
                         .getStateRegistryBeanForKey(
-                                ICharacterSetup.WEAPON_DAMAGE_TYPE_PREFIX
-                                + item.getId(),
+                                StateRegistryKey.WEAPON_DAMAGE_TYPE_PREFIX
+                                .toString() + item.getId(),
                                 DamageType.class);
                 if (damageType == null) {
                     damageType = ((IWeapon) item).getDefaultDamageType();

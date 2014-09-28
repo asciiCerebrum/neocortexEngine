@@ -18,7 +18,7 @@ public class DamageType implements IDamageType {
      * This damage type could consist of futher subdamage types which all apply
      * at once. E.g. morningstar: Bludgeoning and piercing.
      */
-    private List<DamageType> compoundDamageTypes;
+    private List<IDamageType> compoundDamageTypes;
 
     /**
      * @return the id
@@ -38,7 +38,7 @@ public class DamageType implements IDamageType {
      * {@inheritDoc}
      */
     @Override
-    public final List<DamageType> getCompoundDamageTypes() {
+    public final List<IDamageType> getCompoundDamageTypes() {
         return compoundDamageTypes;
     }
 
@@ -47,7 +47,7 @@ public class DamageType implements IDamageType {
      */
     @Override
     public final void setCompoundDamageTypes(
-            final List<DamageType> compoundDamageTypesInput) {
+            final List<IDamageType> compoundDamageTypesInput) {
         this.compoundDamageTypes = compoundDamageTypesInput;
     }
 

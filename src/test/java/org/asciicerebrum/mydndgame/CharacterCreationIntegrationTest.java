@@ -1,5 +1,8 @@
 package org.asciicerebrum.mydndgame;
 
+import org.asciicerebrum.mydndgame.builders.ArmorBuilder;
+import org.asciicerebrum.mydndgame.builders.WeaponBuilder;
+import org.asciicerebrum.mydndgame.builders.DndCharacterBuilder;
 import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.IAbility;
 import org.asciicerebrum.mydndgame.interfaces.entities.IArmor;

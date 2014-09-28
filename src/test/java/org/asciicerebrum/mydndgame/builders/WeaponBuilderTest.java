@@ -1,5 +1,9 @@
-package org.asciicerebrum.mydndgame;
+package org.asciicerebrum.mydndgame.builders;
 
+import org.asciicerebrum.mydndgame.Weapon;
+import org.asciicerebrum.mydndgame.WeaponSetup;
+import org.asciicerebrum.mydndgame.WeaponSpecialAbility;
+import org.asciicerebrum.mydndgame.builders.WeaponBuilder;
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 import org.asciicerebrum.mydndgame.interfaces.entities.ObserverHook;

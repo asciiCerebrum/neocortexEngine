@@ -3,6 +3,7 @@ package org.asciicerebrum.mydndgame;
 import java.util.ArrayList;
 import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDamageType;
+import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
 import org.asciicerebrum.mydndgame.interfaces.entities.IEncumbrance;
 import org.asciicerebrum.mydndgame.interfaces.entities.IProficiency;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
@@ -18,7 +19,7 @@ public class Weapon extends InventoryItem implements IWeapon {
     /**
      * The damage dice throw.
      */
-    private DiceAction damage;
+    private IDiceAction damage;
 
     /**
      * Factor for damage rolls after a successful criticial hit.
@@ -107,7 +108,7 @@ public class Weapon extends InventoryItem implements IWeapon {
      * {@inheritDoc}
      */
     @Override
-    public final DiceAction getDamage() {
+    public final IDiceAction getDamage() {
         return damage;
     }
 
@@ -115,7 +116,7 @@ public class Weapon extends InventoryItem implements IWeapon {
      * {@inheritDoc}
      */
     @Override
-    public final void setDamage(final DiceAction damageInput) {
+    public final void setDamage(final IDiceAction damageInput) {
         this.damage = damageInput;
     }
 

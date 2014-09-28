@@ -1,7 +1,17 @@
-package org.asciicerebrum.mydndgame;
+package org.asciicerebrum.mydndgame.builders;
 
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
+import org.asciicerebrum.mydndgame.Ability;
+import org.asciicerebrum.mydndgame.BodySlot;
+import org.asciicerebrum.mydndgame.BodySlotType;
+import org.asciicerebrum.mydndgame.CharacterClass;
+import org.asciicerebrum.mydndgame.CharacterSetup;
+import org.asciicerebrum.mydndgame.DndCharacter;
+import org.asciicerebrum.mydndgame.Feat;
+import org.asciicerebrum.mydndgame.InventoryItem;
+import org.asciicerebrum.mydndgame.LevelAdvancement;
+import org.asciicerebrum.mydndgame.Race;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IFeat;
@@ -82,6 +92,41 @@ public class DndCharacterBuilder {
         }
 
         // advancement
+        this.makeAdvancements(dndCharacter);
+        // adding possessions
+        this.addPossesions(dndCharacter);
+
+        // setting default value for current hp
+        if (this.setup.getCurrentHp() == null) {
+            this.setup.setCurrentHp(dndCharacter.getMaxHp());
+        }
+
+        return dndCharacter;
+    }
+
+    /**
+     * Adding a feat to a character and registering its observers.
+     *
+     * @param dndCharacter the dnd Character.
+     * @param feat the feat.
+     */
+    final void addFeat(final ICharacter dndCharacter, final IFeat feat) {
+        dndCharacter.getFeats().add(feat);
+
+        // registering feat hooks
+        for (IObserver observer : feat.getObservers()) {
+            ((Observable) dndCharacter).getObservableDelegate()
+                    .registerListener(observer.getHook(), observer,
+                            ((Observable) dndCharacter).getObserverMap());
+        }
+    }
+
+    /**
+     * Makes the advancements for the charactera according to the setup.
+     *
+     * @param dndCharacter the character to make advances for.
+     */
+    final void makeAdvancements(final ICharacter dndCharacter) {
         for (LevelAdvancement advance
                 : this.setup.getLevelAdvancementStack()) {
 
@@ -126,8 +171,14 @@ public class DndCharacterBuilder {
                 this.addFeat(dndCharacter, feat);
             }
         }
+    }
 
-        // adding possessions
+    /**
+     * Adds the possessions found in the setup to the character.
+     *
+     * @param dndCharacter the character to add possessions to.
+     */
+    final void addPossesions(final ICharacter dndCharacter) {
         for (Map.Entry<String, String> posEntry
                 : this.setup.getPossessionContainer().entrySet()) {
 
@@ -140,30 +191,6 @@ public class DndCharacterBuilder {
                 slot.setItem(item);
                 //TODO throw exception if body slot is null
             }
-        }
-
-        // setting default value for current hp
-        if (this.setup.getCurrentHp() == null) {
-            this.setup.setCurrentHp(dndCharacter.getMaxHp());
-        }
-
-        return dndCharacter;
-    }
-
-    /**
-     * Adding a feat to a character and registering its observers.
-     *
-     * @param dndCharacter the dnd Character.
-     * @param feat the feat.
-     */
-    void addFeat(final ICharacter dndCharacter, final IFeat feat) {
-        dndCharacter.getFeats().add(feat);
-
-        // registering feat hooks
-        for (IObserver observer : feat.getObservers()) {
-            ((Observable) dndCharacter).getObservableDelegate()
-                    .registerListener(observer.getHook(), observer,
-                            ((Observable) dndCharacter).getObserverMap());
         }
     }
 }

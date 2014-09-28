@@ -1,5 +1,17 @@
-package org.asciicerebrum.mydndgame;
+package org.asciicerebrum.mydndgame.builders;
 
+import org.asciicerebrum.mydndgame.Ability;
+import org.asciicerebrum.mydndgame.BodySlotType;
+import org.asciicerebrum.mydndgame.CharacterClass;
+import org.asciicerebrum.mydndgame.CharacterSetup;
+import org.asciicerebrum.mydndgame.ClassLevel;
+import org.asciicerebrum.mydndgame.DndCharacter;
+import org.asciicerebrum.mydndgame.Feat;
+import org.asciicerebrum.mydndgame.InventoryItem;
+import org.asciicerebrum.mydndgame.LevelAdvancement;
+import org.asciicerebrum.mydndgame.Race;
+import org.asciicerebrum.mydndgame.Weapon;
+import org.asciicerebrum.mydndgame.builders.DndCharacterBuilder;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IFeat;

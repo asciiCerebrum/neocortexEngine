@@ -1,5 +1,9 @@
-package org.asciicerebrum.mydndgame;
+package org.asciicerebrum.mydndgame.builders;
 
+import org.asciicerebrum.mydndgame.Condition;
+import org.asciicerebrum.mydndgame.ConditionSetup;
+import org.asciicerebrum.mydndgame.ConditionType;
+import org.asciicerebrum.mydndgame.DndCharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICondition;
 import org.asciicerebrum.mydndgame.interfaces.entities.IConditionType;
