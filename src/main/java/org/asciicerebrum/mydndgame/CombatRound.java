@@ -44,7 +44,9 @@ public class CombatRound implements ICombatRound {
      */
     @Override
     public final Set<String> getOrderedPositions() {
-        return new TreeSet<String>(this.participantPositionMap.values());
+
+        return new TreeSet<String>(this.participantPositionMap.values())
+                .descendingSet();
     }
 
     /**
@@ -95,9 +97,9 @@ public class CombatRound implements ICombatRound {
     @Override
     public final String getCurrentPosition() {
         if (StringUtils.isBlank(this.currentPosition)) {
-            return this.moveToNextPosition();
+            this.moveToNextPosition();
         }
-        return currentPosition;
+        return this.currentPosition;
     }
 
     /**
@@ -112,11 +114,11 @@ public class CombatRound implements ICombatRound {
      * {@inheritDoc}
      */
     @Override
-    public final String moveToNextPosition() {
+    public final void moveToNextPosition() {
 
         if (StringUtils.isBlank(this.currentPosition)) {
             this.currentPosition = this.getOrderedPositions().iterator().next();
-            return this.currentPosition;
+            return;
         }
 
         List<String> orderedPositions
@@ -127,9 +129,10 @@ public class CombatRound implements ICombatRound {
         //TODO if this occurs, increment the round number
         if (curIdx == orderedPositions.size() - 1) {
             this.currentPosition = null;
-            return this.moveToNextPosition();
+            this.moveToNextPosition();
+            return;
         }
-        return orderedPositions.get(curIdx + 1);
+        this.currentPosition = orderedPositions.get(curIdx + 1);
     }
 
 }

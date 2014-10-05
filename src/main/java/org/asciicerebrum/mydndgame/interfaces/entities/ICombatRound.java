@@ -52,8 +52,8 @@ public interface ICombatRound {
     void setCurrentPosition(String currentPosition);
 
     /**
-     * @return the next position is made active and returned.
+     * The next position is made active and returned.
      */
-    String moveToNextPosition();
+    void moveToNextPosition();
 
 }

@@ -75,32 +75,11 @@ public class AttackWorkflow implements IWorkflow {
             return response;
         }
 
-        ISituationContext sourceContext = interaction.getTriggeringCharacter()
-                .getSituationContext();
-        IWeapon sourceWeapon = (IWeapon) interaction.getTriggeringCharacter()
-                .getBodySlotByType(sourceContext.getBodySlotType()).getItem();
-
-        // when you are here you have hit the enemy!!!
-        // it could be critical
-        Boolean isFirstCritical
-                = atkRollResult >= sourceWeapon.getCriticalMinimumLevel();
-
-        // roll again to assure critical!!!
-        Boolean isSecondCritical = Boolean.FALSE;
-        if (isFirstCritical) {
-            Long secondAtkRollResult
-                    = this.getDiceRollManager()
-                    .rollDice(this.getAttackAction());
-
-            isSecondCritical
-                    = (secondAtkRollResult + sourceAtkBonus) >= targetAc
-                    || secondAtkRollResult >= this.getAutoSuccessRoll();
-        }
+        Boolean isCritical = this.determineCritical(atkRollResult,
+                sourceAtkBonus, targetAc, interaction);
 
         // this is the result of the attack roll that is needed by the damage
         // roll.
-        Boolean isCritical = isFirstCritical && isSecondCritical;
-
         if (this.getAttackCriticalKey() != null) {
             response.setValue(this.getAttackCriticalKey(), isCritical);
         }
@@ -109,6 +88,42 @@ public class AttackWorkflow implements IWorkflow {
             return this.getDamageWorkflow().runWorkflow(interaction, response);
         }
         return response;
+    }
+
+    /**
+     * Determines if an attack is critical or not.
+     *
+     * @param atkRollResult the result of the first attack roll.
+     * @param sourceAtkBonus the bonus that is added to the attack roll.
+     * @param targetAc the armor class of the target character.
+     * @param interaction the interaction object.
+     * @return the criticallity of the attack.
+     */
+    final Boolean determineCritical(final Long atkRollResult,
+            final Long sourceAtkBonus, final Long targetAc,
+            final IInteraction interaction) {
+
+        ISituationContext sourceContext = interaction.getTriggeringCharacter()
+                .getSituationContext();
+        IWeapon sourceWeapon = (IWeapon) interaction.getTriggeringCharacter()
+                .getBodySlotByType(sourceContext.getBodySlotType()).getItem();
+
+        // when you are here you have hit the enemy!!!
+        // it could be critical
+        Boolean isThreat
+                = atkRollResult >= sourceWeapon.getCriticalMinimumLevel();
+
+        Boolean isCritical = Boolean.FALSE;
+        if (isThreat) {
+            Long secondAtkRollResult
+                    = this.getDiceRollManager()
+                    .rollDice(this.getAttackAction());
+
+            isCritical
+                    = (secondAtkRollResult + sourceAtkBonus) >= targetAc
+                    || secondAtkRollResult >= this.getAutoSuccessRoll();
+        }
+        return isCritical;
     }
 
     /**
