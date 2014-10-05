@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame;
 
+import java.util.List;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInteractionType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWorkflow;
 
@@ -16,9 +17,9 @@ public class InteractionType implements IInteractionType {
     private String id;
 
     /**
-     * The workflow associated with this interaction type.
+     * The workflows associated with this interaction type.
      */
-    private IWorkflow workflow;
+    private List<IWorkflow> workflows;
 
     /**
      * {@inheritDoc}
@@ -40,16 +41,16 @@ public class InteractionType implements IInteractionType {
      * {@inheritDoc}
      */
     @Override
-    public final IWorkflow getWorkflow() {
-        return workflow;
+    public final List<IWorkflow> getWorkflows() {
+        return workflows;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final void setWorkflow(final IWorkflow workflowInput) {
-        this.workflow = workflowInput;
+    public final void setWorkflows(final List<IWorkflow> workflowsInput) {
+        this.workflows = workflowsInput;
     }
 
 }

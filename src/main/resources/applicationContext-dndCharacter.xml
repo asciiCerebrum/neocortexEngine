@@ -16,6 +16,7 @@
         <property name="meleeAttackAction" ref="meleeAttack" />
         <property name="rangedAttackAction" ref="rangedAttack" />
         <property name="damageAction" ref="damage" />
+        <property name="initiativeAction" ref="initiative" />
         <property name="baseAttackBonus" ref="baseAttackBonus" />
         <property name="abilityBonusOffset" value="10" />
         <property name="baseAtkBoni">

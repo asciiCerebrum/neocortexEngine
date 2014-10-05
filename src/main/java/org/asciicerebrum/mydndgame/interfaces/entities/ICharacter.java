@@ -283,4 +283,9 @@ public interface ICharacter extends BonusSource {
      * setup.
      */
     Long getCurrentHp();
+
+    /**
+     * @return the bonus for the initiative roll.
+     */
+    Long getInitBonus();
 }

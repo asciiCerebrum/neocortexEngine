@@ -1,12 +1,12 @@
 package org.asciicerebrum.mydndgame.interactionworkflows;
 
-import org.asciicerebrum.mydndgame.Damage;
-import org.asciicerebrum.mydndgame.interfaces.entities.IDamage;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInteraction;
+import org.asciicerebrum.mydndgame.interfaces.entities.IInteractionResponse;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWorkflow;
+import org.asciicerebrum.mydndgame.interfaces.entities.InteractionResponseKey;
 import org.asciicerebrum.mydndgame.interfaces.managers.IDiceRollManager;
 
 /**
@@ -36,15 +36,22 @@ public class AttackWorkflow implements IWorkflow {
     private Long autoSuccessRoll;
 
     /**
-     * The least damage you can do on a successful attack roll.
+     * Determination of damage effects and applying them on the character.
      */
-    private Long minimumDamage;
+    private IWorkflow damageWorkflow;
+
+    /**
+     * Key for saving the criticalness of the attack.
+     */
+    private InteractionResponseKey attackCriticalKey;
 
     /**
      * {@inheritDoc} Performs an attack on the given target.
      */
     @Override
-    public final void runWorkflow(final IInteraction interaction) {
+    public final IInteractionResponse runWorkflow(
+            final IInteraction interaction,
+            final IInteractionResponse response) {
 
         // make an attack roll and add attack bonus
         Long atkRollResult
@@ -52,7 +59,7 @@ public class AttackWorkflow implements IWorkflow {
 
         // consider automatic failure and success
         if (atkRollResult <= this.getAutoFailureRoll()) {
-            return;
+            return response;
         }
 
         Long sourceAtkBonus = interaction.getTriggeringCharacter()
@@ -65,7 +72,7 @@ public class AttackWorkflow implements IWorkflow {
         // not able to surpass foe's ac and also no auto success
         if (totalAtkResult < targetAc
                 && atkRollResult < this.getAutoSuccessRoll()) {
-            return;
+            return response;
         }
 
         ISituationContext sourceContext = interaction.getTriggeringCharacter()
@@ -86,45 +93,22 @@ public class AttackWorkflow implements IWorkflow {
                     .rollDice(this.getAttackAction());
 
             isSecondCritical
-                    = secondAtkRollResult
-                    >= sourceWeapon.getCriticalMinimumLevel();
+                    = (secondAtkRollResult + sourceAtkBonus) >= targetAc
+                    || secondAtkRollResult >= this.getAutoSuccessRoll();
         }
 
-        // standard when there is no critical hit
-        Integer damageMuliplicator = 1;
-        // consider critical hits and damage multiplication!
-        if (isFirstCritical && isSecondCritical) {
-            damageMuliplicator = sourceWeapon.getCriticalFactor();
+        // this is the result of the attack roll that is needed by the damage
+        // roll.
+        Boolean isCritical = isFirstCritical && isSecondCritical;
+
+        if (this.getAttackCriticalKey() != null) {
+            response.setValue(this.getAttackCriticalKey(), isCritical);
         }
 
-        // make a damage roll
-        Long sourceDamageRollResult = 0L;
-        for (int i = 0; i < damageMuliplicator; i++) {
-            sourceDamageRollResult += this.getDiceRollManager()
-                    .rollDice(sourceWeapon.getDamage());
+        if (this.getDamageWorkflow() != null) {
+            return this.getDamageWorkflow().runWorkflow(interaction, response);
         }
-
-        Long sourceDamageBonus = interaction.getTriggeringCharacter()
-                .getDamageBonus();
-        // consider minimum damage!
-        Long totalSourceDamage
-                = Math.max(this.getMinimumDamage(),
-                        sourceDamageRollResult + sourceDamageBonus);
-
-        // apply damage: this must be done at the character (special method for
-        // applying damage) because special attributes like damage reduction
-        // could apply! (character has observers for that.)
-        //TODO consider possible sneak attack of rogue, etc.
-        //TODO an attack could inflict multiple types of damage,
-        // e.g. +1d6 poison, etc. So we deliver a list of damages.
-        IDamage sourceDamage = new Damage();
-        sourceDamage.setDamageValue(totalSourceDamage);
-        sourceDamage.setWeapon(sourceWeapon);
-        sourceDamage.setDamageType(sourceContext.getDamageType());
-
-        interaction.getTargetCharacters().get(0).applyDamage(sourceDamage);
-
-        // set conditions, e.g. unconscious --> this is done in the character!
+        return response;
     }
 
     /**
@@ -185,17 +169,33 @@ public class AttackWorkflow implements IWorkflow {
     }
 
     /**
-     * @return the minimumDamage
+     * @return the damageWorkflow
      */
-    public final Long getMinimumDamage() {
-        return minimumDamage;
+    public final IWorkflow getDamageWorkflow() {
+        return damageWorkflow;
     }
 
     /**
-     * @param minimumDamageInput the minimumDamage to set
+     * @param damageWorkflowInput the damageWorkflow to set
      */
-    public final void setMinimumDamage(final Long minimumDamageInput) {
-        this.minimumDamage = minimumDamageInput;
+    public final void setDamageWorkflow(
+            final IWorkflow damageWorkflowInput) {
+        this.damageWorkflow = damageWorkflowInput;
+    }
+
+    /**
+     * @return the attackCriticalKey
+     */
+    public final InteractionResponseKey getAttackCriticalKey() {
+        return attackCriticalKey;
+    }
+
+    /**
+     * @param attackCriticalKeyInput the attackCriticalKey to set
+     */
+    public final void setAttackCriticalKey(
+            final InteractionResponseKey attackCriticalKeyInput) {
+        this.attackCriticalKey = attackCriticalKeyInput;
     }
 
 }

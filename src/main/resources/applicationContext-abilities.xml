@@ -53,6 +53,11 @@
                     <property name="target" ref="rangedAttack" />
                     <property name="dynamicValueProvider" ref="dexAbilityBonusValueProvider" />
                 </bean>
+                <bean class="org.asciicerebrum.mydndgame.Bonus">
+                    <property name="bonusType" ref="dexBonus" />
+                    <property name="target" ref="initiative" />
+                    <property name="dynamicValueProvider" ref="dexAbilityBonusValueProvider" />
+                </bean>
             </list>
         </property>
     </bean>

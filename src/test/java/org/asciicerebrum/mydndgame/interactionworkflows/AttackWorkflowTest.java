@@ -9,8 +9,10 @@ import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDamage;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInteraction;
+import org.asciicerebrum.mydndgame.interfaces.entities.IInteractionResponse;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
+import org.asciicerebrum.mydndgame.interfaces.entities.IWorkflow;
 import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
 import org.asciicerebrum.mydndgame.interfaces.managers.IDiceRollManager;
 import org.junit.After;
@@ -34,6 +36,8 @@ public class AttackWorkflowTest {
 
     private IInteraction interaction;
 
+    private IInteractionResponse response;
+
     private IDiceAction attackAction;
 
     private IDiceAction damageAction;
@@ -43,6 +47,8 @@ public class AttackWorkflowTest {
     private ICharacter targetCharacter;
 
     private ICharacter triggerCharacter;
+
+    private IWorkflow damageWorkflow;
 
     public AttackWorkflowTest() {
     }
@@ -59,17 +65,18 @@ public class AttackWorkflowTest {
     public void setUp() {
         this.attackWf = new AttackWorkflow();
         this.interaction = new Interaction();
+        this.response = mock(IInteractionResponse.class);
+        this.damageWorkflow = mock(IWorkflow.class);
 
         this.attackAction = mock(IDiceAction.class);
         this.drManager = mock(IDiceRollManager.class);
         when(this.drManager.rollDice(this.attackAction)).thenReturn(10L);
-        when(this.drManager.rollDice(this.damageAction)).thenReturn(8L);
 
         this.attackWf.setAttackAction(this.attackAction);
         this.attackWf.setAutoFailureRoll(1L);
         this.attackWf.setAutoSuccessRoll(20L);
         this.attackWf.setDiceRollManager(this.drManager);
-        this.attackWf.setMinimumDamage(1L);
+        this.attackWf.setDamageWorkflow(this.damageWorkflow);
 
         this.triggerCharacter = mock(ICharacter.class);
         ISituationContext triggerContext = mock(ISituationContext.class);
@@ -107,16 +114,18 @@ public class AttackWorkflowTest {
      */
     @Test
     public void testRunWorkflow() {
-        this.attackWf.runWorkflow(this.interaction);
+        this.attackWf.runWorkflow(this.interaction, this.response);
 
-        verify(this.targetCharacter).applyDamage((IDamage) anyObject());
+        verify(this.damageWorkflow).runWorkflow(
+                this.interaction, this.response);
     }
 
     @Test
     public void testRunWorkflowDamage() {
-        this.attackWf.runWorkflow(this.interaction);
+        this.attackWf.runWorkflow(this.interaction, this.response);
 
-        verify(this.drManager, times(1)).rollDice(this.damageAction);
+        verify(this.damageWorkflow, times(1)).runWorkflow(this.interaction,
+                this.response);
     }
 
     /**
@@ -126,7 +135,7 @@ public class AttackWorkflowTest {
     public void testRunWorkflowMiss() {
         when(this.targetCharacter.getAc()).thenReturn(13L);
 
-        this.attackWf.runWorkflow(this.interaction);
+        this.attackWf.runWorkflow(this.interaction, this.response);
 
         verify(this.targetCharacter, times(0))
                 .applyDamage((IDamage) anyObject());
@@ -139,20 +148,10 @@ public class AttackWorkflowTest {
     public void testRunWorkflowCriticalHit() {
         when(this.drManager.rollDice(this.attackAction)).thenReturn(20L);
 
-        this.attackWf.runWorkflow(this.interaction);
+        this.attackWf.runWorkflow(this.interaction, this.response);
 
         verify(this.drManager, times(2))
                 .rollDice(this.attackAction);
-    }
-
-    @Test
-    public void testRunWorkflowCriticalHitDamage() {
-        when(this.drManager.rollDice(this.attackAction)).thenReturn(20L);
-
-        this.attackWf.runWorkflow(this.interaction);
-
-        verify(this.drManager, times(2))
-                .rollDice(this.damageAction);
     }
 
     /**
@@ -162,7 +161,7 @@ public class AttackWorkflowTest {
     public void testRunWorkflowCriticalMiss() {
         when(this.drManager.rollDice(this.attackAction)).thenReturn(20L, 10L);
 
-        this.attackWf.runWorkflow(this.interaction);
+        this.attackWf.runWorkflow(this.interaction, this.response);
 
         verify(this.drManager, times(2))
                 .rollDice(this.attackAction);
@@ -175,17 +174,17 @@ public class AttackWorkflowTest {
     public void testRunWorkflowCriticalMissDamage() {
         when(this.drManager.rollDice(this.attackAction)).thenReturn(20L, 10L);
 
-        this.attackWf.runWorkflow(this.interaction);
+        this.attackWf.runWorkflow(this.interaction, this.response);
 
-        verify(this.drManager, times(1))
-                .rollDice(this.damageAction);
+        verify(this.damageWorkflow).runWorkflow(
+                this.interaction, this.response);
     }
 
     @Test
     public void testRunWorkflowAutoFailure() {
         when(this.drManager.rollDice(this.attackAction)).thenReturn(1L);
 
-        this.attackWf.runWorkflow(this.interaction);
+        this.attackWf.runWorkflow(this.interaction, this.response);
 
         // this line should not be reached - getting the atk boni of the
         // trigger character.
@@ -200,10 +199,14 @@ public class AttackWorkflowTest {
         this.attackWf.setAutoSuccessRoll(8L);
         when(this.drManager.rollDice(this.attackAction)).thenReturn(8L);
 
-        this.attackWf.runWorkflow(this.interaction);
+        this.attackWf.runWorkflow(this.interaction, this.response);
 
-        verify(this.drManager, times(1))
-                .rollDice(this.damageAction);
+        verify(this.damageWorkflow, times(1))
+                .runWorkflow(this.interaction, this.response);
     }
 
+    //TODO Important!!! Test for secondCritical - it is enough to succeed AC!
+    // The second critical has nothing to do with the weapons critical minimum!
+    //TODO Important!!! Test all invocations of damageWorkflow, if the correct
+    // parameters were transmitted (critical, etc.)
 }

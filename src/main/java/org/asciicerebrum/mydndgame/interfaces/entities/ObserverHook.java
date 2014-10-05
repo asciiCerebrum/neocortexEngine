@@ -57,6 +57,10 @@ public enum ObserverHook {
      */
     DAMAGE_APPLICATION,
     /**
+     * The initiative action.
+     */
+    INITIATIVE,
+    /**
      * The melee attack action.
      */
     MELEE_ATTACK,

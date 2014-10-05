@@ -21,6 +21,12 @@
         <property name="constValue" value="10" />
     </bean>
     
+    <bean id="initiative" class="org.asciicerebrum.mydndgame.DiceAction">
+        <property name="id" value="initiative" />
+        <property name="diceNumber" value="1" />
+        <property name="diceType" ref="d20" />
+    </bean>
+
     <bean id="attack" class="org.asciicerebrum.mydndgame.DiceAction">
         <property name="id" value="attack" />
         <property name="diceNumber" value="1" />

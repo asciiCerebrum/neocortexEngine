@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="attackWorkflow" class="org.asciicerebrum.mydndgame.interactionworkflows.AttackWorkflow">
+        <property name="attackAction" ref="attack" />
+        <property name="autoFailureRoll" value="1" />
+        <property name="autoSuccessRoll" value="20" />
+        <property name="diceRollManager" ref="diceRollManager" />
+        <property name="attackCriticalKey" value="ATTACK_CRITICAL" />
+        <property name="damageWorkflow" ref="damageWorkflow" />
+    </bean>
+    
+    <bean id="damageWorkflow" class="org.asciicerebrum.mydndgame.interactionworkflows.DamageWorkflow">
+        <property name="diceRollManager" ref="diceRollManager" />
+        <property name="minimumDamage" value="1" />
+    </bean>
+    
+    <bean id="initializeCombatRoundWorkflow" class="org.asciicerebrum.mydndgame.interactionworkflows.InitializeCombatRoundWorkflow" />
+    
+    <bean id="endTurnWorkflow" class="org.asciicerebrum.mydndgame.interactionworkflows.EndTurnWorkflow" />
+    
+    <bean id="attackInteraction" class="org.asciicerebrum.mydndgame.InteractionType">
+        <property name="workflows">
+            <list>
+                <ref bean="attackWorkflow" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

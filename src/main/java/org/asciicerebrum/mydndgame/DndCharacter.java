@@ -142,6 +142,10 @@ public final class DndCharacter implements ICharacter, Observable {
      */
     private DiceAction damageAction;
     /**
+     * The diceAction with id initiative.
+     */
+    private DiceAction initiativeAction;
+    /**
      * The bonusType with id baseAttackBonus.
      */
     private BonusType baseAttackBonus;
@@ -1108,6 +1112,38 @@ public final class DndCharacter implements ICharacter, Observable {
     @Override
     public Long getCurrentHp() {
         return this.setup.getCurrentHp();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Long getInitBonus() {
+
+        List<IBonus> initBoni = this.bonusService
+                .traverseBoniByTarget(this, this.getInitiativeAction());
+
+        // post-processing with observers
+        initBoni = (List<IBonus>) this.getObservableDelegate()
+                .triggerObservers(
+                        ObserverHook.INITIATIVE, initBoni,
+                        this.getObserverMap(), this);
+
+        return this.bonusService.accumulateBonusValue(this, initBoni);
+    }
+
+    /**
+     * @return the initiativeAction
+     */
+    public DiceAction getInitiativeAction() {
+        return initiativeAction;
+    }
+
+    /**
+     * @param initiativeActionInput the initiativeAction to set
+     */
+    public void setInitiativeAction(final DiceAction initiativeActionInput) {
+        this.initiativeAction = initiativeActionInput;
     }
 
 }

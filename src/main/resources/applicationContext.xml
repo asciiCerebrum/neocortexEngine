@@ -9,7 +9,7 @@
           class="org.asciicerebrum.mydndgame.DefaultObservableDelegate" />
 
     <bean id="bonusCalculationService"
-              class="org.asciicerebrum.mydndgame.DefaultBonusCalculationServiceImpl" />
+          class="org.asciicerebrum.mydndgame.DefaultBonusCalculationServiceImpl" />
 
     <bean id="strAbilityBonusValueProvider"
           class="org.asciicerebrum.mydndgame.valueproviders.AbilityBonusValueProvider">
@@ -43,6 +43,10 @@
           class="org.asciicerebrum.mydndgame.valueproviders.AtkBonusValueProvider">
         <property name="rank" value="4" />
     </bean>
+    
+    <!-- Managers -->
+    <bean id="combatRoundManager" class="org.asciicerebrum.mydndgame.managers.CombatRoundManager" />
+    <bean id="diceRollManager" class="org.asciicerebrum.mydndgame.managers.DiceRollManager" />
 
     <!-- d20 rule entity beans -->
     <import resource="applicationContext-dice.xml"/>
@@ -59,6 +63,7 @@
     <import resource="applicationContext-armor.xml"/>
     <import resource="applicationContext-races.xml"/>
     <import resource="applicationContext-feats.xml"/>
+    <import resource="applicationContext-interactions.xml" />
     <import resource="applicationContext-dndCharacter.xml"/>
     
 </beans>

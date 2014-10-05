@@ -1,5 +1,7 @@
 package org.asciicerebrum.mydndgame.interfaces.entities;
 
+import java.util.List;
+
 /**
  *
  * @author species8472
@@ -7,13 +9,13 @@ package org.asciicerebrum.mydndgame.interfaces.entities;
 public interface IInteractionType extends Identifiable {
 
     /**
-     * @return the workflow
+     * @return the workflows
      */
-    IWorkflow getWorkflow();
+    List<IWorkflow> getWorkflows();
 
     /**
-     * @param workflow the workflow to set
+     * @param workflows the workflows to set
      */
-    void setWorkflow(IWorkflow workflow);
+    void setWorkflows(List<IWorkflow> workflows);
 
 }
