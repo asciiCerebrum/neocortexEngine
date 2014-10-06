@@ -71,6 +71,20 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
             combatRound.addParticipant(participant, roundPosition);
         }
 
+        this.resolveTies(combatRound);
+
+        //TODO set participants on flat-footed.
+        return response;
+    }
+
+    /**
+     * Resolves conflicts among participants with same init roll/bonus
+     * combination. When there is a tie, they have to reroll till it is
+     * resolved.
+     *
+     * @param combatRound the combat round in which the tie occurs.
+     */
+    final void resolveTies(final ICombatRound combatRound) {
         // remove duplicates in roundPositions - make a reroll between tieing
         // characters (characters with equal totalInit and initbonus).
         Set<ICharacter> tieingParticipants
@@ -87,10 +101,8 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
                 combatRound.addParticipant(
                         tieParticipant, newPosition);
             }
+            tieingParticipants = this.getTieingParticipants(combatRound);
         }
-
-        //TODO set participants on flat-footed.
-        return response;
     }
 
     /**
