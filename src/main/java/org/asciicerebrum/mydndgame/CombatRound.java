@@ -114,6 +114,20 @@ public class CombatRound implements ICombatRound {
      * {@inheritDoc}
      */
     @Override
+    public final ICharacter getCurrentParticipant() {
+        Set<ICharacter> currentParticipants
+                = this.getParticipantsForPosition(this.getCurrentPosition());
+        if (currentParticipants.size() > 1) {
+            throw new IllegalStateException("Current combat round seems to"
+                    + " have more than one current participants.");
+        }
+        return currentParticipants.iterator().next();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final void moveToNextPosition() {
 
         if (StringUtils.isBlank(this.currentPosition)) {

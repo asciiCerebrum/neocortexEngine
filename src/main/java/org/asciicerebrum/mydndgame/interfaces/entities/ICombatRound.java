@@ -47,6 +47,11 @@ public interface ICombatRound {
     String getCurrentPosition();
 
     /**
+     * @return the currently active participant.
+     */
+    ICharacter getCurrentParticipant();
+
+    /**
      * @param currentPosition the currentPosition to set
      */
     void setCurrentPosition(String currentPosition);

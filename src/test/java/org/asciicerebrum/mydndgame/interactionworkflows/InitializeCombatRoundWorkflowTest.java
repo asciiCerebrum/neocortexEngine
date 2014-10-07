@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import org.asciicerebrum.mydndgame.CombatRound;
 import org.asciicerebrum.mydndgame.Interaction;
+import org.asciicerebrum.mydndgame.InteractionResponse;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICombatRound;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
@@ -17,17 +18,14 @@ import org.asciicerebrum.mydndgame.interfaces.entities.InteractionResponseKey;
 import org.asciicerebrum.mydndgame.interfaces.managers.IDiceRollManager;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -73,10 +71,7 @@ public class InitializeCombatRoundWorkflowTest {
 
         this.combatRound = mock(ICombatRound.class);
         this.interaction = new Interaction();
-        this.response = mock(IInteractionResponse.class);
-
-        when(this.response.getValue(InteractionResponseKey.COMBAT_ROUND,
-                ICombatRound.class)).thenReturn(this.combatRound);
+        this.response = new InteractionResponse();
 
         ICharacter char1 = mock(ICharacter.class);
         this.char2 = mock(ICharacter.class);
@@ -106,17 +101,28 @@ public class InitializeCombatRoundWorkflowTest {
     @Test
     public void testRunWorkflowPostionChar2() {
 
-        this.icrWf.runWorkflow(this.interaction, this.response);
-        verify(this.combatRound).addParticipant(this.char2, "025012");
+        IInteractionResponse localResponse
+                = this.icrWf.runWorkflow(this.interaction, this.response);
+
+        ICombatRound localCombatRound
+                = localResponse.getValue(InteractionResponseKey.COMBAT_ROUND,
+                        ICombatRound.class);
+
+        assertEquals("025012", localCombatRound
+                .getPositionForParticipant(this.char2));
     }
 
     @Test
     public void testRunWorkflowParticipantCount() {
 
-        this.icrWf.runWorkflow(this.interaction, this.response);
+        IInteractionResponse localResponse
+                = this.icrWf.runWorkflow(this.interaction, this.response);
 
-        verify(this.combatRound, times(3)).addParticipant(
-                (ICharacter) anyObject(), anyString());
+        ICombatRound localCombatRound
+                = localResponse.getValue(InteractionResponseKey.COMBAT_ROUND,
+                        ICombatRound.class);
+
+        assertEquals(3, localCombatRound.getParticipants().size());
     }
 
     @Test
@@ -187,8 +193,28 @@ public class InitializeCombatRoundWorkflowTest {
 
         this.icrWf.resolveTies(this.combatRound);
 
-        assertEquals("025012008005",
-                this.combatRound.getPositionForParticipant(this.char2));
+        // you cannot be sure of the order of characters. so both values are possible.
+        assertTrue(Arrays.asList("025012008005", "025012008010")
+                .contains(this.combatRound.getPositionForParticipant(this.char2)));
+    }
+
+    @Test
+    public void testResolveTiesDifferentValues() {
+        ICharacter char1 = mock(ICharacter.class);
+        ICharacter char3 = mock(ICharacter.class);
+
+        this.combatRound = new CombatRound();
+        this.combatRound.addParticipant(char1, "025013");
+        this.combatRound.addParticipant(this.char2, "025012");
+        this.combatRound.addParticipant(char3, "025012");
+
+        when(this.drManager.rollDice(this.initAction)).thenReturn(8L, 8L, 10L, 5L);
+
+        this.icrWf.resolveTies(this.combatRound);
+
+        // and as you cannot be sure, you have to assure at least that they are different!
+        Assert.assertNotEquals(this.combatRound.getPositionForParticipant(this.char2),
+                this.combatRound.getPositionForParticipant(char3));
     }
 
 }

@@ -1,9 +1,9 @@
 package org.asciicerebrum.mydndgame.managers;
 
 import java.util.List;
-import org.asciicerebrum.mydndgame.CombatRound;
 import org.asciicerebrum.mydndgame.Interaction;
 import org.asciicerebrum.mydndgame.InteractionResponse;
+import org.asciicerebrum.mydndgame.exceptions.CombatRoundInitializationException;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICombatRound;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInteraction;
@@ -40,16 +40,18 @@ public class CombatRoundManager {
             return Boolean.FALSE;
         }
 
-        this.currentCombatRound = new CombatRound();
-
-        IInteractionResponse response = new InteractionResponse();
-        response.setValue(InteractionResponseKey.COMBAT_ROUND,
-                this.currentCombatRound);
         IInteraction interaction = new Interaction();
         interaction.setTargetCharacters(participants);
 
-        this.getInitializeCombatRoundWorkflow()
-                .runWorkflow(interaction, response);
+        IInteractionResponse initResponse
+                = this.getInitializeCombatRoundWorkflow()
+                .runWorkflow(interaction);
+
+        this.currentCombatRound = initResponse.getValue(
+                InteractionResponseKey.COMBAT_ROUND, ICombatRound.class);
+        if (this.currentCombatRound == null) {
+            throw new CombatRoundInitializationException();
+        }
 
         //TODO set participants on flat-footed.
         return Boolean.TRUE;
@@ -83,9 +85,8 @@ public class CombatRoundManager {
             return Boolean.FALSE;
         }
 
-        return this.currentCombatRound.getCurrentPosition()
-                .equals(this.currentCombatRound.getPositionForParticipant(
-                                character));
+        return character.equals(
+                this.currentCombatRound.getCurrentParticipant());
     }
 
     /**

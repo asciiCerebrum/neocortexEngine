@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.interactionworkflows;
 
+import org.asciicerebrum.mydndgame.InteractionResponse;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInteraction;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInteractionResponse;
@@ -44,6 +45,15 @@ public class AttackWorkflow implements IWorkflow {
      * Key for saving the criticalness of the attack.
      */
     private InteractionResponseKey attackCriticalKey;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final IInteractionResponse runWorkflow(
+            final IInteraction interaction) {
+        return this.runWorkflow(interaction, new InteractionResponse());
+    }
 
     /**
      * {@inheritDoc} Performs an attack on the given target.

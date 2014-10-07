@@ -2,6 +2,8 @@ package org.asciicerebrum.mydndgame.interactionworkflows;
 
 import java.util.HashSet;
 import java.util.Set;
+import org.asciicerebrum.mydndgame.CombatRound;
+import org.asciicerebrum.mydndgame.InteractionResponse;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICombatRound;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
@@ -37,11 +39,20 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
      */
     @Override
     public final IInteractionResponse runWorkflow(
+            final IInteraction interaction) {
+        return this.runWorkflow(interaction, new InteractionResponse());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final IInteractionResponse runWorkflow(
             final IInteraction interaction,
             final IInteractionResponse response) {
 
-        ICombatRound combatRound = response.getValue(
-                InteractionResponseKey.COMBAT_ROUND, ICombatRound.class);
+        ICombatRound combatRound = new CombatRound();
+        response.setValue(InteractionResponseKey.COMBAT_ROUND, combatRound);
 
         // roll initiative on each character and save results!
         // Determination of the combat round position:

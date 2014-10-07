@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.interactionworkflows;
 
 import org.asciicerebrum.mydndgame.Damage;
+import org.asciicerebrum.mydndgame.InteractionResponse;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDamage;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInteraction;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInteractionResponse;
@@ -30,6 +31,15 @@ public class DamageWorkflow implements IWorkflow {
      * The least damage you can do on a successful attack roll.
      */
     private Long minimumDamage;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final IInteractionResponse runWorkflow(
+            final IInteraction interaction) {
+        return this.runWorkflow(interaction, new InteractionResponse());
+    }
 
     /**
      * {@inheritDoc} Applies damage on the character.
