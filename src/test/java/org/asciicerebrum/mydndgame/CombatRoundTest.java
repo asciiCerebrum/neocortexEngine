@@ -134,4 +134,13 @@ public class CombatRoundTest {
         assertEquals(3, participants.size());
     }
 
+    @Test(expected = IllegalStateException.class)
+    public void testGetCurrentParticipant() {
+        this.combatRound.addParticipant(mock(ICharacter.class), "curPos");
+        this.combatRound.addParticipant(mock(ICharacter.class), "curPos");
+
+        this.combatRound.setCurrentPosition("curPos");
+        this.combatRound.getCurrentParticipant();
+    }
+
 }

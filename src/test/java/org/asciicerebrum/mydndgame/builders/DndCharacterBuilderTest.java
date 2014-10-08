@@ -11,7 +11,6 @@ import org.asciicerebrum.mydndgame.InventoryItem;
 import org.asciicerebrum.mydndgame.LevelAdvancement;
 import org.asciicerebrum.mydndgame.Race;
 import org.asciicerebrum.mydndgame.Weapon;
-import org.asciicerebrum.mydndgame.builders.DndCharacterBuilder;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IFeat;
@@ -22,6 +21,7 @@ import org.asciicerebrum.mydndgame.interfaces.services.BonusCalculationService;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -271,6 +271,24 @@ public class DndCharacterBuilderTest {
 
         verify(this.observableDelegate).registerListener(ObserverHook.DAMAGE,
                 this.featObserver, this.character.getObserverMap());
+    }
+
+    @Test
+    public void testBuildCurrentHp() {
+        this.setup.setCurrentHp(77L);
+
+        ICharacter newCharacter = this.dndCharacterBuilder.build();
+
+        assertNotEquals(newCharacter.getMaxHp(), this.setup.getCurrentHp());
+    }
+
+    @Test
+    public void testBuildCurrentHpNull() {
+        this.setup.setCurrentHp(null);
+
+        ICharacter newCharacter = this.dndCharacterBuilder.build();
+
+        assertEquals(newCharacter.getMaxHp(), this.setup.getCurrentHp());
     }
 
 }

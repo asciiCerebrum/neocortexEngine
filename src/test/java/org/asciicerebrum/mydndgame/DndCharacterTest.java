@@ -12,16 +12,20 @@ import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IClass;
 import org.asciicerebrum.mydndgame.interfaces.entities.IConditionType;
+import org.asciicerebrum.mydndgame.interfaces.entities.IDamage;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
+import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
 import org.asciicerebrum.mydndgame.interfaces.entities.ObserverHook;
 import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
+import org.asciicerebrum.mydndgame.interfaces.entities.StateRegistryKey;
 import org.asciicerebrum.mydndgame.interfaces.observing.ObservableDelegate;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -51,6 +55,7 @@ public class DndCharacterTest {
     private BodySlotType bodySlot;
     private IWeaponCategory meleeAttackMode;
     private IWeaponCategory rangedAttackMode;
+    private DiceAction initAction;
 
     private static final Integer HIT_DICE = 10;
     private static final Long ADDITIONAL_HP = 5L;
@@ -95,6 +100,7 @@ public class DndCharacterTest {
         setup.getLevelAdvancementStack().add(
                 new LevelAdvancement()
                 .setClassName("otherCharacterClass"));
+        setup.setCurrentHp(100L);
 
         BonusType baseAtkBonusType = new BonusType();
         Dice hitDice = new Dice();
@@ -188,13 +194,19 @@ public class DndCharacterTest {
 
         DiceAction acBaseAction = new DiceAction();
         acBaseAction.setConstValue(10L);
+        this.initAction = new DiceAction();
 
         this.testChar.setAcBaseAction(acBaseAction);
         this.testChar.setAcAction(new DiceAction());
+        this.testChar.setInitiativeAction(this.initAction);
 
         BodySlot rawBodySlot = new BodySlot();
         rawBodySlot.setBodySlotType(this.bodySlot);
         this.testChar.getBodySlots().add(rawBodySlot);
+
+        this.testChar.setSetup(setup);
+        when(appContext.getBean(eq("bodySlot"),
+                eq(BodySlotType.class))).thenReturn(this.bodySlot);
     }
 
     @After
@@ -582,6 +594,108 @@ public class DndCharacterTest {
                 anyObject(),
                 (Map<ObserverHook, List<IObserver>>) anyObject(),
                 (ICharacter) anyObject());
+    }
+
+    @Test
+    public void testGetInitBonus() {
+        this.testChar.getInitBonus();
+
+        verify(this.bcService, times(1))
+                .traverseBoniByTarget(this.testChar, this.initAction);
+    }
+
+    @Test
+    public void testGetInitBonusObserverCall() {
+        this.testChar.getInitBonus();
+
+        verify(this.observableDelegate, times(1))
+                .triggerObservers(
+                        eq(ObserverHook.INITIATIVE),
+                        (List<IBonus>) anyObject(),
+                        (Map<ObserverHook, List<IObserver>>) anyObject(),
+                        eq(this.testChar));
+    }
+
+    @Test
+    public void testApplyDamageObserverCall() {
+        IDamage damage1 = mock(IDamage.class);
+        IDamage damage2 = mock(IDamage.class);
+
+        when(damage1.getDamageValue()).thenReturn(13L);
+        when(damage2.getDamageValue()).thenReturn(17L);
+
+        when(this.observableDelegate.triggerObservers(
+                eq(ObserverHook.DAMAGE_APPLICATION),
+                eq(damage1),
+                (Map<ObserverHook, List<IObserver>>) anyObject(),
+                eq(this.testChar))).thenReturn(damage1);
+        when(this.observableDelegate.triggerObservers(
+                eq(ObserverHook.DAMAGE_APPLICATION),
+                eq(damage2),
+                (Map<ObserverHook, List<IObserver>>) anyObject(),
+                eq(this.testChar))).thenReturn(damage2);
+
+        this.testChar.applyDamage(damage1, damage2);
+
+        verify(this.observableDelegate, times(2))
+                .triggerObservers(
+                        eq(ObserverHook.DAMAGE_APPLICATION),
+                        (IDamage) anyObject(),
+                        (Map<ObserverHook, List<IObserver>>) anyObject(),
+                        eq(this.testChar));
+    }
+
+    @Test
+    public void testApplyDamageDamageValue() {
+        IDamage damage1 = mock(IDamage.class);
+        IDamage damage2 = mock(IDamage.class);
+
+        when(damage1.getDamageValue()).thenReturn(13L);
+        when(damage2.getDamageValue()).thenReturn(17L);
+
+        when(this.observableDelegate.triggerObservers(
+                eq(ObserverHook.DAMAGE_APPLICATION),
+                eq(damage1),
+                (Map<ObserverHook, List<IObserver>>) anyObject(),
+                eq(this.testChar))).thenReturn(damage1);
+        when(this.observableDelegate.triggerObservers(
+                eq(ObserverHook.DAMAGE_APPLICATION),
+                eq(damage2),
+                (Map<ObserverHook, List<IObserver>>) anyObject(),
+                eq(this.testChar))).thenReturn(damage2);
+
+        this.testChar.applyDamage(damage1, damage2);
+
+        assertEquals(Long.valueOf(70L), this.testChar.getSetup().getCurrentHp());
+    }
+
+    @Test
+    public void testGetSituationContext() {
+        ISituationContext sitCon = this.testChar.getSituationContext();
+        assertNull(sitCon.getBodySlotType());
+    }
+
+    @Test
+    public void testGetSituationContextWithCache() {
+        ISituationContext sitCon = this.testChar.getSituationContext();
+        ISituationContext sitConCached = this.testChar.getSituationContext();
+        assertEquals(sitCon, sitConCached);
+    }
+
+    @Test
+    public void testGetSituationContextBodySlot() {
+        Slotable weaponSlot = mock(Slotable.class);
+        IWeapon weapon = mock(IWeapon.class);
+        when(weaponSlot.getBodySlotType()).thenReturn(this.bodySlot);
+        when(weaponSlot.getItem()).thenReturn(weapon);
+
+        this.testChar.getBodySlots().clear();
+        this.testChar.getBodySlots().add(weaponSlot);
+
+        this.testChar.getSetup().getStateRegistry()
+                .put(StateRegistryKey.ACTIVE_BODY_SLOT_TYPE.toString(), "bodySlot");
+        ISituationContext sitCon = this.testChar.getSituationContext();
+        assertEquals(this.bodySlot, sitCon.getBodySlotType());
     }
 
 }

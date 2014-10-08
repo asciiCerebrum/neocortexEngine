@@ -100,7 +100,7 @@ public class DamageWorkflowTest {
 
     @Test
     public void testRunWorkflowDamage() {
-        this.damageWf.runWorkflow(this.interaction, this.response);
+        this.damageWf.runWorkflow(this.interaction);
 
         verify(this.drManager, times(1)).rollDice(this.damageAction);
     }
@@ -124,6 +124,17 @@ public class DamageWorkflowTest {
         this.damageWf.runWorkflow(this.interaction, this.response);
 
         verify(this.drManager, times(2))
+                .rollDice(this.damageAction);
+    }
+
+    @Test
+    public void testRunWorkflowCriticalHitFalse() {
+        when(this.response.getValue(InteractionResponseKey.ATTACK_CRITICAL,
+                Boolean.class)).thenReturn(Boolean.FALSE);
+
+        this.damageWf.runWorkflow(this.interaction, this.response);
+
+        verify(this.drManager, times(1))
                 .rollDice(this.damageAction);
     }
 

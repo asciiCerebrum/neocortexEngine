@@ -13,14 +13,18 @@ import org.asciicerebrum.mydndgame.interfaces.entities.IInteractionResponse;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWorkflow;
+import org.asciicerebrum.mydndgame.interfaces.entities.InteractionResponseKey;
 import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
 import org.asciicerebrum.mydndgame.interfaces.managers.IDiceRollManager;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -114,10 +118,10 @@ public class AttackWorkflowTest {
      */
     @Test
     public void testRunWorkflow() {
-        this.attackWf.runWorkflow(this.interaction, this.response);
+        this.attackWf.runWorkflow(this.interaction);
 
         verify(this.damageWorkflow).runWorkflow(
-                this.interaction, this.response);
+                eq(this.interaction), (IInteractionResponse) anyObject());
     }
 
     @Test
@@ -203,6 +207,62 @@ public class AttackWorkflowTest {
 
         verify(this.damageWorkflow, times(1))
                 .runWorkflow(this.interaction, this.response);
+    }
+
+    @Test
+    public void testRunWorkflowWithAttackCriticalKey() {
+        this.attackWf.setAttackCriticalKey(InteractionResponseKey.ATTACK_CRITICAL);
+        this.attackWf.runWorkflow(this.interaction, this.response);
+
+        verify(this.response, times(1))
+                .setValue(eq(InteractionResponseKey.ATTACK_CRITICAL),
+                        (Boolean) anyObject());
+    }
+
+    @Test
+    public void testRunWorkflowWithoutDamageWorkflow() {
+        this.attackWf.setDamageWorkflow(null);
+        this.attackWf.runWorkflow(this.interaction, this.response);
+
+        verify(this.damageWorkflow, times(0)).runWorkflow(this.interaction,
+                this.response);
+    }
+
+    @Test
+    public void testDetermineCritical() {
+        when(this.drManager.rollDice(this.attackAction)).thenReturn(19L);
+        Boolean isCritical = this.attackWf.determineCritical(
+                20L, 4L, 12L, this.interaction);
+        // threat + normal success (no auto success)
+        assertTrue(isCritical);
+    }
+
+    @Test
+    public void testDetermineCriticalAutoSuccess() {
+        when(this.drManager.rollDice(this.attackAction)).thenReturn(20L);
+        Boolean isCritical = this.attackWf.determineCritical(
+                20L, 4L, 12L, this.interaction);
+        // threat + auto success
+        assertTrue(isCritical);
+    }
+
+    @Test
+    public void testDetermineCriticalNoSuccess() {
+        when(this.drManager.rollDice(this.attackAction)).thenReturn(1L);
+        Boolean isCritical = this.attackWf.determineCritical(
+                20L, 4L, 12L, this.interaction);
+        // threat + no success
+        assertFalse(isCritical);
+    }
+
+    @Test
+    public void testDetermineCriticalNoSuccessButAutoSuccess() {
+        this.attackWf.setAutoSuccessRoll(5L);
+        when(this.drManager.rollDice(this.attackAction)).thenReturn(5L);
+        Boolean isCritical = this.attackWf.determineCritical(
+                20L, 4L, 12L, this.interaction);
+        // threat + no success + auto success
+        assertTrue(isCritical);
     }
 
     //TODO Important!!! Test for secondCritical - it is enough to succeed AC!

@@ -292,8 +292,11 @@ public final class DndCharacter implements ICharacter, Observable {
                             WeaponCategory.class);
 
             IDamageType damageType = null;
-            IInventoryItem item = this.getBodySlotByType(bsType).getItem();
-            if (item instanceof IWeapon) {
+            IInventoryItem item = null;
+            if (bsType != null) {
+                item = this.getBodySlotByType(bsType).getItem();
+            }
+            if (item != null && item instanceof IWeapon) {
 
                 damageType = this.getSetup()
                         .getStateRegistryBeanForKey(

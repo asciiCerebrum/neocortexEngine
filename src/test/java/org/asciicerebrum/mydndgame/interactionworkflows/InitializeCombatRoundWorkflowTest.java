@@ -102,7 +102,7 @@ public class InitializeCombatRoundWorkflowTest {
     public void testRunWorkflowPostionChar2() {
 
         IInteractionResponse localResponse
-                = this.icrWf.runWorkflow(this.interaction, this.response);
+                = this.icrWf.runWorkflow(this.interaction);
 
         ICombatRound localCombatRound
                 = localResponse.getValue(InteractionResponseKey.COMBAT_ROUND,
