@@ -9,6 +9,7 @@ import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacterSetup;
 import org.asciicerebrum.mydndgame.interfaces.entities.IEncumbrance;
 import org.asciicerebrum.mydndgame.interfaces.entities.IRace;
+import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISizeCategory;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 import org.junit.After;
@@ -57,7 +58,7 @@ public class WeaponFinesseObserverTest {
 
     @Before
     public void setUp() {
-        SituationContext sitcon = new SituationContext();
+        ISituationContext sitcon = mock(ISituationContext.class);
         this.bonusList = new ArrayList<IBonus>();
         this.standardBonus = new Bonus();
         this.replacementBonus = new Bonus();
@@ -92,7 +93,7 @@ public class WeaponFinesseObserverTest {
         this.validWeapons.add(weaponB);
         this.validWeapons.add(weaponC);
 
-        sitcon.setBodySlotType(bsType);
+        when(sitcon.getBodySlotType()).thenReturn(bsType);
 
         ApplicationContext appContext = mock(ApplicationContext.class);
         this.setup = new CharacterSetup(appContext);

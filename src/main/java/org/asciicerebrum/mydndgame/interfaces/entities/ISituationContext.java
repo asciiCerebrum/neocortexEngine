@@ -7,16 +7,17 @@ package org.asciicerebrum.mydndgame.interfaces.entities;
 public interface ISituationContext {
 
     /**
+     * Assignes the situationn context to the character.
+     *
+     * @param character the character in question.
+     */
+    void setCharacter(ICharacter character);
+
+    /**
      *
      * @return the body slot type of the character.
      */
     IBodySlotType getBodySlotType();
-
-    /**
-     *
-     * @param iBodySlotType the body slot type of the character.
-     */
-    void setBodySlotType(IBodySlotType iBodySlotType);
 
     /**
      * @return the attackMode
@@ -24,17 +25,8 @@ public interface ISituationContext {
     IWeaponCategory getAttackMode();
 
     /**
-     * @param attackMode the attackMode to set
-     */
-    void setAttackMode(IWeaponCategory attackMode);
-
-    /**
      * @return the damageType
      */
     IDamageType getDamageType();
 
-    /**
-     * @param damageType the damageType to set
-     */
-    void setDamageType(IDamageType damageType);
 }

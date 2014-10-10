@@ -49,7 +49,7 @@ public class AddBonusObserverTest {
     public void setUp() {
         this.abObserver = new AddBonusObserver();
         this.bonusList = new ArrayList<IBonus>();
-        ISituationContext sitCon = new SituationContext();
+        ISituationContext sitCon = mock(ISituationContext.class);
         ApplicationContext appContext = mock(ApplicationContext.class);
 
         this.setup = new CharacterSetup(appContext);

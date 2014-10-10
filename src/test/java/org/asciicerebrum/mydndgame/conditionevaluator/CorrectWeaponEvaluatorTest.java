@@ -1,6 +1,5 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
-import org.asciicerebrum.mydndgame.SituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
@@ -72,8 +71,9 @@ public class CorrectWeaponEvaluatorTest {
      */
     @Test
     public void testEvaluateEmptySitCon() {
+        ISituationContext localSitCon = mock(ISituationContext.class);
         when(this.mockCharacter.getSituationContext())
-                .thenReturn(new SituationContext());
+                .thenReturn(localSitCon);
 
         Boolean isCorrect = this.correctWeaponEval
                 .evaluate(this.mockCharacter);

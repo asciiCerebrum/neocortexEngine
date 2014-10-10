@@ -207,6 +207,8 @@ public class DndCharacterTest {
         this.testChar.setSetup(setup);
         when(appContext.getBean(eq("bodySlot"),
                 eq(BodySlotType.class))).thenReturn(this.bodySlot);
+
+        this.testChar.setSituationContext(new SituationContextService());
     }
 
     @After
@@ -230,6 +232,14 @@ public class DndCharacterTest {
         Long maxHp = this.testChar.getMaxHp();
 
         assertEquals(Long.valueOf(HIT_DICE + ADDITIONAL_HP + HIT_DICE), maxHp);
+    }
+
+    @Test
+    public void testGetMaxHpWithoutClass() {
+        this.testChar.setClassList(null);
+        Long maxHp = this.testChar.getMaxHp();
+
+        assertEquals(Long.valueOf(0L), maxHp);
     }
 
     /**

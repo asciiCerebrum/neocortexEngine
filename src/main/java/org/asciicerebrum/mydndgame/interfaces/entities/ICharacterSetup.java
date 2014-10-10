@@ -33,4 +33,18 @@ public interface ICharacterSetup {
      * @param currentHpInput the currentHp to set
      */
     void setCurrentHp(Long currentHpInput);
+
+    /**
+     * Add attributes as key-value string pairs to the registry overlay. These
+     * values are used for faking the real ones. They have priority!
+     *
+     * @param key the attribute to fake.
+     * @param value the new value overriding the old one.
+     */
+    void fakeAttribute(String key, String value);
+
+    /**
+     * Remove all key-value entries from the registry overlay.
+     */
+    void clearFakes();
 }

@@ -66,6 +66,13 @@ public class CharacterSetup implements ICharacterSetup {
             = new HashMap<String, Object>();
 
     /**
+     * Uses for temporarily faking attributes. The Overlay has priority over the
+     * standard state registry!
+     */
+    private final Map<String, Object> stateRegistryOverlay
+            = new HashMap<String, Object>();
+
+    /**
      * Creation of a character setup object. The application context is needed
      * for wrapping functionality of the state registry. Beans must be created
      * from IDs.
@@ -197,11 +204,30 @@ public class CharacterSetup implements ICharacterSetup {
      * {@inheritDoc}
      */
     @Override
+    public final void fakeAttribute(final String key, final String value) {
+        this.stateRegistryOverlay.put(key, value);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void clearFakes() {
+        this.stateRegistryOverlay.clear();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final <T> T getStateRegistryBeanForKey(final String registryKey,
             final Class<T> beanClass) {
 
         String beanId = null;
-        Object mapValue = this.stateRegistry.get(registryKey);
+        Object mapValue = this.stateRegistryOverlay.get(registryKey);
+        if (mapValue == null) {
+            mapValue = this.stateRegistry.get(registryKey);
+        }
 
         if (mapValue instanceof String) {
             beanId = (String) mapValue;

@@ -19,6 +19,8 @@ public class CharacterSetupTest {
 
     private CharacterSetup chSetup;
 
+    private ApplicationContext appContext;
+
     public CharacterSetupTest() {
     }
 
@@ -32,11 +34,11 @@ public class CharacterSetupTest {
 
     @Before
     public void setUp() {
-        ApplicationContext appContext = mock(ApplicationContext.class);
-        when(appContext.getBean("someBeanId", Object.class))
+        this.appContext = mock(ApplicationContext.class);
+        when(this.appContext.getBean("someBeanId", Object.class))
                 .thenReturn("someObject");
 
-        this.chSetup = new CharacterSetup(appContext);
+        this.chSetup = new CharacterSetup(this.appContext);
         this.chSetup.getStateRegistry().put("someKey", "someBeanId");
         this.chSetup.getStateRegistry().put("someNumericKey", 42L);
         this.chSetup.getStateRegistry().put("someBlankKey", null);
@@ -93,6 +95,17 @@ public class CharacterSetupTest {
                 Object.class);
 
         assertNull(bean);
+    }
+
+    @Test
+    public void testGetStateRegistryBeanForKeyWithOverly() {
+        this.chSetup.fakeAttribute("someOverlayKey", "overlayValue");
+        when(this.appContext.getBean("overlayValue", Object.class))
+                .thenReturn("someOverlayObject");
+        Object object = this.chSetup.getStateRegistryBeanForKey(
+                "someOverlayKey", Object.class);
+
+        assertEquals("someOverlayObject", (String) object);
     }
 
 }

@@ -18,7 +18,6 @@ import org.asciicerebrum.mydndgame.interfaces.entities.ICharacterSetup;
 import org.asciicerebrum.mydndgame.interfaces.entities.IClass;
 import org.asciicerebrum.mydndgame.interfaces.entities.IConditionType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDamage;
-import org.asciicerebrum.mydndgame.interfaces.entities.IDamageType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
 import org.asciicerebrum.mydndgame.interfaces.entities.IFeat;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
@@ -26,7 +25,6 @@ import org.asciicerebrum.mydndgame.interfaces.entities.ILevel;
 import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import org.asciicerebrum.mydndgame.interfaces.entities.IRace;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
-import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
 import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
 import org.asciicerebrum.mydndgame.interfaces.entities.StateRegistryKey;
@@ -45,9 +43,10 @@ public final class DndCharacter implements ICharacter, Observable {
     private ICharacterSetup setup;
 
     /**
-     * The actual situation context, which is cached.
+     * The situation context describing attributes of relevance for attack,
+     * defence, etc.
      */
-    private ISituationContext cachedSituationContext;
+    private ISituationContext situationContext;
 
     /**
      * The race of this dnd character.
@@ -242,15 +241,18 @@ public final class DndCharacter implements ICharacter, Observable {
         //
         // overriding the situation context because observers, evaluators, etc.
         // access it.
-        this.cachedSituationContext = new SituationContext();
-        this.cachedSituationContext.setAttackMode(attackMode);
-        this.cachedSituationContext.setBodySlotType(bodySlotType);
+        this.setup.fakeAttribute(
+                StateRegistryKey.ACTIVE_BODY_SLOT_TYPE.toString(),
+                bodySlotType.getId());
+        this.setup.fakeAttribute(
+                StateRegistryKey.ACTIVE_ATTACK_MODE.toString(),
+                attackMode.getId());
 
         List<Long> atkBoni = this.getGenericAtkBoni(bodySlotType,
                 attackMode.getAssociatedAttackDiceAction());
 
         // invalidating the cached situation context again.
-        this.cachedSituationContext = null;
+        this.setup.clearFakes();
         return atkBoni;
     }
 
@@ -259,21 +261,9 @@ public final class DndCharacter implements ICharacter, Observable {
      */
     @Override
     public List<Long> getAtkBoni() {
-        ISituationContext sitCon = this.getFreshSituationContext();
-
-        return this.getGenericAtkBoni(sitCon.getBodySlotType(),
-                sitCon.getAttackMode().getAssociatedAttackDiceAction());
-    }
-
-    /**
-     * Constructs a totally new situation context. The cached version is
-     * invalidated. USE ONLY THIS METHOD INTERNALLY!
-     *
-     * @return a freshly created situation context.
-     */
-    private ISituationContext getFreshSituationContext() {
-        this.cachedSituationContext = null;
-        return this.getSituationContext();
+        return this.getGenericAtkBoni(this.situationContext.getBodySlotType(),
+                this.situationContext.getAttackMode()
+                .getAssociatedAttackDiceAction());
     }
 
     /**
@@ -281,40 +271,16 @@ public final class DndCharacter implements ICharacter, Observable {
      */
     @Override
     public ISituationContext getSituationContext() {
+        return this.situationContext;
+    }
 
-        if (this.cachedSituationContext == null) {
-            IBodySlotType bsType = this.getSetup().getStateRegistryBeanForKey(
-                    StateRegistryKey.ACTIVE_BODY_SLOT_TYPE.toString(),
-                    BodySlotType.class);
-            IWeaponCategory attackMode = this.getSetup()
-                    .getStateRegistryBeanForKey(
-                            StateRegistryKey.ACTIVE_ATTACK_MODE.toString(),
-                            WeaponCategory.class);
-
-            IDamageType damageType = null;
-            IInventoryItem item = null;
-            if (bsType != null) {
-                item = this.getBodySlotByType(bsType).getItem();
-            }
-            if (item != null && item instanceof IWeapon) {
-
-                damageType = this.getSetup()
-                        .getStateRegistryBeanForKey(
-                                StateRegistryKey.WEAPON_DAMAGE_TYPE_PREFIX
-                                .toString() + item.getId(),
-                                DamageType.class);
-                if (damageType == null) {
-                    damageType = ((IWeapon) item).getDefaultDamageType();
-                }
-            }
-
-            this.cachedSituationContext = new SituationContext();
-            this.cachedSituationContext.setBodySlotType(bsType);
-            this.cachedSituationContext.setAttackMode(attackMode);
-            this.cachedSituationContext.setDamageType(damageType);
-        }
-
-        return this.cachedSituationContext;
+    /**
+     * @param situationContextInput the situation context to set.
+     */
+    public void setSituationContext(
+            final ISituationContext situationContextInput) {
+        this.situationContext = situationContextInput;
+        this.situationContext.setCharacter(this);
     }
 
     /**
@@ -443,19 +409,18 @@ public final class DndCharacter implements ICharacter, Observable {
     public Long getMaxHp() {
 
         Long maxHp = 0L;
-
-        for (int i = 0; i < this.getClassList().size(); i++) {
-            // in case of null use max hp addition, defined by
-            // the class' hitdice
-            if (this.getHpAdditionList().get(i) != null) {
-                maxHp += this.getHpAdditionList().get(i);
-            } else {
-                maxHp += this.getClassList().get(i).getHitDice().getSides();
+        if (this.getClassList() != null) {
+            for (int i = 0; i < this.getClassList().size(); i++) {
+                // in case of null use max hp addition, defined by
+                // the class' hitdice
+                if (this.getHpAdditionList().get(i) != null) {
+                    maxHp += this.getHpAdditionList().get(i);
+                } else {
+                    maxHp += this.getClassList().get(i).getHitDice().getSides();
+                }
             }
 
-        }
-        // hp add con-modifier for each class level
-        if (this.getClassList() != null) {
+            // hp add con-modifier for each class level
             maxHp += this.getClassList().size()
                     * this.bonusService.retrieveEffectiveBonusValueByTarget(
                             this, this, this.hp);
@@ -882,14 +847,15 @@ public final class DndCharacter implements ICharacter, Observable {
 
         // overriding the situation context because observers, evaluators, etc.
         // access it.
-        this.cachedSituationContext = new SituationContext();
-        this.cachedSituationContext.setAttackMode(attackMode);
-        this.cachedSituationContext.setBodySlotType(bodySlotType);
+        this.setup.fakeAttribute(
+                StateRegistryKey.ACTIVE_BODY_SLOT_TYPE.toString(),
+                bodySlotType.getId());
+        this.setup.fakeAttribute(
+                StateRegistryKey.ACTIVE_ATTACK_MODE.toString(),
+                attackMode.getId());
 
         Long damageBonus = this.getGenericDamageBonus(bodySlotType, attackMode);
-
-        // invalidating the cached situation context again.
-        this.cachedSituationContext = null;
+        this.setup.clearFakes();
 
         return damageBonus;
     }
@@ -899,10 +865,9 @@ public final class DndCharacter implements ICharacter, Observable {
      */
     @Override
     public Long getDamageBonus() {
-        ISituationContext sitCon = this.getFreshSituationContext();
-
-        return this.getGenericDamageBonus(sitCon.getBodySlotType(),
-                sitCon.getAttackMode());
+        return this.getGenericDamageBonus(
+                this.situationContext.getBodySlotType(),
+                this.situationContext.getAttackMode());
     }
 
     /**
