@@ -426,4 +426,22 @@
         </property>
     </bean>
     
+    <bean id="improvedInitiative" class="org.asciicerebrum.mydndgame.Feat">
+        <property name="id" value="improvedInitiative" />
+        <property name="observers">
+            <list>
+                <bean class="org.asciicerebrum.mydndgame.observers.AddBonusObserver">
+                    <property name="hook" value="INITIATIVE" />
+                    <property name="addBonus">
+                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                            <!-- this is a typeless bonus! -->
+                            <property name="target" ref="initiative" />
+                            <property name="value" value="4" />
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
 </beans>

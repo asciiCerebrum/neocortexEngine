@@ -9,6 +9,7 @@ public final class App {
     //TODO switch to slf4j as logging (better debug statements!)
     //TODO switch to JaCoCo as code coverage (on the fly instrumentation)
     //TODO code coverage of integration tests and integration into sonarqube
+    //TODO switch to latest version of sonarqube
     /**
      * App must not be instantiated.
      */

@@ -130,6 +130,7 @@ public class CharacterCreationIntegrationTest {
         setupHarsk.getLevelAdvancementStack().add(
                 new LevelAdvancement()
                 .setClassName(CLASS_FIGHTER)
+                .setFeatName("improvedInitiative")
                 .setHpAddition(7L));
         setupHarsk.getPossessionContainer().put(AXE4HARSK_ID, PRIMARY_HAND_TYPE);
         setupHarsk.getPossessionContainer().put(BASTARD4HARSK_ID, "secondaryHand");
@@ -590,9 +591,23 @@ public class CharacterCreationIntegrationTest {
         assertEquals(Long.valueOf(3), damageBonus);
     }
 
+    @Test
+    public void valerosGetInitBonus() {
+        Long initBonus = this.valeros.getInitBonus();
+        // dex 9 --> -1
+        assertEquals(Long.valueOf(-1), initBonus);
+    }
+
+    @Test
+    public void harskGetInitBonus() {
+        Long initBonus = this.harsk.getInitBonus();
+        // dex 11 --> 0
+        // improved initiative --> 4
+        assertEquals(Long.valueOf(4), initBonus);
+    }
+
     //TODO test what happens when wearing two shields!!! the penalties on attack
     // should not stack!
-    
     //TODO test if situation context invalidation works: get damage bonus for
     // ranged directly before damage bonus for melee. There should be no
     // difference to when you only get damage bonus for melee!!!

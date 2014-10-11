@@ -25,26 +25,36 @@ public class AddBonusObserver extends AbstractObserver {
      * Target of the bonus.
      */
     private BonusTarget bonusTarget;
+    /**
+     * The bonus to add.
+     */
+    private IBonus addBonus;
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc} A given bonus has priority over a lookup in the characters
+     * state registry.
      */
     @Override
     protected final Object triggerCallback(final Object object,
             final ICharacter character) {
         List<IBonus> boni = (List<IBonus>) object;
 
+        if (this.addBonus != null) {
+            boni.add(this.addBonus);
+            return boni;
+        }
+
         Long addBonusValue = (Long) character.getSetup()
                 .getStateRegistry().get(this.getRegistryKey());
 
         if (addBonusValue != null
                 && addBonusValue != 0L) {
-            IBonus addBonus = new Bonus();
-            addBonus.setBonusType(this.getBonusType());
-            addBonus.setTarget(this.getBonusTarget());
-            addBonus.setValue(addBonusValue);
+            IBonus altAddBonus = new Bonus();
+            altAddBonus.setBonusType(this.getBonusType());
+            altAddBonus.setTarget(this.getBonusTarget());
+            altAddBonus.setValue(addBonusValue);
 
-            boni.add(addBonus);
+            boni.add(altAddBonus);
         }
 
         return boni;
@@ -90,6 +100,13 @@ public class AddBonusObserver extends AbstractObserver {
      */
     public final void setBonusTarget(final BonusTarget bonusTargetInput) {
         this.bonusTarget = bonusTargetInput;
+    }
+
+    /**
+     * @param addBonusInput the addBonus to set
+     */
+    public final void setAddBonus(final IBonus addBonusInput) {
+        this.addBonus = addBonusInput;
     }
 
 }
