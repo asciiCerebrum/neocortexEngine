@@ -3,8 +3,10 @@ package org.asciicerebrum.mydndgame.builders;
 import java.util.Map.Entry;
 import org.asciicerebrum.mydndgame.CombatRound;
 import org.asciicerebrum.mydndgame.CombatRoundSetup;
+import org.asciicerebrum.mydndgame.WorldDate;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICombatRound;
+import org.asciicerebrum.mydndgame.interfaces.entities.IWorldDate;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -43,8 +45,11 @@ public class CombatRoundBuilder {
 
         ICombatRound combatRound = new CombatRound();
 
-        // current position
-        combatRound.setCurrentPosition(setup.getCurrentPosition());
+        // current date
+        IWorldDate currentDate = new WorldDate();
+        currentDate.setCombatRoundNumber(setup.getCurrentRoundNumber());
+        currentDate.setCombatRoundPosition(setup.getCurrentPosition());
+        combatRound.setCurrentDate(currentDate);
 
         // participants
         for (Entry<String, String> participation

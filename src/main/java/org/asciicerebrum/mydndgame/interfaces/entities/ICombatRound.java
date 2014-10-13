@@ -42,9 +42,9 @@ public interface ICombatRound {
     Set<ICharacter> getParticipantsForPosition(String roundPosition);
 
     /**
-     * @return the currentPosition
+     * @return the world date of the current turn in the current round.
      */
-    String getCurrentPosition();
+    IWorldDate getCurrentDate();
 
     /**
      * @return the currently active participant.
@@ -52,9 +52,9 @@ public interface ICombatRound {
     ICharacter getCurrentParticipant();
 
     /**
-     * @param currentPosition the currentPosition to set
+     * @param currentDate the currentDate to set
      */
-    void setCurrentPosition(String currentPosition);
+    void setCurrentDate(IWorldDate currentDate);
 
     /**
      * The next position is made active and returned.

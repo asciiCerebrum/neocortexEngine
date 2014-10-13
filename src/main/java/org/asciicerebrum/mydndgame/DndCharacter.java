@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
@@ -16,6 +17,7 @@ import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacterSetup;
 import org.asciicerebrum.mydndgame.interfaces.entities.IClass;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICondition;
 import org.asciicerebrum.mydndgame.interfaces.entities.IConditionType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDamage;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
@@ -26,6 +28,7 @@ import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
 import org.asciicerebrum.mydndgame.interfaces.entities.IRace;
 import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
+import org.asciicerebrum.mydndgame.interfaces.entities.IWorldDate;
 import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
 import org.asciicerebrum.mydndgame.interfaces.entities.StateRegistryKey;
 import org.asciicerebrum.mydndgame.interfaces.observing.Observable;
@@ -182,6 +185,11 @@ public final class DndCharacter implements ICharacter, Observable {
      * attributes.
      */
     private List<IObserver> observers = new ArrayList<IObserver>();
+
+    /**
+     * The conditions which apply to the character.
+     */
+    private List<ICondition> conditions = new ArrayList<ICondition>();
 
     /**
      * {@inheritDoc}
@@ -1072,6 +1080,7 @@ public final class DndCharacter implements ICharacter, Observable {
                     - damage.getDamageValue());
         }
         //TODO what happens when negative HPs are reached?
+        // you have to self-apply the condition unconscious or dead.
     }
 
     /**
@@ -1112,6 +1121,60 @@ public final class DndCharacter implements ICharacter, Observable {
      */
     public void setInitiativeAction(final DiceAction initiativeActionInput) {
         this.initiativeAction = initiativeActionInput;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void applyConditions(final ICondition... conditions) {
+        for (ICondition condition : conditions) {
+
+            ICondition observedCondition
+                    = (ICondition) this.getObservableDelegate()
+                    .triggerObservers(ObserverHook.CONDITION_APPLICATION,
+                            condition, this.getObserverMap(), this);
+
+            if (observedCondition == null) {
+                continue;
+            }
+
+            this.getConditions().add(observedCondition);
+
+            for (IObserver observer
+                    : observedCondition.getConditionType().getObservers()) {
+                this.getObservableDelegate().registerListener(
+                        observer.getHook(), observer, this.observerMap);
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeConditionsByExpiryDate(final IWorldDate worldDate) {
+        Iterator<ICondition> conditionIterator = this.conditions.iterator();
+        while (conditionIterator.hasNext()) {
+            ICondition condition = conditionIterator.next();
+            if (worldDate.compareTo(condition.getExpiryDate()) > 0) {
+                continue;
+            }
+
+            for (IObserver observer
+                    : condition.getConditionType().getObservers()) {
+                this.getObservableDelegate().unregisterListener(
+                        observer.getHook(), observer, this.observerMap);
+            }
+            conditionIterator.remove();
+        }
+    }
+
+    /**
+     * @return the conditions
+     */
+    public List<ICondition> getConditions() {
+        return conditions;
     }
 
 }

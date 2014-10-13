@@ -81,7 +81,8 @@ public class CombatRoundBuilderTest {
     @Test
     public void testBuildPosition() {
         ICombatRound combatRound = this.crBuilder.build();
-        assertEquals("pos2", combatRound.getCurrentPosition());
+        assertEquals("pos2", combatRound.getCurrentDate()
+                .getCombatRoundPosition());
     }
 
     @Test

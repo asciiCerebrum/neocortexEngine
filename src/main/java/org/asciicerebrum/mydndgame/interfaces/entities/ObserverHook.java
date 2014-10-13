@@ -49,6 +49,10 @@ public enum ObserverHook {
      */
     ATTACK,
     /**
+     * The process of applying inflicted conditions.
+     */
+    CONDITION_APPLICATION,
+    /**
      * The damage action.
      */
     DAMAGE,

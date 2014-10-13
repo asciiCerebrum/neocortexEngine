@@ -288,4 +288,19 @@ public interface ICharacter extends BonusSource {
      * @return the bonus for the initiative roll.
      */
     Long getInitBonus();
+
+    /**
+     * Processes the conditions that were suffered during an attack.
+     *
+     * @param conditions the list of conditions that have to be applied.
+     */
+    void applyConditions(ICondition... conditions);
+
+    /**
+     * Possibly removes all conditions if they have exceeded the given expiry
+     * date.
+     *
+     * @param worldDate the date when to expire.
+     */
+    void removeConditionsByExpiryDate(IWorldDate worldDate);
 }

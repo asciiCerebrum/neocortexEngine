@@ -14,6 +14,11 @@ import org.asciicerebrum.mydndgame.interfaces.entities.InteractionResponseKey;
 public class EndTurnWorkflow implements IWorkflow {
 
     /**
+     * Subsequent workflow for ending the turn: expirations of conditions.
+     */
+    private IWorkflow conditionExpirationWorkflow;
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -30,13 +35,29 @@ public class EndTurnWorkflow implements IWorkflow {
             final IInteraction interaction,
             final IInteractionResponse response) {
 
+        //TODO move this code into an abstract parent class so that is is
+        // automatically available - for all workflows!
         ICombatRound combatRound
                 = response.getValue(InteractionResponseKey.COMBAT_ROUND,
                         ICombatRound.class);
 
         combatRound.moveToNextPosition();
 
-        return response;
+        // run workflow conditionExpirationWorkflow
+        final IInteractionResponse responseFinal
+                = this.conditionExpirationWorkflow.runWorkflow(
+                        interaction, response);
+
+        return responseFinal;
+    }
+
+    /**
+     * @param conditionExpirationWorkflowInput the conditionExpirationWorkflow
+     * to set
+     */
+    public final void setConditionExpirationWorkflow(
+            final IWorkflow conditionExpirationWorkflowInput) {
+        this.conditionExpirationWorkflow = conditionExpirationWorkflowInput;
     }
 
 }

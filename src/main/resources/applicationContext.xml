@@ -45,7 +45,11 @@
     </bean>
     
     <!-- Managers -->
-    <bean id="combatRoundManager" class="org.asciicerebrum.mydndgame.managers.CombatRoundManager" />
+    <bean id="combatRoundManager" class="org.asciicerebrum.mydndgame.managers.CombatRoundManager">
+        <property name="conditionExpirationWorkflow" ref="conditionExpirationWorkflow" />
+        <property name="initializeCombatRoundWorkflow" ref="initializeCombatRoundWorkflow" />
+    </bean>
+
     <bean id="diceRollManager" class="org.asciicerebrum.mydndgame.managers.DiceRollManager" />
 
     <!-- d20 rule entity beans -->

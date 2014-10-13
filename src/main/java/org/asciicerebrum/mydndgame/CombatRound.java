@@ -11,6 +11,7 @@ import java.util.TreeSet;
 import org.apache.commons.lang.StringUtils;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICombatRound;
+import org.asciicerebrum.mydndgame.interfaces.entities.IWorldDate;
 
 /**
  *
@@ -27,9 +28,9 @@ public class CombatRound implements ICombatRound {
             = new HashMap<ICharacter, String>();
 
     /**
-     * The currently active position in the combat round.
+     * The current date of this particular combat round encounter.
      */
-    private String currentPosition;
+    private IWorldDate currentDate;
 
     /**
      * {@inheritDoc}
@@ -95,19 +96,19 @@ public class CombatRound implements ICombatRound {
      * {@inheritDoc}
      */
     @Override
-    public final String getCurrentPosition() {
-        if (StringUtils.isBlank(this.currentPosition)) {
+    public final IWorldDate getCurrentDate() {
+        if (this.currentDate == null) {
             this.moveToNextPosition();
         }
-        return this.currentPosition;
+        return this.currentDate;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final void setCurrentPosition(final String currentPositionInput) {
-        this.currentPosition = currentPositionInput;
+    public final void setCurrentDate(final IWorldDate currentDateInput) {
+        this.currentDate = currentDateInput;
     }
 
     /**
@@ -116,7 +117,8 @@ public class CombatRound implements ICombatRound {
     @Override
     public final ICharacter getCurrentParticipant() {
         Set<ICharacter> currentParticipants
-                = this.getParticipantsForPosition(this.getCurrentPosition());
+                = this.getParticipantsForPosition(
+                        this.currentDate.getCombatRoundPosition());
         if (currentParticipants.size() > 1) {
             throw new IllegalStateException("Current combat round seems to"
                     + " have more than one current participants.");
@@ -130,23 +132,28 @@ public class CombatRound implements ICombatRound {
     @Override
     public final void moveToNextPosition() {
 
-        if (StringUtils.isBlank(this.currentPosition)) {
-            this.currentPosition = this.getOrderedPositions().iterator().next();
+        if (this.currentDate == null) {
+            this.currentDate = new WorldDate();
+            this.currentDate.setCombatRoundNumber(0L);
+            this.currentDate.setCombatRoundPosition(
+                    this.getOrderedPositions().iterator().next());
             return;
         }
 
         List<String> orderedPositions
                 = new ArrayList<String>(this.getOrderedPositions());
-        int curIdx = orderedPositions.indexOf(this.currentPosition);
+        int curIdx = orderedPositions.indexOf(
+                this.currentDate.getCombatRoundPosition());
 
         // at the end we have to start at the beginning again.
-        //TODO if this occurs, increment the round number
+        // if this occurs, increment the round number
         if (curIdx == orderedPositions.size() - 1) {
-            this.currentPosition = null;
-            this.moveToNextPosition();
+            this.currentDate.setCombatRoundNumber(
+                    this.currentDate.getCombatRoundNumber() + 1L);
+            this.currentDate.setCombatRoundPosition(orderedPositions.get(0));
             return;
         }
-        this.currentPosition = orderedPositions.get(curIdx + 1);
+        this.currentDate.setCombatRoundPosition(orderedPositions.get(curIdx + 1));
     }
 
 }

@@ -28,6 +28,11 @@ public class CombatRoundManager {
     private IWorkflow initializeCombatRoundWorkflow;
 
     /**
+     * Workflow for the expiry of conditions.
+     */
+    private IWorkflow conditionExpirationWorkflow;
+
+    /**
      * Initiates the combat round. Only one round can be initiated at the same
      * time. If one is already initiated, false is returned.
      *
@@ -44,8 +49,7 @@ public class CombatRoundManager {
         interaction.setTargetCharacters(participants);
 
         IInteractionResponse initResponse
-                = this.getInitializeCombatRoundWorkflow()
-                .runWorkflow(interaction);
+                = this.initializeCombatRoundWorkflow.runWorkflow(interaction);
 
         this.currentCombatRound = initResponse.getValue(
                 InteractionResponseKey.COMBAT_ROUND, ICombatRound.class);
@@ -53,7 +57,9 @@ public class CombatRoundManager {
             throw new CombatRoundInitializationException();
         }
 
-        //TODO set participants on flat-footed.
+        // first participant in row must get rid of the flat footed condition.
+        this.conditionExpirationWorkflow.runWorkflow(interaction, initResponse);
+
         return Boolean.TRUE;
     }
 
@@ -113,18 +119,20 @@ public class CombatRoundManager {
     }
 
     /**
-     * @return the initializeCombatRoundWorkflow
-     */
-    public final IWorkflow getInitializeCombatRoundWorkflow() {
-        return initializeCombatRoundWorkflow;
-    }
-
-    /**
      * @param initializeCombatRoundWorkflowInput the
      * initializeCombatRoundWorkflow to set
      */
     public final void setInitializeCombatRoundWorkflow(
             final IWorkflow initializeCombatRoundWorkflowInput) {
         this.initializeCombatRoundWorkflow = initializeCombatRoundWorkflowInput;
+    }
+
+    /**
+     * @param conditionExpirationWorkflowInput the conditionExpirationWorkflow
+     * to set
+     */
+    public final void setConditionExpirationWorkflow(
+            final IWorkflow conditionExpirationWorkflowInput) {
+        this.conditionExpirationWorkflow = conditionExpirationWorkflowInput;
     }
 }

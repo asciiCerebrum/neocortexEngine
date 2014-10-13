@@ -17,24 +17,24 @@ public interface ICondition extends Identifiable {
     void setConditionType(IConditionType conditionType);
 
     /**
-     * @return the startingTime
+     * @return the starting date.
      */
-    Long getStartingTime();
+    IWorldDate getStartingDate();
 
     /**
-     * @param startingTime the startingTime to set
+     * @param startingDate the startingDate to set
      */
-    void setStartingTime(Long startingTime);
+    void setStartingDate(IWorldDate startingDate);
 
     /**
-     * @return the duration
+     * @return the expiry date.
      */
-    Long getDuration();
+    IWorldDate getExpiryDate();
 
     /**
-     * @param duration the duration to set
+     * @param expiryDate the expiryDate to set
      */
-    void setDuration(Long duration);
+    void setExpiryDate(IWorldDate expiryDate);
 
     /**
      * @return the causeCharacter

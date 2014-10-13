@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame;
 
 import java.util.Set;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
+import org.asciicerebrum.mydndgame.interfaces.entities.IWorldDate;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -51,33 +52,48 @@ public class CombatRoundTest {
     @Test
     public void testMoveToNextPositionFromStart() {
         this.combatRound.moveToNextPosition();
-        assertEquals("025012", this.combatRound.getCurrentPosition());
+        assertEquals("025012", this.combatRound.getCurrentDate()
+                .getCombatRoundPosition());
     }
 
     @Test
     public void testMoveToNextPositionFromEnd() {
-        this.combatRound.setCurrentPosition("018002");
+        IWorldDate worldDate = new WorldDate();
+        worldDate.setCombatRoundPosition("018002");
+        worldDate.setCombatRoundNumber(0L);
+        this.combatRound.setCurrentDate(worldDate);
         this.combatRound.moveToNextPosition();
-        assertEquals("025012", this.combatRound.getCurrentPosition());
+        assertEquals("025012", this.combatRound.getCurrentDate()
+                .getCombatRoundPosition());
     }
 
     @Test
     public void testMoveToNextPositionFromMiddle() {
-        this.combatRound.setCurrentPosition("023008");
+        IWorldDate worldDate = new WorldDate();
+        worldDate.setCombatRoundPosition("023008");
+        worldDate.setCombatRoundNumber(0L);
+        this.combatRound.setCurrentDate(worldDate);
+
         this.combatRound.moveToNextPosition();
-        assertEquals("018002", this.combatRound.getCurrentPosition());
+        assertEquals("018002", this.combatRound.getCurrentDate()
+                .getCombatRoundPosition());
     }
 
     @Test
     public void testGetCurrentPositionFromBlank() {
-        String curPos = this.combatRound.getCurrentPosition();
+        String curPos = this.combatRound.getCurrentDate()
+                .getCombatRoundPosition();
         assertEquals("025012", curPos);
     }
 
     @Test
     public void testGetCurrentPositionNormal() {
-        this.combatRound.setCurrentPosition("023008");
-        String curPos = this.combatRound.getCurrentPosition();
+        IWorldDate worldDate = new WorldDate();
+        worldDate.setCombatRoundPosition("023008");
+        worldDate.setCombatRoundNumber(0L);
+        this.combatRound.setCurrentDate(worldDate);
+        String curPos = this.combatRound.getCurrentDate()
+                .getCombatRoundPosition();
         assertEquals("023008", curPos);
     }
 
@@ -139,7 +155,7 @@ public class CombatRoundTest {
         this.combatRound.addParticipant(mock(ICharacter.class), "curPos");
         this.combatRound.addParticipant(mock(ICharacter.class), "curPos");
 
-        this.combatRound.setCurrentPosition("curPos");
+        this.combatRound.getCurrentDate().setCombatRoundPosition("curPos");
         this.combatRound.getCurrentParticipant();
     }
 

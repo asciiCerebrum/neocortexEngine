@@ -3,13 +3,18 @@ package org.asciicerebrum.mydndgame.interactionworkflows;
 import java.util.HashSet;
 import java.util.Set;
 import org.asciicerebrum.mydndgame.CombatRound;
+import org.asciicerebrum.mydndgame.Condition;
 import org.asciicerebrum.mydndgame.InteractionResponse;
+import org.asciicerebrum.mydndgame.WorldDate;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICombatRound;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICondition;
+import org.asciicerebrum.mydndgame.interfaces.entities.IConditionType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInteraction;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInteractionResponse;
 import org.asciicerebrum.mydndgame.interfaces.entities.IWorkflow;
+import org.asciicerebrum.mydndgame.interfaces.entities.IWorldDate;
 import org.asciicerebrum.mydndgame.interfaces.entities.InteractionResponseKey;
 import org.asciicerebrum.mydndgame.interfaces.managers.IDiceRollManager;
 
@@ -33,6 +38,11 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
      * The action for the initiative roll.
      */
     private IDiceAction initiativeAction;
+
+    /**
+     * The condition type of beeing flat footed.
+     */
+    private IConditionType flatFootedType;
 
     /**
      * {@inheritDoc}
@@ -84,7 +94,23 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
 
         this.resolveTies(combatRound);
 
-        //TODO set participants on flat-footed.
+        // Set participants on flat-footed.
+        for (ICharacter participant : combatRound.getParticipants()) {
+            IWorldDate expiryDate = new WorldDate();
+            expiryDate.setCombatRoundNumber(
+                    combatRound.getCurrentDate().getCombatRoundNumber());
+            expiryDate.setCombatRoundPosition(
+                    combatRound.getPositionForParticipant(participant));
+            IWorldDate startingDate = combatRound.getCurrentDate();
+
+            ICondition flatFooted = new Condition();
+            flatFooted.setConditionType(this.flatFootedType);
+            flatFooted.setExpiryDate(expiryDate);
+            flatFooted.setStartingDate(startingDate);
+
+            participant.applyConditions(flatFooted);
+        }
+
         return response;
     }
 
@@ -167,6 +193,14 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
     public final void setDiceRollManager(
             final IDiceRollManager diceRollManagerInput) {
         this.diceRollManager = diceRollManagerInput;
+    }
+
+    /**
+     * @param flatFootedTypeInput the flatFootedType to set
+     */
+    public final void setFlatFootedType(
+            final IConditionType flatFootedTypeInput) {
+        this.flatFootedType = flatFootedTypeInput;
     }
 
 }

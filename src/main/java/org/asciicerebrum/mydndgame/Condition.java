@@ -3,6 +3,7 @@ package org.asciicerebrum.mydndgame;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICondition;
 import org.asciicerebrum.mydndgame.interfaces.entities.IConditionType;
+import org.asciicerebrum.mydndgame.interfaces.entities.IWorldDate;
 
 /**
  *
@@ -21,19 +22,19 @@ public class Condition implements ICondition {
     private IConditionType conditionType;
 
     /**
-     * The world time (rounds) when the effect begins.
-     */
-    private Long startingTime;
-
-    /**
-     * How many rounds does the effect last.
-     */
-    private Long duration;
-
-    /**
      * Who is responsible for the effect of this condition.
      */
     private ICharacter causeCharacter;
+
+    /**
+     * Beginning date of this condition.
+     */
+    private IWorldDate startingDate;
+
+    /**
+     * Ending date of this condition.
+     */
+    private IWorldDate expiryDate;
 
     /**
      * {@inheritDoc}
@@ -72,38 +73,6 @@ public class Condition implements ICondition {
      * {@inheritDoc}
      */
     @Override
-    public final Long getStartingTime() {
-        return startingTime;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void setStartingTime(final Long startingTimeInput) {
-        this.startingTime = startingTimeInput;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final Long getDuration() {
-        return duration;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void setDuration(final Long durationInput) {
-        this.duration = durationInput;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public final ICharacter getCauseCharacter() {
         return causeCharacter;
     }
@@ -114,5 +83,37 @@ public class Condition implements ICondition {
     @Override
     public final void setCauseCharacter(final ICharacter causeCharacterInput) {
         this.causeCharacter = causeCharacterInput;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final IWorldDate getStartingDate() {
+        return this.startingDate;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void setStartingDate(final IWorldDate startingDateInput) {
+        this.startingDate = startingDateInput;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final IWorldDate getExpiryDate() {
+        return this.expiryDate;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void setExpiryDate(final IWorldDate expiryDateInput) {
+        this.expiryDate = expiryDateInput;
     }
 }

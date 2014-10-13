@@ -23,6 +23,11 @@ public class CombatRoundSetup {
     private String currentPosition;
 
     /**
+     * The currently active round number within the combat encounter.
+     */
+    private Long currentRoundNumber;
+
+    /**
      * @return the participantIdPositionMap
      */
     public final Map<String, String> getParticipantIdPositionMap() {
@@ -49,6 +54,21 @@ public class CombatRoundSetup {
      */
     public final void setCurrentPosition(final String currentPositionInput) {
         this.currentPosition = currentPositionInput;
+    }
+
+    /**
+     * @return the currentRoundNumber
+     */
+    public final Long getCurrentRoundNumber() {
+        return currentRoundNumber;
+    }
+
+    /**
+     * @param currentRoundNumberInput the currentRoundNumber to set
+     */
+    public final void setCurrentRoundNumber(
+            final Long currentRoundNumberInput) {
+        this.currentRoundNumber = currentRoundNumberInput;
     }
 
 }

@@ -17,14 +17,24 @@ public class ConditionSetup {
     private String name;
 
     /**
-     * Starting time as round.
+     * Starting date as round.
      */
-    private Long startingTime;
+    private Long startingRoundNumber;
 
     /**
-     * Duration of the effect in rounds.
+     * Starting date within the round.
      */
-    private Long duration;
+    private String startingRoundPosition;
+
+    /**
+     * Expiry date as round.
+     */
+    private Long expiryRoundNumber;
+
+    /**
+     * Expiry date within the round.
+     */
+    private String expiryRoundPosition;
 
     /**
      * Character id responsible for the effect.
@@ -65,34 +75,6 @@ public class ConditionSetup {
     }
 
     /**
-     * @return the startingTime
-     */
-    public final Long getStartingTime() {
-        return startingTime;
-    }
-
-    /**
-     * @param startingTimeInput the startingTime to set
-     */
-    public final void setStartingTime(final Long startingTimeInput) {
-        this.startingTime = startingTimeInput;
-    }
-
-    /**
-     * @return the duration
-     */
-    public final Long getDuration() {
-        return duration;
-    }
-
-    /**
-     * @param durationInput the duration to set
-     */
-    public final void setDuration(final Long durationInput) {
-        this.duration = durationInput;
-    }
-
-    /**
      * @return the causeCharacterId
      */
     public final String getCauseCharacterId() {
@@ -119,6 +101,65 @@ public class ConditionSetup {
     public final void setAffectedCharacterId(
             final String affectedCharacterIdInput) {
         this.affectedCharacterId = affectedCharacterIdInput;
+    }
+
+    /**
+     * @return the startingRoundNumber
+     */
+    public final Long getStartingRoundNumber() {
+        return startingRoundNumber;
+    }
+
+    /**
+     * @param startingRoundNumberInput the startingRoundNumber to set
+     */
+    public final void setStartingRoundNumber(
+            final Long startingRoundNumberInput) {
+        this.startingRoundNumber = startingRoundNumberInput;
+    }
+
+    /**
+     * @return the startingRoundPosition
+     */
+    public final String getStartingRoundPosition() {
+        return startingRoundPosition;
+    }
+
+    /**
+     * @param startingRoundPositionInput the startingRoundPosition to set
+     */
+    public final void setStartingRoundPosition(
+            final String startingRoundPositionInput) {
+        this.startingRoundPosition = startingRoundPositionInput;
+    }
+
+    /**
+     * @return the expiryRoundNumber
+     */
+    public final Long getExpiryRoundNumber() {
+        return expiryRoundNumber;
+    }
+
+    /**
+     * @param expiryRoundNumberInput the expiryRoundNumber to set
+     */
+    public final void setExpiryRoundNumber(final Long expiryRoundNumberInput) {
+        this.expiryRoundNumber = expiryRoundNumberInput;
+    }
+
+    /**
+     * @return the expiryRoundPosition
+     */
+    public final String getExpiryRoundPosition() {
+        return expiryRoundPosition;
+    }
+
+    /**
+     * @param expiryRoundPositionInput the expiryRoundPosition to set
+     */
+    public final void setExpiryRoundPosition(
+            final String expiryRoundPositionInput) {
+        this.expiryRoundPosition = expiryRoundPositionInput;
     }
 
 }

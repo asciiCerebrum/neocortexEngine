@@ -4,9 +4,11 @@ import org.asciicerebrum.mydndgame.Condition;
 import org.asciicerebrum.mydndgame.ConditionSetup;
 import org.asciicerebrum.mydndgame.ConditionType;
 import org.asciicerebrum.mydndgame.DndCharacter;
+import org.asciicerebrum.mydndgame.WorldDate;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICondition;
 import org.asciicerebrum.mydndgame.interfaces.entities.IConditionType;
+import org.asciicerebrum.mydndgame.interfaces.entities.IWorldDate;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -55,8 +57,17 @@ public class ConditionBuilder {
 
         condition.setConditionType(conditionType);
 
-        condition.setDuration(this.setup.getDuration());
-        condition.setStartingTime(this.setup.getStartingTime());
+        IWorldDate startingDate = new WorldDate();
+        startingDate.setCombatRoundNumber(this.setup.getStartingRoundNumber());
+        startingDate.setCombatRoundPosition(
+                this.setup.getStartingRoundPosition());
+
+        IWorldDate expiryDate = new WorldDate();
+        expiryDate.setCombatRoundNumber(this.setup.getExpiryRoundNumber());
+        expiryDate.setCombatRoundPosition(this.setup.getExpiryRoundPosition());
+
+        condition.setStartingDate(startingDate);
+        condition.setExpiryDate(expiryDate);
 
         // retrieving characters from application context.
         ICharacter causeCharacter
