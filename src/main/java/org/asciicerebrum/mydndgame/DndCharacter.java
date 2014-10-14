@@ -1127,8 +1127,8 @@ public final class DndCharacter implements ICharacter, Observable {
      * {@inheritDoc}
      */
     @Override
-    public void applyConditions(final ICondition... conditions) {
-        for (ICondition condition : conditions) {
+    public void applyConditions(final ICondition... rawConditions) {
+        for (ICondition condition : rawConditions) {
 
             ICondition observedCondition
                     = (ICondition) this.getObservableDelegate()

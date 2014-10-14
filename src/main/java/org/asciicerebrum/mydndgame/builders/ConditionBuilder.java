@@ -57,14 +57,13 @@ public class ConditionBuilder {
 
         condition.setConditionType(conditionType);
 
-        IWorldDate startingDate = new WorldDate();
-        startingDate.setCombatRoundNumber(this.setup.getStartingRoundNumber());
-        startingDate.setCombatRoundPosition(
+        IWorldDate startingDate = new WorldDate(
+                this.setup.getStartingRoundNumber(),
                 this.setup.getStartingRoundPosition());
 
-        IWorldDate expiryDate = new WorldDate();
-        expiryDate.setCombatRoundNumber(this.setup.getExpiryRoundNumber());
-        expiryDate.setCombatRoundPosition(this.setup.getExpiryRoundPosition());
+        IWorldDate expiryDate = new WorldDate(
+                this.setup.getExpiryRoundNumber(),
+                this.setup.getExpiryRoundPosition());
 
         condition.setStartingDate(startingDate);
         condition.setExpiryDate(expiryDate);

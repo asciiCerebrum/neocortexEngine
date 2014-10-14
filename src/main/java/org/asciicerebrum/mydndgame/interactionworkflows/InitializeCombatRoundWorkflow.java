@@ -94,12 +94,14 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
 
         this.resolveTies(combatRound);
 
+        if (this.flatFootedType == null) {
+            return response;
+        }
+
         // Set participants on flat-footed.
         for (ICharacter participant : combatRound.getParticipants()) {
-            IWorldDate expiryDate = new WorldDate();
-            expiryDate.setCombatRoundNumber(
-                    combatRound.getCurrentDate().getCombatRoundNumber());
-            expiryDate.setCombatRoundPosition(
+            IWorldDate expiryDate = new WorldDate(
+                    combatRound.getCurrentDate().getCombatRoundNumber(),
                     combatRound.getPositionForParticipant(participant));
             IWorldDate startingDate = combatRound.getCurrentDate();
 

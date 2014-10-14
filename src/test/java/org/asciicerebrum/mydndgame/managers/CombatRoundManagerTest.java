@@ -3,6 +3,7 @@ package org.asciicerebrum.mydndgame.managers;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.naming.OperationNotSupportedException;
 import org.asciicerebrum.mydndgame.CombatRound;
 import org.asciicerebrum.mydndgame.Interaction;
 import org.asciicerebrum.mydndgame.InteractionType;
@@ -56,7 +57,7 @@ public class CombatRoundManagerTest {
     }
 
     @Before
-    public void setUp() {
+    public void setUp() throws OperationNotSupportedException {
         this.crManager = new CombatRoundManager();
         this.participants = new ArrayList<ICharacter>();
         this.initializeWorkflow = mock(IWorkflow.class);
@@ -89,27 +90,27 @@ public class CombatRoundManagerTest {
      * Test of initiateCombatRound method, of class CombatRoundManager.
      */
     @Test
-    public void testInitiateCombatRound() {
+    public void testInitiateCombatRound() throws OperationNotSupportedException {
         Boolean isInit = this.crManager.initiateCombatRound(this.participants);
         assertTrue(isInit);
     }
 
     @Test
-    public void testInitiateCombatRoundInitCall() {
+    public void testInitiateCombatRoundInitCall() throws OperationNotSupportedException {
         this.crManager.initiateCombatRound(this.participants);
         verify(this.initializeWorkflow, times(1)).runWorkflow(
                 (IInteraction) anyObject());
     }
 
     @Test
-    public void testInitiateCombatRoundWithOldCombatRound() {
+    public void testInitiateCombatRoundWithOldCombatRound() throws OperationNotSupportedException {
         this.crManager.initiateCombatRound(this.participants);
         Boolean isInit = this.crManager.initiateCombatRound(this.participants);
         assertFalse(isInit);
     }
 
     @Test(expected = CombatRoundInitializationException.class)
-    public void testInitiateCombatRoundFailure() {
+    public void testInitiateCombatRoundFailure() throws OperationNotSupportedException {
         when(this.response.getValue(InteractionResponseKey.COMBAT_ROUND,
                 ICombatRound.class)).thenReturn(null);
         this.crManager.initiateCombatRound(this.participants);
@@ -125,7 +126,7 @@ public class CombatRoundManagerTest {
     }
 
     @Test
-    public void testResumeCombatRoundWithOldCombatRound() {
+    public void testResumeCombatRoundWithOldCombatRound() throws OperationNotSupportedException {
         this.crManager.initiateCombatRound(this.participants);
         Boolean isResume = this.crManager.resumeCombatRound(new CombatRound());
         assertFalse(isResume);
@@ -135,7 +136,7 @@ public class CombatRoundManagerTest {
      * Test of isCurrentParticipant method, of class CombatRoundManager.
      */
     @Test
-    public void testIsCurrentParticipant() {
+    public void testIsCurrentParticipant() throws OperationNotSupportedException {
         this.crManager.initiateCombatRound(this.participants);
         Boolean isCurrent = this.crManager.isCurrentParticipant(
                 this.participants.get(0));
@@ -143,7 +144,7 @@ public class CombatRoundManagerTest {
     }
 
     @Test
-    public void testIsCurrentParticipantNotCurrent() {
+    public void testIsCurrentParticipantNotCurrent() throws OperationNotSupportedException {
         this.crManager.initiateCombatRound(this.participants);
         Boolean isCurrent = this.crManager.isCurrentParticipant(
                 this.participants.get(1));
@@ -161,7 +162,7 @@ public class CombatRoundManagerTest {
      * Test of executeInteraction method, of class CombatRoundManager.
      */
     @Test
-    public void testExecuteInteraction() {
+    public void testExecuteInteraction() throws OperationNotSupportedException {
         IWorkflow workflow1 = mock(IWorkflow.class);
         IWorkflow workflow2 = mock(IWorkflow.class);
         IInteractionType interType = new InteractionType();
@@ -177,7 +178,7 @@ public class CombatRoundManagerTest {
     }
 
     @Test
-    public void testExecuteInteractionWorkflow2() {
+    public void testExecuteInteractionWorkflow2() throws OperationNotSupportedException {
         IWorkflow workflow1 = mock(IWorkflow.class);
         IWorkflow workflow2 = mock(IWorkflow.class);
         IInteractionType interType = new InteractionType();
@@ -193,7 +194,7 @@ public class CombatRoundManagerTest {
     }
 
     @Test
-    public void testExecuteInteractionInvalidParticipant() {
+    public void testExecuteInteractionInvalidParticipant() throws OperationNotSupportedException {
         IWorkflow workflow1 = mock(IWorkflow.class);
         IWorkflow workflow2 = mock(IWorkflow.class);
         IInteractionType interType = new InteractionType();

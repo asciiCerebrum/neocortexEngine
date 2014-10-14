@@ -238,7 +238,6 @@ public class CharacterSetup implements ICharacterSetup {
 
         return this.appContext.getBean(beanId, beanClass);
     }
-    
-    //TODO conditions!
 
+    //TODO conditions!
 }

@@ -116,6 +116,10 @@ public class CombatRound implements ICombatRound {
      */
     @Override
     public final ICharacter getCurrentParticipant() {
+        if (this.currentDate == null) {
+            throw new IllegalStateException("Current date of combat round "
+                    + "not yet set up.");
+        }
         Set<ICharacter> currentParticipants
                 = this.getParticipantsForPosition(
                         this.currentDate.getCombatRoundPosition());
@@ -133,9 +137,7 @@ public class CombatRound implements ICombatRound {
     public final void moveToNextPosition() {
 
         if (this.currentDate == null) {
-            this.currentDate = new WorldDate();
-            this.currentDate.setCombatRoundNumber(0L);
-            this.currentDate.setCombatRoundPosition(
+            this.currentDate = new WorldDate(0L,
                     this.getOrderedPositions().iterator().next());
             return;
         }
@@ -153,7 +155,8 @@ public class CombatRound implements ICombatRound {
             this.currentDate.setCombatRoundPosition(orderedPositions.get(0));
             return;
         }
-        this.currentDate.setCombatRoundPosition(orderedPositions.get(curIdx + 1));
+        this.currentDate.setCombatRoundPosition(
+                orderedPositions.get(curIdx + 1));
     }
 
 }

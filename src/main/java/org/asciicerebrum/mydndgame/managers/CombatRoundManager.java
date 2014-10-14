@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.managers;
 
 import java.util.List;
+import javax.naming.OperationNotSupportedException;
 import org.asciicerebrum.mydndgame.Interaction;
 import org.asciicerebrum.mydndgame.InteractionResponse;
 import org.asciicerebrum.mydndgame.exceptions.CombatRoundInitializationException;
@@ -38,15 +39,23 @@ public class CombatRoundManager {
      *
      * @param participants The participants of the combat round.
      * @return true if combat round could be initiated, false otherwise.
+     * @throws javax.naming.OperationNotSupportedException could be thrown due
+     * to the call of other workflows.
      */
     public final Boolean initiateCombatRound(
-            final List<ICharacter> participants) {
+            final List<ICharacter> participants)
+            throws OperationNotSupportedException {
         if (this.currentCombatRound != null) {
             return Boolean.FALSE;
         }
 
         IInteraction interaction = new Interaction();
         interaction.setTargetCharacters(participants);
+
+        if (this.initializeCombatRoundWorkflow == null) {
+            // in this case it does not make sense to continue.
+            return Boolean.TRUE;
+        }
 
         IInteractionResponse initResponse
                 = this.initializeCombatRoundWorkflow.runWorkflow(interaction);
@@ -57,8 +66,13 @@ public class CombatRoundManager {
             throw new CombatRoundInitializationException();
         }
 
-        // first participant in row must get rid of the flat footed condition.
-        this.conditionExpirationWorkflow.runWorkflow(interaction, initResponse);
+        // this workflow can also be not setup!
+        if (this.conditionExpirationWorkflow != null) {
+            // first participant in row must get rid of the flat footed
+            // condition.
+            this.conditionExpirationWorkflow.runWorkflow(interaction,
+                    initResponse);
+        }
 
         return Boolean.TRUE;
     }

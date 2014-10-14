@@ -9,6 +9,15 @@ import org.asciicerebrum.mydndgame.interfaces.entities.IWorldDate;
 public class WorldDate implements IWorldDate {
 
     /**
+     * Base value for hash sum.
+     */
+    private static final int HASH_BASE = 3;
+    /**
+     * Factor for hash sum.
+     */
+    private static final int HASH_FACTOR = 83;
+
+    /**
      * The round number within the combat encounter.
      */
     private Long combatRoundNumber;
@@ -17,6 +26,19 @@ public class WorldDate implements IWorldDate {
      * The position within the combat round.
      */
     private String combatRoundPosition;
+
+    /**
+     * There cannot be a date without values.
+     *
+     * @param combatRoundNumberInput the initial combat round number.
+     * @param combatRoundPositionInput the initial position within the combat
+     * round.
+     */
+    public WorldDate(final Long combatRoundNumberInput,
+            final String combatRoundPositionInput) {
+        this.combatRoundNumber = combatRoundNumberInput;
+        this.combatRoundPosition = combatRoundPositionInput;
+    }
 
     /**
      * {@inheritDoc}
@@ -55,7 +77,7 @@ public class WorldDate implements IWorldDate {
      * {@inheritDoc}
      */
     @Override
-    public int compareTo(IWorldDate t) {
+    public final int compareTo(final IWorldDate t) {
         int comparison = this.combatRoundNumber.compareTo(
                 t.getCombatRoundNumber());
         if (comparison == 0) {
@@ -70,7 +92,7 @@ public class WorldDate implements IWorldDate {
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(Object o) {
+    public final boolean equals(final Object o) {
         if (o instanceof IWorldDate) {
             IWorldDate oDate = (IWorldDate) o;
 
@@ -86,12 +108,16 @@ public class WorldDate implements IWorldDate {
      * {@inheritDoc}
      */
     @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 83 * hash + (this.combatRoundNumber != null
-                ? this.combatRoundNumber.hashCode() : 0);
-        hash = 83 * hash + (this.combatRoundPosition != null
-                ? this.combatRoundPosition.hashCode() : 0);
+    public final int hashCode() {
+        int hash = HASH_BASE;
+        hash = HASH_FACTOR * hash;
+        if (this.combatRoundNumber != null) {
+            hash = hash + this.combatRoundNumber.hashCode();
+        }
+        hash = HASH_FACTOR * hash;
+        if (this.combatRoundPosition != null) {
+            hash = hash + this.combatRoundPosition.hashCode();
+        }
         return hash;
     }
 

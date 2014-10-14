@@ -46,9 +46,8 @@ public class CombatRoundBuilder {
         ICombatRound combatRound = new CombatRound();
 
         // current date
-        IWorldDate currentDate = new WorldDate();
-        currentDate.setCombatRoundNumber(setup.getCurrentRoundNumber());
-        currentDate.setCombatRoundPosition(setup.getCurrentPosition());
+        IWorldDate currentDate = new WorldDate(setup.getCurrentRoundNumber(),
+                setup.getCurrentPosition());
         combatRound.setCurrentDate(currentDate);
 
         // participants

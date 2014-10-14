@@ -1,5 +1,7 @@
 package org.asciicerebrum.mydndgame.interfaces.entities;
 
+import javax.naming.OperationNotSupportedException;
+
 /**
  *
  * @author species8472
@@ -22,6 +24,9 @@ public interface IWorkflow {
      *
      * @param interaction The interaction with needed workflow parameters.
      * @return the new response of this interaction.
+     * @throws javax.naming.OperationNotSupportedException it might be possible
+     * that this variant is not runnable due to various reasons.
      */
-    IInteractionResponse runWorkflow(IInteraction interaction);
+    IInteractionResponse runWorkflow(IInteraction interaction)
+            throws OperationNotSupportedException;
 }

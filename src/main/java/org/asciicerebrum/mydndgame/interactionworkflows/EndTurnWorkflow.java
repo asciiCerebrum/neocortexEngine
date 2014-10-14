@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.interactionworkflows;
 
-import org.asciicerebrum.mydndgame.InteractionResponse;
+import javax.naming.OperationNotSupportedException;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICombatRound;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInteraction;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInteractionResponse;
@@ -23,8 +23,10 @@ public class EndTurnWorkflow implements IWorkflow {
      */
     @Override
     public final IInteractionResponse runWorkflow(
-            final IInteraction interaction) {
-        return this.runWorkflow(interaction, new InteractionResponse());
+            final IInteraction interaction)
+            throws OperationNotSupportedException {
+        throw new OperationNotSupportedException("You cannot run this workflow "
+                + "without a response filled with a combat round object.");
     }
 
     /**
@@ -43,12 +45,12 @@ public class EndTurnWorkflow implements IWorkflow {
 
         combatRound.moveToNextPosition();
 
+        if (conditionExpirationWorkflow == null) {
+            return response;
+        }
         // run workflow conditionExpirationWorkflow
-        final IInteractionResponse responseFinal
-                = this.conditionExpirationWorkflow.runWorkflow(
-                        interaction, response);
-
-        return responseFinal;
+        return this.conditionExpirationWorkflow.runWorkflow(
+                interaction, response);
     }
 
     /**

@@ -58,9 +58,7 @@ public class CombatRoundTest {
 
     @Test
     public void testMoveToNextPositionFromEnd() {
-        IWorldDate worldDate = new WorldDate();
-        worldDate.setCombatRoundPosition("018002");
-        worldDate.setCombatRoundNumber(0L);
+        IWorldDate worldDate = new WorldDate(0L, "018002");
         this.combatRound.setCurrentDate(worldDate);
         this.combatRound.moveToNextPosition();
         assertEquals("025012", this.combatRound.getCurrentDate()
@@ -69,9 +67,7 @@ public class CombatRoundTest {
 
     @Test
     public void testMoveToNextPositionFromMiddle() {
-        IWorldDate worldDate = new WorldDate();
-        worldDate.setCombatRoundPosition("023008");
-        worldDate.setCombatRoundNumber(0L);
+        IWorldDate worldDate = new WorldDate(0L, "023008");
         this.combatRound.setCurrentDate(worldDate);
 
         this.combatRound.moveToNextPosition();
@@ -88,9 +84,7 @@ public class CombatRoundTest {
 
     @Test
     public void testGetCurrentPositionNormal() {
-        IWorldDate worldDate = new WorldDate();
-        worldDate.setCombatRoundPosition("023008");
-        worldDate.setCombatRoundNumber(0L);
+        IWorldDate worldDate = new WorldDate(0L, "023008");
         this.combatRound.setCurrentDate(worldDate);
         String curPos = this.combatRound.getCurrentDate()
                 .getCombatRoundPosition();

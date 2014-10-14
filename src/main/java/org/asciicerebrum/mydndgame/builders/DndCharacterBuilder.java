@@ -100,9 +100,8 @@ public class DndCharacterBuilder {
         if (this.setup.getCurrentHp() == null) {
             this.setup.setCurrentHp(dndCharacter.getMaxHp());
         }
-        
-        //TODO conditions!!!
 
+        //TODO conditions!!!
         return dndCharacter;
     }
 
