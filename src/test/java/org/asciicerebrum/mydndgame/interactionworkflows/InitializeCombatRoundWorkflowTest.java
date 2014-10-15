@@ -11,6 +11,8 @@ import org.asciicerebrum.mydndgame.Interaction;
 import org.asciicerebrum.mydndgame.InteractionResponse;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.asciicerebrum.mydndgame.interfaces.entities.ICombatRound;
+import org.asciicerebrum.mydndgame.interfaces.entities.ICondition;
+import org.asciicerebrum.mydndgame.interfaces.entities.IConditionType;
 import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInteraction;
 import org.asciicerebrum.mydndgame.interfaces.entities.IInteractionResponse;
@@ -25,7 +27,10 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -215,6 +220,16 @@ public class InitializeCombatRoundWorkflowTest {
         // and as you cannot be sure, you have to assure at least that they are different!
         Assert.assertNotEquals(this.combatRound.getPositionForParticipant(this.char2),
                 this.combatRound.getPositionForParticipant(char3));
+    }
+
+    @Test
+    public void testRunWorkflowWithFlatFootedParticipantCalls() {
+        IConditionType flatFooted = mock(IConditionType.class);
+        this.icrWf.setFlatFootedType(flatFooted);
+
+        this.icrWf.runWorkflow(this.interaction, this.response);
+
+        verify(this.char2, times(1)).applyConditions((ICondition) anyObject());
     }
 
 }
