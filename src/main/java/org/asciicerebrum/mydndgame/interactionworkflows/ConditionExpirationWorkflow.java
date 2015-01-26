@@ -1,12 +1,10 @@
 package org.asciicerebrum.mydndgame.interactionworkflows;
 
-import javax.naming.OperationNotSupportedException;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICombatRound;
-import org.asciicerebrum.mydndgame.interfaces.entities.IInteraction;
-import org.asciicerebrum.mydndgame.interfaces.entities.IInteractionResponse;
-import org.asciicerebrum.mydndgame.interfaces.entities.IWorkflow;
-import org.asciicerebrum.mydndgame.interfaces.entities.InteractionResponseKey;
+import java.util.Iterator;
+import org.asciicerebrum.mydndgame.domain.gameentities.CombatRound;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.transfer.Interaction;
+import org.asciicerebrum.mydndgame.services.application.ConditionApplicationService;
 
 /**
  *
@@ -14,35 +12,33 @@ import org.asciicerebrum.mydndgame.interfaces.entities.InteractionResponseKey;
  */
 public class ConditionExpirationWorkflow implements IWorkflow {
 
+    private ConditionApplicationService conditionService;
+
     /**
      * {@inheritDoc} It checks all conditions of all participants if they expire
      * in this new combat round position and unregisters them.
      */
     @Override
-    public final IInteractionResponse runWorkflow(
-            final IInteraction interaction,
-            final IInteractionResponse response) {
+    public final void runWorkflow(final Interaction interaction) {
 
-        ICombatRound combatRound
-                = response.getValue(InteractionResponseKey.COMBAT_ROUND,
-                        ICombatRound.class);
+        final CombatRound combatRound = interaction.getCombatRound();
 
-        for (ICharacter participant : combatRound.getParticipants()) {
-            participant.removeConditionsByExpiryDate(
+        final Iterator<DndCharacter> iterator
+                = combatRound.participantsIterator();
+        while (iterator.hasNext()) {
+            final DndCharacter participant = iterator.next();
+
+            this.conditionService.removeExpiredConditions(participant,
                     combatRound.getCurrentDate());
         }
-        return response;
     }
 
     /**
-     * {@inheritDoc}
+     * @param conditionServiceInput the conditionService to set
      */
-    @Override
-    public final IInteractionResponse runWorkflow(
-            final IInteraction interaction)
-            throws OperationNotSupportedException {
-        throw new OperationNotSupportedException("You cannot run this workflow "
-                + "without a response filled with a combat round object.");
+    public final void setConditionService(
+            final ConditionApplicationService conditionServiceInput) {
+        this.conditionService = conditionServiceInput;
     }
 
 }

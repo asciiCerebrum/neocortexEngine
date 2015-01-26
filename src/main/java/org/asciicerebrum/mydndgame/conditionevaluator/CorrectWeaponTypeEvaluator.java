@@ -1,10 +1,12 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
-import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
-import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
-import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
-import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponType;
+import org.asciicerebrum.mydndgame.domain.core.attribution.WeaponType;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
+import org.asciicerebrum.mydndgame.domain.gameentities.Weapon;
+import org.asciicerebrum.mydndgame.observers.IObserver;
+import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
  *
@@ -15,7 +17,12 @@ public class CorrectWeaponTypeEvaluator implements ConditionEvaluator {
     /**
      * The weapon type to compare with.
      */
-    private IWeaponType weaponType;
+    private WeaponType weaponType;
+
+    /**
+     * Getting settings from the character.
+     */
+    private SituationContextService situationContextService;
 
     /**
      * {@inheritDoc} Checks if the given weapontype is included in the current
@@ -24,36 +31,47 @@ public class CorrectWeaponTypeEvaluator implements ConditionEvaluator {
      * @return
      */
     @Override
-    public final Boolean evaluate(final ICharacter character) {
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final IObserver referenceObserver) {
 
-        if (this.getWeaponType() == null) {
-            return Boolean.FALSE;
+        final InventoryItem refWeapon = this.situationContextService
+                .getActiveItem(dndCharacter);
+
+        if (this.weaponType == null || refWeapon == null
+                || !(refWeapon instanceof Weapon)) {
+            return false;
         }
 
-        final IInventoryItem item = character
-                .getBodySlotByType(character.getSituationContext()
-                        .getBodySlotType()).getItem();
+        return ((Weapon) refWeapon).hasWeaponType(
+                this.weaponType, dndCharacter);
+    }
 
-        if (item != null && item instanceof IWeapon) {
-            return ((IWeapon) item).getWeaponTypes()
-                    .contains(this.getWeaponType());
-        }
-
-        return Boolean.FALSE;
+    @Override
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final Bonus referenceBonus) {
+        return this.evaluate(dndCharacter, (IObserver) null);
     }
 
     /**
      * @return the weaponType
      */
-    public final IWeaponType getWeaponType() {
+    public final WeaponType getWeaponType() {
         return weaponType;
     }
 
     /**
      * @param weaponTypeInput the weaponType to set
      */
-    public final void setWeaponType(final IWeaponType weaponTypeInput) {
+    public final void setWeaponType(final WeaponType weaponTypeInput) {
         this.weaponType = weaponTypeInput;
+    }
+
+    /**
+     * @param situationContextServiceInput the situationContextService to set
+     */
+    public final void setSituationContextService(
+            final SituationContextService situationContextServiceInput) {
+        this.situationContextService = situationContextServiceInput;
     }
 
 }

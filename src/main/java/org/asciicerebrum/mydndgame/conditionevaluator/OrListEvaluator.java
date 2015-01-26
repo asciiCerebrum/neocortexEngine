@@ -1,9 +1,10 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
-import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
 import java.util.ArrayList;
 import java.util.List;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.observers.IObserver;
 
 /**
  *
@@ -22,20 +23,25 @@ public class OrListEvaluator implements ConditionEvaluator {
      * {@inheritDoc} Only true, if one element in the list evaluates to true.
      */
     @Override
-    public final Boolean evaluate(final ICharacter character) {
-        for (ConditionEvaluator singleEval : this.getConditionEvaluators()) {
-            if (singleEval.evaluate(character)) {
-                return Boolean.TRUE;
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final IObserver referenceObserver) {
+        for (ConditionEvaluator singleEval : this.conditionEvaluators) {
+            if (singleEval.evaluate(dndCharacter, referenceObserver)) {
+                return true;
             }
         }
-        return Boolean.FALSE;
+        return false;
     }
 
-    /**
-     * @return the conditionEvaluators
-     */
-    public final List<ConditionEvaluator> getConditionEvaluators() {
-        return conditionEvaluators;
+    @Override
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final Bonus referenceBonus) {
+        for (ConditionEvaluator singleEval : this.conditionEvaluators) {
+            if (singleEval.evaluate(dndCharacter, referenceBonus)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

@@ -1,11 +1,15 @@
 package org.asciicerebrum.mydndgame.observers;
 
-import java.util.List;
-import org.asciicerebrum.mydndgame.Bonus;
-import org.asciicerebrum.mydndgame.interfaces.entities.BonusTarget;
-import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
-import org.asciicerebrum.mydndgame.interfaces.entities.IBonusType;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusType;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.gameentities.StateRegistry.StateParticle;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusTarget;
+import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
  *
@@ -16,11 +20,11 @@ public class AddBonusObserver extends AbstractObserver {
     /**
      * Type of bonus to add.
      */
-    private IBonusType bonusType;
+    private BonusType bonusType;
     /**
      * Retrieve the value from the character's state registry by this key.
      */
-    private String registryKey;
+    private StateParticle registryStateKey;
     /**
      * Target of the bonus.
      */
@@ -28,7 +32,11 @@ public class AddBonusObserver extends AbstractObserver {
     /**
      * The bonus to add.
      */
-    private IBonus addBonus;
+    private Bonus addBonus;
+    /**
+     * Retrieves the bonus from the registry.
+     */
+    private SituationContextService situationContextService;
 
     /**
      * {@inheritDoc} A given bonus has priority over a lookup in the characters
@@ -36,63 +44,38 @@ public class AddBonusObserver extends AbstractObserver {
      */
     @Override
     protected final Object triggerCallback(final Object object,
-            final ICharacter character) {
-        List<IBonus> boni = (List<IBonus>) object;
+            final DndCharacter dndCharacter) {
+        Boni boni = (Boni) object;
 
         if (this.addBonus != null) {
-            boni.add(this.addBonus);
+            boni.addBonus(this.addBonus);
             return boni;
         }
 
-        Long addBonusValue = (Long) character.getSetup()
-                .getStateRegistry().get(this.getRegistryKey());
+        BonusValue addBonusValue = this.situationContextService
+                .getBonusValueForKey(this.registryStateKey, dndCharacter);
 
-        if (addBonusValue != null
-                && addBonusValue != 0L) {
-            IBonus altAddBonus = new Bonus();
-            altAddBonus.setBonusType(this.getBonusType());
-            altAddBonus.setTarget(this.getBonusTarget());
-            altAddBonus.setValue(addBonusValue);
+        if (addBonusValue != null && addBonusValue.isNonZero()) {
+            final Bonus altAddBonus = new Bonus();
+            altAddBonus.setBonusType(this.bonusType);
+            altAddBonus.setTarget(this.bonusTarget);
 
-            boni.add(altAddBonus);
+            final BonusValueTuple bonusValueTuple = new BonusValueTuple();
+            bonusValueTuple.addBonusValue(BonusRank.RANK_0, addBonusValue);
+
+            altAddBonus.setValues(bonusValueTuple);
+
+            boni.addBonus(altAddBonus);
         }
 
         return boni;
     }
 
     /**
-     * @return the bonusType
-     */
-    public final IBonusType getBonusType() {
-        return bonusType;
-    }
-
-    /**
      * @param bonusTypeInput the bonusType to set
      */
-    public final void setBonusType(final IBonusType bonusTypeInput) {
+    public final void setBonusType(final BonusType bonusTypeInput) {
         this.bonusType = bonusTypeInput;
-    }
-
-    /**
-     * @return the registryKey
-     */
-    public final String getRegistryKey() {
-        return registryKey;
-    }
-
-    /**
-     * @param registryKeyInput the registryKey to set
-     */
-    public final void setRegistryKey(final String registryKeyInput) {
-        this.registryKey = registryKeyInput;
-    }
-
-    /**
-     * @return the bonusTarget
-     */
-    public final BonusTarget getBonusTarget() {
-        return bonusTarget;
     }
 
     /**
@@ -105,8 +88,24 @@ public class AddBonusObserver extends AbstractObserver {
     /**
      * @param addBonusInput the addBonus to set
      */
-    public final void setAddBonus(final IBonus addBonusInput) {
+    public final void setAddBonus(final Bonus addBonusInput) {
         this.addBonus = addBonusInput;
+    }
+
+    /**
+     * @param registryStateKey the registryStateKey to set
+     */
+    public final void setRegistryStateKey(
+            final StateParticle registryStateKey) {
+        this.registryStateKey = registryStateKey;
+    }
+
+    /**
+     * @param situationContextServiceInput the situationContextService to set
+     */
+    public final void setSituationContextService(
+            final SituationContextService situationContextServiceInput) {
+        this.situationContextService = situationContextServiceInput;
     }
 
 }

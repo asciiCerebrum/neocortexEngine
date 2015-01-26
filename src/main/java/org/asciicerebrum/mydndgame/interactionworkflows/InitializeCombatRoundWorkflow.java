@@ -1,22 +1,21 @@
 package org.asciicerebrum.mydndgame.interactionworkflows;
 
-import java.util.HashSet;
-import java.util.Set;
-import org.asciicerebrum.mydndgame.CombatRound;
-import org.asciicerebrum.mydndgame.Condition;
-import org.asciicerebrum.mydndgame.InteractionResponse;
-import org.asciicerebrum.mydndgame.WorldDate;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICombatRound;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICondition;
-import org.asciicerebrum.mydndgame.interfaces.entities.IConditionType;
-import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
-import org.asciicerebrum.mydndgame.interfaces.entities.IInteraction;
-import org.asciicerebrum.mydndgame.interfaces.entities.IInteractionResponse;
-import org.asciicerebrum.mydndgame.interfaces.entities.IWorkflow;
-import org.asciicerebrum.mydndgame.interfaces.entities.IWorldDate;
-import org.asciicerebrum.mydndgame.interfaces.entities.InteractionResponseKey;
-import org.asciicerebrum.mydndgame.interfaces.managers.IDiceRollManager;
+import java.util.Iterator;
+import org.asciicerebrum.mydndgame.domain.core.attribution.ConditionType;
+import org.asciicerebrum.mydndgame.domain.gameentities.CombatRound;
+import org.asciicerebrum.mydndgame.domain.gameentities.Condition;
+import org.asciicerebrum.mydndgame.domain.core.attribution.WorldDate;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
+import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
+import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
+import org.asciicerebrum.mydndgame.domain.gameentities.Conditions;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacters;
+import org.asciicerebrum.mydndgame.domain.gameentities.prototypes.DiceAction;
+import org.asciicerebrum.mydndgame.domain.transfer.Interaction;
+import org.asciicerebrum.mydndgame.managers.DiceRollManager;
+import org.asciicerebrum.mydndgame.services.application.ConditionApplicationService;
+import org.asciicerebrum.mydndgame.services.statistics.InitiativeCalculationService;
 
 /**
  *
@@ -25,44 +24,39 @@ import org.asciicerebrum.mydndgame.interfaces.managers.IDiceRollManager;
 public class InitializeCombatRoundWorkflow implements IWorkflow {
 
     /**
-     * Format string for the elements of the round position.
-     */
-    private static final String ROUND_POSITION_FORMAT = "%03d";
-
-    /**
      * Service for rolling dice.
      */
-    private IDiceRollManager diceRollManager;
+    private DiceRollManager diceRollManager;
 
     /**
      * The action for the initiative roll.
      */
-    private IDiceAction initiativeAction;
+    private DiceAction initiativeAction;
 
     /**
      * The condition type of beeing flat footed.
      */
-    private IConditionType flatFootedType;
+    private ConditionType flatFootedType;
+
+    /**
+     * Calculating the initiative boni.
+     */
+    private InitiativeCalculationService initiativeCalculationService;
+
+    /**
+     * Apply conditionsn like flatfooted, etc.
+     */
+    private ConditionApplicationService conditionApplicationService;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final IInteractionResponse runWorkflow(
-            final IInteraction interaction) {
-        return this.runWorkflow(interaction, new InteractionResponse());
-    }
+    public final void runWorkflow(
+            final Interaction interaction) {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final IInteractionResponse runWorkflow(
-            final IInteraction interaction,
-            final IInteractionResponse response) {
-
-        ICombatRound combatRound = new CombatRound();
-        response.setValue(InteractionResponseKey.COMBAT_ROUND, combatRound);
+        final CombatRound combatRound = new CombatRound();
+        interaction.setCombatRound(combatRound);
 
         // roll initiative on each character and save results!
         // Determination of the combat round position:
@@ -79,15 +73,19 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
         // sorting of this list gives the correct order of participants!
         // As long as two numbers are the same, a reroll-result is appended
         // until uniqueness is accomplished.
-        for (ICharacter participant : interaction.getTargetCharacters()) {
-            Long initBonus = participant.getInitBonus();
-            Long totalInit = initBonus
-                    + this.getDiceRollManager().rollDice(
-                            this.getInitiativeAction());
+        Iterator<DndCharacter> participantIterator
+                = interaction.getTargetCharacters().iterator();
+        while (participantIterator.hasNext()) {
+            final DndCharacter participant = participantIterator.next();
 
-            String roundPosition
-                    = String.format(ROUND_POSITION_FORMAT, totalInit)
-                    + String.format(ROUND_POSITION_FORMAT, initBonus);
+            final BonusValue initBonus = this.initiativeCalculationService
+                    .calcInitBonus(participant);
+
+            final DiceRoll totalInit = this.diceRollManager
+                    .rollDice(this.initiativeAction).add(initBonus);
+
+            CombatRoundPosition roundPosition
+                    = new CombatRoundPosition(totalInit, initBonus);
 
             combatRound.addParticipant(participant, roundPosition);
         }
@@ -95,25 +93,26 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
         this.resolveTies(combatRound);
 
         if (this.flatFootedType == null) {
-            return response;
+            return;
         }
 
         // Set participants on flat-footed.
-        for (ICharacter participant : combatRound.getParticipants()) {
-            IWorldDate expiryDate = new WorldDate(
-                    combatRound.getCurrentDate().getCombatRoundNumber(),
-                    combatRound.getPositionForParticipant(participant));
-            IWorldDate startingDate = combatRound.getCurrentDate();
+        participantIterator = combatRound.participantsIterator();
+        while (participantIterator.hasNext()) {
+            final DndCharacter participant = participantIterator.next();
 
-            ICondition flatFooted = new Condition();
+            final WorldDate expiryDate = new WorldDate(
+                    combatRound.getNextParticipationDate(participant));
+            final WorldDate startingDate = combatRound.getCurrentDate();
+
+            final Condition flatFooted = new Condition();
             flatFooted.setConditionType(this.flatFootedType);
             flatFooted.setExpiryDate(expiryDate);
             flatFooted.setStartingDate(startingDate);
 
-            participant.applyConditions(flatFooted);
+            this.conditionApplicationService.applyCondition(participant,
+                    new Conditions(flatFooted));
         }
-
-        return response;
     }
 
     /**
@@ -123,20 +122,26 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
      *
      * @param combatRound the combat round in which the tie occurs.
      */
-    final void resolveTies(final ICombatRound combatRound) {
+    final void resolveTies(final CombatRound combatRound) {
         // remove duplicates in roundPositions - make a reroll between tieing
         // characters (characters with equal totalInit and initbonus).
-        Set<ICharacter> tieingParticipants
+        DndCharacters tieingParticipants
                 = this.getTieingParticipants(combatRound);
-        while (!tieingParticipants.isEmpty()) {
-            for (ICharacter tieParticipant : tieingParticipants) {
-                Long initReroll
-                        = this.getDiceRollManager().rollDice(
-                                this.getInitiativeAction());
-                String newPosition
-                        = combatRound.getPositionForParticipant(
-                                tieParticipant)
-                        + String.format(ROUND_POSITION_FORMAT, initReroll);
+        while (tieingParticipants.hasEntries()) {
+
+            final Iterator<DndCharacter> participantIterator
+                    = tieingParticipants.iterator();
+
+            while (participantIterator.hasNext()) {
+                final DndCharacter tieParticipant = participantIterator.next();
+
+                final DiceRoll initReroll
+                        = this.diceRollManager.rollDice(
+                                this.initiativeAction);
+                final CombatRoundPosition newPosition
+                        = new CombatRoundPosition(
+                                combatRound.getPositionForParticipant(
+                                        tieParticipant), initReroll);
                 combatRound.addParticipant(
                         tieParticipant, newPosition);
             }
@@ -151,16 +156,19 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
      * @param combatRound the current round of combat.
      * @return the list of tieing participants.
      */
-    final Set<ICharacter> getTieingParticipants(
-            final ICombatRound combatRound) {
-        Set<ICharacter> tieingParticipants = new HashSet<ICharacter>();
+    final DndCharacters getTieingParticipants(
+            final CombatRound combatRound) {
+        final DndCharacters tieingParticipants = new DndCharacters();
 
-        for (String roundPosition
-                : combatRound.getOrderedPositions()) {
-            Set<ICharacter> candidates = combatRound
+        final Iterator<CombatRoundPosition> positionIterator
+                = combatRound.getOrderedPositions();
+        while (positionIterator.hasNext()) {
+            final CombatRoundPosition roundPosition = positionIterator.next();
+            
+            final DndCharacters candidates = combatRound
                     .getParticipantsForPosition(roundPosition);
-            if (candidates.size() > 1) {
-                tieingParticipants.addAll(candidates);
+            if (candidates.hasMultipleEntries()) {
+                tieingParticipants.addDndCharacters(candidates);
             }
         }
 
@@ -168,32 +176,18 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
     }
 
     /**
-     * @return the initiativeAction
-     */
-    public final IDiceAction getInitiativeAction() {
-        return initiativeAction;
-    }
-
-    /**
      * @param initiativeActionInput the initiativeAction to set
      */
     public final void setInitiativeAction(
-            final IDiceAction initiativeActionInput) {
+            final DiceAction initiativeActionInput) {
         this.initiativeAction = initiativeActionInput;
-    }
-
-    /**
-     * @return the diceRollManager
-     */
-    public final IDiceRollManager getDiceRollManager() {
-        return diceRollManager;
     }
 
     /**
      * @param diceRollManagerInput the diceRollManager to set
      */
     public final void setDiceRollManager(
-            final IDiceRollManager diceRollManagerInput) {
+            final DiceRollManager diceRollManagerInput) {
         this.diceRollManager = diceRollManagerInput;
     }
 
@@ -201,8 +195,24 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
      * @param flatFootedTypeInput the flatFootedType to set
      */
     public final void setFlatFootedType(
-            final IConditionType flatFootedTypeInput) {
+            final ConditionType flatFootedTypeInput) {
         this.flatFootedType = flatFootedTypeInput;
+    }
+
+    /**
+     * @param initCalcServiceInput the initiativeCalculationService to set
+     */
+    public final void setInitiativeCalculationService(
+            final InitiativeCalculationService initCalcServiceInput) {
+        this.initiativeCalculationService = initCalcServiceInput;
+    }
+
+    /**
+     * @param conditionApplServiceInput the conditionApplicationService to set
+     */
+    public final void setConditionApplicationService(
+            final ConditionApplicationService conditionApplServiceInput) {
+        this.conditionApplicationService = conditionApplServiceInput;
     }
 
 }

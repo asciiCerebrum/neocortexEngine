@@ -1,10 +1,10 @@
 package org.asciicerebrum.mydndgame.observers;
 
 import java.util.Iterator;
-import java.util.List;
-import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
-import org.asciicerebrum.mydndgame.interfaces.entities.IBonus.ResemblanceFacet;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus.ResemblanceFacet;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
 
 /**
  *
@@ -15,26 +15,26 @@ public class RemoveBonusObserver extends AbstractObserver {
     /**
      * The bonus to resemble the bonus which must be removed.
      */
-    private IBonus removeBonus;
+    private Bonus removeBonus;
 
     /**
      * Defines the aspects which create resemblance between two boni.
      */
-    private List<ResemblanceFacet> resemblanceFacets;
+    private ResemblanceFacet[] resemblanceFacets;
 
     /**
      * {@inheritDoc}
      */
     @Override
     protected final Object triggerCallback(final Object object,
-            final ICharacter character) {
+            final DndCharacter dndCharacter) {
 
-        List<IBonus> boni = (List<IBonus>) object;
-        Iterator<IBonus> boniIterator = boni.iterator();
+        final Boni boni = (Boni) object;
+        final Iterator<Bonus> boniIterator = boni.iterator();
         while (boniIterator.hasNext()) {
-            IBonus bonus = boniIterator.next();
-            if (this.getRemoveBonus().resembles(bonus,
-                    this.getResemblanceFacets())) {
+            final Bonus bonus = boniIterator.next();
+            if (this.removeBonus.resembles(bonus,
+                    this.resemblanceFacets)) {
                 boniIterator.remove();
             }
         }
@@ -42,31 +42,17 @@ public class RemoveBonusObserver extends AbstractObserver {
     }
 
     /**
-     * @return the removeBonus
-     */
-    public final IBonus getRemoveBonus() {
-        return removeBonus;
-    }
-
-    /**
      * @param removeBonusInput the removeBonus to set
      */
-    public final void setRemoveBonus(final IBonus removeBonusInput) {
+    public final void setRemoveBonus(final Bonus removeBonusInput) {
         this.removeBonus = removeBonusInput;
-    }
-
-    /**
-     * @return the resemblanceFacets
-     */
-    public final List<ResemblanceFacet> getResemblanceFacets() {
-        return resemblanceFacets;
     }
 
     /**
      * @param resemblanceFacetsInput the resemblanceFacets to set
      */
     public final void setResemblanceFacets(
-            final List<ResemblanceFacet> resemblanceFacetsInput) {
+            final ResemblanceFacet... resemblanceFacetsInput) {
         this.resemblanceFacets = resemblanceFacetsInput;
     }
 }

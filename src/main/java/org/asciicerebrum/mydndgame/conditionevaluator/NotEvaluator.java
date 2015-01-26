@@ -1,7 +1,8 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
-import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.observers.IObserver;
 
 /**
  *
@@ -18,8 +19,17 @@ public class NotEvaluator implements ConditionEvaluator {
      * {@inheritDoc} Checks if the given sub evaluator is false.
      */
     @Override
-    public final Boolean evaluate(final ICharacter character) {
-        return !this.getConditionEvaluator().evaluate(character);
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final IObserver referenceObserver) {
+        return !this.getConditionEvaluator().evaluate(dndCharacter,
+                referenceObserver);
+    }
+
+    @Override
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final Bonus referenceBonus) {
+        return !this.getConditionEvaluator().evaluate(dndCharacter,
+                referenceBonus);
     }
 
     /**

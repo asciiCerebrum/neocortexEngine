@@ -1,60 +1,41 @@
 package org.asciicerebrum.mydndgame.valueproviders;
 
-import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
-import org.asciicerebrum.mydndgame.interfaces.entities.IArmor;
-import org.asciicerebrum.mydndgame.interfaces.entities.IArmorCategory;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
+import org.asciicerebrum.mydndgame.domain.core.attribution.ArmorCategory;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
 
 /**
  *
  * @author species8472
  */
-public class ArmorCheckPenaltyProvider implements BonusValueProvider {
+public class ArmorCheckPenaltyProvider implements DynamicValueProvider {
 
     /**
      * The armor category in question.
      */
-    private IArmorCategory armorCategory;
+    private ArmorCategory armorCategory;
 
     /**
      * {@inheritDoc} Collects the armor of the given category and returns the
      * minimum check penalty. The lowest value counts!
      */
     @Override
-    public final Long getDynamicValue(final ICharacter character) {
-        Long checkPenalty = 0L;
+    public final BonusValue getDynamicValue(final DndCharacter dndCharacter) {
 
-        if (this.getArmorCategory() == null) {
-            return checkPenalty;
+        if (this.armorCategory == null) {
+            return new BonusValue();
         }
 
-        for (IArmor armor : character.getWieldedArmor()) {
-            if (armor.getArmorCategory() == null
-                    || !armor.getArmorCategory()
-                    .equals(this.getArmorCategory())) {
-                continue;
-            }
-            if (armor.getArmorCheckPenalty() != null
-                    && armor.getArmorCheckPenalty() < checkPenalty) {
-                checkPenalty = armor.getArmorCheckPenalty();
-            }
-        }
-
-        return checkPenalty;
-    }
-
-    /**
-     * @return the armorCategory
-     */
-    public final IArmorCategory getArmorCategory() {
-        return armorCategory;
+        return dndCharacter.getArmorWorn()
+                .filterByArmorCateogry(this.armorCategory)
+                .getMinimumArmorCheckPenalty(dndCharacter);
     }
 
     /**
      * @param armorCategoryInput the armorCategory to set
      */
     public final void setArmorCategory(
-            final IArmorCategory armorCategoryInput) {
+            final ArmorCategory armorCategoryInput) {
         this.armorCategory = armorCategoryInput;
     }
 

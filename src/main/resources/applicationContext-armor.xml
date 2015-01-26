@@ -65,7 +65,7 @@
             </list>
         </property>
     </bean>
-
+    
     <bean id="chainmail" class="org.asciicerebrum.mydndgame.Armor" scope="prototype"
           parent="abstractArmor">
         <property name="name" value="chainmail" />

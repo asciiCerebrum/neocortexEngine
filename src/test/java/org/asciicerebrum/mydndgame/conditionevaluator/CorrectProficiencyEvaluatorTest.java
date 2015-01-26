@@ -1,36 +1,17 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
-import org.asciicerebrum.mydndgame.Proficiency;
-import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
-import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
-import org.asciicerebrum.mydndgame.interfaces.entities.IProficiency;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
-import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
-import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  *
  * @author species8472
  */
 public class CorrectProficiencyEvaluatorTest {
-
-    private CorrectProficiencyEvaluator cpEval;
-
-    private ISituationContext mockSitCon;
-
-    private ICharacter character;
-
-    private Slotable mockBodySlot;
 
     public CorrectProficiencyEvaluatorTest() {
     }
@@ -46,28 +27,6 @@ public class CorrectProficiencyEvaluatorTest {
     @Before
     public void setUp() {
 
-        this.cpEval = new CorrectProficiencyEvaluator();
-
-        this.character = mock(ICharacter.class);
-        this.mockSitCon = mock(ISituationContext.class);
-
-        IBodySlotType bsType = mock(IBodySlotType.class);
-        this.mockBodySlot = mock(Slotable.class);
-        IWeapon mockWeapon = mock(IWeapon.class);
-
-        when(this.character.getSituationContext()).thenReturn(this.mockSitCon);
-        when(this.mockSitCon.getBodySlotType()).thenReturn(bsType);
-
-        when(this.character.getBodySlotByType(bsType))
-                .thenReturn(this.mockBodySlot);
-
-        when(this.mockBodySlot.getItem()).thenReturn(mockWeapon);
-
-        IProficiency someProficiency = new Proficiency();
-
-        when(mockWeapon.getProficiency()).thenReturn(someProficiency);
-
-        this.cpEval.setProficiency(someProficiency);
     }
 
     @After
@@ -79,9 +38,7 @@ public class CorrectProficiencyEvaluatorTest {
      */
     @Test
     public void testEvaluate() {
-        Boolean isCorrect = this.cpEval.evaluate(this.character);
-
-        assertTrue(isCorrect);
+        fail();
     }
 
     /**
@@ -90,10 +47,7 @@ public class CorrectProficiencyEvaluatorTest {
      */
     @Test
     public void testEvaluateNullProficiency() {
-        this.cpEval.setProficiency(null);
-        Boolean isCorrect = this.cpEval.evaluate(this.character);
-
-        assertFalse(isCorrect);
+        fail();
     }
 
     /**
@@ -102,11 +56,7 @@ public class CorrectProficiencyEvaluatorTest {
      */
     @Test
     public void testEvaluateNoItem() {
-        when(this.mockBodySlot.getItem()).thenReturn(null);
-
-        Boolean isCorrect = this.cpEval.evaluate(this.character);
-
-        assertFalse(isCorrect);
+        fail();
     }
 
     /**
@@ -115,12 +65,7 @@ public class CorrectProficiencyEvaluatorTest {
      */
     @Test
     public void testEvaluateNoWeapon() {
-        when(this.mockBodySlot.getItem())
-                .thenReturn(mock(IInventoryItem.class));
-
-        Boolean isCorrect = this.cpEval.evaluate(this.character);
-
-        assertFalse(isCorrect);
+        fail();
     }
 
 }

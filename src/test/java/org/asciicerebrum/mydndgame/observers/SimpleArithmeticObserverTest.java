@@ -5,26 +5,18 @@
  */
 package org.asciicerebrum.mydndgame.observers;
 
-import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  *
  * @author species8472
  */
 public class SimpleArithmeticObserverTest {
-
-    private SimpleArithmeticObserver saObserver;
-
-    private ICharacter character;
 
     public SimpleArithmeticObserverTest() {
     }
@@ -40,14 +32,6 @@ public class SimpleArithmeticObserverTest {
     @Before
     public void setUp() {
 
-        this.saObserver = new SimpleArithmeticObserver();
-        this.character = mock(ICharacter.class);
-
-        BonusValueProvider valProvider = mock(BonusValueProvider.class);
-        when(valProvider.getDynamicValue(this.character)).thenReturn(37L);
-
-        this.saObserver.setModValueProvider(valProvider);
-
     }
 
     @After
@@ -59,58 +43,27 @@ public class SimpleArithmeticObserverTest {
      */
     @Test
     public void testTriggerCallbackAddition() {
-        this.saObserver.setOperation(
-                SimpleArithmeticObserver.Operation.ADDITION);
-
-        Long result = (Long) this.saObserver.triggerCallback(42L, this.character);
-
-        assertEquals(Long.valueOf(79L), result);
+        fail();
     }
 
     @Test
     public void testTriggerCallbackMultiplication() {
-        this.saObserver.setOperation(
-                SimpleArithmeticObserver.Operation.MULTIPLICATION);
-
-        Long result = (Long) this.saObserver.triggerCallback(42L, this.character);
-
-        assertEquals(Long.valueOf(1554L), result);
+        fail();
     }
 
     @Test
     public void testTriggerCallbackMinimum() {
-        this.saObserver.setOperation(
-                SimpleArithmeticObserver.Operation.MINIMUM);
-
-        Long result = (Long) this.saObserver.triggerCallback(42L, this.character);
-
-        assertEquals(Long.valueOf(37L), result);
+        fail();
     }
 
     @Test
     public void testTriggerCallbackAdditionConstModValue() {
-        this.saObserver.setOperation(
-                SimpleArithmeticObserver.Operation.ADDITION);
-
-        this.saObserver.setModValueProvider(null);
-        this.saObserver.setModValue(41L);
-
-        Long result = (Long) this.saObserver.triggerCallback(42L, this.character);
-
-        assertEquals(Long.valueOf(83L), result);
+        fail();
     }
 
     @Test
     public void testTriggerCallbackAdditionAllNull() {
-        this.saObserver.setOperation(
-                SimpleArithmeticObserver.Operation.ADDITION);
-
-        this.saObserver.setModValueProvider(null);
-        this.saObserver.setModValue(null);
-
-        Long result = (Long) this.saObserver.triggerCallback(42L, this.character);
-
-        assertEquals(Long.valueOf(42L), result);
+        fail();
     }
 
 }

@@ -1,10 +1,12 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
-import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
-import org.asciicerebrum.mydndgame.interfaces.entities.IEncumbrance;
-import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
-import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
+import org.asciicerebrum.mydndgame.domain.core.attribution.Encumbrance;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
+import org.asciicerebrum.mydndgame.domain.gameentities.Weapon;
+import org.asciicerebrum.mydndgame.observers.IObserver;
+import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
  *
@@ -15,7 +17,12 @@ public class CorrectWeaponEncumbranceEvaluator implements ConditionEvaluator {
     /**
      * The encumbrance to compare with.
      */
-    private IEncumbrance encumbrance;
+    private Encumbrance encumbrance;
+
+    /**
+     * Getting settings from the character.
+     */
+    private SituationContextService situationContextService;
 
     /**
      * {@inheritDoc} Checks if the given weapon's encumbrance corresponds to the
@@ -24,39 +31,40 @@ public class CorrectWeaponEncumbranceEvaluator implements ConditionEvaluator {
      * @return
      */
     @Override
-    public final Boolean evaluate(final ICharacter character) {
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final IObserver referenceObserver) {
 
-        if (this.getEncumbrance() == null) {
-            return Boolean.FALSE;
+        final InventoryItem refWeapon = this.situationContextService
+                .getActiveItem(dndCharacter);
+
+        if (this.encumbrance == null || refWeapon == null
+                || !(refWeapon instanceof Weapon)) {
+            return false;
         }
 
-        final IInventoryItem item = character
-                .getBodySlotByType(character.getSituationContext()
-                        .getBodySlotType()).getItem();
-
-        // keep in mind: ranged weapons might not have an encumbrance!
-        if (item != null
-                && item instanceof IWeapon
-                && ((IWeapon) item).getEncumbrance() != null) {
-            return ((IWeapon) item).getEncumbrance()
-                    .equals(this.getEncumbrance());
-        }
-
-        return Boolean.FALSE;
+        return ((Weapon) refWeapon).hasEncumbrance(this.encumbrance,
+                dndCharacter);
     }
 
-    /**
-     * @return the proficiency
-     */
-    public final IEncumbrance getEncumbrance() {
-        return this.encumbrance;
+    @Override
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final Bonus referenceBonus) {
+        return this.evaluate(dndCharacter, (IObserver) null);
     }
 
     /**
      * @param encumbranceInput the encumbrance to set
      */
-    public final void setEncumbrance(final IEncumbrance encumbranceInput) {
+    public final void setEncumbrance(final Encumbrance encumbranceInput) {
         this.encumbrance = encumbranceInput;
+    }
+
+    /**
+     * @param situationContextServiceInput the situationContextService to set
+     */
+    public final void setSituationContextService(
+            final SituationContextService situationContextServiceInput) {
+        this.situationContextService = situationContextServiceInput;
     }
 
 }

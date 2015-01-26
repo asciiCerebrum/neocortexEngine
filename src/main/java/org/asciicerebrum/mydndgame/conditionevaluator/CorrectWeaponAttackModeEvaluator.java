@@ -1,10 +1,12 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
-import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
-import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
-import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
-import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
+import org.asciicerebrum.mydndgame.domain.core.attribution.WeaponCategory;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
+import org.asciicerebrum.mydndgame.domain.gameentities.Weapon;
+import org.asciicerebrum.mydndgame.observers.IObserver;
+import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
  *
@@ -13,29 +15,46 @@ import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
 public class CorrectWeaponAttackModeEvaluator implements ConditionEvaluator {
 
     /**
+     * Getting settings from the character.
+     */
+    private SituationContextService situationContextService;
+
+    /**
      * {@inheritDoc} Checks if the given weapon is used in its destined way.
      *
      * @return
      */
     @Override
-    public final Boolean evaluate(final ICharacter character) {
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final IObserver referenceObserver) {
 
-        final IWeaponCategory refAttackMode = character.getSituationContext()
-                .getAttackMode();
+        final WeaponCategory refAttackMode = this.situationContextService
+                .getActiveAttackMode(dndCharacter);
 
-        if (refAttackMode == null) {
-            return Boolean.FALSE;
+        final InventoryItem refWeapon = this.situationContextService
+                .getActiveItem(dndCharacter);
+
+        if (refAttackMode == null || refWeapon == null
+                || !(refWeapon instanceof Weapon)) {
+            return false;
         }
 
-        final IInventoryItem item = character
-                .getBodySlotByType(character.getSituationContext()
-                        .getBodySlotType()).getItem();
+        return ((Weapon) refWeapon).isAttackModeCompatible(refAttackMode,
+                dndCharacter);
+    }
 
-        if (item != null && item instanceof IWeapon) {
-            return ((IWeapon) item).isAttackModeCompatible(refAttackMode);
-        }
+    @Override
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final Bonus referenceBonus) {
+        return this.evaluate(dndCharacter, (IObserver) null);
+    }
 
-        return Boolean.FALSE;
+    /**
+     * @param situationContextServiceInput the situationContextService to set
+     */
+    public final void setSituationContextService(
+            final SituationContextService situationContextServiceInput) {
+        this.situationContextService = situationContextServiceInput;
     }
 
 }

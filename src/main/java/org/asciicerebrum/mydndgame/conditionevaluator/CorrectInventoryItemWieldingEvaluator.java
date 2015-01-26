@@ -1,10 +1,12 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
-import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
-import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
-import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.gameentities.BodySlot;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
+import org.asciicerebrum.mydndgame.domain.gameentities.UniqueEntity;
+import org.asciicerebrum.mydndgame.observers.IObserver;
+import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
  *
@@ -26,9 +28,8 @@ public class CorrectInventoryItemWieldingEvaluator
                      * {@inheritDoc}
                      */
                     @Override
-                    final Boolean evaluate(final Slotable bodySlot,
-                            final ICharacter dndCharacter) {
-                        return this.evaluateSecondary(bodySlot, dndCharacter);
+                    final boolean evaluate(final BodySlot bodySlot) {
+                        return this.evaluateSecondary(bodySlot);
                     }
                 },
         /**
@@ -41,9 +42,8 @@ public class CorrectInventoryItemWieldingEvaluator
                      * in the opposite slot.
                      */
                     @Override
-                    final Boolean evaluate(final Slotable bodySlot,
-                            final ICharacter dndCharacter) {
-                        return this.evaluateBoth(bodySlot, dndCharacter);
+                    final boolean evaluate(final BodySlot bodySlot) {
+                        return this.evaluateBoth(bodySlot);
                     }
                 };
 
@@ -54,41 +54,38 @@ public class CorrectInventoryItemWieldingEvaluator
          * @param dndCharacter the character wielding the item.
          * @return if the condition is met.
          */
-        abstract Boolean evaluate(Slotable bodySlot,
-                ICharacter dndCharacter);
+        abstract boolean evaluate(BodySlot bodySlot);
 
         /**
          * Evaluator method for holding in secondary slot.
          *
          * @param bodySlot the body slot.
-         * @param dndCharacter the dnd character.
          * @return whether it is in the secondary slot or not.
          */
-        protected final Boolean evaluateSecondary(final Slotable bodySlot,
-                final ICharacter dndCharacter) {
-            return !bodySlot.getBodySlotType()
-                    .getIsPrimaryAttackSlot();
+        protected final boolean evaluateSecondary(final BodySlot bodySlot) {
+            return !bodySlot.getIsPrimaryAttackSlot().isValue();
         }
 
         /**
          * Evaluator method for holding in both slots (hands).
          *
          * @param bodySlot the body slot.
-         * @param dndCharacter the dnd character.
          * @return whether it is in both slots or not.
          */
-        protected final Boolean evaluateBoth(final Slotable bodySlot,
-                final ICharacter dndCharacter) {
-            IBodySlotType otherSlot = bodySlot.getBodySlotType()
-                    .getCounterSlot();
-            IInventoryItem otherItem = dndCharacter
-                    .getBodySlotByType(otherSlot).getItem();
-
-            if (otherItem == null || bodySlot.getItem() == null) {
-                return Boolean.FALSE;
+        protected final boolean evaluateBoth(final BodySlot bodySlot) {
+            final UniqueEntity item = bodySlot.getItem();
+            if (item == null) {
+                return false;
             }
-
-            return bodySlot.getItem().equals(otherItem);
+            final BodySlot counterSlot = bodySlot.getCounterSlot();
+            if (counterSlot == null) {
+                return false;
+            }
+            final UniqueEntity counterItem = counterSlot.getItem();
+            if (counterItem == null) {
+                return false;
+            }
+            return item.equals(counterItem);
         }
     }
 
@@ -98,25 +95,34 @@ public class CorrectInventoryItemWieldingEvaluator
     private WieldingType wieldingType;
 
     /**
-     * {@inheritDoc} Checks if the current weapon is wielded in the given way.
+     * Getting settings from the character.
      */
-    @Override
-    public final Boolean evaluate(final ICharacter character) {
-
-        if (this.getWieldingType() == null) {
-            return Boolean.FALSE;
-        }
-
-        return this.getWieldingType().evaluate(
-                character.getBodySlotByType(character.getSituationContext()
-                        .getBodySlotType()), character);
-    }
+    private SituationContextService situationContextService;
 
     /**
-     * @return the wieldingType
+     * {@inheritDoc} Checks if the current item is wielded in the given way.
      */
-    public final WieldingType getWieldingType() {
-        return wieldingType;
+    @Override
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final IObserver referenceObserver) {
+
+        if (this.wieldingType == null) {
+            return false;
+        }
+
+        final InventoryItem item = this.situationContextService
+                .getActiveItem(dndCharacter);
+        if (item == null) {
+            return false;
+        }
+        return this.wieldingType.evaluate(
+                dndCharacter.getBodySlots().getSlotForItem(item));
+    }
+
+    @Override
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final Bonus referenceBonus) {
+        return this.evaluate(dndCharacter, (IObserver) null);
     }
 
     /**
@@ -124,6 +130,14 @@ public class CorrectInventoryItemWieldingEvaluator
      */
     public final void setWieldingType(final WieldingType wieldingTypeInput) {
         this.wieldingType = wieldingTypeInput;
+    }
+
+    /**
+     * @param situationContextServiceInput the situationContextService to set
+     */
+    public final void setSituationContextService(
+            final SituationContextService situationContextServiceInput) {
+        this.situationContextService = situationContextServiceInput;
     }
 
 }

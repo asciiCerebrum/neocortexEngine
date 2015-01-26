@@ -1,9 +1,9 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
-import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.interfaces.entities.IArmor;
-import org.asciicerebrum.mydndgame.interfaces.entities.IArmorCategory;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
+import org.asciicerebrum.mydndgame.domain.core.attribution.ArmorCategory;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.observers.IObserver;
 
 /**
  *
@@ -15,32 +15,33 @@ public class CorrectArmorCategoryWearingEvaluator
     /**
      * The armor category in question.
      */
-    private IArmorCategory armorCategory;
+    private ArmorCategory armorCategory;
 
     /**
      * {@inheritDoc} Checks if the character wears armor of the given category.
      */
     @Override
-    public final Boolean evaluate(final ICharacter character) {
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final IObserver referenceObserver) {
 
         if (this.getArmorCategory() == null) {
-            return Boolean.FALSE;
+            return false;
         }
 
-        for (IArmor armor : character.getWieldedArmor()) {
-            if (armor.getArmorCategory() != null
-                    && armor.getArmorCategory()
-                    .equals(this.getArmorCategory())) {
-                return Boolean.TRUE;
-            }
-        }
-        return Boolean.FALSE;
+        return dndCharacter.getWieldedArmor()
+                .containsArmorCategory(this.armorCategory);
+    }
+
+    @Override
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final Bonus referenceBonus) {
+        return this.evaluate(dndCharacter, (IObserver) null);
     }
 
     /**
      * @return the armorCategory
      */
-    public final IArmorCategory getArmorCategory() {
+    public final ArmorCategory getArmorCategory() {
         return armorCategory;
     }
 
@@ -48,7 +49,7 @@ public class CorrectArmorCategoryWearingEvaluator
      * @param armorCategoryInput the armorCategory to set
      */
     public final void setArmorCategory(
-            final IArmorCategory armorCategoryInput) {
+            final ArmorCategory armorCategoryInput) {
         this.armorCategory = armorCategoryInput;
     }
 

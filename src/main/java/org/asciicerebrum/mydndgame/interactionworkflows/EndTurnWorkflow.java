@@ -1,11 +1,6 @@
 package org.asciicerebrum.mydndgame.interactionworkflows;
 
-import javax.naming.OperationNotSupportedException;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICombatRound;
-import org.asciicerebrum.mydndgame.interfaces.entities.IInteraction;
-import org.asciicerebrum.mydndgame.interfaces.entities.IInteractionResponse;
-import org.asciicerebrum.mydndgame.interfaces.entities.IWorkflow;
-import org.asciicerebrum.mydndgame.interfaces.entities.InteractionResponseKey;
+import org.asciicerebrum.mydndgame.domain.transfer.Interaction;
 
 /**
  *
@@ -22,35 +17,16 @@ public class EndTurnWorkflow implements IWorkflow {
      * {@inheritDoc}
      */
     @Override
-    public final IInteractionResponse runWorkflow(
-            final IInteraction interaction)
-            throws OperationNotSupportedException {
-        throw new OperationNotSupportedException("You cannot run this workflow "
-                + "without a response filled with a combat round object.");
-    }
+    public final void runWorkflow(
+            final Interaction interaction) {
 
-    /**
-     * {@inheritDoc} Moving to the next turn in the combat round.
-     */
-    @Override
-    public final IInteractionResponse runWorkflow(
-            final IInteraction interaction,
-            final IInteractionResponse response) {
+        interaction.getCombatRound().moveToNextPosition();
 
-        //TODO move this code into an abstract parent class so that is is
-        // automatically available - for all workflows!
-        ICombatRound combatRound
-                = response.getValue(InteractionResponseKey.COMBAT_ROUND,
-                        ICombatRound.class);
-
-        combatRound.moveToNextPosition();
-
-        if (conditionExpirationWorkflow == null) {
-            return response;
+        if (this.conditionExpirationWorkflow != null) {
+            // run workflow conditionExpirationWorkflow
+            this.conditionExpirationWorkflow.runWorkflow(
+                    interaction);
         }
-        // run workflow conditionExpirationWorkflow
-        return this.conditionExpirationWorkflow.runWorkflow(
-                interaction, response);
     }
 
     /**

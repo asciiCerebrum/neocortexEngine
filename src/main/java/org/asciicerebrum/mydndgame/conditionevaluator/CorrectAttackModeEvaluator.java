@@ -1,8 +1,10 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
-import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
-import org.asciicerebrum.mydndgame.interfaces.entities.IWeaponCategory;
+import org.asciicerebrum.mydndgame.domain.core.attribution.WeaponCategory;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.observers.IObserver;
+import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
  *
@@ -13,7 +15,12 @@ public class CorrectAttackModeEvaluator implements ConditionEvaluator {
     /**
      * The attack mode to compare with.
      */
-    private IWeaponCategory weaponCategory;
+    private WeaponCategory weaponCategory;
+
+    /**
+     * Getting settings from the character.
+     */
+    private SituationContextService situationContextService;
 
     /**
      * {@inheritDoc} Checks if the character's current attack mode equals the
@@ -22,31 +29,39 @@ public class CorrectAttackModeEvaluator implements ConditionEvaluator {
      * @return
      */
     @Override
-    public final Boolean evaluate(final ICharacter character) {
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final IObserver referenceObserver) {
 
-        final IWeaponCategory refAttackMode = character.getSituationContext()
-                .getAttackMode();
+        final WeaponCategory refAttackMode = this.situationContextService
+                .getActiveAttackMode(dndCharacter);
 
         if (refAttackMode == null) {
-            return Boolean.FALSE;
+            return false;
         }
 
-        return refAttackMode.equals(this.getWeaponCategory());
+        return refAttackMode.equals(this.weaponCategory);
     }
 
-    /**
-     * @return the weaponCategory
-     */
-    public final IWeaponCategory getWeaponCategory() {
-        return weaponCategory;
+    @Override
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final Bonus referenceBonus) {
+        return this.evaluate(dndCharacter, (IObserver) null);
     }
 
     /**
      * @param weaponCategoryInput the weaponCategory to set
      */
     public final void setWeaponCategory(
-            final IWeaponCategory weaponCategoryInput) {
+            final WeaponCategory weaponCategoryInput) {
         this.weaponCategory = weaponCategoryInput;
+    }
+
+    /**
+     * @param situationContextServiceInput the situationContextService to set
+     */
+    public final void setSituationContextService(
+            final SituationContextService situationContextServiceInput) {
+        this.situationContextService = situationContextServiceInput;
     }
 
 }

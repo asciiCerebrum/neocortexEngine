@@ -1,9 +1,8 @@
 package org.asciicerebrum.mydndgame.observers;
 
-import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
-import org.asciicerebrum.mydndgame.interfaces.entities.IObserver;
-import org.asciicerebrum.mydndgame.interfaces.entities.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.conditionevaluator.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
 
 /**
  *
@@ -22,15 +21,20 @@ public abstract class AbstractObserver implements IObserver {
     private ConditionEvaluator conditionEvaluator;
 
     /**
+     * The scope this observer is created for. It defaults to ALL.
+     */
+    private ObserverScope scope = ObserverScope.ALL;
+
+    /**
      * Callback method that is called by the parent to make the actual
      * triggering after the check of the valid evaluators.
      *
      * @param object the object to manipulate by the trigger.
-     * @param character the contextual character.
+     * @param dndCharacter the context.
      * @return the manipulated object.
      */
     protected abstract Object triggerCallback(Object object,
-            ICharacter character);
+            DndCharacter dndCharacter);
 
     /**
      * {@inheritDoc} Assures that the condition evalator is always checked
@@ -38,14 +42,15 @@ public abstract class AbstractObserver implements IObserver {
      */
     @Override
     public final Object trigger(final Object object,
-            final ICharacter character) {
+            final DndCharacter dndCharacter) {
 
         if (this.getConditionEvaluator() != null
-                && !this.getConditionEvaluator().evaluate(character)) {
+                && !this.getConditionEvaluator()
+                .evaluate(dndCharacter, this)) {
             return object;
         }
 
-        return this.triggerCallback(object, character);
+        return this.triggerCallback(object, dndCharacter);
     }
 
     /**
@@ -79,6 +84,20 @@ public abstract class AbstractObserver implements IObserver {
     public final void setConditionEvaluator(
             final ConditionEvaluator conditionEvaluatorInput) {
         this.conditionEvaluator = conditionEvaluatorInput;
+    }
+
+    /**
+     * @return the scope
+     */
+    public final ObserverScope getScope() {
+        return scope;
+    }
+
+    /**
+     * @param scopeInput the scope to set
+     */
+    public final void setScope(final ObserverScope scopeInput) {
+        this.scope = scopeInput;
     }
 
 }

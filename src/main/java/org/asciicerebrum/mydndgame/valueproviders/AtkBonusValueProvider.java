@@ -1,47 +1,76 @@
 package org.asciicerebrum.mydndgame.valueproviders;
 
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
-import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
-import org.asciicerebrum.mydndgame.interfaces.entities.ILevel;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
+import org.asciicerebrum.mydndgame.domain.gameentities.Weapon;
+import org.asciicerebrum.mydndgame.services.context.SituationContextService;
+import org.asciicerebrum.mydndgame.services.statistics.AtkCalculationService;
 
 /**
  *
  * @author Tabea Raab
  */
-public class AtkBonusValueProvider implements BonusValueProvider {
+public class AtkBonusValueProvider implements DynamicValueProvider {
 
     /**
      * The rank of the atk bonus in question.
      */
-    private Long rank;
+    private BonusRank rank;
+
+    /**
+     * Calculates attack boni.
+     */
+    private AtkCalculationService atkCalcService;
+
+    /**
+     * The situation context as a service.
+     */
+    private SituationContextService situationContextService;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public final Long getDynamicValue(final ICharacter character) {
+    public final BonusValue getDynamicValue(final DndCharacter dndCharacter) {
 
-        Long totalBonus = 0L;
-        for (ILevel cLevel : character.getClassLevels()) {
+        final InventoryItem item = this.situationContextService
+                .getActiveItem(dndCharacter);
 
-            totalBonus
-                    += cLevel.getBaseAtkBonusValueDeltaByRank(this.getRank());
+        if (!(item instanceof Weapon)) {
+            return null;
         }
 
-        return totalBonus;
-    }
+        final Weapon weapon = (Weapon) item;
 
-    /**
-     * @return the rank
-     */
-    public final Long getRank() {
-        return rank;
+        final BonusValueTuple atkBonusTuple
+                = atkCalcService.calcAtkBoni(weapon, dndCharacter);
+
+        return atkBonusTuple.getBonusValueByRank(this.rank);
     }
 
     /**
      * @param rankInput the rank to set
      */
-    public final void setRank(final Long rankInput) {
+    public final void setRank(final BonusRank rankInput) {
         this.rank = rankInput;
+    }
+
+    /**
+     * @param atkCalcServiceInput the atkCalcService to set
+     */
+    public final void setAtkCalcService(
+            final AtkCalculationService atkCalcServiceInput) {
+        this.atkCalcService = atkCalcServiceInput;
+    }
+
+    /**
+     * @param situationContextServiceInput the situationContextService to set
+     */
+    public final void setSituationContextService(
+            final SituationContextService situationContextServiceInput) {
+        this.situationContextService = situationContextServiceInput;
     }
 }

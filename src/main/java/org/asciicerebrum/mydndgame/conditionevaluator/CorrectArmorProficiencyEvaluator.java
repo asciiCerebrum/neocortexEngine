@@ -1,9 +1,9 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
-import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.interfaces.entities.IArmor;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
-import org.asciicerebrum.mydndgame.interfaces.entities.IProficiency;
+import org.asciicerebrum.mydndgame.domain.core.attribution.Proficiency;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.observers.IObserver;
 
 /**
  *
@@ -14,37 +14,39 @@ public class CorrectArmorProficiencyEvaluator implements ConditionEvaluator {
     /**
      * The proficiency in question.
      */
-    private IProficiency proficiency;
+    private Proficiency proficiency;
 
     /**
      * {@inheritDoc} Checks if the worn armor is of the given proficiency.
      */
     @Override
-    public final Boolean evaluate(final ICharacter character) {
-        if (this.getProficiency() == null) {
-            return Boolean.FALSE;
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final IObserver referenceObserver) {
+        if (this.proficiency == null) {
+            return false;
         }
 
-        for (IArmor armor : character.getWieldedArmor()) {
-            if (armor.getProficiency() != null
-                    && armor.getProficiency().equals(this.getProficiency())) {
-                return Boolean.TRUE;
-            }
-        }
-        return Boolean.FALSE;
+        return dndCharacter.getWieldedArmor()
+                .containsProficiency(this.proficiency);
+    }
+
+    @Override
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final Bonus referenceBonus) {
+        return this.evaluate(dndCharacter, (IObserver) null);
     }
 
     /**
      * @return the proficiency
      */
-    public final IProficiency getProficiency() {
+    public final Proficiency getProficiency() {
         return proficiency;
     }
 
     /**
      * @param proficiencyInput the proficiency to set
      */
-    public final void setProficiency(final IProficiency proficiencyInput) {
+    public final void setProficiency(final Proficiency proficiencyInput) {
         this.proficiency = proficiencyInput;
     }
 

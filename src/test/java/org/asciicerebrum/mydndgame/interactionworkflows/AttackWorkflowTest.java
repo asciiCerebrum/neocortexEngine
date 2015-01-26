@@ -1,58 +1,17 @@
 package org.asciicerebrum.mydndgame.interactionworkflows;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import org.asciicerebrum.mydndgame.Interaction;
-import org.asciicerebrum.mydndgame.interfaces.entities.IBodySlotType;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
-import org.asciicerebrum.mydndgame.interfaces.entities.IDamage;
-import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
-import org.asciicerebrum.mydndgame.interfaces.entities.IInteraction;
-import org.asciicerebrum.mydndgame.interfaces.entities.IInteractionResponse;
-import org.asciicerebrum.mydndgame.interfaces.entities.ISituationContext;
-import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
-import org.asciicerebrum.mydndgame.interfaces.entities.IWorkflow;
-import org.asciicerebrum.mydndgame.interfaces.entities.InteractionResponseKey;
-import org.asciicerebrum.mydndgame.interfaces.entities.Slotable;
-import org.asciicerebrum.mydndgame.interfaces.managers.IDiceRollManager;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  *
  * @author species8472
  */
 public class AttackWorkflowTest {
-
-    private AttackWorkflow attackWf;
-
-    private IInteraction interaction;
-
-    private IInteractionResponse response;
-
-    private IDiceAction attackAction;
-
-    private IDiceAction damageAction;
-
-    private IDiceRollManager drManager;
-
-    private ICharacter targetCharacter;
-
-    private ICharacter triggerCharacter;
-
-    private IWorkflow damageWorkflow;
 
     public AttackWorkflowTest() {
     }
@@ -67,45 +26,6 @@ public class AttackWorkflowTest {
 
     @Before
     public void setUp() {
-        this.attackWf = new AttackWorkflow();
-        this.interaction = new Interaction();
-        this.response = mock(IInteractionResponse.class);
-        this.damageWorkflow = mock(IWorkflow.class);
-
-        this.attackAction = mock(IDiceAction.class);
-        this.drManager = mock(IDiceRollManager.class);
-        when(this.drManager.rollDice(this.attackAction)).thenReturn(10L);
-
-        this.attackWf.setAttackAction(this.attackAction);
-        this.attackWf.setAutoFailureRoll(1L);
-        this.attackWf.setAutoSuccessRoll(20L);
-        this.attackWf.setDiceRollManager(this.drManager);
-        this.attackWf.setDamageWorkflow(this.damageWorkflow);
-
-        this.triggerCharacter = mock(ICharacter.class);
-        ISituationContext triggerContext = mock(ISituationContext.class);
-        IBodySlotType bsType = mock(IBodySlotType.class);
-        Slotable bs = mock(Slotable.class);
-        IWeapon triggerWeapon = mock(IWeapon.class);
-        this.damageAction = mock(IDiceAction.class);
-
-        when(triggerWeapon.getCriticalMinimumLevel()).thenReturn(20);
-        when(triggerWeapon.getCriticalFactor()).thenReturn(2);
-        when(triggerWeapon.getDamage()).thenReturn(this.damageAction);
-        when(bs.getItem()).thenReturn(triggerWeapon);
-        when(triggerContext.getBodySlotType()).thenReturn(bsType);
-        when(this.triggerCharacter.getAtkBoni()).thenReturn(
-                new ArrayList<Long>(Arrays.asList(2L)));
-        when(this.triggerCharacter.getSituationContext()).thenReturn(triggerContext);
-        when(this.triggerCharacter.getBodySlotByType(bsType)).thenReturn(bs);
-
-        List<ICharacter> targetCharacters = new ArrayList<ICharacter>();
-        this.targetCharacter = mock(ICharacter.class);
-        when(this.targetCharacter.getAc()).thenReturn(12L);
-        targetCharacters.add(this.targetCharacter);
-
-        this.interaction.setTriggeringCharacter(this.triggerCharacter);
-        this.interaction.setTargetCharacters(targetCharacters);
     }
 
     @After
@@ -118,18 +38,12 @@ public class AttackWorkflowTest {
      */
     @Test
     public void testRunWorkflow() {
-        this.attackWf.runWorkflow(this.interaction);
-
-        verify(this.damageWorkflow).runWorkflow(
-                eq(this.interaction), (IInteractionResponse) anyObject());
+        fail();
     }
 
     @Test
     public void testRunWorkflowDamage() {
-        this.attackWf.runWorkflow(this.interaction, this.response);
-
-        verify(this.damageWorkflow, times(1)).runWorkflow(this.interaction,
-                this.response);
+        fail();
     }
 
     /**
@@ -137,12 +51,7 @@ public class AttackWorkflowTest {
      */
     @Test
     public void testRunWorkflowMiss() {
-        when(this.targetCharacter.getAc()).thenReturn(13L);
-
-        this.attackWf.runWorkflow(this.interaction, this.response);
-
-        verify(this.targetCharacter, times(0))
-                .applyDamage((IDamage) anyObject());
+        fail();
     }
 
     /**
@@ -150,12 +59,7 @@ public class AttackWorkflowTest {
      */
     @Test
     public void testRunWorkflowCriticalHit() {
-        when(this.drManager.rollDice(this.attackAction)).thenReturn(20L);
-
-        this.attackWf.runWorkflow(this.interaction, this.response);
-
-        verify(this.drManager, times(2))
-                .rollDice(this.attackAction);
+        fail();
     }
 
     /**
@@ -163,12 +67,7 @@ public class AttackWorkflowTest {
      */
     @Test
     public void testRunWorkflowCriticalMiss() {
-        when(this.drManager.rollDice(this.attackAction)).thenReturn(20L, 10L);
-
-        this.attackWf.runWorkflow(this.interaction, this.response);
-
-        verify(this.drManager, times(2))
-                .rollDice(this.attackAction);
+        fail();
     }
 
     /**
@@ -176,23 +75,12 @@ public class AttackWorkflowTest {
      */
     @Test
     public void testRunWorkflowCriticalMissDamage() {
-        when(this.drManager.rollDice(this.attackAction)).thenReturn(20L, 10L);
-
-        this.attackWf.runWorkflow(this.interaction, this.response);
-
-        verify(this.damageWorkflow).runWorkflow(
-                this.interaction, this.response);
+        fail();
     }
 
     @Test
     public void testRunWorkflowAutoFailure() {
-        when(this.drManager.rollDice(this.attackAction)).thenReturn(1L);
-
-        this.attackWf.runWorkflow(this.interaction, this.response);
-
-        // this line should not be reached - getting the atk boni of the
-        // trigger character.
-        verify(this.triggerCharacter, times(0)).getAtkBoni();
+        fail();
     }
 
     /**
@@ -200,69 +88,37 @@ public class AttackWorkflowTest {
      */
     @Test
     public void testRunWorkflowAutoSuccess() {
-        this.attackWf.setAutoSuccessRoll(8L);
-        when(this.drManager.rollDice(this.attackAction)).thenReturn(8L);
-
-        this.attackWf.runWorkflow(this.interaction, this.response);
-
-        verify(this.damageWorkflow, times(1))
-                .runWorkflow(this.interaction, this.response);
+        fail();
     }
 
     @Test
     public void testRunWorkflowWithAttackCriticalKey() {
-        this.attackWf.setAttackCriticalKey(InteractionResponseKey.ATTACK_CRITICAL);
-        this.attackWf.runWorkflow(this.interaction, this.response);
-
-        verify(this.response, times(1))
-                .setValue(eq(InteractionResponseKey.ATTACK_CRITICAL),
-                        (Boolean) anyObject());
+        fail();
     }
 
     @Test
     public void testRunWorkflowWithoutDamageWorkflow() {
-        this.attackWf.setDamageWorkflow(null);
-        this.attackWf.runWorkflow(this.interaction, this.response);
-
-        verify(this.damageWorkflow, times(0)).runWorkflow(this.interaction,
-                this.response);
+        fail();
     }
 
     @Test
     public void testDetermineCritical() {
-        when(this.drManager.rollDice(this.attackAction)).thenReturn(19L);
-        Boolean isCritical = this.attackWf.determineCritical(
-                20L, 4L, 12L, this.interaction);
-        // threat + normal success (no auto success)
-        assertTrue(isCritical);
+        fail();
     }
 
     @Test
     public void testDetermineCriticalAutoSuccess() {
-        when(this.drManager.rollDice(this.attackAction)).thenReturn(20L);
-        Boolean isCritical = this.attackWf.determineCritical(
-                20L, 4L, 12L, this.interaction);
-        // threat + auto success
-        assertTrue(isCritical);
+        fail();
     }
 
     @Test
     public void testDetermineCriticalNoSuccess() {
-        when(this.drManager.rollDice(this.attackAction)).thenReturn(1L);
-        Boolean isCritical = this.attackWf.determineCritical(
-                20L, 4L, 12L, this.interaction);
-        // threat + no success
-        assertFalse(isCritical);
+        fail();
     }
 
     @Test
     public void testDetermineCriticalNoSuccessButAutoSuccess() {
-        this.attackWf.setAutoSuccessRoll(5L);
-        when(this.drManager.rollDice(this.attackAction)).thenReturn(5L);
-        Boolean isCritical = this.attackWf.determineCritical(
-                20L, 4L, 12L, this.interaction);
-        // threat + no success + auto success
-        assertTrue(isCritical);
+        fail();
     }
 
     //TODO Important!!! Test for secondCritical - it is enough to succeed AC!

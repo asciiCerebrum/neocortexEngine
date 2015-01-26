@@ -1,10 +1,12 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
-import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
-import org.asciicerebrum.mydndgame.interfaces.entities.IInventoryItem;
-import org.asciicerebrum.mydndgame.interfaces.entities.IProficiency;
-import org.asciicerebrum.mydndgame.interfaces.entities.IWeapon;
+import org.asciicerebrum.mydndgame.domain.core.attribution.Proficiency;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
+import org.asciicerebrum.mydndgame.domain.gameentities.Weapon;
+import org.asciicerebrum.mydndgame.observers.IObserver;
+import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
  *
@@ -15,7 +17,12 @@ public class CorrectProficiencyEvaluator implements ConditionEvaluator {
     /**
      * The proficiency to compare with.
      */
-    private IProficiency proficiency;
+    private Proficiency proficiency;
+
+    /**
+     * Getting settings from the character.
+     */
+    private SituationContextService situationContextService;
 
     /**
      * {@inheritDoc} Checks if the given weapon's (weapon in the active slot)
@@ -26,36 +33,39 @@ public class CorrectProficiencyEvaluator implements ConditionEvaluator {
      * @return
      */
     @Override
-    public final Boolean evaluate(final ICharacter character) {
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final IObserver referenceObserver) {
 
-        if (this.getProficiency() == null) {
-            return Boolean.FALSE;
+        final InventoryItem item = this.situationContextService
+                .getActiveItem(dndCharacter);
+
+        if (this.proficiency == null || item == null
+                || !(item instanceof Weapon)) {
+            return false;
         }
 
-        final IInventoryItem item = character
-                .getBodySlotByType(character.getSituationContext()
-                        .getBodySlotType()).getItem();
-
-        if (item != null && item instanceof IWeapon) {
-            return ((IWeapon) item).getProficiency()
-                    .equals(this.getProficiency());
-        }
-
-        return Boolean.FALSE;
+        return ((Weapon) item).hasProficiency(this.proficiency, dndCharacter);
     }
 
-    /**
-     * @return the proficiency
-     */
-    public final IProficiency getProficiency() {
-        return proficiency;
+    @Override
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final Bonus referenceBonus) {
+        return this.evaluate(dndCharacter, (IObserver) null);
     }
 
     /**
      * @param proficiencyInput the proficiency to set
      */
-    public final void setProficiency(final IProficiency proficiencyInput) {
+    public final void setProficiency(final Proficiency proficiencyInput) {
         this.proficiency = proficiencyInput;
+    }
+
+    /**
+     * @param situationContextServiceInput the situationContextService to set
+     */
+    public final void setSituationContextService(
+            final SituationContextService situationContextServiceInput) {
+        this.situationContextService = situationContextServiceInput;
     }
 
 }

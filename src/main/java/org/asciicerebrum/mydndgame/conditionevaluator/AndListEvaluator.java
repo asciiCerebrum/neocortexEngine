@@ -1,9 +1,11 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
-import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.observers.IObserver;
 
 /**
  *
@@ -19,31 +21,43 @@ public class AndListEvaluator implements ConditionEvaluator {
             = new ArrayList<ConditionEvaluator>();
 
     /**
-     * {@inheritDoc} Only true, if all elements in the list evaluate to true.
-     */
-    @Override
-    public final Boolean evaluate(final ICharacter character) {
-        for (ConditionEvaluator singleEval : this.conditionEvaluators) {
-            if (!singleEval.evaluate(character)) {
-                return Boolean.FALSE;
-            }
-        }
-        return Boolean.TRUE;
-    }
-
-    /**
-     * @return the conditionEvaluators
-     */
-    public final List<ConditionEvaluator> getConditionEvaluators() {
-        return conditionEvaluators;
-    }
-
-    /**
      * @param conditionEvaluatorsInput the conditionEvaluators to set
      */
     public final void setConditionEvaluators(
             final List<ConditionEvaluator> conditionEvaluatorsInput) {
         this.conditionEvaluators = conditionEvaluatorsInput;
+    }
+
+    public final Iterator<ConditionEvaluator> iterator() {
+        return this.conditionEvaluators.iterator();
+    }
+
+    /**
+     * {@inheritDoc} Only true, if all elements in the list evaluate to true.
+     */
+    @Override
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final IObserver referenceObserver) {
+        for (ConditionEvaluator singleEval : this.conditionEvaluators) {
+            if (!singleEval.evaluate(dndCharacter, referenceObserver)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * {@inheritDoc} Only true, if all elements in the list evaluate to true.
+     */
+    @Override
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final Bonus referenceBonus) {
+        for (ConditionEvaluator singleEval : this.conditionEvaluators) {
+            if (!singleEval.evaluate(dndCharacter, referenceBonus)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

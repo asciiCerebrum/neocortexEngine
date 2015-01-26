@@ -1,59 +1,18 @@
 package org.asciicerebrum.mydndgame.observers;
 
-import java.util.List;
-import org.asciicerebrum.mydndgame.interfaces.entities.IBonus;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
+import java.util.Iterator;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
+import org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle;
+import org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle.Operation;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
 
 /**
  *
  * @author species8472
  */
 public class BonusValueModificationObserver extends AbstractObserver {
-
-    /**
-     * Arithmetic modes of modification. As always, the values are rounded down.
-     */
-    public static enum Operation {
-
-        /**
-         * Multiply with given value.
-         */
-        MULTIPLICATION {
-
-                    /**
-                     * {@inheritDoc}
-                     */
-                    @Override
-                    final Long operate(final Double operandA,
-                            final Double operandB) {
-                        return Double.valueOf(Math.floor(operandA * operandB))
-                        .longValue();
-                    }
-                },
-        /**
-         * Divide by given value.
-         */
-        DIVISION {
-                    /**
-                     * {@inheritDoc}
-                     */
-                    @Override
-                    final Long operate(final Double operandA,
-                            final Double operandB) {
-                        return Double.valueOf(Math.floor(operandA / operandB))
-                        .longValue();
-                    }
-                };
-
-        /**
-         * The abstract modificating method with two operands.
-         *
-         * @param operandA the first argument of the operation.
-         * @param operandB the second argument of the operation.
-         * @return the result of the operation.
-         */
-        abstract Long operate(Double operandA, Double operandB);
-    }
 
     /**
      * Defines how to arithmetically modify the value.
@@ -63,12 +22,12 @@ public class BonusValueModificationObserver extends AbstractObserver {
     /**
      * The value of modification.
      */
-    private Double modValue;
+    private DoubleParticle modValue;
 
     /**
      * The bonus resembling the one to modify.
      */
-    private IBonus referenceBonus;
+    private Bonus referenceBonus;
 
     /**
      * {@inheritDoc} If a bonus resembling the reference bonus is encountered in
@@ -77,45 +36,36 @@ public class BonusValueModificationObserver extends AbstractObserver {
      */
     @Override
     protected final Object triggerCallback(final Object object,
-            final ICharacter character) {
+            final DndCharacter dndCharacter) {
 
-        List<IBonus> boni = (List<IBonus>) object;
+        Boni boni = (Boni) object;
 
-        if (this.getReferenceBonus() == null) {
+        if (this.referenceBonus == null) {
             return boni;
         }
 
-        for (IBonus bonus : boni) {
-            Long bonusEffectiveValue
-                    = bonus.getEffectiveValue(character);
+        final Iterator<Bonus> bonusIterator = boni.iterator();
+        while (bonusIterator.hasNext()) {
+            final Bonus bonus = bonusIterator.next();
+            final BonusValueTuple bonusEffectiveValue
+                    = bonus.getEffectiveValues(dndCharacter);
 
             // it is enough to check for bonus type and target
             // keep in mind that the effectValue might be null
             // --> the bonus does not exist --> continue!
-            if (!this.getReferenceBonus().getBonusType()
-                    .equals(bonus.getBonusType())
-                    || !this.getReferenceBonus().getTarget()
-                    .equals(bonus.getTarget())
-                    || bonusEffectiveValue == null) {
-                continue;
+            if (this.referenceBonus.resembles(bonus,
+                    Bonus.ResemblanceFacet.BONUS_TYPE,
+                    Bonus.ResemblanceFacet.TARGET)) {
+
+                bonusEffectiveValue.applyOperation(
+                        this.operation, this.modValue);
+
+                bonus.setValues(bonusEffectiveValue);
+                bonus.setDynamicValueProvider(null);
             }
-
-            Long modifiedBonus = this.getOperation()
-                    .operate(bonusEffectiveValue.doubleValue(),
-                            this.getModValue());
-
-            bonus.setValue(modifiedBonus);
-            bonus.setDynamicValueProvider(null);
         }
 
         return boni;
-    }
-
-    /**
-     * @return the operation
-     */
-    public final Operation getOperation() {
-        return operation;
     }
 
     /**
@@ -126,30 +76,16 @@ public class BonusValueModificationObserver extends AbstractObserver {
     }
 
     /**
-     * @return the modValue
-     */
-    public final Double getModValue() {
-        return modValue;
-    }
-
-    /**
      * @param modValueInput the modValue to set
      */
-    public final void setModValue(final Double modValueInput) {
+    public final void setModValue(final DoubleParticle modValueInput) {
         this.modValue = modValueInput;
-    }
-
-    /**
-     * @return the referenceBonus
-     */
-    public final IBonus getReferenceBonus() {
-        return referenceBonus;
     }
 
     /**
      * @param referenceBonusInput the referenceBonus to set
      */
-    public final void setReferenceBonus(final IBonus referenceBonusInput) {
+    public final void setReferenceBonus(final Bonus referenceBonusInput) {
         this.referenceBonus = referenceBonusInput;
     }
 

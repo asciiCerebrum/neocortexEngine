@@ -1,7 +1,9 @@
 package org.asciicerebrum.mydndgame.observers;
 
-import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
+import org.asciicerebrum.mydndgame.domain.core.particles.LongParticle;
+import org.asciicerebrum.mydndgame.domain.core.particles.LongParticle.Operation;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.valueproviders.DynamicValueProvider;
 
 /**
  *
@@ -10,67 +12,15 @@ import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
 public class SimpleArithmeticObserver extends AbstractObserver {
 
     /**
-     * The kind of arithmetic operation between two numbers.
-     */
-    public static enum Operation {
-
-        /**
-         * The simple addition with "+".
-         */
-        ADDITION {
-
-                    /**
-                     * {@inheritDoc}
-                     */
-                    @Override
-                    Long operate(final Long operandA, final Long operandB) {
-                        return operandA + operandB;
-                    }
-
-                },
-        /**
-         * The simple multiplication with "*".
-         */
-        MULTIPLICATION {
-
-                    /**
-                     * {@inheritDoc}
-                     */
-                    @Override
-                    Long operate(final Long operandA, final Long operandB) {
-                        return operandA * operandB;
-                    }
-                },
-        /**
-         * Use the minimum of both values.
-         */
-        MINIMUM {
-                    @Override
-                    Long operate(final Long operandA, final Long operandB) {
-                        return Math.min(operandA, operandB);
-                    }
-                };
-
-        /**
-         * The abstract modificating method with two operands.
-         *
-         * @param operandA the first argument of the operation.
-         * @param operandB the second argument of the operation.
-         * @return the result of the operation.
-         */
-        abstract Long operate(Long operandA, Long operandB);
-    }
-
-    /**
      * Numeric modificatioin of the base value called numeric.
      */
-    private Long modValue;
+    private LongParticle modValue;
 
     /**
      * Not a static but a dynamic mod value. The dynamic value has priority over
      * the static one.
      */
-    private BonusValueProvider modValueProvider;
+    private DynamicValueProvider modValueProvider;
 
     /**
      * How to modificate the base value.
@@ -82,42 +32,29 @@ public class SimpleArithmeticObserver extends AbstractObserver {
      */
     @Override
     protected final Object triggerCallback(final Object object,
-            final ICharacter character) {
+            final DndCharacter dndCharacter) {
 
-        Long numeric = (Long) object;
+        final LongParticle numeric = (LongParticle) object;
 
-        Long effectiveModValue = this.getModValue();
-        if (this.getModValueProvider() != null) {
-            effectiveModValue = this.getModValueProvider()
-                    .getDynamicValue(character);
+        LongParticle effectiveModValue = this.modValue;
+        if (this.modValueProvider != null) {
+            effectiveModValue = this.modValueProvider
+                    .getDynamicValue(dndCharacter);
         }
 
         if (effectiveModValue == null) {
             return numeric;
         }
 
-        return getOperation().operate(numeric, effectiveModValue);
-    }
-
-    /**
-     * @return the modValue
-     */
-    public final Long getModValue() {
-        return modValue;
+        numeric.applyOperation(this.operation, effectiveModValue);
+        return numeric;
     }
 
     /**
      * @param modValueInput the modValue to set
      */
-    public final void setModValue(final Long modValueInput) {
+    public final void setModValue(final LongParticle modValueInput) {
         this.modValue = modValueInput;
-    }
-
-    /**
-     * @return the operation
-     */
-    public final Operation getOperation() {
-        return operation;
     }
 
     /**
@@ -128,17 +65,10 @@ public class SimpleArithmeticObserver extends AbstractObserver {
     }
 
     /**
-     * @return the modValueProvider
-     */
-    public final BonusValueProvider getModValueProvider() {
-        return modValueProvider;
-    }
-
-    /**
      * @param modValueProviderInput the modValueProvider to set
      */
     public final void setModValueProvider(
-            final BonusValueProvider modValueProviderInput) {
+            final DynamicValueProvider modValueProviderInput) {
         this.modValueProvider = modValueProviderInput;
     }
 

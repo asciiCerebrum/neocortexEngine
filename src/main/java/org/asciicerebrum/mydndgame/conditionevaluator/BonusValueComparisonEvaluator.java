@@ -1,9 +1,11 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
 import org.asciicerebrum.mydndgame.conditionevaluator.BonusValueComparisonEvaluator.ArithmeticComparator;
-import org.asciicerebrum.mydndgame.interfaces.entities.BonusValueProvider;
-import org.asciicerebrum.mydndgame.interfaces.entities.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.interfaces.entities.ICharacter;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
+import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.valueproviders.DynamicValueProvider;
+import org.asciicerebrum.mydndgame.observers.IObserver;
 
 /**
  *
@@ -25,7 +27,7 @@ public class BonusValueComparisonEvaluator implements ConditionEvaluator {
                      * {@inheritDoc}
                      */
                     @Override
-                    final Boolean compare(final Double leftOperand,
+                    final boolean compare(final Double leftOperand,
                             final Double rightOperand) {
                         return leftOperand.compareTo(rightOperand) < 0;
                     }
@@ -39,7 +41,7 @@ public class BonusValueComparisonEvaluator implements ConditionEvaluator {
                      * {@inheritDoc}
                      */
                     @Override
-                    final Boolean compare(final Double leftOperand,
+                    final boolean compare(final Double leftOperand,
                             final Double rightOperand) {
                         return leftOperand.compareTo(rightOperand) <= 0;
                     }
@@ -52,7 +54,7 @@ public class BonusValueComparisonEvaluator implements ConditionEvaluator {
                      * {@inheritDoc}
                      */
                     @Override
-                    final Boolean compare(final Double leftOperand,
+                    final boolean compare(final Double leftOperand,
                             final Double rightOperand) {
                         return leftOperand.compareTo(rightOperand) == 0;
                     }
@@ -65,7 +67,7 @@ public class BonusValueComparisonEvaluator implements ConditionEvaluator {
                      * {@inheritDoc}
                      */
                     @Override
-                    final Boolean compare(final Double leftOperand,
+                    final boolean compare(final Double leftOperand,
                             final Double rightOperand) {
                         return leftOperand.compareTo(rightOperand) >= 0;
                     }
@@ -78,7 +80,7 @@ public class BonusValueComparisonEvaluator implements ConditionEvaluator {
                      * {@inheritDoc}
                      */
                     @Override
-                    final Boolean compare(final Double leftOperand,
+                    final boolean compare(final Double leftOperand,
                             final Double rightOperand) {
                         return leftOperand.compareTo(rightOperand) > 0;
                     }
@@ -91,14 +93,14 @@ public class BonusValueComparisonEvaluator implements ConditionEvaluator {
          * @param rightOperand the right operand of the comparator.
          * @return result of the comparison.
          */
-        abstract Boolean compare(Double leftOperand, Double rightOperand);
+        abstract boolean compare(Double leftOperand, Double rightOperand);
     }
 
     /**
      * The ability bonus value provider to retrieve the ability bonus from the
      * character.
      */
-    private BonusValueProvider bonusValueProvider;
+    private DynamicValueProvider bonusValueProvider;
 
     /**
      * The comparator to make the correct comparison.
@@ -108,43 +110,36 @@ public class BonusValueComparisonEvaluator implements ConditionEvaluator {
     /**
      * The ability bonus is compared to this value in respect to the comparator.
      */
-    private Double referenceValue;
+    private BonusValue referenceValue;
 
     /**
      * {@inheritDoc} Compares an ability of the dnd character in the situation
      * context with a given number. The comparator is also definable.
      */
     @Override
-    public final Boolean evaluate(final ICharacter character) {
-        Long abilityBonus
-                = this.getBonusValueProvider()
-                .getDynamicValue(character);
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final IObserver referenceObserver) {
+        BonusValue abilityBonus
+                = (BonusValue) this.bonusValueProvider
+                .getDynamicValue(dndCharacter);
 
-        return this.getComparator().compare(
-                abilityBonus.doubleValue(),
-                this.getReferenceValue());
+        return this.comparator.compare(
+                (double) abilityBonus.getValue(),
+                (double) this.referenceValue.getValue());
     }
 
-    /**
-     * @return the abilityBonusValueProvider
-     */
-    public final BonusValueProvider getBonusValueProvider() {
-        return bonusValueProvider;
+    @Override
+    public final boolean evaluate(final DndCharacter dndCharacter,
+            final Bonus referenceBonus) {
+        return this.evaluate(dndCharacter, (IObserver) null);
     }
 
     /**
      * @param bonusValueProviderInput the abilityBonusValueProvider to set
      */
     public final void setBonusValueProvider(
-            final BonusValueProvider bonusValueProviderInput) {
+            final DynamicValueProvider bonusValueProviderInput) {
         this.bonusValueProvider = bonusValueProviderInput;
-    }
-
-    /**
-     * @return the comparator
-     */
-    public final ArithmeticComparator getComparator() {
-        return comparator;
     }
 
     /**
@@ -156,16 +151,9 @@ public class BonusValueComparisonEvaluator implements ConditionEvaluator {
     }
 
     /**
-     * @return the referenceValue
-     */
-    public final Double getReferenceValue() {
-        return referenceValue;
-    }
-
-    /**
      * @param referenceValueInput the referenceValue to set
      */
-    public final void setReferenceValue(final Double referenceValueInput) {
+    public final void setReferenceValue(final BonusValue referenceValueInput) {
         this.referenceValue = referenceValueInput;
     }
 

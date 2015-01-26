@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.exceptions;
 
-import org.asciicerebrum.mydndgame.interfaces.entities.Identifiable;
+import org.asciicerebrum.mydndgame.domain.core.attribution.ClassLevels;
+import org.asciicerebrum.mydndgame.domain.core.particles.Level;
 
 /**
  *
@@ -11,14 +12,14 @@ public class UndefinedCharacterClassLevelException extends RuntimeException {
     /**
      * Exception designed for character classes of undefined level.
      *
-     * @param chClass the class in question.
+     * @param chClasses the classLevels in question.
      * @param level the level of undefined value.
      */
-    public UndefinedCharacterClassLevelException(final Identifiable chClass,
-            final Integer level) {
+    public UndefinedCharacterClassLevelException(final ClassLevels chClasses,
+            final Level level) {
 
-        super("Level " + level + " not available for CharacterClass "
-                + chClass.getId() + ".");
+        super("Level " + level.getValue() + " not available for CharacterClass "
+                + chClasses.getId() + ".");
     }
 
 }

@@ -1,36 +1,33 @@
 package org.asciicerebrum.mydndgame.managers;
 
 import java.security.SecureRandom;
-import org.asciicerebrum.mydndgame.interfaces.entities.IDiceAction;
-import org.asciicerebrum.mydndgame.interfaces.managers.IDiceRollManager;
+import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
+import org.asciicerebrum.mydndgame.domain.gameentities.prototypes.DiceAction;
 
 /**
  *
  * @author species8472
  */
-public class DiceRollManager implements IDiceRollManager {
+public class DiceRollManager {
 
     /**
      * Random number generator as a dice analogon.
      */
     private SecureRandom random = new SecureRandom();
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final Long rollDice(final IDiceAction diceAction) {
+    public final DiceRoll rollDice(final DiceAction diceAction) {
 
-        Long randomValue = 0L;
+        long randomValue = 0L;
 
-        for (long i = 0; i < diceAction.getDiceNumber(); i++) {
+        for (long i = 0; i < diceAction.getDiceNumber().getValue(); i++) {
 
             randomValue += 1L + (long) (this.random.nextDouble()
-                    * ((double) diceAction.getDiceType().getSides()));
+                    * ((double) diceAction.getDiceType()
+                    .getSides().getValue()));
 
         }
 
-        return randomValue;
+        return new DiceRoll(randomValue);
     }
 
     /**
