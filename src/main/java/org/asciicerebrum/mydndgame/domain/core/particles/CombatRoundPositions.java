@@ -11,36 +11,36 @@ import java.util.List;
  */
 public class CombatRoundPositions {
 
-    private final List<CombatRoundPosition> combatRoundPositions
+    private final List<CombatRoundPosition> elements
             = new ArrayList<CombatRoundPosition>();
 
     public final void addCombatRoundPosition(
             final CombatRoundPosition crPosition) {
-        this.combatRoundPositions.add(crPosition);
+        this.elements.add(crPosition);
     }
 
     public final CombatRoundPositions sort() {
-        Collections.sort(this.combatRoundPositions);
+        Collections.sort(this.elements);
         return this;
     }
 
     public CombatRoundPosition first() {
         this.sort();
-        return this.combatRoundPositions.get(0);
+        return this.elements.get(0);
     }
 
     public CombatRoundPosition getFollowUp(final CombatRoundPosition crPos) {
         this.sort();
-        int idx = this.combatRoundPositions.indexOf(crPos);
+        int idx = this.elements.indexOf(crPos);
         // when at the end, the follow up is the first again.
-        if (idx == this.combatRoundPositions.size() - 1) {
-            return this.combatRoundPositions.get(0);
+        if (idx == this.elements.size() - 1) {
+            return this.elements.get(0);
         }
-        return this.combatRoundPositions.get(idx + 1);
+        return this.elements.get(idx + 1);
     }
 
     public final Iterator<CombatRoundPosition> iterator() {
-        return this.combatRoundPositions.iterator();
+        return this.elements.iterator();
     }
 
 }

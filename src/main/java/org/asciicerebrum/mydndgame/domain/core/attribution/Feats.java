@@ -16,10 +16,10 @@ import org.asciicerebrum.mydndgame.domain.gameentities.FeatType;
  */
 public class Feats implements BonusSource, ObserverSource {
 
-    private final List<FeatType> feats = new ArrayList<FeatType>();
+    private final List<FeatType> elements = new ArrayList<FeatType>();
 
     public final void addFeat(final FeatType feat) {
-        this.feats.add(feat);
+        this.elements.add(feat);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class Feats implements BonusSource, ObserverSource {
     public final BonusSources getBonusSources() {
         final BonusSources bonusSources = new BonusSources();
 
-        for (final FeatType feat : this.feats) {
+        for (final FeatType feat : this.elements) {
             bonusSources.add(feat);
         }
 
@@ -47,7 +47,7 @@ public class Feats implements BonusSource, ObserverSource {
     public final ObserverSources getObserverSources() {
         final ObserverSources observerSources = new ObserverSources();
 
-        for (final FeatType feat : this.feats) {
+        for (final FeatType feat : this.elements) {
             observerSources.add(feat);
         }
 

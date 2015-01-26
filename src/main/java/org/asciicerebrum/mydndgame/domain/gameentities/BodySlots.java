@@ -22,21 +22,21 @@ public class BodySlots implements BonusSource, ObserverSource {
     /**
      * The list of body slots.
      */
-    private List<BodySlot> bodySlots = new ArrayList<BodySlot>();
+    private List<BodySlot> elements = new ArrayList<BodySlot>();
 
     /**
      * @param bodySlotsInput the bodySlots to set
      */
     public final void setBodySlots(final List<BodySlot> bodySlotsInput) {
-        this.bodySlots = bodySlotsInput;
+        this.elements = bodySlotsInput;
     }
 
     public final boolean contains(final BodySlot bodySlot) {
-        return this.bodySlots.contains(bodySlot);
+        return this.elements.contains(bodySlot);
     }
 
     public final boolean containsType(final BodySlotType bodySlotType) {
-        for (BodySlot bodySlot : bodySlots) {
+        for (BodySlot bodySlot : elements) {
             if (bodySlot.isOfType(bodySlotType)) {
                 return true;
             }
@@ -45,14 +45,14 @@ public class BodySlots implements BonusSource, ObserverSource {
     }
 
     public final void add(final BodySlot bodySlot) {
-        this.bodySlots.add(bodySlot);
+        this.elements.add(bodySlot);
     }
 
     @Override
     public final BonusSources getBonusSources() {
         BonusSources bonusSources = new BonusSources();
 
-        for (BodySlot bodySlot : this.bodySlots) {
+        for (BodySlot bodySlot : this.elements) {
             bonusSources.add(bodySlot);
         }
 
@@ -73,7 +73,7 @@ public class BodySlots implements BonusSource, ObserverSource {
     public final ObserverSources getObserverSources() {
         ObserverSources observerSources = new ObserverSources();
 
-        for (final BodySlot bodySlot : this.bodySlots) {
+        for (final BodySlot bodySlot : this.elements) {
             observerSources.add(bodySlot);
         }
 
@@ -83,7 +83,7 @@ public class BodySlots implements BonusSource, ObserverSource {
     public final Armors getArmorWorn() {
         final Armors armors = new Armors();
 
-        for (final BodySlot slot : this.bodySlots) {
+        for (final BodySlot slot : this.elements) {
             if (slot.getItem() instanceof Armor) {
                 armors.add((Armor) slot.getItem());
             }
@@ -94,7 +94,7 @@ public class BodySlots implements BonusSource, ObserverSource {
     public final Weapons getWeaponsWielded() {
         final Weapons weapons = new Weapons();
 
-        for (final BodySlot slot : this.bodySlots) {
+        for (final BodySlot slot : this.elements) {
             if (slot.getItem() instanceof Weapon) {
                 weapons.add((Weapon) slot.getItem());
             }
@@ -110,7 +110,7 @@ public class BodySlots implements BonusSource, ObserverSource {
         final Map<BodySlot, BodySlot> cloneMap
                 = new IdentityHashMap<BodySlot, BodySlot>();
 
-        for (final BodySlot originalSlot : this.bodySlots) {
+        for (final BodySlot originalSlot : this.elements) {
             final BodySlot cloneSlot = originalSlot.cloneSlot();
             clonedSlots.add(cloneSlot);
             if (originalSlot.getCounterSlot() != null) {
@@ -136,14 +136,14 @@ public class BodySlots implements BonusSource, ObserverSource {
     }
 
     public final void setHolder(final UniqueEntity uniqueEntity) {
-        for (final BodySlot bodySlot : this.bodySlots) {
+        for (final BodySlot bodySlot : this.elements) {
             bodySlot.setHolder(uniqueEntity);
         }
     }
 
     public final BodySlot findFirstSimilar(final BodySlot bluePrint,
             final BodySlot.Facet... facets) {
-        for (BodySlot candidate : this.bodySlots) {
+        for (BodySlot candidate : this.elements) {
             if (candidate.isSimilar(bluePrint, facets)) {
                 return candidate;
             }
@@ -152,7 +152,7 @@ public class BodySlots implements BonusSource, ObserverSource {
     }
 
     public final BodySlot getSlotForItem(final InventoryItem item) {
-        for (final BodySlot bodySlot : this.bodySlots) {
+        for (final BodySlot bodySlot : this.elements) {
             if (bodySlot.containsItem(item)) {
                 return bodySlot;
             }

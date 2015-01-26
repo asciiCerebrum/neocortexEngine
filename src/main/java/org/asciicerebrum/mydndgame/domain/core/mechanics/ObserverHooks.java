@@ -10,15 +10,15 @@ import java.util.List;
  */
 public class ObserverHooks {
 
-    private final List<ObserverHook> observerHooks
+    private final List<ObserverHook> elements
             = new ArrayList<ObserverHook>();
 
     public ObserverHooks(final ObserverHook... observerHooks) {
-        this.observerHooks.addAll(Arrays.asList(observerHooks));
+        this.elements.addAll(Arrays.asList(observerHooks));
     }
 
     public final boolean contains(final ObserverHook observerHook) {
-        return this.observerHooks.contains(observerHook);
+        return this.elements.contains(observerHook);
     }
 
 }

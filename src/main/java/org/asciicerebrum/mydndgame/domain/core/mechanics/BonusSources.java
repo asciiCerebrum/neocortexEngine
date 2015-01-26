@@ -13,24 +13,24 @@ public class BonusSources {
 
     public final static BonusSources EMPTY_BONUSSOURCES = new BonusSources();
 
-    private final List<BonusSource> bonusSources = new ArrayList<BonusSource>();
+    private final List<BonusSource> elements = new ArrayList<BonusSource>();
 
     public BonusSources() {
     }
 
     public BonusSources(final BonusSource... bonusSources) {
-        this.bonusSources.addAll(Arrays.asList(bonusSources));
+        this.elements.addAll(Arrays.asList(bonusSources));
     }
 
     public void add(final BonusSource bonusSource) {
-        this.bonusSources.add(bonusSource);
+        this.elements.add(bonusSource);
     }
 
     /**
      * @return the bonusSources
      */
     public Iterator<BonusSource> iterator() {
-        return this.bonusSources.iterator();
+        return this.elements.iterator();
     }
 
 }

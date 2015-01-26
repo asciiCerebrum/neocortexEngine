@@ -10,14 +10,14 @@ import java.util.List;
  */
 public class Workflows {
 
-    private final List<IWorkflow> workflows = new ArrayList<IWorkflow>();
+    private final List<IWorkflow> elements = new ArrayList<IWorkflow>();
 
     public final void addWorkflow(final IWorkflow workflow) {
-        this.workflows.add(workflow);
+        this.elements.add(workflow);
     }
 
     public final Iterator<IWorkflow> iterator() {
-        return this.workflows.iterator();
+        return this.elements.iterator();
     }
 
 }

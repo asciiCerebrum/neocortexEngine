@@ -10,27 +10,27 @@ import java.util.List;
  */
 public class DndCharacters {
 
-    private final List<DndCharacter> dndCharacters
+    private final List<DndCharacter> elements
             = new ArrayList<DndCharacter>();
 
     public final void addDndCharacter(final DndCharacter dndCharacter) {
-        this.dndCharacters.add(dndCharacter);
+        this.elements.add(dndCharacter);
     }
 
     public final void addDndCharacters(final DndCharacters dndCharactersInput) {
-        this.dndCharacters.addAll(dndCharactersInput.dndCharacters);
+        this.elements.addAll(dndCharactersInput.elements);
     }
 
     public final Iterator<DndCharacter> iterator() {
-        return this.dndCharacters.iterator();
+        return this.elements.iterator();
     }
 
     public final boolean hasEntries() {
-        return !this.dndCharacters.isEmpty();
+        return !this.elements.isEmpty();
     }
 
     public final boolean hasMultipleEntries() {
-        return this.dndCharacters.size() > 1;
+        return this.elements.size() > 1;
     }
 
 }

@@ -14,7 +14,7 @@ import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPositions;
  */
 public class CombatRoundEntries {
 
-    private final List<CombatRoundEntry> combatRoundEntries
+    private final List<CombatRoundEntry> elements
             = new ArrayList<CombatRoundEntry>();
 
     /**
@@ -28,7 +28,7 @@ public class CombatRoundEntries {
                 = this.getEntryByParticipant(crEntry.getParticipant());
 
         if (existingCrEntry == null) {
-            this.combatRoundEntries.add(crEntry);
+            this.elements.add(crEntry);
         } else {
             existingCrEntry.setCombatRoundPosition(
                     crEntry.getCombatRoundPosition());
@@ -38,7 +38,7 @@ public class CombatRoundEntries {
     public final CombatRoundEntry getEntryByParticipant(
             final DndCharacter dndCharacter) {
         return (CombatRoundEntry) CollectionUtils
-                .find(this.combatRoundEntries, new Predicate() {
+                .find(this.elements, new Predicate() {
 
                     public boolean evaluate(Object object) {
                         final CombatRoundEntry entry
@@ -62,7 +62,7 @@ public class CombatRoundEntries {
             final CombatRoundPosition roundPosition) {
         DndCharacters participants = new DndCharacters();
 
-        for (CombatRoundEntry crEntry : this.combatRoundEntries) {
+        for (CombatRoundEntry crEntry : this.elements) {
 
             if (crEntry.isCombatRoundPosition(roundPosition)) {
                 participants.addDndCharacter(crEntry.getParticipant());
@@ -74,7 +74,7 @@ public class CombatRoundEntries {
 
     final CombatRoundPositions getPositions() {
         CombatRoundPositions crPositions = new CombatRoundPositions();
-        for (CombatRoundEntry crEntry : this.combatRoundEntries) {
+        for (CombatRoundEntry crEntry : this.elements) {
             crPositions.addCombatRoundPosition(
                     crEntry.getCombatRoundPosition());
         }
@@ -104,7 +104,7 @@ public class CombatRoundEntries {
         return new Iterator<DndCharacter>() {
 
             private Iterator<CombatRoundEntry> creIterator
-                    = combatRoundEntries.iterator();
+                    = elements.iterator();
 
             public boolean hasNext() {
                 return this.creIterator.hasNext();

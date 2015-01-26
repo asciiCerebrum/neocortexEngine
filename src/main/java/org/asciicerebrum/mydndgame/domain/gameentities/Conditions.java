@@ -17,25 +17,25 @@ import org.asciicerebrum.mydndgame.observers.Observers;
  */
 public class Conditions implements BonusSource, ObserverSource {
 
-    private final List<Condition> conditions = new ArrayList<Condition>();
+    private final List<Condition> elements = new ArrayList<Condition>();
 
     public Conditions() {
 
     }
 
     public Conditions(final Condition... conditionsInput) {
-        this.conditions.addAll(Arrays.asList(conditionsInput));
+        this.elements.addAll(Arrays.asList(conditionsInput));
     }
 
     /**
      * @return the conditions
      */
     public final List<Condition> getConditions() {
-        return conditions;
+        return elements;
     }
 
     public final void add(final Condition condition) {
-        this.conditions.add(condition);
+        this.elements.add(condition);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class Conditions implements BonusSource, ObserverSource {
     public final BonusSources getBonusSources() {
         final BonusSources bonusSources = new BonusSources();
 
-        for (final Condition condition : this.conditions) {
+        for (final Condition condition : this.elements) {
             bonusSources.add(condition);
         }
 
@@ -63,7 +63,7 @@ public class Conditions implements BonusSource, ObserverSource {
     public final ObserverSources getObserverSources() {
         final ObserverSources observerSources = new ObserverSources();
 
-        for (final Condition condition : this.conditions) {
+        for (final Condition condition : this.elements) {
             observerSources.add(condition);
         }
 
@@ -71,7 +71,7 @@ public class Conditions implements BonusSource, ObserverSource {
     }
 
     public final Iterator<Condition> iterator() {
-        return this.conditions.iterator();
+        return this.elements.iterator();
     }
 
 }

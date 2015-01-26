@@ -14,10 +14,10 @@ public class ClassLevels {
 
     private UniqueId id;
 
-    private final List<ClassLevel> classLevels = new ArrayList<ClassLevel>();
+    private final List<ClassLevel> elements = new ArrayList<ClassLevel>();
 
     public void addClass(final ClassLevel classLevel) {
-        this.classLevels.add(classLevel);
+        this.elements.add(classLevel);
     }
 
     /**
@@ -27,7 +27,7 @@ public class ClassLevels {
      * @return the level-th element of the classLevel list.
      */
     public ClassLevel getClassLevelByLevel(final Level level) {
-        for (ClassLevel clLvl : this.classLevels) {
+        for (ClassLevel clLvl : this.elements) {
             if (level.equals(clLvl.getLevel())) {
                 return clLvl;
             }

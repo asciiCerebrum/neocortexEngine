@@ -10,18 +10,18 @@ import java.util.List;
  */
 public class FeatBindings {
 
-    private final List<FeatBinding> featBindings = new ArrayList<FeatBinding>();
+    private final List<FeatBinding> elements = new ArrayList<FeatBinding>();
 
     public final void add(final FeatBinding featBinding) {
-        this.featBindings.add(featBinding);
+        this.elements.add(featBinding);
     }
 
     public final boolean contains(final FeatBinding featBinding) {
-        return this.featBindings.contains(featBinding);
+        return this.elements.contains(featBinding);
     }
 
     public final Iterator<FeatBinding> iterator() {
-        return this.featBindings.iterator();
+        return this.elements.iterator();
     }
 
 }

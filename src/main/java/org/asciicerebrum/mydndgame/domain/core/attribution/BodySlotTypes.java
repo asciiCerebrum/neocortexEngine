@@ -9,15 +9,15 @@ import java.util.List;
  */
 public class BodySlotTypes {
 
-    private final List<BodySlotType> bodySlotTypes
+    private final List<BodySlotType> elements
             = new ArrayList<BodySlotType>();
 
     public final void add(final BodySlotType bodySlotType) {
-        this.bodySlotTypes.add(bodySlotType);
+        this.elements.add(bodySlotType);
     }
 
     public final boolean contains(final BodySlotType bodySlotType) {
-        return this.bodySlotTypes.contains(bodySlotType);
+        return this.elements.contains(bodySlotType);
     }
 
 }

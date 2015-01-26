@@ -19,27 +19,27 @@ public class Boni {
     /**
      * The list of boni.
      */
-    private final List<Bonus> boni = new ArrayList<Bonus>();
+    private final List<Bonus> elements = new ArrayList<Bonus>();
 
     /**
      * @param boniInput the boni to set
      */
     final void addBoni(final Collection<Bonus> boniInput) {
-        this.boni.addAll(boniInput);
+        this.elements.addAll(boniInput);
     }
 
     public final void addBoni(final Boni boniInput) {
-        this.boni.addAll(boniInput.boni);
+        this.elements.addAll(boniInput.elements);
     }
 
     public final void addBonus(final Bonus bonusInput) {
-        this.boni.add(bonusInput);
+        this.elements.add(bonusInput);
     }
 
     public final Boni filterByTarget(final BonusTarget target) {
         Boni filteredBoni = new Boni();
 
-        filteredBoni.addBoni(CollectionUtils.select(this.boni, new Predicate() {
+        filteredBoni.addBoni(CollectionUtils.select(this.elements, new Predicate() {
 
             public boolean evaluate(Object o) {
                 if (!(o instanceof Bonus)) {
@@ -56,7 +56,7 @@ public class Boni {
     public final Boni filterByScope(final BonusScope scope) {
         Boni filteredBoni = new Boni();
 
-        filteredBoni.addBoni(CollectionUtils.select(this.boni, new Predicate() {
+        filteredBoni.addBoni(CollectionUtils.select(this.elements, new Predicate() {
 
             public boolean evaluate(Object o) {
                 if (!(o instanceof Bonus)) {
@@ -73,7 +73,7 @@ public class Boni {
     public final Boni filterByTargets(final BonusTargets targets) {
         Boni filteredBoni = new Boni();
 
-        filteredBoni.addBoni(CollectionUtils.select(this.boni, new Predicate() {
+        filteredBoni.addBoni(CollectionUtils.select(this.elements, new Predicate() {
 
             public boolean evaluate(Object o) {
                 if (!(o instanceof Bonus)) {
@@ -88,11 +88,11 @@ public class Boni {
     }
 
     public final Iterator<Bonus> iterator() {
-        return this.boni.iterator();
+        return this.elements.iterator();
     }
 
     public final boolean contains(final Bonus bonus) {
-        return this.boni.contains(bonus);
+        return this.elements.contains(bonus);
     }
 
 }

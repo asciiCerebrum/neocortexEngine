@@ -10,18 +10,18 @@ import java.util.List;
  */
 public class InventoryItems<T extends InventoryItem> {
 
-    protected final List<T> inventoryItems = new ArrayList<T>();
+    protected final List<T> elements = new ArrayList<T>();
 
     public final void add(final T inventoryItem) {
-        this.inventoryItems.add(inventoryItem);
+        this.elements.add(inventoryItem);
     }
 
     public final void add(final List<T> inventoryItems) {
-        this.inventoryItems.addAll(inventoryItems);
+        this.elements.addAll(inventoryItems);
     }
 
     public Iterator<T> iterator() {
-        return this.inventoryItems.iterator();
+        return this.elements.iterator();
     }
 
 }

@@ -10,19 +10,19 @@ import java.util.List;
  */
 public class WeaponPrototypes {
 
-    private final List<WeaponPrototype> weaponPrototypes
+    private final List<WeaponPrototype> elements
             = new ArrayList<WeaponPrototype>();
 
     public final void add(final WeaponPrototype weaponPrototype) {
-        this.weaponPrototypes.add(weaponPrototype);
+        this.elements.add(weaponPrototype);
     }
 
     public final Iterator<WeaponPrototype> iterator() {
-        return this.weaponPrototypes.iterator();
+        return this.elements.iterator();
     }
 
     public final boolean contains(final WeaponPrototype weaponPrototype) {
-        return this.weaponPrototypes.contains(weaponPrototype);
+        return this.elements.contains(weaponPrototype);
     }
 
 }

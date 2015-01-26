@@ -16,7 +16,7 @@ public class Armors extends InventoryItems<Armor> {
 
     public final boolean containsArmorCategory(
             final ArmorCategory armorCategory) {
-        for (final Armor armor : this.inventoryItems) {
+        for (final Armor armor : this.elements) {
             if (armor.hasArmorCategory(armorCategory)) {
                 return true;
             }
@@ -25,7 +25,7 @@ public class Armors extends InventoryItems<Armor> {
     }
 
     public final boolean containsProficiency(final Proficiency proficiency) {
-        for (final Armor armor : this.inventoryItems) {
+        for (final Armor armor : this.elements) {
             if (armor.hasProficiency(proficiency)) {
                 return true;
             }
@@ -37,7 +37,7 @@ public class Armors extends InventoryItems<Armor> {
             final DndCharacter dndCharacter) {
 
         BonusValue minimumPenalty = new BonusValue();
-        for (Armor armor : this.inventoryItems) {
+        for (Armor armor : this.elements) {
             final BonusValue singlePenalty
                     = armor.getArmorCheckPenalty(dndCharacter);
             if (singlePenalty.lessThan(minimumPenalty)) {
@@ -52,7 +52,7 @@ public class Armors extends InventoryItems<Armor> {
             final DndCharacter dndCharacter) {
 
         BonusValue minimumMaxDex = new BonusValue(999l);
-        for (Armor armor : this.inventoryItems) {
+        for (Armor armor : this.elements) {
             final BonusValue singleMaxDex
                     = armor.getMaxDexBonus(dndCharacter);
             if (singleMaxDex.lessThan(minimumMaxDex)) {
@@ -66,7 +66,7 @@ public class Armors extends InventoryItems<Armor> {
 
         List<Armor> armorList = new ArrayList<Armor>();
 
-        CollectionUtils.select(this.inventoryItems, new Predicate() {
+        CollectionUtils.select(this.elements, new Predicate() {
 
             @Override
             public final boolean evaluate(final Object object) {

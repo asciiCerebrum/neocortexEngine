@@ -11,24 +11,24 @@ public class WeaponTypes {
     /**
      * List of weapon types.
      */
-    private List<WeaponType> weaponTypes;
+    private List<WeaponType> elements;
 
     /**
      * @return the weaponTypes
      */
     public final List<WeaponType> getWeaponTypes() {
-        return weaponTypes;
+        return elements;
     }
 
     /**
      * @param weaponTypesInput the weaponTypes to set
      */
     public final void setWeaponTypes(final List<WeaponType> weaponTypesInput) {
-        this.weaponTypes = weaponTypesInput;
+        this.elements = weaponTypesInput;
     }
 
     public final boolean contains(final WeaponType weaponType) {
-        return this.weaponTypes.contains(weaponType);
+        return this.elements.contains(weaponType);
     }
 
 }

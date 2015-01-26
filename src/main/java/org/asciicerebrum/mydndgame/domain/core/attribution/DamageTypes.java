@@ -12,25 +12,25 @@ public class DamageTypes {
     /**
      * The list of damage types.
      */
-    private List<DamageType> damageTypes = new ArrayList<DamageType>();
+    private List<DamageType> elements = new ArrayList<DamageType>();
 
     /**
      * @return the damageTypes
      */
     public final List<DamageType> getDamageTypes() {
-        return damageTypes;
+        return elements;
     }
 
     /**
      * @param damageTypesInput the damageTypes to set
      */
     public final void setDamageTypes(final List<DamageType> damageTypesInput) {
-        this.damageTypes = damageTypesInput;
+        this.elements = damageTypesInput;
     }
 
     public DamageType getFirst() {
-        if (!this.damageTypes.isEmpty()) {
-            return this.damageTypes.get(0);
+        if (!this.elements.isEmpty()) {
+            return this.elements.get(0);
         }
         return null;
     }

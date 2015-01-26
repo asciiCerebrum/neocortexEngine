@@ -20,27 +20,27 @@ public class Observers {
     /**
      * The list of observers.
      */
-    private List<IObserver> observers = new ArrayList<IObserver>();
+    private List<IObserver> elements = new ArrayList<IObserver>();
 
     /**
      * @return the observers
      */
     public final List<IObserver> getObservers() {
-        return observers;
+        return elements;
     }
 
     /**
      * @param observersInput the observers to set
      */
     public final void setObservers(final List<IObserver> observersInput) {
-        this.observers = observersInput;
+        this.elements = observersInput;
     }
 
     public Observers filterByHook(final ObserverHook observerHook) {
 
         List<IObserver> filteredList = new ArrayList<IObserver>();
 
-        CollectionUtils.select(this.observers,
+        CollectionUtils.select(this.elements,
                 new Predicate() {
 
                     public boolean evaluate(Object object) {
@@ -63,7 +63,7 @@ public class Observers {
     public Observers filterByHooks(final ObserverHooks observerHooks) {
         List<IObserver> filteredList = new ArrayList<IObserver>();
 
-        CollectionUtils.select(this.observers,
+        CollectionUtils.select(this.elements,
                 new Predicate() {
 
                     public boolean evaluate(Object object) {
@@ -82,7 +82,7 @@ public class Observers {
     public Observers filterByScope(final ObserverScope scope) {
         List<IObserver> filteredList = new ArrayList<IObserver>();
 
-        CollectionUtils.select(this.observers,
+        CollectionUtils.select(this.elements,
                 new Predicate() {
 
                     public boolean evaluate(Object object) {
@@ -98,13 +98,13 @@ public class Observers {
     }
 
     public void add(final Observers observersInput) {
-        this.observers.addAll(observersInput.getObservers());
+        this.elements.addAll(observersInput.getObservers());
     }
 
     public Object trigger(final Object object,
             final DndCharacter dndCharacter) {
         Object modificatedObject = object;
-        for (final IObserver observer : this.observers) {
+        for (final IObserver observer : this.elements) {
             modificatedObject = observer.trigger(modificatedObject,
                     dndCharacter);
         }
@@ -112,7 +112,7 @@ public class Observers {
     }
 
     public final boolean contains(final IObserver observer) {
-        return this.observers.contains(observer);
+        return this.elements.contains(observer);
     }
 
 }

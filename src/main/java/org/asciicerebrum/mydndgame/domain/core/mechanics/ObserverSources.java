@@ -14,24 +14,24 @@ public class ObserverSources {
     public final static ObserverSources EMPTY_OBSERVERSOURCES
             = new ObserverSources();
 
-    private final List<ObserverSource> observerSources
+    private final List<ObserverSource> elements
             = new ArrayList<ObserverSource>();
 
     public ObserverSources() {
     }
 
     public ObserverSources(final ObserverSource... observerSources) {
-        this.observerSources.addAll(Arrays.asList(observerSources));
+        this.elements.addAll(Arrays.asList(observerSources));
     }
 
     public void add(final ObserverSource observerSource) {
-        this.observerSources.add(observerSource);
+        this.elements.add(observerSource);
     }
 
     /**
      * @return the bonusSources
      */
     public Iterator<ObserverSource> iterator() {
-        return this.observerSources.iterator();
+        return this.elements.iterator();
     }
 }

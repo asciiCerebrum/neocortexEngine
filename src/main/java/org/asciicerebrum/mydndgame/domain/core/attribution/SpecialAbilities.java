@@ -18,14 +18,14 @@ public class SpecialAbilities implements BonusSource, ObserverSource {
     /**
      * The list of special abilities.
      */
-    private List<SpecialAbility> specialAbilities
+    private List<SpecialAbility> elements
             = new ArrayList<SpecialAbility>();
 
     /**
      * @return the specialAbilities
      */
     public final List<SpecialAbility> getSpecialAbilities() {
-        return specialAbilities;
+        return elements;
     }
 
     /**
@@ -33,15 +33,15 @@ public class SpecialAbilities implements BonusSource, ObserverSource {
      */
     public final void setSpecialAbilities(
             final List<SpecialAbility> specialAbilitiesInput) {
-        this.specialAbilities = specialAbilitiesInput;
+        this.elements = specialAbilitiesInput;
     }
 
     public final void add(final SpecialAbility specialAbilityInput) {
-        this.specialAbilities.add(specialAbilityInput);
+        this.elements.add(specialAbilityInput);
     }
 
     public final void add(final SpecialAbilities specialAbilitiesInput) {
-        this.specialAbilities.addAll(specialAbilitiesInput
+        this.elements.addAll(specialAbilitiesInput
                 .getSpecialAbilities());
     }
 
@@ -49,7 +49,7 @@ public class SpecialAbilities implements BonusSource, ObserverSource {
     public final ObserverSources getObserverSources() {
         final ObserverSources observerSources = new ObserverSources();
 
-        for (SpecialAbility specialAbility : this.specialAbilities) {
+        for (SpecialAbility specialAbility : this.elements) {
             observerSources.add(specialAbility);
         }
         return observerSources;
@@ -64,7 +64,7 @@ public class SpecialAbilities implements BonusSource, ObserverSource {
     public BonusSources getBonusSources() {
         final BonusSources bonusSources = new BonusSources();
 
-        for (final SpecialAbility ability : this.specialAbilities) {
+        for (final SpecialAbility ability : this.elements) {
             bonusSources.add(ability);
         }
 

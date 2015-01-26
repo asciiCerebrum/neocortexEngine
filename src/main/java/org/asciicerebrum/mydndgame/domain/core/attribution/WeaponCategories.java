@@ -11,13 +11,13 @@ public class WeaponCategories {
     /**
      * The list of weapon categories.
      */
-    private List<WeaponCategory> weaponCategories;
+    private List<WeaponCategory> elements;
 
     /**
      * @return the weaponCategories
      */
     public final List<WeaponCategory> getWeaponCategories() {
-        return weaponCategories;
+        return elements;
     }
 
     /**
@@ -25,10 +25,10 @@ public class WeaponCategories {
      */
     public final void setWeaponCategories(
             final List<WeaponCategory> weaponCategoriesInput) {
-        this.weaponCategories = weaponCategoriesInput;
+        this.elements = weaponCategoriesInput;
     }
 
     public final boolean contains(final WeaponCategory weaponCategory) {
-        return this.weaponCategories.contains(weaponCategory);
+        return this.elements.contains(weaponCategory);
     }
 }

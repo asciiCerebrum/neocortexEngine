@@ -22,11 +22,11 @@ import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
  */
 public class LevelAdvancements implements BonusSource, ObserverSource {
     
-    private final List<LevelAdvancement> levelAdvancements
+    private final List<LevelAdvancement> elements
             = new ArrayList<LevelAdvancement>();
     
     public final void add(final LevelAdvancement levelAdvancement) {
-        this.levelAdvancements.add(levelAdvancement);
+        this.elements.add(levelAdvancement);
     }
     
     @Override
@@ -38,7 +38,7 @@ public class LevelAdvancements implements BonusSource, ObserverSource {
     public final BonusSources getBonusSources() {
         BonusSources bonusSources = new BonusSources();
         
-        for (LevelAdvancement levelAdvancement : this.levelAdvancements) {
+        for (LevelAdvancement levelAdvancement : this.elements) {
             bonusSources.add(levelAdvancement);
         }
         
@@ -54,7 +54,7 @@ public class LevelAdvancements implements BonusSource, ObserverSource {
     public final ObserverSources getObserverSources() {
         final ObserverSources observerSources = new ObserverSources();
         
-        for (final LevelAdvancement levelAdvancement : this.levelAdvancements) {
+        for (final LevelAdvancement levelAdvancement : this.elements) {
             observerSources.add(levelAdvancement);
         }
         
@@ -62,7 +62,7 @@ public class LevelAdvancements implements BonusSource, ObserverSource {
     }
     
     public final Iterator<LevelAdvancement> iterator() {
-        return this.levelAdvancements.iterator();
+        return this.elements.iterator();
     }
     
     public final Iterator<ClassLevel> classLevelIterator() {
@@ -109,7 +109,7 @@ public class LevelAdvancements implements BonusSource, ObserverSource {
     
     public final AbilityScore countAbility(final Ability ability) {
         long count = 0;
-        for (final LevelAdvancement lvlAdv : this.levelAdvancements) {
+        for (final LevelAdvancement lvlAdv : this.elements) {
             if (ability.equals(lvlAdv.getAbilityAdvancement())) {
                 count++;
             }
@@ -119,7 +119,7 @@ public class LevelAdvancements implements BonusSource, ObserverSource {
     
     public final LevelAdvancement getLevelAdvancementByNumber(
             final AdvancementNumber advNo) {
-        for (final LevelAdvancement lvlAdv : this.levelAdvancements) {
+        for (final LevelAdvancement lvlAdv : this.elements) {
             if (advNo.equals(lvlAdv.getAdvNumber())) {
                 return lvlAdv;
             }
@@ -132,7 +132,7 @@ public class LevelAdvancements implements BonusSource, ObserverSource {
         
         final FeatBindings featBindings = new FeatBindings();
         
-        for (final LevelAdvancement lvlAdv : this.levelAdvancements) {
+        for (final LevelAdvancement lvlAdv : this.elements) {
             if (lvlAdv.hasFeatType(featType)) {
                 featBindings.add(lvlAdv.getFeatAdvancement().getFeatBinding());
             }

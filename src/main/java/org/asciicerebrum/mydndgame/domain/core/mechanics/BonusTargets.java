@@ -10,15 +10,15 @@ import java.util.List;
  */
 public class BonusTargets {
 
-    private final List<BonusTarget> bonusTargets
+    private final List<BonusTarget> elements
             = new ArrayList<BonusTarget>();
 
     public BonusTargets(final BonusTarget... bonusTargets) {
-        this.bonusTargets.addAll(Arrays.asList(bonusTargets));
+        this.elements.addAll(Arrays.asList(bonusTargets));
     }
 
     public final boolean contains(final BonusTarget bonusTarget) {
-        return this.bonusTargets.contains(bonusTarget);
+        return this.elements.contains(bonusTarget);
     }
 
 }

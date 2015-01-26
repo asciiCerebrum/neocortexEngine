@@ -11,18 +11,18 @@ import java.util.List;
  */
 public class Damages {
     
-    private final List<Damage> damages = new ArrayList<Damage>();
+    private final List<Damage> elements = new ArrayList<Damage>();
     
     public Damages(final Damage... damagesInput) {
-        this.damages.addAll(Arrays.asList(damagesInput));
+        this.elements.addAll(Arrays.asList(damagesInput));
     }    
     
     public final void addDamage(final Damage damage) {
-        this.damages.add(damage);
+        this.elements.add(damage);
     }
     
     public final Iterator<Damage> iterator() {
-        return this.damages.iterator();
+        return this.elements.iterator();
     }
     
 }
