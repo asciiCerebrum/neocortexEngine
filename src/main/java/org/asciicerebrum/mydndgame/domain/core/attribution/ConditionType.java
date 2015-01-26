@@ -44,6 +44,7 @@ public class ConditionType implements BonusSource, ObserverSource {
     /**
      * @return the observers
      */
+    @Override
     public final Observers getObservers() {
         return observers;
     }
@@ -58,6 +59,7 @@ public class ConditionType implements BonusSource, ObserverSource {
     /**
      * @return the boni
      */
+    @Override
     public final Boni getBoni() {
         return boni;
     }

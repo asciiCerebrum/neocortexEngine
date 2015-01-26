@@ -12,6 +12,7 @@ public class WorldDateSetup extends AbstractEntitySetup<WorldDate> {
             = {SetupProperty.WORLD_DATE_ROUND,
                 SetupProperty.WORLD_DATE_ROUND_POSITION};
 
+    @Override
     public boolean isSetupComplete() {
         return this.checkRequiredSingleProperties(REQUIRED_SINGLE_PROPERTIES);
     }

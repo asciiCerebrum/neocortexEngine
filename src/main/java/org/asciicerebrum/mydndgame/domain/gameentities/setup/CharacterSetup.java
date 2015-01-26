@@ -15,7 +15,8 @@ public class CharacterSetup extends AbstractEntitySetup<DndCharacter> {
                 SetupProperty.BODY_SLOTS, SetupProperty.LEVEL_ADVANCEMENTS,
                 SetupProperty.BASE_ABILITY_ENTRIES};
 
-    public boolean isSetupComplete() {
+    @Override
+    public final boolean isSetupComplete() {
         return this.checkRequiredSingleProperties(REQUIRED_SINGLE_PROPERTIES);
     }
 

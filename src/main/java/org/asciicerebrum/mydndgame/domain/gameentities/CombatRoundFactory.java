@@ -16,6 +16,7 @@ public class CombatRoundFactory implements EntityFactory<CombatRound> {
 
     private EntityFactory<WorldDate> worldDateFactory;
 
+    @Override
     public final CombatRound newEntity(final EntitySetup<CombatRound> setup,
             final Reassignments reassignments) {
 

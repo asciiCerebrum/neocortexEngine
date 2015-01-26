@@ -47,7 +47,8 @@ public abstract class Feature implements BonusSource, ObserverSource {
     /**
      * @return the boni
      */
-    public Boni getBoni() {
+    @Override
+    public final Boni getBoni() {
         return boni;
     }
 
@@ -61,7 +62,8 @@ public abstract class Feature implements BonusSource, ObserverSource {
     /**
      * @return the observers
      */
-    public Observers getObservers() {
+    @Override
+    public final Observers getObservers() {
         return observers;
     }
 

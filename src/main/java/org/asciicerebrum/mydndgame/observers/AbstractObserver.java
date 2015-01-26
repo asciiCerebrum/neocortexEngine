@@ -89,6 +89,7 @@ public abstract class AbstractObserver implements IObserver {
     /**
      * @return the scope
      */
+    @Override
     public final ObserverScope getScope() {
         return scope;
     }
@@ -96,6 +97,7 @@ public abstract class AbstractObserver implements IObserver {
     /**
      * @param scopeInput the scope to set
      */
+    @Override
     public final void setScope(final ObserverScope scopeInput) {
         this.scope = scopeInput;
     }

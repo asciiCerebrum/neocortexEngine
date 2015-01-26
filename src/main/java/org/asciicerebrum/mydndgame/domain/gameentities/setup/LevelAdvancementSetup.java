@@ -36,6 +36,7 @@ public class LevelAdvancementSetup
         this.singleSetup.put(SetupProperty.FEAT_ADVANCEMENT, featSetup);
     }
 
+    @Override
     public final boolean isSetupComplete() {
         return this.checkRequiredSingleProperties(REQUIRED_SINGLE_PROPERTIES);
     }

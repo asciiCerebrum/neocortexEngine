@@ -114,15 +114,18 @@ public class DiceAction implements BonusSource, BonusTarget, ObserverSource {
     /**
      * @return the associatedAttackMode
      */
-    public WeaponCategory getAssociatedAttackMode() {
+    @Override
+    public final WeaponCategory getAssociatedAttackMode() {
         return associatedAttackMode;
     }
 
     /**
-     * @param associatedAttackMode the associatedAttackMode to set
+     * @param associatedAttackModeInput the associatedAttackMode to set
      */
-    public void setAssociatedAttackMode(WeaponCategory associatedAttackMode) {
-        this.associatedAttackMode = associatedAttackMode;
+    @Override
+    public final void setAssociatedAttackMode(
+            final WeaponCategory associatedAttackModeInput) {
+        this.associatedAttackMode = associatedAttackModeInput;
     }
 
     /**
@@ -142,15 +145,18 @@ public class DiceAction implements BonusSource, BonusTarget, ObserverSource {
     /**
      * @return the associatedHook
      */
-    public ObserverHook getAssociatedHook() {
+    @Override
+    public final ObserverHook getAssociatedHook() {
         return associatedHook;
     }
 
     /**
-     * @param associatedHook the associatedHook to set
+     * @param associatedHookInput the associatedHook to set
      */
-    public void setAssociatedHook(ObserverHook associatedHook) {
-        this.associatedHook = associatedHook;
+    @Override
+    public final void setAssociatedHook(
+            final ObserverHook associatedHookInput) {
+        this.associatedHook = associatedHookInput;
     }
 
     @Override

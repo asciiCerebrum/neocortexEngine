@@ -29,14 +29,14 @@ public class WorldDate {
     private CombatRoundPosition combatRoundPosition;
 
     public WorldDate() {
-        
+
     }
-    
+
     public WorldDate(final WorldDate worldDate) {
         this.combatRoundNumber = worldDate.combatRoundNumber;
         this.combatRoundPosition = worldDate.combatRoundPosition;
     }
-    
+
     public final boolean isAfter(final WorldDate t) {
         return this.compareTo(t) > 0;
     }
@@ -58,6 +58,7 @@ public class WorldDate {
     /**
      * {@inheritDoc}
      */
+    @Override
     public final boolean equals(final Object o) {
         if (o instanceof WorldDate) {
             WorldDate oDate = (WorldDate) o;
@@ -73,6 +74,7 @@ public class WorldDate {
     /**
      * {@inheritDoc}
      */
+    @Override
     public final int hashCode() {
         int hash = HASH_BASE;
         hash = HASH_FACTOR * hash;

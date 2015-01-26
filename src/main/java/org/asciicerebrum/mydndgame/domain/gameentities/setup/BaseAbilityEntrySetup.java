@@ -13,7 +13,8 @@ public class BaseAbilityEntrySetup
             = {SetupProperty.BASE_ABILITY,
                 SetupProperty.BASE_ABILITY_VALUE};
 
-    public boolean isSetupComplete() {
+    @Override
+    public final boolean isSetupComplete() {
         return this.checkRequiredSingleProperties(REQUIRED_SINGLE_PROPERTIES);
     }
 

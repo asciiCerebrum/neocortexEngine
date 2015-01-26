@@ -13,7 +13,8 @@ import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
  */
 public class CampaignSetup extends AbstractEntitySetup<Campaign> {
 
-    public boolean isSetupComplete() {
+    @Override
+    public final boolean isSetupComplete() {
         return true;
     }
 

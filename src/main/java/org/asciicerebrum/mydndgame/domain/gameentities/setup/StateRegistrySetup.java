@@ -15,6 +15,7 @@ public class StateRegistrySetup extends AbstractEntitySetup<StateRegistry> {
                     SetupProperty.STATE_REGISTRY_VALUE,
                     SetupProperty.STATE_REGISTRY_VALUE_TYPE};
 
+        @Override
         public boolean isSetupComplete() {
             return this.checkRequiredSingleProperties(
                     REQUIRED_SINGLE_PROPERTIES);
@@ -41,6 +42,7 @@ public class StateRegistrySetup extends AbstractEntitySetup<StateRegistry> {
 
     }
 
+    @Override
     public boolean isSetupComplete() {
         return true;
     }

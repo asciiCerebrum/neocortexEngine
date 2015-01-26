@@ -20,7 +20,8 @@ public class CombatRoundSetup extends AbstractEntitySetup<CombatRound> {
                 worldDate);
     }
 
-    public boolean isSetupComplete() {
+    @Override
+    public final boolean isSetupComplete() {
         return true;
     }
 

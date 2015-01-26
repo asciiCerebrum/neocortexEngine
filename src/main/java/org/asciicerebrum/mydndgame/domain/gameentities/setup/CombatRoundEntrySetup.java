@@ -23,7 +23,8 @@ public class CombatRoundEntrySetup
                 roundPosition);
     }
 
-    public boolean isSetupComplete() {
+    @Override
+    public final boolean isSetupComplete() {
         return this.checkRequiredSingleProperties(REQUIRED_SINGLE_PROPERTIES);
     }
 

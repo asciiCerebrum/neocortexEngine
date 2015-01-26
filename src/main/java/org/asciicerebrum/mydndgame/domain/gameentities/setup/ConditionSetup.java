@@ -13,6 +13,7 @@ public class ConditionSetup extends AbstractEntitySetup<Condition> {
                 SetupProperty.CONDITION_EXPIRY_DATE,
                 SetupProperty.CONDITION_TYPE};
 
+    @Override
     public boolean isSetupComplete() {
         return this.checkRequiredSingleProperties(REQUIRED_SINGLE_PROPERTIES);
     }

@@ -15,6 +15,7 @@ public class CombatRoundEntryFactory
 
     private Campaign campaign;
 
+    @Override
     public final CombatRoundEntry newEntity(
             final EntitySetup<CombatRoundEntry> setup,
             final Reassignments reassignments) {

@@ -24,7 +24,8 @@ public class BodySlotSetup extends AbstractEntitySetup<Campaign> {
                 primaryAttackSlot);
     }
 
-    public boolean isSetupComplete() {
+    @Override
+    public final boolean isSetupComplete() {
         return this.checkRequiredSingleProperties(REQUIRED_SINGLE_PROPERTIES);
     }
 }

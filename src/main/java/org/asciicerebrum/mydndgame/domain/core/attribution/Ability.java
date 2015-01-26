@@ -70,6 +70,7 @@ public class Ability implements BonusSource, BonusTarget, ObserverSource {
     /**
      * @return the boni
      */
+    @Override
     public Boni getBoni() {
         return boni;
     }
@@ -84,6 +85,7 @@ public class Ability implements BonusSource, BonusTarget, ObserverSource {
     /**
      * @return the associatedAttackMode
      */
+    @Override
     public WeaponCategory getAssociatedAttackMode() {
         return associatedAttackMode;
     }
@@ -91,6 +93,7 @@ public class Ability implements BonusSource, BonusTarget, ObserverSource {
     /**
      * @param associatedAttackMode the associatedAttackMode to set
      */
+    @Override
     public void setAssociatedAttackMode(WeaponCategory associatedAttackMode) {
         this.associatedAttackMode = associatedAttackMode;
     }
@@ -98,6 +101,7 @@ public class Ability implements BonusSource, BonusTarget, ObserverSource {
     /**
      * @return the associatedHook
      */
+    @Override
     public ObserverHook getAssociatedHook() {
         return associatedHook;
     }
@@ -105,6 +109,7 @@ public class Ability implements BonusSource, BonusTarget, ObserverSource {
     /**
      * @param associatedHook the associatedHook to set
      */
+    @Override
     public void setAssociatedHook(ObserverHook associatedHook) {
         this.associatedHook = associatedHook;
     }
