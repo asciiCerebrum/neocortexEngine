@@ -140,11 +140,10 @@ public class StateRegistry {
      * @param <T>
      * @param particle
      * @param contextObject
-     * @param clazz
      * @return
      */
     public <T> T getState(final StateParticle particle,
-            final UniqueEntity contextObject, Class<T> clazz) {
+            final UniqueEntity contextObject) {
         final StateRegistryKey key
                 = new StateRegistryKey(particle, contextObject);
         Object stateKey = this.stateMap.get(key);

@@ -21,8 +21,7 @@ public class SituationContextService {
             final DndCharacter dndCharacter) {
 
         return dndCharacter.getStateRegistry()
-                .getState(StateRegistry.StateParticle.ACTIVE_ITEM, null,
-                        InventoryItem.class);
+                .getState(StateRegistry.StateParticle.ACTIVE_ITEM, null);
     }
 
     public final WeaponCategory getActiveAttackMode(
@@ -48,7 +47,7 @@ public class SituationContextService {
 
         return dndCharacter.getStateRegistry()
                 .getState(StateRegistry.StateParticle.WEAPON_ATTACK_MODE,
-                        weapon, WeaponCategory.class);
+                        weapon);
     }
 
     public final DamageType getWeaponDamageType(final Weapon weapon,
@@ -56,20 +55,20 @@ public class SituationContextService {
 
         return dndCharacter.getStateRegistry()
                 .getState(StateRegistry.StateParticle.WEAPON_DAMAGE_TYPE,
-                        weapon, DamageType.class);
+                        weapon);
     }
 
     public final BonusValue getBonusValueForKey(final StateParticle stateKey,
             final DndCharacter dndCharacter) {
-        return new BonusValue((long) dndCharacter.getStateRegistry()
-                .getState(stateKey, dndCharacter, Long.class));
+        return new BonusValue((Long) dndCharacter.getStateRegistry()
+                .getState(stateKey, dndCharacter));
     }
 
     public final BooleanParticle getFlagForKey(final StateParticle stateKey,
             final DndCharacter dndCharacter, final UniqueEntity uniqueEntity) {
         return new BooleanParticle(
-                (boolean) dndCharacter.getStateRegistry()
-                .getState(stateKey, uniqueEntity, Boolean.class));
+                (Boolean) dndCharacter.getStateRegistry()
+                .getState(stateKey, uniqueEntity));
     }
 
     //TODO when I load the character through deserialization, how do I know what

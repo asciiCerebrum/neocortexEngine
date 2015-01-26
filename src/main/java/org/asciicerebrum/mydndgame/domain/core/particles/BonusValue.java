@@ -28,7 +28,7 @@ public class BonusValue extends LongParticle {
     }
 
     public final boolean isNonZero() {
-        return this.getValue() != 0l;
+        return this.getValue() != 0L;
     }
 
     public void applyOperation(final DoubleParticle.Operation operation,

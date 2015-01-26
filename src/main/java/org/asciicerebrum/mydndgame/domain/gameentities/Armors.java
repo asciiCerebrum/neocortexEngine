@@ -51,7 +51,7 @@ public class Armors extends InventoryItems<Armor> {
     public final BonusValue getMinimumMaxDexBonus(
             final DndCharacter dndCharacter) {
 
-        BonusValue minimumMaxDex = new BonusValue(999l);
+        BonusValue minimumMaxDex = new BonusValue(999L);
         for (Armor armor : this.elements) {
             final BonusValue singleMaxDex
                     = armor.getMaxDexBonus(dndCharacter);

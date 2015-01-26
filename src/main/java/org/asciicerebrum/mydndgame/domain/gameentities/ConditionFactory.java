@@ -15,11 +15,11 @@ import org.springframework.context.ApplicationContext;
  */
 public class ConditionFactory implements EntityFactory<Condition> {
 
-    public Campaign campaign;
+    private Campaign campaign;
 
-    public ApplicationContext context;
+    private ApplicationContext context;
 
-    public EntityFactory<WorldDate> worldDateFactory;
+    private EntityFactory<WorldDate> worldDateFactory;
 
     @Override
     public Condition newEntity(final EntitySetup<Condition> setup,
@@ -63,6 +63,28 @@ public class ConditionFactory implements EntityFactory<Condition> {
         entity.setCauseEntity(this.campaign.getEntityById(
                 new UniqueId(setup.getProperty(
                                 SetupProperty.CONDITION_CAUSE_ENTITY))));
+    }
+
+    /**
+     * @param campaignInput the campaign to set
+     */
+    public final void setCampaign(final Campaign campaignInput) {
+        this.campaign = campaignInput;
+    }
+
+    /**
+     * @param contextInput the context to set
+     */
+    public final void setContext(final ApplicationContext contextInput) {
+        this.context = contextInput;
+    }
+
+    /**
+     * @param worldDateFactoryInput the worldDateFactory to set
+     */
+    public final void setWorldDateFactory(
+            final EntityFactory<WorldDate> worldDateFactoryInput) {
+        this.worldDateFactory = worldDateFactoryInput;
     }
 
 }

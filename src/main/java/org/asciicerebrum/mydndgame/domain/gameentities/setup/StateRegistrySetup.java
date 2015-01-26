@@ -50,6 +50,5 @@ public class StateRegistrySetup extends AbstractEntitySetup<StateRegistry> {
     public void setStateRegistryEntry(final EntitySetup entrySetup) {
         this.singleSetup.put(SetupProperty.STATE_REGISTRY_ENTRY, entrySetup);
     }
-;
 
 }

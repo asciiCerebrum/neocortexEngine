@@ -7,7 +7,7 @@ package org.asciicerebrum.mydndgame.domain.core.particles;
 public class HitPoints extends LongParticle {
 
     public HitPoints() {
-        this.setValue(0l);
+        this.setValue(0L);
     }
 
     public HitPoints(final String hitPointsString) {

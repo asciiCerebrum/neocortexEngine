@@ -27,7 +27,7 @@ public class CombatRoundPosition extends StringParticle implements Comparable {
 
     public CombatRoundPosition(final CombatRoundPosition roundPosition,
             final DiceRoll initReRoll) {
-        this.setValue(this.getValue()
+        this.setValue(roundPosition
                 + String.format(ROUND_POSITION_FORMAT, initReRoll.getValue()));
     }
 
