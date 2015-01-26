@@ -148,4 +148,12 @@ public class DefaultBonusCalculationServiceImpl
         return this.accumulateBonusValues(dndCharacter, modBoni);
     }
 
+    /**
+     * @param observableServiceInput the observableService to set
+     */
+    public final void setObservableService(
+            final ObservableService observableServiceInput) {
+        this.observableService = observableServiceInput;
+    }
+
 }

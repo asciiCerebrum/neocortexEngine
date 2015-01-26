@@ -31,8 +31,8 @@ public class BodySlot implements BonusSource, ObserverSource {
                     final boolean isSimilar(final BodySlot bluePrint,
                             final BodySlot candidate) {
                         // both null or both equal
-                        return (bluePrint.getItem() == null
-                        && candidate.getItem() == null)
+                        return bluePrint.getItem() == null
+                        && candidate.getItem() == null
                         || bluePrint.getItem().equals(candidate.getItem());
                     }
                 },

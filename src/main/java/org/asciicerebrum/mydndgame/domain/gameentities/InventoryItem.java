@@ -153,4 +153,13 @@ public abstract class InventoryItem extends UniqueEntity {
                 this.getSizeCategory(), this, dndCharacter);
     }
 
+    /**
+     * @param inventoryItemServiceFacadeInput the inventoryItemServiceFacade to
+     * set
+     */
+    public final void setInventoryItemServiceFacade(
+            final InventoryItemServiceFacade inventoryItemServiceFacadeInput) {
+        this.inventoryItemServiceFacade = inventoryItemServiceFacadeInput;
+    }
+
 }

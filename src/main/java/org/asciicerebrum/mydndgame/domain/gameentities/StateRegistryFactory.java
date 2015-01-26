@@ -79,4 +79,18 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
         this.addSingleState(entity, setup, null);
     }
 
+    /**
+     * @param campaignInput the campaign to set
+     */
+    public final void setCampaign(final Campaign campaignInput) {
+        this.campaign = campaignInput;
+    }
+
+    /**
+     * @param contextInput the context to set
+     */
+    public final void setContext(final ApplicationContext contextInput) {
+        this.context = contextInput;
+    }
+
 }

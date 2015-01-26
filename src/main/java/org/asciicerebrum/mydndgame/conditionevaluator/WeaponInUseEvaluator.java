@@ -92,4 +92,12 @@ public class WeaponInUseEvaluator implements ConditionEvaluator {
         this.bonusService = bonusServiceInput;
     }
 
+    /**
+     * @param ctxServiceInput the ctxService to set
+     */
+    public final void setCtxService(
+            final SituationContextService ctxServiceInput) {
+        this.ctxService = ctxServiceInput;
+    }
+
 }

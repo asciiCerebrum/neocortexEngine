@@ -40,4 +40,11 @@ public class BaseAbilityEntryFactory implements EntityFactory<BaseAbilityEntry> 
         // nothing to do here.
     }
 
+    /**
+     * @param contextInput the context to set
+     */
+    public final void setContext(final ApplicationContext contextInput) {
+        this.context = contextInput;
+    }
+
 }

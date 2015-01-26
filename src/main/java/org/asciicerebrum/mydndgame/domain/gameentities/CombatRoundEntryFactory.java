@@ -52,4 +52,11 @@ public class CombatRoundEntryFactory
         entity.setParticipant(participant);
     }
 
+    /**
+     * @param campaignInput the campaign to set
+     */
+    public final void setCampaign(final Campaign campaignInput) {
+        this.campaign = campaignInput;
+    }
+
 }

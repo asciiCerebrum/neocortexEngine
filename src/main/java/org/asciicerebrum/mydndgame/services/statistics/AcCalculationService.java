@@ -172,4 +172,12 @@ public class AcCalculationService {
         this.touchAttackAction = touchAttackAction;
     }
 
+    /**
+     * @param bonusServiceInput the bonusService to set
+     */
+    public final void setBonusService(
+            final BonusCalculationService bonusServiceInput) {
+        this.bonusService = bonusServiceInput;
+    }
+
 }

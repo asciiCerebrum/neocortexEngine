@@ -107,4 +107,20 @@ public class DamageWorkflow implements IWorkflow {
         this.situationContextService = situationContextServiceInput;
     }
 
+    /**
+     * @param damageApplicationServiceInput the damageApplicationService to set
+     */
+    public final void setDamageApplicationService(
+            final DamageApplicationService damageApplicationServiceInput) {
+        this.damageApplicationService = damageApplicationServiceInput;
+    }
+
+    /**
+     * @param damageServiceInput the damageService to set
+     */
+    public final void setDamageService(
+            final DamageCalculationService damageServiceInput) {
+        this.damageService = damageServiceInput;
+    }
+
 }

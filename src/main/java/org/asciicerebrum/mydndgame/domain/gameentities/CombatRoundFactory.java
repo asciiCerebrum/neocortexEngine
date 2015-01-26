@@ -55,4 +55,20 @@ public class CombatRoundFactory implements EntityFactory<CombatRound> {
         //nothing to do here
     }
 
+    /**
+     * @param combatRoundEntryFactoryIn the combatRoundEntryFactory to set
+     */
+    public final void setCombatRoundEntryFactory(
+            final EntityFactory<CombatRoundEntry> combatRoundEntryFactoryIn) {
+        this.combatRoundEntryFactory = combatRoundEntryFactoryIn;
+    }
+
+    /**
+     * @param worldDateFactoryInput the worldDateFactory to set
+     */
+    public final void setWorldDateFactory(
+            final EntityFactory<WorldDate> worldDateFactoryInput) {
+        this.worldDateFactory = worldDateFactoryInput;
+    }
+
 }

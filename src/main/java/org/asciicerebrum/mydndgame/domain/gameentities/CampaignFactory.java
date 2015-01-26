@@ -68,4 +68,35 @@ public class CampaignFactory implements EntityFactory<Campaign> {
         // nothing to do here
     }
 
+    /**
+     * @param contextInput the context to set
+     */
+    public final void setContext(final ApplicationContext contextInput) {
+        this.context = contextInput;
+    }
+
+    /**
+     * @param characterFactoryInput the characterFactory to set
+     */
+    public final void setCharacterFactory(
+            final EntityFactory<DndCharacter> characterFactoryInput) {
+        this.characterFactory = characterFactoryInput;
+    }
+
+    /**
+     * @param inventoryItemFactoryInput the inventoryItemFactory to set
+     */
+    public final void setInventoryItemFactory(
+            final EntityFactory<InventoryItem> inventoryItemFactoryInput) {
+        this.inventoryItemFactory = inventoryItemFactoryInput;
+    }
+
+    /**
+     * @param combatRoundFactoryInput the combatRoundFactory to set
+     */
+    public final void setCombatRoundFactory(
+            final EntityFactory<CombatRound> combatRoundFactoryInput) {
+        this.combatRoundFactory = combatRoundFactoryInput;
+    }
+
 }
