@@ -52,4 +52,20 @@ public class CombatRoundPosition extends StringParticle implements Comparable {
                 .append(this.getValue(), oCrPos.getValue()).toComparison();
     }
 
+    @Override
+    public final boolean equals(final Object obj) {
+        if (!(obj instanceof CombatRoundPosition)) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        return super.equals(obj);
+    }
+
+    @Override
+    public final int hashCode() {
+        return super.hashCode();
+    }
+
 }
