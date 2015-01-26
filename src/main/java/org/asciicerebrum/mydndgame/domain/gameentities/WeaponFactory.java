@@ -13,9 +13,8 @@ public class WeaponFactory extends InventoryItemFactory {
     @Override
     protected InventoryItem getConcreteInventoryItem() {
 
-        Weapon concreteWeapon = this.getContext().getBean(Weapon.class);
+        return this.getContext().getBean(Weapon.class);
 
-        return concreteWeapon;
     }
 
     /**

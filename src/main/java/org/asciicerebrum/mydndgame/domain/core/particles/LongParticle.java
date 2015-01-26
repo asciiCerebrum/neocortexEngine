@@ -74,13 +74,6 @@ public class LongParticle {
      */
     private long value = 0L;
 
-    /**
-     * @return the value
-     */
-    public final long getValue() {
-        return value;
-    }
-
     public LongParticle() {
 
     }
@@ -92,6 +85,13 @@ public class LongParticle {
     public LongParticle(final DoubleParticle doubleParticle) {
         this.value = Double.valueOf(Math.floor(doubleParticle.getValue()))
                 .longValue();
+    }
+
+    /**
+     * @return the value
+     */
+    public final long getValue() {
+        return value;
     }
 
     /**

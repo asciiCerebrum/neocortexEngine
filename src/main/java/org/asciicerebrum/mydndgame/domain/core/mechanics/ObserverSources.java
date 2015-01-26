@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ObserverSources {
 
-    public final static ObserverSources EMPTY_OBSERVERSOURCES
+    public static final ObserverSources EMPTY_OBSERVERSOURCES
             = new ObserverSources();
 
     private final List<ObserverSource> elements

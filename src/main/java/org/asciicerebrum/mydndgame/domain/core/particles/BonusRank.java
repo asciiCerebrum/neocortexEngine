@@ -6,13 +6,13 @@ package org.asciicerebrum.mydndgame.domain.core.particles;
  */
 public class BonusRank extends LongParticle implements Comparable<BonusRank> {
 
-    public final static BonusRank RANK_0 = new BonusRank(0);
+    public static final BonusRank RANK_0 = new BonusRank(0);
 
-    public final static BonusRank RANK_1 = new BonusRank(1);
+    public static final BonusRank RANK_1 = new BonusRank(1);
 
-    public final static BonusRank RANK_2 = new BonusRank(2);
+    public static final BonusRank RANK_2 = new BonusRank(2);
 
-    public final static BonusRank RANK_3 = new BonusRank(3);
+    public static final BonusRank RANK_3 = new BonusRank(3);
 
     public BonusRank(final long rankValue) {
         this.setValue(rankValue);
@@ -32,11 +32,6 @@ public class BonusRank extends LongParticle implements Comparable<BonusRank> {
             return true;
         }
         return super.equals(obj);
-    }
-
-    @Override
-    public final int hashCode() {
-        return super.hashCode();
     }
 
 }

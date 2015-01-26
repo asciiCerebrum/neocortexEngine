@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class BonusSources {
 
-    public final static BonusSources EMPTY_BONUSSOURCES = new BonusSources();
+    public static final BonusSources EMPTY_BONUSSOURCES = new BonusSources();
 
     private final List<BonusSource> elements = new ArrayList<BonusSource>();
 

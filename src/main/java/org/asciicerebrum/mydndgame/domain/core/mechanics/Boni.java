@@ -14,7 +14,7 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus.BonusScope;
  */
 public class Boni {
 
-    public final static Boni EMPTY_BONI = new Boni();
+    public static final Boni EMPTY_BONI = new Boni();
 
     /**
      * The list of boni.

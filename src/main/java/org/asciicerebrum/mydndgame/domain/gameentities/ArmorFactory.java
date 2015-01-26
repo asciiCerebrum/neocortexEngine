@@ -12,9 +12,7 @@ public class ArmorFactory extends InventoryItemFactory {
     @Override
     protected InventoryItem getConcreteInventoryItem() {
 
-        Armor concreteArmor = this.getContext().getBean(Armor.class);
-
-        return concreteArmor;
+        return this.getContext().getBean(Armor.class);
     }
 
     /**

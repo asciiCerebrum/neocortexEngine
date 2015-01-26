@@ -25,8 +25,8 @@ public class AbilityCalculationService {
      * another rule system, this class has to be replaced anyway. So these
      * values were not put into the spring xml.
      */
-    private final static double ABILITY_BONUS_OFFSET = 10.0;
-    private final static double ABILITY_BONUS_FRACTION = 2.0;
+    private static final double ABILITY_BONUS_OFFSET = 10.0;
+    private static final double ABILITY_BONUS_FRACTION = 2.0;
 
     /**
      * The one ability concerning all the other abilities.

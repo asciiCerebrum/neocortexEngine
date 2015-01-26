@@ -63,9 +63,4 @@ public class CombatRoundPosition extends StringParticle implements Comparable {
         return super.equals(obj);
     }
 
-    @Override
-    public final int hashCode() {
-        return super.hashCode();
-    }
-
 }

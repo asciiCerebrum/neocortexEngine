@@ -11,12 +11,10 @@ public class DiceRoll extends LongParticle {
     }
 
     public final DiceRoll add(final BonusValue bonusValue) {
-        final DiceRoll diceRoll
-                = new DiceRoll(this.getValue() + bonusValue.getValue());
-        return diceRoll;
+        return new DiceRoll(this.getValue() + bonusValue.getValue());
     }
 
-    public final static DiceRoll max(final DiceRoll dr1, final DiceRoll dr2) {
+    public static final DiceRoll max(final DiceRoll dr1, final DiceRoll dr2) {
         if (dr1.getValue() >= dr2.getValue()) {
             return dr1;
         }

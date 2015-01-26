@@ -15,7 +15,7 @@ import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
  */
 public class Observers {
 
-    public final static Observers EMPTY_OBSERVERS = new Observers();
+    public static final Observers EMPTY_OBSERVERS = new Observers();
 
     /**
      * The list of observers.
