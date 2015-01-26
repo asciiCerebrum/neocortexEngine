@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.core.particles;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
  *
@@ -61,6 +62,13 @@ public class CombatRoundPosition extends StringParticle implements Comparable {
             return true;
         }
         return super.equals(obj);
+    }
+
+    @Override
+    public final int hashCode() {
+        return new HashCodeBuilder(17, 31)
+                .append(this.getValue())
+                .toHashCode();
     }
 
 }

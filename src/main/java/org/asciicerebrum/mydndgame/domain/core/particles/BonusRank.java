@@ -1,5 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.core.particles;
 
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 /**
  *
  * @author species8472
@@ -32,6 +34,13 @@ public class BonusRank extends LongParticle implements Comparable<BonusRank> {
             return true;
         }
         return super.equals(obj);
+    }
+
+    @Override
+    public final int hashCode() {
+        return new HashCodeBuilder(17, 31)
+                .append(this.getValue())
+                .toHashCode();
     }
 
 }
