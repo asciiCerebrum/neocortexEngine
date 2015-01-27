@@ -10,7 +10,6 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
 import org.asciicerebrum.mydndgame.observers.Observers;
 import org.asciicerebrum.mydndgame.domain.core.particles.ExperiencePoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
-import org.asciicerebrum.mydndgame.facades.gameentities.CharacterServiceFacade;
 
 /**
  *
@@ -18,8 +17,6 @@ import org.asciicerebrum.mydndgame.facades.gameentities.CharacterServiceFacade;
  */
 public class DndCharacter extends UniqueEntity implements BonusSource,
         ObserverSource {
-
-    private CharacterServiceFacade characterServiceFacade;
 
     private LevelAdvancements levelAdvancements;
 
@@ -38,21 +35,6 @@ public class DndCharacter extends UniqueEntity implements BonusSource,
     private ExperiencePoints currentXp;
 
     private Conditions conditions;
-
-    /**
-     * @return the characterServiceFacade
-     */
-    public final CharacterServiceFacade getCharacterServiceFacade() {
-        return characterServiceFacade;
-    }
-
-    /**
-     * @param characterServiceFacadeInput the characterServiceFacade to set
-     */
-    public final void setCharacterServiceFacade(
-            final CharacterServiceFacade characterServiceFacadeInput) {
-        this.characterServiceFacade = characterServiceFacadeInput;
-    }
 
     /**
      * @return the levelAdvancements
@@ -223,8 +205,13 @@ public class DndCharacter extends UniqueEntity implements BonusSource,
         return this.getBodySlots().getArmorWorn();
     }
 
-    public final SizeCategory getSize() {
-        return this.characterServiceFacade.getSize(this.race.getSize(), this);
+    /**
+     * Retrieves the unmodified base size of the character - defined by race.
+     *
+     * @return the base size category.
+     */
+    public final SizeCategory getBaseSize() {
+        return this.race.getSize();
     }
 
     public final Armors getArmorWorn() {

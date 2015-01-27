@@ -6,7 +6,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.asciicerebrum.mydndgame.domain.core.attribution.ArmorCategory;
 import org.asciicerebrum.mydndgame.domain.core.attribution.Proficiency;
-import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 
 /**
  *
@@ -31,35 +30,6 @@ public class Armors extends InventoryItems<Armor> {
             }
         }
         return false;
-    }
-
-    public final BonusValue getMinimumArmorCheckPenalty(
-            final DndCharacter dndCharacter) {
-
-        BonusValue minimumPenalty = new BonusValue();
-        for (Armor armor : this.elements) {
-            final BonusValue singlePenalty
-                    = armor.getArmorCheckPenalty(dndCharacter);
-            if (singlePenalty.lessThan(minimumPenalty)) {
-                minimumPenalty = singlePenalty;
-            }
-        }
-
-        return minimumPenalty;
-    }
-
-    public final BonusValue getMinimumMaxDexBonus(
-            final DndCharacter dndCharacter) {
-
-        BonusValue minimumMaxDex = new BonusValue(999L);
-        for (Armor armor : this.elements) {
-            final BonusValue singleMaxDex
-                    = armor.getMaxDexBonus(dndCharacter);
-            if (singleMaxDex.lessThan(minimumMaxDex)) {
-                minimumMaxDex = singleMaxDex;
-            }
-        }
-        return minimumMaxDex;
     }
 
     public Armors filterByArmorCateogry(final ArmorCategory armorCategory) {

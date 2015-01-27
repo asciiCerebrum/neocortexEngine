@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.facades.gameentities;
 
+import org.asciicerebrum.mydndgame.domain.core.attribution.BodySlotType;
 import org.asciicerebrum.mydndgame.domain.core.attribution.BodySlotTypes;
 import org.asciicerebrum.mydndgame.domain.core.attribution.SizeCategory;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHooks;
@@ -20,14 +21,16 @@ public class DefaultInventoryItemServiceFacade
     /**
      * The observable service.
      */
-    private ObservableService observableService;
+    protected ObservableService observableService;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Cost getCost(final Cost baseCost, final InventoryItem inventoryItem,
+    public Cost getCost(final InventoryItem inventoryItem,
             final DndCharacter dndCharacter) {
+
+        final Cost baseCost = inventoryItem.getBaseCost();
 
         return (Cost) this.observableService.triggerObservers(
                 baseCost, inventoryItem,
@@ -41,9 +44,11 @@ public class DefaultInventoryItemServiceFacade
      */
     @Override
     public final BodySlotTypes getDesignatedBodySlotTypes(
-            final BodySlotTypes baseBodySlotTypes,
             final InventoryItem inventoryItem,
             final DndCharacter dndCharacter) {
+
+        final BodySlotTypes baseBodySlotTypes
+                = inventoryItem.getBaseDesignatedBodySlotTypes();
 
         return (BodySlotTypes) this.observableService.triggerObservers(
                 baseBodySlotTypes, inventoryItem,
@@ -61,14 +66,23 @@ public class DefaultInventoryItemServiceFacade
     }
 
     @Override
-    public final SizeCategory getSize(final SizeCategory baseValue,
-            final InventoryItem inventoryItem,
+    public final SizeCategory getSize(final InventoryItem inventoryItem,
             final DndCharacter dndCharacter) {
+        final SizeCategory baseValue = inventoryItem.getSizeCategory();
+
         return (SizeCategory) this.observableService
                 .triggerObservers(baseValue, inventoryItem,
                         new ObserverSources(dndCharacter),
                         new ObserverHooks(ObserverHook.SIZE_CATEGORY),
                         dndCharacter);
+    }
+
+    @Override
+    public final boolean isCorrectlyWielded(final BodySlotType bodySlotType,
+            final InventoryItem inventoryItem,
+            final DndCharacter dndCharacter) {
+        return this.getDesignatedBodySlotTypes(inventoryItem, dndCharacter)
+                .contains(bodySlotType);
     }
 
 }

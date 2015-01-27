@@ -19,9 +19,9 @@ public class DefaultCharacterServiceFacade implements CharacterServiceFacade {
     private ObservableService observableService;
 
     @Override
-    public final SizeCategory getSize(final SizeCategory baseValue,
-            final DndCharacter dndCharacter) {
+    public final SizeCategory getSize(final DndCharacter dndCharacter) {
 
+        final SizeCategory baseValue = dndCharacter.getBaseSize();
         return (SizeCategory) this.observableService
                 .triggerObservers(baseValue, dndCharacter,
                         new ObserverSources(dndCharacter),

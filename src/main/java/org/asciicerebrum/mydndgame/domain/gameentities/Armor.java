@@ -4,7 +4,6 @@ import org.asciicerebrum.mydndgame.domain.core.attribution.ArmorCategory;
 import org.asciicerebrum.mydndgame.domain.core.attribution.Proficiency;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.gameentities.prototypes.ArmorPrototype;
-import org.asciicerebrum.mydndgame.facades.gameentities.ArmorServiceFacade;
 
 /**
  *
@@ -12,32 +11,17 @@ import org.asciicerebrum.mydndgame.facades.gameentities.ArmorServiceFacade;
  */
 public class Armor extends InventoryItem {
 
-    private ArmorServiceFacade armorServiceFacade;
-
-    public final BonusValue getArmorCheckPenalty(
-            final DndCharacter dndCharacter) {
-        return this.armorServiceFacade.getArmorCheckPenalty(
-                this.getInventoryItemPrototype().getArmorCheckPenalty(), this,
-                dndCharacter);
+    public final BonusValue getBaseMaxDexBonus() {
+        return this.getInventoryItemPrototype().getMaxDexBonus();
     }
 
-    public final BonusValue getMaxDexBonus(final DndCharacter dndCharacter) {
-        return this.armorServiceFacade.getMaxDexBonus(
-                this.getInventoryItemPrototype().getMaxDexBonus(), this,
-                dndCharacter);
+    public final BonusValue getBaseArmorCheckPenalty() {
+        return this.getInventoryItemPrototype().getArmorCheckPenalty();
     }
 
     @Override
     protected final ArmorPrototype getInventoryItemPrototype() {
         return (ArmorPrototype) super.getInventoryItemPrototype();
-    }
-
-    /**
-     * @param armorServiceFacadeInput the armorServiceFacade to set
-     */
-    public final void setArmorServiceFacade(
-            final ArmorServiceFacade armorServiceFacadeInput) {
-        this.armorServiceFacade = armorServiceFacadeInput;
     }
 
     public final boolean hasProficiency(final Proficiency proficiency) {

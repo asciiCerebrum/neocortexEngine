@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.facades.gameentities;
 
+import org.asciicerebrum.mydndgame.domain.core.attribution.BodySlotType;
 import org.asciicerebrum.mydndgame.domain.core.attribution.BodySlotTypes;
 import org.asciicerebrum.mydndgame.domain.core.attribution.SizeCategory;
 import org.asciicerebrum.mydndgame.domain.core.particles.Cost;
@@ -12,13 +13,15 @@ import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
  */
 public interface InventoryItemServiceFacade {
 
-    Cost getCost(Cost baseCost, InventoryItem inventoryItem,
+    Cost getCost(InventoryItem inventoryItem, DndCharacter dndCharacter);
+
+    BodySlotTypes getDesignatedBodySlotTypes(InventoryItem inventoryItem,
             DndCharacter dndCharacter);
 
-    BodySlotTypes getDesignatedBodySlotTypes(BodySlotTypes baseBodySlotTypes,
-            InventoryItem inventoryItem, DndCharacter dndCharacter);
+    SizeCategory getSize(InventoryItem inventoryItem,
+            DndCharacter dndCharacter);
 
-    SizeCategory getSize(SizeCategory baseValue,
+    boolean isCorrectlyWielded(BodySlotType bodySlotType,
             InventoryItem inventoryItem, DndCharacter dndCharacter);
 
 }

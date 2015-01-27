@@ -9,5 +9,5 @@ import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
  */
 public interface CharacterServiceFacade {
 
-    SizeCategory getSize(SizeCategory baseValue, DndCharacter dndCharacter);
+    SizeCategory getSize(DndCharacter dndCharacter);
 }

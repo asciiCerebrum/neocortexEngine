@@ -11,6 +11,8 @@ import org.asciicerebrum.mydndgame.domain.gameentities.StateRegistry.StatePartic
 import org.asciicerebrum.mydndgame.domain.gameentities.Weapon;
 import org.asciicerebrum.mydndgame.domain.gameentities.prototypes.WeaponPrototype;
 import org.asciicerebrum.mydndgame.domain.gameentities.prototypes.WeaponPrototypes;
+import org.asciicerebrum.mydndgame.facades.gameentities.CharacterServiceFacade;
+import org.asciicerebrum.mydndgame.facades.gameentities.InventoryItemServiceFacade;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
@@ -48,6 +50,16 @@ public class WeaponFinesseObserver extends AbstractObserver {
      * The service for retrieving situation context settings.
      */
     private SituationContextService situationContextService;
+
+    /**
+     * Facade for retrieving basic values of the entity.
+     */
+    private CharacterServiceFacade characterServiceFacade;
+
+    /**
+     * Facade for retrieving basic values of the item entity.
+     */
+    private InventoryItemServiceFacade itemFacade;
 
     /**
      * {@inheritDoc}
@@ -105,7 +117,8 @@ public class WeaponFinesseObserver extends AbstractObserver {
             final DndCharacter dndCharacter, final Weapon usedWeapon) {
 
         // test size category
-        if (!usedWeapon.getSize(dndCharacter).equals(dndCharacter.getSize())) {
+        if (!this.itemFacade.getSize(usedWeapon, dndCharacter).equals(
+                this.characterServiceFacade.getSize(dndCharacter))) {
             return false;
         }
 
@@ -171,6 +184,22 @@ public class WeaponFinesseObserver extends AbstractObserver {
     public final void setSituationContextService(
             final SituationContextService situationContextServiceInput) {
         this.situationContextService = situationContextServiceInput;
+    }
+
+    /**
+     * @param characterServiceFacadeItem the characterServiceFacade to set
+     */
+    public final void setCharacterServiceFacade(
+            final CharacterServiceFacade characterServiceFacadeItem) {
+        this.characterServiceFacade = characterServiceFacadeItem;
+    }
+
+    /**
+     * @param itemFacadeItem the itemFacade to set
+     */
+    public final void setItemFacade(
+            final InventoryItemServiceFacade itemFacadeItem) {
+        this.itemFacade = itemFacadeItem;
     }
 
 }

@@ -3,6 +3,7 @@ package org.asciicerebrum.mydndgame.valueproviders;
 import org.asciicerebrum.mydndgame.domain.core.attribution.ArmorCategory;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.facades.gameentities.ArmorServiceFacade;
 
 /**
  *
@@ -16,6 +17,11 @@ public class ArmorCheckPenaltyProvider implements DynamicValueProvider {
     private ArmorCategory armorCategory;
 
     /**
+     * The facade for getting armor specifica.
+     */
+    private ArmorServiceFacade armorFacade;
+
+    /**
      * {@inheritDoc} Collects the armor of the given category and returns the
      * minimum check penalty. The lowest value counts!
      */
@@ -26,9 +32,9 @@ public class ArmorCheckPenaltyProvider implements DynamicValueProvider {
             return new BonusValue();
         }
 
-        return dndCharacter.getArmorWorn()
-                .filterByArmorCateogry(this.armorCategory)
-                .getMinimumArmorCheckPenalty(dndCharacter);
+        return this.armorFacade.getMinimumArmorCheckPenalty(
+                dndCharacter.getArmorWorn()
+                .filterByArmorCateogry(this.armorCategory), dndCharacter);
     }
 
     /**
@@ -37,6 +43,14 @@ public class ArmorCheckPenaltyProvider implements DynamicValueProvider {
     public final void setArmorCategory(
             final ArmorCategory armorCategoryInput) {
         this.armorCategory = armorCategoryInput;
+    }
+
+    /**
+     * @param armorFacadeInput the armorFacade to set
+     */
+    public final void setArmorFacade(
+            final ArmorServiceFacade armorFacadeInput) {
+        this.armorFacade = armorFacadeInput;
     }
 
 }
