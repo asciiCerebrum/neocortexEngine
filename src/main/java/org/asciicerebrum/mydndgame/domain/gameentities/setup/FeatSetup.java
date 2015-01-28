@@ -1,12 +1,10 @@
 package org.asciicerebrum.mydndgame.domain.gameentities.setup;
 
-import org.asciicerebrum.mydndgame.domain.gameentities.Feat;
-
 /**
  *
  * @author species8472
  */
-public class FeatSetup extends AbstractEntitySetup<Feat> {
+public class FeatSetup extends AbstractEntitySetup {
 
     private static final SetupProperty[] REQUIRED_SINGLE_PROPERTIES
             = {SetupProperty.FEAT_TYPE};

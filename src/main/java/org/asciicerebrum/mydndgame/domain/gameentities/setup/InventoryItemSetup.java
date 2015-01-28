@@ -2,14 +2,12 @@ package org.asciicerebrum.mydndgame.domain.gameentities.setup;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
 
 /**
  *
  * @author species8472
  */
-public abstract class InventoryItemSetup
-        extends AbstractEntitySetup<InventoryItem> {
+public abstract class InventoryItemSetup extends AbstractEntitySetup {
 
     private static final SetupProperty[] REQUIRED_SINGLE_PROPERTIES
             = {SetupProperty.NAME, SetupProperty.SIZE_CATEGORY,

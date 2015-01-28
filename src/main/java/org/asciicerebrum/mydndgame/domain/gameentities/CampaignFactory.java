@@ -24,12 +24,12 @@ public class CampaignFactory implements EntityFactory<Campaign> {
     private EntityFactory<CombatRound> combatRoundFactory;
 
     @Override
-    public Campaign newEntity(EntitySetup<Campaign> setup,
+    public Campaign newEntity(EntitySetup setup,
             Reassignments reassignments) {
 
         Campaign campaign = this.context.getBean(Campaign.class);
 
-        for (EntitySetup<InventoryItem> itemSetup
+        for (EntitySetup itemSetup
                 : setup.getPropertySetups(
                         SetupProperty.INVENTORY_ITEMS)) {
             campaign.registerUniqueEntity(
@@ -37,7 +37,7 @@ public class CampaignFactory implements EntityFactory<Campaign> {
                             reassignments));
         }
 
-        for (EntitySetup<DndCharacter> characterSetup
+        for (EntitySetup characterSetup
                 : setup.getPropertySetups(
                         SetupProperty.PARTICIPANT_CHARACTERS)) {
             campaign.registerUniqueEntity(
@@ -45,7 +45,7 @@ public class CampaignFactory implements EntityFactory<Campaign> {
                             reassignments));
         }
 
-        EntitySetup<CombatRound> combatRoundSetup
+        EntitySetup combatRoundSetup
                 = setup.getPropertySetup(SetupProperty.COMBAT_ROUND);
         if (combatRoundSetup != null) {
             campaign.setCombatRound(this.combatRoundFactory
@@ -64,7 +64,7 @@ public class CampaignFactory implements EntityFactory<Campaign> {
     }
 
     @Override
-    public void reAssign(EntitySetup<Campaign> setup, Campaign entity) {
+    public void reAssign(EntitySetup setup, Campaign entity) {
         // nothing to do here
     }
 

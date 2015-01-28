@@ -1,13 +1,12 @@
 package org.asciicerebrum.mydndgame.domain.gameentities.setup;
 
 import java.util.List;
-import org.asciicerebrum.mydndgame.domain.gameentities.CombatRound;
 
 /**
  *
  * @author species8472
  */
-public class CombatRoundSetup extends AbstractEntitySetup<CombatRound> {
+public class CombatRoundSetup extends AbstractEntitySetup {
 
     public final void setCombatRoundEntries(
             final List<EntitySetup> combatRoundEntries) {

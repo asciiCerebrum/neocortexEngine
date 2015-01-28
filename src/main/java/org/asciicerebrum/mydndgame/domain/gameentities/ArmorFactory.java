@@ -4,7 +4,7 @@ package org.asciicerebrum.mydndgame.domain.gameentities;
  *
  * @author species8472
  */
-public class ArmorFactory extends InventoryItemFactory {
+public class ArmorFactory extends InventoryItemFactory<Armor> {
 
     /**
      * {@inheritDoc}

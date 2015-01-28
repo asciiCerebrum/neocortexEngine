@@ -18,7 +18,7 @@ public class FeatFactory implements EntityFactory<Feat> {
     private ApplicationContext context;
 
     @Override
-    public final Feat newEntity(final EntitySetup<Feat> setup,
+    public final Feat newEntity(final EntitySetup setup,
             final Reassignments reassignments) {
 
         if (!setup.isSetupComplete()) {
@@ -45,8 +45,7 @@ public class FeatFactory implements EntityFactory<Feat> {
     }
 
     @Override
-    public final void reAssign(final EntitySetup<Feat> setup,
-            final Feat entity) {
+    public final void reAssign(final EntitySetup setup, final Feat entity) {
         // nothing to do here
     }
 

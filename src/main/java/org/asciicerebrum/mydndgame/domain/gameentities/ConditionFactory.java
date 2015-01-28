@@ -22,7 +22,7 @@ public class ConditionFactory implements EntityFactory<Condition> {
     private EntityFactory<WorldDate> worldDateFactory;
 
     @Override
-    public Condition newEntity(final EntitySetup<Condition> setup,
+    public Condition newEntity(final EntitySetup setup,
             final Reassignments reassignments) {
 
         if (!setup.isSetupComplete()) {
@@ -59,7 +59,7 @@ public class ConditionFactory implements EntityFactory<Condition> {
     }
 
     @Override
-    public void reAssign(EntitySetup<Condition> setup, Condition entity) {
+    public void reAssign(EntitySetup setup, Condition entity) {
         entity.setCauseEntity(this.campaign.getEntityById(
                 new UniqueId(setup.getProperty(
                                 SetupProperty.CONDITION_CAUSE_ENTITY))));

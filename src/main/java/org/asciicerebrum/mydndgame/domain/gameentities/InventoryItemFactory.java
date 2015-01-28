@@ -16,7 +16,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  *
  * @author species8472
  */
-public abstract class InventoryItemFactory
+public abstract class InventoryItemFactory<T extends InventoryItem>
         implements EntityFactory<InventoryItem> {
 
     /**
@@ -33,7 +33,7 @@ public abstract class InventoryItemFactory
      */
     @Override
     public final InventoryItem newEntity(
-            final EntitySetup<InventoryItem> setup,
+            final EntitySetup setup,
             final Reassignments reassignments) {
 
         if (!setup.isSetupComplete()) {
@@ -77,7 +77,8 @@ public abstract class InventoryItemFactory
         return concreteItem;
     }
 
-    public void reAssign(final EntitySetup<InventoryItem> setup,
+    @Override
+    public void reAssign(final EntitySetup setup,
             final InventoryItem entity) {
         // nothing to do here.
     }

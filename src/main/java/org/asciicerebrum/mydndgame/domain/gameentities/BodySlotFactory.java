@@ -23,7 +23,7 @@ public class BodySlotFactory implements EntityFactory<BodySlot> {
     private Campaign campaign;
 
     @Override
-    public BodySlot newEntity(final EntitySetup<BodySlot> setup,
+    public BodySlot newEntity(final EntitySetup setup,
             final Reassignments reassignments) {
 
         if (!setup.isSetupComplete()) {
@@ -46,13 +46,13 @@ public class BodySlotFactory implements EntityFactory<BodySlot> {
         return bodySlot;
     }
 
-    public void reAssign(final EntitySetup<BodySlot> setup,
+    public void reAssign(final EntitySetup setup,
             final BodySlot entity) {
 
         this.assignItem(setup, entity);
     }
 
-    boolean assignItem(final EntitySetup<BodySlot> setup,
+    boolean assignItem(final EntitySetup setup,
             final BodySlot entity) {
         String itemId = setup.getProperty(SetupProperty.BODY_SLOT_ITEM);
         boolean itemUnresolved = false;

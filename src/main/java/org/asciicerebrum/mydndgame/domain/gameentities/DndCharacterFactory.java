@@ -34,7 +34,7 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
 
     @Override
     public final DndCharacter newEntity(
-            final EntitySetup<DndCharacter> setup,
+            final EntitySetup setup,
             final Reassignments reassignments) {
 
         if (!setup.isSetupComplete()) {
@@ -54,12 +54,11 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
         return dndCharacter;
     }
 
-    public void reAssign(final EntitySetup<DndCharacter> setup,
-            final DndCharacter entity) {
+    public void reAssign(final EntitySetup setup, final DndCharacter entity) {
         // nothing to do here.
     }
 
-    void trivialSetup(final EntitySetup<DndCharacter> setup,
+    void trivialSetup(final EntitySetup setup,
             final DndCharacter dndCharacter) {
         dndCharacter.setRace(this.context.getBean(
                 setup.getProperty(SetupProperty.RACE), Race.class));
@@ -73,7 +72,7 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
                 setup.getProperty(SetupProperty.EXPERIENCE_POINTS)));
     }
 
-    void fillBodySlots(final EntitySetup<DndCharacter> setup,
+    void fillBodySlots(final EntitySetup setup,
             final DndCharacter dndCharacter,
             final Reassignments reassignments) {
         final BodySlots bodySlots
@@ -105,7 +104,7 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
         dndCharacter.setBodySlots(bodySlots);
     }
 
-    void fillLevelAdvancements(final EntitySetup<DndCharacter> setup,
+    void fillLevelAdvancements(final EntitySetup setup,
             final DndCharacter dndCharacter,
             final Reassignments reassignments) {
         LevelAdvancements levelAdvancements = new LevelAdvancements();
@@ -118,7 +117,7 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
         dndCharacter.setLevelAdvancements(levelAdvancements);
     }
 
-    void fillStateRegistry(final EntitySetup<DndCharacter> setup,
+    void fillStateRegistry(final EntitySetup setup,
             final DndCharacter dndCharacter,
             final Reassignments reassignments) {
         dndCharacter.setStateRegistry(this.stateRegistryFactory.newEntity(
@@ -126,7 +125,7 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
                 reassignments));
     }
 
-    void fillBaseAbilities(final EntitySetup<DndCharacter> setup,
+    void fillBaseAbilities(final EntitySetup setup,
             final DndCharacter dndCharacter,
             final Reassignments reassignments) {
         BaseAbilities baseAbilities = new BaseAbilities();
@@ -140,7 +139,7 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
 
     }
 
-    void fillConditions(final EntitySetup<DndCharacter> setup,
+    void fillConditions(final EntitySetup setup,
             final DndCharacter dndCharacter,
             final Reassignments reassignments) {
         Conditions conditions = new Conditions();

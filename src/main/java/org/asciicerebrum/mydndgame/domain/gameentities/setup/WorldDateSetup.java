@@ -1,12 +1,10 @@
 package org.asciicerebrum.mydndgame.domain.gameentities.setup;
 
-import org.asciicerebrum.mydndgame.domain.core.attribution.WorldDate;
-
 /**
  *
  * @author species8472
  */
-public class WorldDateSetup extends AbstractEntitySetup<WorldDate> {
+public class WorldDateSetup extends AbstractEntitySetup {
 
     private static final SetupProperty[] REQUIRED_SINGLE_PROPERTIES
             = {SetupProperty.WORLD_DATE_ROUND,

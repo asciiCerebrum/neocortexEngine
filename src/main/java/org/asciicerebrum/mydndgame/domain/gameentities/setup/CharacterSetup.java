@@ -1,13 +1,12 @@
 package org.asciicerebrum.mydndgame.domain.gameentities.setup;
 
 import java.util.List;
-import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
 
 /**
  *
  * @author species8472
  */
-public class CharacterSetup extends AbstractEntitySetup<DndCharacter> {
+public class CharacterSetup extends AbstractEntitySetup {
 
     private static final SetupProperty[] REQUIRED_SINGLE_PROPERTIES
             = {SetupProperty.RACE, SetupProperty.UNIQUEID,

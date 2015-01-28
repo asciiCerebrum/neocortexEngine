@@ -1,13 +1,10 @@
 package org.asciicerebrum.mydndgame.domain.gameentities.setup;
 
-import org.asciicerebrum.mydndgame.domain.gameentities.CombatRoundEntry;
-
 /**
  *
  * @author species8472
  */
-public class CombatRoundEntrySetup
-        extends AbstractEntitySetup<CombatRoundEntry> {
+public class CombatRoundEntrySetup extends AbstractEntitySetup {
 
     private static final SetupProperty[] REQUIRED_SINGLE_PROPERTIES
             = {SetupProperty.COMBAT_ROUND_PARTICIPANT,

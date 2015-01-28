@@ -8,9 +8,8 @@ import org.apache.commons.lang.StringUtils;
 /**
  *
  * @author species8472
- * @param <T> Type of the setup to create.
  */
-public abstract class AbstractEntitySetup<T> implements EntitySetup<T> {
+public abstract class AbstractEntitySetup implements EntitySetup {
 
     protected final Map<SetupProperty, String> singleProperties
             = new EnumMap<SetupProperty, String>(SetupProperty.class);

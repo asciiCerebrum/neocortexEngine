@@ -5,9 +5,8 @@ import java.util.List;
 /**
  *
  * @author species8472
- * @param <T> Type of the setup to create.
  */
-public interface EntitySetup<T> {
+public interface EntitySetup {
 
     String getProperty(SetupProperty setupProperty);
 

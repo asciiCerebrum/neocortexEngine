@@ -12,12 +12,13 @@ import org.springframework.context.ApplicationContext;
  *
  * @author species8472
  */
-public class BaseAbilityEntryFactory implements EntityFactory<BaseAbilityEntry> {
+public class BaseAbilityEntryFactory
+        implements EntityFactory<BaseAbilityEntry> {
 
     private ApplicationContext context;
 
     @Override
-    public BaseAbilityEntry newEntity(final EntitySetup<BaseAbilityEntry> setup,
+    public BaseAbilityEntry newEntity(final EntitySetup setup,
             final Reassignments reassignments) {
         BaseAbilityEntry entry = new BaseAbilityEntry();
 
@@ -35,7 +36,7 @@ public class BaseAbilityEntryFactory implements EntityFactory<BaseAbilityEntry> 
     }
 
     @Override
-    public void reAssign(final EntitySetup<BaseAbilityEntry> setup,
+    public void reAssign(final EntitySetup setup,
             final BaseAbilityEntry entity) {
         // nothing to do here.
     }

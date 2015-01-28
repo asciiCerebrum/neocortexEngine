@@ -1,12 +1,10 @@
 package org.asciicerebrum.mydndgame.domain.gameentities.setup;
 
-import org.asciicerebrum.mydndgame.domain.gameentities.Condition;
-
 /**
  *
  * @author species8472
  */
-public class ConditionSetup extends AbstractEntitySetup<Condition> {
+public class ConditionSetup extends AbstractEntitySetup {
 
     private static final SetupProperty[] REQUIRED_SINGLE_PROPERTIES
             = {SetupProperty.CONDITION_START_DATE,
@@ -28,11 +26,13 @@ public class ConditionSetup extends AbstractEntitySetup<Condition> {
     }
 
     public final void setStartingDate(final WorldDateSetup setup) {
-        this.singleSetup.put(SetupProperty.CONDITION_START_DATE, setup);
+        this.singleSetup.put(SetupProperty.CONDITION_START_DATE,
+                (EntitySetup) setup);
     }
 
     public final void setExpiryDate(final WorldDateSetup setup) {
-        this.singleSetup.put(SetupProperty.CONDITION_EXPIRY_DATE, setup);
+        this.singleSetup.put(SetupProperty.CONDITION_EXPIRY_DATE,
+                (EntitySetup) setup);
     }
 
 }

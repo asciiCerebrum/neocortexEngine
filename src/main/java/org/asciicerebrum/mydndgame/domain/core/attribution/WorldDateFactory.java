@@ -15,7 +15,7 @@ import org.asciicerebrum.mydndgame.domain.gameentities.setup.SetupProperty;
 public class WorldDateFactory implements EntityFactory<WorldDate> {
 
     @Override
-    public WorldDate newEntity(final EntitySetup<WorldDate> setup,
+    public WorldDate newEntity(final EntitySetup setup,
             final Reassignments reassignments) {
 
         if (!setup.isSetupComplete()) {
@@ -33,7 +33,7 @@ public class WorldDateFactory implements EntityFactory<WorldDate> {
     }
 
     @Override
-    public void reAssign(final EntitySetup<WorldDate> setup,
+    public void reAssign(final EntitySetup setup,
             final WorldDate entity) {
         // nothing to do here
     }

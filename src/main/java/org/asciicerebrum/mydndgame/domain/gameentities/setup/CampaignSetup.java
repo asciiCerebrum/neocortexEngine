@@ -2,16 +2,12 @@ package org.asciicerebrum.mydndgame.domain.gameentities.setup;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.asciicerebrum.mydndgame.domain.gameentities.Campaign;
-import org.asciicerebrum.mydndgame.domain.gameentities.CombatRound;
-import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
 
 /**
  *
  * @author species8472
  */
-public class CampaignSetup extends AbstractEntitySetup<Campaign> {
+public class CampaignSetup extends AbstractEntitySetup {
 
     @Override
     public final boolean isSetupComplete() {
@@ -19,7 +15,7 @@ public class CampaignSetup extends AbstractEntitySetup<Campaign> {
     }
 
     public final void addDndCharacter(
-            final EntitySetup<DndCharacter> characterSetup) {
+            final EntitySetup characterSetup) {
         List<EntitySetup> participantSetups
                 = (List<EntitySetup>) this.listSetup
                 .get(SetupProperty.PARTICIPANT_CHARACTERS);
@@ -32,7 +28,7 @@ public class CampaignSetup extends AbstractEntitySetup<Campaign> {
     }
 
     public final void addInventoryItem(
-            final EntitySetup<InventoryItem> inventorySetup) {
+            final EntitySetup inventorySetup) {
         List<EntitySetup> inventorySetups
                 = (List<EntitySetup>) this.listSetup
                 .get(SetupProperty.INVENTORY_ITEMS);
@@ -45,7 +41,7 @@ public class CampaignSetup extends AbstractEntitySetup<Campaign> {
     }
 
     public final void setCombatRound(
-            final EntitySetup<CombatRound> combatRoundSetup) {
+            final EntitySetup combatRoundSetup) {
         this.singleSetup.put(SetupProperty.COMBAT_ROUND, combatRoundSetup);
     }
 

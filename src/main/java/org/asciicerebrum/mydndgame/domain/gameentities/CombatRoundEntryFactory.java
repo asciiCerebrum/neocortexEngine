@@ -17,7 +17,7 @@ public class CombatRoundEntryFactory
 
     @Override
     public final CombatRoundEntry newEntity(
-            final EntitySetup<CombatRoundEntry> setup,
+            final EntitySetup setup,
             final Reassignments reassignments) {
 
         if (!setup.isSetupComplete()) {
@@ -40,13 +40,13 @@ public class CombatRoundEntryFactory
     }
 
     final DndCharacter findParticipant(
-            final EntitySetup<CombatRoundEntry> setup) {
+            final EntitySetup setup) {
         final UniqueId uniqueId = new UniqueId(setup.getProperty(
                 SetupProperty.COMBAT_ROUND_PARTICIPANT));
         return (DndCharacter) this.campaign.getEntityById(uniqueId);
     }
 
-    public void reAssign(final EntitySetup<CombatRoundEntry> setup,
+    public void reAssign(final EntitySetup setup,
             final CombatRoundEntry entity) {
         final DndCharacter participant = this.findParticipant(setup);
         entity.setParticipant(participant);

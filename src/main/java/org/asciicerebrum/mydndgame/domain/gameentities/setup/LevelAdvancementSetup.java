@@ -1,13 +1,10 @@
 package org.asciicerebrum.mydndgame.domain.gameentities.setup;
 
-import org.asciicerebrum.mydndgame.domain.gameentities.LevelAdvancement;
-
 /**
  *
  * @author species8472
  */
-public class LevelAdvancementSetup
-        extends AbstractEntitySetup<LevelAdvancement> {
+public class LevelAdvancementSetup extends AbstractEntitySetup {
 
     //TODO make this definable in spring xml
     private static final SetupProperty[] REQUIRED_SINGLE_PROPERTIES

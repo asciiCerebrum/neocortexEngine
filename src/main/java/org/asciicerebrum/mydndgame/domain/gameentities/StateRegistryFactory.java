@@ -19,7 +19,7 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
     private ApplicationContext context;
 
     @Override
-    public final StateRegistry newEntity(final EntitySetup<StateRegistry> setup,
+    public final StateRegistry newEntity(final EntitySetup setup,
             final Reassignments reassignments) {
 
         StateRegistry stateReg = new StateRegistry();
@@ -73,7 +73,7 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
                         this.campaign, this.context));
     }
 
-    public final void reAssign(final EntitySetup<StateRegistry> setup,
+    public final void reAssign(final EntitySetup setup,
             final StateRegistry entity) {
 
         this.addSingleState(entity, setup, null);

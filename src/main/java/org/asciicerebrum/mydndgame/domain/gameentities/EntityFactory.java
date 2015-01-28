@@ -9,7 +9,7 @@ import org.asciicerebrum.mydndgame.domain.gameentities.setup.EntitySetup;
  */
 public interface EntityFactory<T> {
 
-    T newEntity(EntitySetup<T> setup, Reassignments reassignments);
+    T newEntity(EntitySetup setup, Reassignments reassignments);
 
     /**
      * Only set specific attributes that were impossible to set in the first run
@@ -19,6 +19,6 @@ public interface EntityFactory<T> {
      * @param setup the base setup to get the properties from.
      * @param entity the entity to reassign the yet unresolved values to.
      */
-    void reAssign(EntitySetup<T> setup, T entity);
+    void reAssign(EntitySetup setup, T entity);
 
 }

@@ -1,12 +1,10 @@
 package org.asciicerebrum.mydndgame.domain.gameentities.setup;
 
-import org.asciicerebrum.mydndgame.domain.gameentities.Campaign;
-
 /**
  *
  * @author species8472
  */
-public class BodySlotSetup extends AbstractEntitySetup<Campaign> {
+public class BodySlotSetup extends AbstractEntitySetup {
 
     private static final SetupProperty[] REQUIRED_SINGLE_PROPERTIES
             = {SetupProperty.BODY_SLOT_TYPE, SetupProperty.BODY_SLOT_ITEM};

@@ -17,7 +17,7 @@ public class CombatRoundFactory implements EntityFactory<CombatRound> {
     private EntityFactory<WorldDate> worldDateFactory;
 
     @Override
-    public final CombatRound newEntity(final EntitySetup<CombatRound> setup,
+    public final CombatRound newEntity(final EntitySetup setup,
             final Reassignments reassignments) {
 
         if (!setup.isSetupComplete()) {
@@ -50,7 +50,7 @@ public class CombatRoundFactory implements EntityFactory<CombatRound> {
     }
 
     @Override
-    public final void reAssign(final EntitySetup<CombatRound> setup,
+    public final void reAssign(final EntitySetup setup,
             final CombatRound entity) {
         //nothing to do here
     }
