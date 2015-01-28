@@ -5,6 +5,7 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
 import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.gameentities.Weapon;
+import org.asciicerebrum.mydndgame.facades.gameentities.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.observers.IObserver;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
@@ -25,6 +26,11 @@ public class CorrectWeaponEncumbranceEvaluator implements ConditionEvaluator {
     private SituationContextService situationContextService;
 
     /**
+     * Getting modified real-time-values from the weapon.
+     */
+    private WeaponServiceFacade weaponServiceFacade;
+
+    /**
      * {@inheritDoc} Checks if the given weapon's encumbrance corresponds to the
      * one from the situation context.
      *
@@ -42,8 +48,8 @@ public class CorrectWeaponEncumbranceEvaluator implements ConditionEvaluator {
             return false;
         }
 
-        return ((Weapon) refWeapon).hasEncumbrance(this.encumbrance,
-                dndCharacter);
+        return this.weaponServiceFacade.hasEncumbrance(this.encumbrance,
+                (Weapon) refWeapon, dndCharacter);
     }
 
     @Override
@@ -65,6 +71,14 @@ public class CorrectWeaponEncumbranceEvaluator implements ConditionEvaluator {
     public final void setSituationContextService(
             final SituationContextService situationContextServiceInput) {
         this.situationContextService = situationContextServiceInput;
+    }
+
+    /**
+     * @param weaponServiceFacadeInput the weaponServiceFacade to set
+     */
+    public final void setWeaponServiceFacade(
+            final WeaponServiceFacade weaponServiceFacadeInput) {
+        this.weaponServiceFacade = weaponServiceFacadeInput;
     }
 
 }

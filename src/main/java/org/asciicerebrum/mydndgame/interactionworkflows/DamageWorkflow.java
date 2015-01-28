@@ -7,6 +7,7 @@ import org.asciicerebrum.mydndgame.domain.gameentities.Weapon;
 import org.asciicerebrum.mydndgame.domain.transfer.Damage;
 import org.asciicerebrum.mydndgame.domain.transfer.Damages;
 import org.asciicerebrum.mydndgame.domain.transfer.Interaction;
+import org.asciicerebrum.mydndgame.facades.gameentities.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.managers.DiceRollManager;
 import org.asciicerebrum.mydndgame.services.application.DamageApplicationService;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
@@ -38,6 +39,11 @@ public class DamageWorkflow implements IWorkflow {
     private SituationContextService situationContextService;
 
     /**
+     * Getting modified real-time-values from the weapon.
+     */
+    private WeaponServiceFacade weaponServiceFacade;
+
+    /**
      * {@inheritDoc} Applies damage on the character.
      */
     @Override
@@ -53,8 +59,10 @@ public class DamageWorkflow implements IWorkflow {
 
         // make one damage roll
         final DiceRoll sourceDamageRoll
-                = this.diceRollManager.rollDice(((Weapon) sourceWeapon)
-                        .getDamage(interaction.getTriggeringCharacter()));
+                = this.diceRollManager.rollDice(
+                        this.weaponServiceFacade.getDamage(
+                                (Weapon) sourceWeapon,
+                                interaction.getTriggeringCharacter()));
 
         final BonusValue sourceDamageBonus
                 = this.damageService.calcDamageBonus((Weapon) sourceWeapon,
@@ -121,6 +129,14 @@ public class DamageWorkflow implements IWorkflow {
     public final void setDamageService(
             final DamageCalculationService damageServiceInput) {
         this.damageService = damageServiceInput;
+    }
+
+    /**
+     * @param weaponServiceFacadeInput the weaponServiceFacade to set
+     */
+    public final void setWeaponServiceFacade(
+            final WeaponServiceFacade weaponServiceFacadeInput) {
+        this.weaponServiceFacade = weaponServiceFacadeInput;
     }
 
 }

@@ -5,6 +5,7 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
 import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.gameentities.Weapon;
+import org.asciicerebrum.mydndgame.facades.gameentities.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.observers.IObserver;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
@@ -25,6 +26,11 @@ public class CorrectWeaponTypeEvaluator implements ConditionEvaluator {
     private SituationContextService situationContextService;
 
     /**
+     * Getting modified real-time-values from the weapon.
+     */
+    private WeaponServiceFacade weaponServiceFacade;
+
+    /**
      * {@inheritDoc} Checks if the given weapontype is included in the current
      * weapon's list of types.
      *
@@ -42,8 +48,8 @@ public class CorrectWeaponTypeEvaluator implements ConditionEvaluator {
             return false;
         }
 
-        return ((Weapon) refWeapon).hasWeaponType(
-                this.weaponType, dndCharacter);
+        return this.weaponServiceFacade.hasWeaponType(this.weaponType,
+                (Weapon) refWeapon, dndCharacter);
     }
 
     @Override
@@ -72,6 +78,14 @@ public class CorrectWeaponTypeEvaluator implements ConditionEvaluator {
     public final void setSituationContextService(
             final SituationContextService situationContextServiceInput) {
         this.situationContextService = situationContextServiceInput;
+    }
+
+    /**
+     * @param weaponServiceFacadeInput the weaponServiceFacade to set
+     */
+    public final void setWeaponServiceFacade(
+            final WeaponServiceFacade weaponServiceFacadeInput) {
+        this.weaponServiceFacade = weaponServiceFacadeInput;
     }
 
 }

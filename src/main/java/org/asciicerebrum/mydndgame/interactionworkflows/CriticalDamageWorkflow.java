@@ -4,6 +4,7 @@ import org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor;
 import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.gameentities.Weapon;
 import org.asciicerebrum.mydndgame.domain.transfer.Interaction;
+import org.asciicerebrum.mydndgame.facades.gameentities.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
@@ -23,6 +24,11 @@ public class CriticalDamageWorkflow implements IWorkflow {
     private SituationContextService situationContextService;
 
     /**
+     * Getting modified real-time-values from the weapon.
+     */
+    private WeaponServiceFacade weaponServiceFacade;
+
+    /**
      * {@inheritDoc }
      */
     @Override
@@ -37,8 +43,10 @@ public class CriticalDamageWorkflow implements IWorkflow {
         }
 
         // standard when there is no critical hit
-        final CriticalFactor damageMuliplicator = ((Weapon) sourceWeapon)
-                .getCriticalFactor(interaction.getTriggeringCharacter());
+        final CriticalFactor damageMuliplicator
+                = this.weaponServiceFacade.getCriticalFactor(
+                        (Weapon) sourceWeapon,
+                        interaction.getTriggeringCharacter());
 
         for (long i = 0; i < damageMuliplicator.getValue(); i++) {
             this.damageWorkflow.runWorkflow(interaction);
@@ -58,6 +66,14 @@ public class CriticalDamageWorkflow implements IWorkflow {
     public final void setSituationContextService(
             final SituationContextService situationContextServiceInput) {
         this.situationContextService = situationContextServiceInput;
+    }
+
+    /**
+     * @param weaponServiceFacadeInput the weaponServiceFacade to set
+     */
+    public final void setWeaponServiceFacade(
+            final WeaponServiceFacade weaponServiceFacadeInput) {
+        this.weaponServiceFacade = weaponServiceFacadeInput;
     }
 
 }

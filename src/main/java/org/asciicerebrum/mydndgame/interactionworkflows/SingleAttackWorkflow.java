@@ -8,6 +8,7 @@ import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.gameentities.Weapon;
 import org.asciicerebrum.mydndgame.domain.gameentities.prototypes.DiceAction;
 import org.asciicerebrum.mydndgame.domain.transfer.Interaction;
+import org.asciicerebrum.mydndgame.facades.gameentities.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.managers.DiceRollManager;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.asciicerebrum.mydndgame.services.statistics.AcCalculationService;
@@ -52,6 +53,11 @@ public class SingleAttackWorkflow implements IWorkflow {
     private AtkCalculationService atkService;
 
     private AcCalculationService acService;
+
+    /**
+     * Getting modified real-time-values from the weapon.
+     */
+    private WeaponServiceFacade weaponServiceFacade;
 
     /**
      * The bonus rank of this single attack. Normally rank 0 when it is a
@@ -138,7 +144,8 @@ public class SingleAttackWorkflow implements IWorkflow {
         // it could be critical
         final Boolean isThreat
                 = atkRollResultRaw.greaterThanOrEqualTo(
-                        sourceWeapon.getCriticalMinimumLevel(
+                        this.weaponServiceFacade.getCriticalMinimumLevel(
+                                sourceWeapon,
                                 interaction.getTriggeringCharacter()));
 
         Boolean isCritical = false;
@@ -228,6 +235,14 @@ public class SingleAttackWorkflow implements IWorkflow {
     public final void setSituationContextService(
             final SituationContextService situationContextServiceInput) {
         this.situationContextService = situationContextServiceInput;
+    }
+
+    /**
+     * @param weaponServiceFacadeInput the weaponServiceFacade to set
+     */
+    public final void setWeaponServiceFacade(
+            final WeaponServiceFacade weaponServiceFacadeInput) {
+        this.weaponServiceFacade = weaponServiceFacadeInput;
     }
 
 }

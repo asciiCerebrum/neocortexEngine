@@ -5,6 +5,7 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
 import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.gameentities.Weapon;
+import org.asciicerebrum.mydndgame.facades.gameentities.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.observers.IObserver;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
@@ -23,6 +24,11 @@ public class CorrectProficiencyEvaluator implements ConditionEvaluator {
      * Getting settings from the character.
      */
     private SituationContextService situationContextService;
+
+    /**
+     * Getting modified real-time-values from the weapon.
+     */
+    private WeaponServiceFacade weaponServiceFacade;
 
     /**
      * {@inheritDoc} Checks if the given weapon's (weapon in the active slot)
@@ -44,7 +50,8 @@ public class CorrectProficiencyEvaluator implements ConditionEvaluator {
             return false;
         }
 
-        return ((Weapon) item).hasProficiency(this.proficiency, dndCharacter);
+        return this.weaponServiceFacade.hasProficiency(this.proficiency,
+                (Weapon) item, dndCharacter);
     }
 
     @Override
@@ -66,6 +73,14 @@ public class CorrectProficiencyEvaluator implements ConditionEvaluator {
     public final void setSituationContextService(
             final SituationContextService situationContextServiceInput) {
         this.situationContextService = situationContextServiceInput;
+    }
+
+    /**
+     * @param weaponServiceFacadeInput the weaponServiceFacade to set
+     */
+    public final void setWeaponServiceFacade(
+            final WeaponServiceFacade weaponServiceFacadeInput) {
+        this.weaponServiceFacade = weaponServiceFacadeInput;
     }
 
 }

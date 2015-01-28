@@ -9,6 +9,7 @@ import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.gameentities.FeatType;
 import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.gameentities.Weapon;
+import org.asciicerebrum.mydndgame.facades.gameentities.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.observers.IObserver;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
@@ -21,6 +22,11 @@ public class CorrectProficiencyForFeatEvaluator implements ConditionEvaluator {
     private FeatType featType;
 
     private SituationContextService situationContextService;
+
+    /**
+     * Getting modified real-time-values from the weapon.
+     */
+    private WeaponServiceFacade weaponServiceFacade;
 
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
@@ -48,8 +54,9 @@ public class CorrectProficiencyForFeatEvaluator implements ConditionEvaluator {
             if (!(featBinding instanceof Proficiency)) {
                 continue;
             }
-            if (weapon.hasProficiency((Proficiency) featBinding,
-                    dndCharacter)) {
+
+            if (this.weaponServiceFacade.hasProficiency(
+                    (Proficiency) featBinding, weapon, dndCharacter)) {
                 return true;
             }
         }
@@ -77,6 +84,14 @@ public class CorrectProficiencyForFeatEvaluator implements ConditionEvaluator {
     public final void setSituationContextService(
             final SituationContextService situationContextServiceInput) {
         this.situationContextService = situationContextServiceInput;
+    }
+
+    /**
+     * @param weaponServiceFacadeInput the weaponServiceFacade to set
+     */
+    public final void setWeaponServiceFacade(
+            final WeaponServiceFacade weaponServiceFacadeInput) {
+        this.weaponServiceFacade = weaponServiceFacadeInput;
     }
 
 }

@@ -13,6 +13,7 @@ import org.asciicerebrum.mydndgame.domain.gameentities.prototypes.WeaponPrototyp
 import org.asciicerebrum.mydndgame.domain.gameentities.prototypes.WeaponPrototypes;
 import org.asciicerebrum.mydndgame.facades.gameentities.CharacterServiceFacade;
 import org.asciicerebrum.mydndgame.facades.gameentities.InventoryItemServiceFacade;
+import org.asciicerebrum.mydndgame.facades.gameentities.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
@@ -60,6 +61,11 @@ public class WeaponFinesseObserver extends AbstractObserver {
      * Facade for retrieving basic values of the item entity.
      */
     private InventoryItemServiceFacade itemFacade;
+
+    /**
+     * Getting modified real-time-values from the weapon.
+     */
+    private WeaponServiceFacade weaponServiceFacade;
 
     /**
      * {@inheritDoc}
@@ -123,7 +129,8 @@ public class WeaponFinesseObserver extends AbstractObserver {
         }
 
         // test encumbrance
-        if (usedWeapon.hasEncumbrance(this.validEncumbrance, dndCharacter)) {
+        if (this.weaponServiceFacade.hasEncumbrance(this.validEncumbrance,
+                usedWeapon, dndCharacter)) {
             return true;
         }
 
@@ -200,6 +207,14 @@ public class WeaponFinesseObserver extends AbstractObserver {
     public final void setItemFacade(
             final InventoryItemServiceFacade itemFacadeItem) {
         this.itemFacade = itemFacadeItem;
+    }
+
+    /**
+     * @param weaponServiceFacadeInput the weaponServiceFacade to set
+     */
+    public final void setWeaponServiceFacade(
+            final WeaponServiceFacade weaponServiceFacadeInput) {
+        this.weaponServiceFacade = weaponServiceFacadeInput;
     }
 
 }
