@@ -1,7 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.rules.entities;
 
-import org.asciicerebrum.mydndgame.domain.rules.composition.FeatBinding;
-
 /**
  *
  * @author species8472

@@ -1,8 +1,8 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
 import java.util.Iterator;
-import org.asciicerebrum.mydndgame.domain.rules.composition.FeatBinding;
-import org.asciicerebrum.mydndgame.domain.rules.composition.FeatBindings;
+import org.asciicerebrum.mydndgame.domain.rules.entities.FeatBinding;
+import org.asciicerebrum.mydndgame.domain.rules.entities.FeatBindings;
 import org.asciicerebrum.mydndgame.domain.rules.entities.Proficiency;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;

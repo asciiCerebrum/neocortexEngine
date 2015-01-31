@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.game.entities;
 
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.rules.composition.BodySlotTypes;
+import org.asciicerebrum.mydndgame.domain.rules.entities.BodySlotTypes;
 import org.asciicerebrum.mydndgame.domain.rules.entities.SizeCategory;
 import org.asciicerebrum.mydndgame.domain.rules.entities.SpecialAbilities;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;

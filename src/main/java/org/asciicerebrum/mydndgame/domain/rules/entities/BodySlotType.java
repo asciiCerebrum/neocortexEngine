@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.domain.rules.composition;
+package org.asciicerebrum.mydndgame.domain.rules.entities;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 

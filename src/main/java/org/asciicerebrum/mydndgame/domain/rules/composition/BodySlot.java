@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.rules.composition;
 
-import org.asciicerebrum.mydndgame.domain.rules.composition.BodySlotType;
+import org.asciicerebrum.mydndgame.domain.rules.entities.BodySlotType;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;

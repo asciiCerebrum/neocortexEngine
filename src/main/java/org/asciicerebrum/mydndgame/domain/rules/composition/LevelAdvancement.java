@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.rules.composition;
 
-import org.asciicerebrum.mydndgame.domain.rules.entities.FeatType;
 import org.asciicerebrum.mydndgame.domain.rules.entities.Feat;
+import org.asciicerebrum.mydndgame.domain.rules.entities.FeatType;
 import org.asciicerebrum.mydndgame.domain.rules.entities.Ability;
 import org.asciicerebrum.mydndgame.domain.rules.entities.ClassLevel;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;

@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.integrationtests.dndcharacter;
 
-import org.asciicerebrum.mydndgame.domain.rules.composition.BodySlotType;
+import org.asciicerebrum.mydndgame.domain.rules.entities.BodySlotType;
 import org.asciicerebrum.mydndgame.domain.setup.ArmorSetup;
 import org.asciicerebrum.mydndgame.domain.setup.WeaponSetup;
 import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponCategory;
