@@ -6,8 +6,6 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
-import org.asciicerebrum.mydndgame.observers.Observers;
 import org.asciicerebrum.mydndgame.domain.core.particles.ExperiencePoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
 
@@ -181,24 +179,6 @@ public class DndCharacter extends UniqueEntity implements BonusSource,
     @Override
     public Boni getBoni() {
         return Boni.EMPTY_BONI;
-    }
-
-    @Override
-    public Observers getObservers() {
-        return Observers.EMPTY_OBSERVERS;
-    }
-
-    @Override
-    public ObserverSources getObserverSources() {
-        final ObserverSources observerSources = new ObserverSources();
-
-        observerSources.add(this.baseAbilities);
-        observerSources.add(this.bodySlots);
-        observerSources.add(this.conditions);
-        observerSources.add(this.levelAdvancements);
-        observerSources.add(this.race);
-
-        return observerSources;
     }
 
     public final Armors getWieldedArmor() {

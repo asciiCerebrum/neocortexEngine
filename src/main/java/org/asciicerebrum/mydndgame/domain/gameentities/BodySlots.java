@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame.domain.gameentities;
 
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -10,8 +11,6 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
-import org.asciicerebrum.mydndgame.observers.Observers;
 
 /**
  *
@@ -48,6 +47,10 @@ public class BodySlots implements BonusSource, ObserverSource {
         this.elements.add(bodySlot);
     }
 
+    public final Iterator<BodySlot> iterator() {
+        return this.elements.iterator();
+    }
+
     @Override
     public final BonusSources getBonusSources() {
         BonusSources bonusSources = new BonusSources();
@@ -62,22 +65,6 @@ public class BodySlots implements BonusSource, ObserverSource {
     @Override
     public final Boni getBoni() {
         return Boni.EMPTY_BONI;
-    }
-
-    @Override
-    public final Observers getObservers() {
-        return Observers.EMPTY_OBSERVERS;
-    }
-
-    @Override
-    public final ObserverSources getObserverSources() {
-        ObserverSources observerSources = new ObserverSources();
-
-        for (final BodySlot bodySlot : this.elements) {
-            observerSources.add(bodySlot);
-        }
-
-        return observerSources;
     }
 
     public final Armors getArmorWorn() {

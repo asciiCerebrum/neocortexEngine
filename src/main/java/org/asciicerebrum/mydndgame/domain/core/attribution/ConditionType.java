@@ -4,7 +4,6 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
 import org.asciicerebrum.mydndgame.observers.Observers;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 
@@ -44,7 +43,6 @@ public class ConditionType implements BonusSource, ObserverSource {
     /**
      * @return the observers
      */
-    @Override
     public final Observers getObservers() {
         return observers;
     }
@@ -74,11 +72,6 @@ public class ConditionType implements BonusSource, ObserverSource {
     @Override
     public final BonusSources getBonusSources() {
         return BonusSources.EMPTY_BONUSSOURCES;
-    }
-
-    @Override
-    public final ObserverSources getObserverSources() {
-        return ObserverSources.EMPTY_OBSERVERSOURCES;
     }
 
 }

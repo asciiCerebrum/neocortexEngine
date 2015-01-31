@@ -4,8 +4,6 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
-import org.asciicerebrum.mydndgame.observers.Observers;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
@@ -123,20 +121,6 @@ public class ClassLevel implements BonusSource, ObserverSource {
         bonusSources.add(this.characterClass);
 
         return bonusSources;
-    }
-
-    @Override
-    public final Observers getObservers() {
-        return Observers.EMPTY_OBSERVERS;
-    }
-
-    @Override
-    public final ObserverSources getObserverSources() {
-        final ObserverSources observerSources = new ObserverSources();
-
-        observerSources.add(this.characterClass);
-
-        return observerSources;
     }
 
 }

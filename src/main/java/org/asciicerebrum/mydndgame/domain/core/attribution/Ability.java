@@ -4,8 +4,6 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
-import org.asciicerebrum.mydndgame.observers.Observers;
 import org.asciicerebrum.mydndgame.domain.core.particles.GenericName;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusTarget;
@@ -117,16 +115,6 @@ public class Ability implements BonusSource, BonusTarget, ObserverSource {
     @Override
     public BonusSources getBonusSources() {
         return BonusSources.EMPTY_BONUSSOURCES;
-    }
-
-    @Override
-    public Observers getObservers() {
-        return Observers.EMPTY_OBSERVERS;
-    }
-
-    @Override
-    public ObserverSources getObserverSources() {
-        return ObserverSources.EMPTY_OBSERVERSOURCES;
     }
 
 }

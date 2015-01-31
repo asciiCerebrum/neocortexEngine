@@ -6,8 +6,6 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
-import org.asciicerebrum.mydndgame.observers.Observers;
 import org.asciicerebrum.mydndgame.domain.core.particles.AdvancementNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
 
@@ -100,7 +98,7 @@ public class LevelAdvancement implements BonusSource, ObserverSource {
     public final void setFeatAdvancement(final Feat featAdvancementInput) {
         this.featAdvancement = featAdvancementInput;
     }
-    
+
     public final boolean hasFeatType(final FeatType featType) {
         return this.getFeatAdvancement().getFeatType().equals(featType);
     }
@@ -118,21 +116,6 @@ public class LevelAdvancement implements BonusSource, ObserverSource {
         bonusSources.add(this.featAdvancement);
 
         return bonusSources;
-    }
-
-    @Override
-    public final Observers getObservers() {
-        return Observers.EMPTY_OBSERVERS;
-    }
-
-    @Override
-    public final ObserverSources getObserverSources() {
-        final ObserverSources observerSources = new ObserverSources();
-
-        observerSources.add(this.classLevel);
-        observerSources.add(this.featAdvancement);
-
-        return observerSources;
     }
 
 }

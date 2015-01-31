@@ -5,8 +5,6 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
-import org.asciicerebrum.mydndgame.observers.Observers;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 
 /**
@@ -66,20 +64,6 @@ public class Race implements BonusSource, ObserverSource {
         bonusSources.add(this.size);
 
         return bonusSources;
-    }
-
-    @Override
-    public final Observers getObservers() {
-        return Observers.EMPTY_OBSERVERS;
-    }
-
-    @Override
-    public final ObserverSources getObserverSources() {
-        final ObserverSources observerSources = new ObserverSources();
-
-        observerSources.add(this.size);
-
-        return observerSources;
     }
 
     /**

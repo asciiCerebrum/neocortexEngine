@@ -1,7 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.core.attribution;
 
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
 
 /**
  *
@@ -28,15 +27,6 @@ public class SpecialAbility extends Feature {
     public final void setSubAbilities(
             final SpecialAbilities subAbilitiesInput) {
         this.subAbilities = subAbilitiesInput;
-    }
-
-    @Override
-    public final ObserverSources getObserverSources() {
-        final ObserverSources observerSources = super.getObserverSources();
-
-        observerSources.add(this.subAbilities);
-
-        return observerSources;
     }
 
     @Override

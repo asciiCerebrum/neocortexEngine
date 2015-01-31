@@ -1,13 +1,12 @@
 package org.asciicerebrum.mydndgame.domain.core.attribution;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
-import org.asciicerebrum.mydndgame.observers.Observers;
 import org.asciicerebrum.mydndgame.domain.gameentities.FeatType;
 
 /**
@@ -38,20 +37,8 @@ public class Feats implements BonusSource, ObserverSource {
         return bonusSources;
     }
 
-    @Override
-    public final Observers getObservers() {
-        return Observers.EMPTY_OBSERVERS;
-    }
-
-    @Override
-    public final ObserverSources getObserverSources() {
-        final ObserverSources observerSources = new ObserverSources();
-
-        for (final FeatType feat : this.elements) {
-            observerSources.add(feat);
-        }
-
-        return observerSources;
+    public final Iterator<FeatType> iterator() {
+        return this.elements.iterator();
     }
 
 }

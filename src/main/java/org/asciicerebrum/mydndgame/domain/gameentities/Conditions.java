@@ -8,8 +8,6 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
-import org.asciicerebrum.mydndgame.observers.Observers;
 
 /**
  *
@@ -25,13 +23,6 @@ public class Conditions implements BonusSource, ObserverSource {
 
     public Conditions(final Condition... conditionsInput) {
         this.elements.addAll(Arrays.asList(conditionsInput));
-    }
-
-    /**
-     * @return the conditions
-     */
-    public final List<Condition> getConditions() {
-        return elements;
     }
 
     public final void add(final Condition condition) {
@@ -52,22 +43,6 @@ public class Conditions implements BonusSource, ObserverSource {
         }
 
         return bonusSources;
-    }
-
-    @Override
-    public final Observers getObservers() {
-        return Observers.EMPTY_OBSERVERS;
-    }
-
-    @Override
-    public final ObserverSources getObserverSources() {
-        final ObserverSources observerSources = new ObserverSources();
-
-        for (final Condition condition : this.elements) {
-            observerSources.add(condition);
-        }
-
-        return observerSources;
     }
 
     public final Iterator<Condition> iterator() {

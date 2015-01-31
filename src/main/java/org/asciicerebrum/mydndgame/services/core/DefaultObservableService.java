@@ -1,5 +1,7 @@
 package org.asciicerebrum.mydndgame.services.core;
 
+import org.asciicerebrum.mydndgame.services.core.accumulator.observer.ObserverAccumulatorStrategies;
+import org.asciicerebrum.mydndgame.services.core.accumulator.observer.ObserverAccumulatorStrategy;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHooks;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
@@ -7,7 +9,6 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
 import org.asciicerebrum.mydndgame.observers.Observers;
 import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.gameentities.UniqueEntity;
-import org.asciicerebrum.mydndgame.observers.IObserver;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
 
 /**
@@ -15,6 +16,12 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
  * @author species8472
  */
 public class DefaultObservableService implements ObservableService {
+
+    /**
+     * Collections of all availabe observer accumulator strategies. This is used
+     * to determine the entry point for the accumulation process.
+     */
+    private ObserverAccumulatorStrategies accumulatorStrategies;
 
     /**
      * {@inheritDoc}
@@ -68,49 +75,18 @@ public class DefaultObservableService implements ObservableService {
      * everything (ALL) and observers that target only the unique entity that
      * they are part of (SPECIFIC). So when accumulating these observers only
      * the ALL and SPECIFIC with the given unique entity as the specificum must
-     * be taken into account!!!<br />
-     * To further complicate the situation, the current specificum in the
-     * accumulation recursion must be tracked, as it can change within the
-     * hierarchy traversal. Keep in mind that not every source of observers is a
-     * specificum - only the unique entities are! (E.g. a special ability is
-     * not, but it can reside in a weapon, which is a specificum!)<br />
-     * The same applies for boni!!!
+     * be taken into account!!!
      */
     @Override
     public final Observers accumulateObservers(
             final ObserverSource observerSource,
             final UniqueEntity targetEntity) {
 
-        // Determining the currently tracked unique entity. It is the given one
-        // (observerTarget) as long as the observerSource itself is not one as
-        // the iteration processes down the inheritance tree.
-        UniqueEntity trackedEntity = targetEntity;
-        if (observerSource instanceof UniqueEntity) {
-            trackedEntity = (UniqueEntity) observerSource;
-        }
-        // When both observerTarget and trackedTarget are the same, we need
-        // the observers of both scopes! (ALL and SPECIFIC) - hence no
-        // filtering.
-        // When they differ, only the ALL-scopes observers can be used!
-        final Observers observers = new Observers();
-        if (trackedEntity != targetEntity) {
-            observers.add(observerSource.getObservers()
-                    .filterByScope(IObserver.ObserverScope.ALL));
-        } else {
-            observers.add(observerSource.getObservers());
-        }
+        // find the starting point of all the accumulator strategies
+        final ObserverAccumulatorStrategy strategy
+                = this.accumulatorStrategies.findForSource(observerSource);
 
-        final Iterator<ObserverSource> iterator
-                = observerSource.getObserverSources().iterator();
-        while (iterator.hasNext()) {
-            final ObserverSource subObserverSource = iterator.next();
-            if (subObserverSource == null) {
-                continue;
-            }
-            observers.add(this.accumulateObservers(subObserverSource,
-                    targetEntity));
-        }
-        return observers;
+        return strategy.getObservers(observerSource, targetEntity);
     }
 
     @Override
@@ -129,6 +105,14 @@ public class DefaultObservableService implements ObservableService {
             final UniqueEntity targetEntity) {
         return this.accumulateObservers(observerSources, targetEntity)
                 .filterByHooks(observerHooks);
+    }
+
+    /**
+     * @param accumulatorStrategiesInput the accumulatorStrategies to set
+     */
+    public final void setAccumulatorStrategies(
+            final ObserverAccumulatorStrategies accumulatorStrategiesInput) {
+        this.accumulatorStrategies = accumulatorStrategiesInput;
     }
 
 }

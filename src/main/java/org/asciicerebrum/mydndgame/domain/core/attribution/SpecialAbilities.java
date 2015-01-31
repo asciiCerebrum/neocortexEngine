@@ -1,13 +1,12 @@
 package org.asciicerebrum.mydndgame.domain.core.attribution;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
-import org.asciicerebrum.mydndgame.observers.Observers;
 
 /**
  *
@@ -22,13 +21,6 @@ public class SpecialAbilities implements BonusSource, ObserverSource {
             = new ArrayList<SpecialAbility>();
 
     /**
-     * @return the specialAbilities
-     */
-    public final List<SpecialAbility> getSpecialAbilities() {
-        return elements;
-    }
-
-    /**
      * @param specialAbilitiesInput the specialAbilities to set
      */
     public final void setSpecialAbilities(
@@ -41,18 +33,11 @@ public class SpecialAbilities implements BonusSource, ObserverSource {
     }
 
     public final void add(final SpecialAbilities specialAbilitiesInput) {
-        this.elements.addAll(specialAbilitiesInput
-                .getSpecialAbilities());
+        this.elements.addAll(specialAbilitiesInput.elements);
     }
 
-    @Override
-    public final ObserverSources getObserverSources() {
-        final ObserverSources observerSources = new ObserverSources();
-
-        for (SpecialAbility specialAbility : this.elements) {
-            observerSources.add(specialAbility);
-        }
-        return observerSources;
+    public final Iterator<SpecialAbility> iterator() {
+        return this.elements.iterator();
     }
 
     @Override
@@ -69,11 +54,6 @@ public class SpecialAbilities implements BonusSource, ObserverSource {
         }
 
         return bonusSources;
-    }
-
-    @Override
-    public final Observers getObservers() {
-        return Observers.EMPTY_OBSERVERS;
     }
 
 }

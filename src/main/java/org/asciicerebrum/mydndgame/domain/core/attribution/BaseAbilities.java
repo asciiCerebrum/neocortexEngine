@@ -1,13 +1,12 @@
 package org.asciicerebrum.mydndgame.domain.core.attribution;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
-import org.asciicerebrum.mydndgame.observers.Observers;
 import org.asciicerebrum.mydndgame.domain.core.particles.AbilityScore;
 
 /**
@@ -43,20 +42,8 @@ public class BaseAbilities implements BonusSource, ObserverSource {
         return bonusSources;
     }
 
-    @Override
-    public Observers getObservers() {
-        return Observers.EMPTY_OBSERVERS;
-    }
-
-    @Override
-    public ObserverSources getObserverSources() {
-        ObserverSources observerSources = new ObserverSources();
-
-        for (Ability ability : this.elements.keySet()) {
-            observerSources.add(ability);
-        }
-
-        return observerSources;
+    public final Iterator<Ability> abilityIterator() {
+        return this.elements.keySet().iterator();
     }
 
 }
