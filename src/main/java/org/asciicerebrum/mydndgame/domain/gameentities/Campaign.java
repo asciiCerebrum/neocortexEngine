@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.gameentities;
 
+import org.asciicerebrum.mydndgame.domain.core.attribution.CombatRound;
 import java.util.HashMap;
 import java.util.Map;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;

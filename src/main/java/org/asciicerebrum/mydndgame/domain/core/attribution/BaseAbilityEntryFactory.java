@@ -1,8 +1,8 @@
 package org.asciicerebrum.mydndgame.domain.core.attribution;
 
+import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
 import org.asciicerebrum.mydndgame.domain.core.particles.AbilityScore;
 import org.asciicerebrum.mydndgame.domain.gameentities.EntityFactory;
-import org.asciicerebrum.mydndgame.domain.gameentities.Reassignments;
 import org.asciicerebrum.mydndgame.domain.gameentities.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.gameentities.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.gameentities.setup.SetupProperty;

@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.valueproviders;
 
-import org.asciicerebrum.mydndgame.domain.core.attribution.ArmorCategory;
+import org.asciicerebrum.mydndgame.domain.ruleentities.ArmorCategory;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
 import org.asciicerebrum.mydndgame.facades.gameentities.ArmorServiceFacade;

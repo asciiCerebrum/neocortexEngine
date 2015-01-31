@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.gameentities.prototypes;
 
-import org.asciicerebrum.mydndgame.domain.core.attribution.WeaponCategory;
+import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;

@@ -1,11 +1,21 @@
 package org.asciicerebrum.mydndgame.domain.gameentities;
 
+import org.asciicerebrum.mydndgame.domain.core.attribution.StateRegistry;
+import org.asciicerebrum.mydndgame.domain.core.attribution.Reassignments;
+import org.asciicerebrum.mydndgame.domain.ruleentities.Race;
+import org.asciicerebrum.mydndgame.domain.core.attribution.LevelAdvancement;
+import org.asciicerebrum.mydndgame.domain.core.attribution.LevelAdvancements;
+import org.asciicerebrum.mydndgame.domain.core.attribution.Conditions;
+import org.asciicerebrum.mydndgame.domain.core.attribution.Condition;
+import org.asciicerebrum.mydndgame.domain.core.attribution.BodySlotFactory;
+import org.asciicerebrum.mydndgame.domain.core.attribution.BodySlots;
+import org.asciicerebrum.mydndgame.domain.core.attribution.BodySlot;
 import org.asciicerebrum.mydndgame.domain.core.attribution.BaseAbilities;
 import org.asciicerebrum.mydndgame.domain.core.attribution.BaseAbilityEntry;
 import org.asciicerebrum.mydndgame.domain.core.particles.ExperiencePoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
-import org.asciicerebrum.mydndgame.domain.gameentities.BodySlot.Facet;
+import org.asciicerebrum.mydndgame.domain.core.attribution.BodySlot.Facet;
 import org.asciicerebrum.mydndgame.domain.gameentities.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.gameentities.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.gameentities.setup.SetupProperty;

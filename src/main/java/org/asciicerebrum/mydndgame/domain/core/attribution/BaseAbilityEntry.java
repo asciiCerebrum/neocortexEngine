@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.core.attribution;
 
+import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
 import org.asciicerebrum.mydndgame.domain.core.particles.AbilityScore;
 
 /**

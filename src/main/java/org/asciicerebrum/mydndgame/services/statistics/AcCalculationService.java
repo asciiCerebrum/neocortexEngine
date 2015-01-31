@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.services.statistics;
 
-import org.asciicerebrum.mydndgame.domain.core.attribution.ConditionType;
+import org.asciicerebrum.mydndgame.domain.ruleentities.ConditionType;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusTargets;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHooks;

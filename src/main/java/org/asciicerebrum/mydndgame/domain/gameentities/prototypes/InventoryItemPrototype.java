@@ -1,8 +1,8 @@
 package org.asciicerebrum.mydndgame.domain.gameentities.prototypes;
 
 import org.asciicerebrum.mydndgame.domain.core.attribution.BodySlotTypes;
-import org.asciicerebrum.mydndgame.domain.core.attribution.SizeCategory;
-import org.asciicerebrum.mydndgame.domain.core.attribution.SpecialAbilities;
+import org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory;
+import org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities;
 import org.asciicerebrum.mydndgame.domain.core.particles.Cost;
 import org.asciicerebrum.mydndgame.domain.core.particles.Weight;
 

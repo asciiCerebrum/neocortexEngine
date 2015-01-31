@@ -1,8 +1,9 @@
 package org.asciicerebrum.mydndgame.domain.gameentities;
 
-import org.asciicerebrum.mydndgame.domain.core.attribution.SizeCategory;
-import org.asciicerebrum.mydndgame.domain.core.attribution.SpecialAbilities;
-import org.asciicerebrum.mydndgame.domain.core.attribution.SpecialAbility;
+import org.asciicerebrum.mydndgame.domain.core.attribution.Reassignments;
+import org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory;
+import org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities;
+import org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.gameentities.prototypes.InventoryItemPrototype;
 import org.asciicerebrum.mydndgame.domain.gameentities.setup.EntitySetup;

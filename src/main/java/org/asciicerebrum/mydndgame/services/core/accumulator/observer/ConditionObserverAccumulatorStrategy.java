@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.services.core.accumulator.observer;
 
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.gameentities.Condition;
+import org.asciicerebrum.mydndgame.domain.core.attribution.Condition;
 import org.asciicerebrum.mydndgame.domain.gameentities.UniqueEntity;
 import org.asciicerebrum.mydndgame.observers.Observers;
 

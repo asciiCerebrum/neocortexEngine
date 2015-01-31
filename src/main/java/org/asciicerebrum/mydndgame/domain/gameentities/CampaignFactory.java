@@ -1,7 +1,9 @@
 package org.asciicerebrum.mydndgame.domain.gameentities;
 
+import org.asciicerebrum.mydndgame.domain.core.attribution.Reassignments;
+import org.asciicerebrum.mydndgame.domain.core.attribution.CombatRound;
 import java.util.Iterator;
-import org.asciicerebrum.mydndgame.domain.gameentities.Reassignments.ReassignmentEntry;
+import org.asciicerebrum.mydndgame.domain.core.attribution.Reassignments.ReassignmentEntry;
 import org.asciicerebrum.mydndgame.domain.gameentities.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.gameentities.setup.SetupProperty;
 import org.springframework.context.ApplicationContext;

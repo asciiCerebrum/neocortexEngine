@@ -1,14 +1,14 @@
 package org.asciicerebrum.mydndgame.interactionworkflows;
 
 import java.util.Iterator;
-import org.asciicerebrum.mydndgame.domain.core.attribution.ConditionType;
-import org.asciicerebrum.mydndgame.domain.gameentities.CombatRound;
-import org.asciicerebrum.mydndgame.domain.gameentities.Condition;
+import org.asciicerebrum.mydndgame.domain.ruleentities.ConditionType;
+import org.asciicerebrum.mydndgame.domain.core.attribution.CombatRound;
+import org.asciicerebrum.mydndgame.domain.core.attribution.Condition;
 import org.asciicerebrum.mydndgame.domain.core.attribution.WorldDate;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
-import org.asciicerebrum.mydndgame.domain.gameentities.Conditions;
+import org.asciicerebrum.mydndgame.domain.core.attribution.Conditions;
 import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacters;
 import org.asciicerebrum.mydndgame.domain.gameentities.prototypes.DiceAction;

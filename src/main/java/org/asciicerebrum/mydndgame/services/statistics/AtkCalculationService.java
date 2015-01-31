@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.services.statistics;
 
 import java.util.Iterator;
-import org.asciicerebrum.mydndgame.domain.core.attribution.ClassLevel;
+import org.asciicerebrum.mydndgame.domain.ruleentities.ClassLevel;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusTargets;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHooks;

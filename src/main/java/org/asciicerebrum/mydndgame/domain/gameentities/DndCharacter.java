@@ -1,7 +1,12 @@
 package org.asciicerebrum.mydndgame.domain.gameentities;
 
+import org.asciicerebrum.mydndgame.domain.core.attribution.StateRegistry;
+import org.asciicerebrum.mydndgame.domain.ruleentities.Race;
+import org.asciicerebrum.mydndgame.domain.core.attribution.LevelAdvancements;
+import org.asciicerebrum.mydndgame.domain.core.attribution.Conditions;
+import org.asciicerebrum.mydndgame.domain.core.attribution.BodySlots;
 import org.asciicerebrum.mydndgame.domain.core.attribution.BaseAbilities;
-import org.asciicerebrum.mydndgame.domain.core.attribution.SizeCategory;
+import org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;

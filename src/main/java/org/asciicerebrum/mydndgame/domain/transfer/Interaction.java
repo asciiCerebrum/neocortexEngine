@@ -1,9 +1,9 @@
 package org.asciicerebrum.mydndgame.domain.transfer;
 
-import org.asciicerebrum.mydndgame.domain.gameentities.CombatRound;
+import org.asciicerebrum.mydndgame.domain.core.attribution.CombatRound;
 import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacters;
-import org.asciicerebrum.mydndgame.domain.gameentities.InteractionType;
+import org.asciicerebrum.mydndgame.domain.core.attribution.InteractionType;
 
 /**
  *

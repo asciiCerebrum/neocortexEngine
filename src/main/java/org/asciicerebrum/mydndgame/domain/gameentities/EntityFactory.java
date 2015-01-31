@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.gameentities;
 
+import org.asciicerebrum.mydndgame.domain.core.attribution.Reassignments;
 import org.asciicerebrum.mydndgame.domain.gameentities.setup.EntitySetup;
 
 /**
