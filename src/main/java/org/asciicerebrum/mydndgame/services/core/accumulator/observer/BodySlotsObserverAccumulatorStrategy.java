@@ -4,7 +4,7 @@ import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.rules.composition.BodySlot;
 import org.asciicerebrum.mydndgame.domain.rules.composition.BodySlots;
-import org.asciicerebrum.mydndgame.domain.game.entities.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.observers.Observers;
 
 /**

@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.game.entities;
 
-import org.asciicerebrum.mydndgame.domain.game.aspect.StateRegistry;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
 import org.asciicerebrum.mydndgame.domain.rules.entities.Race;
 import org.asciicerebrum.mydndgame.domain.rules.composition.LevelAdvancements;
 import org.asciicerebrum.mydndgame.domain.rules.composition.Conditions;

@@ -1,12 +1,13 @@
 package org.asciicerebrum.mydndgame.domain.game.entities;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.rules.composition.BodySlotTypes;
 import org.asciicerebrum.mydndgame.domain.rules.entities.SizeCategory;
 import org.asciicerebrum.mydndgame.domain.rules.entities.SpecialAbilities;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.particles.Cost;
-import org.asciicerebrum.mydndgame.domain.game.entities.prototypes.InventoryItemPrototype;
+import org.asciicerebrum.mydndgame.domain.rules.entities.InventoryItemPrototype;
 
 /**
  *
@@ -39,7 +40,7 @@ public abstract class InventoryItem extends UniqueEntity {
     /**
      * @param inventoryItemPrototypeInput the inventoryItemPrototype to set
      */
-    protected void setInventoryItemPrototype(
+    public void setInventoryItemPrototype(
             final InventoryItemPrototype inventoryItemPrototypeInput) {
         this.inventoryItemPrototype = inventoryItemPrototypeInput;
     }
@@ -54,7 +55,7 @@ public abstract class InventoryItem extends UniqueEntity {
     /**
      * @param sizeCategoryInput the sizeCategory to set
      */
-    protected void setSizeCategory(final SizeCategory sizeCategoryInput) {
+    public void setSizeCategory(final SizeCategory sizeCategoryInput) {
         this.sizeCategory = sizeCategoryInput;
     }
 
@@ -68,7 +69,7 @@ public abstract class InventoryItem extends UniqueEntity {
     /**
      * @param specialAbilitiesInput the specialAbilities to set
      */
-    protected void setSpecialAbilities(
+    public void setSpecialAbilities(
             final SpecialAbilities specialAbilitiesInput) {
         this.specialAbilities = specialAbilitiesInput;
     }

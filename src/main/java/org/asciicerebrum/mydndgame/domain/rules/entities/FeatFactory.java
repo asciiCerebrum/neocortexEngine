@@ -1,11 +1,11 @@
 package org.asciicerebrum.mydndgame.domain.rules.entities;
 
 import org.asciicerebrum.mydndgame.domain.rules.composition.FeatBinding;
-import org.asciicerebrum.mydndgame.domain.game.entities.EntityFactory;
-import org.asciicerebrum.mydndgame.domain.rules.composition.Reassignments;
-import org.asciicerebrum.mydndgame.domain.game.entities.setup.EntitySetup;
-import org.asciicerebrum.mydndgame.domain.game.entities.setup.SetupIncompleteException;
-import org.asciicerebrum.mydndgame.domain.game.entities.setup.SetupProperty;
+import org.asciicerebrum.mydndgame.domain.factories.EntityFactory;
+import org.asciicerebrum.mydndgame.domain.factories.Reassignments;
+import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
+import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
+import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
 import org.springframework.context.ApplicationContext;
 
 /**

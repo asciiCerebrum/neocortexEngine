@@ -1,13 +1,11 @@
 package org.asciicerebrum.mydndgame.domain.rules.composition;
 
-import org.asciicerebrum.mydndgame.domain.rules.composition.BodySlot;
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.asciicerebrum.mydndgame.domain.rules.composition.BodySlotType;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
@@ -15,7 +13,7 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.game.entities.Armor;
 import org.asciicerebrum.mydndgame.domain.game.entities.Armors;
 import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
-import org.asciicerebrum.mydndgame.domain.game.entities.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
 import org.asciicerebrum.mydndgame.domain.game.entities.Weapons;
 

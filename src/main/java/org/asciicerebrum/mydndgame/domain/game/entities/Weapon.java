@@ -7,8 +7,8 @@ import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponCategories;
 import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponTypes;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel;
-import org.asciicerebrum.mydndgame.domain.game.entities.prototypes.DiceAction;
-import org.asciicerebrum.mydndgame.domain.game.entities.prototypes.WeaponPrototype;
+import org.asciicerebrum.mydndgame.domain.rules.entities.DiceAction;
+import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponPrototype;
 
 /**
  *

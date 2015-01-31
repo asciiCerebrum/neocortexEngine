@@ -10,7 +10,7 @@ import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
-import org.asciicerebrum.mydndgame.domain.game.entities.prototypes.DiceAction;
+import org.asciicerebrum.mydndgame.domain.rules.entities.DiceAction;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
 import org.asciicerebrum.mydndgame.services.core.BonusCalculationService;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;

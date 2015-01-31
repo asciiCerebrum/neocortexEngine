@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame.domain.game.entities;
 import org.asciicerebrum.mydndgame.domain.rules.entities.ArmorCategory;
 import org.asciicerebrum.mydndgame.domain.rules.entities.Proficiency;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
-import org.asciicerebrum.mydndgame.domain.game.entities.prototypes.ArmorPrototype;
+import org.asciicerebrum.mydndgame.domain.rules.entities.ArmorPrototype;
 
 /**
  *

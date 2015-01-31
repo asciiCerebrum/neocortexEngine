@@ -1,8 +1,8 @@
 package org.asciicerebrum.mydndgame.integrationtests.weapon;
 
 import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
-import org.asciicerebrum.mydndgame.domain.game.entities.setup.WeaponSetup;
-import org.asciicerebrum.mydndgame.domain.game.entities.WeaponFactory;
+import org.asciicerebrum.mydndgame.domain.setup.WeaponSetup;
+import org.asciicerebrum.mydndgame.domain.factories.WeaponFactory;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;

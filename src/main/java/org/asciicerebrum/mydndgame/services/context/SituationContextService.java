@@ -6,9 +6,9 @@ import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.BooleanParticle;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
-import org.asciicerebrum.mydndgame.domain.game.aspect.StateRegistry;
-import org.asciicerebrum.mydndgame.domain.game.aspect.StateRegistry.StateParticle;
-import org.asciicerebrum.mydndgame.domain.game.entities.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
+import org.asciicerebrum.mydndgame.domain.game.StateRegistry.StateParticle;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
 
 /**

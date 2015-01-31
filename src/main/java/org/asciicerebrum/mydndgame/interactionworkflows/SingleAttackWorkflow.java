@@ -6,7 +6,7 @@ import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
 import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
-import org.asciicerebrum.mydndgame.domain.game.entities.prototypes.DiceAction;
+import org.asciicerebrum.mydndgame.domain.rules.entities.DiceAction;
 import org.asciicerebrum.mydndgame.domain.transfer.Interaction;
 import org.asciicerebrum.mydndgame.facades.gameentities.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.managers.DiceRollManager;

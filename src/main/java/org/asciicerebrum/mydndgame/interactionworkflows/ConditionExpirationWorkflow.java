@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.interactionworkflows;
 
 import java.util.Iterator;
-import org.asciicerebrum.mydndgame.domain.game.aspect.CombatRound;
+import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.transfer.Interaction;
 import org.asciicerebrum.mydndgame.services.application.ConditionApplicationService;
