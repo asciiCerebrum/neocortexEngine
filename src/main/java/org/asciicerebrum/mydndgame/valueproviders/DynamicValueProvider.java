@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.valueproviders;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.LongParticle;
-import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 
 /**
  *

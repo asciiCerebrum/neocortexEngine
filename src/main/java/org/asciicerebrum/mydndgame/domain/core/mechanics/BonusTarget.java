@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.core.mechanics;
 
-import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory;
+import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponCategory;
 
 /**
  *

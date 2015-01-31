@@ -1,8 +1,8 @@
 package org.asciicerebrum.mydndgame.interactionworkflows;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor;
-import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
-import org.asciicerebrum.mydndgame.domain.gameentities.Weapon;
+import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
+import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
 import org.asciicerebrum.mydndgame.domain.transfer.Interaction;
 import org.asciicerebrum.mydndgame.facades.gameentities.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;

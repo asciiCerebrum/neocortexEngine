@@ -1,10 +1,10 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
-import org.asciicerebrum.mydndgame.domain.core.attribution.BodySlot;
-import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
-import org.asciicerebrum.mydndgame.domain.gameentities.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.rules.composition.BodySlot;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
+import org.asciicerebrum.mydndgame.domain.game.entities.UniqueEntity;
 import org.asciicerebrum.mydndgame.observers.IObserver;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 

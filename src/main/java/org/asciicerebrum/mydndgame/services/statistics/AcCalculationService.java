@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.services.statistics;
 
-import org.asciicerebrum.mydndgame.domain.ruleentities.ConditionType;
+import org.asciicerebrum.mydndgame.domain.rules.entities.ConditionType;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusTargets;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHooks;
@@ -8,8 +8,8 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.core.particles.ArmorClass;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
-import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.gameentities.prototypes.DiceAction;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.entities.prototypes.DiceAction;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
 import org.asciicerebrum.mydndgame.services.core.BonusCalculationService;
 

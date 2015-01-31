@@ -1,14 +1,14 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
 import java.util.Iterator;
-import org.asciicerebrum.mydndgame.domain.core.attribution.FeatBinding;
-import org.asciicerebrum.mydndgame.domain.core.attribution.FeatBindings;
-import org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency;
+import org.asciicerebrum.mydndgame.domain.rules.composition.FeatBinding;
+import org.asciicerebrum.mydndgame.domain.rules.composition.FeatBindings;
+import org.asciicerebrum.mydndgame.domain.rules.entities.Proficiency;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
-import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
-import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
-import org.asciicerebrum.mydndgame.domain.gameentities.Weapon;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.rules.entities.FeatType;
+import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
+import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
 import org.asciicerebrum.mydndgame.facades.gameentities.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.observers.IObserver;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;

@@ -4,10 +4,10 @@ import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHooks;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
-import org.asciicerebrum.mydndgame.domain.gameentities.Armor;
-import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.entities.Armor;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
-import org.asciicerebrum.mydndgame.domain.gameentities.Armors;
+import org.asciicerebrum.mydndgame.domain.game.entities.Armors;
 
 /**
  *

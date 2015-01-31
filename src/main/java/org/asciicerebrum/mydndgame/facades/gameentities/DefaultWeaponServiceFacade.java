@@ -1,18 +1,18 @@
 package org.asciicerebrum.mydndgame.facades.gameentities;
 
-import org.asciicerebrum.mydndgame.domain.ruleentities.Encumbrance;
-import org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency;
-import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategories;
-import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory;
-import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponType;
-import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponTypes;
+import org.asciicerebrum.mydndgame.domain.rules.entities.Encumbrance;
+import org.asciicerebrum.mydndgame.domain.rules.entities.Proficiency;
+import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponCategories;
+import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponCategory;
+import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponType;
+import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponTypes;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHooks;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel;
-import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.gameentities.Weapon;
-import org.asciicerebrum.mydndgame.domain.gameentities.prototypes.DiceAction;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
+import org.asciicerebrum.mydndgame.domain.game.entities.prototypes.DiceAction;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
 
 /**

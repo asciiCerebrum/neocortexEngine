@@ -1,14 +1,14 @@
 package org.asciicerebrum.mydndgame.services.statistics;
 
 import java.util.Iterator;
-import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
+import org.asciicerebrum.mydndgame.domain.rules.entities.Ability;
 import org.asciicerebrum.mydndgame.domain.core.particles.AdvancementNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
-import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.core.attribution.LevelAdvancement;
-import org.asciicerebrum.mydndgame.domain.gameentities.prototypes.DiceAction;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.rules.composition.LevelAdvancement;
+import org.asciicerebrum.mydndgame.domain.game.entities.prototypes.DiceAction;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
 import org.asciicerebrum.mydndgame.services.core.BonusCalculationService;
 

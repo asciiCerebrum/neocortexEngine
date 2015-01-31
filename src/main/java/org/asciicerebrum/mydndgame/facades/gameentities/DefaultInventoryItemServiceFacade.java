@@ -1,13 +1,13 @@
 package org.asciicerebrum.mydndgame.facades.gameentities;
 
-import org.asciicerebrum.mydndgame.domain.core.attribution.BodySlotType;
-import org.asciicerebrum.mydndgame.domain.core.attribution.BodySlotTypes;
-import org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory;
+import org.asciicerebrum.mydndgame.domain.rules.composition.BodySlotType;
+import org.asciicerebrum.mydndgame.domain.rules.composition.BodySlotTypes;
+import org.asciicerebrum.mydndgame.domain.rules.entities.SizeCategory;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHooks;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.core.particles.Cost;
-import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
 import org.asciicerebrum.mydndgame.services.core.ObservableService;
 

@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.facades.gameentities;
 
-import org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory;
-import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.rules.entities.SizeCategory;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 
 /**
  *

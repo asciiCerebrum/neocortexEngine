@@ -2,8 +2,8 @@ package org.asciicerebrum.mydndgame.interactionworkflows;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
-import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
-import org.asciicerebrum.mydndgame.domain.gameentities.Weapon;
+import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
+import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
 import org.asciicerebrum.mydndgame.domain.transfer.Damage;
 import org.asciicerebrum.mydndgame.domain.transfer.Damages;
 import org.asciicerebrum.mydndgame.domain.transfer.Interaction;

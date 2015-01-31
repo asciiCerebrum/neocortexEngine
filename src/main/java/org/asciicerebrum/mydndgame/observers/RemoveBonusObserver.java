@@ -4,7 +4,7 @@ import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus.ResemblanceFacet;
-import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 
 /**
  *

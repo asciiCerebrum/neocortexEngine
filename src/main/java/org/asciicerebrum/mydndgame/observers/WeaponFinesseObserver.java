@@ -1,16 +1,16 @@
 package org.asciicerebrum.mydndgame.observers;
 
 import java.util.Iterator;
-import org.asciicerebrum.mydndgame.domain.ruleentities.Encumbrance;
+import org.asciicerebrum.mydndgame.domain.rules.entities.Encumbrance;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
 import org.asciicerebrum.mydndgame.domain.core.particles.BooleanParticle;
-import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
-import org.asciicerebrum.mydndgame.domain.core.attribution.StateRegistry.StateParticle;
-import org.asciicerebrum.mydndgame.domain.gameentities.Weapon;
-import org.asciicerebrum.mydndgame.domain.gameentities.prototypes.WeaponPrototype;
-import org.asciicerebrum.mydndgame.domain.gameentities.prototypes.WeaponPrototypes;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
+import org.asciicerebrum.mydndgame.domain.game.aspect.StateRegistry.StateParticle;
+import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
+import org.asciicerebrum.mydndgame.domain.game.entities.prototypes.WeaponPrototype;
+import org.asciicerebrum.mydndgame.domain.game.entities.prototypes.WeaponPrototypes;
 import org.asciicerebrum.mydndgame.facades.gameentities.CharacterServiceFacade;
 import org.asciicerebrum.mydndgame.facades.gameentities.InventoryItemServiceFacade;
 import org.asciicerebrum.mydndgame.facades.gameentities.WeaponServiceFacade;

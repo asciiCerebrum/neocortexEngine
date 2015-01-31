@@ -1,0 +1,61 @@
+package org.asciicerebrum.mydndgame.domain.game.entities.setup;
+
+/**
+ *
+ * @author species8472
+ */
+public enum SetupProperty {
+
+    ABILITY_ADVANCEMENT,
+    ADVANCEMENT_NUMBER,
+    BASE_ABILITY,
+    BASE_ABILITY_ENTRIES,
+    BASE_ABILITY_VALUE,
+    BODY_SLOT_ITEM,
+    BODY_SLOT_TYPE,
+    BODY_SLOT_PRIMARY_ATTACK,
+    BODY_SLOTS,
+    CLASS_LEVEL,
+    COMBAT_ROUND,
+    COMBAT_ROUND_CURRENT_DATE,
+    COMBAT_ROUND_ENTRIES,
+    COMBAT_ROUND_PARTICIPANT,
+    COMBAT_ROUND_POSITION,
+    CONDITION_EXPIRY_DATE,
+    CONDITION_START_DATE,
+    CONDITION_CAUSE_ENTITY,
+    CONDITION_TYPE,
+    CONDITIONS,
+    EXPERIENCE_POINTS,
+    FEAT_ADVANCEMENT,
+    /**
+     * The object that is bound to the feat. E.g. for weapon focus.
+     */
+    FEAT_BINDING,
+    /**
+     * The type of feat. E.g. weapon finesse, etc.
+     */
+    FEAT_TYPE,
+    HIT_POINTS,
+    HIT_POINTS_ADVANCEMENT,
+    HIT_POINTS_NONLETHAL,
+    INVENTORY_ITEMS,
+    LEVEL_ADVANCEMENTS,
+    NAME,
+    PARTICIPANT_CHARACTERS,
+    RACE,
+    SIZE_CATEGORY,
+    /**
+     * Mwk, magic, material like cold iron etc.
+     */
+    SPECIAL_ABILITIES,
+    STATE_REGISTRY,
+    STATE_REGISTRY_CONTEXT_OBJECT_ID,
+    STATE_REGISTRY_ENTRY,
+    STATE_REGISTRY_PARTICLE,
+    STATE_REGISTRY_VALUE,
+    STATE_REGISTRY_VALUE_TYPE,
+    UNIQUEID,
+    WORLD_DATE_ROUND,
+    WORLD_DATE_ROUND_POSITION
+}

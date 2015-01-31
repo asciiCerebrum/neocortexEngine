@@ -1,17 +1,17 @@
 package org.asciicerebrum.mydndgame.interactionworkflows;
 
 import java.util.Iterator;
-import org.asciicerebrum.mydndgame.domain.ruleentities.ConditionType;
-import org.asciicerebrum.mydndgame.domain.core.attribution.CombatRound;
-import org.asciicerebrum.mydndgame.domain.core.attribution.Condition;
-import org.asciicerebrum.mydndgame.domain.core.attribution.WorldDate;
+import org.asciicerebrum.mydndgame.domain.rules.entities.ConditionType;
+import org.asciicerebrum.mydndgame.domain.game.aspect.CombatRound;
+import org.asciicerebrum.mydndgame.domain.rules.composition.Condition;
+import org.asciicerebrum.mydndgame.domain.game.aspect.WorldDate;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
-import org.asciicerebrum.mydndgame.domain.core.attribution.Conditions;
-import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacters;
-import org.asciicerebrum.mydndgame.domain.gameentities.prototypes.DiceAction;
+import org.asciicerebrum.mydndgame.domain.rules.composition.Conditions;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacters;
+import org.asciicerebrum.mydndgame.domain.game.entities.prototypes.DiceAction;
 import org.asciicerebrum.mydndgame.domain.transfer.Interaction;
 import org.asciicerebrum.mydndgame.managers.DiceRollManager;
 import org.asciicerebrum.mydndgame.services.application.ConditionApplicationService;

@@ -1,15 +1,15 @@
 package org.asciicerebrum.mydndgame.services.context;
 
-import org.asciicerebrum.mydndgame.domain.ruleentities.DamageType;
-import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory;
+import org.asciicerebrum.mydndgame.domain.rules.entities.DamageType;
+import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponCategory;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.BooleanParticle;
-import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.gameentities.InventoryItem;
-import org.asciicerebrum.mydndgame.domain.core.attribution.StateRegistry;
-import org.asciicerebrum.mydndgame.domain.core.attribution.StateRegistry.StateParticle;
-import org.asciicerebrum.mydndgame.domain.gameentities.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.gameentities.Weapon;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
+import org.asciicerebrum.mydndgame.domain.game.aspect.StateRegistry;
+import org.asciicerebrum.mydndgame.domain.game.aspect.StateRegistry.StateParticle;
+import org.asciicerebrum.mydndgame.domain.game.entities.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
 
 /**
  *

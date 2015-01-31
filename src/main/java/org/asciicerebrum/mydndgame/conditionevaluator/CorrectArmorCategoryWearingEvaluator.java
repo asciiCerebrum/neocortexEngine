@@ -1,8 +1,8 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
-import org.asciicerebrum.mydndgame.domain.ruleentities.ArmorCategory;
+import org.asciicerebrum.mydndgame.domain.rules.entities.ArmorCategory;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
-import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.observers.IObserver;
 
 /**

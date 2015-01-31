@@ -1,8 +1,8 @@
 package org.asciicerebrum.mydndgame.services.core.accumulator.observer;
 
-import org.asciicerebrum.mydndgame.domain.ruleentities.CharacterClass;
+import org.asciicerebrum.mydndgame.domain.rules.entities.CharacterClass;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.gameentities.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.game.entities.UniqueEntity;
 import org.asciicerebrum.mydndgame.observers.Observers;
 
 /**

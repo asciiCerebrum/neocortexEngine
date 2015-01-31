@@ -7,7 +7,7 @@ import org.apache.commons.collections.Predicate;
 import org.asciicerebrum.mydndgame.observers.IObserver.ObserverScope;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHooks;
-import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 
 /**
  *

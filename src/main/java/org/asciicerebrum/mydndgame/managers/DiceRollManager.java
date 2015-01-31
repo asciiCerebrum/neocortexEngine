@@ -2,7 +2,7 @@ package org.asciicerebrum.mydndgame.managers;
 
 import java.security.SecureRandom;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
-import org.asciicerebrum.mydndgame.domain.gameentities.prototypes.DiceAction;
+import org.asciicerebrum.mydndgame.domain.game.entities.prototypes.DiceAction;
 
 /**
  *

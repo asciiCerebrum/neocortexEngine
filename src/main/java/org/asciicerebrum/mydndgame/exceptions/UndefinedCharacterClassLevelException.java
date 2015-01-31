@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.exceptions;
 
-import org.asciicerebrum.mydndgame.domain.ruleentities.ClassLevels;
+import org.asciicerebrum.mydndgame.domain.rules.entities.ClassLevels;
 import org.asciicerebrum.mydndgame.domain.core.particles.Level;
 
 /**

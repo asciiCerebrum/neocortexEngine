@@ -6,8 +6,8 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusType;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
-import org.asciicerebrum.mydndgame.domain.gameentities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.core.attribution.StateRegistry.StateParticle;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.aspect.StateRegistry.StateParticle;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusTarget;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
