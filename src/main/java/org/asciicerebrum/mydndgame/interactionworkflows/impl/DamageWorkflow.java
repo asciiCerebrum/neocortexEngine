@@ -1,5 +1,6 @@
-package org.asciicerebrum.mydndgame.interactionworkflows;
+package org.asciicerebrum.mydndgame.interactionworkflows.impl;
 
+import org.asciicerebrum.mydndgame.interactionworkflows.IWorkflow;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
 import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;

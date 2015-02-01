@@ -1,5 +1,6 @@
-package org.asciicerebrum.mydndgame.interactionworkflows;
+package org.asciicerebrum.mydndgame.interactionworkflows.impl;
 
+import org.asciicerebrum.mydndgame.interactionworkflows.IWorkflow;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.rules.entities.ConditionType;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
