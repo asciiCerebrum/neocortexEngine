@@ -10,6 +10,7 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusTarget;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
 
@@ -63,4 +64,6 @@ public interface BonusCalculationService {
      */
     BonusValueTuple accumulateBonusValues(
             DndCharacter dndCharacter, Boni foundBoni);
+
+    BonusValueTuple getEffectiveValues(Bonus bonus, DndCharacter dndCharacter);
 }

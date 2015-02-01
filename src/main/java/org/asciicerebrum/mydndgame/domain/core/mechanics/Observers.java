@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Observer.ObserverScope;
-import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 
 /**
  *
@@ -91,16 +90,6 @@ public class Observers {
 
     public void add(final Observers observersInput) {
         this.elements.addAll(observersInput.elements);
-    }
-
-    public Object trigger(final Object object,
-            final DndCharacter dndCharacter) {
-        Object modificatedObject = object;
-        for (final Observer observer : this.elements) {
-            modificatedObject = observer.trigger(modificatedObject,
-                    dndCharacter);
-        }
-        return modificatedObject;
     }
 
     public final boolean contains(final Observer observer) {

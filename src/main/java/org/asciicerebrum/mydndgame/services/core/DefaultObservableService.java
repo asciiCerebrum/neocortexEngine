@@ -9,6 +9,7 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Observers;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Observer;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
 
 /**
@@ -31,7 +32,19 @@ public class DefaultObservableService implements ObservableService {
             final Observers observers,
             final DndCharacter dndCharacter) {
 
-        return observers.trigger(observerTarget, dndCharacter);
+        final Iterator<Observer> observerIterator
+                = observers.iterator();
+        Object modificatedObject = observerTarget;
+        while (observerIterator.hasNext()) {
+            final Observer observer = observerIterator.next();
+            if (observer.getConditionEvaluator() != null
+                    && observer.getConditionEvaluator()
+                    .evaluate(dndCharacter, observer)) {
+                modificatedObject = observer.getTriggerStrategy()
+                        .trigger(observerTarget, dndCharacter);
+            }
+        }
+        return modificatedObject;
     }
 
     /**

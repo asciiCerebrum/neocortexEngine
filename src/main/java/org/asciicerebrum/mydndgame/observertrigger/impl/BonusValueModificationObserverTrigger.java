@@ -8,6 +8,7 @@ import org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle;
 import org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle.Operation;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.observertrigger.ObserverTriggerStrategy;
+import org.asciicerebrum.mydndgame.services.core.BonusCalculationService;
 
 /**
  *
@@ -31,6 +32,11 @@ public class BonusValueModificationObserverTrigger implements ObserverTriggerStr
     private Bonus referenceBonus;
 
     /**
+     * The service around the boni.
+     */
+    private BonusCalculationService bonusService;
+
+    /**
      * {@inheritDoc} If a bonus resembling the reference bonus is encountered in
      * the list, its value is modified. If the value was based on a dynamic
      * value provider, it is replaced by a static value.
@@ -49,7 +55,7 @@ public class BonusValueModificationObserverTrigger implements ObserverTriggerStr
         while (bonusIterator.hasNext()) {
             final Bonus bonus = bonusIterator.next();
             final BonusValueTuple bonusEffectiveValue
-                    = bonus.getEffectiveValues(dndCharacter);
+                    = this.bonusService.getEffectiveValues(bonus, dndCharacter);
 
             // it is enough to check for bonus type and target
             // keep in mind that the effectValue might be null
@@ -88,6 +94,14 @@ public class BonusValueModificationObserverTrigger implements ObserverTriggerStr
      */
     public final void setReferenceBonus(final Bonus referenceBonusInput) {
         this.referenceBonus = referenceBonusInput;
+    }
+
+    /**
+     * @param bonusServiceInput the bonusService to set
+     */
+    public final void setBonusService(
+            final BonusCalculationService bonusServiceInput) {
+        this.bonusService = bonusServiceInput;
     }
 
 }

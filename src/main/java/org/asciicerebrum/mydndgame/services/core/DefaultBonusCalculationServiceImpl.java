@@ -15,6 +15,8 @@ import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 
 /**
  *
@@ -112,7 +114,7 @@ public class DefaultBonusCalculationServiceImpl
             Bonus bonus = bonusIterator.next();
 
             final BonusValueTuple subTuple
-                    = bonus.getEffectiveValues(dndCharacter);
+                    = this.getEffectiveValues(bonus, dndCharacter);
 
             // keep in mind that the effectValue might be null
             // --> the bonus does not exist --> continue!
@@ -123,6 +125,39 @@ public class DefaultBonusCalculationServiceImpl
             bonusValueTuple.add(subTuple);
         }
         return bonusValueTuple;
+    }
+
+    /**
+     * Use either the constant value of the bonus or (if null) the dynamic
+     * value. Remember there is a difference between an effective value of null
+     * and 0. Null: the bonus is defacto non-existent. 0: the bonus applies with
+     * a value of 0.
+     *
+     * @param bonus the bonus to determine the value from.
+     * @param dndCharacter the context for the dynamic version.
+     * @return either the constant or dynamic value.
+     *
+     */
+    @Override
+    public final BonusValueTuple getEffectiveValues(final Bonus bonus,
+            final DndCharacter dndCharacter) {
+        if (bonus.getConditionEvaluator() != null
+                && !bonus.getConditionEvaluator()
+                .evaluate(dndCharacter, bonus)) {
+            return null;
+        }
+        if (bonus.getValues() != null) {
+            return bonus.getValues();
+        }
+        //TODO remove this limitation that a dynamic value provider can only
+        // provide single-ranked boni (that means with rank 0).
+        if (bonus.getDynamicValueProvider() != null) {
+            BonusValueTuple bonusValues = new BonusValueTuple();
+            bonusValues.addBonusValue(BonusRank.RANK_0,
+                    new BonusValue(bonus.getDynamicValueProvider()
+                            .getDynamicValue(dndCharacter).getValue()));
+        }
+        return null;
     }
 
     @Override

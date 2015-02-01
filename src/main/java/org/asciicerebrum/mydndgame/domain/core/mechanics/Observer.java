@@ -1,7 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.core.mechanics;
 
 import org.asciicerebrum.mydndgame.conditionevaluator.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.observertrigger.ObserverTriggerStrategy;
 
 /**
@@ -42,22 +41,6 @@ public class Observer {
      */
     private ObserverScope scope = ObserverScope.ALL;
 
-    /**
-     * {@inheritDoc} Assures that the condition evalator is always checked
-     * first!
-     */
-    public final Object trigger(final Object object,
-            final DndCharacter dndCharacter) {
-
-        if (this.getConditionEvaluator() != null
-                && !this.getConditionEvaluator()
-                .evaluate(dndCharacter, this)) {
-            return object;
-        }
-
-        return this.triggerStrategy.trigger(object, dndCharacter);
-    }
-
     public final ObserverHook getHook() {
         return this.hook;
     }
@@ -87,6 +70,21 @@ public class Observer {
      */
     public final void setScope(final ObserverScope scopeInput) {
         this.scope = scopeInput;
+    }
+
+    /**
+     * @return the triggerStrategy
+     */
+    public final ObserverTriggerStrategy getTriggerStrategy() {
+        return triggerStrategy;
+    }
+
+    /**
+     * @param triggerStrategyInput the triggerStrategy to set
+     */
+    public final void setTriggerStrategy(
+            final ObserverTriggerStrategy triggerStrategyInput) {
+        this.triggerStrategy = triggerStrategyInput;
     }
 
 }
