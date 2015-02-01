@@ -1,22 +1,20 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
-import org.asciicerebrum.mydndgame.domain.factories.Reassignments;
-import org.asciicerebrum.mydndgame.domain.rules.entities.Race;
-import org.asciicerebrum.mydndgame.domain.rules.composition.LevelAdvancement;
-import org.asciicerebrum.mydndgame.domain.rules.composition.LevelAdvancements;
-import org.asciicerebrum.mydndgame.domain.rules.composition.Conditions;
-import org.asciicerebrum.mydndgame.domain.rules.composition.Condition;
-import org.asciicerebrum.mydndgame.domain.factories.BodySlotFactory;
-import org.asciicerebrum.mydndgame.domain.rules.composition.BodySlots;
-import org.asciicerebrum.mydndgame.domain.rules.composition.BodySlot;
-import org.asciicerebrum.mydndgame.domain.rules.composition.BaseAbilities;
-import org.asciicerebrum.mydndgame.domain.rules.composition.BaseAbilityEntry;
 import org.asciicerebrum.mydndgame.domain.core.particles.ExperiencePoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.rules.composition.BodySlot.Facet;
+import org.asciicerebrum.mydndgame.domain.rules.composition.BaseAbilities;
+import org.asciicerebrum.mydndgame.domain.rules.composition.BaseAbilityEntry;
+import org.asciicerebrum.mydndgame.domain.rules.composition.Condition;
+import org.asciicerebrum.mydndgame.domain.rules.composition.Conditions;
+import org.asciicerebrum.mydndgame.domain.rules.composition.LevelAdvancement;
+import org.asciicerebrum.mydndgame.domain.rules.composition.LevelAdvancements;
+import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlot;
+import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlot.Facet;
+import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlots;
+import org.asciicerebrum.mydndgame.domain.rules.entities.Race;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
@@ -35,7 +33,7 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
 
     private EntityFactory<LevelAdvancement> levelAdvancementFactory;
 
-    private EntityFactory<BodySlot> bodySlotFactory;
+    private EntityFactory<PersonalizedBodySlot> bodySlotFactory;
 
     private EntityFactory<StateRegistry> stateRegistryFactory;
 
@@ -86,24 +84,28 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
     void fillBodySlots(final EntitySetup setup,
             final DndCharacter dndCharacter,
             final Reassignments reassignments) {
-        final BodySlots bodySlots
-                = dndCharacter.getRace().getClonedBodySlotsBluePrint();
-        bodySlots.setHolder(dndCharacter);
+
+        final PersonalizedBodySlots personalizedBodySlots
+                = new PersonalizedBodySlots();
+        personalizedBodySlots.wrapSlots(
+                dndCharacter.getRace().getBodySlotBluePrint());
+        personalizedBodySlots.setHolder(dndCharacter);
 
         for (EntitySetup bodySlotSetup
                 : setup.getPropertySetups(SetupProperty.BODY_SLOTS)) {
 
-            final BodySlot bluePrintBodySlot
+            final PersonalizedBodySlot bluePrintBodySlot
                     = this.bodySlotFactory.newEntity(bodySlotSetup,
                             reassignments);
             // final an empty slot (facet.item) of the same type and primary-
             // attack-slot-value
-            final BodySlot realBodySlot
-                    = bodySlots.findFirstSimilar(bluePrintBodySlot,
+            final PersonalizedBodySlot realBodySlot
+                    = personalizedBodySlots.findFirstSimilar(bluePrintBodySlot,
                             Facet.BODY_SLOT_TYPE, Facet.PRIMARY_ATTACK_SLOT,
                             Facet.ITEM);
 
-            boolean itemUnresolved = ((BodySlotFactory) this.bodySlotFactory)
+            boolean itemUnresolved
+                    = ((PersonalizedBodySlotFactory) this.bodySlotFactory)
                     .assignItem(bodySlotSetup, realBodySlot);
 
             if (itemUnresolved) {
@@ -112,7 +114,7 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
             }
         }
 
-        dndCharacter.setBodySlots(bodySlots);
+        dndCharacter.setPersonalizedBodySlots(personalizedBodySlots);
     }
 
     void fillLevelAdvancements(final EntitySetup setup,

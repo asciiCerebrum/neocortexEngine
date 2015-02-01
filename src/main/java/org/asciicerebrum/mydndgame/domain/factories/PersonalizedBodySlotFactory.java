@@ -1,64 +1,67 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.asciicerebrum.mydndgame.domain.rules.composition.BodySlot;
 import org.apache.commons.lang.StringUtils;
-import org.asciicerebrum.mydndgame.domain.rules.entities.BodySlotType;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.AttackAbility;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.entities.Campaign;
-import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlot;
+import org.asciicerebrum.mydndgame.domain.rules.entities.BodySlot;
+import org.asciicerebrum.mydndgame.domain.rules.entities.BodySlotType;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
-import org.asciicerebrum.mydndgame.domain.rules.composition.BodySlot;
-import org.asciicerebrum.mydndgame.domain.rules.entities.BodySlotType;
 import org.springframework.context.ApplicationContext;
 
 /**
  *
  * @author species8472
  */
-public class BodySlotFactory implements EntityFactory<BodySlot> {
+public class PersonalizedBodySlotFactory
+        implements EntityFactory<PersonalizedBodySlot> {
 
     /**
      * Spring context to get the beans from.
      */
     private ApplicationContext context;
-
+    
     private Campaign campaign;
-
+    
     @Override
-    public BodySlot newEntity(final EntitySetup setup,
+    public PersonalizedBodySlot newEntity(final EntitySetup setup,
             final Reassignments reassignments) {
-
+        
         if (!setup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the body slot "
                     + " is not complete.");
         }
-
-        BodySlot bodySlot = new BodySlot();
-
-        bodySlot.setBodySlotType(context.getBean(
+        
+        final PersonalizedBodySlot personalizedBodySlot
+                = new PersonalizedBodySlot();
+        final BodySlot bluePrintSlot = new BodySlot();
+        
+        bluePrintSlot.setBodySlotType(context.getBean(
                 setup.getProperty(SetupProperty.BODY_SLOT_TYPE),
                 BodySlotType.class));
-
+        
         final String isPrimaryAttack
                 = setup.getProperty(SetupProperty.BODY_SLOT_PRIMARY_ATTACK);
         if (StringUtils.isNotBlank(isPrimaryAttack)) {
-            bodySlot.setIsPrimaryAttackSlot(new AttackAbility(isPrimaryAttack));
+            bluePrintSlot.setIsPrimaryAttackSlot(new AttackAbility(isPrimaryAttack));
         }
-
-        return bodySlot;
+        personalizedBodySlot.setBodySlot(bluePrintSlot);
+        
+        return personalizedBodySlot;
     }
-
+    
     public void reAssign(final EntitySetup setup,
-            final BodySlot entity) {
-
+            final PersonalizedBodySlot entity) {
+        
         this.assignItem(setup, entity);
     }
-
+    
     public boolean assignItem(final EntitySetup setup,
-            final BodySlot entity) {
+            final PersonalizedBodySlot entity) {
         String itemId = setup.getProperty(SetupProperty.BODY_SLOT_ITEM);
         boolean itemUnresolved = false;
         if (StringUtils.isNotBlank(itemId)) {
@@ -83,5 +86,5 @@ public class BodySlotFactory implements EntityFactory<BodySlot> {
     public final void setCampaign(final Campaign campaignInput) {
         this.campaign = campaignInput;
     }
-
+    
 }

@@ -1,10 +1,11 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
-import org.asciicerebrum.mydndgame.domain.rules.composition.BodySlot;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlot;
+import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlots;
 import org.asciicerebrum.mydndgame.observers.IObserver;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
@@ -28,9 +29,11 @@ public class CorrectInventoryItemWieldingEvaluator
                      * {@inheritDoc}
                      */
                     @Override
-                    final boolean evaluate(final BodySlot bodySlot) {
-                        return this.evaluateSecondary(bodySlot);
-                    }
+                    final boolean evaluate(
+                            final PersonalizedBodySlot bodySlot,
+                            final PersonalizedBodySlots bodySlots) {
+                                return this.evaluateSecondary(bodySlot);
+                            }
                 },
         /**
          * Held in both hands.
@@ -42,9 +45,11 @@ public class CorrectInventoryItemWieldingEvaluator
                      * in the opposite slot.
                      */
                     @Override
-                    final boolean evaluate(final BodySlot bodySlot) {
-                        return this.evaluateBoth(bodySlot);
-                    }
+                    final boolean evaluate(
+                            final PersonalizedBodySlot bodySlot,
+                            final PersonalizedBodySlots bodySlots) {
+                                return this.evaluateBoth(bodySlot, bodySlots);
+                            }
                 };
 
         /**
@@ -54,7 +59,8 @@ public class CorrectInventoryItemWieldingEvaluator
          * @param dndCharacter the character wielding the item.
          * @return if the condition is met.
          */
-        abstract boolean evaluate(BodySlot bodySlot);
+        abstract boolean evaluate(PersonalizedBodySlot bodySlot,
+                PersonalizedBodySlots bodySlots);
 
         /**
          * Evaluator method for holding in secondary slot.
@@ -62,7 +68,8 @@ public class CorrectInventoryItemWieldingEvaluator
          * @param bodySlot the body slot.
          * @return whether it is in the secondary slot or not.
          */
-        protected final boolean evaluateSecondary(final BodySlot bodySlot) {
+        protected final boolean evaluateSecondary(
+                final PersonalizedBodySlot bodySlot) {
             return !bodySlot.getIsPrimaryAttackSlot().isValue();
         }
 
@@ -70,14 +77,18 @@ public class CorrectInventoryItemWieldingEvaluator
          * Evaluator method for holding in both slots (hands).
          *
          * @param bodySlot the body slot.
+         * @param bodySlots the whole collection of slots.
          * @return whether it is in both slots or not.
          */
-        protected final boolean evaluateBoth(final BodySlot bodySlot) {
+        protected final boolean evaluateBoth(
+                final PersonalizedBodySlot bodySlot,
+                final PersonalizedBodySlots bodySlots) {
             final UniqueEntity item = bodySlot.getItem();
             if (item == null) {
                 return false;
             }
-            final BodySlot counterSlot = bodySlot.getCounterSlot();
+            final PersonalizedBodySlot counterSlot
+                    = bodySlots.getCounterSlotForSlot(bodySlot);
             if (counterSlot == null) {
                 return false;
             }
@@ -116,7 +127,8 @@ public class CorrectInventoryItemWieldingEvaluator
             return false;
         }
         return this.wieldingType.evaluate(
-                dndCharacter.getBodySlots().getSlotForItem(item));
+                dndCharacter.getPersonalizedBodySlots().getSlotForItem(item),
+                dndCharacter.getPersonalizedBodySlots());
     }
 
     @Override

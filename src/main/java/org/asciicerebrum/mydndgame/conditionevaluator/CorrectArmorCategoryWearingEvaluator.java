@@ -28,7 +28,7 @@ public class CorrectArmorCategoryWearingEvaluator
             return false;
         }
 
-        return dndCharacter.getWieldedArmor()
+        return dndCharacter.getArmorWorn()
                 .containsArmorCategory(this.armorCategory);
     }
 

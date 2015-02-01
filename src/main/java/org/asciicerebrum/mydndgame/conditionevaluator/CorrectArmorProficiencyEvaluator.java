@@ -26,7 +26,7 @@ public class CorrectArmorProficiencyEvaluator implements ConditionEvaluator {
             return false;
         }
 
-        return dndCharacter.getWieldedArmor()
+        return dndCharacter.getArmorWorn()
                 .containsProficiency(this.proficiency);
     }
 

@@ -13,6 +13,14 @@ import org.asciicerebrum.mydndgame.domain.rules.entities.Proficiency;
  */
 public class Armors extends InventoryItems<Armor> {
 
+    public Armors() {
+
+    }
+
+    public Armors(final List<Armor> armorList) {
+        this.elements.addAll(armorList);
+    }
+
     public final boolean containsArmorCategory(
             final ArmorCategory armorCategory) {
         for (final Armor armor : this.elements) {
@@ -45,8 +53,7 @@ public class Armors extends InventoryItems<Armor> {
             }
         }, armorList);
 
-        final Armors armors = new Armors();
-        armors.add(armorList);
+        final Armors armors = new Armors(armorList);
         return armors;
     }
 }

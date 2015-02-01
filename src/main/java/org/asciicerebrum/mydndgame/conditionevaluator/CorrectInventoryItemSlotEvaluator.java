@@ -1,9 +1,9 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
-import org.asciicerebrum.mydndgame.domain.rules.composition.BodySlot;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
+import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlot;
 import org.asciicerebrum.mydndgame.facades.gameentities.InventoryItemServiceFacade;
 import org.asciicerebrum.mydndgame.observers.IObserver;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
@@ -28,8 +28,8 @@ public class CorrectInventoryItemSlotEvaluator implements ConditionEvaluator {
 
         final InventoryItem item = this.ctxService.getActiveItem(dndCharacter);
 
-        final BodySlot bodySlot = dndCharacter.getBodySlots()
-                .getSlotForItem(item);
+        final PersonalizedBodySlot bodySlot
+                = dndCharacter.getPersonalizedBodySlots().getSlotForItem(item);
 
         if (bodySlot == null) {
             return false;

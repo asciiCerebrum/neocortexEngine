@@ -4,7 +4,7 @@ package org.asciicerebrum.mydndgame.domain.setup;
  *
  * @author species8472
  */
-public class BodySlotSetup extends AbstractEntitySetup {
+public class PersonalizedBodySlotSetup extends AbstractEntitySetup {
 
     private static final SetupProperty[] REQUIRED_SINGLE_PROPERTIES
             = {SetupProperty.BODY_SLOT_TYPE, SetupProperty.BODY_SLOT_ITEM};

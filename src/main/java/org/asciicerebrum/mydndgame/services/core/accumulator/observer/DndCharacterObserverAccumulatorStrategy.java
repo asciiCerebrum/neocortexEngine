@@ -14,7 +14,7 @@ public class DndCharacterObserverAccumulatorStrategy
 
     private ObserverAccumulatorStrategy baseAbilitiesStrategy;
 
-    private ObserverAccumulatorStrategy bodySlotsStrategy;
+    private ObserverAccumulatorStrategy personalizedBodySlotsStrategy;
 
     private ObserverAccumulatorStrategy conditionsStrategy;
 
@@ -31,8 +31,8 @@ public class DndCharacterObserverAccumulatorStrategy
 
         observers.add(this.baseAbilitiesStrategy.getObservers(
                 dndCharacter.getBaseAbilities(), targetEntity));
-        observers.add(this.bodySlotsStrategy.getObservers(
-                dndCharacter.getBodySlots(), targetEntity));
+        observers.add(this.personalizedBodySlotsStrategy.getObservers(
+                dndCharacter.getPersonalizedBodySlots(), targetEntity));
         observers.add(this.conditionsStrategy.getObservers(
                 dndCharacter.getConditions(), targetEntity));
         observers.add(this.levelAdvancementsStrategy.getObservers(
@@ -54,14 +54,6 @@ public class DndCharacterObserverAccumulatorStrategy
     public final void setBaseAbilitiesStrategy(
             final ObserverAccumulatorStrategy baseAbilitiesStrategyInput) {
         this.baseAbilitiesStrategy = baseAbilitiesStrategyInput;
-    }
-
-    /**
-     * @param bodySlotsStrategyInput the bodySlotsStrategy to set
-     */
-    public final void setBodySlotsStrategy(
-            final ObserverAccumulatorStrategy bodySlotsStrategyInput) {
-        this.bodySlotsStrategy = bodySlotsStrategyInput;
     }
 
     /**
@@ -87,6 +79,15 @@ public class DndCharacterObserverAccumulatorStrategy
     public final void setRaceStrategy(
             final ObserverAccumulatorStrategy raceStrategyInput) {
         this.raceStrategy = raceStrategyInput;
+    }
+
+    /**
+     * @param personalizedBodySlotsStrategyIn the personalizedBodySlotsStrategy
+     * to set
+     */
+    public final void setPersonalizedBodySlotsStrategy(
+            final ObserverAccumulatorStrategy personalizedBodySlotsStrategyIn) {
+        this.personalizedBodySlotsStrategy = personalizedBodySlotsStrategyIn;
     }
 
 }

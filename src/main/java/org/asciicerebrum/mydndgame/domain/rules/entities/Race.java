@@ -5,7 +5,6 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
-import org.asciicerebrum.mydndgame.domain.rules.composition.BodySlots;
 
 /**
  *
@@ -67,18 +66,18 @@ public class Race implements BonusSource, ObserverSource {
     }
 
     /**
-     * @return the bodySlotBluePrint
-     */
-    public final BodySlots getClonedBodySlotsBluePrint() {
-        return this.bodySlotBluePrint.cloneSlots();
-    }
-
-    /**
      * @param bodySlotBluePrintInput the bodySlotBluePrint to set
      */
     public final void setBodySlotBluePrint(
             final BodySlots bodySlotBluePrintInput) {
         this.bodySlotBluePrint = bodySlotBluePrintInput;
+    }
+
+    /**
+     * @return the bodySlotBluePrint
+     */
+    public final BodySlots getBodySlotBluePrint() {
+        return bodySlotBluePrint;
     }
 
 }

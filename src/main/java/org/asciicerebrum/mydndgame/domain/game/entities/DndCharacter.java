@@ -1,19 +1,19 @@
 package org.asciicerebrum.mydndgame.domain.game.entities;
 
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
-import org.asciicerebrum.mydndgame.domain.rules.entities.Race;
-import org.asciicerebrum.mydndgame.domain.rules.composition.LevelAdvancements;
-import org.asciicerebrum.mydndgame.domain.rules.composition.Conditions;
-import org.asciicerebrum.mydndgame.domain.rules.composition.BodySlots;
-import org.asciicerebrum.mydndgame.domain.rules.composition.BaseAbilities;
-import org.asciicerebrum.mydndgame.domain.rules.entities.SizeCategory;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.particles.ExperiencePoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
+import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
+import org.asciicerebrum.mydndgame.domain.rules.composition.BaseAbilities;
+import org.asciicerebrum.mydndgame.domain.rules.composition.Conditions;
+import org.asciicerebrum.mydndgame.domain.rules.composition.LevelAdvancements;
+import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlots;
+import org.asciicerebrum.mydndgame.domain.rules.entities.Race;
+import org.asciicerebrum.mydndgame.domain.rules.entities.SizeCategory;
 
 /**
  *
@@ -28,7 +28,7 @@ public class DndCharacter extends UniqueEntity implements BonusSource,
 
     private Race race;
 
-    private BodySlots bodySlots;
+    private PersonalizedBodySlots personalizedBodySlots;
 
     private StateRegistry stateRegistry;
 
@@ -87,15 +87,16 @@ public class DndCharacter extends UniqueEntity implements BonusSource,
     /**
      * @return the bodySlots
      */
-    public final BodySlots getBodySlots() {
-        return bodySlots;
+    public final PersonalizedBodySlots getPersonalizedBodySlots() {
+        return this.personalizedBodySlots;
     }
 
     /**
      * @param bodySlotsInput the bodySlots to set
      */
-    public final void setBodySlots(final BodySlots bodySlotsInput) {
-        this.bodySlots = bodySlotsInput;
+    public final void setPersonalizedBodySlots(
+            final PersonalizedBodySlots bodySlotsInput) {
+        this.personalizedBodySlots = bodySlotsInput;
     }
 
     /**
@@ -174,7 +175,7 @@ public class DndCharacter extends UniqueEntity implements BonusSource,
         final BonusSources bonusSources = new BonusSources();
 
         bonusSources.add(this.baseAbilities);
-        bonusSources.add(this.bodySlots);
+        bonusSources.add(this.personalizedBodySlots);
         bonusSources.add(this.conditions);
         bonusSources.add(this.levelAdvancements);
         bonusSources.add(this.race);
@@ -187,10 +188,6 @@ public class DndCharacter extends UniqueEntity implements BonusSource,
         return Boni.EMPTY_BONI;
     }
 
-    public final Armors getWieldedArmor() {
-        return this.getBodySlots().getArmorWorn();
-    }
-
     /**
      * Retrieves the unmodified base size of the character - defined by race.
      *
@@ -201,7 +198,8 @@ public class DndCharacter extends UniqueEntity implements BonusSource,
     }
 
     public final Armors getArmorWorn() {
-        return this.bodySlots.getArmorWorn();
+        return (Armors) this.getPersonalizedBodySlots().getItemsByClass(
+                new Armors(), Armor.class);
     }
 
 }
