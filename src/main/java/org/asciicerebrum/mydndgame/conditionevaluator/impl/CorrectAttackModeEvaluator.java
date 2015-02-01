@@ -1,9 +1,9 @@
-package org.asciicerebrum.mydndgame.conditionevaluator;
+package org.asciicerebrum.mydndgame.conditionevaluator.impl;
 
+import org.asciicerebrum.mydndgame.conditionevaluator.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponCategory;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
-import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
 import org.asciicerebrum.mydndgame.observers.IObserver;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
@@ -11,12 +11,12 @@ import org.asciicerebrum.mydndgame.services.context.SituationContextService;
  *
  * @author species8472
  */
-public class CorrectWeaponEvaluator implements ConditionEvaluator {
+public class CorrectAttackModeEvaluator implements ConditionEvaluator {
 
     /**
-     * The weapon to check.
+     * The attack mode to compare with.
      */
-    private Weapon weapon;
+    private WeaponCategory weaponCategory;
 
     /**
      * Getting settings from the character.
@@ -24,28 +24,23 @@ public class CorrectWeaponEvaluator implements ConditionEvaluator {
     private SituationContextService situationContextService;
 
     /**
-     * {@inheritDoc} Checks if the given weapon corresponds to the one from the
-     * situation context.
+     * {@inheritDoc} Checks if the character's current attack mode equals the
+     * one given here. This is independent of the weapon itself.
      *
-     * @return if weapons resemble each other. True if weapon is not set.
+     * @return
      */
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
             final IObserver referenceObserver) {
 
-        if (this.weapon == null) {
-            return true;
-        }
+        final WeaponCategory refAttackMode = this.situationContextService
+                .getActiveAttackMode(dndCharacter);
 
-        final InventoryItem refWeapon = this.situationContextService
-                .getActiveItem(dndCharacter);
-
-        if (refWeapon == null || !(refWeapon instanceof Weapon)) {
+        if (refAttackMode == null) {
             return false;
         }
 
-        return this.weapon.resembles(refWeapon);
-
+        return refAttackMode.equals(this.weaponCategory);
     }
 
     @Override
@@ -55,10 +50,11 @@ public class CorrectWeaponEvaluator implements ConditionEvaluator {
     }
 
     /**
-     * @param weaponInput the weapon to set
+     * @param weaponCategoryInput the weaponCategory to set
      */
-    public final void setWeapon(final Weapon weaponInput) {
-        this.weapon = weaponInput;
+    public final void setWeaponCategory(
+            final WeaponCategory weaponCategoryInput) {
+        this.weaponCategory = weaponCategoryInput;
     }
 
     /**

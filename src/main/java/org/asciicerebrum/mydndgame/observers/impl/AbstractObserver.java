@@ -1,9 +1,10 @@
 package org.asciicerebrum.mydndgame.observers.impl;
 
-import org.asciicerebrum.mydndgame.observers.IObserver;
-import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.conditionevaluator.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.observers.IObserver;
+import org.asciicerebrum.mydndgame.observers.IObserver.ObserverScope;
 
 /**
  *
@@ -70,18 +71,10 @@ public abstract class AbstractObserver implements IObserver {
         this.hook = hookInput;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public final ConditionEvaluator getConditionEvaluator() {
         return conditionEvaluator;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public final void setConditionEvaluator(
             final ConditionEvaluator conditionEvaluatorInput) {
         this.conditionEvaluator = conditionEvaluatorInput;

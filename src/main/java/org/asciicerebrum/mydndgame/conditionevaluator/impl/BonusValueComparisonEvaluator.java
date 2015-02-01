@@ -1,6 +1,7 @@
-package org.asciicerebrum.mydndgame.conditionevaluator;
+package org.asciicerebrum.mydndgame.conditionevaluator.impl;
 
-import org.asciicerebrum.mydndgame.conditionevaluator.BonusValueComparisonEvaluator.ArithmeticComparator;
+import org.asciicerebrum.mydndgame.conditionevaluator.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.conditionevaluator.impl.BonusValueComparisonEvaluator.ArithmeticComparator;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;

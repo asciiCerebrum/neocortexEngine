@@ -4,7 +4,7 @@ import java.security.SecureRandom;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceSides;
-import org.asciicerebrum.mydndgame.domain.game.entities.Dice;
+import org.asciicerebrum.mydndgame.domain.rules.entities.Dice;
 import org.asciicerebrum.mydndgame.domain.rules.entities.DiceAction;
 import org.junit.After;
 import org.junit.AfterClass;

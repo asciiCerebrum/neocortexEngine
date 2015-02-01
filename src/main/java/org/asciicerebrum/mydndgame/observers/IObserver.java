@@ -1,8 +1,7 @@
 package org.asciicerebrum.mydndgame.observers;
 
-import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
-import org.asciicerebrum.mydndgame.conditionevaluator.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 
 /**
  *
@@ -43,20 +42,6 @@ public interface IObserver {
      * @return the modified object.
      */
     Object trigger(Object object, DndCharacter dndCharacter);
-
-    /**
-     *
-     * @return the evaluator for checking if the conditions are given that a
-     * trigger can be activated.
-     */
-    ConditionEvaluator getConditionEvaluator();
-
-    /**
-     * Sets the condition evaluation bean.
-     *
-     * @param conditionEvaluator the conditionEvaluator.
-     */
-    void setConditionEvaluator(ConditionEvaluator conditionEvaluator);
 
     ObserverScope getScope();
 

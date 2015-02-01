@@ -1,6 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.rules.entities;
 
-import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponCategory;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
@@ -9,7 +8,6 @@ import org.asciicerebrum.mydndgame.observers.Observers;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceConstant;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
-import org.asciicerebrum.mydndgame.domain.game.entities.Dice;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusTarget;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
 

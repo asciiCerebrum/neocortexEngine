@@ -1,8 +1,13 @@
-package org.asciicerebrum.mydndgame.conditionevaluator;
+package org.asciicerebrum.mydndgame.conditionevaluator.impl;
 
-import org.asciicerebrum.mydndgame.domain.rules.entities.Encumbrance;
+import org.asciicerebrum.mydndgame.conditionevaluator.ConditionEvaluator;
+import java.util.Iterator;
+import org.asciicerebrum.mydndgame.domain.rules.entities.FeatBinding;
+import org.asciicerebrum.mydndgame.domain.rules.entities.FeatBindings;
+import org.asciicerebrum.mydndgame.domain.rules.entities.Proficiency;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.rules.entities.FeatType;
 import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
 import org.asciicerebrum.mydndgame.facades.gameentities.WeaponServiceFacade;
@@ -13,16 +18,10 @@ import org.asciicerebrum.mydndgame.services.context.SituationContextService;
  *
  * @author species8472
  */
-public class CorrectWeaponEncumbranceEvaluator implements ConditionEvaluator {
+public class CorrectProficiencyForFeatEvaluator implements ConditionEvaluator {
 
-    /**
-     * The encumbrance to compare with.
-     */
-    private Encumbrance encumbrance;
+    private FeatType featType;
 
-    /**
-     * Getting settings from the character.
-     */
     private SituationContextService situationContextService;
 
     /**
@@ -30,39 +29,54 @@ public class CorrectWeaponEncumbranceEvaluator implements ConditionEvaluator {
      */
     private WeaponServiceFacade weaponServiceFacade;
 
-    /**
-     * {@inheritDoc} Checks if the given weapon's encumbrance corresponds to the
-     * one from the situation context.
-     *
-     * @return
-     */
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
             final IObserver referenceObserver) {
 
-        final InventoryItem refWeapon = this.situationContextService
-                .getActiveItem(dndCharacter);
-
-        if (this.encumbrance == null || refWeapon == null
-                || !(refWeapon instanceof Weapon)) {
+        if (this.featType == null) {
             return false;
         }
 
-        return this.weaponServiceFacade.hasEncumbrance(this.encumbrance,
-                (Weapon) refWeapon, dndCharacter);
+        final FeatBindings featBindings = dndCharacter.getLevelAdvancements()
+                .getFeatBindingsByFeatType(this.featType);
+
+        final InventoryItem item = this.situationContextService
+                .getActiveItem(dndCharacter);
+
+        if (!(item instanceof Weapon)) {
+            return false;
+        }
+
+        final Weapon weapon = (Weapon) item;
+        final Iterator<FeatBinding> featBindingIterator
+                = featBindings.iterator();
+        while (featBindingIterator.hasNext()) {
+            final FeatBinding featBinding = featBindingIterator.next();
+            if (!(featBinding instanceof Proficiency)) {
+                continue;
+            }
+
+            if (this.weaponServiceFacade.hasProficiency(
+                    (Proficiency) featBinding, weapon, dndCharacter)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
             final Bonus referenceBonus) {
-        return this.evaluate(dndCharacter, (IObserver) null);
+        // nothing to do here
+
+        return false;
     }
 
     /**
-     * @param encumbranceInput the encumbrance to set
+     * @param featTypeInput the featType to set
      */
-    public final void setEncumbrance(final Encumbrance encumbranceInput) {
-        this.encumbrance = encumbranceInput;
+    public final void setFeatType(final FeatType featTypeInput) {
+        this.featType = featTypeInput;
     }
 
     /**

@@ -1,6 +1,7 @@
-package org.asciicerebrum.mydndgame.conditionevaluator;
+package org.asciicerebrum.mydndgame.conditionevaluator.impl;
 
-import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponCategory;
+import org.asciicerebrum.mydndgame.conditionevaluator.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponType;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
@@ -13,7 +14,12 @@ import org.asciicerebrum.mydndgame.services.context.SituationContextService;
  *
  * @author species8472
  */
-public class CorrectWeaponAttackModeEvaluator implements ConditionEvaluator {
+public class CorrectWeaponTypeEvaluator implements ConditionEvaluator {
+
+    /**
+     * The weapon type to compare with.
+     */
+    private WeaponType weaponType;
 
     /**
      * Getting settings from the character.
@@ -26,7 +32,8 @@ public class CorrectWeaponAttackModeEvaluator implements ConditionEvaluator {
     private WeaponServiceFacade weaponServiceFacade;
 
     /**
-     * {@inheritDoc} Checks if the given weapon is used in its destined way.
+     * {@inheritDoc} Checks if the given weapontype is included in the current
+     * weapon's list of types.
      *
      * @return
      */
@@ -34,18 +41,15 @@ public class CorrectWeaponAttackModeEvaluator implements ConditionEvaluator {
     public final boolean evaluate(final DndCharacter dndCharacter,
             final IObserver referenceObserver) {
 
-        final WeaponCategory refAttackMode = this.situationContextService
-                .getActiveAttackMode(dndCharacter);
-
         final InventoryItem refWeapon = this.situationContextService
                 .getActiveItem(dndCharacter);
 
-        if (refAttackMode == null || refWeapon == null
+        if (this.weaponType == null || refWeapon == null
                 || !(refWeapon instanceof Weapon)) {
             return false;
         }
 
-        return this.weaponServiceFacade.isAttackModeCompatible(refAttackMode,
+        return this.weaponServiceFacade.hasWeaponType(this.weaponType,
                 (Weapon) refWeapon, dndCharacter);
     }
 
@@ -53,6 +57,20 @@ public class CorrectWeaponAttackModeEvaluator implements ConditionEvaluator {
     public final boolean evaluate(final DndCharacter dndCharacter,
             final Bonus referenceBonus) {
         return this.evaluate(dndCharacter, (IObserver) null);
+    }
+
+    /**
+     * @return the weaponType
+     */
+    public final WeaponType getWeaponType() {
+        return weaponType;
+    }
+
+    /**
+     * @param weaponTypeInput the weaponType to set
+     */
+    public final void setWeaponType(final WeaponType weaponTypeInput) {
+        this.weaponType = weaponTypeInput;
     }
 
     /**

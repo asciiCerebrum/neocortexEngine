@@ -1,14 +1,14 @@
 package org.asciicerebrum.mydndgame.domain.game.entities;
 
+import org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor;
+import org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel;
 import org.asciicerebrum.mydndgame.domain.rules.entities.DamageType;
+import org.asciicerebrum.mydndgame.domain.rules.entities.DiceAction;
 import org.asciicerebrum.mydndgame.domain.rules.entities.Encumbrance;
 import org.asciicerebrum.mydndgame.domain.rules.entities.Proficiency;
 import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponCategories;
-import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponTypes;
-import org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor;
-import org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel;
-import org.asciicerebrum.mydndgame.domain.rules.entities.DiceAction;
 import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponPrototype;
+import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponTypes;
 
 /**
  *

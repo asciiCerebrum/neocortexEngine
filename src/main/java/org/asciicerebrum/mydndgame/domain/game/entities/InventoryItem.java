@@ -1,13 +1,13 @@
 package org.asciicerebrum.mydndgame.domain.game.entities;
 
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.rules.entities.BodySlotTypes;
-import org.asciicerebrum.mydndgame.domain.rules.entities.SizeCategory;
-import org.asciicerebrum.mydndgame.domain.rules.entities.SpecialAbilities;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.particles.Cost;
+import org.asciicerebrum.mydndgame.domain.rules.entities.BodySlotTypes;
 import org.asciicerebrum.mydndgame.domain.rules.entities.InventoryItemPrototype;
+import org.asciicerebrum.mydndgame.domain.rules.entities.SizeCategory;
+import org.asciicerebrum.mydndgame.domain.rules.entities.SpecialAbilities;
 
 /**
  *

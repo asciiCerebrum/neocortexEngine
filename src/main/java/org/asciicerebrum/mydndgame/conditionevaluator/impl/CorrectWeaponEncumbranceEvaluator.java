@@ -1,6 +1,7 @@
-package org.asciicerebrum.mydndgame.conditionevaluator;
+package org.asciicerebrum.mydndgame.conditionevaluator.impl;
 
-import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponType;
+import org.asciicerebrum.mydndgame.conditionevaluator.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.domain.rules.entities.Encumbrance;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
@@ -13,12 +14,12 @@ import org.asciicerebrum.mydndgame.services.context.SituationContextService;
  *
  * @author species8472
  */
-public class CorrectWeaponTypeEvaluator implements ConditionEvaluator {
+public class CorrectWeaponEncumbranceEvaluator implements ConditionEvaluator {
 
     /**
-     * The weapon type to compare with.
+     * The encumbrance to compare with.
      */
-    private WeaponType weaponType;
+    private Encumbrance encumbrance;
 
     /**
      * Getting settings from the character.
@@ -31,8 +32,8 @@ public class CorrectWeaponTypeEvaluator implements ConditionEvaluator {
     private WeaponServiceFacade weaponServiceFacade;
 
     /**
-     * {@inheritDoc} Checks if the given weapontype is included in the current
-     * weapon's list of types.
+     * {@inheritDoc} Checks if the given weapon's encumbrance corresponds to the
+     * one from the situation context.
      *
      * @return
      */
@@ -43,12 +44,12 @@ public class CorrectWeaponTypeEvaluator implements ConditionEvaluator {
         final InventoryItem refWeapon = this.situationContextService
                 .getActiveItem(dndCharacter);
 
-        if (this.weaponType == null || refWeapon == null
+        if (this.encumbrance == null || refWeapon == null
                 || !(refWeapon instanceof Weapon)) {
             return false;
         }
 
-        return this.weaponServiceFacade.hasWeaponType(this.weaponType,
+        return this.weaponServiceFacade.hasEncumbrance(this.encumbrance,
                 (Weapon) refWeapon, dndCharacter);
     }
 
@@ -59,17 +60,10 @@ public class CorrectWeaponTypeEvaluator implements ConditionEvaluator {
     }
 
     /**
-     * @return the weaponType
+     * @param encumbranceInput the encumbrance to set
      */
-    public final WeaponType getWeaponType() {
-        return weaponType;
-    }
-
-    /**
-     * @param weaponTypeInput the weaponType to set
-     */
-    public final void setWeaponType(final WeaponType weaponTypeInput) {
-        this.weaponType = weaponTypeInput;
+    public final void setEncumbrance(final Encumbrance encumbranceInput) {
+        this.encumbrance = encumbranceInput;
     }
 
     /**

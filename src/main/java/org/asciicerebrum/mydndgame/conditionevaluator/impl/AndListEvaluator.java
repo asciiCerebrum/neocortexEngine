@@ -1,5 +1,6 @@
-package org.asciicerebrum.mydndgame.conditionevaluator;
+package org.asciicerebrum.mydndgame.conditionevaluator.impl;
 
+import org.asciicerebrum.mydndgame.conditionevaluator.ConditionEvaluator;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
