@@ -5,7 +5,7 @@ import org.asciicerebrum.mydndgame.domain.rules.entities.SpecialAbilities;
 import org.asciicerebrum.mydndgame.domain.rules.entities.SpecialAbility;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.observers.impl.Observers;
+import org.asciicerebrum.mydndgame.observers.Observers;
 
 /**
  *

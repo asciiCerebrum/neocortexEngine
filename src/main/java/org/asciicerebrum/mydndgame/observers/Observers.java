@@ -1,14 +1,14 @@
-package org.asciicerebrum.mydndgame.observers.impl;
+package org.asciicerebrum.mydndgame.observers;
 
-import org.asciicerebrum.mydndgame.observers.IObserver;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
-import org.asciicerebrum.mydndgame.observers.IObserver.ObserverScope;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHooks;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.observers.IObserver.ObserverScope;
 
 /**
  *
@@ -21,20 +21,13 @@ public class Observers {
     /**
      * The list of observers.
      */
-    private List<IObserver> elements = new ArrayList<IObserver>();
-
-    /**
-     * @return the observers
-     */
-    public final List<IObserver> getObservers() {
-        return elements;
-    }
+    private final List<IObserver> elements = new ArrayList<IObserver>();
 
     /**
      * @param observersInput the observers to set
      */
     public final void setObservers(final List<IObserver> observersInput) {
-        this.elements = observersInput;
+        this.elements.addAll(observersInput);
     }
 
     public Observers filterByHook(final ObserverHook observerHook) {
@@ -99,7 +92,7 @@ public class Observers {
     }
 
     public void add(final Observers observersInput) {
-        this.elements.addAll(observersInput.getObservers());
+        this.elements.addAll(observersInput.elements);
     }
 
     public Object trigger(final Object object,
@@ -114,6 +107,10 @@ public class Observers {
 
     public final boolean contains(final IObserver observer) {
         return this.elements.contains(observer);
+    }
+
+    public final Iterator<IObserver> iterator() {
+        return this.elements.iterator();
     }
 
 }

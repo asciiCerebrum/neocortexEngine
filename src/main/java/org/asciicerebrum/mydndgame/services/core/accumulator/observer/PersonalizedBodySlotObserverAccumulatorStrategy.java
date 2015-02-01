@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame.services.core.accumulator.observer;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlot;
-import org.asciicerebrum.mydndgame.observers.impl.Observers;
+import org.asciicerebrum.mydndgame.observers.Observers;
 
 /**
  *
