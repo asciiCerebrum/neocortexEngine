@@ -3,10 +3,10 @@ package org.asciicerebrum.mydndgame.conditionevaluator.impl;
 import org.asciicerebrum.mydndgame.conditionevaluator.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.conditionevaluator.impl.BonusValueComparisonEvaluator.ArithmeticComparator;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Observer;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.valueproviders.DynamicValueProvider;
-import org.asciicerebrum.mydndgame.observers.IObserver;
 
 /**
  *
@@ -119,7 +119,7 @@ public class BonusValueComparisonEvaluator implements ConditionEvaluator {
      */
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
-            final IObserver referenceObserver) {
+            final Observer referenceObserver) {
         BonusValue abilityBonus
                 = (BonusValue) this.bonusValueProvider
                 .getDynamicValue(dndCharacter);
@@ -132,7 +132,7 @@ public class BonusValueComparisonEvaluator implements ConditionEvaluator {
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
             final Bonus referenceBonus) {
-        return this.evaluate(dndCharacter, (IObserver) null);
+        return this.evaluate(dndCharacter, (Observer) null);
     }
 
     /**

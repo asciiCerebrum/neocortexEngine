@@ -3,11 +3,11 @@ package org.asciicerebrum.mydndgame.conditionevaluator.impl;
 import org.asciicerebrum.mydndgame.conditionevaluator.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
-import org.asciicerebrum.mydndgame.observers.Observers;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Observer;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Observers;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
-import org.asciicerebrum.mydndgame.observers.IObserver;
 import org.asciicerebrum.mydndgame.services.core.BonusCalculationService;
 import org.asciicerebrum.mydndgame.services.core.ObservableService;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
@@ -44,7 +44,7 @@ public class WeaponInUseEvaluator implements ConditionEvaluator {
      */
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
-            final IObserver referenceObserver) {
+            final Observer referenceObserver) {
 
         final InventoryItem item = this.ctxService.getActiveItem(dndCharacter);
 

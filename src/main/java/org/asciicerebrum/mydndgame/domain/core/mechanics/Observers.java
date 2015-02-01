@@ -1,14 +1,12 @@
-package org.asciicerebrum.mydndgame.observers;
+package org.asciicerebrum.mydndgame.domain.core.mechanics;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHooks;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Observer.ObserverScope;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
-import org.asciicerebrum.mydndgame.observers.IObserver.ObserverScope;
 
 /**
  *
@@ -21,24 +19,24 @@ public class Observers {
     /**
      * The list of observers.
      */
-    private final List<IObserver> elements = new ArrayList<IObserver>();
+    private final List<Observer> elements = new ArrayList<Observer>();
 
     /**
      * @param observersInput the observers to set
      */
-    public final void setObservers(final List<IObserver> observersInput) {
+    public final void setObservers(final List<Observer> observersInput) {
         this.elements.addAll(observersInput);
     }
 
     public Observers filterByHook(final ObserverHook observerHook) {
 
-        List<IObserver> filteredList = new ArrayList<IObserver>();
+        List<Observer> filteredList = new ArrayList<Observer>();
 
         CollectionUtils.select(this.elements,
                 new Predicate() {
 
                     public boolean evaluate(Object object) {
-                        IObserver potentialObserver = (IObserver) object;
+                        Observer potentialObserver = (Observer) object;
                         return observerHook.equals(potentialObserver.getHook());
                     }
                 }, filteredList);
@@ -55,13 +53,13 @@ public class Observers {
      * @return
      */
     public Observers filterByHooks(final ObserverHooks observerHooks) {
-        List<IObserver> filteredList = new ArrayList<IObserver>();
+        List<Observer> filteredList = new ArrayList<Observer>();
 
         CollectionUtils.select(this.elements,
                 new Predicate() {
 
                     public boolean evaluate(Object object) {
-                        IObserver potentialObserver = (IObserver) object;
+                        Observer potentialObserver = (Observer) object;
 
                         return observerHooks.contains(
                                 potentialObserver.getHook());
@@ -74,13 +72,13 @@ public class Observers {
     }
 
     public Observers filterByScope(final ObserverScope scope) {
-        List<IObserver> filteredList = new ArrayList<IObserver>();
+        List<Observer> filteredList = new ArrayList<Observer>();
 
         CollectionUtils.select(this.elements,
                 new Predicate() {
 
                     public boolean evaluate(Object object) {
-                        IObserver potentialObserver = (IObserver) object;
+                        Observer potentialObserver = (Observer) object;
 
                         return scope.equals(potentialObserver.getScope());
                     }
@@ -98,18 +96,18 @@ public class Observers {
     public Object trigger(final Object object,
             final DndCharacter dndCharacter) {
         Object modificatedObject = object;
-        for (final IObserver observer : this.elements) {
+        for (final Observer observer : this.elements) {
             modificatedObject = observer.trigger(modificatedObject,
                     dndCharacter);
         }
         return modificatedObject;
     }
 
-    public final boolean contains(final IObserver observer) {
+    public final boolean contains(final Observer observer) {
         return this.elements.contains(observer);
     }
 
-    public final Iterator<IObserver> iterator() {
+    public final Iterator<Observer> iterator() {
         return this.elements.iterator();
     }
 

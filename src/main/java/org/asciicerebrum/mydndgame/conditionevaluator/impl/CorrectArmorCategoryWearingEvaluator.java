@@ -3,8 +3,8 @@ package org.asciicerebrum.mydndgame.conditionevaluator.impl;
 import org.asciicerebrum.mydndgame.conditionevaluator.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.rules.entities.ArmorCategory;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Observer;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
-import org.asciicerebrum.mydndgame.observers.IObserver;
 
 /**
  *
@@ -23,7 +23,7 @@ public class CorrectArmorCategoryWearingEvaluator
      */
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
-            final IObserver referenceObserver) {
+            final Observer referenceObserver) {
 
         if (this.getArmorCategory() == null) {
             return false;
@@ -36,7 +36,7 @@ public class CorrectArmorCategoryWearingEvaluator
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
             final Bonus referenceBonus) {
-        return this.evaluate(dndCharacter, (IObserver) null);
+        return this.evaluate(dndCharacter, (Observer) null);
     }
 
     /**

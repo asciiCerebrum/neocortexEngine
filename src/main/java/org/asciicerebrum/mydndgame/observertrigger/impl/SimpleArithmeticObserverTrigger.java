@@ -1,15 +1,16 @@
-package org.asciicerebrum.mydndgame.observers.impl;
+package org.asciicerebrum.mydndgame.observertrigger.impl;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.LongParticle;
 import org.asciicerebrum.mydndgame.domain.core.particles.LongParticle.Operation;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.observertrigger.ObserverTriggerStrategy;
 import org.asciicerebrum.mydndgame.valueproviders.DynamicValueProvider;
 
 /**
  *
  * @author species8472
  */
-public class SimpleArithmeticObserver extends AbstractObserver {
+public class SimpleArithmeticObserverTrigger implements ObserverTriggerStrategy {
 
     /**
      * Numeric modificatioin of the base value called numeric.
@@ -31,7 +32,7 @@ public class SimpleArithmeticObserver extends AbstractObserver {
      * {@inheritDoc}
      */
     @Override
-    protected final Object triggerCallback(final Object object,
+    public final Object trigger(final Object object,
             final DndCharacter dndCharacter) {
 
         final LongParticle numeric = (LongParticle) object;

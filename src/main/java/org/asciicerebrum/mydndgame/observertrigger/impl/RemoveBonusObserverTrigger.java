@@ -1,16 +1,17 @@
-package org.asciicerebrum.mydndgame.observers.impl;
+package org.asciicerebrum.mydndgame.observertrigger.impl;
 
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus.ResemblanceFacet;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.observertrigger.ObserverTriggerStrategy;
 
 /**
  *
  * @author species8472
  */
-public class RemoveBonusObserver extends AbstractObserver {
+public class RemoveBonusObserverTrigger implements ObserverTriggerStrategy {
 
     /**
      * The bonus to resemble the bonus which must be removed.
@@ -26,7 +27,7 @@ public class RemoveBonusObserver extends AbstractObserver {
      * {@inheritDoc}
      */
     @Override
-    protected final Object triggerCallback(final Object object,
+    public final Object trigger(final Object object,
             final DndCharacter dndCharacter) {
 
         final Boni boni = (Boni) object;

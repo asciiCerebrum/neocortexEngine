@@ -6,12 +6,12 @@ import org.asciicerebrum.mydndgame.domain.rules.entities.FeatBinding;
 import org.asciicerebrum.mydndgame.domain.rules.entities.FeatBindings;
 import org.asciicerebrum.mydndgame.domain.rules.entities.Proficiency;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Observer;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.rules.entities.FeatType;
 import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
 import org.asciicerebrum.mydndgame.facades.gameentities.WeaponServiceFacade;
-import org.asciicerebrum.mydndgame.observers.IObserver;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
@@ -31,7 +31,7 @@ public class CorrectProficiencyForFeatEvaluator implements ConditionEvaluator {
 
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
-            final IObserver referenceObserver) {
+            final Observer referenceObserver) {
 
         if (this.featType == null) {
             return false;

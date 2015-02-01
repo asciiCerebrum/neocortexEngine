@@ -1,16 +1,26 @@
-package org.asciicerebrum.mydndgame.observers.impl;
+package org.asciicerebrum.mydndgame.domain.core.mechanics;
 
 import org.asciicerebrum.mydndgame.conditionevaluator.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
-import org.asciicerebrum.mydndgame.observers.IObserver;
-import org.asciicerebrum.mydndgame.observers.IObserver.ObserverScope;
+import org.asciicerebrum.mydndgame.observertrigger.ObserverTriggerStrategy;
 
 /**
  *
  * @author species8472
  */
-public abstract class AbstractObserver implements IObserver {
+public class Observer {
+
+    public enum ObserverScope {
+
+        /**
+         * Targets everything.
+         */
+        ALL,
+        /**
+         * Targets only the unique entity the observer is part of.
+         */
+        SPECIFIC;
+    }
 
     /**
      * The hook enum where the observer is used.
@@ -23,26 +33,19 @@ public abstract class AbstractObserver implements IObserver {
     private ConditionEvaluator conditionEvaluator;
 
     /**
+     * The strategy that acutally handles the triggering.
+     */
+    private ObserverTriggerStrategy triggerStrategy;
+
+    /**
      * The scope this observer is created for. It defaults to ALL.
      */
     private ObserverScope scope = ObserverScope.ALL;
 
     /**
-     * Callback method that is called by the parent to make the actual
-     * triggering after the check of the valid evaluators.
-     *
-     * @param object the object to manipulate by the trigger.
-     * @param dndCharacter the context.
-     * @return the manipulated object.
-     */
-    protected abstract Object triggerCallback(Object object,
-            DndCharacter dndCharacter);
-
-    /**
      * {@inheritDoc} Assures that the condition evalator is always checked
      * first!
      */
-    @Override
     public final Object trigger(final Object object,
             final DndCharacter dndCharacter) {
 
@@ -52,21 +55,13 @@ public abstract class AbstractObserver implements IObserver {
             return object;
         }
 
-        return this.triggerCallback(object, dndCharacter);
+        return this.triggerStrategy.trigger(object, dndCharacter);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public final ObserverHook getHook() {
         return this.hook;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public final void setHook(final ObserverHook hookInput) {
         this.hook = hookInput;
     }
@@ -83,7 +78,6 @@ public abstract class AbstractObserver implements IObserver {
     /**
      * @return the scope
      */
-    @Override
     public final ObserverScope getScope() {
         return scope;
     }
@@ -91,7 +85,6 @@ public abstract class AbstractObserver implements IObserver {
     /**
      * @param scopeInput the scope to set
      */
-    @Override
     public final void setScope(final ObserverScope scopeInput) {
         this.scope = scopeInput;
     }

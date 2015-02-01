@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.conditionevaluator;
 
-import org.asciicerebrum.mydndgame.observers.IObserver;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Observer;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 
 /**
@@ -18,7 +18,7 @@ public interface ConditionEvaluator {
      * @return the status of the condition.
      */
     boolean evaluate(DndCharacter dndCharacter,
-            IObserver referenceObserver);
+            Observer referenceObserver);
 
     /**
      * Checks if the condition is met.

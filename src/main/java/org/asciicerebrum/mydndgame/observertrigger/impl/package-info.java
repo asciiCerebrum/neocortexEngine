@@ -1,4 +1,4 @@
 /**
  * Package for all kinds of implementations of observers.
  */
-package org.asciicerebrum.mydndgame.observers.impl;
+package org.asciicerebrum.mydndgame.observertrigger.impl;

@@ -2,10 +2,10 @@ package org.asciicerebrum.mydndgame.conditionevaluator.impl;
 
 import org.asciicerebrum.mydndgame.conditionevaluator.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Observer;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
-import org.asciicerebrum.mydndgame.observers.IObserver;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
@@ -32,7 +32,7 @@ public class CorrectWeaponEvaluator implements ConditionEvaluator {
      */
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
-            final IObserver referenceObserver) {
+            final Observer referenceObserver) {
 
         if (this.weapon == null) {
             return true;
@@ -52,7 +52,7 @@ public class CorrectWeaponEvaluator implements ConditionEvaluator {
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
             final Bonus referenceBonus) {
-        return this.evaluate(dndCharacter, (IObserver) null);
+        return this.evaluate(dndCharacter, (Observer) null);
     }
 
     /**

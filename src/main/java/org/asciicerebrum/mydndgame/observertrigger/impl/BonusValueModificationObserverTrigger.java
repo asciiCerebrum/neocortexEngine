@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.observers.impl;
+package org.asciicerebrum.mydndgame.observertrigger.impl;
 
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
@@ -7,12 +7,13 @@ import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle;
 import org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle.Operation;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.observertrigger.ObserverTriggerStrategy;
 
 /**
  *
  * @author species8472
  */
-public class BonusValueModificationObserver extends AbstractObserver {
+public class BonusValueModificationObserverTrigger implements ObserverTriggerStrategy {
 
     /**
      * Defines how to arithmetically modify the value.
@@ -35,7 +36,7 @@ public class BonusValueModificationObserver extends AbstractObserver {
      * value provider, it is replaced by a static value.
      */
     @Override
-    protected final Object triggerCallback(final Object object,
+    public final Object trigger(final Object object,
             final DndCharacter dndCharacter) {
 
         Boni boni = (Boni) object;

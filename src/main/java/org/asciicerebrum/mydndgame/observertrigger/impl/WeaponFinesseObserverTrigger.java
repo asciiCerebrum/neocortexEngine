@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.observers.impl;
+package org.asciicerebrum.mydndgame.observertrigger.impl;
 
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.rules.entities.Encumbrance;
@@ -14,13 +14,14 @@ import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponPrototypes;
 import org.asciicerebrum.mydndgame.facades.gameentities.CharacterServiceFacade;
 import org.asciicerebrum.mydndgame.facades.gameentities.InventoryItemServiceFacade;
 import org.asciicerebrum.mydndgame.facades.gameentities.WeaponServiceFacade;
+import org.asciicerebrum.mydndgame.observertrigger.ObserverTriggerStrategy;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
  *
  * @author species8472
  */
-public class WeaponFinesseObserver extends AbstractObserver {
+public class WeaponFinesseObserverTrigger implements ObserverTriggerStrategy {
 
     /**
      * Retrieve the value from the character's state registry by this key.
@@ -71,7 +72,7 @@ public class WeaponFinesseObserver extends AbstractObserver {
      * {@inheritDoc}
      */
     @Override
-    protected final Object triggerCallback(final Object object,
+    public final Object trigger(final Object object,
             final DndCharacter dndCharacter) {
 
         Boni boni = (Boni) object;

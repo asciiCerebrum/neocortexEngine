@@ -1,8 +1,8 @@
 package org.asciicerebrum.mydndgame.domain.transfer;
 
-import org.asciicerebrum.mydndgame.domain.rules.entities.DamageType;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
 import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
+import org.asciicerebrum.mydndgame.domain.rules.entities.DamageType;
 
 /**
  *

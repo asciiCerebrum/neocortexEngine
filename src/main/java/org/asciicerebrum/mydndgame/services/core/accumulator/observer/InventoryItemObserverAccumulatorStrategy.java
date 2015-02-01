@@ -1,10 +1,10 @@
 package org.asciicerebrum.mydndgame.services.core.accumulator.observer;
 
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.observers.IObserver;
-import org.asciicerebrum.mydndgame.observers.Observers;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Observer;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Observers;
+import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
 
 /**
  *
@@ -39,7 +39,7 @@ public class InventoryItemObserverAccumulatorStrategy
             // Here the observers with scope SPECIFIC are filtered out, because
             // they do not aim at the given targetEntity, which would be
             // Weapon A. We must be inside the unique entity Weapon B!
-            return observers.filterByScope(IObserver.ObserverScope.ALL);
+            return observers.filterByScope(Observer.ObserverScope.ALL);
         }
 
         return observers;

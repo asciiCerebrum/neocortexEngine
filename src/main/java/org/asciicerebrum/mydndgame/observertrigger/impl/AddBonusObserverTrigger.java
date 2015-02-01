@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.observers.impl;
+package org.asciicerebrum.mydndgame.observertrigger.impl;
 
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
@@ -9,13 +9,14 @@ import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.state.StateRegistry.StateParticle;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusTarget;
+import org.asciicerebrum.mydndgame.observertrigger.ObserverTriggerStrategy;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
  *
  * @author species8472
  */
-public class AddBonusObserver extends AbstractObserver {
+public class AddBonusObserverTrigger implements ObserverTriggerStrategy {
 
     /**
      * Type of bonus to add.
@@ -43,7 +44,7 @@ public class AddBonusObserver extends AbstractObserver {
      * state registry.
      */
     @Override
-    protected final Object triggerCallback(final Object object,
+    public final Object trigger(final Object object,
             final DndCharacter dndCharacter) {
         Boni boni = (Boni) object;
 

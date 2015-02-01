@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Observer;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
-import org.asciicerebrum.mydndgame.observers.IObserver;
 
 /**
  *
@@ -38,7 +38,7 @@ public class AndListEvaluator implements ConditionEvaluator {
      */
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
-            final IObserver referenceObserver) {
+            final Observer referenceObserver) {
         for (ConditionEvaluator singleEval : this.conditionEvaluators) {
             if (!singleEval.evaluate(dndCharacter, referenceObserver)) {
                 return false;

@@ -5,9 +5,9 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.mechanics.Observer;
 import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlot;
 import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlots;
-import org.asciicerebrum.mydndgame.observers.IObserver;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
@@ -116,7 +116,7 @@ public class CorrectInventoryItemWieldingEvaluator
      */
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
-            final IObserver referenceObserver) {
+            final Observer referenceObserver) {
 
         if (this.wieldingType == null) {
             return false;
@@ -135,7 +135,7 @@ public class CorrectInventoryItemWieldingEvaluator
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
             final Bonus referenceBonus) {
-        return this.evaluate(dndCharacter, (IObserver) null);
+        return this.evaluate(dndCharacter, (Observer) null);
     }
 
     /**
