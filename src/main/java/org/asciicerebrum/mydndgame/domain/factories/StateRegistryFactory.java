@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.domain.game;
+package org.asciicerebrum.mydndgame.domain.factories;
 
 import org.asciicerebrum.mydndgame.domain.factories.Reassignments;
 import org.apache.commons.lang.StringUtils;
@@ -9,6 +9,7 @@ import org.asciicerebrum.mydndgame.domain.factories.EntityFactory;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry.StateParticle;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry.StateValueType;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
 import org.springframework.context.ApplicationContext;
