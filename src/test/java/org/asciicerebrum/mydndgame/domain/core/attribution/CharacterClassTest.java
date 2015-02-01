@@ -1,6 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.core.attribution;
 
-import org.asciicerebrum.mydndgame.exceptions.UndefinedCharacterClassLevelException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -42,12 +41,4 @@ public class CharacterClassTest {
         fail();
     }
 
-    /**
-     * Test of getClassLevelByLevel method, of class CharacterClass. Level out
-     * of range.
-     */
-    @Test(expected = UndefinedCharacterClassLevelException.class)
-    public void testGetClassLevelByLevelOutOfRange() {
-        fail();
-    }
 }

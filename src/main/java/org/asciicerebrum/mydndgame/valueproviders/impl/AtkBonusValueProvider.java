@@ -1,5 +1,6 @@
-package org.asciicerebrum.mydndgame.valueproviders;
+package org.asciicerebrum.mydndgame.valueproviders.impl;
 
+import org.asciicerebrum.mydndgame.valueproviders.DynamicValueProvider;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;

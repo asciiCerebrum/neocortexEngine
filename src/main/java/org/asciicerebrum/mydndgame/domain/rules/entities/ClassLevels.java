@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.asciicerebrum.mydndgame.domain.core.particles.Level;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
-import org.asciicerebrum.mydndgame.exceptions.UndefinedCharacterClassLevelException;
 
 /**
  *
@@ -32,7 +31,7 @@ public class ClassLevels {
                 return clLvl;
             }
         }
-        throw new UndefinedCharacterClassLevelException(this, level);
+        return null;
     }
 
     /**

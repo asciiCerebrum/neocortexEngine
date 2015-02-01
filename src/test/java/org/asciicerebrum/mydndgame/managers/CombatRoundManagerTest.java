@@ -1,7 +1,6 @@
 package org.asciicerebrum.mydndgame.managers;
 
 import javax.naming.OperationNotSupportedException;
-import org.asciicerebrum.mydndgame.exceptions.CombatRoundInitializationException;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.fail;
@@ -51,11 +50,6 @@ public class CombatRoundManagerTest {
     @Test
     public void testInitiateCombatRoundWithOldCombatRound() throws OperationNotSupportedException {
         fail();
-    }
-
-    @Test(expected = CombatRoundInitializationException.class)
-    public void testInitiateCombatRoundFailure() throws OperationNotSupportedException {
-
     }
 
     /**
