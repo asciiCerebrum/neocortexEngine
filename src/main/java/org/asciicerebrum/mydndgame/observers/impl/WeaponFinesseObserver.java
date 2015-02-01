@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.observers;
+package org.asciicerebrum.mydndgame.observers.impl;
 
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.rules.entities.Encumbrance;

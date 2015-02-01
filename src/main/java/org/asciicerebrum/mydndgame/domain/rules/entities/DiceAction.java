@@ -5,7 +5,7 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
-import org.asciicerebrum.mydndgame.observers.Observers;
+import org.asciicerebrum.mydndgame.observers.impl.Observers;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceConstant;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;

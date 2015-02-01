@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.observers;
+package org.asciicerebrum.mydndgame.observers.impl;
 
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;

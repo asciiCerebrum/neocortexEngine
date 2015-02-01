@@ -1,5 +1,6 @@
-package org.asciicerebrum.mydndgame.observers;
+package org.asciicerebrum.mydndgame.observers.impl;
 
+import org.asciicerebrum.mydndgame.observers.IObserver;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.collections.CollectionUtils;

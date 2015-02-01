@@ -1,5 +1,6 @@
-package org.asciicerebrum.mydndgame.observers;
+package org.asciicerebrum.mydndgame.observers.impl;
 
+import org.asciicerebrum.mydndgame.observers.IObserver;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.conditionevaluator.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
