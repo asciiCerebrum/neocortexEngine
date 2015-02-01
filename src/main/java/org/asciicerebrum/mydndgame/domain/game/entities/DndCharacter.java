@@ -7,7 +7,7 @@ import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.particles.ExperiencePoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
-import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
+import org.asciicerebrum.mydndgame.domain.game.state.StateRegistry;
 import org.asciicerebrum.mydndgame.domain.rules.composition.BaseAbilities;
 import org.asciicerebrum.mydndgame.domain.rules.composition.Conditions;
 import org.asciicerebrum.mydndgame.domain.rules.composition.LevelAdvancements;

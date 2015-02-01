@@ -1,13 +1,13 @@
-package org.asciicerebrum.mydndgame.domain.game;
+package org.asciicerebrum.mydndgame.domain.game.state;
 
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
-import org.asciicerebrum.mydndgame.domain.game.entities.Campaign;
-import org.asciicerebrum.mydndgame.domain.game.StateRegistry.StateParticle;
+import org.asciicerebrum.mydndgame.domain.game.state.StateRegistry.StateParticle;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.springframework.context.ApplicationContext;
 
 /**

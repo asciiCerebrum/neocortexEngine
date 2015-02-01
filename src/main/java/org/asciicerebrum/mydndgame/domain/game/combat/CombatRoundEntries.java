@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.domain.game;
+package org.asciicerebrum.mydndgame.domain.game.combat;
 
 import java.util.ArrayList;
 import java.util.Iterator;

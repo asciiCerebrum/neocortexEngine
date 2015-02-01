@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame.interactionworkflows.impl;
 import org.asciicerebrum.mydndgame.interactionworkflows.IWorkflow;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.rules.entities.ConditionType;
-import org.asciicerebrum.mydndgame.domain.game.CombatRound;
+import org.asciicerebrum.mydndgame.domain.game.combat.CombatRound;
 import org.asciicerebrum.mydndgame.domain.rules.composition.Condition;
 import org.asciicerebrum.mydndgame.domain.game.WorldDate;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;

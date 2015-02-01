@@ -1,10 +1,10 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
 import org.asciicerebrum.mydndgame.domain.factories.Reassignments;
-import org.asciicerebrum.mydndgame.domain.game.CombatRound;
+import org.asciicerebrum.mydndgame.domain.game.combat.CombatRound;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.factories.Reassignments.ReassignmentEntry;
-import org.asciicerebrum.mydndgame.domain.game.entities.Campaign;
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;

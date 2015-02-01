@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.AttackAbility;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
-import org.asciicerebrum.mydndgame.domain.game.entities.Campaign;
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlot;
 import org.asciicerebrum.mydndgame.domain.rules.entities.BodySlot;
 import org.asciicerebrum.mydndgame.domain.rules.entities.BodySlotType;
