@@ -1,11 +1,8 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.asciicerebrum.mydndgame.domain.factories.Reassignments;
 import org.apache.commons.lang.StringUtils;
-import org.asciicerebrum.mydndgame.domain.factories.Reassignments;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;
-import org.asciicerebrum.mydndgame.domain.factories.EntityFactory;
 import org.asciicerebrum.mydndgame.domain.game.state.StateRegistry.StateParticle;
 import org.asciicerebrum.mydndgame.domain.game.state.StateRegistry.StateValueType;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;

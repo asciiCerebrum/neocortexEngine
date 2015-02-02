@@ -1,20 +1,20 @@
 package org.asciicerebrum.mydndgame.services.core;
 
-import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusTarget;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusTarget;
 import java.util.Iterator;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.Bonus;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusTargets;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHooks;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.Observers;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.Bonus;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusTargets;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHooks;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observers;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHook;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 

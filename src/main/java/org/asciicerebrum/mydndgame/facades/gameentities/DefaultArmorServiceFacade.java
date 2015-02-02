@@ -1,12 +1,12 @@
 package org.asciicerebrum.mydndgame.facades.gameentities;
 
 import java.util.Iterator;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHooks;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHooks;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.game.entities.Armor;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHook;
 import org.asciicerebrum.mydndgame.domain.game.entities.Armors;
 
 /**

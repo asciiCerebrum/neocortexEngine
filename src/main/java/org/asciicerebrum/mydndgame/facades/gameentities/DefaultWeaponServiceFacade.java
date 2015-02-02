@@ -6,14 +6,14 @@ import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponCategories;
 import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponCategory;
 import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponType;
 import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponTypes;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHooks;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHooks;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
 import org.asciicerebrum.mydndgame.domain.rules.entities.DiceAction;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHook;
 
 /**
  *

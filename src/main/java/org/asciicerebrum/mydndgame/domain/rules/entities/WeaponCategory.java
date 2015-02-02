@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.rules.entities;
 
-import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusTarget;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusTarget;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHook;
 
 /**
  *

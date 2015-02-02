@@ -4,10 +4,10 @@ import org.asciicerebrum.mydndgame.domain.rules.entities.Ability;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.particles.AbilityScore;
 
 /**

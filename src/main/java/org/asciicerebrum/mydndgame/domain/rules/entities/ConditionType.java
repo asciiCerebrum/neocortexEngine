@@ -1,10 +1,10 @@
 package org.asciicerebrum.mydndgame.domain.rules.entities;
 
-import org.asciicerebrum.mydndgame.domain.core.mechanics.Boni;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSource;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.BonusSources;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.Observers;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observers;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 
 /**

@@ -3,14 +3,14 @@ package org.asciicerebrum.mydndgame.services.core;
 import org.asciicerebrum.mydndgame.services.core.accumulator.observer.ObserverAccumulatorStrategies;
 import org.asciicerebrum.mydndgame.services.core.accumulator.observer.ObserverAccumulatorStrategy;
 import java.util.Iterator;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHooks;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSources;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.Observers;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHooks;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observers;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.Observer;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observer;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHook;
 
 /**
  *

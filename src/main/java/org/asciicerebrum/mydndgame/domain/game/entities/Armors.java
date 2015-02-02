@@ -53,7 +53,6 @@ public class Armors extends InventoryItems<Armor> {
             }
         }, armorList);
 
-        final Armors armors = new Armors(armorList);
-        return armors;
+        return new Armors(armorList);
     }
 }

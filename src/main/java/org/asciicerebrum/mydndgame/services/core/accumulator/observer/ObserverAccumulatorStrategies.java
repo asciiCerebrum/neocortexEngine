@@ -2,7 +2,7 @@ package org.asciicerebrum.mydndgame.services.core.accumulator.observer;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.asciicerebrum.mydndgame.domain.core.mechanics.ObserverSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSource;
 
 /**
  *
