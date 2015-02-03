@@ -83,7 +83,6 @@ public class Ability implements BonusSource, BonusTarget, ObserverSource {
     /**
      * @return the associatedAttackMode
      */
-    @Override
     public WeaponCategory getAssociatedAttackMode() {
         return associatedAttackMode;
     }
@@ -91,7 +90,6 @@ public class Ability implements BonusSource, BonusTarget, ObserverSource {
     /**
      * @param associatedAttackMode the associatedAttackMode to set
      */
-    @Override
     public void setAssociatedAttackMode(WeaponCategory associatedAttackMode) {
         this.associatedAttackMode = associatedAttackMode;
     }

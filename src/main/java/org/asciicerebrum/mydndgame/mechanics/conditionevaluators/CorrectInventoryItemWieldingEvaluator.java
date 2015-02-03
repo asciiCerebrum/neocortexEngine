@@ -1,11 +1,10 @@
 package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlot;
 import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlots;
-import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
  *
@@ -104,11 +103,6 @@ public class CorrectInventoryItemWieldingEvaluator
     private WieldingType wieldingType;
 
     /**
-     * Getting settings from the character.
-     */
-    private SituationContextService situationContextService;
-
-    /**
      * {@inheritDoc} Checks if the current item is wielded in the given way.
      */
     @Override
@@ -133,14 +127,6 @@ public class CorrectInventoryItemWieldingEvaluator
      */
     public final void setWieldingType(final WieldingType wieldingTypeInput) {
         this.wieldingType = wieldingTypeInput;
-    }
-
-    /**
-     * @param situationContextServiceInput the situationContextService to set
-     */
-    public final void setSituationContextService(
-            final SituationContextService situationContextServiceInput) {
-        this.situationContextService = situationContextServiceInput;
     }
 
 }

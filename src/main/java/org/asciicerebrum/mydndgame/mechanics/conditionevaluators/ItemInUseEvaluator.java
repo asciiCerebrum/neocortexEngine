@@ -4,7 +4,6 @@ import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
-import org.asciicerebrum.mydndgame.services.core.ObservableService;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
@@ -16,11 +15,6 @@ import org.asciicerebrum.mydndgame.services.context.SituationContextService;
  * @author species8472
  */
 public class ItemInUseEvaluator implements ConditionEvaluator {
-
-    /**
-     * Accumulates observers.
-     */
-    private ObservableService observableService;
 
     /**
      * Getting settings from the character.
@@ -46,14 +40,6 @@ public class ItemInUseEvaluator implements ConditionEvaluator {
 
         return (contextItem == null && item == null)
                 || item.equals(contextItem);
-    }
-
-    /**
-     * @param observableServiceInput the observableService to set
-     */
-    public final void setObservableService(
-            final ObservableService observableServiceInput) {
-        this.observableService = observableServiceInput;
     }
 
     /**
