@@ -4,7 +4,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.IWorkflow;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
-import org.asciicerebrum.mydndgame.domain.transfer.Interaction;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Interaction;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 

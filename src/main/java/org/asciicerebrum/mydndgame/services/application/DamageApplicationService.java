@@ -4,8 +4,8 @@ import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.transfer.Damage;
-import org.asciicerebrum.mydndgame.domain.transfer.Damages;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Damage;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Damages;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
 import org.asciicerebrum.mydndgame.services.core.ObservableService;
 

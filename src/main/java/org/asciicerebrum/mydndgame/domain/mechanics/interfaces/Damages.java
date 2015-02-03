@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.domain.transfer;
+package org.asciicerebrum.mydndgame.domain.mechanics.interfaces;
 
 import java.util.ArrayList;
 import java.util.Arrays;
