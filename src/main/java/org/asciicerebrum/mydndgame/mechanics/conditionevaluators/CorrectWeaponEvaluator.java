@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
 
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.interfaces.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.interfaces.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;

@@ -1,21 +1,18 @@
 package org.asciicerebrum.mydndgame.domain.game;
 
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.particles.ExperiencePoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
-import org.asciicerebrum.mydndgame.domain.game.Armor;
-import org.asciicerebrum.mydndgame.domain.game.Armors;
-import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
+import org.asciicerebrum.mydndgame.domain.rules.Race;
+import org.asciicerebrum.mydndgame.domain.rules.SizeCategory;
 import org.asciicerebrum.mydndgame.domain.rules.composition.BaseAbilities;
 import org.asciicerebrum.mydndgame.domain.rules.composition.Conditions;
 import org.asciicerebrum.mydndgame.domain.rules.composition.LevelAdvancements;
 import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlots;
-import org.asciicerebrum.mydndgame.domain.rules.Race;
-import org.asciicerebrum.mydndgame.domain.rules.SizeCategory;
 
 /**
  *

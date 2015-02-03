@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.mechanics.valueproviders;
 
-import org.asciicerebrum.mydndgame.interfaces.DynamicValueProvider;
+import org.asciicerebrum.mydndgame.mechanics.valueproviders.interfaces.DynamicValueProvider;
 import org.asciicerebrum.mydndgame.domain.rules.ArmorCategory;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;

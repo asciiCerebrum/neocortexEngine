@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.interfaces;
+package org.asciicerebrum.mydndgame.mechanics.observertriggers.interfaces;
 
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;

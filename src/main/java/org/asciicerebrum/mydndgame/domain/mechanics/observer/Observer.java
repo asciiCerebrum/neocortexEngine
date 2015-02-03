@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.mechanics.observer;
 
-import org.asciicerebrum.mydndgame.interfaces.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.interfaces.ObserverTriggerStrategy;
+import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.interfaces.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.mechanics.observertriggers.interfaces.ObserverTriggerStrategy;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
 
 /**
