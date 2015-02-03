@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.domain.core;
+package org.asciicerebrum.mydndgame.interfaces;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.LongParticle;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;

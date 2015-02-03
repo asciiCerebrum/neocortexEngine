@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
 
-import org.asciicerebrum.mydndgame.domain.core.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.interfaces.ConditionEvaluator;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.core.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.interfaces.ConditionEvaluator;
 
 /**
  *
