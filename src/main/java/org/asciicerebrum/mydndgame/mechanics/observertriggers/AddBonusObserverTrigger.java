@@ -1,8 +1,8 @@
 package org.asciicerebrum.mydndgame.mechanics.observertriggers;
 
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Boni;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Bonus;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusType;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;

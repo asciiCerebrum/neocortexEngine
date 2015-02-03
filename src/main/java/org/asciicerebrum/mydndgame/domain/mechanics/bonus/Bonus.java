@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.domain.mechanics.interfaces;
+package org.asciicerebrum.mydndgame.domain.mechanics.bonus;
 
 import org.asciicerebrum.mydndgame.domain.mechanics.transfer.DynamicValueProvider;
 import org.asciicerebrum.mydndgame.domain.mechanics.transfer.ConditionEvaluator;

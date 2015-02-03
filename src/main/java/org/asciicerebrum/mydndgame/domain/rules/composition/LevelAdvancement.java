@@ -4,7 +4,7 @@ import org.asciicerebrum.mydndgame.domain.rules.Feat;
 import org.asciicerebrum.mydndgame.domain.rules.FeatType;
 import org.asciicerebrum.mydndgame.domain.rules.Ability;
 import org.asciicerebrum.mydndgame.domain.rules.ClassLevel;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.BonusSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSource;

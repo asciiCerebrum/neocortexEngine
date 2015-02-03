@@ -2,9 +2,9 @@ package org.asciicerebrum.mydndgame.mechanics.observertriggers;
 
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Boni;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Bonus;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Bonus.ResemblanceFacet;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus.ResemblanceFacet;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.mechanics.transfer.ObserverTriggerStrategy;
 

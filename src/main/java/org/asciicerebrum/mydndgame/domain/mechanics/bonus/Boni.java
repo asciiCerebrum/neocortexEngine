@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.domain.mechanics.interfaces;
+package org.asciicerebrum.mydndgame.domain.mechanics.bonus;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,7 +8,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTarget;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTargets;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Bonus.BonusScope;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus.BonusScope;
 
 /**
  *
