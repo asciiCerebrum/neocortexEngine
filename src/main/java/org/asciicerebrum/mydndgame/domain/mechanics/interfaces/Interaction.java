@@ -3,7 +3,6 @@ package org.asciicerebrum.mydndgame.domain.mechanics.interfaces;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacters;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.InteractionType;
 
 /**
  *
