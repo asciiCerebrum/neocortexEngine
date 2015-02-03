@@ -77,7 +77,9 @@ public class PersonalizedBodySlot implements BonusSource, ObserverSource {
     public final BonusSources getBonusSources() {
         BonusSources bonusSources = new BonusSources();
 
-        bonusSources.add(this.item);
+        if (this.item instanceof BonusSource) {
+            bonusSources.add((BonusSource) this.item);
+        }
 
         return bonusSources;
     }

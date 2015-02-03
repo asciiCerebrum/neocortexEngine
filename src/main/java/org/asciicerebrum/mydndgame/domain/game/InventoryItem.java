@@ -4,6 +4,8 @@ import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.particles.Cost;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.rules.BodySlotTypes;
 import org.asciicerebrum.mydndgame.domain.rules.InventoryItemPrototype;
 import org.asciicerebrum.mydndgame.domain.rules.SizeCategory;
@@ -13,7 +15,8 @@ import org.asciicerebrum.mydndgame.domain.rules.SpecialAbilities;
  *
  * @author species8472
  */
-public abstract class InventoryItem extends UniqueEntity {
+public abstract class InventoryItem extends UniqueEntity
+        implements BonusSource, ObserverSource {
 
     /**
      * The prototype of the inventory item.
