@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.mechanics.valueproviders.interfaces;
+package org.asciicerebrum.mydndgame.domain.mechanics.bonus;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.LongParticle;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;

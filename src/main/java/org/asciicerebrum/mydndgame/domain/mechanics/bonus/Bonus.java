@@ -1,6 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.mechanics.bonus;
 
-import org.asciicerebrum.mydndgame.mechanics.valueproviders.interfaces.DynamicValueProvider;
 import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.interfaces.ConditionEvaluator;
 import java.util.Arrays;
 import org.apache.commons.lang.ObjectUtils;
