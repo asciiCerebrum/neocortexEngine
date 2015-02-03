@@ -14,7 +14,7 @@ import org.asciicerebrum.mydndgame.domain.rules.WeaponPrototypes;
 import org.asciicerebrum.mydndgame.facades.game.CharacterServiceFacade;
 import org.asciicerebrum.mydndgame.facades.game.InventoryItemServiceFacade;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
-import org.asciicerebrum.mydndgame.domain.mechanics.transfer.ObserverTriggerStrategy;
+import org.asciicerebrum.mydndgame.domain.core.ObserverTriggerStrategy;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**

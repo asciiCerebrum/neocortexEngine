@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.domain.mechanics.transfer;
+package org.asciicerebrum.mydndgame.domain.core;
 
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;

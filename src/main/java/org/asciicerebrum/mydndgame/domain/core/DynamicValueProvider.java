@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.domain.mechanics.transfer;
+package org.asciicerebrum.mydndgame.domain.core;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.LongParticle;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;

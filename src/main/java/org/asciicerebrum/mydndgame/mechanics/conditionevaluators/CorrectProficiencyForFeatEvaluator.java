@@ -4,7 +4,7 @@ import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
-import org.asciicerebrum.mydndgame.domain.mechanics.transfer.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.domain.core.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.rules.FeatBinding;
 import org.asciicerebrum.mydndgame.domain.rules.FeatBindings;
 import org.asciicerebrum.mydndgame.domain.rules.FeatType;
