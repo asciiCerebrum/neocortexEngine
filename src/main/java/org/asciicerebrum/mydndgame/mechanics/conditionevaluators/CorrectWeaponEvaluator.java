@@ -1,12 +1,10 @@
 package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Bonus;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observer;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
-import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
  *
@@ -20,11 +18,6 @@ public class CorrectWeaponEvaluator implements ConditionEvaluator {
     private Weapon weapon;
 
     /**
-     * Getting settings from the character.
-     */
-    private SituationContextService situationContextService;
-
-    /**
      * {@inheritDoc} Checks if the given weapon corresponds to the one from the
      * situation context.
      *
@@ -32,27 +25,18 @@ public class CorrectWeaponEvaluator implements ConditionEvaluator {
      */
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
-            final Observer referenceObserver) {
+            final UniqueEntity contextItem) {
 
         if (this.weapon == null) {
             return true;
         }
 
-        final InventoryItem refWeapon = this.situationContextService
-                .getActiveItem(dndCharacter);
-
-        if (refWeapon == null || !(refWeapon instanceof Weapon)) {
+        if (contextItem == null || !(contextItem instanceof Weapon)) {
             return false;
         }
 
-        return this.weapon.resembles(refWeapon);
+        return this.weapon.resembles((InventoryItem) contextItem);
 
-    }
-
-    @Override
-    public final boolean evaluate(final DndCharacter dndCharacter,
-            final Bonus referenceBonus) {
-        return this.evaluate(dndCharacter, (Observer) null);
     }
 
     /**
@@ -60,14 +44,6 @@ public class CorrectWeaponEvaluator implements ConditionEvaluator {
      */
     public final void setWeapon(final Weapon weaponInput) {
         this.weapon = weaponInput;
-    }
-
-    /**
-     * @param situationContextServiceInput the situationContextService to set
-     */
-    public final void setSituationContextService(
-            final SituationContextService situationContextServiceInput) {
-        this.situationContextService = situationContextServiceInput;
     }
 
 }

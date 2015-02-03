@@ -1,9 +1,8 @@
 package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.rules.entities.Proficiency;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Bonus;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observer;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 
 /**
@@ -22,19 +21,13 @@ public class CorrectArmorProficiencyEvaluator implements ConditionEvaluator {
      */
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
-            final Observer referenceObserver) {
+            final UniqueEntity contextEntity) {
         if (this.proficiency == null) {
             return false;
         }
 
         return dndCharacter.getArmorWorn()
                 .containsProficiency(this.proficiency);
-    }
-
-    @Override
-    public final boolean evaluate(final DndCharacter dndCharacter,
-            final Bonus referenceBonus) {
-        return this.evaluate(dndCharacter, (Observer) null);
     }
 
     /**

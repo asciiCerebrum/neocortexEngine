@@ -1,16 +1,16 @@
 package org.asciicerebrum.mydndgame.services.core;
 
-import org.asciicerebrum.mydndgame.services.core.accumulator.observer.ObserverAccumulatorStrategies;
-import org.asciicerebrum.mydndgame.services.core.accumulator.observer.ObserverAccumulatorStrategy;
 import java.util.Iterator;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observer;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHook;
 import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHooks;
 import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observers;
-import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observer;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHook;
+import org.asciicerebrum.mydndgame.services.core.accumulator.observer.ObserverAccumulatorStrategies;
+import org.asciicerebrum.mydndgame.services.core.accumulator.observer.ObserverAccumulatorStrategy;
 
 /**
  *
@@ -29,6 +29,7 @@ public class DefaultObservableService implements ObservableService {
      */
     @Override
     public final Object triggerObservers(final Object observerTarget,
+            final UniqueEntity targetEntity,
             final Observers observers,
             final DndCharacter dndCharacter) {
 
@@ -39,9 +40,9 @@ public class DefaultObservableService implements ObservableService {
             final Observer observer = observerIterator.next();
             if (observer.getConditionEvaluator() != null
                     && observer.getConditionEvaluator()
-                    .evaluate(dndCharacter, observer)) {
+                    .evaluate(dndCharacter, targetEntity)) {
                 modificatedObject = observer.getTriggerStrategy()
-                        .trigger(observerTarget, dndCharacter);
+                        .trigger(observerTarget, dndCharacter, targetEntity);
             }
         }
         return modificatedObject;
@@ -60,7 +61,7 @@ public class DefaultObservableService implements ObservableService {
         final Observers observers = this.accumulateObserversByHooks(
                 observerSources, observerHooks, targetEntity);
         return this.triggerObservers(
-                observerTarget, observers, dndCharacter);
+                observerTarget, targetEntity, observers, dndCharacter);
     }
 
     /**

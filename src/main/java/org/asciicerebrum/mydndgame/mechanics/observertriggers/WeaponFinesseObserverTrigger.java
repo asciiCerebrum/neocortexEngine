@@ -1,12 +1,12 @@
 package org.asciicerebrum.mydndgame.mechanics.observertriggers;
 
 import java.util.Iterator;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.rules.entities.Encumbrance;
 import org.asciicerebrum.mydndgame.domain.mechanics.entities.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.entities.Bonus;
 import org.asciicerebrum.mydndgame.domain.core.particles.BooleanParticle;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.state.StateRegistry.StateParticle;
 import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
 import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponPrototype;
@@ -73,18 +73,15 @@ public class WeaponFinesseObserverTrigger implements ObserverTriggerStrategy {
      */
     @Override
     public final Object trigger(final Object object,
-            final DndCharacter dndCharacter) {
+            final DndCharacter dndCharacter, final UniqueEntity contextItem) {
 
         Boni boni = (Boni) object;
 
-        InventoryItem activeItem = this.situationContextService
-                .getActiveItem(dndCharacter);
-
-        if (!(activeItem instanceof Weapon)) {
+        if (!(contextItem instanceof Weapon)) {
             return boni;
         }
 
-        Weapon usedWeapon = (Weapon) activeItem;
+        Weapon usedWeapon = (Weapon) contextItem;
 
         final boolean situationContextValidity
                 = this.determineSituationContextValidity(dndCharacter,

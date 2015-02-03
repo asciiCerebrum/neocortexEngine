@@ -1,14 +1,11 @@
 package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponType;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Bonus;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observer;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
 import org.asciicerebrum.mydndgame.facades.gameentities.WeaponServiceFacade;
-import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
  *
@@ -20,11 +17,6 @@ public class CorrectWeaponTypeEvaluator implements ConditionEvaluator {
      * The weapon type to compare with.
      */
     private WeaponType weaponType;
-
-    /**
-     * Getting settings from the character.
-     */
-    private SituationContextService situationContextService;
 
     /**
      * Getting modified real-time-values from the weapon.
@@ -39,24 +31,15 @@ public class CorrectWeaponTypeEvaluator implements ConditionEvaluator {
      */
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
-            final Observer referenceObserver) {
+            final UniqueEntity contextItem) {
 
-        final InventoryItem refWeapon = this.situationContextService
-                .getActiveItem(dndCharacter);
-
-        if (this.weaponType == null || refWeapon == null
-                || !(refWeapon instanceof Weapon)) {
+        if (this.weaponType == null || contextItem == null
+                || !(contextItem instanceof Weapon)) {
             return false;
         }
 
         return this.weaponServiceFacade.hasWeaponType(this.weaponType,
-                (Weapon) refWeapon, dndCharacter);
-    }
-
-    @Override
-    public final boolean evaluate(final DndCharacter dndCharacter,
-            final Bonus referenceBonus) {
-        return this.evaluate(dndCharacter, (Observer) null);
+                (Weapon) contextItem, dndCharacter);
     }
 
     /**
@@ -71,14 +54,6 @@ public class CorrectWeaponTypeEvaluator implements ConditionEvaluator {
      */
     public final void setWeaponType(final WeaponType weaponTypeInput) {
         this.weaponType = weaponTypeInput;
-    }
-
-    /**
-     * @param situationContextServiceInput the situationContextService to set
-     */
-    public final void setSituationContextService(
-            final SituationContextService situationContextServiceInput) {
-        this.situationContextService = situationContextServiceInput;
     }
 
     /**

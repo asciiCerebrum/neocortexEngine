@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.mechanics.observertriggers;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.entities.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.entities.Bonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusType;
@@ -45,7 +46,7 @@ public class AddBonusObserverTrigger implements ObserverTriggerStrategy {
      */
     @Override
     public final Object trigger(final Object object,
-            final DndCharacter dndCharacter) {
+            final DndCharacter dndCharacter, final UniqueEntity contextItem) {
         Boni boni = (Boni) object;
 
         if (this.addBonus != null) {

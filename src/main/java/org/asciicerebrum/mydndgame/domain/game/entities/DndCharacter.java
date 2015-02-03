@@ -2,12 +2,12 @@ package org.asciicerebrum.mydndgame.domain.game.entities;
 
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.entities.Boni;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusSources;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.particles.ExperiencePoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
 import org.asciicerebrum.mydndgame.domain.game.state.StateRegistry;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.rules.composition.BaseAbilities;
 import org.asciicerebrum.mydndgame.domain.rules.composition.Conditions;
 import org.asciicerebrum.mydndgame.domain.rules.composition.LevelAdvancements;

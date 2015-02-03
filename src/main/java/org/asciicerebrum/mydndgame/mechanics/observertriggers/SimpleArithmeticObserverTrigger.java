@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.mechanics.observertriggers;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.LongParticle;
 import org.asciicerebrum.mydndgame.domain.core.particles.LongParticle.Operation;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
@@ -33,7 +34,7 @@ public class SimpleArithmeticObserverTrigger implements ObserverTriggerStrategy 
      */
     @Override
     public final Object trigger(final Object object,
-            final DndCharacter dndCharacter) {
+            final DndCharacter dndCharacter, final UniqueEntity contextItem) {
 
         final LongParticle numeric = (LongParticle) object;
 

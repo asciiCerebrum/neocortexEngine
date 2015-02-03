@@ -9,7 +9,6 @@ import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.state.StateRegistry;
 import org.asciicerebrum.mydndgame.domain.game.state.StateRegistry.StateParticle;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
 
 /**
  *
@@ -24,38 +23,18 @@ public class SituationContextService {
                 .getState(StateRegistry.StateParticle.ACTIVE_ITEM, null);
     }
 
-    public final WeaponCategory getActiveAttackMode(
-            final DndCharacter dndCharacter) {
-        final InventoryItem item = this.getActiveItem(dndCharacter);
-        if (item instanceof Weapon) {
-            return this.getWeaponAttackMode((Weapon) item, dndCharacter);
-        }
-        return null;
-    }
-
-    public final DamageType getActiveDamageType(
-            final DndCharacter dndCharacter) {
-        final InventoryItem item = this.getActiveItem(dndCharacter);
-        if (item instanceof Weapon) {
-            return this.getWeaponDamageType((Weapon) item, dndCharacter);
-        }
-        return null;
-    }
-
-    public final WeaponCategory getWeaponAttackMode(final Weapon weapon,
+    public final WeaponCategory getItemAttackMode(final UniqueEntity item,
             final DndCharacter dndCharacter) {
 
         return dndCharacter.getStateRegistry()
-                .getState(StateRegistry.StateParticle.WEAPON_ATTACK_MODE,
-                        weapon);
+                .getState(StateRegistry.StateParticle.WEAPON_ATTACK_MODE, item);
     }
 
-    public final DamageType getWeaponDamageType(final Weapon weapon,
+    public final DamageType getItemDamageType(final UniqueEntity item,
             final DndCharacter dndCharacter) {
 
         return dndCharacter.getStateRegistry()
-                .getState(StateRegistry.StateParticle.WEAPON_DAMAGE_TYPE,
-                        weapon);
+                .getState(StateRegistry.StateParticle.WEAPON_DAMAGE_TYPE, item);
     }
 
     public final BonusValue getBonusValueForKey(final StateParticle stateKey,

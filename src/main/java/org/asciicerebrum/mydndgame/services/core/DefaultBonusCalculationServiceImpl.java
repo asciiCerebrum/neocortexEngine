@@ -101,7 +101,8 @@ public class DefaultBonusCalculationServiceImpl
 
     @Override
     public final BonusValueTuple accumulateBonusValues(
-            final DndCharacter dndCharacter, final Boni foundBoni) {
+            final DndCharacter dndCharacter,
+            final UniqueEntity targetEntity, final Boni foundBoni) {
         //TODO filter out non-stacking boni
         //TODO track the origin of the bonus, e.g. from ability Constitution
         //TODO skip boni of value 0 - really erase them from the list or don't
@@ -114,7 +115,8 @@ public class DefaultBonusCalculationServiceImpl
             Bonus bonus = bonusIterator.next();
 
             final BonusValueTuple subTuple
-                    = this.getEffectiveValues(bonus, dndCharacter);
+                    = this.getEffectiveValues(bonus, targetEntity,
+                            dndCharacter);
 
             // keep in mind that the effectValue might be null
             // --> the bonus does not exist --> continue!
@@ -134,16 +136,18 @@ public class DefaultBonusCalculationServiceImpl
      * a value of 0.
      *
      * @param bonus the bonus to determine the value from.
+     * @param targetEntity the context item.
      * @param dndCharacter the context for the dynamic version.
      * @return either the constant or dynamic value.
      *
      */
     @Override
     public final BonusValueTuple getEffectiveValues(final Bonus bonus,
+            final UniqueEntity targetEntity,
             final DndCharacter dndCharacter) {
         if (bonus.getConditionEvaluator() != null
                 && !bonus.getConditionEvaluator()
-                .evaluate(dndCharacter, bonus)) {
+                .evaluate(dndCharacter, targetEntity)) {
             return null;
         }
         if (bonus.getValues() != null) {
@@ -177,10 +181,10 @@ public class DefaultBonusCalculationServiceImpl
         // applying observers on list of boni
         final Boni modBoni
                 = (Boni) this.observableService.triggerObservers(
-                        boni, observers, dndCharacter);
+                        boni, targetEntity, observers, dndCharacter);
 
         // calclulating bonus value tuple from the mofified bonus list
-        return this.accumulateBonusValues(dndCharacter, modBoni);
+        return this.accumulateBonusValues(dndCharacter, targetEntity, modBoni);
     }
 
     /**

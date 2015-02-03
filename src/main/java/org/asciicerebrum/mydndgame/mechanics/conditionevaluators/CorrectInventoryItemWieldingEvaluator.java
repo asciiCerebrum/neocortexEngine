@@ -1,11 +1,8 @@
 package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
 
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Bonus;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observer;
 import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlot;
 import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlots;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
@@ -116,26 +113,19 @@ public class CorrectInventoryItemWieldingEvaluator
      */
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
-            final Observer referenceObserver) {
+            final UniqueEntity contextItem) {
 
         if (this.wieldingType == null) {
             return false;
         }
 
-        final InventoryItem item = this.situationContextService
-                .getActiveItem(dndCharacter);
-        if (item == null) {
+        if (contextItem == null) {
             return false;
         }
         return this.wieldingType.evaluate(
-                dndCharacter.getPersonalizedBodySlots().getSlotForItem(item),
+                dndCharacter.getPersonalizedBodySlots()
+                .getSlotForItem(contextItem),
                 dndCharacter.getPersonalizedBodySlots());
-    }
-
-    @Override
-    public final boolean evaluate(final DndCharacter dndCharacter,
-            final Bonus referenceBonus) {
-        return this.evaluate(dndCharacter, (Observer) null);
     }
 
     /**

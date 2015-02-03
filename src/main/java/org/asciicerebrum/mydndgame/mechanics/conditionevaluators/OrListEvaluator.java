@@ -1,11 +1,10 @@
 package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ConditionEvaluator;
 import java.util.ArrayList;
 import java.util.List;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Bonus;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observer;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ConditionEvaluator;
 
 /**
  *
@@ -25,20 +24,9 @@ public class OrListEvaluator implements ConditionEvaluator {
      */
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
-            final Observer referenceObserver) {
+            final UniqueEntity contextItem) {
         for (ConditionEvaluator singleEval : this.conditionEvaluators) {
-            if (singleEval.evaluate(dndCharacter, referenceObserver)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public final boolean evaluate(final DndCharacter dndCharacter,
-            final Bonus referenceBonus) {
-        for (ConditionEvaluator singleEval : this.conditionEvaluators) {
-            if (singleEval.evaluate(dndCharacter, referenceBonus)) {
+            if (singleEval.evaluate(dndCharacter, contextItem)) {
                 return true;
             }
         }

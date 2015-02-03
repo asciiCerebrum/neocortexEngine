@@ -1,7 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.mechanics.interfaces;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Bonus;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observer;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 
 /**
@@ -14,19 +13,11 @@ public interface ConditionEvaluator {
      * Checks if the condition is met.
      *
      * @param dndCharacter the affected character.
-     * @param referenceObserver the observer calling this evaluator.
+     * @param contextEntity an object that the character used in this context.
+     * E.g. the weapon that is hitting a foe (and not the 2nd weapon in the
+     * other hand.
      * @return the status of the condition.
      */
-    boolean evaluate(DndCharacter dndCharacter,
-            Observer referenceObserver);
-
-    /**
-     * Checks if the condition is met.
-     *
-     * @param dndCharacter the affected character.
-     * @param referenceBonus the bonus calling this evaluator.
-     * @return the status of the condition.
-     */
-    boolean evaluate(DndCharacter dndCharacter, Bonus referenceBonus);
+    boolean evaluate(DndCharacter dndCharacter, UniqueEntity contextEntity);
 
 }

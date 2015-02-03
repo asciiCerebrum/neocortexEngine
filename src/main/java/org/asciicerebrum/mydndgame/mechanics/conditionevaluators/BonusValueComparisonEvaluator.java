@@ -1,11 +1,9 @@
 package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.BonusValueComparisonEvaluator.ArithmeticComparator;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Bonus;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observer;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.DynamicValueProvider;
 
 /**
@@ -119,7 +117,7 @@ public class BonusValueComparisonEvaluator implements ConditionEvaluator {
      */
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
-            final Observer referenceObserver) {
+            final UniqueEntity uniqueEntity) {
         BonusValue abilityBonus
                 = (BonusValue) this.bonusValueProvider
                 .getDynamicValue(dndCharacter);
@@ -127,12 +125,6 @@ public class BonusValueComparisonEvaluator implements ConditionEvaluator {
         return this.comparator.compare(
                 (double) abilityBonus.getValue(),
                 (double) this.referenceValue.getValue());
-    }
-
-    @Override
-    public final boolean evaluate(final DndCharacter dndCharacter,
-            final Bonus referenceBonus) {
-        return this.evaluate(dndCharacter, (Observer) null);
     }
 
     /**

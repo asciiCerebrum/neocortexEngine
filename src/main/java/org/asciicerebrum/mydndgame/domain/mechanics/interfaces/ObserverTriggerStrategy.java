@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.mechanics.interfaces;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 
 /**
@@ -8,6 +9,7 @@ import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
  */
 public interface ObserverTriggerStrategy {
 
-    Object trigger(Object object, DndCharacter dndCharacter);
+    Object trigger(Object object, DndCharacter dndCharacter,
+            UniqueEntity contextItem);
 
 }

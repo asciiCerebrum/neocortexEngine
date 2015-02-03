@@ -59,11 +59,14 @@ public interface BonusCalculationService {
      * tuple.
      *
      * @param dndCharacter the context for the calculations.
+     * @param targetEntity the context item.
      * @param foundBoni the list of boni to accumulate the result over.
      * @return the accumulated bonus value tuple.
      */
     BonusValueTuple accumulateBonusValues(
-            DndCharacter dndCharacter, Boni foundBoni);
+            DndCharacter dndCharacter, UniqueEntity targetEntity,
+            Boni foundBoni);
 
-    BonusValueTuple getEffectiveValues(Bonus bonus, DndCharacter dndCharacter);
+    BonusValueTuple getEffectiveValues(Bonus bonus, UniqueEntity targetEntity,
+            DndCharacter dndCharacter);
 }

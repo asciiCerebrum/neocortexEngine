@@ -1,11 +1,9 @@
 package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponCategory;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Bonus;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observer;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
 import org.asciicerebrum.mydndgame.facades.gameentities.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
@@ -33,27 +31,18 @@ public class CorrectWeaponAttackModeEvaluator implements ConditionEvaluator {
      */
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
-            final Observer referenceObserver) {
+            final UniqueEntity contextItem) {
 
         final WeaponCategory refAttackMode = this.situationContextService
-                .getActiveAttackMode(dndCharacter);
+                .getItemAttackMode(contextItem, dndCharacter);
 
-        final InventoryItem refWeapon = this.situationContextService
-                .getActiveItem(dndCharacter);
-
-        if (refAttackMode == null || refWeapon == null
-                || !(refWeapon instanceof Weapon)) {
+        if (refAttackMode == null || contextItem == null
+                || !(contextItem instanceof Weapon)) {
             return false;
         }
 
         return this.weaponServiceFacade.isAttackModeCompatible(refAttackMode,
-                (Weapon) refWeapon, dndCharacter);
-    }
-
-    @Override
-    public final boolean evaluate(final DndCharacter dndCharacter,
-            final Bonus referenceBonus) {
-        return this.evaluate(dndCharacter, (Observer) null);
+                (Weapon) contextItem, dndCharacter);
     }
 
     /**

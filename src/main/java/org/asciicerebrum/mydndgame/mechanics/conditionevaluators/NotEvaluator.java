@@ -1,8 +1,7 @@
 package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Bonus;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observer;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 
 /**
@@ -21,16 +20,9 @@ public class NotEvaluator implements ConditionEvaluator {
      */
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
-            final Observer referenceObserver) {
+            final UniqueEntity contextItem) {
         return !this.getConditionEvaluator().evaluate(dndCharacter,
-                referenceObserver);
-    }
-
-    @Override
-    public final boolean evaluate(final DndCharacter dndCharacter,
-            final Bonus referenceBonus) {
-        return !this.getConditionEvaluator().evaluate(dndCharacter,
-                referenceBonus);
+                contextItem);
     }
 
     /**

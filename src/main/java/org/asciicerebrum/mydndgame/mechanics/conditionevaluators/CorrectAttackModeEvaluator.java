@@ -1,9 +1,8 @@
 package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponCategory;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Bonus;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observer;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
@@ -31,22 +30,16 @@ public class CorrectAttackModeEvaluator implements ConditionEvaluator {
      */
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
-            final Observer referenceObserver) {
+            final UniqueEntity contextEntity) {
 
         final WeaponCategory refAttackMode = this.situationContextService
-                .getActiveAttackMode(dndCharacter);
+                .getItemAttackMode(contextEntity, dndCharacter);
 
         if (refAttackMode == null) {
             return false;
         }
 
         return refAttackMode.equals(this.weaponCategory);
-    }
-
-    @Override
-    public final boolean evaluate(final DndCharacter dndCharacter,
-            final Bonus referenceBonus) {
-        return this.evaluate(dndCharacter, (Observer) null);
     }
 
     /**

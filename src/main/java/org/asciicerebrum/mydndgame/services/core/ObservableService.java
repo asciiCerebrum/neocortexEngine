@@ -18,12 +18,13 @@ public interface ObservableService {
      * Runs the list of overservers associated with the given hook.
      *
      * @param observerTarget the object to modify and return again.
+     * @param targetEntity the context item.
      * @param observers the list of observers to trigger.
      * @param dndCharacter the context needed to make the correct modifications.
      * @return the modified object.
      */
-    Object triggerObservers(Object observerTarget, Observers observers,
-            DndCharacter dndCharacter);
+    Object triggerObservers(Object observerTarget, UniqueEntity targetEntity,
+            Observers observers, DndCharacter dndCharacter);
 
     Object triggerObservers(Object observerTarget, UniqueEntity targetEntity,
             ObserverSources observerSources, ObserverHooks observerHooks,

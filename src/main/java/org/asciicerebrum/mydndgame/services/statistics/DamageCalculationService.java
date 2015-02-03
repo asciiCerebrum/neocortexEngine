@@ -44,13 +44,13 @@ public class DamageCalculationService {
                         new BonusSources(dndCharacter),
                         new BonusTargets(this.damageAction,
                                 this.situationContextService
-                                .getWeaponAttackMode(weapon, dndCharacter)
+                                .getItemAttackMode(weapon, dndCharacter)
                                 .getAssociatedAttackDiceAction()),
                         weapon,
                         new ObserverSources(dndCharacter),
                         new ObserverHooks(ObserverHook.DAMAGE,
                                 this.situationContextService
-                                .getWeaponAttackMode(weapon, dndCharacter)
+                                .getItemAttackMode(weapon, dndCharacter)
                                 .getAssociatedDamageHook()),
                         dndCharacter
                 );

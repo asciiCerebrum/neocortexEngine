@@ -1,14 +1,9 @@
 package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Boni;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Bonus;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observer;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observers;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
-import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
-import org.asciicerebrum.mydndgame.services.core.BonusCalculationService;
 import org.asciicerebrum.mydndgame.services.core.ObservableService;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
@@ -16,21 +11,16 @@ import org.asciicerebrum.mydndgame.services.context.SituationContextService;
  * This evaluator is meant for all the boni/observers that only apply when the
  * specific weapon they originate from is really used actively. E.g. you cannot
  * get your +2 attack bonus from your magical sword that you are holding in your
- * other hand that is NOT attacking the two-headed dread-ogre of doom.
+ * OTHER hand that is NOT attacking the two-headed dread-ogre of doom.
  *
  * @author species8472
  */
-public class WeaponInUseEvaluator implements ConditionEvaluator {
+public class ItemInUseEvaluator implements ConditionEvaluator {
 
     /**
      * Accumulates observers.
      */
     private ObservableService observableService;
-
-    /**
-     * Accumulates boni.
-     */
-    private BonusCalculationService bonusService;
 
     /**
      * Getting settings from the character.
@@ -44,37 +34,18 @@ public class WeaponInUseEvaluator implements ConditionEvaluator {
      */
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
-            final Observer referenceObserver) {
+            final UniqueEntity contextItem) {
 
         final InventoryItem item = this.ctxService.getActiveItem(dndCharacter);
 
-        if (!(item instanceof Weapon)) {
+        if (item == null && contextItem != null) {
+            return false;
+        } else if (item != null && contextItem == null) {
             return false;
         }
 
-        Observers weaponObservers = this.observableService
-                .accumulateObservers((Weapon) item, (Weapon) item);
-
-        return weaponObservers.contains(referenceObserver);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final boolean evaluate(final DndCharacter dndCharacter,
-            final Bonus referenceBonus) {
-
-        final InventoryItem item = this.ctxService.getActiveItem(dndCharacter);
-
-        if (!(item instanceof Weapon)) {
-            return false;
-        }
-
-        Boni weaponBoni = this.bonusService
-                .accumulateBoni((Weapon) item, (Weapon) item);
-
-        return weaponBoni.contains(referenceBonus);
+        return (contextItem == null && item == null)
+                || item.equals(contextItem);
     }
 
     /**
@@ -83,14 +54,6 @@ public class WeaponInUseEvaluator implements ConditionEvaluator {
     public final void setObservableService(
             final ObservableService observableServiceInput) {
         this.observableService = observableServiceInput;
-    }
-
-    /**
-     * @param bonusServiceInput the bonusService to set
-     */
-    public final void setBonusService(
-            final BonusCalculationService bonusServiceInput) {
-        this.bonusService = bonusServiceInput;
     }
 
     /**

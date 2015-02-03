@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.mechanics.observertriggers;
 
 import java.util.Iterator;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.entities.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.entities.Bonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.entities.Bonus.ResemblanceFacet;
@@ -28,7 +29,7 @@ public class RemoveBonusObserverTrigger implements ObserverTriggerStrategy {
      */
     @Override
     public final Object trigger(final Object object,
-            final DndCharacter dndCharacter) {
+            final DndCharacter dndCharacter, final UniqueEntity contextItem) {
 
         final Boni boni = (Boni) object;
         final Iterator<Bonus> boniIterator = boni.iterator();

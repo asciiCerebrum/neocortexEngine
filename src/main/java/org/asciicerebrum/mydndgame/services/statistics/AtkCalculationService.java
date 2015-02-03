@@ -75,13 +75,13 @@ public class AtkCalculationService {
                 new BonusSources(dndCharacter),
                 new BonusTargets(this.attackAction,
                         this.situationContextService
-                        .getWeaponAttackMode(weapon, dndCharacter)
+                        .getItemAttackMode(weapon, dndCharacter)
                         .getAssociatedAttackDiceAction()),
                 weapon,
                 new ObserverSources(dndCharacter),
                 new ObserverHooks(ObserverHook.ATTACK,
                         this.situationContextService
-                        .getWeaponAttackMode(weapon, dndCharacter)
+                        .getItemAttackMode(weapon, dndCharacter)
                         .getAssociatedDamageHook()),
                 dndCharacter
         );

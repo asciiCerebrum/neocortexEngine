@@ -4,8 +4,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ConditionEvaluato
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Bonus;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observer;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
 
 /**
@@ -38,23 +37,9 @@ public class AndListEvaluator implements ConditionEvaluator {
      */
     @Override
     public final boolean evaluate(final DndCharacter dndCharacter,
-            final Observer referenceObserver) {
+            final UniqueEntity contextEntity) {
         for (ConditionEvaluator singleEval : this.conditionEvaluators) {
-            if (!singleEval.evaluate(dndCharacter, referenceObserver)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * {@inheritDoc} Only true, if all elements in the list evaluate to true.
-     */
-    @Override
-    public final boolean evaluate(final DndCharacter dndCharacter,
-            final Bonus referenceBonus) {
-        for (ConditionEvaluator singleEval : this.conditionEvaluators) {
-            if (!singleEval.evaluate(dndCharacter, referenceBonus)) {
+            if (!singleEval.evaluate(dndCharacter, contextEntity)) {
                 return false;
             }
         }
