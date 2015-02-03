@@ -1,11 +1,11 @@
 package org.asciicerebrum.mydndgame.domain.rules.composition;
 
-import org.asciicerebrum.mydndgame.domain.rules.entities.ConditionType;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.WorldDate;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Boni;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusSources;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSource;
+import org.asciicerebrum.mydndgame.domain.rules.ConditionType;
+import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
+import org.asciicerebrum.mydndgame.domain.mechanics.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.BonusSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 
 /**

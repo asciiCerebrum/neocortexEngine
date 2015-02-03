@@ -1,16 +1,16 @@
 package org.asciicerebrum.mydndgame.services.statistics;
 
-import org.asciicerebrum.mydndgame.domain.rules.entities.Ability;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusSources;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusTargets;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHooks;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSources;
+import org.asciicerebrum.mydndgame.domain.rules.Ability;
+import org.asciicerebrum.mydndgame.domain.mechanics.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.BonusTargets;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.core.particles.AbilityScore;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
-import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
 import org.asciicerebrum.mydndgame.services.core.BonusCalculationService;
 
 /**

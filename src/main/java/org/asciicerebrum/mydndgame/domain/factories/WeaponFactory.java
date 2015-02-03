@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
-import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
+import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
+import org.asciicerebrum.mydndgame.domain.game.Weapon;
 
 /**
  * Builder for a unique weapon from the prototype.

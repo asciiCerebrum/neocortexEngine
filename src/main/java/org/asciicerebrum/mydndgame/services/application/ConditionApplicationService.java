@@ -1,13 +1,13 @@
 package org.asciicerebrum.mydndgame.services.application;
 
 import java.util.Iterator;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.WorldDate;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHooks;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.rules.composition.Condition;
 import org.asciicerebrum.mydndgame.domain.rules.composition.Conditions;
-import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
 import org.asciicerebrum.mydndgame.services.core.ObservableService;
 
 /**

@@ -1,9 +1,9 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.asciicerebrum.mydndgame.domain.rules.entities.Feat;
+import org.asciicerebrum.mydndgame.domain.rules.Feat;
 import org.apache.commons.lang.StringUtils;
-import org.asciicerebrum.mydndgame.domain.rules.entities.Ability;
-import org.asciicerebrum.mydndgame.domain.rules.entities.ClassLevel;
+import org.asciicerebrum.mydndgame.domain.rules.Ability;
+import org.asciicerebrum.mydndgame.domain.rules.ClassLevel;
 import org.asciicerebrum.mydndgame.domain.core.particles.AdvancementNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;

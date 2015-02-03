@@ -2,10 +2,10 @@ package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
 
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponType;
-import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
-import org.asciicerebrum.mydndgame.facades.gameentities.WeaponServiceFacade;
+import org.asciicerebrum.mydndgame.domain.rules.WeaponType;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.Weapon;
+import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
 
 /**
  *

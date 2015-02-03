@@ -1,11 +1,11 @@
 package org.asciicerebrum.mydndgame.services.core.accumulator.observer;
 
 import java.util.Iterator;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlot;
 import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlots;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observers;
+import org.asciicerebrum.mydndgame.domain.mechanics.Observers;
 
 /**
  *

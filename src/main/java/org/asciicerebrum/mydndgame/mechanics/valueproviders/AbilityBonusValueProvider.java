@@ -1,9 +1,9 @@
 package org.asciicerebrum.mydndgame.mechanics.valueproviders;
 
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.DynamicValueProvider;
-import org.asciicerebrum.mydndgame.domain.rules.entities.Ability;
+import org.asciicerebrum.mydndgame.domain.rules.Ability;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
-import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.services.statistics.AbilityCalculationService;
 
 /**

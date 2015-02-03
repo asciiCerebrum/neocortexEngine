@@ -2,14 +2,14 @@ package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
 
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.domain.rules.entities.FeatBinding;
-import org.asciicerebrum.mydndgame.domain.rules.entities.FeatBindings;
-import org.asciicerebrum.mydndgame.domain.rules.entities.FeatType;
-import org.asciicerebrum.mydndgame.domain.rules.entities.Proficiency;
-import org.asciicerebrum.mydndgame.facades.gameentities.WeaponServiceFacade;
+import org.asciicerebrum.mydndgame.domain.rules.FeatBinding;
+import org.asciicerebrum.mydndgame.domain.rules.FeatBindings;
+import org.asciicerebrum.mydndgame.domain.rules.FeatType;
+import org.asciicerebrum.mydndgame.domain.rules.Proficiency;
+import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
 
 /**
  *

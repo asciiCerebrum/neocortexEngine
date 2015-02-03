@@ -1,12 +1,12 @@
 package org.asciicerebrum.mydndgame.services.core;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHooks;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSources;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Observers;
-import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.Observers;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
 
 /**
  *

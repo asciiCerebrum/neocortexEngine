@@ -5,12 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntities;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Boni;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusSources;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.rules.entities.BodySlot;
-import org.asciicerebrum.mydndgame.domain.rules.entities.BodySlots;
+import org.asciicerebrum.mydndgame.domain.mechanics.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.BonusSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSource;
+import org.asciicerebrum.mydndgame.domain.rules.BodySlot;
+import org.asciicerebrum.mydndgame.domain.rules.BodySlots;
 
 /**
  *

@@ -3,9 +3,9 @@ package org.asciicerebrum.mydndgame.services.statistics;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
-import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.rules.entities.DiceAction;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.rules.DiceAction;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
 import org.asciicerebrum.mydndgame.services.core.BonusCalculationService;
 
 /**

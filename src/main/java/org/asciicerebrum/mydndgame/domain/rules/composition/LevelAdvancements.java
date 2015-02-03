@@ -1,19 +1,19 @@
 package org.asciicerebrum.mydndgame.domain.rules.composition;
 
-import org.asciicerebrum.mydndgame.domain.rules.entities.FeatBindings;
+import org.asciicerebrum.mydndgame.domain.rules.FeatBindings;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.Boni;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusSources;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.BonusSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.particles.AbilityScore;
 import org.asciicerebrum.mydndgame.domain.core.particles.AdvancementNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
-import org.asciicerebrum.mydndgame.domain.rules.entities.Ability;
-import org.asciicerebrum.mydndgame.domain.rules.entities.ClassLevel;
-import org.asciicerebrum.mydndgame.domain.rules.entities.FeatType;
+import org.asciicerebrum.mydndgame.domain.rules.Ability;
+import org.asciicerebrum.mydndgame.domain.rules.ClassLevel;
+import org.asciicerebrum.mydndgame.domain.rules.FeatType;
 
 /**
  *

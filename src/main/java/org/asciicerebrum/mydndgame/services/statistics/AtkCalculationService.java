@@ -1,17 +1,17 @@
 package org.asciicerebrum.mydndgame.services.statistics;
 
 import java.util.Iterator;
-import org.asciicerebrum.mydndgame.domain.rules.entities.ClassLevel;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusSources;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusTargets;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHooks;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSources;
+import org.asciicerebrum.mydndgame.domain.rules.ClassLevel;
+import org.asciicerebrum.mydndgame.domain.mechanics.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.BonusTargets;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
-import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
-import org.asciicerebrum.mydndgame.domain.rules.entities.DiceAction;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.Weapon;
+import org.asciicerebrum.mydndgame.domain.rules.DiceAction;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
 import org.asciicerebrum.mydndgame.services.core.BonusCalculationService;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 

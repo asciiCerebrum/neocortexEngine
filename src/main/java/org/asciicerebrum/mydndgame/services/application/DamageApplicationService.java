@@ -1,12 +1,12 @@
 package org.asciicerebrum.mydndgame.services.application;
 
 import java.util.Iterator;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHooks;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSources;
-import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSources;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.transfer.Damage;
 import org.asciicerebrum.mydndgame.domain.transfer.Damages;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
 import org.asciicerebrum.mydndgame.services.core.ObservableService;
 
 /**

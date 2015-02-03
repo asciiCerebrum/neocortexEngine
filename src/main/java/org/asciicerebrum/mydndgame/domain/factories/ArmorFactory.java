@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.asciicerebrum.mydndgame.domain.game.entities.Armor;
-import org.asciicerebrum.mydndgame.domain.game.entities.InventoryItem;
+import org.asciicerebrum.mydndgame.domain.game.Armor;
+import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 
 /**
  *

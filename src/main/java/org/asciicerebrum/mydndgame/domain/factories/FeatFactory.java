@@ -1,8 +1,8 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.asciicerebrum.mydndgame.domain.rules.entities.FeatBinding;
-import org.asciicerebrum.mydndgame.domain.rules.entities.Feat;
-import org.asciicerebrum.mydndgame.domain.rules.entities.FeatType;
+import org.asciicerebrum.mydndgame.domain.rules.FeatBinding;
+import org.asciicerebrum.mydndgame.domain.rules.Feat;
+import org.asciicerebrum.mydndgame.domain.rules.FeatType;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;

@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.rules.composition;
 
-import org.asciicerebrum.mydndgame.domain.rules.entities.Ability;
+import org.asciicerebrum.mydndgame.domain.rules.Ability;
 import org.asciicerebrum.mydndgame.domain.core.particles.AbilityScore;
 
 /**

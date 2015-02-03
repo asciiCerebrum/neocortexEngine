@@ -2,8 +2,8 @@ package org.asciicerebrum.mydndgame.domain.core;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.entities.ObserverSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.BonusSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 
 /**
