@@ -10,7 +10,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Bonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTarget;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
 

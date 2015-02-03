@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame.mechanics.observertriggers;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.Boni;
-import org.asciicerebrum.mydndgame.domain.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Bonus;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle;
 import org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle.Operation;

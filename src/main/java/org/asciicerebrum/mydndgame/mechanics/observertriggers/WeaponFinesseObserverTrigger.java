@@ -4,7 +4,7 @@ import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.rules.Encumbrance;
 import org.asciicerebrum.mydndgame.domain.mechanics.Boni;
-import org.asciicerebrum.mydndgame.domain.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Bonus;
 import org.asciicerebrum.mydndgame.domain.core.particles.BooleanParticle;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry.StateParticle;

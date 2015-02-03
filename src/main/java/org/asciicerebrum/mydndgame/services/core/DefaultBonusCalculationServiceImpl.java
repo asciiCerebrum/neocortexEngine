@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame.services.core;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTarget;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.mechanics.Boni;
-import org.asciicerebrum.mydndgame.domain.mechanics.Bonus;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Bonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTargets;

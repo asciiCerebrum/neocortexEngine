@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame.services.core;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.mechanics.Observer;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Observer;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSource;

@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.game;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
-import org.asciicerebrum.mydndgame.domain.mechanics.Workflows;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Workflows;
 
 /**
  *

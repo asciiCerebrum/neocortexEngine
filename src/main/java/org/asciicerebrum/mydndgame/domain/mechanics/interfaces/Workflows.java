@@ -1,6 +1,5 @@
-package org.asciicerebrum.mydndgame.domain.mechanics;
+package org.asciicerebrum.mydndgame.domain.mechanics.interfaces;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.IWorkflow;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

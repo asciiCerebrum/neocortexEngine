@@ -1,10 +1,10 @@
-package org.asciicerebrum.mydndgame.domain.mechanics;
+package org.asciicerebrum.mydndgame.domain.mechanics.interfaces;
 
 import java.util.Arrays;
 import org.apache.commons.lang.ObjectUtils;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.DynamicValueProvider;
+import org.asciicerebrum.mydndgame.domain.mechanics.BonusTarget;
+import org.asciicerebrum.mydndgame.domain.mechanics.BonusType;
 
 /**
  *
