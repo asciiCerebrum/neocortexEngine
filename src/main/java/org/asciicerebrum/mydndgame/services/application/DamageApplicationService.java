@@ -2,7 +2,7 @@ package org.asciicerebrum.mydndgame.services.application;
 
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
-import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.mechanics.damage.Damage;
 import org.asciicerebrum.mydndgame.domain.mechanics.damage.Damages;

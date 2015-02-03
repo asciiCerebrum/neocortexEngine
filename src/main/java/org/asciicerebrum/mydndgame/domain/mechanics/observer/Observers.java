@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.domain.mechanics.interfaces;
+package org.asciicerebrum.mydndgame.domain.mechanics.observer;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -7,7 +7,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Observer.ObserverScope;
+import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer.ObserverScope;
 
 /**
  *

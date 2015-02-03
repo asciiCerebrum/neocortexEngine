@@ -1,9 +1,9 @@
 package org.asciicerebrum.mydndgame.domain.rules;
 
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.BonusSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.BonusSources;
-import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 
 /**
  *

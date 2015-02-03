@@ -4,7 +4,7 @@ import org.asciicerebrum.mydndgame.domain.rules.BodySlotType;
 import org.asciicerebrum.mydndgame.domain.rules.BodySlotTypes;
 import org.asciicerebrum.mydndgame.domain.rules.SizeCategory;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
-import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.core.particles.Cost;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;

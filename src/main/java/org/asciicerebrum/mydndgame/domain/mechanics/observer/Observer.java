@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.domain.mechanics.interfaces;
+package org.asciicerebrum.mydndgame.domain.mechanics.observer;
 
 import org.asciicerebrum.mydndgame.domain.mechanics.transfer.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.mechanics.transfer.ObserverTriggerStrategy;

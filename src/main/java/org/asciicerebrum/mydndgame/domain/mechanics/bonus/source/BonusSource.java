@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.domain.mechanics.interfaces;
+package org.asciicerebrum.mydndgame.domain.mechanics.bonus.source;
 
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 

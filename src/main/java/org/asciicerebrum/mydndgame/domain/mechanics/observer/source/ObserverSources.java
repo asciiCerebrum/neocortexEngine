@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.domain.mechanics;
+package org.asciicerebrum.mydndgame.domain.mechanics.observer.source;
 
 import java.util.ArrayList;
 import java.util.Arrays;

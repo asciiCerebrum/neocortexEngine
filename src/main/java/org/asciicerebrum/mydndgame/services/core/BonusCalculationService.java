@@ -1,12 +1,12 @@
 package org.asciicerebrum.mydndgame.services.core;
 
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.BonusSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTargets;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
-import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;

@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame.services.application;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
-import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.rules.composition.Condition;
 import org.asciicerebrum.mydndgame.domain.rules.composition.Conditions;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;

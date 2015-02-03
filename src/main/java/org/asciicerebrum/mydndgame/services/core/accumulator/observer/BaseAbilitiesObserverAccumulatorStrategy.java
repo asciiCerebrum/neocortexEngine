@@ -3,9 +3,9 @@ package org.asciicerebrum.mydndgame.services.core.accumulator.observer;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.rules.Ability;
 import org.asciicerebrum.mydndgame.domain.rules.composition.BaseAbilities;
-import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Observers;
+import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
 
 /**
  *

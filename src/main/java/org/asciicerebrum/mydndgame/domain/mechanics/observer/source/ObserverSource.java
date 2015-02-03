@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.domain.mechanics;
+package org.asciicerebrum.mydndgame.domain.mechanics.observer.source;
 
 /**
  * This is a marker interface for domain entities that server as a source of

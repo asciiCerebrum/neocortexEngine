@@ -2,10 +2,10 @@ package org.asciicerebrum.mydndgame.services.statistics;
 
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.rules.ClassLevel;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTargets;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
-import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;

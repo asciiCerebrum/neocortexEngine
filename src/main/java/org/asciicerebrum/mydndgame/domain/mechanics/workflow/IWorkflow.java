@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.domain.mechanics.interfaces;
+package org.asciicerebrum.mydndgame.domain.mechanics.workflow;
 
 import org.asciicerebrum.mydndgame.domain.mechanics.interaction.Interaction;
 

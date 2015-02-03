@@ -7,7 +7,7 @@ import org.asciicerebrum.mydndgame.domain.rules.WeaponCategory;
 import org.asciicerebrum.mydndgame.domain.rules.WeaponType;
 import org.asciicerebrum.mydndgame.domain.rules.WeaponTypes;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
-import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;

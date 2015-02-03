@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.IWorkflow;
+import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
