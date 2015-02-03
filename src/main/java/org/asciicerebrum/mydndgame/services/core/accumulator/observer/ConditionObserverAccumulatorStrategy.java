@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame.services.core.accumulator.observer;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.rules.composition.Condition;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.mechanics.Observers;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Observers;
 
 /**
  *

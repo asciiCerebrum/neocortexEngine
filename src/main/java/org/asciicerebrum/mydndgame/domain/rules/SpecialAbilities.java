@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame.domain.rules;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.asciicerebrum.mydndgame.domain.mechanics.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSource;

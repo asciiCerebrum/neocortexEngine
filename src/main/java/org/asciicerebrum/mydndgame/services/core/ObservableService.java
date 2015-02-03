@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame.services.core;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSources;
-import org.asciicerebrum.mydndgame.domain.mechanics.Observers;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Observers;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;

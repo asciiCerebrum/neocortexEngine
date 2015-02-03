@@ -1,10 +1,10 @@
 package org.asciicerebrum.mydndgame.domain.rules;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.Observers;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Observers;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 
 /**

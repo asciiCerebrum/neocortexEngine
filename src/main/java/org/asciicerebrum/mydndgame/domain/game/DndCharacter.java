@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.game;
 
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.mechanics.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.particles.ExperiencePoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;

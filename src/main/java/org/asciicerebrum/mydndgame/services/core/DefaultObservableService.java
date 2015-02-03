@@ -8,7 +8,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSources;
-import org.asciicerebrum.mydndgame.domain.mechanics.Observers;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Observers;
 import org.asciicerebrum.mydndgame.services.core.accumulator.observer.ObserverAccumulatorStrategies;
 import org.asciicerebrum.mydndgame.services.core.accumulator.observer.ObserverAccumulatorStrategy;
 

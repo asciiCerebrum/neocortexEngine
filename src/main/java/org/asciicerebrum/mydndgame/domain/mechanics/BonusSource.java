@@ -1,5 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.mechanics;
 
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Boni;
+
 /**
  *
  * @author species8472

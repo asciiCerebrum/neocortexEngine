@@ -1,11 +1,12 @@
-package org.asciicerebrum.mydndgame.domain.mechanics;
+package org.asciicerebrum.mydndgame.domain.mechanics.interfaces;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Observer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Observer.ObserverScope;
 
 /**
