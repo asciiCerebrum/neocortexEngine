@@ -1,5 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.mechanics.interfaces;
 
+import org.asciicerebrum.mydndgame.domain.mechanics.transfer.DynamicValueProvider;
+import org.asciicerebrum.mydndgame.domain.mechanics.transfer.ConditionEvaluator;
 import java.util.Arrays;
 import org.apache.commons.lang.ObjectUtils;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;

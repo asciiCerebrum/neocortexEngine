@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.mechanics.interfaces;
 
+import org.asciicerebrum.mydndgame.domain.mechanics.transfer.Damage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;

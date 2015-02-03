@@ -6,7 +6,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Bonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Bonus.ResemblanceFacet;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ObserverTriggerStrategy;
+import org.asciicerebrum.mydndgame.domain.mechanics.transfer.ObserverTriggerStrategy;
 
 /**
  *

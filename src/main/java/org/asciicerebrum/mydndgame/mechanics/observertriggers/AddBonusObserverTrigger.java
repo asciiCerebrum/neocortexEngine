@@ -10,7 +10,7 @@ import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry.StateParticle;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTarget;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ObserverTriggerStrategy;
+import org.asciicerebrum.mydndgame.domain.mechanics.transfer.ObserverTriggerStrategy;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**

@@ -13,7 +13,7 @@ import org.asciicerebrum.mydndgame.domain.rules.composition.Conditions;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacters;
 import org.asciicerebrum.mydndgame.domain.rules.DiceAction;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Interaction;
+import org.asciicerebrum.mydndgame.domain.mechanics.transfer.Interaction;
 import org.asciicerebrum.mydndgame.managers.DiceRollManager;
 import org.asciicerebrum.mydndgame.services.application.ConditionApplicationService;
 import org.asciicerebrum.mydndgame.services.statistics.InitiativeCalculationService;

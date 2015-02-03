@@ -4,8 +4,8 @@ import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.LongParticle;
 import org.asciicerebrum.mydndgame.domain.core.particles.LongParticle.Operation;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.ObserverTriggerStrategy;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.DynamicValueProvider;
+import org.asciicerebrum.mydndgame.domain.mechanics.transfer.ObserverTriggerStrategy;
+import org.asciicerebrum.mydndgame.domain.mechanics.transfer.DynamicValueProvider;
 
 /**
  *

@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.IWorkflow;
-import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Interaction;
+import org.asciicerebrum.mydndgame.domain.mechanics.transfer.Interaction;
 
 /**
  *
