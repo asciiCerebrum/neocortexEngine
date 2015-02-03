@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame.managers;
 import java.util.Iterator;
 import javax.naming.OperationNotSupportedException;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;
-import org.asciicerebrum.mydndgame.domain.game.DndCharacters;
+import org.asciicerebrum.mydndgame.domain.game.dndcharacter.DndCharacters;
 import org.asciicerebrum.mydndgame.domain.mechanics.interaction.Interaction;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 

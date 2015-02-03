@@ -1,5 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.game;
 
+import org.asciicerebrum.mydndgame.domain.game.dndcharacter.DndCharacters;
+import org.asciicerebrum.mydndgame.domain.game.dndcharacter.DndCharacter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

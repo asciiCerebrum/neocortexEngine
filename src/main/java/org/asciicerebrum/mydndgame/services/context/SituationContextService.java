@@ -4,7 +4,7 @@ import org.asciicerebrum.mydndgame.domain.rules.DamageType;
 import org.asciicerebrum.mydndgame.domain.rules.WeaponCategory;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.BooleanParticle;
-import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.dndcharacter.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry.StateParticle;

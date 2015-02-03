@@ -2,8 +2,8 @@ package org.asciicerebrum.mydndgame.domain.mechanics.interaction;
 
 import org.asciicerebrum.mydndgame.domain.rules.InteractionType;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
-import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.game.DndCharacters;
+import org.asciicerebrum.mydndgame.domain.game.dndcharacter.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.dndcharacter.DndCharacters;
 
 /**
  *

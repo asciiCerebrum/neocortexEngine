@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.mechanics.transfer;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.LongParticle;
-import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.dndcharacter.DndCharacter;
 
 /**
  *

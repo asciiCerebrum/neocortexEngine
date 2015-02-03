@@ -6,7 +6,7 @@ import org.asciicerebrum.mydndgame.domain.core.particles.AdvancementNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
-import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.dndcharacter.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.rules.composition.LevelAdvancement;
 import org.asciicerebrum.mydndgame.domain.rules.DiceAction;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
