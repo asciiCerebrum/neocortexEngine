@@ -5,7 +5,7 @@ import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.rules.entities.ConditionType;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import org.asciicerebrum.mydndgame.domain.rules.composition.Condition;
-import org.asciicerebrum.mydndgame.domain.game.WorldDate;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.WorldDate;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;

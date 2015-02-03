@@ -7,7 +7,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.entities.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.entities.Bonus;
 import org.asciicerebrum.mydndgame.domain.core.particles.BooleanParticle;
 import org.asciicerebrum.mydndgame.domain.game.entities.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.game.state.StateRegistry.StateParticle;
+import org.asciicerebrum.mydndgame.domain.game.StateRegistry.StateParticle;
 import org.asciicerebrum.mydndgame.domain.game.entities.Weapon;
 import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponPrototype;
 import org.asciicerebrum.mydndgame.domain.rules.entities.WeaponPrototypes;

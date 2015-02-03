@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.rules.composition;
 
 import org.asciicerebrum.mydndgame.domain.rules.entities.ConditionType;
-import org.asciicerebrum.mydndgame.domain.game.WorldDate;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.WorldDate;
 import org.asciicerebrum.mydndgame.domain.mechanics.entities.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.entities.BonusSources;

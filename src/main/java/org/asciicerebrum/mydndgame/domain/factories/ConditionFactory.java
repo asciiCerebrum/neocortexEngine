@@ -2,7 +2,7 @@ package org.asciicerebrum.mydndgame.domain.factories;
 
 import org.apache.commons.lang.StringUtils;
 import org.asciicerebrum.mydndgame.domain.rules.entities.ConditionType;
-import org.asciicerebrum.mydndgame.domain.game.WorldDate;
+import org.asciicerebrum.mydndgame.domain.mechanics.entities.WorldDate;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
