@@ -4,7 +4,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.IWorkflow;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.mechanics.transfer.Interaction;
+import org.asciicerebrum.mydndgame.domain.mechanics.interaction.Interaction;
 import org.asciicerebrum.mydndgame.services.application.ConditionApplicationService;
 
 /**

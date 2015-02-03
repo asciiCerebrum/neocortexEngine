@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.domain.mechanics.transfer;
+package org.asciicerebrum.mydndgame.domain.mechanics.interaction;
 
 import org.asciicerebrum.mydndgame.domain.rules.InteractionType;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;

@@ -4,7 +4,7 @@ import java.util.Iterator;
 import javax.naming.OperationNotSupportedException;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacters;
-import org.asciicerebrum.mydndgame.domain.mechanics.transfer.Interaction;
+import org.asciicerebrum.mydndgame.domain.mechanics.interaction.Interaction;
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.IWorkflow;
 
 /**
