@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.mechanics.observertriggers;
 
 import java.util.Iterator;
+import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.rules.Encumbrance;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
@@ -73,7 +74,7 @@ public class WeaponFinesseObserverTrigger implements ObserverTriggerStrategy {
      */
     @Override
     public final Object trigger(final Object object,
-            final DndCharacter dndCharacter, final UniqueEntity contextItem) {
+            final ICharacter dndCharacter, final UniqueEntity contextItem) {
 
         Boni boni = (Boni) object;
 
@@ -84,12 +85,12 @@ public class WeaponFinesseObserverTrigger implements ObserverTriggerStrategy {
         Weapon usedWeapon = (Weapon) contextItem;
 
         final boolean situationContextValidity
-                = this.determineSituationContextValidity(dndCharacter,
-                        usedWeapon);
+                = this.determineSituationContextValidity(
+                        (DndCharacter) dndCharacter, usedWeapon);
 
         final BooleanParticle useFinesse
                 = this.situationContextService.getFlagForKey(this.registryKey,
-                        dndCharacter, usedWeapon);
+                        (DndCharacter) dndCharacter, usedWeapon);
 
         if (!useFinesse.isValue() || !situationContextValidity) {
             return boni;

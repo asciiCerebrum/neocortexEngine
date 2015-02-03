@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.mechanics.observertriggers;
 
+import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
@@ -46,7 +47,7 @@ public class AddBonusObserverTrigger implements ObserverTriggerStrategy {
      */
     @Override
     public final Object trigger(final Object object,
-            final DndCharacter dndCharacter, final UniqueEntity contextItem) {
+            final ICharacter dndCharacter, final UniqueEntity contextItem) {
         Boni boni = (Boni) object;
 
         if (this.addBonus != null) {
@@ -55,7 +56,8 @@ public class AddBonusObserverTrigger implements ObserverTriggerStrategy {
         }
 
         BonusValue addBonusValue = this.situationContextService
-                .getBonusValueForKey(this.registryStateKey, dndCharacter);
+                .getBonusValueForKey(this.registryStateKey,
+                        (DndCharacter) dndCharacter);
 
         if (addBonusValue != null && addBonusValue.isNonZero()) {
             final Bonus altAddBonus = new Bonus();

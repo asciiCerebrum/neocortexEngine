@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.mechanics.observer;
 
+import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 
 /**
  *
@@ -9,7 +9,7 @@ import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
  */
 public interface ObserverTriggerStrategy {
 
-    Object trigger(Object object, DndCharacter dndCharacter,
+    Object trigger(Object object, ICharacter dndCharacter,
             UniqueEntity contextItem);
 
 }

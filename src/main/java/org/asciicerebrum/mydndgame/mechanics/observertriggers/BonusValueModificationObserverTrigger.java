@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.mechanics.observertriggers;
 
 import java.util.Iterator;
+import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
@@ -44,7 +45,7 @@ public class BonusValueModificationObserverTrigger implements ObserverTriggerStr
      */
     @Override
     public final Object trigger(final Object object,
-            final DndCharacter dndCharacter, final UniqueEntity contextItem) {
+            final ICharacter dndCharacter, final UniqueEntity contextItem) {
 
         Boni boni = (Boni) object;
 
@@ -57,7 +58,7 @@ public class BonusValueModificationObserverTrigger implements ObserverTriggerStr
             final Bonus bonus = bonusIterator.next();
             final BonusValueTuple bonusEffectiveValue
                     = this.bonusService.getEffectiveValues(bonus, contextItem,
-                            dndCharacter);
+                            (DndCharacter) dndCharacter);
 
             // it is enough to check for bonus type and target
             // keep in mind that the effectValue might be null
