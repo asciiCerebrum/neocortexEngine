@@ -41,7 +41,7 @@ public class SimpleArithmeticObserverTrigger implements ObserverTriggerStrategy 
         LongParticle effectiveModValue = this.modValue;
         if (this.modValueProvider != null) {
             effectiveModValue = this.modValueProvider
-                    .getDynamicValue(dndCharacter);
+                    .getDynamicValue(dndCharacter, contextItem);
         }
 
         if (effectiveModValue == null) {

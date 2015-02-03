@@ -1,5 +1,7 @@
 package org.asciicerebrum.mydndgame.mechanics.valueproviders;
 
+import org.asciicerebrum.mydndgame.domain.core.ICharacter;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.DynamicValueProvider;
 import org.asciicerebrum.mydndgame.domain.rules.Ability;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
@@ -30,10 +32,11 @@ public class AbilityBonusValueProvider implements DynamicValueProvider {
      * depending on the character.
      */
     @Override
-    public final BonusValue getDynamicValue(final DndCharacter dndCharacter) {
+    public final BonusValue getDynamicValue(final ICharacter dndCharacter,
+            final UniqueEntity contextItem) {
 
         return this.abilityCalcService.calcCurrentAbilityMod(
-                dndCharacter, this.ability);
+                (DndCharacter) dndCharacter, this.ability);
     }
 
     /**

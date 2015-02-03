@@ -1,13 +1,13 @@
 package org.asciicerebrum.mydndgame.mechanics.valueproviders;
 
+import org.asciicerebrum.mydndgame.domain.core.ICharacter;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.DynamicValueProvider;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
-import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.asciicerebrum.mydndgame.services.statistics.AtkCalculationService;
 
 /**
@@ -27,27 +27,20 @@ public class AtkBonusValueProvider implements DynamicValueProvider {
     private AtkCalculationService atkCalcService;
 
     /**
-     * The situation context as a service.
-     */
-    private SituationContextService situationContextService;
-
-    /**
      * {@inheritDoc}
      */
     @Override
-    public final BonusValue getDynamicValue(final DndCharacter dndCharacter) {
+    public final BonusValue getDynamicValue(final ICharacter dndCharacter,
+            final UniqueEntity contextItem) {
 
-        final InventoryItem item = this.situationContextService
-                .getActiveItem(dndCharacter);
-
-        if (!(item instanceof Weapon)) {
+        if (!(contextItem instanceof Weapon)) {
             return null;
         }
 
-        final Weapon weapon = (Weapon) item;
+        final Weapon weapon = (Weapon) contextItem;
 
         final BonusValueTuple atkBonusTuple
-                = atkCalcService.calcAtkBoni(weapon, dndCharacter);
+                = atkCalcService.calcAtkBoni(weapon, (DndCharacter) dndCharacter);
 
         return atkBonusTuple.getBonusValueByRank(this.rank);
     }
@@ -67,11 +60,4 @@ public class AtkBonusValueProvider implements DynamicValueProvider {
         this.atkCalcService = atkCalcServiceInput;
     }
 
-    /**
-     * @param situationContextServiceInput the situationContextService to set
-     */
-    public final void setSituationContextService(
-            final SituationContextService situationContextServiceInput) {
-        this.situationContextService = situationContextServiceInput;
-    }
 }

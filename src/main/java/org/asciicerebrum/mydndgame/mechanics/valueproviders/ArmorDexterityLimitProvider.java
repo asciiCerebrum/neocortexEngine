@@ -1,5 +1,7 @@
 package org.asciicerebrum.mydndgame.mechanics.valueproviders;
 
+import org.asciicerebrum.mydndgame.domain.core.ICharacter;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.DynamicValueProvider;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
@@ -21,10 +23,12 @@ public class ArmorDexterityLimitProvider implements DynamicValueProvider {
      * worn armor.
      */
     @Override
-    public final BonusValue getDynamicValue(final DndCharacter dndCharacter) {
+    public final BonusValue getDynamicValue(final ICharacter dndCharacter,
+            final UniqueEntity contextItem) {
 
         return this.armorFacade.getMinimumMaxDexBonus(
-                dndCharacter.getArmorWorn(), dndCharacter);
+                ((DndCharacter) dndCharacter).getArmorWorn(), 
+                (DndCharacter) dndCharacter);
     }
 
     /**

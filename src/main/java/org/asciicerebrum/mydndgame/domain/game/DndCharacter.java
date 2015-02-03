@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.game;
 
+import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.ExperiencePoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
@@ -18,8 +19,8 @@ import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlot
  *
  * @author species8472
  */
-public class DndCharacter extends UniqueEntity implements BonusSource,
-        ObserverSource {
+public class DndCharacter extends UniqueEntity implements ICharacter,
+        BonusSource, ObserverSource {
 
     private LevelAdvancements levelAdvancements;
 

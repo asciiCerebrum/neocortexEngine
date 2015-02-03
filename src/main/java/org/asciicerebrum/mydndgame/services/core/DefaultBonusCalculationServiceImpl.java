@@ -159,7 +159,8 @@ public class DefaultBonusCalculationServiceImpl
             BonusValueTuple bonusValues = new BonusValueTuple();
             bonusValues.addBonusValue(BonusRank.RANK_0,
                     new BonusValue(bonus.getDynamicValueProvider()
-                            .getDynamicValue(dndCharacter).getValue()));
+                            .getDynamicValue(dndCharacter, targetEntity)
+                            .getValue()));
         }
         return null;
     }

@@ -120,7 +120,7 @@ public class BonusValueComparisonEvaluator implements ConditionEvaluator {
             final UniqueEntity uniqueEntity) {
         BonusValue abilityBonus
                 = (BonusValue) this.bonusValueProvider
-                .getDynamicValue(dndCharacter);
+                .getDynamicValue(dndCharacter, uniqueEntity);
 
         return this.comparator.compare(
                 (double) abilityBonus.getValue(),

@@ -1,5 +1,7 @@
 package org.asciicerebrum.mydndgame.mechanics.valueproviders;
 
+import org.asciicerebrum.mydndgame.domain.core.ICharacter;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.DynamicValueProvider;
 import org.asciicerebrum.mydndgame.domain.rules.ArmorCategory;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
@@ -27,15 +29,17 @@ public class ArmorCheckPenaltyProvider implements DynamicValueProvider {
      * minimum check penalty. The lowest value counts!
      */
     @Override
-    public final BonusValue getDynamicValue(final DndCharacter dndCharacter) {
+    public final BonusValue getDynamicValue(final ICharacter dndCharacter,
+            final UniqueEntity contextItem) {
 
         if (this.armorCategory == null) {
             return new BonusValue();
         }
 
         return this.armorFacade.getMinimumArmorCheckPenalty(
-                dndCharacter.getArmorWorn()
-                .filterByArmorCateogry(this.armorCategory), dndCharacter);
+                ((DndCharacter) dndCharacter).getArmorWorn()
+                .filterByArmorCateogry(this.armorCategory),
+                (DndCharacter) dndCharacter);
     }
 
     /**
