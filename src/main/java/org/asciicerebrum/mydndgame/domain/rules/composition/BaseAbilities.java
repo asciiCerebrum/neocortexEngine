@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Boni;
-import org.asciicerebrum.mydndgame.domain.mechanics.BonusSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.BonusSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.particles.AbilityScore;
 

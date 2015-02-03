@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.rules;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.BonusSources;
 
 /**
  *

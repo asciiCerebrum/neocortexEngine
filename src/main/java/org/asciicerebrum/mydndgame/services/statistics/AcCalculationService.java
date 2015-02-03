@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.services.statistics;
 
 import org.asciicerebrum.mydndgame.domain.rules.ConditionType;
-import org.asciicerebrum.mydndgame.domain.mechanics.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTargets;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSources;

@@ -1,8 +1,8 @@
 package org.asciicerebrum.mydndgame.services.core;
 
 import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.Boni;
-import org.asciicerebrum.mydndgame.domain.mechanics.BonusSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.BonusSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.interfaces.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTargets;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverSource;
