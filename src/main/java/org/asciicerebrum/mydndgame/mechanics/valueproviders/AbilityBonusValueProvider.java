@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame.mechanics.valueproviders;
 import org.asciicerebrum.mydndgame.domain.mechanics.transfer.DynamicValueProvider;
 import org.asciicerebrum.mydndgame.domain.rules.Ability;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
-import org.asciicerebrum.mydndgame.domain.game.dndcharacter.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.services.statistics.AbilityCalculationService;
 
 /**

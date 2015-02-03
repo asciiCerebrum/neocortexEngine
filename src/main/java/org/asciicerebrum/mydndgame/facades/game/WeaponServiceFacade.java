@@ -8,7 +8,7 @@ import org.asciicerebrum.mydndgame.domain.rules.WeaponType;
 import org.asciicerebrum.mydndgame.domain.rules.WeaponTypes;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel;
-import org.asciicerebrum.mydndgame.domain.game.dndcharacter.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.rules.DiceAction;
 

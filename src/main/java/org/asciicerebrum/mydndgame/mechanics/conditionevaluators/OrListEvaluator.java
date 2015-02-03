@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
 import java.util.ArrayList;
 import java.util.List;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.game.dndcharacter.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.mechanics.transfer.ConditionEvaluator;
 
 /**

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.game.dndcharacter.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 
 /**
  *

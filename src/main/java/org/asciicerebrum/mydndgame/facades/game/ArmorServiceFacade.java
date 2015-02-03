@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame.facades.game;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.game.Armor;
 import org.asciicerebrum.mydndgame.domain.game.Armors;
-import org.asciicerebrum.mydndgame.domain.game.dndcharacter.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 
 /**
  *

@@ -2,7 +2,7 @@ package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
 
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.game.dndcharacter.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.transfer.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.rules.FeatBinding;

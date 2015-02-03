@@ -5,7 +5,7 @@ import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.factories.Reassignments.ReassignmentEntry;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;
-import org.asciicerebrum.mydndgame.domain.game.dndcharacter.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;

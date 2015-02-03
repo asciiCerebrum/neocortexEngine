@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.domain.game.dndcharacter;
+package org.asciicerebrum.mydndgame.domain.game;
 
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;

@@ -1,7 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.game;
 
-import org.asciicerebrum.mydndgame.domain.game.dndcharacter.DndCharacters;
-import org.asciicerebrum.mydndgame.domain.game.dndcharacter.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundNumber;

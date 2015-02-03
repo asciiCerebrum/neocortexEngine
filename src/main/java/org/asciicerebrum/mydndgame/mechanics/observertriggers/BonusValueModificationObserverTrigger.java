@@ -7,7 +7,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle;
 import org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle.Operation;
-import org.asciicerebrum.mydndgame.domain.game.dndcharacter.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.mechanics.transfer.ObserverTriggerStrategy;
 import org.asciicerebrum.mydndgame.services.core.BonusCalculationService;
 

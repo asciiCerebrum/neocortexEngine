@@ -4,7 +4,7 @@ import org.asciicerebrum.mydndgame.domain.factories.Reassignments;
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;
-import org.asciicerebrum.mydndgame.domain.game.dndcharacter.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.factories.EntityFactory;
 import org.asciicerebrum.mydndgame.domain.game.CombatRoundEntry;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;

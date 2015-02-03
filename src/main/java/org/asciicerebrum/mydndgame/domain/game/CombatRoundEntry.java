@@ -1,6 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.game;
 
-import org.asciicerebrum.mydndgame.domain.game.dndcharacter.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
 
 /**
