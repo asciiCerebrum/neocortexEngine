@@ -50,9 +50,9 @@ public class SingleAttackWorkflow implements IWorkflow {
      * Damage effects for a critical hit.
      */
     private IWorkflow criticalDamageWorkflow;
-
+    
     private AtkCalculationService atkService;
-
+    
     private AcCalculationService acService;
 
     /**
@@ -76,11 +76,11 @@ public class SingleAttackWorkflow implements IWorkflow {
      */
     @Override
     public final void runWorkflow(final Interaction interaction) {
-
+        
         final InventoryItem sourceWeapon
                 = this.situationContextService.getActiveItem(interaction
                         .getTriggeringCharacter());
-
+        
         if (!(sourceWeapon instanceof Weapon)) {
             return;
         }
@@ -93,12 +93,12 @@ public class SingleAttackWorkflow implements IWorkflow {
         if (atkRollResultRaw.lessThanOrEqualTo(this.autoFailureRoll)) {
             return;
         }
-
+        
         BonusValue sourceAtkBonus
                 = this.atkService.calcAtkBoni((Weapon) sourceWeapon,
                         interaction.getTriggeringCharacter())
                 .getBonusValueByRank(this.atkBonusRank);
-
+        
         DiceRoll atkRollResult = atkRollResultRaw.add(sourceAtkBonus);
 
         // single attack always attacks the first of the target characters.
@@ -111,10 +111,15 @@ public class SingleAttackWorkflow implements IWorkflow {
                 && atkRollResult.lessThan(this.autoSuccessRoll)) {
             return;
         }
-
+        
         boolean isCritical = this.determineCritical(atkRollResultRaw,
                 sourceAtkBonus, targetAc, interaction);
-
+        
+        this.finalize(isCritical, interaction);
+    }
+    
+    final void finalize(final boolean isCritical,
+            final Interaction interaction) {
         if (isCritical && this.criticalDamageWorkflow != null) {
             this.criticalDamageWorkflow.runWorkflow(interaction);
         }
@@ -136,7 +141,7 @@ public class SingleAttackWorkflow implements IWorkflow {
             final BonusValue sourceAtkBonus,
             final ArmorClass targetAc,
             final Interaction interaction) {
-
+        
         final Weapon sourceWeapon
                 = (Weapon) this.situationContextService.getActiveItem(
                         interaction.getTriggeringCharacter());
@@ -148,7 +153,7 @@ public class SingleAttackWorkflow implements IWorkflow {
                         this.weaponServiceFacade.getCriticalMinimumLevel(
                                 sourceWeapon,
                                 interaction.getTriggeringCharacter()));
-
+        
         Boolean isCritical = false;
         if (isThreat) {
             final DiceRoll secondAtkRollResultRaw
@@ -245,5 +250,5 @@ public class SingleAttackWorkflow implements IWorkflow {
             final WeaponServiceFacade weaponServiceFacadeInput) {
         this.weaponServiceFacade = weaponServiceFacadeInput;
     }
-
+    
 }
