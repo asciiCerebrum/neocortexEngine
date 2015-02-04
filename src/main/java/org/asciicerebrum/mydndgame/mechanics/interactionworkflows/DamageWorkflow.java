@@ -7,7 +7,7 @@ import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.damage.Damage;
 import org.asciicerebrum.mydndgame.domain.mechanics.damage.Damages;
-import org.asciicerebrum.mydndgame.domain.mechanics.interaction.Interaction;
+import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.managers.DiceRollManager;
 import org.asciicerebrum.mydndgame.services.application.DamageApplicationService;

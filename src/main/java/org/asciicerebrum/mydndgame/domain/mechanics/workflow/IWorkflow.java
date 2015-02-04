@@ -1,7 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.mechanics.workflow;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.interaction.Interaction;
-
 /**
  *
  * @author species8472
