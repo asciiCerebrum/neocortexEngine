@@ -1,9 +1,10 @@
-package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
+package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl;
 
+import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.interfaces.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.domain.rules.WeaponCategory;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.domain.rules.WeaponCategory;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
@@ -29,8 +30,9 @@ public class CorrectAttackModeEvaluator implements ConditionEvaluator {
      * @return
      */
     @Override
-    public final boolean evaluate(final DndCharacter dndCharacter,
+    public final boolean evaluate(final ICharacter iCharacter,
             final UniqueEntity contextEntity) {
+        final DndCharacter dndCharacter = (DndCharacter) iCharacter;
 
         final WeaponCategory refAttackMode = this.situationContextService
                 .getItemAttackMode(contextEntity, dndCharacter);

@@ -1,9 +1,10 @@
-package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
+package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl;
 
+import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.interfaces.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.domain.rules.Proficiency;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.domain.rules.Proficiency;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
 
@@ -32,8 +33,9 @@ public class CorrectProficiencyEvaluator implements ConditionEvaluator {
      * @return
      */
     @Override
-    public final boolean evaluate(final DndCharacter dndCharacter,
+    public final boolean evaluate(final ICharacter iCharacter,
             final UniqueEntity contextItem) {
+        final DndCharacter dndCharacter = (DndCharacter) iCharacter;
 
         if (this.proficiency == null || contextItem == null
                 || !(contextItem instanceof Weapon)) {

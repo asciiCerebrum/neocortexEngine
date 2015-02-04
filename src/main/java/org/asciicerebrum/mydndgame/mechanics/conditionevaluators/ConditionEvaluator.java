@@ -1,7 +1,7 @@
-package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.interfaces;
+package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
 
+import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 
 /**
  *
@@ -18,6 +18,6 @@ public interface ConditionEvaluator {
      * other hand.
      * @return the status of the condition.
      */
-    boolean evaluate(DndCharacter dndCharacter, UniqueEntity contextEntity);
+    boolean evaluate(ICharacter dndCharacter, UniqueEntity contextEntity);
 
 }

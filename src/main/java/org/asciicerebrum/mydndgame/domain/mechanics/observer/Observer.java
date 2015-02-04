@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.mechanics.observer;
 
-import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.interfaces.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
 
 /**

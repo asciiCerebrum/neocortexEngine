@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.mechanics.bonus;
 
-import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.interfaces.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
 import java.util.Arrays;
 import org.apache.commons.lang.ObjectUtils;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;

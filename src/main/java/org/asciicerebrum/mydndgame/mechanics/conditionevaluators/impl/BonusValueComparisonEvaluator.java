@@ -1,9 +1,9 @@
-package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
+package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl;
 
+import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
-import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
-import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.interfaces.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.DynamicValueProvider;
 
 /**
@@ -116,7 +116,7 @@ public class BonusValueComparisonEvaluator implements ConditionEvaluator {
      * context with a given number. The comparator is also definable.
      */
     @Override
-    public final boolean evaluate(final DndCharacter dndCharacter,
+    public final boolean evaluate(final ICharacter dndCharacter,
             final UniqueEntity uniqueEntity) {
         BonusValue abilityBonus
                 = (BonusValue) this.bonusValueProvider

@@ -1,10 +1,10 @@
-package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
+package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
-import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.interfaces.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
 
 /**
  *
@@ -23,7 +23,7 @@ public class OrListEvaluator implements ConditionEvaluator {
      * {@inheritDoc} Only true, if one element in the list evaluates to true.
      */
     @Override
-    public final boolean evaluate(final DndCharacter dndCharacter,
+    public final boolean evaluate(final ICharacter dndCharacter,
             final UniqueEntity contextItem) {
         for (ConditionEvaluator singleEval : this.conditionEvaluators) {
             if (singleEval.evaluate(dndCharacter, contextItem)) {

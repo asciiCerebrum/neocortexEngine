@@ -1,9 +1,10 @@
-package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
+package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl;
 
+import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.interfaces.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.domain.rules.ArmorCategory;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.domain.rules.ArmorCategory;
 
 /**
  *
@@ -21,8 +22,9 @@ public class CorrectArmorCategoryWearingEvaluator
      * {@inheritDoc} Checks if the character wears armor of the given category.
      */
     @Override
-    public final boolean evaluate(final DndCharacter dndCharacter,
+    public final boolean evaluate(final ICharacter iCharacter,
             final UniqueEntity contextEntity) {
+        final DndCharacter dndCharacter = (DndCharacter) iCharacter;
 
         if (this.getArmorCategory() == null) {
             return false;

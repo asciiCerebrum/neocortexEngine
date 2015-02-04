@@ -1,11 +1,11 @@
-package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
+package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl;
 
-import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.interfaces.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 
 /**
  *
@@ -36,7 +36,7 @@ public class AndListEvaluator implements ConditionEvaluator {
      * {@inheritDoc} Only true, if all elements in the list evaluate to true.
      */
     @Override
-    public final boolean evaluate(final DndCharacter dndCharacter,
+    public final boolean evaluate(final ICharacter dndCharacter,
             final UniqueEntity contextEntity) {
         for (ConditionEvaluator singleEval : this.conditionEvaluators) {
             if (!singleEval.evaluate(dndCharacter, contextEntity)) {

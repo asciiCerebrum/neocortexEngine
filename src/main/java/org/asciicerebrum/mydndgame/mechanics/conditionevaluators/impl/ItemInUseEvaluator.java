@@ -1,7 +1,8 @@
-package org.asciicerebrum.mydndgame.mechanics.conditionevaluators;
+package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl;
 
+import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.interfaces.ConditionEvaluator;
+import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
@@ -27,8 +28,9 @@ public class ItemInUseEvaluator implements ConditionEvaluator {
      * the list.
      */
     @Override
-    public final boolean evaluate(final DndCharacter dndCharacter,
+    public final boolean evaluate(final ICharacter iCharacter,
             final UniqueEntity contextItem) {
+        final DndCharacter dndCharacter = (DndCharacter) iCharacter;
 
         final InventoryItem item = this.ctxService.getActiveItem(dndCharacter);
 
