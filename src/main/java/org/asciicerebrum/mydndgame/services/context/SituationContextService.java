@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.services.context;
 
-import org.asciicerebrum.mydndgame.domain.rules.DamageType;
-import org.asciicerebrum.mydndgame.domain.rules.WeaponCategory;
+import org.asciicerebrum.mydndgame.domain.ruleentities.DamageType;
+import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.BooleanParticle;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;

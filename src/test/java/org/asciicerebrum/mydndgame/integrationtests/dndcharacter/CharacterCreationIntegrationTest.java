@@ -1,9 +1,9 @@
 package org.asciicerebrum.mydndgame.integrationtests.dndcharacter;
 
-import org.asciicerebrum.mydndgame.domain.rules.BodySlotType;
+import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotType;
 import org.asciicerebrum.mydndgame.domain.setup.ArmorSetup;
 import org.asciicerebrum.mydndgame.domain.setup.WeaponSetup;
-import org.asciicerebrum.mydndgame.domain.rules.WeaponCategory;
+import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
 import static org.junit.Assert.fail;

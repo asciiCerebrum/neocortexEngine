@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
-import org.asciicerebrum.mydndgame.domain.rules.ArmorCategory;
-import org.asciicerebrum.mydndgame.domain.rules.Proficiency;
+import org.asciicerebrum.mydndgame.domain.ruleentities.ArmorCategory;
+import org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency;
 
 /**
  *

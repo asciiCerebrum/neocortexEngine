@@ -6,10 +6,10 @@ import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.core.particles.Cost;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.rules.BodySlotTypes;
-import org.asciicerebrum.mydndgame.domain.rules.InventoryItemPrototype;
-import org.asciicerebrum.mydndgame.domain.rules.SizeCategory;
-import org.asciicerebrum.mydndgame.domain.rules.SpecialAbilities;
+import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes;
+import org.asciicerebrum.mydndgame.domain.ruleentities.InventoryItemPrototype;
+import org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory;
+import org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities;
 
 /**
  *

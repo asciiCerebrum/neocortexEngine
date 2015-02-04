@@ -1,16 +1,16 @@
 package org.asciicerebrum.mydndgame.facades.game;
 
-import org.asciicerebrum.mydndgame.domain.rules.Encumbrance;
-import org.asciicerebrum.mydndgame.domain.rules.Proficiency;
-import org.asciicerebrum.mydndgame.domain.rules.WeaponCategories;
-import org.asciicerebrum.mydndgame.domain.rules.WeaponCategory;
-import org.asciicerebrum.mydndgame.domain.rules.WeaponType;
-import org.asciicerebrum.mydndgame.domain.rules.WeaponTypes;
+import org.asciicerebrum.mydndgame.domain.ruleentities.Encumbrance;
+import org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency;
+import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategories;
+import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory;
+import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponType;
+import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponTypes;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
-import org.asciicerebrum.mydndgame.domain.rules.DiceAction;
+import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
 
 /**
  *

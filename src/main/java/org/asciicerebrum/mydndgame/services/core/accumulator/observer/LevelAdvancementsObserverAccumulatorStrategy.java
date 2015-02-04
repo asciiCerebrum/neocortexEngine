@@ -2,8 +2,8 @@ package org.asciicerebrum.mydndgame.services.core.accumulator.observer;
 
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.rules.composition.LevelAdvancement;
-import org.asciicerebrum.mydndgame.domain.rules.composition.LevelAdvancements;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.LevelAdvancement;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.LevelAdvancements;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
 

@@ -6,6 +6,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -18,6 +20,12 @@ import org.springframework.context.ApplicationContext;
  * @author species8472
  */
 public class StateRegistry {
+
+    /**
+     * The logger.
+     */
+    private static final Logger LOG
+            = LoggerFactory.getLogger(StateRegistry.class);
 
     public enum StateParticle {
 
@@ -174,7 +182,9 @@ public class StateRegistry {
             return StateValueType.valueOf(
                     value.getClass().getSimpleName().toUpperCase());
         } catch (final IllegalArgumentException iae) {
-            //TODO log info
+            LOG.warn("Class of type {} could not be transformed to a state "
+                    + "value. Trying to use the fallback of a unique entity.",
+                    value.getClass().getSimpleName());
             if (value instanceof UniqueEntity) {
                 return StateValueType.UNIQUE_ENTITY;
             }

@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.services.statistics;
 
-import org.asciicerebrum.mydndgame.domain.rules.Ability;
+import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTargets;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;

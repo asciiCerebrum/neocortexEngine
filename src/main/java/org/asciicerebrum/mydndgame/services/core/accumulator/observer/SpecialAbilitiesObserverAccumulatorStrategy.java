@@ -1,8 +1,8 @@
 package org.asciicerebrum.mydndgame.services.core.accumulator.observer;
 
 import java.util.Iterator;
-import org.asciicerebrum.mydndgame.domain.rules.SpecialAbilities;
-import org.asciicerebrum.mydndgame.domain.rules.SpecialAbility;
+import org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities;
+import org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;

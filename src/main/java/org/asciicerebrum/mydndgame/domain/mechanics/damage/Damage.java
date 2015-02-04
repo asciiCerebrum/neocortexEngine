@@ -2,7 +2,7 @@ package org.asciicerebrum.mydndgame.domain.mechanics.damage;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
-import org.asciicerebrum.mydndgame.domain.rules.DamageType;
+import org.asciicerebrum.mydndgame.domain.ruleentities.DamageType;
 
 /**
  *

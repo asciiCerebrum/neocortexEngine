@@ -1,15 +1,15 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.asciicerebrum.mydndgame.domain.rules.Feat;
+import org.asciicerebrum.mydndgame.domain.ruleentities.Feat;
 import org.apache.commons.lang.StringUtils;
-import org.asciicerebrum.mydndgame.domain.rules.Ability;
-import org.asciicerebrum.mydndgame.domain.rules.ClassLevel;
+import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
+import org.asciicerebrum.mydndgame.domain.ruleentities.ClassLevel;
 import org.asciicerebrum.mydndgame.domain.core.particles.AdvancementNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
-import org.asciicerebrum.mydndgame.domain.rules.composition.LevelAdvancement;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.LevelAdvancement;
 import org.springframework.context.ApplicationContext;
 
 /**

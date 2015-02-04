@@ -3,8 +3,8 @@ package org.asciicerebrum.mydndgame.services.core.accumulator.observer;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlot;
-import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlots;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlot;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlots;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
 
 /**

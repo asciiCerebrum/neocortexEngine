@@ -1,8 +1,8 @@
 package org.asciicerebrum.mydndgame.facades.game;
 
-import org.asciicerebrum.mydndgame.domain.rules.BodySlotType;
-import org.asciicerebrum.mydndgame.domain.rules.BodySlotTypes;
-import org.asciicerebrum.mydndgame.domain.rules.SizeCategory;
+import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotType;
+import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes;
+import org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory;
 import org.asciicerebrum.mydndgame.domain.core.particles.Cost;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;

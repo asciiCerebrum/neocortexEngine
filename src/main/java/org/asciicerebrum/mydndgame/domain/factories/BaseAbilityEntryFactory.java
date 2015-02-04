@@ -1,11 +1,11 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.asciicerebrum.mydndgame.domain.rules.Ability;
+import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
 import org.asciicerebrum.mydndgame.domain.core.particles.AbilityScore;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
-import org.asciicerebrum.mydndgame.domain.rules.composition.BaseAbilityEntry;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.BaseAbilityEntry;
 import org.springframework.context.ApplicationContext;
 
 /**

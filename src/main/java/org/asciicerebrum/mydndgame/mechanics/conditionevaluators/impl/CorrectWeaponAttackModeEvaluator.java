@@ -4,7 +4,7 @@ import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.domain.rules.WeaponCategory;
+import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;

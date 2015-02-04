@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
 import org.apache.commons.lang.StringUtils;
-import org.asciicerebrum.mydndgame.domain.rules.ConditionType;
+import org.asciicerebrum.mydndgame.domain.ruleentities.ConditionType;
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;
@@ -9,7 +9,7 @@ import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
-import org.asciicerebrum.mydndgame.domain.rules.composition.Condition;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Condition;
 import org.springframework.context.ApplicationContext;
 
 /**

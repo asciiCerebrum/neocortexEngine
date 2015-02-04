@@ -4,8 +4,8 @@ import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlot;
-import org.asciicerebrum.mydndgame.domain.rules.composition.PersonalizedBodySlots;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlot;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlots;
 
 /**
  *

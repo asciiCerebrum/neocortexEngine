@@ -6,10 +6,10 @@ import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
-import org.asciicerebrum.mydndgame.domain.rules.FeatBinding;
-import org.asciicerebrum.mydndgame.domain.rules.FeatBindings;
-import org.asciicerebrum.mydndgame.domain.rules.FeatType;
-import org.asciicerebrum.mydndgame.domain.rules.Proficiency;
+import org.asciicerebrum.mydndgame.domain.ruleentities.FeatBinding;
+import org.asciicerebrum.mydndgame.domain.ruleentities.FeatBindings;
+import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
+import org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
 
 /**

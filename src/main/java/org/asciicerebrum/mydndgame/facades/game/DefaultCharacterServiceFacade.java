@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.facades.game;
 
-import org.asciicerebrum.mydndgame.domain.rules.SizeCategory;
+import org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;

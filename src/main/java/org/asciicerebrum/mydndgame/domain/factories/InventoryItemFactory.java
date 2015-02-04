@@ -1,12 +1,12 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
 import org.asciicerebrum.mydndgame.domain.factories.Reassignments;
-import org.asciicerebrum.mydndgame.domain.rules.SizeCategory;
-import org.asciicerebrum.mydndgame.domain.rules.SpecialAbilities;
-import org.asciicerebrum.mydndgame.domain.rules.SpecialAbility;
+import org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory;
+import org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities;
+import org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
-import org.asciicerebrum.mydndgame.domain.rules.InventoryItemPrototype;
+import org.asciicerebrum.mydndgame.domain.ruleentities.InventoryItemPrototype;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
