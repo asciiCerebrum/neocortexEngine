@@ -21,6 +21,56 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
  */
 public class LevelAdvancements implements BonusSource, ObserverSource {
 
+    private static class ClassLevelIterator implements Iterator<ClassLevel> {
+
+        private final Iterator<LevelAdvancement> lvlAdvIterator;
+
+        public ClassLevelIterator(
+                final Iterator<LevelAdvancement> lvlAdvIteratorInput) {
+            this.lvlAdvIterator = lvlAdvIteratorInput;
+        }
+
+        @Override
+        public final boolean hasNext() {
+            return this.lvlAdvIterator.hasNext();
+        }
+
+        @Override
+        public final ClassLevel next() {
+            return this.lvlAdvIterator.next().getClassLevel();
+        }
+
+        @Override
+        public final void remove() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+    }
+
+    private static class HpIterator implements Iterator<HitPoints> {
+
+        private final Iterator<LevelAdvancement> lvlAdvIterator;
+
+        public HpIterator(
+                final Iterator<LevelAdvancement> lvlAdvIteratorInput) {
+            this.lvlAdvIterator = lvlAdvIteratorInput;
+        }
+
+        @Override
+        public final boolean hasNext() {
+            return lvlAdvIterator.hasNext();
+        }
+
+        @Override
+        public final HitPoints next() {
+            return lvlAdvIterator.next().getHpAdvancement();
+        }
+
+        @Override
+        public final void remove() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+    }
+
     private final List<LevelAdvancement> elements
             = new ArrayList<LevelAdvancement>();
 
@@ -49,45 +99,11 @@ public class LevelAdvancements implements BonusSource, ObserverSource {
     }
 
     public final Iterator<ClassLevel> classLevelIterator() {
-        final Iterator<LevelAdvancement> lvlAdvIterator = this.iterator();
-        return new Iterator<ClassLevel>() {
-
-            @Override
-            public final boolean hasNext() {
-                return lvlAdvIterator.hasNext();
-            }
-
-            @Override
-            public final ClassLevel next() {
-                return lvlAdvIterator.next().getClassLevel();
-            }
-
-            @Override
-            public final void remove() {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-        };
+        return new ClassLevelIterator(this.elements.iterator());
     }
 
     public final Iterator<HitPoints> hpIterator() {
-        final Iterator<LevelAdvancement> lvlAdvIterator = this.iterator();
-        return new Iterator<HitPoints>() {
-
-            @Override
-            public final boolean hasNext() {
-                return lvlAdvIterator.hasNext();
-            }
-
-            @Override
-            public final HitPoints next() {
-                return lvlAdvIterator.next().getHpAdvancement();
-            }
-
-            @Override
-            public final void remove() {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-        };
+        return new HpIterator(this.elements.iterator());
     }
 
     public final AbilityScore countAbility(final Ability ability) {

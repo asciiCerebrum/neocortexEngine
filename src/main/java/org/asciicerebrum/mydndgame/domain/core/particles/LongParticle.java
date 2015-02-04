@@ -72,7 +72,7 @@ public class LongParticle {
     /**
      * The value of this long instance.
      */
-    private long value = 0L;
+    protected long value = 0L;
 
     public LongParticle() {
 

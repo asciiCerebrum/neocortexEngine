@@ -20,8 +20,12 @@ public class ClassLevelObserverAccumulatorStrategy
     @Override
     public final Observers getObservers(final ObserverSource observerSource,
             final UniqueEntity targetEntity) {
-        final ClassLevel classLevel = (ClassLevel) observerSource;
         final Observers observers = new Observers();
+        if (!(observerSource instanceof ClassLevel)) {
+            return observers;
+        }
+
+        final ClassLevel classLevel = (ClassLevel) observerSource;
 
         observers.add(this.characterClassStrategy.getObservers(
                 classLevel.getCharacterClass(), targetEntity));

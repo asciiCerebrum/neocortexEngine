@@ -15,6 +15,9 @@ public class DiceActionObserverAccumulatorStrategy
     @Override
     public final Observers getObservers(final ObserverSource observerSource,
             final UniqueEntity targetEntity) {
+        if (!(observerSource instanceof DiceAction)) {
+            return new Observers();
+        }
         return ((DiceAction) observerSource).getObservers();
     }
 

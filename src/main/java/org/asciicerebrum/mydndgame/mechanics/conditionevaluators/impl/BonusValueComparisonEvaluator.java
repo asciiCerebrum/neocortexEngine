@@ -3,6 +3,7 @@ package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl;
 import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
+import org.asciicerebrum.mydndgame.domain.core.particles.LongParticle;
 import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.DynamicValueProvider;
 
@@ -118,12 +119,12 @@ public class BonusValueComparisonEvaluator implements ConditionEvaluator {
     @Override
     public final boolean evaluate(final ICharacter dndCharacter,
             final UniqueEntity uniqueEntity) {
-        BonusValue abilityBonus
-                = (BonusValue) this.bonusValueProvider
+
+        final LongParticle bonusValue = this.bonusValueProvider
                 .getDynamicValue(dndCharacter, uniqueEntity);
 
         return this.comparator.compare(
-                (double) abilityBonus.getValue(),
+                (double) bonusValue.getValue(),
                 (double) this.referenceValue.getValue());
     }
 

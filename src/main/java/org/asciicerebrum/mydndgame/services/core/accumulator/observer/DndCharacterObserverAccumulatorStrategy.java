@@ -25,9 +25,13 @@ public class DndCharacterObserverAccumulatorStrategy
     @Override
     public final Observers getObservers(final ObserverSource observerSource,
             final UniqueEntity targetEntity) {
-        final DndCharacter dndCharacter = (DndCharacter) observerSource;
-
         final Observers observers = new Observers();
+
+        if (!(observerSource instanceof DndCharacter)) {
+            return observers;
+        }
+
+        final DndCharacter dndCharacter = (DndCharacter) observerSource;
 
         observers.add(this.baseAbilitiesStrategy.getObservers(
                 dndCharacter.getBaseAbilities(), targetEntity));

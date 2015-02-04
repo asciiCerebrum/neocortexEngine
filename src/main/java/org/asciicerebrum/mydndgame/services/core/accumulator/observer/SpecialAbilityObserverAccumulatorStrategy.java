@@ -21,6 +21,9 @@ public class SpecialAbilityObserverAccumulatorStrategy
     public final Observers getObservers(final ObserverSource observerSource,
             final UniqueEntity targetEntity) {
 
+        if (!(observerSource instanceof SpecialAbility)) {
+            return new Observers();
+        }
         final SpecialAbility specialAbility = (SpecialAbility) observerSource;
 
         Observers observers = super.getObservers(observerSource, targetEntity);

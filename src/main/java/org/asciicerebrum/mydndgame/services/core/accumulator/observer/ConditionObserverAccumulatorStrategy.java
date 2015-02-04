@@ -21,6 +21,9 @@ public class ConditionObserverAccumulatorStrategy
     public final Observers getObservers(final ObserverSource observerSource,
             final UniqueEntity targetEntity) {
         final Observers observers = new Observers();
+        if (!(observerSource instanceof Condition)) {
+            return observers;
+        }
         final Condition condition = (Condition) observerSource;
 
         observers.add(this.conditionTypeStrategy.getObservers(

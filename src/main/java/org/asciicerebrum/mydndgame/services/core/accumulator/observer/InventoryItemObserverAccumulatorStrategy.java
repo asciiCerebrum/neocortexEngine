@@ -50,4 +50,12 @@ public class InventoryItemObserverAccumulatorStrategy
         return observerSource instanceof InventoryItem;
     }
 
+    /**
+     * @param specialAbilitiesStrategyInput the specialAbilitiesStrategy to set
+     */
+    public final void setSpecialAbilitiesStrategy(
+            final ObserverAccumulatorStrategy specialAbilitiesStrategyInput) {
+        this.specialAbilitiesStrategy = specialAbilitiesStrategyInput;
+    }
+
 }

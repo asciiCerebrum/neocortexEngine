@@ -16,6 +16,60 @@ import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus.BonusScope;
  */
 public class Boni {
 
+    private static class SameTargetPredicate implements Predicate {
+
+        private final BonusTarget target;
+
+        public SameTargetPredicate(final BonusTarget targetInput) {
+            this.target = targetInput;
+        }
+
+        @Override
+        public final boolean evaluate(final Object o) {
+            if (!(o instanceof Bonus)) {
+                return false;
+            }
+            Bonus oBonus = (Bonus) o;
+            return target.equals(oBonus.getTarget());
+        }
+    }
+
+    private static class SameScopePredicate implements Predicate {
+
+        private final BonusScope scope;
+
+        public SameScopePredicate(final BonusScope scopeInput) {
+            this.scope = scopeInput;
+        }
+
+        @Override
+        public final boolean evaluate(final Object o) {
+            if (!(o instanceof Bonus)) {
+                return false;
+            }
+            Bonus oBonus = (Bonus) o;
+            return this.scope.equals(oBonus.getScope());
+        }
+    }
+
+    private static class InTargetsPredicate implements Predicate {
+
+        private final BonusTargets targets;
+
+        public InTargetsPredicate(final BonusTargets targetsInput) {
+            this.targets = targetsInput;
+        }
+
+        @Override
+        public final boolean evaluate(final Object o) {
+            if (!(o instanceof Bonus)) {
+                return false;
+            }
+            Bonus oBonus = (Bonus) o;
+            return targets.contains(oBonus.getTarget());
+        }
+    }
+
     public static final Boni EMPTY_BONI = new Boni();
 
     /**
@@ -41,16 +95,8 @@ public class Boni {
     public final Boni filterByTarget(final BonusTarget target) {
         Boni filteredBoni = new Boni();
 
-        filteredBoni.addBoni(CollectionUtils.select(this.elements, new Predicate() {
-
-            public boolean evaluate(Object o) {
-                if (!(o instanceof Bonus)) {
-                    return false;
-                }
-                Bonus oBonus = (Bonus) o;
-                return target.equals(oBonus.getTarget());
-            }
-        }));
+        filteredBoni.addBoni(CollectionUtils.select(this.elements,
+                new SameTargetPredicate(target)));
 
         return filteredBoni;
     }
@@ -58,16 +104,8 @@ public class Boni {
     public final Boni filterByScope(final BonusScope scope) {
         Boni filteredBoni = new Boni();
 
-        filteredBoni.addBoni(CollectionUtils.select(this.elements, new Predicate() {
-
-            public boolean evaluate(Object o) {
-                if (!(o instanceof Bonus)) {
-                    return false;
-                }
-                Bonus oBonus = (Bonus) o;
-                return scope.equals(oBonus.getScope());
-            }
-        }));
+        filteredBoni.addBoni(CollectionUtils.select(this.elements,
+                new SameScopePredicate(scope)));
 
         return filteredBoni;
     }
@@ -75,16 +113,8 @@ public class Boni {
     public final Boni filterByTargets(final BonusTargets targets) {
         Boni filteredBoni = new Boni();
 
-        filteredBoni.addBoni(CollectionUtils.select(this.elements, new Predicate() {
-
-            public boolean evaluate(Object o) {
-                if (!(o instanceof Bonus)) {
-                    return false;
-                }
-                Bonus oBonus = (Bonus) o;
-                return targets.contains(oBonus.getTarget());
-            }
-        }));
+        filteredBoni.addBoni(CollectionUtils.select(this.elements,
+                new InTargetsPredicate(targets)));
 
         return filteredBoni;
     }

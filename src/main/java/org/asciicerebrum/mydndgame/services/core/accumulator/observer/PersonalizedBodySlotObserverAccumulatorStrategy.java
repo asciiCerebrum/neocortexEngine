@@ -21,6 +21,9 @@ public class PersonalizedBodySlotObserverAccumulatorStrategy
     public final Observers getObservers(final ObserverSource observerSource,
             final UniqueEntity targetEntity) {
         final Observers observers = new Observers();
+        if (!(observerSource instanceof PersonalizedBodySlot)) {
+            return observers;
+        }
         final PersonalizedBodySlot bodySlot
                 = (PersonalizedBodySlot) observerSource;
 

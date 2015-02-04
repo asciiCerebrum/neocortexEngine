@@ -15,6 +15,52 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer.ObserverSc
  */
 public class Observers {
 
+    private static class SameHookPredicate implements Predicate {
+
+        private final ObserverHook observerHook;
+
+        public SameHookPredicate(final ObserverHook observerHookInput) {
+            this.observerHook = observerHookInput;
+        }
+
+        @Override
+        public final boolean evaluate(final Object object) {
+            Observer potentialObserver = (Observer) object;
+            return this.observerHook.equals(potentialObserver.getHook());
+        }
+    }
+
+    private static class InHooksPredicate implements Predicate {
+
+        private final ObserverHooks observerHooks;
+
+        public InHooksPredicate(final ObserverHooks observerHooksInput) {
+            this.observerHooks = observerHooksInput;
+        }
+
+        @Override
+        public final boolean evaluate(final Object object) {
+            Observer potentialObserver = (Observer) object;
+            return this.observerHooks.contains(
+                    potentialObserver.getHook());
+        }
+    }
+
+    private static class SameScopePredicate implements Predicate {
+
+        private final ObserverScope scope;
+
+        public SameScopePredicate(final ObserverScope scopeInput) {
+            this.scope = scopeInput;
+        }
+
+        @Override
+        public final boolean evaluate(final Object object) {
+            Observer potentialObserver = (Observer) object;
+            return this.scope.equals(potentialObserver.getScope());
+        }
+    }
+
     public static final Observers EMPTY_OBSERVERS = new Observers();
 
     /**
@@ -34,13 +80,7 @@ public class Observers {
         List<Observer> filteredList = new ArrayList<Observer>();
 
         CollectionUtils.select(this.elements,
-                new Predicate() {
-
-                    public boolean evaluate(Object object) {
-                        Observer potentialObserver = (Observer) object;
-                        return observerHook.equals(potentialObserver.getHook());
-                    }
-                }, filteredList);
+                new SameHookPredicate(observerHook), filteredList);
 
         Observers filteredObservers = new Observers();
         filteredObservers.setObservers(filteredList);
@@ -57,15 +97,7 @@ public class Observers {
         List<Observer> filteredList = new ArrayList<Observer>();
 
         CollectionUtils.select(this.elements,
-                new Predicate() {
-
-                    public boolean evaluate(Object object) {
-                        Observer potentialObserver = (Observer) object;
-
-                        return observerHooks.contains(
-                                potentialObserver.getHook());
-                    }
-                }, filteredList);
+                new InHooksPredicate(observerHooks), filteredList);
 
         Observers filteredObservers = new Observers();
         filteredObservers.setObservers(filteredList);
@@ -76,14 +108,7 @@ public class Observers {
         List<Observer> filteredList = new ArrayList<Observer>();
 
         CollectionUtils.select(this.elements,
-                new Predicate() {
-
-                    public boolean evaluate(Object object) {
-                        Observer potentialObserver = (Observer) object;
-
-                        return scope.equals(potentialObserver.getScope());
-                    }
-                }, filteredList);
+                new SameScopePredicate(scope), filteredList);
 
         Observers filteredObservers = new Observers();
         filteredObservers.setObservers(filteredList);

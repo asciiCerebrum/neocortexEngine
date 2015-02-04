@@ -59,7 +59,7 @@ public class AddBonusObserverTrigger implements ObserverTriggerStrategy {
                 .getBonusValueForKey(this.registryStateKey,
                         (DndCharacter) dndCharacter);
 
-        if (addBonusValue != null && addBonusValue.isNonZero()) {
+        if (addBonusValue.isNonZero()) {
             final Bonus altAddBonus = new Bonus();
             altAddBonus.setBonusType(this.bonusType);
             altAddBonus.setTarget(this.bonusTarget);

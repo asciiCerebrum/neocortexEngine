@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.game;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -180,7 +181,8 @@ public class StateRegistry {
 
         try {
             return StateValueType.valueOf(
-                    value.getClass().getSimpleName().toUpperCase());
+                    value.getClass().getSimpleName()
+                    .toUpperCase(Locale.ENGLISH));
         } catch (final IllegalArgumentException iae) {
             LOG.warn("Class of type {} could not be transformed to a state "
                     + "value. Trying to use the fallback of a unique entity.",

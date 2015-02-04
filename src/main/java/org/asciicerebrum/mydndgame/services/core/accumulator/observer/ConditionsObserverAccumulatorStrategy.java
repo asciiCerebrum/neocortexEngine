@@ -23,6 +23,9 @@ public class ConditionsObserverAccumulatorStrategy
     public final Observers getObservers(final ObserverSource observerSource,
             final UniqueEntity targetEntity) {
         final Observers observers = new Observers();
+        if (!(observerSource instanceof Conditions)) {
+            return observers;
+        }
         final Conditions conditions = (Conditions) observerSource;
         final Iterator<Condition> conditionIterator = conditions.iterator();
 

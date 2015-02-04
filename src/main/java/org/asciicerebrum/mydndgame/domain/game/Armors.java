@@ -13,6 +13,22 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency;
  */
 public class Armors extends InventoryItems<Armor> {
 
+    private static class HasArmorCategoryPredicate implements Predicate {
+
+        private final ArmorCategory armorCategory;
+
+        public HasArmorCategoryPredicate(
+                final ArmorCategory armorCategoryInput) {
+            this.armorCategory = armorCategoryInput;
+        }
+
+        @Override
+        public final boolean evaluate(final Object object) {
+            Armor armor = (Armor) object;
+            return armor.hasArmorCategory(this.armorCategory);
+        }
+    }
+
     public Armors() {
 
     }
@@ -44,14 +60,8 @@ public class Armors extends InventoryItems<Armor> {
 
         List<Armor> armorList = new ArrayList<Armor>();
 
-        CollectionUtils.select(this.elements, new Predicate() {
-
-            @Override
-            public final boolean evaluate(final Object object) {
-                Armor armor = (Armor) object;
-                return armor.hasArmorCategory(armorCategory);
-            }
-        }, armorList);
+        CollectionUtils.select(this.elements,
+                new HasArmorCategoryPredicate(armorCategory), armorList);
 
         return new Armors(armorList);
     }

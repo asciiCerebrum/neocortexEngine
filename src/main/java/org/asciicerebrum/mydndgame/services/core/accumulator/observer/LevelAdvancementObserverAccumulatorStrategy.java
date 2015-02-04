@@ -26,6 +26,9 @@ public class LevelAdvancementObserverAccumulatorStrategy
     public final Observers getObservers(final ObserverSource observerSource,
             final UniqueEntity targetEntity) {
         final Observers observers = new Observers();
+        if (!(observerSource instanceof LevelAdvancement)) {
+            return observers;
+        }
         final LevelAdvancement lvlAdv = (LevelAdvancement) observerSource;
 
         observers.add(this.featStrategy.getObservers(

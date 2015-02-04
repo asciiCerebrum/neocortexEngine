@@ -14,6 +14,24 @@ import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPositions;
  */
 public class CombatRoundEntries {
 
+    private static class IdentifyParticipantPredicate implements Predicate {
+
+        private final DndCharacter dndCharacter;
+
+        public IdentifyParticipantPredicate(
+                final DndCharacter dndCharacterInput) {
+            this.dndCharacter = dndCharacterInput;
+        }
+
+        @Override
+        public boolean evaluate(final Object object) {
+            final CombatRoundEntry entry
+                    = (CombatRoundEntry) object;
+
+            return entry.getParticipant().equals(this.dndCharacter);
+        }
+    }
+
     private final List<CombatRoundEntry> elements
             = new ArrayList<CombatRoundEntry>();
 
@@ -38,15 +56,8 @@ public class CombatRoundEntries {
     public final CombatRoundEntry getEntryByParticipant(
             final DndCharacter dndCharacter) {
         return (CombatRoundEntry) CollectionUtils
-                .find(this.elements, new Predicate() {
-
-                    public boolean evaluate(Object object) {
-                        final CombatRoundEntry entry
-                        = (CombatRoundEntry) object;
-
-                        return entry.getParticipant().equals(dndCharacter);
-                    }
-                });
+                .find(this.elements,
+                        new IdentifyParticipantPredicate(dndCharacter));
     }
 
     public final CombatRoundPosition getPositionForParticipant(

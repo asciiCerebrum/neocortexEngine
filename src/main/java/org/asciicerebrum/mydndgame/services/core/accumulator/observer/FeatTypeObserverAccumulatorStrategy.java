@@ -15,6 +15,9 @@ public class FeatTypeObserverAccumulatorStrategy
     @Override
     public final Observers getObservers(final ObserverSource observerSource,
             final UniqueEntity targetEntity) {
+        if (!(observerSource instanceof FeatType)) {
+            return new Observers();
+        }
 
         return ((FeatType) observerSource).getObservers();
     }

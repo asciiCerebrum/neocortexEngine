@@ -20,8 +20,12 @@ public class CharacterClassObserverAccumulatorStrategy
     @Override
     public final Observers getObservers(final ObserverSource observerSource,
             final UniqueEntity targetEntity) {
-        final CharacterClass characterClass = (CharacterClass) observerSource;
         final Observers observers = new Observers();
+        if (!(observerSource instanceof CharacterClass)) {
+            return observers;
+        }
+
+        final CharacterClass characterClass = (CharacterClass) observerSource;
 
         observers.add(this.classFeatsStrategy.getObservers(
                 characterClass.getClassFeats(), targetEntity));

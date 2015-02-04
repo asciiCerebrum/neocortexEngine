@@ -18,7 +18,7 @@ public final class CombatRoundNumber extends LongParticle
     }
 
     public void setValue(final String stringInput) {
-        super.setValue(Long.valueOf(stringInput));
+        this.value = Long.parseLong(stringInput);
     }
 
     @Override

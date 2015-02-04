@@ -20,6 +20,9 @@ public class FeatsObserverAccumulatorStrategy
     public final Observers getObservers(final ObserverSource observerSource,
             final UniqueEntity targetEntity) {
         final Observers observers = new Observers();
+        if (!(observerSource instanceof Feats)) {
+            return observers;
+        }
         final Feats feats = (Feats) observerSource;
         final Iterator<FeatType> featIterator = feats.iterator();
 

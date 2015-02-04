@@ -21,6 +21,9 @@ public class RaceObserverAccumulatorStrategy
     public final Observers getObservers(final ObserverSource observerSource,
             final UniqueEntity targetEntity) {
         final Observers observers = new Observers();
+        if (!(observerSource instanceof Race)) {
+            return observers;
+        }
         final Race race = (Race) observerSource;
 
         observers.add(this.sizeCategoryStrategy.getObservers(

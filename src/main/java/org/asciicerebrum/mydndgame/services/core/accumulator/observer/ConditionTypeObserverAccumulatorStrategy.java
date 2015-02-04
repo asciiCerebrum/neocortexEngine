@@ -15,6 +15,9 @@ public class ConditionTypeObserverAccumulatorStrategy
     @Override
     public final Observers getObservers(final ObserverSource observerSource,
             final UniqueEntity targetEntity) {
+        if (!(observerSource instanceof ConditionType)) {
+            return new Observers();
+        }
         return ((ConditionType) observerSource).getObservers();
     }
 

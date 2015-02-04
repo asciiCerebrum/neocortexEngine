@@ -22,6 +22,9 @@ public class FeatObserverAccumulatorStrategy
     public final Observers getObservers(final ObserverSource observerSource,
             final UniqueEntity targetEntity) {
         final Observers observers = new Observers();
+        if (!(observerSource instanceof Feat)) {
+            return observers;
+        }
         final Feat feat = (Feat) observerSource;
         final FeatType featType = feat.getFeatType();
 

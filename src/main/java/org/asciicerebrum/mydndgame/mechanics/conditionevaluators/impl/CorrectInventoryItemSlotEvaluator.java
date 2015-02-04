@@ -23,6 +23,10 @@ public class CorrectInventoryItemSlotEvaluator implements ConditionEvaluator {
     @Override
     public final boolean evaluate(final ICharacter iCharacter,
             final UniqueEntity contextItem) {
+        if (!(contextItem instanceof InventoryItem)) {
+            return false;
+        }
+
         final DndCharacter dndCharacter = (DndCharacter) iCharacter;
 
         final PersonalizedBodySlot bodySlot

@@ -19,9 +19,14 @@ public class BaseAbilitiesObserverAccumulatorStrategy
     @Override
     public final Observers getObservers(final ObserverSource observerSource,
             final UniqueEntity targetEntity) {
+        final Observers observers = new Observers();
+
+        if (!(observerSource instanceof BaseAbilities)) {
+            return observers;
+        }
 
         final BaseAbilities baseAbilities = (BaseAbilities) observerSource;
-        final Observers observers = new Observers();
+
         final Iterator<Ability> abilityIterator
                 = baseAbilities.abilityIterator();
 

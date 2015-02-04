@@ -15,6 +15,9 @@ public class FeatureObserverAccumulatorStrategy
     @Override
     public Observers getObservers(final ObserverSource observerSource,
             final UniqueEntity targetEntity) {
+        if (!(observerSource instanceof Feature)) {
+            return new Observers();
+        }
         return ((Feature) observerSource).getObservers();
     }
 
