@@ -33,15 +33,15 @@ public class DndCharacterObserverAccumulatorStrategy
 
         final DndCharacter dndCharacter = (DndCharacter) observerSource;
 
-        observers.add(this.baseAbilitiesStrategy.getObservers(
+        observers.add(this.getBaseAbilitiesStrategy().getObservers(
                 dndCharacter.getBaseAbilities(), targetEntity));
-        observers.add(this.personalizedBodySlotsStrategy.getObservers(
+        observers.add(this.getPersonalizedBodySlotsStrategy().getObservers(
                 dndCharacter.getPersonalizedBodySlots(), targetEntity));
-        observers.add(this.conditionsStrategy.getObservers(
+        observers.add(this.getConditionsStrategy().getObservers(
                 dndCharacter.getConditions(), targetEntity));
-        observers.add(this.levelAdvancementsStrategy.getObservers(
+        observers.add(this.getLevelAdvancementsStrategy().getObservers(
                 dndCharacter.getLevelAdvancements(), targetEntity));
-        observers.add(this.raceStrategy.getObservers(
+        observers.add(this.getRaceStrategy().getObservers(
                 dndCharacter.getRace(), targetEntity));
 
         return observers;
@@ -92,6 +92,42 @@ public class DndCharacterObserverAccumulatorStrategy
     public final void setPersonalizedBodySlotsStrategy(
             final ObserverAccumulatorStrategy personalizedBodySlotsStrategyIn) {
         this.personalizedBodySlotsStrategy = personalizedBodySlotsStrategyIn;
+    }
+
+    /**
+     * @return the baseAbilitiesStrategy
+     */
+    public final ObserverAccumulatorStrategy getBaseAbilitiesStrategy() {
+        return baseAbilitiesStrategy;
+    }
+
+    /**
+     * @return the personalizedBodySlotsStrategy
+     */
+    public final ObserverAccumulatorStrategy
+            getPersonalizedBodySlotsStrategy() {
+        return personalizedBodySlotsStrategy;
+    }
+
+    /**
+     * @return the conditionsStrategy
+     */
+    public final ObserverAccumulatorStrategy getConditionsStrategy() {
+        return conditionsStrategy;
+    }
+
+    /**
+     * @return the levelAdvancementsStrategy
+     */
+    public final ObserverAccumulatorStrategy getLevelAdvancementsStrategy() {
+        return levelAdvancementsStrategy;
+    }
+
+    /**
+     * @return the raceStrategy
+     */
+    public final ObserverAccumulatorStrategy getRaceStrategy() {
+        return raceStrategy;
     }
 
 }

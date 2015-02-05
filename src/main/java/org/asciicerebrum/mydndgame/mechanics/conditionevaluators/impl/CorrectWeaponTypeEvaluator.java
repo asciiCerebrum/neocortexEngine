@@ -40,7 +40,7 @@ public class CorrectWeaponTypeEvaluator implements ConditionEvaluator {
             return false;
         }
 
-        return this.weaponServiceFacade.hasWeaponType(this.weaponType,
+        return this.getWeaponServiceFacade().hasWeaponType(this.weaponType,
                 (Weapon) contextItem, dndCharacter);
     }
 
@@ -64,6 +64,13 @@ public class CorrectWeaponTypeEvaluator implements ConditionEvaluator {
     public final void setWeaponServiceFacade(
             final WeaponServiceFacade weaponServiceFacadeInput) {
         this.weaponServiceFacade = weaponServiceFacadeInput;
+    }
+
+    /**
+     * @return the weaponServiceFacade
+     */
+    public final WeaponServiceFacade getWeaponServiceFacade() {
+        return weaponServiceFacade;
     }
 
 }

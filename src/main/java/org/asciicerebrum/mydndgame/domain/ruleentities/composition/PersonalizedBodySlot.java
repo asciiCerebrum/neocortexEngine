@@ -147,14 +147,23 @@ public class PersonalizedBodySlot implements BonusSource, ObserverSource {
     }
 
     public final BodySlotType getBodySlotType() {
+        if (this.bodySlot == null) {
+            return null;
+        }
         return this.bodySlot.getBodySlotType();
     }
 
     public final AttackAbility getIsPrimaryAttackSlot() {
+        if (this.bodySlot == null) {
+            return null;
+        }
         return this.bodySlot.getIsPrimaryAttackSlot();
     }
 
     public final BodySlot getCounterBodySlot() {
+        if (this.bodySlot == null) {
+            return null;
+        }
         return this.bodySlot.getCounterSlot();
     }
 }

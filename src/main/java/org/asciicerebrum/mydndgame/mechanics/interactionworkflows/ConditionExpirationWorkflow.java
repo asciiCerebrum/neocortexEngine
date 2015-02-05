@@ -29,7 +29,7 @@ public class ConditionExpirationWorkflow implements IWorkflow {
         while (iterator.hasNext()) {
             final DndCharacter participant = iterator.next();
 
-            this.conditionService.removeExpiredConditions(participant,
+            this.getConditionService().removeExpiredConditions(participant,
                     combatRound.getCurrentDate());
         }
     }
@@ -40,6 +40,13 @@ public class ConditionExpirationWorkflow implements IWorkflow {
     public final void setConditionService(
             final ConditionApplicationService conditionServiceInput) {
         this.conditionService = conditionServiceInput;
+    }
+
+    /**
+     * @return the conditionService
+     */
+    public final ConditionApplicationService getConditionService() {
+        return conditionService;
     }
 
 }

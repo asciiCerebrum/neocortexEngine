@@ -28,7 +28,7 @@ public class PersonalizedBodySlotObserverAccumulatorStrategy
                 = (PersonalizedBodySlot) observerSource;
 
         if (bodySlot.getItem() instanceof ObserverSource) {
-            observers.add(this.itemStrategy.getObservers(
+            observers.add(this.getItemStrategy().getObservers(
                     (ObserverSource) bodySlot.getItem(), targetEntity));
         }
 
@@ -46,6 +46,13 @@ public class PersonalizedBodySlotObserverAccumulatorStrategy
     public final void setItemStrategy(
             final ObserverAccumulatorStrategy itemStrategyInput) {
         this.itemStrategy = itemStrategyInput;
+    }
+
+    /**
+     * @return the itemStrategy
+     */
+    public final ObserverAccumulatorStrategy getItemStrategy() {
+        return itemStrategy;
     }
 
 }

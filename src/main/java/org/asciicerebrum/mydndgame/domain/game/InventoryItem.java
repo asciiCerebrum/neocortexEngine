@@ -78,11 +78,11 @@ public abstract class InventoryItem extends UniqueEntity
     }
 
     public final Cost getBaseCost() {
-        return this.inventoryItemPrototype.getBaseCost();
+        return this.getInventoryItemPrototype().getBaseCost();
     }
 
     public final BodySlotTypes getBaseDesignatedBodySlotTypes() {
-        return this.inventoryItemPrototype.getDesignatedBodySlotTypes();
+        return this.getInventoryItemPrototype().getDesignatedBodySlotTypes();
     }
 
     public final boolean resembles(final InventoryItem item) {

@@ -32,7 +32,7 @@ public class InventoryItemObserverAccumulatorStrategy
         // the observers of both scopes! (ALL and SPECIFIC) - hence no
         // filtering.
         // When they differ, only the ALL-scopes observers must be used!
-        observers.add(this.specialAbilitiesStrategy.getObservers(
+        observers.add(this.getSpecialAbilitiesStrategy().getObservers(
                 observerSource, targetEntity));
 
         if (observerSource != targetEntity) {
@@ -56,6 +56,13 @@ public class InventoryItemObserverAccumulatorStrategy
     public final void setSpecialAbilitiesStrategy(
             final ObserverAccumulatorStrategy specialAbilitiesStrategyInput) {
         this.specialAbilitiesStrategy = specialAbilitiesStrategyInput;
+    }
+
+    /**
+     * @return the specialAbilitiesStrategy
+     */
+    public final ObserverAccumulatorStrategy getSpecialAbilitiesStrategy() {
+        return specialAbilitiesStrategy;
     }
 
 }

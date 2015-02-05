@@ -28,7 +28,7 @@ public class FeatObserverAccumulatorStrategy
         final Feat feat = (Feat) observerSource;
         final FeatType featType = feat.getFeatType();
 
-        observers.add(this.featTypeStrategy.getObservers(
+        observers.add(this.getFeatTypeStrategy().getObservers(
                 featType, targetEntity));
 
         return observers;
@@ -45,6 +45,13 @@ public class FeatObserverAccumulatorStrategy
     public final void setFeatTypeStrategy(
             final ObserverAccumulatorStrategy featTypeStrategyInput) {
         this.featTypeStrategy = featTypeStrategyInput;
+    }
+
+    /**
+     * @return the featTypeStrategy
+     */
+    public final ObserverAccumulatorStrategy getFeatTypeStrategy() {
+        return featTypeStrategy;
     }
 
 }

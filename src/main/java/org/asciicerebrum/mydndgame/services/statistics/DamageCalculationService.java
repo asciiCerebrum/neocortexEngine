@@ -40,16 +40,16 @@ public class DamageCalculationService {
             final DndCharacter dndCharacter) {
 
         final BonusValueTuple damageValues
-                = this.bonusService.calculateBonusValues(
+                = this.getBonusService().calculateBonusValues(
                         new BonusSources(dndCharacter),
                         new BonusTargets(this.damageAction,
-                                this.situationContextService
+                                this.getSituationContextService()
                                 .getItemAttackMode(weapon, dndCharacter)
                                 .getAssociatedAttackDiceAction()),
                         weapon,
                         new ObserverSources(dndCharacter),
                         new ObserverHooks(ObserverHook.DAMAGE,
-                                this.situationContextService
+                                this.getSituationContextService()
                                 .getItemAttackMode(weapon, dndCharacter)
                                 .getAssociatedDamageHook()),
                         dndCharacter
@@ -79,6 +79,20 @@ public class DamageCalculationService {
     public final void setSituationContextService(
             final SituationContextService situationContextServiceInput) {
         this.situationContextService = situationContextServiceInput;
+    }
+
+    /**
+     * @return the bonusService
+     */
+    public final BonusCalculationService getBonusService() {
+        return bonusService;
+    }
+
+    /**
+     * @return the situationContextService
+     */
+    public final SituationContextService getSituationContextService() {
+        return situationContextService;
     }
 
 }

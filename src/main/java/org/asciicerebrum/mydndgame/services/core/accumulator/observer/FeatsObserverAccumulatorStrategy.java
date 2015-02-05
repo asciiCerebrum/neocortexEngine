@@ -29,7 +29,7 @@ public class FeatsObserverAccumulatorStrategy
         while (featIterator.hasNext()) {
             final FeatType featType = featIterator.next();
 
-            observers.add(this.featStrategy.getObservers(
+            observers.add(this.getFeatStrategy().getObservers(
                     featType, targetEntity));
         }
 
@@ -47,6 +47,13 @@ public class FeatsObserverAccumulatorStrategy
     public final void setFeatStrategy(
             final ObserverAccumulatorStrategy featStrategyInput) {
         this.featStrategy = featStrategyInput;
+    }
+
+    /**
+     * @return the featStrategy
+     */
+    public final ObserverAccumulatorStrategy getFeatStrategy() {
+        return featStrategy;
     }
 
 }

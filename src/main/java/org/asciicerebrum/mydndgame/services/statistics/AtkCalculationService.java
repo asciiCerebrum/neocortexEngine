@@ -71,20 +71,20 @@ public class AtkCalculationService {
         //TODO test this thouroughly!! also with multiple weapons in the slots!
         final BonusValueTuple atkValues
                 = this.calcBaseAtkBoni(dndCharacter);
-        final BonusValueTuple atkBonus = this.bonusService.calculateBonusValues(
-                new BonusSources(dndCharacter),
-                new BonusTargets(this.attackAction,
-                        this.situationContextService
-                        .getItemAttackMode(weapon, dndCharacter)
-                        .getAssociatedAttackDiceAction()),
-                weapon,
-                new ObserverSources(dndCharacter),
-                new ObserverHooks(ObserverHook.ATTACK,
-                        this.situationContextService
-                        .getItemAttackMode(weapon, dndCharacter)
-                        .getAssociatedDamageHook()),
-                dndCharacter
-        );
+        final BonusValueTuple atkBonus = this.getBonusService()
+                .calculateBonusValues(new BonusSources(dndCharacter),
+                        new BonusTargets(this.attackAction,
+                                this.getSituationContextService()
+                                .getItemAttackMode(weapon, dndCharacter)
+                                .getAssociatedAttackDiceAction()),
+                        weapon,
+                        new ObserverSources(dndCharacter),
+                        new ObserverHooks(ObserverHook.ATTACK,
+                                this.getSituationContextService()
+                                .getItemAttackMode(weapon, dndCharacter)
+                                .getAssociatedDamageHook()),
+                        dndCharacter
+                );
         atkValues.add(atkBonus.getBonusValueByRank(BonusRank.RANK_0));
         return atkValues;
     }
@@ -110,6 +110,20 @@ public class AtkCalculationService {
     public final void setSituationContextService(
             final SituationContextService situationContextServiceInput) {
         this.situationContextService = situationContextServiceInput;
+    }
+
+    /**
+     * @return the bonusService
+     */
+    public final BonusCalculationService getBonusService() {
+        return bonusService;
+    }
+
+    /**
+     * @return the situationContextService
+     */
+    public final SituationContextService getSituationContextService() {
+        return situationContextService;
     }
 
 }

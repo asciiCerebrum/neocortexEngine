@@ -34,14 +34,14 @@ public class CorrectAttackModeEvaluator implements ConditionEvaluator {
             final UniqueEntity contextEntity) {
         final DndCharacter dndCharacter = (DndCharacter) iCharacter;
 
-        final WeaponCategory refAttackMode = this.situationContextService
+        final WeaponCategory refAttackMode = this.getSituationContextService()
                 .getItemAttackMode(contextEntity, dndCharacter);
 
         if (refAttackMode == null) {
             return false;
         }
 
-        return refAttackMode.equals(this.weaponCategory);
+        return refAttackMode.equals(this.getWeaponCategory());
     }
 
     /**
@@ -58,6 +58,20 @@ public class CorrectAttackModeEvaluator implements ConditionEvaluator {
     public final void setSituationContextService(
             final SituationContextService situationContextServiceInput) {
         this.situationContextService = situationContextServiceInput;
+    }
+
+    /**
+     * @return the weaponCategory
+     */
+    public final WeaponCategory getWeaponCategory() {
+        return weaponCategory;
+    }
+
+    /**
+     * @return the situationContextService
+     */
+    public final SituationContextService getSituationContextService() {
+        return situationContextService;
     }
 
 }

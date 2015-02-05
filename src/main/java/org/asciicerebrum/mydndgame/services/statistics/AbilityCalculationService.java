@@ -55,7 +55,7 @@ public class AbilityCalculationService {
                 dndCharacter, ability);
 
         final BonusValueTuple abilityTuple
-                = this.bonusService.calculateBonusValues(
+                = this.getBonusService().calculateBonusValues(
                         new BonusSources(dndCharacter),
                         new BonusTargets(this.generalAbility, ability),
                         dndCharacter,
@@ -113,6 +113,13 @@ public class AbilityCalculationService {
      */
     public final void setGeneralAbility(final Ability generalAbilityInput) {
         this.generalAbility = generalAbilityInput;
+    }
+
+    /**
+     * @return the bonusService
+     */
+    public final BonusCalculationService getBonusService() {
+        return bonusService;
     }
 
 }

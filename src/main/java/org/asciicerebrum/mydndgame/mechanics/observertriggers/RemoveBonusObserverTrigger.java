@@ -35,7 +35,7 @@ public class RemoveBonusObserverTrigger implements ObserverTriggerStrategy {
         final Iterator<Bonus> boniIterator = boni.iterator();
         while (boniIterator.hasNext()) {
             final Bonus bonus = boniIterator.next();
-            if (this.removeBonus.resembles(bonus,
+            if (this.getRemoveBonus().resembles(bonus,
                     this.resemblanceFacets)) {
                 boniIterator.remove();
             }
@@ -57,4 +57,12 @@ public class RemoveBonusObserverTrigger implements ObserverTriggerStrategy {
             final ResemblanceFacet... resemblanceFacetsInput) {
         this.resemblanceFacets = resemblanceFacetsInput;
     }
+
+    /**
+     * @return the removeBonus
+     */
+    public final Bonus getRemoveBonus() {
+        return removeBonus;
+    }
+
 }

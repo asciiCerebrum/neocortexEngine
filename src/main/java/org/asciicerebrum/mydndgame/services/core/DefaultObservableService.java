@@ -98,7 +98,7 @@ public class DefaultObservableService implements ObservableService {
 
         // find the starting point of all the accumulator strategies
         final ObserverAccumulatorStrategy strategy
-                = this.accumulatorStrategies.findForSource(observerSource);
+                = this.getAccumulatorStrategies().findForSource(observerSource);
 
         return strategy.getObservers(observerSource, targetEntity);
     }
@@ -127,6 +127,13 @@ public class DefaultObservableService implements ObservableService {
     public final void setAccumulatorStrategies(
             final ObserverAccumulatorStrategies accumulatorStrategiesInput) {
         this.accumulatorStrategies = accumulatorStrategiesInput;
+    }
+
+    /**
+     * @return the accumulatorStrategies
+     */
+    public final ObserverAccumulatorStrategies getAccumulatorStrategies() {
+        return accumulatorStrategies;
     }
 
 }

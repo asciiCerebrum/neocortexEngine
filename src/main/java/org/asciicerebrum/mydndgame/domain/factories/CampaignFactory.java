@@ -1,6 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.asciicerebrum.mydndgame.domain.factories.Reassignments;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.factories.Reassignments.ReassignmentEntry;
@@ -32,28 +31,26 @@ public class CampaignFactory implements EntityFactory<Campaign> {
     public Campaign newEntity(EntitySetup setup,
             Reassignments reassignments) {
 
-        Campaign campaign = this.context.getBean(Campaign.class);
+        Campaign campaign = this.getContext().getBean(Campaign.class);
 
         for (EntitySetup itemSetup
                 : setup.getPropertySetups(
                         SetupProperty.INVENTORY_ITEMS)) {
-            campaign.registerUniqueEntity(
-                    this.inventoryItemFactory.newEntity(itemSetup,
-                            reassignments));
+            campaign.registerUniqueEntity(this.getInventoryItemFactory()
+                    .newEntity(itemSetup, reassignments));
         }
 
         for (EntitySetup characterSetup
                 : setup.getPropertySetups(
                         SetupProperty.PARTICIPANT_CHARACTERS)) {
-            campaign.registerUniqueEntity(
-                    this.characterFactory.newEntity(characterSetup,
-                            reassignments));
+            campaign.registerUniqueEntity(this.getCharacterFactory()
+                    .newEntity(characterSetup, reassignments));
         }
 
         EntitySetup combatRoundSetup
                 = setup.getPropertySetup(SetupProperty.COMBAT_ROUND);
         if (combatRoundSetup != null) {
-            campaign.setCombatRound(this.combatRoundFactory
+            campaign.setCombatRound(this.getCombatRoundFactory()
                     .newEntity(combatRoundSetup, reassignments));
         }
 
@@ -102,6 +99,34 @@ public class CampaignFactory implements EntityFactory<Campaign> {
     public final void setCombatRoundFactory(
             final EntityFactory<CombatRound> combatRoundFactoryInput) {
         this.combatRoundFactory = combatRoundFactoryInput;
+    }
+
+    /**
+     * @return the context
+     */
+    public final ApplicationContext getContext() {
+        return context;
+    }
+
+    /**
+     * @return the characterFactory
+     */
+    public final EntityFactory<DndCharacter> getCharacterFactory() {
+        return characterFactory;
+    }
+
+    /**
+     * @return the inventoryItemFactory
+     */
+    public final EntityFactory<InventoryItem> getInventoryItemFactory() {
+        return inventoryItemFactory;
+    }
+
+    /**
+     * @return the combatRoundFactory
+     */
+    public final EntityFactory<CombatRound> getCombatRoundFactory() {
+        return combatRoundFactory;
     }
 
 }

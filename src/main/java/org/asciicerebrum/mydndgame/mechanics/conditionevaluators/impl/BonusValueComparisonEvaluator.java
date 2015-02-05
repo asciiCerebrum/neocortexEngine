@@ -120,12 +120,11 @@ public class BonusValueComparisonEvaluator implements ConditionEvaluator {
     public final boolean evaluate(final ICharacter dndCharacter,
             final UniqueEntity uniqueEntity) {
 
-        final LongParticle bonusValue = this.bonusValueProvider
+        final LongParticle bonusValue = this.getBonusValueProvider()
                 .getDynamicValue(dndCharacter, uniqueEntity);
 
-        return this.comparator.compare(
-                (double) bonusValue.getValue(),
-                (double) this.referenceValue.getValue());
+        return this.getComparator().compare((double) bonusValue.getValue(),
+                (double) this.getReferenceValue().getValue());
     }
 
     /**
@@ -149,6 +148,27 @@ public class BonusValueComparisonEvaluator implements ConditionEvaluator {
      */
     public final void setReferenceValue(final BonusValue referenceValueInput) {
         this.referenceValue = referenceValueInput;
+    }
+
+    /**
+     * @return the bonusValueProvider
+     */
+    public final DynamicValueProvider getBonusValueProvider() {
+        return bonusValueProvider;
+    }
+
+    /**
+     * @return the comparator
+     */
+    public final ArithmeticComparator getComparator() {
+        return comparator;
+    }
+
+    /**
+     * @return the referenceValue
+     */
+    public final BonusValue getReferenceValue() {
+        return referenceValue;
     }
 
 }

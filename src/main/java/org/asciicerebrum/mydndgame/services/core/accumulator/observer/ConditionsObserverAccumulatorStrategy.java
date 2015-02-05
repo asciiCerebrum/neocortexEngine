@@ -31,7 +31,7 @@ public class ConditionsObserverAccumulatorStrategy
 
         while (conditionIterator.hasNext()) {
             final Condition condition = conditionIterator.next();
-            observers.add(this.conditionStrategy.getObservers(
+            observers.add(this.getConditionStrategy().getObservers(
                     condition, targetEntity));
         }
         return observers;
@@ -48,6 +48,13 @@ public class ConditionsObserverAccumulatorStrategy
     public final void setConditionStrategy(
             final ObserverAccumulatorStrategy conditionStrategyInput) {
         this.conditionStrategy = conditionStrategyInput;
+    }
+
+    /**
+     * @return the conditionStrategy
+     */
+    public final ObserverAccumulatorStrategy getConditionStrategy() {
+        return conditionStrategy;
     }
 
 }

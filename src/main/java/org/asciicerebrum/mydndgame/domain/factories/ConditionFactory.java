@@ -39,7 +39,8 @@ public class ConditionFactory implements EntityFactory<Condition> {
                 SetupProperty.CONDITION_CAUSE_ENTITY);
         UniqueEntity uEntity = null;
         if (StringUtils.isNotBlank(causeEntityId)) {
-            uEntity = this.campaign.getEntityById(new UniqueId(causeEntityId));
+            uEntity = this.getCampaign().getEntityById(
+                    new UniqueId(causeEntityId));
             condition.setCauseEntity(uEntity);
         }
         if (StringUtils.isNotBlank(causeEntityId) && uEntity == null) {
@@ -48,13 +49,13 @@ public class ConditionFactory implements EntityFactory<Condition> {
             reassignments.addEntry(this, setup, condition);
         }
 
-        condition.setConditionType(this.context.getBean(
+        condition.setConditionType(this.getContext().getBean(
                 setup.getProperty(SetupProperty.CONDITION_TYPE),
                 ConditionType.class));
-        condition.setExpiryDate(this.worldDateFactory.newEntity(
+        condition.setExpiryDate(this.getWorldDateFactory().newEntity(
                 setup.getPropertySetup(SetupProperty.CONDITION_EXPIRY_DATE),
                 reassignments));
-        condition.setStartingDate(this.worldDateFactory.newEntity(
+        condition.setStartingDate(this.getWorldDateFactory().newEntity(
                 setup.getPropertySetup(SetupProperty.CONDITION_START_DATE),
                 reassignments));
 
@@ -63,7 +64,7 @@ public class ConditionFactory implements EntityFactory<Condition> {
 
     @Override
     public void reAssign(EntitySetup setup, Condition entity) {
-        entity.setCauseEntity(this.campaign.getEntityById(
+        entity.setCauseEntity(this.getCampaign().getEntityById(
                 new UniqueId(setup.getProperty(
                                 SetupProperty.CONDITION_CAUSE_ENTITY))));
     }
@@ -88,6 +89,27 @@ public class ConditionFactory implements EntityFactory<Condition> {
     public final void setWorldDateFactory(
             final EntityFactory<WorldDate> worldDateFactoryInput) {
         this.worldDateFactory = worldDateFactoryInput;
+    }
+
+    /**
+     * @return the campaign
+     */
+    public final Campaign getCampaign() {
+        return campaign;
+    }
+
+    /**
+     * @return the context
+     */
+    public final ApplicationContext getContext() {
+        return context;
+    }
+
+    /**
+     * @return the worldDateFactory
+     */
+    public final EntityFactory<WorldDate> getWorldDateFactory() {
+        return worldDateFactory;
     }
 
 }

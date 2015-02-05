@@ -50,19 +50,19 @@ public class AddBonusObserverTrigger implements ObserverTriggerStrategy {
             final ICharacter dndCharacter, final UniqueEntity contextItem) {
         Boni boni = (Boni) object;
 
-        if (this.addBonus != null) {
-            boni.addBonus(this.addBonus);
+        if (this.getAddBonus() != null) {
+            boni.addBonus(this.getAddBonus());
             return boni;
         }
 
-        BonusValue addBonusValue = this.situationContextService
-                .getBonusValueForKey(this.registryStateKey,
+        BonusValue addBonusValue = this.getSituationContextService()
+                .getBonusValueForKey(this.getRegistryStateKey(),
                         (DndCharacter) dndCharacter);
 
         if (addBonusValue.isNonZero()) {
             final Bonus altAddBonus = new Bonus();
-            altAddBonus.setBonusType(this.bonusType);
-            altAddBonus.setTarget(this.bonusTarget);
+            altAddBonus.setBonusType(this.getBonusType());
+            altAddBonus.setTarget(this.getBonusTarget());
 
             final BonusValueTuple bonusValueTuple = new BonusValueTuple();
             bonusValueTuple.addBonusValue(BonusRank.RANK_0, addBonusValue);
@@ -110,6 +110,41 @@ public class AddBonusObserverTrigger implements ObserverTriggerStrategy {
     public final void setSituationContextService(
             final SituationContextService situationContextServiceInput) {
         this.situationContextService = situationContextServiceInput;
+    }
+
+    /**
+     * @return the bonusType
+     */
+    public final BonusType getBonusType() {
+        return bonusType;
+    }
+
+    /**
+     * @return the registryStateKey
+     */
+    public final StateParticle getRegistryStateKey() {
+        return registryStateKey;
+    }
+
+    /**
+     * @return the bonusTarget
+     */
+    public final BonusTarget getBonusTarget() {
+        return bonusTarget;
+    }
+
+    /**
+     * @return the addBonus
+     */
+    public final Bonus getAddBonus() {
+        return addBonus;
+    }
+
+    /**
+     * @return the situationContextService
+     */
+    public final SituationContextService getSituationContextService() {
+        return situationContextService;
     }
 
 }

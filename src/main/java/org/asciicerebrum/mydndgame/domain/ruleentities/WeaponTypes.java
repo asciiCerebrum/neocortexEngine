@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ public class WeaponTypes {
     /**
      * List of weapon types.
      */
-    private List<WeaponType> elements;
+    private final List<WeaponType> elements = new ArrayList<WeaponType>();
 
     /**
      * @return the weaponTypes
@@ -23,8 +24,8 @@ public class WeaponTypes {
     /**
      * @param weaponTypesInput the weaponTypes to set
      */
-    public final void setWeaponTypes(final List<WeaponType> weaponTypesInput) {
-        this.elements = weaponTypesInput;
+    public final void add(final List<WeaponType> weaponTypesInput) {
+        this.elements.addAll(weaponTypesInput);
     }
 
     public final boolean contains(final WeaponType weaponType) {

@@ -89,7 +89,8 @@ public class WeaponFinesseObserverTrigger implements ObserverTriggerStrategy {
                         (DndCharacter) dndCharacter, usedWeapon);
 
         final BooleanParticle useFinesse
-                = this.situationContextService.getFlagForKey(this.registryKey,
+                = this.getSituationContextService().getFlagForKey(
+                        this.getRegistryKey(),
                         (DndCharacter) dndCharacter, usedWeapon);
 
         if (!useFinesse.isValue() || !situationContextValidity) {
@@ -100,13 +101,13 @@ public class WeaponFinesseObserverTrigger implements ObserverTriggerStrategy {
         final Iterator<Bonus> boniIterator = boni.iterator();
         while (boniIterator.hasNext()) {
             final Bonus bonus = boniIterator.next();
-            if (this.removeBonus.resembles(bonus)) {
+            if (this.getRemoveBonus().resembles(bonus)) {
                 boniIterator.remove();
             }
         }
 
         // inculde DEX bonus
-        boni.addBonus(this.replacementBonus);
+        boni.addBonus(this.getReplacementBonus());
 
         return boni;
     }
@@ -122,20 +123,20 @@ public class WeaponFinesseObserverTrigger implements ObserverTriggerStrategy {
             final DndCharacter dndCharacter, final Weapon usedWeapon) {
 
         // test size category
-        if (!this.itemFacade.getSize(usedWeapon, dndCharacter).equals(
-                this.characterServiceFacade.getSize(dndCharacter))) {
+        if (!this.getItemFacade().getSize(usedWeapon, dndCharacter).equals(
+                this.getCharacterServiceFacade().getSize(dndCharacter))) {
             return false;
         }
 
         // test encumbrance
-        if (this.weaponServiceFacade.hasEncumbrance(this.validEncumbrance,
-                usedWeapon, dndCharacter)) {
+        if (this.getWeaponServiceFacade().hasEncumbrance(
+                this.getValidEncumbrance(), usedWeapon, dndCharacter)) {
             return true;
         }
 
         // test specific name
         final Iterator<WeaponPrototype> prototypeIterator
-                = this.validWeaponPrototypes.iterator();
+                = this.getValidWeaponPrototypes().iterator();
         while (prototypeIterator.hasNext()) {
             final WeaponPrototype prototype = prototypeIterator.next();
             if (usedWeapon.isOfWeaponPrototype(prototype)) {
@@ -214,6 +215,69 @@ public class WeaponFinesseObserverTrigger implements ObserverTriggerStrategy {
     public final void setWeaponServiceFacade(
             final WeaponServiceFacade weaponServiceFacadeInput) {
         this.weaponServiceFacade = weaponServiceFacadeInput;
+    }
+
+    /**
+     * @return the registryKey
+     */
+    public final StateParticle getRegistryKey() {
+        return registryKey;
+    }
+
+    /**
+     * @return the validEncumbrance
+     */
+    public final Encumbrance getValidEncumbrance() {
+        return validEncumbrance;
+    }
+
+    /**
+     * @return the validWeaponPrototypes
+     */
+    public final WeaponPrototypes getValidWeaponPrototypes() {
+        return validWeaponPrototypes;
+    }
+
+    /**
+     * @return the removeBonus
+     */
+    public final Bonus getRemoveBonus() {
+        return removeBonus;
+    }
+
+    /**
+     * @return the replacementBonus
+     */
+    public final Bonus getReplacementBonus() {
+        return replacementBonus;
+    }
+
+    /**
+     * @return the situationContextService
+     */
+    public final SituationContextService getSituationContextService() {
+        return situationContextService;
+    }
+
+    /**
+     * @return the characterServiceFacade
+     */
+    public final CharacterServiceFacade getCharacterServiceFacade() {
+        return characterServiceFacade;
+    }
+
+    /**
+     * @return the itemFacade
+     */
+    public final InventoryItemServiceFacade getItemFacade() {
+        return itemFacade;
+    }
+
+    /**
+     * @return the weaponServiceFacade
+     */
+    public final WeaponServiceFacade getWeaponServiceFacade() {
+        return weaponServiceFacade;
     }
 
 }

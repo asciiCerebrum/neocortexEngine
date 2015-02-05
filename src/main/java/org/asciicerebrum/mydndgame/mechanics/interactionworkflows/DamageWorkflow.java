@@ -51,7 +51,7 @@ public class DamageWorkflow implements IWorkflow {
     public final void runWorkflow(final Interaction interaction) {
 
         final InventoryItem sourceWeapon
-                = this.situationContextService.getActiveItem(interaction
+                = this.getSituationContextService().getActiveItem(interaction
                         .getTriggeringCharacter());
 
         if (!(sourceWeapon instanceof Weapon)) {
@@ -60,18 +60,17 @@ public class DamageWorkflow implements IWorkflow {
 
         // make one damage roll
         final DiceRoll sourceDamageRoll
-                = this.diceRollManager.rollDice(
-                        this.weaponServiceFacade.getDamage(
-                                (Weapon) sourceWeapon,
+                = this.getDiceRollManager().rollDice(
+                        this.getWeaponServiceFacade().getDamage((Weapon) sourceWeapon,
                                 interaction.getTriggeringCharacter()));
 
         final BonusValue sourceDamageBonus
-                = this.damageService.calcDamageBonus((Weapon) sourceWeapon,
+                = this.getDamageService().calcDamageBonus((Weapon) sourceWeapon,
                         interaction.getTriggeringCharacter());
 
         // consider minimum damage!
         final DiceRoll totalSourceDamage
-                = DiceRoll.max(this.minimumDamage,
+                = DiceRoll.max(this.getMinimumDamage(),
                         sourceDamageRoll.add(sourceDamageBonus));
 
         // apply damage: this must be done at the character (special method for
@@ -83,11 +82,11 @@ public class DamageWorkflow implements IWorkflow {
         Damage sourceDamage = new Damage();
         sourceDamage.setDamageValue(totalSourceDamage);
         sourceDamage.setWeapon((Weapon) sourceWeapon);
-        sourceDamage.setDamageType(this.situationContextService
+        sourceDamage.setDamageType(this.getSituationContextService()
                 .getItemDamageType(sourceWeapon,
                         interaction.getTriggeringCharacter()));
 
-        this.damageApplicationService.applyDamage(
+        this.getDamageApplicationService().applyDamage(
                 interaction.getFirstTargetCharacter(),
                 new Damages(sourceDamage));
 
@@ -139,6 +138,48 @@ public class DamageWorkflow implements IWorkflow {
     public final void setWeaponServiceFacade(
             final WeaponServiceFacade weaponServiceFacadeInput) {
         this.weaponServiceFacade = weaponServiceFacadeInput;
+    }
+
+    /**
+     * @return the diceRollManager
+     */
+    public final DiceRollManager getDiceRollManager() {
+        return diceRollManager;
+    }
+
+    /**
+     * @return the damageApplicationService
+     */
+    public final DamageApplicationService getDamageApplicationService() {
+        return damageApplicationService;
+    }
+
+    /**
+     * @return the minimumDamage
+     */
+    public final DiceRoll getMinimumDamage() {
+        return minimumDamage;
+    }
+
+    /**
+     * @return the damageService
+     */
+    public final DamageCalculationService getDamageService() {
+        return damageService;
+    }
+
+    /**
+     * @return the situationContextService
+     */
+    public final SituationContextService getSituationContextService() {
+        return situationContextService;
+    }
+
+    /**
+     * @return the weaponServiceFacade
+     */
+    public final WeaponServiceFacade getWeaponServiceFacade() {
+        return weaponServiceFacade;
     }
 
 }

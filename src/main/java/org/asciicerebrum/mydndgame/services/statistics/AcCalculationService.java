@@ -45,7 +45,7 @@ public class AcCalculationService {
 
         final BonusValueTuple acTuple = this.bonusService.calculateBonusValues(
                 new BonusSources(dndCharacter),
-                new BonusTargets(this.acBaseAction, this.acAction),
+                new BonusTargets(this.getAcBaseAction(), this.acAction),
                 dndCharacter,
                 new ObserverSources(dndCharacter),
                 new ObserverHooks(ObserverHook.AC_BASE, ObserverHook.AC),
@@ -62,7 +62,7 @@ public class AcCalculationService {
     final ArmorClass toArmorClass(final BonusValueTuple acTuple) {
         final ArmorClass armorClass = new ArmorClass();
         armorClass.add(acTuple.getBonusValueByRank(BonusRank.RANK_0))
-                .add(this.acBaseAction.getConstValue());
+                .add(this.getAcBaseAction().getConstValue());
         return armorClass;
     }
 
@@ -94,7 +94,7 @@ public class AcCalculationService {
             final DndCharacter dndCharacter) {
 
         final BonusValueTuple acTuple = this.bonusService.calculateBonusValues(
-                dndCharacter, this.acBaseAction,
+                dndCharacter, this.getAcBaseAction(),
                 dndCharacter,
                 dndCharacter, ObserverHook.AC_BASE,
                 dndCharacter);
@@ -114,7 +114,7 @@ public class AcCalculationService {
             final DndCharacter dndCharacter) {
         final BonusValueTuple acTuple = this.bonusService.calculateBonusValues(
                 new BonusSources(dndCharacter, this.flatFooted),
-                new BonusTargets(this.acBaseAction),
+                new BonusTargets(this.getAcBaseAction()),
                 dndCharacter,
                 new ObserverSources(dndCharacter, this.flatFooted),
                 new ObserverHooks(ObserverHook.AC_BASE),
@@ -134,7 +134,7 @@ public class AcCalculationService {
             final DndCharacter dndCharacter) {
         final BonusValueTuple acTuple = this.bonusService.calculateBonusValues(
                 new BonusSources(dndCharacter, this.touchAttackAction),
-                new BonusTargets(this.acBaseAction),
+                new BonusTargets(this.getAcBaseAction()),
                 dndCharacter,
                 new ObserverSources(dndCharacter, this.touchAttackAction),
                 new ObserverHooks(ObserverHook.AC_BASE),
@@ -178,6 +178,13 @@ public class AcCalculationService {
     public final void setBonusService(
             final BonusCalculationService bonusServiceInput) {
         this.bonusService = bonusServiceInput;
+    }
+
+    /**
+     * @return the acBaseAction
+     */
+    public final DiceAction getAcBaseAction() {
+        return acBaseAction;
     }
 
 }

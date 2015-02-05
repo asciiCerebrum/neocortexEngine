@@ -43,7 +43,7 @@ public class CombatRoundEntry {
 
     public final boolean isCombatRoundPosition(
             final CombatRoundPosition crPosition) {
-        return this.combatRoundPosition.equals(crPosition);
+        return this.getCombatRoundPosition().equals(crPosition);
     }
 
 }

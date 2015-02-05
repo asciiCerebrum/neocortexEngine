@@ -37,7 +37,7 @@ public class CorrectInventoryItemSlotEvaluator implements ConditionEvaluator {
             return false;
         }
 
-        return this.itemFacade.isCorrectlyWielded(bodySlot.getBodySlotType(),
+        return this.getItemFacade().isCorrectlyWielded(bodySlot.getBodySlotType(),
                 (InventoryItem) contextItem, dndCharacter);
     }
 
@@ -47,6 +47,13 @@ public class CorrectInventoryItemSlotEvaluator implements ConditionEvaluator {
     public final void setItemFacade(
             final InventoryItemServiceFacade itemFacadeInput) {
         this.itemFacade = itemFacadeInput;
+    }
+
+    /**
+     * @return the itemFacade
+     */
+    public final InventoryItemServiceFacade getItemFacade() {
+        return itemFacade;
     }
 
 }

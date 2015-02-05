@@ -40,9 +40,10 @@ public class AtkBonusValueProvider implements DynamicValueProvider {
         final Weapon weapon = (Weapon) contextItem;
 
         final BonusValueTuple atkBonusTuple
-                = atkCalcService.calcAtkBoni(weapon, (DndCharacter) dndCharacter);
+                = getAtkCalcService().calcAtkBoni(weapon,
+                        (DndCharacter) dndCharacter);
 
-        return atkBonusTuple.getBonusValueByRank(this.rank);
+        return atkBonusTuple.getBonusValueByRank(this.getRank());
     }
 
     /**
@@ -58,6 +59,20 @@ public class AtkBonusValueProvider implements DynamicValueProvider {
     public final void setAtkCalcService(
             final AtkCalculationService atkCalcServiceInput) {
         this.atkCalcService = atkCalcServiceInput;
+    }
+
+    /**
+     * @return the rank
+     */
+    public final BonusRank getRank() {
+        return rank;
+    }
+
+    /**
+     * @return the atkCalcService
+     */
+    public final AtkCalculationService getAtkCalcService() {
+        return atkCalcService;
     }
 
 }

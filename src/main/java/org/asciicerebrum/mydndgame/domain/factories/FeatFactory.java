@@ -35,9 +35,9 @@ public class FeatFactory implements EntityFactory<Feat> {
         final String featBindingId = setup.getProperty(
                 SetupProperty.FEAT_BINDING);
 
-        final FeatType featType = this.context.getBean(featTypeId,
+        final FeatType featType = this.getContext().getBean(featTypeId,
                 FeatType.class);
-        final FeatBinding featBinding = this.context.getBean(featBindingId,
+        final FeatBinding featBinding = this.getContext().getBean(featBindingId,
                 FeatBinding.class);
 
         feat.setFeatType(featType);
@@ -56,6 +56,13 @@ public class FeatFactory implements EntityFactory<Feat> {
      */
     public final void setContext(final ApplicationContext contextInput) {
         this.context = contextInput;
+    }
+
+    /**
+     * @return the context
+     */
+    public final ApplicationContext getContext() {
+        return context;
     }
 
 }

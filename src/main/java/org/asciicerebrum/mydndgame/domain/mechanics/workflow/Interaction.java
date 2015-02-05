@@ -84,7 +84,7 @@ public class Interaction {
     }
 
     public final DndCharacter getFirstTargetCharacter() {
-        return this.targetCharacters.iterator().next();
+        return this.getTargetCharacters().iterator().next();
     }
 
 }

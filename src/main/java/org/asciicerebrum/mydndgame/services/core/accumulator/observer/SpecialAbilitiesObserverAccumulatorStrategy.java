@@ -29,7 +29,7 @@ public class SpecialAbilitiesObserverAccumulatorStrategy
 
         while (iterator.hasNext()) {
             final SpecialAbility specialAbility = iterator.next();
-            observers.add(this.specialAbilityStrategy.getObservers(
+            observers.add(this.getSpecialAbilityStrategy().getObservers(
                     specialAbility, targetEntity));
         }
 
@@ -47,6 +47,13 @@ public class SpecialAbilitiesObserverAccumulatorStrategy
     public final void setSpecialAbilityStrategy(
             final ObserverAccumulatorStrategy specialAbilityStrategyInput) {
         this.specialAbilityStrategy = specialAbilityStrategyInput;
+    }
+
+    /**
+     * @return the specialAbilityStrategy
+     */
+    public final ObserverAccumulatorStrategy getSpecialAbilityStrategy() {
+        return specialAbilityStrategy;
     }
 
 }

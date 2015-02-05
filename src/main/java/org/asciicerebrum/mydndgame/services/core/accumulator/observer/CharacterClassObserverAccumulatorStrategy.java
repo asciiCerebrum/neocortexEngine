@@ -27,7 +27,7 @@ public class CharacterClassObserverAccumulatorStrategy
 
         final CharacterClass characterClass = (CharacterClass) observerSource;
 
-        observers.add(this.classFeatsStrategy.getObservers(
+        observers.add(this.getClassFeatsStrategy().getObservers(
                 characterClass.getClassFeats(), targetEntity));
 
         return observers;
@@ -44,6 +44,13 @@ public class CharacterClassObserverAccumulatorStrategy
     public final void setClassFeatsStrategy(
             final ObserverAccumulatorStrategy classFeatsStrategyInput) {
         this.classFeatsStrategy = classFeatsStrategyInput;
+    }
+
+    /**
+     * @return the classFeatsStrategy
+     */
+    public final ObserverAccumulatorStrategy getClassFeatsStrategy() {
+        return classFeatsStrategy;
     }
 
 }

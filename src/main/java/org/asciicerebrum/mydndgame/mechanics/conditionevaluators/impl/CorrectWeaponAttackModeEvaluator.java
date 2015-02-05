@@ -35,7 +35,7 @@ public class CorrectWeaponAttackModeEvaluator implements ConditionEvaluator {
             final UniqueEntity contextItem) {
         final DndCharacter dndCharacter = (DndCharacter) iCharacter;
 
-        final WeaponCategory refAttackMode = this.situationContextService
+        final WeaponCategory refAttackMode = this.getSituationContextService()
                 .getItemAttackMode(contextItem, dndCharacter);
 
         if (refAttackMode == null || contextItem == null
@@ -43,8 +43,8 @@ public class CorrectWeaponAttackModeEvaluator implements ConditionEvaluator {
             return false;
         }
 
-        return this.weaponServiceFacade.isAttackModeCompatible(refAttackMode,
-                (Weapon) contextItem, dndCharacter);
+        return this.getWeaponServiceFacade().isAttackModeCompatible(
+                refAttackMode, (Weapon) contextItem, dndCharacter);
     }
 
     /**
@@ -61,6 +61,20 @@ public class CorrectWeaponAttackModeEvaluator implements ConditionEvaluator {
     public final void setWeaponServiceFacade(
             final WeaponServiceFacade weaponServiceFacadeInput) {
         this.weaponServiceFacade = weaponServiceFacadeInput;
+    }
+
+    /**
+     * @return the situationContextService
+     */
+    public final SituationContextService getSituationContextService() {
+        return situationContextService;
+    }
+
+    /**
+     * @return the weaponServiceFacade
+     */
+    public final WeaponServiceFacade getWeaponServiceFacade() {
+        return weaponServiceFacade;
     }
 
 }

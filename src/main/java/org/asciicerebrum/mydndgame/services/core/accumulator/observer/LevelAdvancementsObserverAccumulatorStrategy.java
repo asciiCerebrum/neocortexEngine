@@ -31,7 +31,8 @@ public class LevelAdvancementsObserverAccumulatorStrategy
 
         while (lvlIterator.hasNext()) {
             final LevelAdvancement lvl = lvlIterator.next();
-            observers.add(this.lvlAdvStrategy.getObservers(lvl, targetEntity));
+            observers.add(this.getLvlAdvStrategy()
+                    .getObservers(lvl, targetEntity));
         }
 
         return observers;
@@ -48,6 +49,13 @@ public class LevelAdvancementsObserverAccumulatorStrategy
     public final void setLvlAdvStrategy(
             final ObserverAccumulatorStrategy lvlAdvStrategyInput) {
         this.lvlAdvStrategy = lvlAdvStrategyInput;
+    }
+
+    /**
+     * @return the lvlAdvStrategy
+     */
+    public final ObserverAccumulatorStrategy getLvlAdvStrategy() {
+        return lvlAdvStrategy;
     }
 
 }

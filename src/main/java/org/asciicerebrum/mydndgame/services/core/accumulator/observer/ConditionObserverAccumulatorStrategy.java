@@ -26,7 +26,7 @@ public class ConditionObserverAccumulatorStrategy
         }
         final Condition condition = (Condition) observerSource;
 
-        observers.add(this.conditionTypeStrategy.getObservers(
+        observers.add(this.getConditionTypeStrategy().getObservers(
                 condition.getConditionType(), targetEntity));
 
         return observers;
@@ -43,6 +43,13 @@ public class ConditionObserverAccumulatorStrategy
     public final void setConditionTypeStrategy(
             final ObserverAccumulatorStrategy conditionTypeStrategyInput) {
         this.conditionTypeStrategy = conditionTypeStrategyInput;
+    }
+
+    /**
+     * @return the conditionTypeStrategy
+     */
+    public final ObserverAccumulatorStrategy getConditionTypeStrategy() {
+        return conditionTypeStrategy;
     }
 
 }

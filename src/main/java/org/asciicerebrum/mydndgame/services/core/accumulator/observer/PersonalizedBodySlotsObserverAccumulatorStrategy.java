@@ -33,7 +33,7 @@ public class PersonalizedBodySlotsObserverAccumulatorStrategy
         while (slotIterator.hasNext()) {
             final PersonalizedBodySlot slot = slotIterator.next();
 
-            observers.add(this.personalizedBodySlotsStrategy.getObservers(
+            observers.add(this.getPersonalizedBodySlotsStrategy().getObservers(
                     slot, targetEntity));
         }
 
@@ -52,6 +52,14 @@ public class PersonalizedBodySlotsObserverAccumulatorStrategy
     public final void setPersonalizedBodySlotsStrategy(
             final ObserverAccumulatorStrategy personalizedBodySlotsStrategyIn) {
         this.personalizedBodySlotsStrategy = personalizedBodySlotsStrategyIn;
+    }
+
+    /**
+     * @return the personalizedBodySlotsStrategy
+     */
+    public final ObserverAccumulatorStrategy
+            getPersonalizedBodySlotsStrategy() {
+        return personalizedBodySlotsStrategy;
     }
 
 }

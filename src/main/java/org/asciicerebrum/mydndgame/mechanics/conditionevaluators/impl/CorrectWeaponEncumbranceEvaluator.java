@@ -35,13 +35,13 @@ public class CorrectWeaponEncumbranceEvaluator implements ConditionEvaluator {
             final UniqueEntity contextItem) {
         final DndCharacter dndCharacter = (DndCharacter) iCharacter;
 
-        if (this.encumbrance == null || contextItem == null
+        if (this.getEncumbrance() == null || contextItem == null
                 || !(contextItem instanceof Weapon)) {
             return false;
         }
 
-        return this.weaponServiceFacade.hasEncumbrance(this.encumbrance,
-                (Weapon) contextItem, dndCharacter);
+        return this.getWeaponServiceFacade().hasEncumbrance(
+                this.getEncumbrance(), (Weapon) contextItem, dndCharacter);
     }
 
     /**
@@ -57,6 +57,20 @@ public class CorrectWeaponEncumbranceEvaluator implements ConditionEvaluator {
     public final void setWeaponServiceFacade(
             final WeaponServiceFacade weaponServiceFacadeInput) {
         this.weaponServiceFacade = weaponServiceFacadeInput;
+    }
+
+    /**
+     * @return the encumbrance
+     */
+    public final Encumbrance getEncumbrance() {
+        return encumbrance;
+    }
+
+    /**
+     * @return the weaponServiceFacade
+     */
+    public final WeaponServiceFacade getWeaponServiceFacade() {
+        return weaponServiceFacade;
     }
 
 }

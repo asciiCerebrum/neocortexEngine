@@ -174,14 +174,14 @@ public class DefaultBonusCalculationServiceImpl
             final DndCharacter dndCharacter) {
 
         final Observers observers
-                = this.observableService.accumulateObserversByHooks(
+                = this.getObservableService().accumulateObserversByHooks(
                         observerSources, observerHooks, targetEntity);
         final Boni boni = this.accumulateBoniByTargets(
                 bonusSources, bonusTargets, targetEntity);
 
         // applying observers on list of boni
         final Boni modBoni
-                = (Boni) this.observableService.triggerObservers(
+                = (Boni) this.getObservableService().triggerObservers(
                         boni, targetEntity, observers, dndCharacter);
 
         // calclulating bonus value tuple from the mofified bonus list
@@ -194,6 +194,13 @@ public class DefaultBonusCalculationServiceImpl
     public final void setObservableService(
             final ObservableService observableServiceInput) {
         this.observableService = observableServiceInput;
+    }
+
+    /**
+     * @return the observableService
+     */
+    public final ObservableService getObservableService() {
+        return observableService;
     }
 
 }

@@ -32,7 +32,8 @@ public class ItemInUseEvaluator implements ConditionEvaluator {
             final UniqueEntity contextItem) {
         final DndCharacter dndCharacter = (DndCharacter) iCharacter;
 
-        final InventoryItem item = this.ctxService.getActiveItem(dndCharacter);
+        final InventoryItem item = this.getCtxService()
+                .getActiveItem(dndCharacter);
 
         if (item == null && contextItem != null) {
             return false;
@@ -50,6 +51,13 @@ public class ItemInUseEvaluator implements ConditionEvaluator {
     public final void setCtxService(
             final SituationContextService ctxServiceInput) {
         this.ctxService = ctxServiceInput;
+    }
+
+    /**
+     * @return the ctxService
+     */
+    public final SituationContextService getCtxService() {
+        return ctxService;
     }
 
 }

@@ -79,11 +79,11 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
         while (participantIterator.hasNext()) {
             final DndCharacter participant = participantIterator.next();
 
-            final BonusValue initBonus = this.initiativeCalculationService
+            final BonusValue initBonus = this.getInitiativeCalculationService()
                     .calcInitBonus(participant);
 
-            final DiceRoll totalInit = this.diceRollManager
-                    .rollDice(this.initiativeAction).add(initBonus);
+            final DiceRoll totalInit = this.getDiceRollManager()
+                    .rollDice(this.getInitiativeAction()).add(initBonus);
 
             CombatRoundPosition roundPosition
                     = new CombatRoundPosition(totalInit, initBonus);
@@ -93,7 +93,7 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
 
         this.resolveTies(combatRound);
 
-        if (this.flatFootedType == null) {
+        if (this.getFlatFootedType() == null) {
             return;
         }
 
@@ -107,11 +107,11 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
             final WorldDate startingDate = combatRound.getCurrentDate();
 
             final Condition flatFooted = new Condition();
-            flatFooted.setConditionType(this.flatFootedType);
+            flatFooted.setConditionType(this.getFlatFootedType());
             flatFooted.setExpiryDate(expiryDate);
             flatFooted.setStartingDate(startingDate);
 
-            this.conditionApplicationService.applyCondition(participant,
+            this.getConditionApplicationService().applyCondition(participant,
                     new Conditions(flatFooted));
         }
     }
@@ -137,8 +137,8 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
                 final DndCharacter tieParticipant = participantIterator.next();
 
                 final DiceRoll initReroll
-                        = this.diceRollManager.rollDice(
-                                this.initiativeAction);
+                        = this.getDiceRollManager().rollDice(
+                                this.getInitiativeAction());
                 final CombatRoundPosition newPosition
                         = new CombatRoundPosition(
                                 combatRound.getPositionForParticipant(
@@ -165,7 +165,7 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
                 = combatRound.getOrderedPositions();
         while (positionIterator.hasNext()) {
             final CombatRoundPosition roundPosition = positionIterator.next();
-            
+
             final DndCharacters candidates = combatRound
                     .getParticipantsForPosition(roundPosition);
             if (candidates.hasMultipleEntries()) {
@@ -214,6 +214,42 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
     public final void setConditionApplicationService(
             final ConditionApplicationService conditionApplServiceInput) {
         this.conditionApplicationService = conditionApplServiceInput;
+    }
+
+    /**
+     * @return the diceRollManager
+     */
+    public final DiceRollManager getDiceRollManager() {
+        return diceRollManager;
+    }
+
+    /**
+     * @return the initiativeAction
+     */
+    public final DiceAction getInitiativeAction() {
+        return initiativeAction;
+    }
+
+    /**
+     * @return the flatFootedType
+     */
+    public final ConditionType getFlatFootedType() {
+        return flatFootedType;
+    }
+
+    /**
+     * @return the initiativeCalculationService
+     */
+    public final InitiativeCalculationService
+            getInitiativeCalculationService() {
+        return initiativeCalculationService;
+    }
+
+    /**
+     * @return the conditionApplicationService
+     */
+    public final ConditionApplicationService getConditionApplicationService() {
+        return conditionApplicationService;
     }
 
 }

@@ -30,12 +30,12 @@ public class CorrectProficiencyForFeatEvaluator implements ConditionEvaluator {
             final UniqueEntity contextItem) {
         final DndCharacter dndCharacter = (DndCharacter) iCharacter;
 
-        if (this.featType == null) {
+        if (this.getFeatType() == null) {
             return false;
         }
 
         final FeatBindings featBindings = dndCharacter.getLevelAdvancements()
-                .getFeatBindingsByFeatType(this.featType);
+                .getFeatBindingsByFeatType(this.getFeatType());
 
         if (!(contextItem instanceof Weapon)) {
             return false;
@@ -50,7 +50,7 @@ public class CorrectProficiencyForFeatEvaluator implements ConditionEvaluator {
                 continue;
             }
 
-            if (this.weaponServiceFacade.hasProficiency(
+            if (this.getWeaponServiceFacade().hasProficiency(
                     (Proficiency) featBinding, weapon, dndCharacter)) {
                 return true;
             }
@@ -71,6 +71,20 @@ public class CorrectProficiencyForFeatEvaluator implements ConditionEvaluator {
     public final void setWeaponServiceFacade(
             final WeaponServiceFacade weaponServiceFacadeInput) {
         this.weaponServiceFacade = weaponServiceFacadeInput;
+    }
+
+    /**
+     * @return the featType
+     */
+    public final FeatType getFeatType() {
+        return featType;
+    }
+
+    /**
+     * @return the weaponServiceFacade
+     */
+    public final WeaponServiceFacade getWeaponServiceFacade() {
+        return weaponServiceFacade;
     }
 
 }

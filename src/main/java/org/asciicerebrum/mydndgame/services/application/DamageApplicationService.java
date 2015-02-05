@@ -25,7 +25,7 @@ public class DamageApplicationService {
             final Damage damage = damageIterator.next();
 
             final Damage convertedDamage
-                    = (Damage) this.observableService.triggerObservers(
+                    = (Damage) this.getObservableService().triggerObservers(
                             damage, dndCharacter,
                             new ObserverSources(dndCharacter),
                             new ObserverHooks(ObserverHook.DAMAGE_APPLICATION),
@@ -54,6 +54,13 @@ public class DamageApplicationService {
     public final void setObservableService(
             final ObservableService observableServiceInput) {
         this.observableService = observableServiceInput;
+    }
+
+    /**
+     * @return the observableService
+     */
+    public final ObservableService getObservableService() {
+        return observableService;
     }
 
 }

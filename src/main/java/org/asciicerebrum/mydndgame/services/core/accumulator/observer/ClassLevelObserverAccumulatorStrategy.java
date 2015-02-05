@@ -27,7 +27,7 @@ public class ClassLevelObserverAccumulatorStrategy
 
         final ClassLevel classLevel = (ClassLevel) observerSource;
 
-        observers.add(this.characterClassStrategy.getObservers(
+        observers.add(this.getCharacterClassStrategy().getObservers(
                 classLevel.getCharacterClass(), targetEntity));
 
         return observers;
@@ -44,6 +44,13 @@ public class ClassLevelObserverAccumulatorStrategy
     public final void setCharacterClassStrategy(
             final ObserverAccumulatorStrategy characterClassStrategyInput) {
         this.characterClassStrategy = characterClassStrategyInput;
+    }
+
+    /**
+     * @return the characterClassStrategy
+     */
+    public final ObserverAccumulatorStrategy getCharacterClassStrategy() {
+        return characterClassStrategy;
     }
 
 }

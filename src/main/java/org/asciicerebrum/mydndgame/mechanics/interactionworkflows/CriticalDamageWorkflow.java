@@ -35,7 +35,7 @@ public class CriticalDamageWorkflow implements IWorkflow {
     @Override
     public final void runWorkflow(final Interaction interaction) {
 
-        final InventoryItem sourceWeapon = this.situationContextService
+        final InventoryItem sourceWeapon = this.getSituationContextService()
                 .getActiveItem(interaction.getTriggeringCharacter());
 
         if (!(sourceWeapon instanceof Weapon)) {
@@ -45,12 +45,12 @@ public class CriticalDamageWorkflow implements IWorkflow {
 
         // standard when there is no critical hit
         final CriticalFactor damageMuliplicator
-                = this.weaponServiceFacade.getCriticalFactor(
+                = this.getWeaponServiceFacade().getCriticalFactor(
                         (Weapon) sourceWeapon,
                         interaction.getTriggeringCharacter());
 
         for (long i = 0; i < damageMuliplicator.getValue(); i++) {
-            this.damageWorkflow.runWorkflow(interaction);
+            this.getDamageWorkflow().runWorkflow(interaction);
         }
     }
 
@@ -75,6 +75,27 @@ public class CriticalDamageWorkflow implements IWorkflow {
     public final void setWeaponServiceFacade(
             final WeaponServiceFacade weaponServiceFacadeInput) {
         this.weaponServiceFacade = weaponServiceFacadeInput;
+    }
+
+    /**
+     * @return the damageWorkflow
+     */
+    public final IWorkflow getDamageWorkflow() {
+        return damageWorkflow;
+    }
+
+    /**
+     * @return the situationContextService
+     */
+    public final SituationContextService getSituationContextService() {
+        return situationContextService;
+    }
+
+    /**
+     * @return the weaponServiceFacade
+     */
+    public final WeaponServiceFacade getWeaponServiceFacade() {
+        return weaponServiceFacade;
     }
 
 }

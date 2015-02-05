@@ -37,12 +37,12 @@ public class CorrectProficiencyEvaluator implements ConditionEvaluator {
             final UniqueEntity contextItem) {
         final DndCharacter dndCharacter = (DndCharacter) iCharacter;
 
-        if (this.proficiency == null || contextItem == null
+        if (this.getProficiency() == null || contextItem == null
                 || !(contextItem instanceof Weapon)) {
             return false;
         }
 
-        return this.weaponServiceFacade.hasProficiency(this.proficiency,
+        return this.getWeaponServiceFacade().hasProficiency(this.getProficiency(),
                 (Weapon) contextItem, dndCharacter);
     }
 
@@ -59,6 +59,20 @@ public class CorrectProficiencyEvaluator implements ConditionEvaluator {
     public final void setWeaponServiceFacade(
             final WeaponServiceFacade weaponServiceFacadeInput) {
         this.weaponServiceFacade = weaponServiceFacadeInput;
+    }
+
+    /**
+     * @return the proficiency
+     */
+    public final Proficiency getProficiency() {
+        return proficiency;
+    }
+
+    /**
+     * @return the weaponServiceFacade
+     */
+    public final WeaponServiceFacade getWeaponServiceFacade() {
+        return weaponServiceFacade;
     }
 
 }

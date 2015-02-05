@@ -16,7 +16,8 @@ import org.asciicerebrum.mydndgame.services.core.BonusCalculationService;
  *
  * @author species8472
  */
-public class BonusValueModificationObserverTrigger implements ObserverTriggerStrategy {
+public class BonusValueModificationObserverTrigger
+        implements ObserverTriggerStrategy {
 
     /**
      * Defines how to arithmetically modify the value.
@@ -49,7 +50,7 @@ public class BonusValueModificationObserverTrigger implements ObserverTriggerStr
 
         Boni boni = (Boni) object;
 
-        if (this.referenceBonus == null) {
+        if (this.getReferenceBonus() == null) {
             return boni;
         }
 
@@ -57,18 +58,18 @@ public class BonusValueModificationObserverTrigger implements ObserverTriggerStr
         while (bonusIterator.hasNext()) {
             final Bonus bonus = bonusIterator.next();
             final BonusValueTuple bonusEffectiveValue
-                    = this.bonusService.getEffectiveValues(bonus, contextItem,
-                            (DndCharacter) dndCharacter);
+                    = this.getBonusService().getEffectiveValues(bonus,
+                            contextItem, (DndCharacter) dndCharacter);
 
             // it is enough to check for bonus type and target
             // keep in mind that the effectValue might be null
             // --> the bonus does not exist --> continue!
-            if (this.referenceBonus.resembles(bonus,
+            if (this.getReferenceBonus().resembles(bonus,
                     Bonus.ResemblanceFacet.BONUS_TYPE,
                     Bonus.ResemblanceFacet.TARGET)) {
 
-                bonusEffectiveValue.applyOperation(
-                        this.operation, this.modValue);
+                bonusEffectiveValue.applyOperation(this.getOperation(),
+                        this.getModValue());
 
                 bonus.setValues(bonusEffectiveValue);
                 bonus.setDynamicValueProvider(null);
@@ -105,6 +106,34 @@ public class BonusValueModificationObserverTrigger implements ObserverTriggerStr
     public final void setBonusService(
             final BonusCalculationService bonusServiceInput) {
         this.bonusService = bonusServiceInput;
+    }
+
+    /**
+     * @return the operation
+     */
+    public final Operation getOperation() {
+        return operation;
+    }
+
+    /**
+     * @return the modValue
+     */
+    public final DoubleParticle getModValue() {
+        return modValue;
+    }
+
+    /**
+     * @return the referenceBonus
+     */
+    public final Bonus getReferenceBonus() {
+        return referenceBonus;
+    }
+
+    /**
+     * @return the bonusService
+     */
+    public final BonusCalculationService getBonusService() {
+        return bonusService;
     }
 
 }

@@ -78,7 +78,7 @@ public class SingleAttackWorkflow implements IWorkflow {
     public final void runWorkflow(final Interaction interaction) {
 
         final InventoryItem sourceWeapon
-                = this.situationContextService.getActiveItem(interaction
+                = this.getSituationContextService().getActiveItem(interaction
                         .getTriggeringCharacter());
 
         if (!(sourceWeapon instanceof Weapon)) {
@@ -87,28 +87,29 @@ public class SingleAttackWorkflow implements IWorkflow {
 
         // make an attack roll and add attack bonus
         DiceRoll atkRollResultRaw
-                = this.diceRollManager.rollDice(this.attackAction);
+                = this.getDiceRollManager().rollDice(this.getAttackAction());
 
         // consider automatic failure and success
-        if (atkRollResultRaw.lessThanOrEqualTo(this.autoFailureRoll)) {
+        if (atkRollResultRaw.lessThanOrEqualTo(this.getAutoFailureRoll())) {
             return;
         }
 
         BonusValue sourceAtkBonus
-                = this.atkService.calcAtkBoni((Weapon) sourceWeapon,
+                = this.getAtkService().calcAtkBoni((Weapon) sourceWeapon,
                         interaction.getTriggeringCharacter())
-                .getBonusValueByRank(this.atkBonusRank);
+                .getBonusValueByRank(this.getAtkBonusRank());
 
         DiceRoll atkRollResult = atkRollResultRaw.add(sourceAtkBonus);
 
         // single attack always attacks the first of the target characters.
         ArmorClass targetAc
-                = this.acService.calcAc(interaction.getFirstTargetCharacter());
+                = this.getAcService().calcAc(interaction
+                        .getFirstTargetCharacter());
 
         // check against target's ac
         // not able to surpass foe's ac and also no auto success
         if (atkRollResult.lessThan(targetAc)
-                && atkRollResult.lessThan(this.autoSuccessRoll)) {
+                && atkRollResult.lessThan(this.getAutoSuccessRoll())) {
             return;
         }
 
@@ -123,8 +124,8 @@ public class SingleAttackWorkflow implements IWorkflow {
         if (isCritical && this.criticalDamageWorkflow != null) {
             this.criticalDamageWorkflow.runWorkflow(interaction);
         }
-        if (!isCritical && this.damageWorkflow != null) {
-            this.damageWorkflow.runWorkflow(interaction);
+        if (!isCritical && this.getDamageWorkflow() != null) {
+            this.getDamageWorkflow().runWorkflow(interaction);
         }
     }
 
@@ -143,27 +144,28 @@ public class SingleAttackWorkflow implements IWorkflow {
             final Interaction interaction) {
 
         final Weapon sourceWeapon
-                = (Weapon) this.situationContextService.getActiveItem(
+                = (Weapon) this.getSituationContextService().getActiveItem(
                         interaction.getTriggeringCharacter());
 
         // when you are here you have hit the enemy!!!
         // it could be critical
         final Boolean isThreat
                 = atkRollResultRaw.greaterThanOrEqualTo(
-                        this.weaponServiceFacade.getCriticalMinimumLevel(
+                        this.getWeaponServiceFacade().getCriticalMinimumLevel(
                                 sourceWeapon,
                                 interaction.getTriggeringCharacter()));
 
         Boolean isCritical = false;
         if (isThreat) {
             final DiceRoll secondAtkRollResultRaw
-                    = this.diceRollManager.rollDice(this.attackAction);
+                    = this.getDiceRollManager().rollDice(
+                            this.getAttackAction());
             final DiceRoll secondAtkRollResult
                     = secondAtkRollResultRaw.add(sourceAtkBonus);
             isCritical
                     = secondAtkRollResult.greaterThanOrEqualTo(targetAc)
                     || secondAtkRollResult.greaterThanOrEqualTo(
-                            this.autoSuccessRoll);
+                            this.getAutoSuccessRoll());
         }
         return isCritical;
     }
@@ -249,6 +251,76 @@ public class SingleAttackWorkflow implements IWorkflow {
     public final void setWeaponServiceFacade(
             final WeaponServiceFacade weaponServiceFacadeInput) {
         this.weaponServiceFacade = weaponServiceFacadeInput;
+    }
+
+    /**
+     * @return the attackAction
+     */
+    public final DiceAction getAttackAction() {
+        return attackAction;
+    }
+
+    /**
+     * @return the diceRollManager
+     */
+    public final DiceRollManager getDiceRollManager() {
+        return diceRollManager;
+    }
+
+    /**
+     * @return the autoFailureRoll
+     */
+    public final DiceRoll getAutoFailureRoll() {
+        return autoFailureRoll;
+    }
+
+    /**
+     * @return the autoSuccessRoll
+     */
+    public final DiceRoll getAutoSuccessRoll() {
+        return autoSuccessRoll;
+    }
+
+    /**
+     * @return the damageWorkflow
+     */
+    public final IWorkflow getDamageWorkflow() {
+        return damageWorkflow;
+    }
+
+    /**
+     * @return the atkService
+     */
+    public final AtkCalculationService getAtkService() {
+        return atkService;
+    }
+
+    /**
+     * @return the acService
+     */
+    public final AcCalculationService getAcService() {
+        return acService;
+    }
+
+    /**
+     * @return the weaponServiceFacade
+     */
+    public final WeaponServiceFacade getWeaponServiceFacade() {
+        return weaponServiceFacade;
+    }
+
+    /**
+     * @return the atkBonusRank
+     */
+    public final BonusRank getAtkBonusRank() {
+        return atkBonusRank;
+    }
+
+    /**
+     * @return the situationContextService
+     */
+    public final SituationContextService getSituationContextService() {
+        return situationContextService;
     }
 
 }

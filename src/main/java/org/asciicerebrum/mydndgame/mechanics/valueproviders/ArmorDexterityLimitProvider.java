@@ -26,8 +26,8 @@ public class ArmorDexterityLimitProvider implements DynamicValueProvider {
     public final BonusValue getDynamicValue(final ICharacter dndCharacter,
             final UniqueEntity contextItem) {
 
-        return this.armorFacade.getMinimumMaxDexBonus(
-                ((DndCharacter) dndCharacter).getArmorWorn(), 
+        return this.getArmorFacade().getMinimumMaxDexBonus(
+                ((DndCharacter) dndCharacter).getArmorWorn(),
                 (DndCharacter) dndCharacter);
     }
 
@@ -37,6 +37,13 @@ public class ArmorDexterityLimitProvider implements DynamicValueProvider {
     public final void setArmorFacade(
             final ArmorServiceFacade armorFacadeInput) {
         this.armorFacade = armorFacadeInput;
+    }
+
+    /**
+     * @return the armorFacade
+     */
+    public final ArmorServiceFacade getArmorFacade() {
+        return armorFacade;
     }
 
 }

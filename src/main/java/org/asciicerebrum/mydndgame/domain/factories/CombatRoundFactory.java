@@ -1,8 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
 import java.util.List;
-import org.asciicerebrum.mydndgame.domain.factories.Reassignments;
-import org.asciicerebrum.mydndgame.domain.factories.EntityFactory;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import org.asciicerebrum.mydndgame.domain.game.CombatRoundEntries;
 import org.asciicerebrum.mydndgame.domain.game.CombatRoundEntry;
@@ -37,9 +35,8 @@ public class CombatRoundFactory implements EntityFactory<CombatRound> {
         if (crEntrySetups != null) {
             CombatRoundEntries crEntries = new CombatRoundEntries();
             for (EntitySetup crEntrySetup : crEntrySetups) {
-                crEntries.addCombatRoundEntry(
-                        this.combatRoundEntryFactory.newEntity(crEntrySetup,
-                                reassignments));
+                crEntries.addCombatRoundEntry(this.getCombatRoundEntryFactory()
+                        .newEntity(crEntrySetup, reassignments));
             }
             combatRound.setCombatRoundEntries(crEntries);
         }
@@ -47,7 +44,7 @@ public class CombatRoundFactory implements EntityFactory<CombatRound> {
         EntitySetup dateSetup = setup.getPropertySetup(
                 SetupProperty.COMBAT_ROUND_CURRENT_DATE);
         if (dateSetup != null) {
-            combatRound.setCurrentDate(this.worldDateFactory
+            combatRound.setCurrentDate(this.getWorldDateFactory()
                     .newEntity(dateSetup, reassignments));
         }
 
@@ -74,6 +71,20 @@ public class CombatRoundFactory implements EntityFactory<CombatRound> {
     public final void setWorldDateFactory(
             final EntityFactory<WorldDate> worldDateFactoryInput) {
         this.worldDateFactory = worldDateFactoryInput;
+    }
+
+    /**
+     * @return the combatRoundEntryFactory
+     */
+    public final EntityFactory<CombatRoundEntry> getCombatRoundEntryFactory() {
+        return combatRoundEntryFactory;
+    }
+
+    /**
+     * @return the worldDateFactory
+     */
+    public final EntityFactory<WorldDate> getWorldDateFactory() {
+        return worldDateFactory;
     }
 
 }

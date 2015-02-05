@@ -26,7 +26,7 @@ public class RaceObserverAccumulatorStrategy
         }
         final Race race = (Race) observerSource;
 
-        observers.add(this.sizeCategoryStrategy.getObservers(
+        observers.add(this.getSizeCategoryStrategy().getObservers(
                 race.getSize(), targetEntity));
 
         return observers;
@@ -43,6 +43,13 @@ public class RaceObserverAccumulatorStrategy
     public final void setSizeCategoryStrategy(
             final ObserverAccumulatorStrategy sizeCategoryStrategyInput) {
         this.sizeCategoryStrategy = sizeCategoryStrategyInput;
+    }
+
+    /**
+     * @return the sizeCategoryStrategy
+     */
+    public final ObserverAccumulatorStrategy getSizeCategoryStrategy() {
+        return sizeCategoryStrategy;
     }
 
 }

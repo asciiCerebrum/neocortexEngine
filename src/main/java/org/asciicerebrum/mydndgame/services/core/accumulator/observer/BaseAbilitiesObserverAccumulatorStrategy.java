@@ -32,7 +32,7 @@ public class BaseAbilitiesObserverAccumulatorStrategy
 
         while (abilityIterator.hasNext()) {
             final Ability ability = abilityIterator.next();
-            observers.add(this.abilityStrategy.getObservers(
+            observers.add(this.getAbilityStrategy().getObservers(
                     ability, targetEntity));
         }
 
@@ -50,6 +50,13 @@ public class BaseAbilitiesObserverAccumulatorStrategy
     public final void setAbilityStrategy(
             final ObserverAccumulatorStrategy abilityStrategyInput) {
         this.abilityStrategy = abilityStrategyInput;
+    }
+
+    /**
+     * @return the abilityStrategy
+     */
+    public final ObserverAccumulatorStrategy getAbilityStrategy() {
+        return abilityStrategy;
     }
 
 }

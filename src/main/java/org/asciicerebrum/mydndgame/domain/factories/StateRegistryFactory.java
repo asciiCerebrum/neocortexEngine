@@ -52,7 +52,7 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
                 = entrySetup.getProperty(
                         SetupProperty.STATE_REGISTRY_CONTEXT_OBJECT_ID);
         if (StringUtils.isNotBlank(contextObjectId)) {
-            contextObject = this.campaign.getEntityById(
+            contextObject = this.getCampaign().getEntityById(
                     new UniqueId(contextObjectId));
         }
         if (reassignments != null
@@ -72,8 +72,8 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
                         SetupProperty.STATE_REGISTRY_VALUE);
 
         stateReg.putState(particle, contextObject,
-                stateValueType.parseToType(stateValueString,
-                        this.campaign, this.context));
+                stateValueType.parseToType(stateValueString, this.getCampaign(),
+                        this.getContext()));
     }
 
     public final void reAssign(final EntitySetup setup,
@@ -94,6 +94,20 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
      */
     public final void setContext(final ApplicationContext contextInput) {
         this.context = contextInput;
+    }
+
+    /**
+     * @return the campaign
+     */
+    public final Campaign getCampaign() {
+        return campaign;
+    }
+
+    /**
+     * @return the context
+     */
+    public final ApplicationContext getContext() {
+        return context;
     }
 
 }

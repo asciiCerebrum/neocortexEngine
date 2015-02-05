@@ -1,11 +1,9 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.asciicerebrum.mydndgame.domain.factories.Reassignments;
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.factories.EntityFactory;
 import org.asciicerebrum.mydndgame.domain.game.CombatRoundEntry;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
@@ -48,7 +46,7 @@ public class CombatRoundEntryFactory
             final EntitySetup setup) {
         final UniqueId uniqueId = new UniqueId(setup.getProperty(
                 SetupProperty.COMBAT_ROUND_PARTICIPANT));
-        return (DndCharacter) this.campaign.getEntityById(uniqueId);
+        return (DndCharacter) this.getCampaign().getEntityById(uniqueId);
     }
 
     public void reAssign(final EntitySetup setup,
@@ -62,6 +60,13 @@ public class CombatRoundEntryFactory
      */
     public final void setCampaign(final Campaign campaignInput) {
         this.campaign = campaignInput;
+    }
+
+    /**
+     * @return the campaign
+     */
+    public final Campaign getCampaign() {
+        return campaign;
     }
 
 }

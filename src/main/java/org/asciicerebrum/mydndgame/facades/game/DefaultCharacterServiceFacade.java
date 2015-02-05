@@ -22,7 +22,7 @@ public class DefaultCharacterServiceFacade implements CharacterServiceFacade {
     public final SizeCategory getSize(final DndCharacter dndCharacter) {
 
         final SizeCategory baseValue = dndCharacter.getBaseSize();
-        return (SizeCategory) this.observableService
+        return (SizeCategory) this.getObservableService()
                 .triggerObservers(baseValue, dndCharacter,
                         new ObserverSources(dndCharacter),
                         new ObserverHooks(ObserverHook.SIZE_CATEGORY),
@@ -36,6 +36,13 @@ public class DefaultCharacterServiceFacade implements CharacterServiceFacade {
     public final void setObservableService(
             final ObservableService observableServiceInput) {
         this.observableService = observableServiceInput;
+    }
+
+    /**
+     * @return the observableService
+     */
+    public final ObservableService getObservableService() {
+        return observableService;
     }
 
 }

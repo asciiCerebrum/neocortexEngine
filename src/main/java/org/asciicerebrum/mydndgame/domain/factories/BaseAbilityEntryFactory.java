@@ -27,7 +27,7 @@ public class BaseAbilityEntryFactory
                     + " entry is not complete.");
         }
 
-        entry.setAbility(this.context.getBean(setup.getProperty(
+        entry.setAbility(this.getContext().getBean(setup.getProperty(
                 SetupProperty.BASE_ABILITY), Ability.class));
         entry.setAbilityValue(new AbilityScore(setup.getProperty(
                 SetupProperty.BASE_ABILITY_VALUE)));
@@ -46,6 +46,13 @@ public class BaseAbilityEntryFactory
      */
     public final void setContext(final ApplicationContext contextInput) {
         this.context = contextInput;
+    }
+
+    /**
+     * @return the context
+     */
+    public final ApplicationContext getContext() {
+        return context;
     }
 
 }

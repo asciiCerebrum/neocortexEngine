@@ -32,13 +32,13 @@ public class ArmorCheckPenaltyProvider implements DynamicValueProvider {
     public final BonusValue getDynamicValue(final ICharacter dndCharacter,
             final UniqueEntity contextItem) {
 
-        if (this.armorCategory == null) {
+        if (this.getArmorCategory() == null) {
             return new BonusValue();
         }
 
-        return this.armorFacade.getMinimumArmorCheckPenalty(
+        return this.getArmorFacade().getMinimumArmorCheckPenalty(
                 ((DndCharacter) dndCharacter).getArmorWorn()
-                .filterByArmorCateogry(this.armorCategory),
+                .filterByArmorCateogry(this.getArmorCategory()),
                 (DndCharacter) dndCharacter);
     }
 
@@ -56,6 +56,20 @@ public class ArmorCheckPenaltyProvider implements DynamicValueProvider {
     public final void setArmorFacade(
             final ArmorServiceFacade armorFacadeInput) {
         this.armorFacade = armorFacadeInput;
+    }
+
+    /**
+     * @return the armorCategory
+     */
+    public final ArmorCategory getArmorCategory() {
+        return armorCategory;
+    }
+
+    /**
+     * @return the armorFacade
+     */
+    public final ArmorServiceFacade getArmorFacade() {
+        return armorFacade;
     }
 
 }

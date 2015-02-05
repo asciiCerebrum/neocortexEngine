@@ -44,20 +44,20 @@ public class LevelAdvancementFactory
                 SetupProperty.ADVANCEMENT_NUMBER)));
         levelAdv.setHpAdvancement(new HitPoints(setup.getProperty(
                 SetupProperty.HIT_POINTS_ADVANCEMENT)));
-        levelAdv.setClassLevel(this.context.getBean(setup.getProperty(
+        levelAdv.setClassLevel(this.getContext().getBean(setup.getProperty(
                 SetupProperty.CLASS_LEVEL), ClassLevel.class));
 
         String abilityId = setup.getProperty(SetupProperty.ABILITY_ADVANCEMENT);
         if (StringUtils.isNotBlank(abilityId)) {
-            levelAdv.setAbilityAdvancement(this.context.getBean(
+            levelAdv.setAbilityAdvancement(this.getContext().getBean(
                     abilityId, Ability.class));
         }
 
         EntitySetup featSetup = setup.getPropertySetup(
                 SetupProperty.FEAT_ADVANCEMENT);
         if (featSetup != null) {
-            levelAdv.setFeatAdvancement(this.featFactory.newEntity(featSetup,
-                    reassignments));
+            levelAdv.setFeatAdvancement(this.getFeatFactory().newEntity(
+                    featSetup, reassignments));
         }
 
         return levelAdv;
@@ -82,6 +82,20 @@ public class LevelAdvancementFactory
     public final void setFeatFactory(
             final EntityFactory<Feat> featFactoryInput) {
         this.featFactory = featFactoryInput;
+    }
+
+    /**
+     * @return the context
+     */
+    public final ApplicationContext getContext() {
+        return context;
+    }
+
+    /**
+     * @return the featFactory
+     */
+    public final EntityFactory<Feat> getFeatFactory() {
+        return featFactory;
     }
 
 }

@@ -35,8 +35,8 @@ public class AbilityBonusValueProvider implements DynamicValueProvider {
     public final BonusValue getDynamicValue(final ICharacter dndCharacter,
             final UniqueEntity contextItem) {
 
-        return this.abilityCalcService.calcCurrentAbilityMod(
-                (DndCharacter) dndCharacter, this.ability);
+        return this.getAbilityCalcService().calcCurrentAbilityMod(
+                (DndCharacter) dndCharacter, this.getAbility());
     }
 
     /**
@@ -52,6 +52,20 @@ public class AbilityBonusValueProvider implements DynamicValueProvider {
     public final void setAbilityCalcService(
             final AbilityCalculationService abilityCalcServiceInput) {
         this.abilityCalcService = abilityCalcServiceInput;
+    }
+
+    /**
+     * @return the ability
+     */
+    public final Ability getAbility() {
+        return ability;
+    }
+
+    /**
+     * @return the abilityCalcService
+     */
+    public final AbilityCalculationService getAbilityCalcService() {
+        return abilityCalcService;
     }
 
 }

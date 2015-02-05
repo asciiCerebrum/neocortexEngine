@@ -26,7 +26,7 @@ public class ConditionApplicationService {
             final Condition condition = conditionIterator.next();
 
             final Condition convertedCondition
-                    = (Condition) this.observableService.triggerObservers(
+                    = (Condition) this.getObservableService().triggerObservers(
                             condition, dndCharacter,
                             new ObserverSources(dndCharacter),
                             new ObserverHooks(
@@ -63,5 +63,12 @@ public class ConditionApplicationService {
     public final void setObservableService(
             final ObservableService observableServiceInput) {
         this.observableService = observableServiceInput;
+    }
+
+    /**
+     * @return the observableService
+     */
+    public final ObservableService getObservableService() {
+        return observableService;
     }
 }

@@ -72,8 +72,8 @@ public class HpCalculationService {
         final HitPoints maxHp = this.calcBaseHp(dndCharacter);
 
         // Multiplication with standard constitution modifier.
-        maxHp.multiply(this.abilityService.calcAbilityMod(
-                dndCharacter, this.conAbility));
+        maxHp.multiply(this.getAbilityService().calcAbilityMod(dndCharacter,
+                this.getConAbility()));
 
         return maxHp;
     }
@@ -90,14 +90,13 @@ public class HpCalculationService {
         final HitPoints maxHp = this.calcBaseHp(dndCharacter);
 
         // Multiplication with current constitution modifier.
-        maxHp.multiply(this.abilityService.calcCurrentAbilityMod(
-                dndCharacter, this.conAbility));
+        maxHp.multiply(this.getAbilityService().calcCurrentAbilityMod(
+                dndCharacter, this.getConAbility()));
 
         // boni and observers apply after the multiplication!
         final BonusValueTuple hpBoni
-                = this.bonusService.calculateBonusValues(
-                        dndCharacter,
-                        this.hpAction,
+                = this.getBonusService().calculateBonusValues(dndCharacter,
+                        this.getHpAction(),
                         dndCharacter,
                         dndCharacter,
                         ObserverHook.HIT_POINTS,
@@ -111,9 +110,8 @@ public class HpCalculationService {
         final HitPoints currentHp = dndCharacter.getCurrentStaticHp();
 
         final BonusValueTuple hpBoni
-                = this.bonusService.calculateBonusValues(
-                        dndCharacter,
-                        this.hpAction,
+                = this.getBonusService().calculateBonusValues(dndCharacter,
+                        this.getHpAction(),
                         dndCharacter,
                         dndCharacter,
                         ObserverHook.HIT_POINTS,
@@ -151,6 +149,34 @@ public class HpCalculationService {
     public final void setAbilityService(
             final AbilityCalculationService abilityServiceInput) {
         this.abilityService = abilityServiceInput;
+    }
+
+    /**
+     * @return the hpAction
+     */
+    public final DiceAction getHpAction() {
+        return hpAction;
+    }
+
+    /**
+     * @return the conAbility
+     */
+    public final Ability getConAbility() {
+        return conAbility;
+    }
+
+    /**
+     * @return the bonusService
+     */
+    public final BonusCalculationService getBonusService() {
+        return bonusService;
+    }
+
+    /**
+     * @return the abilityService
+     */
+    public final AbilityCalculationService getAbilityService() {
+        return abilityService;
     }
 
 }

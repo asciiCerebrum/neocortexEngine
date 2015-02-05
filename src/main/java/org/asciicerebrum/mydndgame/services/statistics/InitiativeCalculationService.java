@@ -27,7 +27,7 @@ public class InitiativeCalculationService {
     public final BonusValue calcInitBonus(final DndCharacter dndCharacter) {
 
         final BonusValueTuple initValues
-                = this.bonusService.calculateBonusValues(
+                = this.getBonusService().calculateBonusValues(
                         dndCharacter,
                         this.initAction,
                         dndCharacter,
@@ -52,6 +52,13 @@ public class InitiativeCalculationService {
      */
     public final void setInitAction(final DiceAction initActionInput) {
         this.initAction = initActionInput;
+    }
+
+    /**
+     * @return the bonusService
+     */
+    public final BonusCalculationService getBonusService() {
+        return bonusService;
     }
 
 }
