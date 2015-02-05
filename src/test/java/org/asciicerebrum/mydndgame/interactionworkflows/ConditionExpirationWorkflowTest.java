@@ -50,7 +50,7 @@ public class ConditionExpirationWorkflowTest {
     /**
      * Test of runWorkflow method, of class ConditionExpirationWorkflow.
      */
-    @Test(expected = OperationNotSupportedException.class)
+    @Test
     public void testRunWorkflow_IInteraction()
             throws OperationNotSupportedException {
         fail();

@@ -1,6 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.asciicerebrum.mydndgame.domain.factories.Reassignments;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 
 /**

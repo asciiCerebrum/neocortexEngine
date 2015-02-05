@@ -10,7 +10,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
  */
 public interface ObserverAccumulatorStrategy {
 
-    public Observers getObservers(ObserverSource observerSource,
+    Observers getObservers(ObserverSource observerSource,
             UniqueEntity targetEntity);
 
     boolean isApplicable(ObserverSource observerSource);

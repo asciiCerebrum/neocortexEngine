@@ -1,6 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities.composition;
 
-import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Condition;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;

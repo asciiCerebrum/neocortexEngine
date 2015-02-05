@@ -37,7 +37,7 @@ public class EndTurnWorkflowTest {
     /**
      * Test of runWorkflow method, of class EndTurnWorkflow.
      */
-    @Test(expected = OperationNotSupportedException.class)
+    @Test
     public void testRunWorkflow_IInteraction()
             throws OperationNotSupportedException {
         fail();

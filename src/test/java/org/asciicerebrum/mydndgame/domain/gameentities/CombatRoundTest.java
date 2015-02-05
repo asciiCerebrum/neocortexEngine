@@ -93,7 +93,7 @@ public class CombatRoundTest {
         fail();
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testGetCurrentParticipant() {
         fail();
     }

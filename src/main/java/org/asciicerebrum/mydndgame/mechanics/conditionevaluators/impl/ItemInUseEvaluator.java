@@ -41,7 +41,7 @@ public class ItemInUseEvaluator implements ConditionEvaluator {
             return false;
         }
 
-        return (contextItem == null && item == null)
+        return contextItem == null && item == null
                 || item.equals(contextItem);
     }
 
