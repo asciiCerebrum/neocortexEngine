@@ -1,19 +1,19 @@
 package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 import java.util.Iterator;
-import org.asciicerebrum.mydndgame.domain.ruleentities.ConditionType;
-import org.asciicerebrum.mydndgame.domain.game.CombatRound;
-import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Condition;
-import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
-import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Conditions;
+import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacters;
-import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
+import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
+import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
+import org.asciicerebrum.mydndgame.domain.ruleentities.ConditionType;
+import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Condition;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Conditions;
 import org.asciicerebrum.mydndgame.managers.DiceRollManager;
 import org.asciicerebrum.mydndgame.services.application.ConditionApplicationService;
 import org.asciicerebrum.mydndgame.services.statistics.InitiativeCalculationService;
@@ -74,31 +74,19 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
         // sorting of this list gives the correct order of participants!
         // As long as two numbers are the same, a reroll-result is appended
         // until uniqueness is accomplished.
-        Iterator<DndCharacter> participantIterator
-                = interaction.getTargetCharacters().iterator();
-        while (participantIterator.hasNext()) {
-            final DndCharacter participant = participantIterator.next();
-
-            final BonusValue initBonus = this.getInitiativeCalculationService()
-                    .calcInitBonus(participant);
-
-            final DiceRoll totalInit = this.getDiceRollManager()
-                    .rollDice(this.getInitiativeAction()).add(initBonus);
-
-            CombatRoundPosition roundPosition
-                    = new CombatRoundPosition(totalInit, initBonus);
-
-            combatRound.addParticipant(participant, roundPosition);
-        }
-
+        this.rollInitiative(interaction.getTargetCharacters(), combatRound);
         this.resolveTies(combatRound);
+        this.applyFlatFooted(combatRound);
+    }
 
-        if (this.getFlatFootedType() == null) {
-            return;
-        }
-
-        // Set participants on flat-footed.
-        participantIterator = combatRound.participantsIterator();
+    /**
+     * Set participants on flat-footed.
+     *
+     * @param combatRound the combat round of this encounter.
+     */
+    final void applyFlatFooted(final CombatRound combatRound) {
+        Iterator<DndCharacter> participantIterator
+                = combatRound.participantsIterator();
         while (participantIterator.hasNext()) {
             final DndCharacter participant = participantIterator.next();
 
@@ -117,6 +105,32 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
     }
 
     /**
+     * Let every participant roll for initiative.
+     *
+     * @param dndCharacters the list of participants.
+     * @param combatRound the combat round of this encounter.
+     */
+    final void rollInitiative(final DndCharacters dndCharacters,
+            final CombatRound combatRound) {
+        Iterator<DndCharacter> participantIterator
+                = dndCharacters.iterator();
+        while (participantIterator.hasNext()) {
+            final DndCharacter participant = participantIterator.next();
+
+            final BonusValue initBonus = this.getInitiativeCalculationService()
+                    .calcInitBonus(participant);
+
+            final DiceRoll totalInit = this.getDiceRollManager()
+                    .rollDice(this.getInitiativeAction()).add(initBonus);
+
+            CombatRoundPosition roundPosition
+                    = new CombatRoundPosition(totalInit, initBonus);
+
+            combatRound.addParticipant(participant, roundPosition);
+        }
+    }
+
+    /**
      * Resolves conflicts among participants with same init roll/bonus
      * combination. When there is a tie, they have to reroll till it is
      * resolved.
@@ -129,25 +143,39 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
         DndCharacters tieingParticipants
                 = this.getTieingParticipants(combatRound);
         while (tieingParticipants.hasEntries()) {
-
-            final Iterator<DndCharacter> participantIterator
-                    = tieingParticipants.iterator();
-
-            while (participantIterator.hasNext()) {
-                final DndCharacter tieParticipant = participantIterator.next();
-
-                final DiceRoll initReroll
-                        = this.getDiceRollManager().rollDice(
-                                this.getInitiativeAction());
-                final CombatRoundPosition newPosition
-                        = new CombatRoundPosition(
-                                combatRound.getPositionForParticipant(
-                                        tieParticipant), initReroll);
-                combatRound.addParticipant(
-                        tieParticipant, newPosition);
-            }
-            tieingParticipants = this.getTieingParticipants(combatRound);
+            tieingParticipants = this.tieResolutionStep(
+                    tieingParticipants, combatRound);
         }
+    }
+
+    /**
+     * A single step in the tie resolving process.
+     *
+     * @param tieingParticipants the participants with the same init bonus
+     * combination.
+     * @param combatRound the combat round in which the tie occurs.
+     * @return the participants with changed combat round position.
+     */
+    final DndCharacters tieResolutionStep(
+            final DndCharacters tieingParticipants,
+            final CombatRound combatRound) {
+        final Iterator<DndCharacter> participantIterator
+                = tieingParticipants.iterator();
+
+        while (participantIterator.hasNext()) {
+            final DndCharacter tieParticipant = participantIterator.next();
+
+            final DiceRoll initReroll
+                    = this.getDiceRollManager().rollDice(
+                            this.getInitiativeAction());
+            final CombatRoundPosition newPosition
+                    = new CombatRoundPosition(
+                            combatRound.getPositionForParticipant(
+                                    tieParticipant), initReroll);
+            combatRound.addParticipant(
+                    tieParticipant, newPosition);
+        }
+        return this.getTieingParticipants(combatRound);
     }
 
     /**

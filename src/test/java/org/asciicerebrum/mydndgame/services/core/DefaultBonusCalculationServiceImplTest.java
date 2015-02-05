@@ -1,10 +1,5 @@
 package org.asciicerebrum.mydndgame.services.core;
 
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
-import org.asciicerebrum.mydndgame.logappender.RecordingAppender;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -36,16 +31,6 @@ public class DefaultBonusCalculationServiceImplTest {
 
     @After
     public void tearDown() {
-    }
-
-    private void configureLog() {
-        Logger rootLogger = Logger.getRootLogger();
-        rootLogger.removeAllAppenders();
-        rootLogger.setLevel(Level.ALL);
-        rootLogger.addAppender(new ConsoleAppender(new PatternLayout(
-                "%d [%t] %-5p %c{1} - %m%n")));
-        rootLogger.addAppender(RecordingAppender.appender(new PatternLayout(
-                "%-5p - %m%n")));
     }
 
     /**
@@ -98,16 +83,6 @@ public class DefaultBonusCalculationServiceImplTest {
     @Test
     public void testTraverseBoniByTargetObjectContent() {
         fail();
-    }
-
-    private boolean logContains(String expected) {
-        String actual[] = RecordingAppender.messages();
-        for (String log : actual) {
-            if (log.contains(expected)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
