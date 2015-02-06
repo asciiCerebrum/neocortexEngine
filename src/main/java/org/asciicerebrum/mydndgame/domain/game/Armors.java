@@ -34,12 +34,12 @@ public class Armors extends InventoryItems<Armor> {
     }
 
     public Armors(final List<Armor> armorList) {
-        this.elements.addAll(armorList);
+        this.getElements().addAll(armorList);
     }
 
     public final boolean containsArmorCategory(
             final ArmorCategory armorCategory) {
-        for (final Armor armor : this.elements) {
+        for (final Armor armor : this.getElements()) {
             if (armor.hasArmorCategory(armorCategory)) {
                 return true;
             }
@@ -48,7 +48,7 @@ public class Armors extends InventoryItems<Armor> {
     }
 
     public final boolean containsProficiency(final Proficiency proficiency) {
-        for (final Armor armor : this.elements) {
+        for (final Armor armor : this.getElements()) {
             if (armor.hasProficiency(proficiency)) {
                 return true;
             }
@@ -60,7 +60,7 @@ public class Armors extends InventoryItems<Armor> {
 
         List<Armor> armorList = new ArrayList<Armor>();
 
-        CollectionUtils.select(this.elements,
+        CollectionUtils.select(this.getElements(),
                 new HasArmorCategoryPredicate(armorCategory), armorList);
 
         return new Armors(armorList);

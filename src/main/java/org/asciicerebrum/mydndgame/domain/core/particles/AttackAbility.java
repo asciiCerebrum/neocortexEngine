@@ -6,18 +6,37 @@ package org.asciicerebrum.mydndgame.domain.core.particles;
  */
 public class AttackAbility extends BooleanParticle {
 
+    /**
+     * Constructs this ability from a boolean value.
+     *
+     * @param value the boolean value.
+     */
     public AttackAbility(final boolean value) {
         this.setValue(value);
     }
 
+    /**
+     * Constructs this ability from a string value.
+     *
+     * @param stringValue the string value.
+     */
     public AttackAbility(final String stringValue) {
         this.setValue(stringValue);
     }
 
+    /**
+     *
+     * @param stringValue the value as string.
+     */
     public final void setValue(final String stringValue) {
         this.setValue(Boolean.parseBoolean(stringValue));
     }
 
+    /**
+     * Generates a new instance with the same value. It is a clone.
+     *
+     * @return the newly generated instance.
+     */
     public final AttackAbility getClone() {
         return new AttackAbility(this.isValue());
     }

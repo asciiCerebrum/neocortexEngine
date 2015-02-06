@@ -10,6 +10,19 @@ import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
  */
 public abstract class UniqueEntity {
 
+    /**
+     * Initial value for hash code calculation.
+     */
+    private static final int INITIAL_NON_ZERO_ODD_NUMBER = 17;
+
+    /**
+     * Modifier for hash code calculation.
+     */
+    private static final int MULTIPLIER_NON_ZERO_ODD_NUMBER = 31;
+
+    /**
+     * The id that makes it unique.
+     */
     private UniqueId uniqueId;
 
     /**
@@ -41,8 +54,9 @@ public abstract class UniqueEntity {
     }
 
     @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 31)
+    public final int hashCode() {
+        return new HashCodeBuilder(INITIAL_NON_ZERO_ODD_NUMBER,
+                MULTIPLIER_NON_ZERO_ODD_NUMBER)
                 .append(this.getUniqueId())
                 .hashCode();
     }

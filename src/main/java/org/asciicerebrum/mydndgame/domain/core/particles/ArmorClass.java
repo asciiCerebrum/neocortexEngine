@@ -6,12 +6,25 @@ package org.asciicerebrum.mydndgame.domain.core.particles;
  */
 public class ArmorClass extends LongParticle {
 
-    public ArmorClass add(final BonusValue bonusValue) {
+    /**
+     * Modifies the armor class by adding the given bonus value. Returns itself.
+     *
+     * @param bonusValue the bonus value to add to the armor class.
+     * @return itself.
+     */
+    public final ArmorClass add(final BonusValue bonusValue) {
         this.setValue(this.getValue() + bonusValue.getValue());
         return this;
     }
 
-    public ArmorClass add(final DiceConstant diceConstant) {
+    /**
+     * Modifies the armor class by adding the given dice constant value. Returns
+     * itself.
+     *
+     * @param diceConstant the dice constant to add to the armor class.
+     * @return itself.
+     */
+    public final ArmorClass add(final DiceConstant diceConstant) {
         this.setValue(this.getValue() + diceConstant.getValue());
         return this;
     }
