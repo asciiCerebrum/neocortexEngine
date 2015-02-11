@@ -50,4 +50,14 @@ public class AbilityScore extends LongParticle {
         this.setValue(this.getValue() + bonusValue.getValue());
     }
 
+    @Override
+    public final boolean equals(final Object o) {
+        return this.equalsHelper(o);
+    }
+
+    @Override
+    public final int hashCode() {
+        return this.hashCodeHelper();
+    }
+
 }

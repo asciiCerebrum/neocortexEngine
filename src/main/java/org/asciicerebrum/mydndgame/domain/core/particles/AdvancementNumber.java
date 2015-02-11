@@ -141,4 +141,14 @@ public class AdvancementNumber extends LongParticle {
     public final void setValue(final String advNumberString) {
         super.setValue(Long.parseLong(advNumberString));
     }
+
+    @Override
+    public final boolean equals(final Object o) {
+        return this.equalsHelper(o);
+    }
+
+    @Override
+    public final int hashCode() {
+        return this.hashCodeHelper();
+    }
 }

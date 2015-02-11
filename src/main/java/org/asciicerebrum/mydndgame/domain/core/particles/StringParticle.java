@@ -1,8 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.core.particles;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
 /**
  *
  * @author species8472
@@ -29,24 +26,9 @@ public abstract class StringParticle {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof StringParticle)) {
-            return false;
-        }
-        if (o == this) {
-            return true;
-        }
-        StringParticle oParticle = (StringParticle) o;
-        return new EqualsBuilder()
-                .append(value, oParticle.value)
-                .isEquals();
-    }
+    public abstract boolean equals(final Object o);
 
     @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 31)
-                .append(value)
-                .toHashCode();
-    }
+    public abstract int hashCode();
 
 }

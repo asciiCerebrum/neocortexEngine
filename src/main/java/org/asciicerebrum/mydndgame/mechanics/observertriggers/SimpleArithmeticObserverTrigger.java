@@ -48,7 +48,7 @@ public class SimpleArithmeticObserverTrigger implements ObserverTriggerStrategy 
             return numeric;
         }
 
-        numeric.applyOperation(this.operation, effectiveModValue);
+        numeric.applyOperation(this.operation, effectiveModValue, numeric);
         return numeric;
     }
 

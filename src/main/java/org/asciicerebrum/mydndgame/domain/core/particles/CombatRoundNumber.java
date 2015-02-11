@@ -1,7 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.core.particles;
 
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
 /**
  *
  * @author species8472
@@ -9,41 +7,48 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 public final class CombatRoundNumber extends LongParticle
         implements Comparable {
 
+    /**
+     * Creates an instance from a string.
+     *
+     * @param stringInput the string to create the combat round number from.
+     */
     public CombatRoundNumber(final String stringInput) {
         this.setValue(stringInput);
     }
 
+    /**
+     * Creates an instance from a long primitive.
+     *
+     * @param longInput the long to create the combat round number from.
+     */
     public CombatRoundNumber(final long longInput) {
         this.setValue(longInput);
     }
 
+    /**
+     * Sets the value of the combat round number.
+     *
+     * @param stringInput the string to set the value from.
+     */
     public void setValue(final String stringInput) {
-        this.value = Long.parseLong(stringInput);
+        this.setValue(Long.parseLong(stringInput));
     }
 
     @Override
-    public int compareTo(Object object) {
+    public int compareTo(final Object object) {
         final CombatRoundNumber crn = (CombatRoundNumber) object;
         return Long.valueOf(this.getValue())
                 .compareTo(crn.getValue());
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof CombatRoundNumber)) {
-            return false;
-        }
-        if (o == this) {
-            return true;
-        }
-        return super.equals(o);
+    public boolean equals(final Object o) {
+        return this.equalsHelper(o);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 31)
-                .append(this.getValue())
-                .toHashCode();
+        return this.hashCodeHelper();
     }
 
 }

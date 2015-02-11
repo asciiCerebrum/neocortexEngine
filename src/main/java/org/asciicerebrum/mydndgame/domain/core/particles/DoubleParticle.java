@@ -20,9 +20,10 @@ public class DoubleParticle {
                      * {@inheritDoc}
                      */
                     @Override
-                    final LongParticle operate(final DoubleParticle operandA,
-                            final DoubleParticle operandB) {
-                        return new LongParticle(
+                    final void operate(final DoubleParticle operandA,
+                            final DoubleParticle operandB,
+                            final LongParticle result) {
+                        result.setValue(
                                 new DoubleParticle(operandA.getValue()
                                         * operandB.getValue()));
                     }
@@ -35,9 +36,10 @@ public class DoubleParticle {
                      * {@inheritDoc}
                      */
                     @Override
-                    final LongParticle operate(final DoubleParticle operandA,
-                            final DoubleParticle operandB) {
-                        return new LongParticle(
+                    final void operate(final DoubleParticle operandA,
+                            final DoubleParticle operandB,
+                            final LongParticle result) {
+                        result.setValue(
                                 new DoubleParticle(operandA.getValue()
                                         / operandB.getValue()));
                     }
@@ -48,10 +50,11 @@ public class DoubleParticle {
          *
          * @param operandA the first argument of the operation.
          * @param operandB the second argument of the operation.
-         * @return the result of the operation.
+         * @param result the result long particle whose value is set according
+         * to the result of the operation.
          */
-        abstract LongParticle operate(DoubleParticle operandA,
-                DoubleParticle operandB);
+        abstract void operate(DoubleParticle operandA,
+                DoubleParticle operandB, LongParticle result);
     }
 
     /**
@@ -59,10 +62,18 @@ public class DoubleParticle {
      */
     private double value = 0d;
 
+    /**
+     * Standard constructor with default value 0.
+     */
     public DoubleParticle() {
 
     }
 
+    /**
+     * Creates a double particle instance from a double primitive.
+     *
+     * @param valueInput the double to create the instance from.
+     */
     public DoubleParticle(final double valueInput) {
         this.value = valueInput;
     }

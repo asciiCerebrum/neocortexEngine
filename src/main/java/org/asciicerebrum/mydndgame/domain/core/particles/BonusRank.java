@@ -1,21 +1,33 @@
 package org.asciicerebrum.mydndgame.domain.core.particles;
 
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
 /**
  *
  * @author species8472
  */
 public class BonusRank extends LongParticle implements Comparable<BonusRank> {
 
+    /**
+     * Constant for the bonus rank of 0.
+     */
     public static final BonusRank RANK_0 = new BonusRank(0);
-
+    /**
+     * Constant for the bonus rank of 1.
+     */
     public static final BonusRank RANK_1 = new BonusRank(1);
-
+    /**
+     * Constant for the bonus rank of 2.
+     */
     public static final BonusRank RANK_2 = new BonusRank(2);
-
+    /**
+     * Constant for the bonus rank of 3.
+     */
     public static final BonusRank RANK_3 = new BonusRank(3);
 
+    /**
+     * Constructor for creating a bonus rank out of a long.
+     *
+     * @param rankValue the long value to create to bonus rank from.
+     */
     public BonusRank(final long rankValue) {
         this.setValue(rankValue);
     }
@@ -26,21 +38,13 @@ public class BonusRank extends LongParticle implements Comparable<BonusRank> {
     }
 
     @Override
-    public final boolean equals(final Object obj) {
-        if (!(obj instanceof BonusRank)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        return super.equals(obj);
+    public final boolean equals(final Object o) {
+        return this.equalsHelper(o);
     }
 
     @Override
     public final int hashCode() {
-        return new HashCodeBuilder(17, 31)
-                .append(this.getValue())
-                .toHashCode();
+        return this.hashCodeHelper();
     }
 
 }

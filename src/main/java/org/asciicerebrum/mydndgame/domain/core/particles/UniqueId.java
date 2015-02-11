@@ -10,12 +10,27 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 public class UniqueId extends StringParticle {
 
+    /**
+     * Initial value for hash code calculation.
+     */
+    private static final int INITIAL_NON_ZERO_ODD_NUMBER = 17;
+
+    /**
+     * Modifier for hash code calculation.
+     */
+    private static final int MULTIPLIER_NON_ZERO_ODD_NUMBER = 31;
+
+    /**
+     * Creates an instance from a string.
+     *
+     * @param uniqueId the string to create the instance from.
+     */
     public UniqueId(final String uniqueId) {
         this.setValue(uniqueId);
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public final boolean equals(final Object o) {
         if (!(o instanceof UniqueId)) {
             return false;
         }
@@ -29,14 +44,15 @@ public class UniqueId extends StringParticle {
     }
 
     @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 31)
+    public final int hashCode() {
+        return new HashCodeBuilder(INITIAL_NON_ZERO_ODD_NUMBER,
+                MULTIPLIER_NON_ZERO_ODD_NUMBER)
                 .append(this.getValue())
                 .hashCode();
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return new ToStringBuilder(this).append(this.getValue()).toString();
     }
 }
