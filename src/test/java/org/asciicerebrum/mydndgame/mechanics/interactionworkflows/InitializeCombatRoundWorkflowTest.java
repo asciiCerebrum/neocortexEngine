@@ -135,4 +135,53 @@ public class InitializeCombatRoundWorkflowTest {
 
         assertFalse(dndCharacters.contains(this.negativeCharacter));
     }
+
+    private DndCharacters setupTieingParticipants(final CombatRound cRound) {
+        final DndCharacters tieingParticipants = new DndCharacters();
+        tieingParticipants.addDndCharacter(this.negativeCharacter);
+        final DndCharacter furtherCharacter = new DndCharacter();
+        furtherCharacter.setUniqueId(new UniqueId("D"));
+        tieingParticipants.addDndCharacter(furtherCharacter);
+
+        cRound.addParticipant(furtherCharacter,
+                new CombatRoundPosition("c"));
+        // the positive character is already there but has to get another
+        // position to not interfere with the tieing of the others.
+        cRound.addParticipant(this.positiveCharacter,
+                new CombatRoundPosition("xyz"));
+
+        return tieingParticipants;
+    }
+
+    @Test
+    public void tieResolutionStepPositiveTest() {
+        final CombatRound combatRound = this.setupCombatRound();
+        final DndCharacters tieingParticipants
+                = this.setupTieingParticipants(combatRound);
+
+        // resolving ties with different dice rolls
+        when(this.drManager.rollDice(this.initiativeAction))
+                .thenReturn(new DiceRoll(1L), new DiceRoll(2L));
+
+        final DndCharacters dndCharacters
+                = this.wf.tieResolutionStep(tieingParticipants, combatRound);
+
+        assertFalse(dndCharacters.hasEntries());
+    }
+
+    @Test
+    public void tieResolutionStepNegativeTest() {
+        final CombatRound combatRound = this.setupCombatRound();
+        final DndCharacters tieingParticipants
+                = this.setupTieingParticipants(combatRound);
+
+        // keeping ties with equal dice rolls
+        when(this.drManager.rollDice(this.initiativeAction))
+                .thenReturn(new DiceRoll(3L), new DiceRoll(3L));
+
+        final DndCharacters dndCharacters
+                = this.wf.tieResolutionStep(tieingParticipants, combatRound);
+
+        assertTrue(dndCharacters.hasEntries());
+    }
 }
