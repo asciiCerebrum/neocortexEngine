@@ -52,6 +52,9 @@
 
     <bean id="diceRollManager" class="org.asciicerebrum.mydndgame.managers.DiceRollManager" />
 
+    <!-- services -->
+    <import resource="applicationContext-infrastructure-services.xml" />
+    
     <!-- d20 rule entity beans -->
     <import resource="applicationContext-dice.xml"/>
     <import resource="applicationContext-diceAction.xml"/>

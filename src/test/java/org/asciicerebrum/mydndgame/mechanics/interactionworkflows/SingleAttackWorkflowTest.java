@@ -11,9 +11,9 @@ import org.junit.Test;
  *
  * @author species8472
  */
-public class AttackWorkflowTest {
+public class SingleAttackWorkflowTest {
 
-    public AttackWorkflowTest() {
+    public SingleAttackWorkflowTest() {
     }
 
     @BeforeClass

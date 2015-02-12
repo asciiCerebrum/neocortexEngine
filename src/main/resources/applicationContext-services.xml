@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    <bean id="abilityObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.AbilityObserverAccumulatorStrategy" />
+    <bean id="baseAbilitiesObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.BaseAbilitiesObserverAccumulatorStrategy">
+        <property name="abilityStrategy" ref="abilityObserverAccumulatorStrategy" />
+    </bean>
+    <bean id="characterClassObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.CharacterClassObserverAccumulatorStrategy">
+        <property name="classFeatsStrategy" ref="featsObserverAccumulatorStrategy" />
+    </bean>
+    <bean id="classLevelObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.ClassLevelObserverAccumulatorStrategy">
+        <property name="characterClassStrategy" ref="classLevelObserverAccumulatorStrategy" />
+    </bean>
+    <bean id="conditionObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.ConditionObserverAccumulatorStrategy">
+        <property name="conditionTypeStrategy" ref="conditionTypeObserverAccumulatorStrategy" />
+    </bean>
+    <bean id="conditionTypeObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.ConditionTypeObserverAccumulatorStrategy" />
+    <bean id="conditionsObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.ConditionsObserverAccumulatorStrategy">
+        <property name="conditionStrategy" ref="conditionObserverAccumulatorStrategy" />
+    </bean>
+    <bean id="diceActionObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.DiceActionObserverAccumulatorStrategy" />
+    <bean id="dndCharacterObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.DndCharacterObserverAccumulatorStrategy">
+        <property name="baseAbilitiesStrategy" ref="baseAbilitiesObserverAccumulatorStrategy" />
+        <property name="conditionsStrategy" ref="conditionsObserverAccumulatorStrategy" />
+        <property name="levelAdvancementsStrategy" ref="levelAdvancementsObserverAccumulatorStrategy" />
+        <property name="personalizedBodySlotsStrategy" ref="personalizedBodySlotsObserverAccumulatorStrategy" />
+        <property name="raceStrategy" ref="raceObserverAccumulatorStrategy" />
+    </bean>
+    <bean id="featObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.FeatObserverAccumulatorStrategy">
+        <property name="featTypeStrategy" ref="featTypeObserverAccumulatorStrategy" />
+    </bean>
+    <bean id="featTypeObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.FeatTypeObserverAccumulatorStrategy" />
+    <bean id="featsObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.FeatsObserverAccumulatorStrategy">
+        <property name="featStrategy" ref="featObserverAccumulatorStrategy" />
+    </bean>
+    <bean id="featureObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.FeatureObserverAccumulatorStrategy" />
+    <bean id="inventoryItemObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.InventoryItemObserverAccumulatorStrategy">
+        <property name="specialAbilitiesStrategy" ref="specialAbilitiesObserverAccumulatorStrategy" />
+    </bean>
+    <bean id="levelAdvancementObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.LevelAdvancementObserverAccumulatorStrategy">
+        <property name="classLevelStrategy" ref="classLevelObserverAccumulatorStrategy" />
+        <property name="featStrategy" ref="featObserverAccumulatorStrategy" />
+    </bean>
+    <bean id="levelAdvancementsObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.LevelAdvancementsObserverAccumulatorStrategy">
+        <property name="lvlAdvStrategy" ref="levelAdvancementObserverAccumulatorStrategy" />
+    </bean>
+    <bean id="personalizedBodySlotObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.PersonalizedBodySlotObserverAccumulatorStrategy">
+        <property name="itemStrategy" ref="inventoryItemObserverAccumulatorStrategy" />
+    </bean>
+    <bean id="personalizedBodySlotsObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.PersonalizedBodySlotsObserverAccumulatorStrategy">
+        <property name="personalizedBodySlotsStrategy" ref="personalizedBodySlotObserverAccumulatorStrategy" />
+    </bean>
+    <bean id="raceObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.RaceObserverAccumulatorStrategy">
+        <property name="sizeCategoryStrategy" ref="featureObserverAccumulatorStrategy" />
+    </bean>
+    <bean id="specialAbilitiesObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.SpecialAbilitiesObserverAccumulatorStrategy">
+        <property name="specialAbilityStrategy" ref="specialAbilityObserverAccumulatorStrategy" />
+    </bean>
+    <bean id="specialAbilityObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.SpecialAbilityObserverAccumulatorStrategy">
+        <property name="specialAbilitiesStrategy" ref="specialAbilitiesObserverAccumulatorStrategy" />
+    </bean>
+    
+    <bean id="observerAccumulatorStrategies" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.DefaultObserverAccumulatorStrategies">
+        <constructor-arg>
+            <list>
+                <ref bean="abilityObserverAccumulatorStrategy" />
+                <ref bean="baseAbilitiesObserverAccumulatorStrategy" />
+                <ref bean="characterClassObserverAccumulatorStrategy" />
+                <ref bean="classLevelObserverAccumulatorStrategy" />
+                <ref bean="conditionObserverAccumulatorStrategy" />
+                <ref bean="conditionTypeObserverAccumulatorStrategy" />
+                <ref bean="conditionsObserverAccumulatorStrategy" />
+                <ref bean="diceActionObserverAccumulatorStrategy" />
+                <ref bean="dndCharacterObserverAccumulatorStrategy" />
+                <ref bean="featObserverAccumulatorStrategy" />
+                <ref bean="featTypeObserverAccumulatorStrategy" />
+                <ref bean="featsObserverAccumulatorStrategy" />
+                <ref bean="featureObserverAccumulatorStrategy" />
+                <ref bean="inventoryItemObserverAccumulatorStrategy" />
+                <ref bean="levelAdvancementObserverAccumulatorStrategy" />
+                <ref bean="levelAdvancementsObserverAccumulatorStrategy" />
+                <ref bean="personalizedBodySlotObserverAccumulatorStrategy" />
+                <ref bean="personalizedBodySlotsObserverAccumulatorStrategy" />
+                <ref bean="raceObserverAccumulatorStrategy" />
+                <ref bean="specialAbilitiesObserverAccumulatorStrategy" />
+                <ref bean="specialAbilityObserverAccumulatorStrategy" />
+            </list>
+        </constructor-arg>
+    </bean>
+    
+    <bean id="observableService" class="org.asciicerebrum.mydndgame.services.core.DefaultObservableService">
+        <property name="accumulatorStrategies" ref="observerAccumulatorStrategies" />
+    </bean>
+    
+    <bean id="bonusCalculationService" class="org.asciicerebrum.mydndgame.services.core.DefaultBonusCalculationServiceImpl">
+        <property name="observableService" ref="observableService" />
+    </bean>
+    
+</beans>

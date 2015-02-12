@@ -4,6 +4,7 @@ import org.asciicerebrum.mydndgame.domain.core.particles.ArmorClass;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
@@ -114,7 +115,7 @@ public class SingleAttackWorkflow implements IWorkflow {
         }
 
         boolean isCritical = this.determineCritical(atkRollResultRaw,
-                sourceAtkBonus, targetAc, interaction);
+                sourceAtkBonus, targetAc, interaction.getTriggeringCharacter());
 
         this.terminate(isCritical, interaction);
     }
@@ -141,19 +142,18 @@ public class SingleAttackWorkflow implements IWorkflow {
     final boolean determineCritical(final DiceRoll atkRollResultRaw,
             final BonusValue sourceAtkBonus,
             final ArmorClass targetAc,
-            final Interaction interaction) {
+            final DndCharacter triggeringCharacter) {
 
         final Weapon sourceWeapon
                 = (Weapon) this.getSituationContextService().getActiveItem(
-                        interaction.getTriggeringCharacter());
+                        triggeringCharacter);
 
         // when you are here you have hit the enemy!!!
         // it could be critical
         final Boolean isThreat
                 = atkRollResultRaw.greaterThanOrEqualTo(
                         this.getWeaponServiceFacade().getCriticalMinimumLevel(
-                                sourceWeapon,
-                                interaction.getTriggeringCharacter()));
+                                sourceWeapon, triggeringCharacter));
 
         Boolean isCritical = false;
         if (isThreat) {
@@ -162,12 +162,23 @@ public class SingleAttackWorkflow implements IWorkflow {
                             this.getAttackAction());
             final DiceRoll secondAtkRollResult
                     = secondAtkRollResultRaw.add(sourceAtkBonus);
-            isCritical
-                    = secondAtkRollResult.greaterThanOrEqualTo(targetAc)
-                    || secondAtkRollResult.greaterThanOrEqualTo(
-                            this.getAutoSuccessRoll());
+            isCritical = this.isHit(secondAtkRollResult, targetAc);
         }
         return isCritical;
+    }
+
+    /**
+     * Determines if an attack roll hits the target.
+     *
+     * @param atkRollResult the rsult of the attack roll.
+     * @param targetAc the target's armor class.
+     * @return true if attack was successfull, false otherwise.
+     */
+    final boolean isHit(final DiceRoll atkRollResult,
+            final ArmorClass targetAc) {
+        return atkRollResult.greaterThanOrEqualTo(targetAc)
+                || atkRollResult.greaterThanOrEqualTo(
+                        this.getAutoSuccessRoll());
     }
 
     /**
