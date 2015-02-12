@@ -14,7 +14,7 @@ public class WeaponFactory extends InventoryItemFactory {
      * {@inheritDoc}
      */
     @Override
-    protected InventoryItem getConcreteInventoryItem() {
+    protected final InventoryItem getConcreteInventoryItem() {
 
         return this.getContext().getBean(Weapon.class);
 
@@ -24,7 +24,7 @@ public class WeaponFactory extends InventoryItemFactory {
      * {@inheritDoc}
      */
     @Override
-    protected void finalizeCreation(InventoryItem inventoryItem) {
+    protected final void finalizeCreation(final InventoryItem inventoryItem) {
         // so far nothing to do here.
     }
 }

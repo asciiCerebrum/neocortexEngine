@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
  */
 public class DiceRollManagerTest {
 
-    private DiceRollManager drManager;
+    private DefaultDiceRollManager drManager;
 
     private SecureRandom rand;
 
@@ -40,7 +40,7 @@ public class DiceRollManagerTest {
 
     @Before
     public void setUp() {
-        this.drManager = new DiceRollManager();
+        this.drManager = new DefaultDiceRollManager();
         this.rand = mock(SecureRandom.class);
         this.diceAction = mock(DiceAction.class);
         this.drManager.setRandom(this.rand);

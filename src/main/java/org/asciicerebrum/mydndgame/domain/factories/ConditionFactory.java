@@ -18,14 +18,23 @@ import org.springframework.context.ApplicationContext;
  */
 public class ConditionFactory implements EntityFactory<Condition> {
 
+    /**
+     * The campaign holding the basic data of encounters and characters.
+     */
     private Campaign campaign;
 
+    /**
+     * The spring application context for retrieving the prototype beans.
+     */
     private ApplicationContext context;
 
+    /**
+     * Factory for the world date.
+     */
     private EntityFactory<WorldDate> worldDateFactory;
 
     @Override
-    public Condition newEntity(final EntitySetup setup,
+    public final Condition newEntity(final EntitySetup setup,
             final Reassignments reassignments) {
 
         if (!setup.isSetupComplete()) {
@@ -63,7 +72,8 @@ public class ConditionFactory implements EntityFactory<Condition> {
     }
 
     @Override
-    public void reAssign(EntitySetup setup, Condition entity) {
+    public final void reAssign(final EntitySetup setup,
+            final Condition entity) {
         entity.setCauseEntity(this.getCampaign().getEntityById(
                 new UniqueId(setup.getProperty(
                                 SetupProperty.CONDITION_CAUSE_ENTITY))));

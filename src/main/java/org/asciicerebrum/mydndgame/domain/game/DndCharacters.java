@@ -33,4 +33,14 @@ public class DndCharacters {
         return this.elements.size() > 1;
     }
 
+    /**
+     * Tests if a given character is part of this list.
+     *
+     * @param dndCharacter the character in question.
+     * @return true if character is part of the list, false otherwise.
+     */
+    public final boolean contains(final DndCharacter dndCharacter) {
+        return this.elements.contains(dndCharacter);
+    }
+
 }

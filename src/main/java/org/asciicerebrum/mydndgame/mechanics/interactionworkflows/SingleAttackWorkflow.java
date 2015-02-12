@@ -10,7 +10,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
-import org.asciicerebrum.mydndgame.managers.DiceRollManager;
+import org.asciicerebrum.mydndgame.managers.DefaultDiceRollManager;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.asciicerebrum.mydndgame.services.statistics.AcCalculationService;
 import org.asciicerebrum.mydndgame.services.statistics.AtkCalculationService;
@@ -29,7 +29,7 @@ public class SingleAttackWorkflow implements IWorkflow {
     /**
      * Service for rolling dice.
      */
-    private DiceRollManager diceRollManager;
+    private DefaultDiceRollManager diceRollManager;
 
     /**
      * Roll results that leads to automatic failure.
@@ -181,7 +181,7 @@ public class SingleAttackWorkflow implements IWorkflow {
      * @param diceRollManagerInput the diceRollManager to set
      */
     public final void setDiceRollManager(
-            final DiceRollManager diceRollManagerInput) {
+            final DefaultDiceRollManager diceRollManagerInput) {
         this.diceRollManager = diceRollManagerInput;
     }
 
@@ -263,7 +263,7 @@ public class SingleAttackWorkflow implements IWorkflow {
     /**
      * @return the diceRollManager
      */
-    public final DiceRollManager getDiceRollManager() {
+    public final DefaultDiceRollManager getDiceRollManager() {
         return diceRollManager;
     }
 

@@ -16,7 +16,8 @@ public class CombatRound {
      * identifiert. The order of the participants corresponds to the
      * alpha-numerical order of the string values of this map.
      */
-    private CombatRoundEntries combatRoundEntries;
+    private final CombatRoundEntries combatRoundEntries
+            = new CombatRoundEntries();
 
     /**
      * The current date of this particular combat round encounter.
@@ -28,11 +29,6 @@ public class CombatRound {
             this.moveToNextPosition();
         }
         return this.currentDate;
-    }
-
-    public final void setCombatRoundEntries(
-            final CombatRoundEntries combatRoundEntriesInput) {
-        this.combatRoundEntries = combatRoundEntriesInput;
     }
 
     public final DndCharacter getCurrentParticipant() {
@@ -131,6 +127,16 @@ public class CombatRound {
             final CombatRoundPosition roundPosition) {
         return this.combatRoundEntries
                 .getParticipantsForPosition(roundPosition);
+    }
+
+    /**
+     * Adding new combat round entries to the list.
+     *
+     * @param combatRoundEntry the combat round entry to add.
+     */
+    public final void addCombatRoundEntry(
+            final CombatRoundEntry combatRoundEntry) {
+        this.combatRoundEntries.addCombatRoundEntry(combatRoundEntry);
     }
 
 }

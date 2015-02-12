@@ -31,14 +31,29 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
      */
     private ApplicationContext context;
 
+    /**
+     * The factory for the level advancement.
+     */
     private EntityFactory<LevelAdvancement> levelAdvancementFactory;
 
+    /**
+     * The factory for the body slots.
+     */
     private EntityFactory<PersonalizedBodySlot> bodySlotFactory;
 
+    /**
+     * The factory for the state registry.
+     */
     private EntityFactory<StateRegistry> stateRegistryFactory;
 
+    /**
+     * The factory for the base ability entries.
+     */
     private EntityFactory<BaseAbilityEntry> baseAbilityEntryFactory;
 
+    /**
+     * The factory for the conditions.
+     */
     private EntityFactory<Condition> conditionFactory;
 
     @Override
@@ -63,11 +78,19 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
         return dndCharacter;
     }
 
-    public void reAssign(final EntitySetup setup, final DndCharacter entity) {
+    @Override
+    public final void reAssign(final EntitySetup setup,
+            final DndCharacter entity) {
         // nothing to do here.
     }
 
-    void trivialSetup(final EntitySetup setup,
+    /**
+     * Setting up trivial parameters of dnd character.
+     *
+     * @param setup the dnd character setup.
+     * @param dndCharacter the character to set up.
+     */
+    final void trivialSetup(final EntitySetup setup,
             final DndCharacter dndCharacter) {
         dndCharacter.setRace(this.context.getBean(
                 setup.getProperty(SetupProperty.RACE), Race.class));
@@ -81,7 +104,15 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
                 setup.getProperty(SetupProperty.EXPERIENCE_POINTS)));
     }
 
-    void fillBodySlots(final EntitySetup setup,
+    /**
+     * Filling up the body slots of the character.
+     *
+     * @param setup the dnd character setup.
+     * @param dndCharacter the character whose body slots are to be filled.
+     * @param reassignments the reassignment object for resolving unfound
+     * objects.
+     */
+    final void fillBodySlots(final EntitySetup setup,
             final DndCharacter dndCharacter,
             final Reassignments reassignments) {
 
@@ -117,7 +148,15 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
         dndCharacter.setPersonalizedBodySlots(personalizedBodySlots);
     }
 
-    void fillLevelAdvancements(final EntitySetup setup,
+    /**
+     * Setting up the advancement levels of the character.
+     *
+     * @param setup the dnd character setup.
+     * @param dndCharacter the character who gets level advancements.
+     * @param reassignments the reassignment object for resolving unfound
+     * objects.
+     */
+    final void fillLevelAdvancements(final EntitySetup setup,
             final DndCharacter dndCharacter,
             final Reassignments reassignments) {
         LevelAdvancements levelAdvancements = new LevelAdvancements();
@@ -130,7 +169,15 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
         dndCharacter.setLevelAdvancements(levelAdvancements);
     }
 
-    void fillStateRegistry(final EntitySetup setup,
+    /**
+     * Setting up the state registry of the character.
+     *
+     * @param setup the dnd character setup.
+     * @param dndCharacter the character to set up.
+     * @param reassignments the reassignment object for resolving unfound
+     * objects.
+     */
+    final void fillStateRegistry(final EntitySetup setup,
             final DndCharacter dndCharacter,
             final Reassignments reassignments) {
         dndCharacter.setStateRegistry(this.stateRegistryFactory.newEntity(
@@ -138,7 +185,15 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
                 reassignments));
     }
 
-    void fillBaseAbilities(final EntitySetup setup,
+    /**
+     * Setting up the base abilities of the dnd character.
+     *
+     * @param setup the dnd character setup.
+     * @param dndCharacter the character to set up.
+     * @param reassignments the reassignment object for resolving unfound
+     * objects.
+     */
+    final void fillBaseAbilities(final EntitySetup setup,
             final DndCharacter dndCharacter,
             final Reassignments reassignments) {
         BaseAbilities baseAbilities = new BaseAbilities();
@@ -152,7 +207,15 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
 
     }
 
-    void fillConditions(final EntitySetup setup,
+    /**
+     * Setting up the conditions the character suffers or profits from.
+     *
+     * @param setup the dnd character setup.
+     * @param dndCharacter the character to set up.
+     * @param reassignments the reassignment object for resolving unfound
+     * objects.
+     */
+    final void fillConditions(final EntitySetup setup,
             final DndCharacter dndCharacter,
             final Reassignments reassignments) {
         Conditions conditions = new Conditions();

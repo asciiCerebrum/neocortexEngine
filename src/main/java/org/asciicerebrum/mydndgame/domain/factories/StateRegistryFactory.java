@@ -17,8 +17,14 @@ import org.springframework.context.ApplicationContext;
  */
 public class StateRegistryFactory implements EntityFactory<StateRegistry> {
 
+    /**
+     * The campaign holding the basic data of encounters and characters.
+     */
     private Campaign campaign;
 
+    /**
+     * The spring application context to find beans.
+     */
     private ApplicationContext context;
 
     @Override
@@ -35,6 +41,14 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
         return stateReg;
     }
 
+    /**
+     * Builds up a single state for the state registry.
+     *
+     * @param stateReg the state registry to put the state in.
+     * @param entrySetup the setup for the registry entry.
+     * @param reassignments the reassignment object for resolving unfound
+     * objects.
+     */
     final void addSingleState(final StateRegistry stateReg,
             final EntitySetup entrySetup, final Reassignments reassignments) {
 
@@ -76,6 +90,7 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
                         this.getContext()));
     }
 
+    @Override
     public final void reAssign(final EntitySetup setup,
             final StateRegistry entity) {
 

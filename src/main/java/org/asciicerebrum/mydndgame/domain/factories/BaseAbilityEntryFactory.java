@@ -15,10 +15,13 @@ import org.springframework.context.ApplicationContext;
 public class BaseAbilityEntryFactory
         implements EntityFactory<BaseAbilityEntry> {
 
+    /**
+     * The spring application context for retrieving the prototype beans.
+     */
     private ApplicationContext context;
 
     @Override
-    public BaseAbilityEntry newEntity(final EntitySetup setup,
+    public final BaseAbilityEntry newEntity(final EntitySetup setup,
             final Reassignments reassignments) {
         BaseAbilityEntry entry = new BaseAbilityEntry();
 

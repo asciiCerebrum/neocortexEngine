@@ -2,7 +2,6 @@ package org.asciicerebrum.mydndgame.domain.factories;
 
 import java.util.List;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
-import org.asciicerebrum.mydndgame.domain.game.CombatRoundEntries;
 import org.asciicerebrum.mydndgame.domain.game.CombatRoundEntry;
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
@@ -15,8 +14,14 @@ import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
  */
 public class CombatRoundFactory implements EntityFactory<CombatRound> {
 
+    /**
+     * The factory for combat round entries.
+     */
     private EntityFactory<CombatRoundEntry> combatRoundEntryFactory;
 
+    /**
+     * The factory for the world date.
+     */
     private EntityFactory<WorldDate> worldDateFactory;
 
     @Override
@@ -33,12 +38,11 @@ public class CombatRoundFactory implements EntityFactory<CombatRound> {
         List<EntitySetup> crEntrySetups
                 = setup.getPropertySetups(SetupProperty.COMBAT_ROUND_ENTRIES);
         if (crEntrySetups != null) {
-            CombatRoundEntries crEntries = new CombatRoundEntries();
             for (EntitySetup crEntrySetup : crEntrySetups) {
-                crEntries.addCombatRoundEntry(this.getCombatRoundEntryFactory()
-                        .newEntity(crEntrySetup, reassignments));
+                combatRound.addCombatRoundEntry(
+                        this.getCombatRoundEntryFactory().newEntity(
+                                crEntrySetup, reassignments));
             }
-            combatRound.setCombatRoundEntries(crEntries);
         }
 
         EntitySetup dateSetup = setup.getPropertySetup(

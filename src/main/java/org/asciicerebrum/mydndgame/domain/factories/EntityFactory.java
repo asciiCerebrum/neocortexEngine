@@ -9,6 +9,15 @@ import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
  */
 public interface EntityFactory<T> {
 
+    /**
+     * The actual building method. Creates the domain instance based on the
+     * setup.
+     *
+     * @param setup the setup of the specific object to create.
+     * @param reassignments the reassignment object for resolving unfound
+     * objects.
+     * @return the created instance.
+     */
     T newEntity(EntitySetup setup, Reassignments reassignments);
 
     /**

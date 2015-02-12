@@ -9,7 +9,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.damage.Damage;
 import org.asciicerebrum.mydndgame.domain.mechanics.damage.Damages;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
-import org.asciicerebrum.mydndgame.managers.DiceRollManager;
+import org.asciicerebrum.mydndgame.managers.DefaultDiceRollManager;
 import org.asciicerebrum.mydndgame.services.application.DamageApplicationService;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.asciicerebrum.mydndgame.services.statistics.DamageCalculationService;
@@ -23,7 +23,7 @@ public class DamageWorkflow implements IWorkflow {
     /**
      * Service for rolling dice.
      */
-    private DiceRollManager diceRollManager;
+    private DefaultDiceRollManager diceRollManager;
 
     private DamageApplicationService damageApplicationService;
 
@@ -97,7 +97,7 @@ public class DamageWorkflow implements IWorkflow {
      * @param diceRollManagerInput the diceRollManager to set
      */
     public final void setDiceRollManager(
-            final DiceRollManager diceRollManagerInput) {
+            final DefaultDiceRollManager diceRollManagerInput) {
         this.diceRollManager = diceRollManagerInput;
     }
 
@@ -143,7 +143,7 @@ public class DamageWorkflow implements IWorkflow {
     /**
      * @return the diceRollManager
      */
-    public final DiceRollManager getDiceRollManager() {
+    public final DefaultDiceRollManager getDiceRollManager() {
         return diceRollManager;
     }
 

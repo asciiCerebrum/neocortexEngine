@@ -1,64 +1,21 @@
 package org.asciicerebrum.mydndgame.services.statistics;
 
-import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
-import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
-import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
-import org.asciicerebrum.mydndgame.services.core.BonusCalculationService;
 
 /**
  *
- * @author species8472
+ * @author t.raab
  */
-public class InitiativeCalculationService {
+public interface InitiativeCalculationService {
 
     /**
-     * The bonus calculation service needed for dynamic bonus value calculation.
+     * Calculates the initiative bonus of the given character and takes all
+     * applied modifications into account.
+     *
+     * @param dndCharacter the character to calculate the init bonus for.
+     * @return the initiative as a bonus value.
      */
-    private BonusCalculationService bonusService;
-
-    /**
-     * Dice action associated with initiative.
-     */
-    private DiceAction initAction;
-
-    public final BonusValue calcInitBonus(final DndCharacter dndCharacter) {
-
-        final BonusValueTuple initValues
-                = this.getBonusService().calculateBonusValues(
-                        dndCharacter,
-                        this.initAction,
-                        dndCharacter,
-                        dndCharacter,
-                        ObserverHook.INITIATIVE,
-                        dndCharacter
-                );
-
-        return initValues.getBonusValueByRank(BonusRank.RANK_0);
-    }
-
-    /**
-     * @param bonusServiceInput the bonusService to set
-     */
-    public final void setBonusService(
-            final BonusCalculationService bonusServiceInput) {
-        this.bonusService = bonusServiceInput;
-    }
-
-    /**
-     * @param initActionInput the initAction to set
-     */
-    public final void setInitAction(final DiceAction initActionInput) {
-        this.initAction = initActionInput;
-    }
-
-    /**
-     * @return the bonusService
-     */
-    public final BonusCalculationService getBonusService() {
-        return bonusService;
-    }
+    BonusValue calcInitBonus(DndCharacter dndCharacter);
 
 }

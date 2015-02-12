@@ -74,7 +74,8 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
         // sorting of this list gives the correct order of participants!
         // As long as two numbers are the same, a reroll-result is appended
         // until uniqueness is accomplished.
-        this.rollInitiative(interaction.getTargetCharacters(), combatRound);
+        this.rollInitiative(interaction.getTargetCharacters().iterator(),
+                combatRound);
         this.resolveTies(combatRound);
         this.applyFlatFooted(combatRound);
     }
@@ -107,13 +108,11 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
     /**
      * Let every participant roll for initiative.
      *
-     * @param dndCharacters the list of participants.
+     * @param participantIterator the iterator of the list of participants.
      * @param combatRound the combat round of this encounter.
      */
-    final void rollInitiative(final DndCharacters dndCharacters,
+    final void rollInitiative(final Iterator<DndCharacter> participantIterator,
             final CombatRound combatRound) {
-        Iterator<DndCharacter> participantIterator
-                = dndCharacters.iterator();
         while (participantIterator.hasNext()) {
             final DndCharacter participant = participantIterator.next();
 

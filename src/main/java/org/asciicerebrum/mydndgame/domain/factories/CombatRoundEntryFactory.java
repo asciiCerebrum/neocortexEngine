@@ -16,6 +16,9 @@ import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
 public class CombatRoundEntryFactory
         implements EntityFactory<CombatRoundEntry> {
 
+    /**
+     * The campaign holding the basic data of encounters and characters.
+     */
     private Campaign campaign;
 
     @Override
@@ -42,6 +45,13 @@ public class CombatRoundEntryFactory
         return crEntry;
     }
 
+    /**
+     * Retrieves a dnd character from the campaign by its unique id. The id is
+     * given by the setup.
+     *
+     * @param setup the setup containing the id.
+     * @return the dnd character found.
+     */
     final DndCharacter findParticipant(
             final EntitySetup setup) {
         final UniqueId uniqueId = new UniqueId(setup.getProperty(
@@ -49,7 +59,8 @@ public class CombatRoundEntryFactory
         return (DndCharacter) this.getCampaign().getEntityById(uniqueId);
     }
 
-    public void reAssign(final EntitySetup setup,
+    @Override
+    public final void reAssign(final EntitySetup setup,
             final CombatRoundEntry entity) {
         final DndCharacter participant = this.findParticipant(setup);
         entity.setParticipant(participant);

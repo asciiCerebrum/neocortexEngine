@@ -13,7 +13,7 @@ public class ArmorFactory extends InventoryItemFactory<Armor> {
      * {@inheritDoc}
      */
     @Override
-    protected InventoryItem getConcreteInventoryItem() {
+    protected final InventoryItem getConcreteInventoryItem() {
 
         return this.getContext().getBean(Armor.class);
     }
@@ -22,7 +22,7 @@ public class ArmorFactory extends InventoryItemFactory<Armor> {
      * {@inheritDoc}
      */
     @Override
-    protected void finalizeCreation(InventoryItem inventoryItem) {
+    protected final void finalizeCreation(final InventoryItem inventoryItem) {
         // so far nothing to do here.
     }
 

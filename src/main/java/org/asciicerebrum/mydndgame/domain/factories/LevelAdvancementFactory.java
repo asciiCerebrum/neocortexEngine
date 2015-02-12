@@ -30,7 +30,7 @@ public class LevelAdvancementFactory
     private EntityFactory<Feat> featFactory;
 
     @Override
-    public LevelAdvancement newEntity(final EntitySetup setup,
+    public final LevelAdvancement newEntity(final EntitySetup setup,
             final Reassignments reassignments) {
 
         if (!setup.isSetupComplete()) {
@@ -64,7 +64,7 @@ public class LevelAdvancementFactory
     }
 
     @Override
-    public void reAssign(final EntitySetup setup,
+    public final void reAssign(final EntitySetup setup,
             final LevelAdvancement entity) {
         // nothing to do here
     }

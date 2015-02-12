@@ -21,15 +21,24 @@ public class CampaignFactory implements EntityFactory<Campaign> {
      */
     private ApplicationContext context;
 
+    /**
+     * The factory for creating dnd characters.
+     */
     private EntityFactory<DndCharacter> characterFactory;
 
+    /**
+     * The factory for creating inventory items.
+     */
     private EntityFactory<InventoryItem> inventoryItemFactory;
 
+    /**
+     * The factory for creating a combat round instance.
+     */
     private EntityFactory<CombatRound> combatRoundFactory;
 
     @Override
-    public Campaign newEntity(EntitySetup setup,
-            Reassignments reassignments) {
+    public final Campaign newEntity(final EntitySetup setup,
+            final Reassignments reassignments) {
 
         Campaign campaign = this.getContext().getBean(Campaign.class);
 
@@ -66,7 +75,7 @@ public class CampaignFactory implements EntityFactory<Campaign> {
     }
 
     @Override
-    public void reAssign(EntitySetup setup, Campaign entity) {
+    public final void reAssign(final EntitySetup setup, final Campaign entity) {
         // nothing to do here
     }
 

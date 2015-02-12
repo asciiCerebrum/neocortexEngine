@@ -16,6 +16,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 /**
  *
  * @author species8472
+ * @param <T> the type of the inventory item to build.
  */
 public abstract class InventoryItemFactory<T extends InventoryItem>
         implements EntityFactory<InventoryItem> {

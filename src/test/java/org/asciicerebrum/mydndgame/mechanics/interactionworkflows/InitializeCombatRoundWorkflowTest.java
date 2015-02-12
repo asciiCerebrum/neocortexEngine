@@ -1,19 +1,29 @@
 package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 
+import java.util.Iterator;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
+import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
+import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacters;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
+import org.asciicerebrum.mydndgame.domain.ruleentities.ConditionType;
+import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
+import org.asciicerebrum.mydndgame.managers.DiceRollManager;
+import org.asciicerebrum.mydndgame.services.application.ConditionApplicationService;
+import org.asciicerebrum.mydndgame.services.statistics.InitiativeCalculationService;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  *
@@ -23,6 +33,13 @@ public class InitializeCombatRoundWorkflowTest {
 
     private InitializeCombatRoundWorkflow wf;
     private Interaction interaction;
+    private DiceRollManager drManager;
+    private DiceAction initiativeAction;
+    private ConditionType flatFootedType;
+    private InitiativeCalculationService initService;
+    private ConditionApplicationService conditionService;
+    private DndCharacter positiveCharacter;
+    private DndCharacter negativeCharacter;
 
     public InitializeCombatRoundWorkflowTest() {
     }
@@ -37,8 +54,19 @@ public class InitializeCombatRoundWorkflowTest {
 
     @Before
     public void setUp() {
-        this.wf = spy(InitializeCombatRoundWorkflow.class);
+        this.wf = new InitializeCombatRoundWorkflow();
         this.interaction = mock(Interaction.class);
+        this.drManager = mock(DiceRollManager.class);
+        this.initiativeAction = mock(DiceAction.class);
+        this.flatFootedType = mock(ConditionType.class);
+        this.initService = mock(InitiativeCalculationService.class);
+        this.conditionService = mock(ConditionApplicationService.class);
+
+        this.wf.setConditionApplicationService(this.conditionService);
+        this.wf.setDiceRollManager(this.drManager);
+        this.wf.setFlatFootedType(this.flatFootedType);
+        this.wf.setInitiativeAction(this.initiativeAction);
+        this.wf.setInitiativeCalculationService(this.initService);
 
     }
 
@@ -47,15 +75,64 @@ public class InitializeCombatRoundWorkflowTest {
     }
 
     @Test
-    public void testRunWorkflow() {
-        doNothing().when(this.wf).rollInitiative((DndCharacters) anyObject(),
-                (CombatRound) anyObject());
-        doNothing().when(this.wf).resolveTies((CombatRound) anyObject());
-        doNothing().when(this.wf).applyFlatFooted((CombatRound) anyObject());
+    public void rollInitiativeTest() {
+        final Iterator<DndCharacter> characterIterator = mock(Iterator.class);
+        final CombatRound combatRound = new CombatRound();
 
-        this.wf.runWorkflow(this.interaction);
-        verify(this.wf, times(1)).rollInitiative((DndCharacters) anyObject(),
-                (CombatRound) anyObject());
+        when(characterIterator.hasNext()).thenReturn(Boolean.TRUE, Boolean.TRUE,
+                Boolean.FALSE);
+        final DndCharacter characterA = new DndCharacter();
+        characterA.setUniqueId(new UniqueId("A"));
+        final DndCharacter characterB = new DndCharacter();
+        characterA.setUniqueId(new UniqueId("B"));
+        when(characterIterator.next()).thenReturn(characterA, characterB);
+
+        when(this.initService.calcInitBonus(characterA))
+                .thenReturn(new BonusValue(3));
+        when(this.initService.calcInitBonus(characterB))
+                .thenReturn(new BonusValue(5));
+        when(this.drManager.rollDice(this.initiativeAction))
+                .thenReturn(new DiceRoll(0L));
+
+        this.wf.rollInitiative(characterIterator, combatRound);
+
+        Iterator<DndCharacter> dndIt = combatRound.participantsIterator();
+        dndIt.next();
+
+        assertEquals(characterB, dndIt.next());
     }
 
+    private CombatRound setupCombatRound() {
+        final CombatRound combatRound = new CombatRound();
+        this.positiveCharacter = new DndCharacter();
+        this.positiveCharacter.setUniqueId(new UniqueId("A"));
+        final DndCharacter characterB = new DndCharacter();
+        characterB.setUniqueId(new UniqueId("B"));
+        this.negativeCharacter = new DndCharacter();
+        this.negativeCharacter.setUniqueId(new UniqueId("C"));
+
+        combatRound.addParticipant(this.positiveCharacter,
+                new CombatRoundPosition("a"));
+        combatRound.addParticipant(this.negativeCharacter,
+                new CombatRoundPosition("c"));
+        combatRound.addParticipant(characterB, new CombatRoundPosition("a"));
+
+        return combatRound;
+    }
+
+    @Test
+    public void getTieingParticipantsPositiveTest() {
+        final DndCharacters dndCharacters
+                = this.wf.getTieingParticipants(this.setupCombatRound());
+
+        assertTrue(dndCharacters.contains(this.positiveCharacter));
+    }
+
+    @Test
+    public void getTieingParticipantsNegativeTest() {
+        final DndCharacters dndCharacters
+                = this.wf.getTieingParticipants(this.setupCombatRound());
+
+        assertFalse(dndCharacters.contains(this.negativeCharacter));
+    }
 }

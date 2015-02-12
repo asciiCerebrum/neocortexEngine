@@ -25,10 +25,13 @@ public class PersonalizedBodySlotFactory
      */
     private ApplicationContext context;
 
+    /**
+     * The campaign holding the basic data of encounters and characters.
+     */
     private Campaign campaign;
 
     @Override
-    public PersonalizedBodySlot newEntity(final EntitySetup setup,
+    public final PersonalizedBodySlot newEntity(final EntitySetup setup,
             final Reassignments reassignments) {
 
         if (!setup.isSetupComplete()) {
@@ -55,13 +58,23 @@ public class PersonalizedBodySlotFactory
         return personalizedBodySlot;
     }
 
-    public void reAssign(final EntitySetup setup,
+    @Override
+    public final void reAssign(final EntitySetup setup,
             final PersonalizedBodySlot entity) {
 
         this.assignItem(setup, entity);
     }
 
-    public boolean assignItem(final EntitySetup setup,
+    /**
+     * Assigns an item by retrieving it from the context or campaign and putting
+     * it into the slot.
+     *
+     * @param setup the setup of the personalized body slot.
+     * @param entity the body slot to be filled with an item.
+     * @return true, if the item could be resolved (found in the campaign),
+     * false otherwise.
+     */
+    public final boolean assignItem(final EntitySetup setup,
             final PersonalizedBodySlot entity) {
         String itemId = setup.getProperty(SetupProperty.BODY_SLOT_ITEM);
         boolean itemUnresolved = false;

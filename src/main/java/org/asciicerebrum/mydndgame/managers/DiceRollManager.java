@@ -1,40 +1,21 @@
 package org.asciicerebrum.mydndgame.managers;
 
-import java.security.SecureRandom;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
 
 /**
  *
- * @author species8472
+ * @author t.raab
  */
-public class DiceRollManager {
+public interface DiceRollManager {
 
     /**
-     * Random number generator as a dice analogon.
+     * Rolls the dice given in the dice action and returns the result as a dice
+     * roll object.
+     *
+     * @param diceAction the dice action containing information how to roll
+     * which dice.
+     * @return the roll result.
      */
-    private SecureRandom random = new SecureRandom();
-
-    public final DiceRoll rollDice(final DiceAction diceAction) {
-
-        long randomValue = 0L;
-
-        for (long i = 0; i < diceAction.getDiceNumber().getValue(); i++) {
-
-            randomValue += 1L + (long) (this.random.nextDouble()
-                    * ((double) diceAction.getDiceType()
-                    .getSides().getValue()));
-
-        }
-
-        return new DiceRoll(randomValue);
-    }
-
-    /**
-     * @param randomInput the random to set
-     */
-    public final void setRandom(final SecureRandom randomInput) {
-        this.random = randomInput;
-    }
-
+    DiceRoll rollDice(DiceAction diceAction);
 }
