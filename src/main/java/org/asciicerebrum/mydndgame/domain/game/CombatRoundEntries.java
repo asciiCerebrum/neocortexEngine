@@ -24,7 +24,7 @@ public class CombatRoundEntries {
         }
 
         @Override
-        public boolean evaluate(final Object object) {
+        public final boolean evaluate(final Object object) {
             final CombatRoundEntry entry
                     = (CombatRoundEntry) object;
 

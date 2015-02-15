@@ -24,6 +24,11 @@ public class CombatRound {
      */
     private WorldDate currentDate;
 
+    /**
+     * Retrieves the current date of the most actual move in the encounter.
+     *
+     * @return the date of the current move.
+     */
     public final WorldDate getCurrentDate() {
         if (this.currentDate == null) {
             this.moveToNextPosition();
@@ -31,22 +36,39 @@ public class CombatRound {
         return this.currentDate;
     }
 
+    /**
+     * Retrieves the current participant of the most actual move in the
+     * encounter.
+     *
+     * @return the participant of the current move.
+     */
     public final DndCharacter getCurrentParticipant() {
-        if (this.currentDate == null) {
+        final WorldDate currDate = this.getCurrentDate();
+        if (currDate == null) {
             throw new IllegalStateException("Current date of combat round "
                     + "not yet set up.");
         }
         DndCharacters currentParticipants
                 = this.combatRoundEntries.getParticipantsForPosition(
-                        this.currentDate.getCombatRoundPosition());
+                        currDate.getCombatRoundPosition());
 
         return currentParticipants.iterator().next();
     }
 
+    /**
+     * Tests if the given character is the current participant of the move.
+     *
+     * @param dndCharacter the character in question.
+     * @return true if it this character is on the move, false otherwise.
+     */
     public final boolean isCurrentParticipant(final DndCharacter dndCharacter) {
         return dndCharacter.equals(this.getCurrentParticipant());
     }
 
+    /**
+     * Initializes the combat round. The current date is set along with its
+     * combat round number and position.
+     */
     final void initializeDate() {
         this.setCurrentDate(new WorldDate());
         this.currentDate.setCombatRoundNumber(new CombatRoundNumber(0L));
@@ -54,6 +76,10 @@ public class CombatRound {
                 this.combatRoundEntries.getFirstRoundPosition());
     }
 
+    /**
+     * Tells the combat round that this move is over and that the encounter can
+     * now proceed to the next position.
+     */
     public final void moveToNextPosition() {
 
         if (this.currentDate == null) {
@@ -73,6 +99,11 @@ public class CombatRound {
         }
     }
 
+    /**
+     * Iterator over the participants of the encounter.
+     *
+     * @return the iterator.
+     */
     public final Iterator<DndCharacter> participantsIterator() {
         return this.combatRoundEntries.participantsIterator();
     }
@@ -84,6 +115,14 @@ public class CombatRound {
         this.currentDate = currentDateInput;
     }
 
+    /**
+     * Adds another participant to the combat round, along with its combat round
+     * position.
+     *
+     * @param participant the dnd character to add.
+     * @param roundPosition the position of the character within the combat
+     * encounter round.
+     */
     public final void addParticipant(final DndCharacter participant,
             final CombatRoundPosition roundPosition) {
         final CombatRoundEntry entry = new CombatRoundEntry();
@@ -93,11 +132,24 @@ public class CombatRound {
         this.combatRoundEntries.addCombatRoundEntry(entry);
     }
 
+    /**
+     * Retrieves the position of a given dnd character participant within the
+     * combat round.
+     *
+     * @param participant the participant the position is required for.
+     * @return its position in the combat round.
+     */
     public final CombatRoundPosition getPositionForParticipant(
             final DndCharacter participant) {
         return this.combatRoundEntries.getPositionForParticipant(participant);
     }
 
+    /**
+     * Retrieves the upcoming next participation date of a given participant.
+     *
+     * @param dndCharacter the character in question.
+     * @return its next participation date in the queue.
+     */
     public final WorldDate getNextParticipationDate(
             final DndCharacter dndCharacter) {
         final CombatRoundEntry entry
@@ -119,6 +171,11 @@ public class CombatRound {
         return nextParticipationDate;
     }
 
+    /**
+     * Retrieves the positions of the combat round in a naturally ordered way.
+     *
+     * @return the iterator of the ordered positions.
+     */
     public final Iterator<CombatRoundPosition> getOrderedPositions() {
         return this.combatRoundEntries.getOrderedPositions().iterator();
     }
