@@ -36,14 +36,14 @@ public abstract class InventoryItem extends UniqueEntity
     /**
      * @return the inventoryItemPrototype
      */
-    protected InventoryItemPrototype getInventoryItemPrototype() {
+    public final InventoryItemPrototype getInventoryItemPrototype() {
         return inventoryItemPrototype;
     }
 
     /**
      * @param inventoryItemPrototypeInput the inventoryItemPrototype to set
      */
-    public void setInventoryItemPrototype(
+    public final void setInventoryItemPrototype(
             final InventoryItemPrototype inventoryItemPrototypeInput) {
         this.inventoryItemPrototype = inventoryItemPrototypeInput;
     }
@@ -51,40 +51,53 @@ public abstract class InventoryItem extends UniqueEntity
     /**
      * @return the sizeCategory
      */
-    public SizeCategory getSizeCategory() {
+    public final SizeCategory getSizeCategory() {
         return sizeCategory;
     }
 
     /**
      * @param sizeCategoryInput the sizeCategory to set
      */
-    public void setSizeCategory(final SizeCategory sizeCategoryInput) {
+    public final void setSizeCategory(final SizeCategory sizeCategoryInput) {
         this.sizeCategory = sizeCategoryInput;
     }
 
     /**
      * @return the specialAbilities
      */
-    protected SpecialAbilities getSpecialAbilities() {
+    protected final SpecialAbilities getSpecialAbilities() {
         return specialAbilities;
     }
 
     /**
      * @param specialAbilitiesInput the specialAbilities to set
      */
-    public void setSpecialAbilities(
+    public final void setSpecialAbilities(
             final SpecialAbilities specialAbilitiesInput) {
         this.specialAbilities = specialAbilitiesInput;
     }
 
+    /**
+     * @return the base cost from the prototype.
+     */
     public final Cost getBaseCost() {
         return this.getInventoryItemPrototype().getBaseCost();
     }
 
+    /**
+     * @return the base designated body slot types from the prototype.
+     */
     public final BodySlotTypes getBaseDesignatedBodySlotTypes() {
         return this.getInventoryItemPrototype().getDesignatedBodySlotTypes();
     }
 
+    /**
+     * Tests if this instance resembles a given inventory item. It checks if
+     * they originate from the same prototype.
+     *
+     * @param item the item to check resemblence with.
+     * @return true if they have the same prototype, false otherwise.
+     */
     public final boolean resembles(final InventoryItem item) {
         if (item == null) {
             return Boolean.FALSE;

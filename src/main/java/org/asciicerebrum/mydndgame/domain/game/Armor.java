@@ -18,7 +18,7 @@ public class Armor extends InventoryItem {
      * @return the basic max dex bonus.
      */
     public final BonusValue getBaseMaxDexBonus() {
-        return this.getInventoryItemPrototype().getMaxDexBonus();
+        return this.getArmorPrototype().getMaxDexBonus();
     }
 
     /**
@@ -28,11 +28,13 @@ public class Armor extends InventoryItem {
      * @return the basic armor check penalty.
      */
     public final BonusValue getBaseArmorCheckPenalty() {
-        return this.getInventoryItemPrototype().getArmorCheckPenalty();
+        return this.getArmorPrototype().getArmorCheckPenalty();
     }
 
-    @Override
-    protected final ArmorPrototype getInventoryItemPrototype() {
+    /**
+     * @return the armor prototype.
+     */
+    public final ArmorPrototype getArmorPrototype() {
         return (ArmorPrototype) super.getInventoryItemPrototype();
     }
 
@@ -40,21 +42,22 @@ public class Armor extends InventoryItem {
      * Determines if the given proficiency is basically supported by this armor.
      * It is not modified by any further characteristics.
      *
+     * @param proficiency the proficiency in question.
      * @return true, if proficiency is supported, false otherwise.
      */
     public final boolean hasProficiency(final Proficiency proficiency) {
-        return proficiency.equals(this.getInventoryItemPrototype()
-                .getProficiency());
+        return proficiency.equals(this.getArmorPrototype().getProficiency());
     }
 
     /**
      * Determines if the given armor category is basically supported by this
      * armor. It is not modified by any further characteristics.
      *
+     * @param armorCategory the armor category in question.
      * @return true, if armor category is supported, false otherwise.
      */
     public final boolean hasArmorCategory(final ArmorCategory armorCategory) {
-        return armorCategory.equals(this.getInventoryItemPrototype()
+        return armorCategory.equals(this.getArmorPrototype()
                 .getArmorCategory());
     }
 

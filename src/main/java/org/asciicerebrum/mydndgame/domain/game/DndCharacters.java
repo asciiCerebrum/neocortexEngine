@@ -10,25 +10,53 @@ import java.util.List;
  */
 public class DndCharacters {
 
+    /**
+     * Central collection of dnd characters.
+     */
     private final List<DndCharacter> elements
             = new ArrayList<DndCharacter>();
 
+    /**
+     * Adds a further dnd character to the collection.
+     *
+     * @param dndCharacter the character to add.
+     */
     public final void addDndCharacter(final DndCharacter dndCharacter) {
         this.elements.add(dndCharacter);
     }
 
+    /**
+     * Adds a further collection of dnd characters to the list.
+     *
+     * @param dndCharactersInput the collection to add.
+     */
     public final void addDndCharacters(final DndCharacters dndCharactersInput) {
         this.elements.addAll(dndCharactersInput.elements);
     }
 
+    /**
+     * Iterator over the collection of dnd characters.
+     *
+     * @return the iterator.
+     */
     public final Iterator<DndCharacter> iterator() {
         return this.elements.iterator();
     }
 
+    /**
+     * Tests if there are entries in the collection.
+     *
+     * @return true if non emtpy, false otherwise.
+     */
     public final boolean hasEntries() {
         return !this.elements.isEmpty();
     }
 
+    /**
+     * Tests if there are at least 2 elements in the collection.
+     *
+     * @return true if size limit is met, false otherwise.
+     */
     public final boolean hasMultipleEntries() {
         return this.elements.size() > 1;
     }

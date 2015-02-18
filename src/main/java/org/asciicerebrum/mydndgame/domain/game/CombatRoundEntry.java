@@ -8,22 +8,28 @@ import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
  */
 public class CombatRoundEntry {
 
+    /**
+     * The participating dnd character in this entry.
+     */
     private DndCharacter participant;
 
+    /**
+     * The position associated with the participant.
+     */
     private CombatRoundPosition combatRoundPosition;
 
     /**
      * @return the participant
      */
-    public DndCharacter getParticipant() {
+    public final DndCharacter getParticipant() {
         return participant;
     }
 
     /**
-     * @param participant the participant to set
+     * @param participantInput the participant to set
      */
-    public final void setParticipant(final DndCharacter participant) {
-        this.participant = participant;
+    public final void setParticipant(final DndCharacter participantInput) {
+        this.participant = participantInput;
     }
 
     /**
@@ -34,13 +40,19 @@ public class CombatRoundEntry {
     }
 
     /**
-     * @param combatRoundPosition the combatRoundPosition to set
+     * @param combatRoundPositionInput the combatRoundPosition to set
      */
     public final void setCombatRoundPosition(
-            final CombatRoundPosition combatRoundPosition) {
-        this.combatRoundPosition = combatRoundPosition;
+            final CombatRoundPosition combatRoundPositionInput) {
+        this.combatRoundPosition = combatRoundPositionInput;
     }
 
+    /**
+     * Tests if current entry has the same combat round position.
+     *
+     * @param crPosition the combat round position in question.
+     * @return tests if equals, false otherwise.
+     */
     public final boolean isCombatRoundPosition(
             final CombatRoundPosition crPosition) {
         return this.getCombatRoundPosition().equals(crPosition);

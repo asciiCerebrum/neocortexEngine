@@ -16,48 +16,80 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponTypes;
  */
 public class Weapon extends InventoryItem {
 
-    @Override
-    protected final WeaponPrototype getInventoryItemPrototype() {
+    /**
+     * @return the weapon prototype.
+     */
+    public final WeaponPrototype getWeaponPrototype() {
         return (WeaponPrototype) super.getInventoryItemPrototype();
     }
 
+    /**
+     * Tests if weapon originates from given prototype.
+     *
+     * @param weaponPrototype the prototype in question.
+     * @return true if weapon is of that prototype, false otherwise.
+     */
     public final boolean isOfWeaponPrototype(
             final WeaponPrototype weaponPrototype) {
-        return this.getInventoryItemPrototype().equals(weaponPrototype);
+        return this.getWeaponPrototype().equals(weaponPrototype);
     }
 
+    /**
+     * @return the basic unmodified categories.
+     */
     public final WeaponCategories getBaseCategories() {
-        return this.getInventoryItemPrototype().getDefaultCategories();
+        return this.getWeaponPrototype().getDefaultCategories();
     }
 
+    /**
+     * @return the default unmodified damage types.
+     */
     public final DamageType getDefaultDamageType() {
         // the first from all the or-connected alternatives.
-        return this.getInventoryItemPrototype().getDefaultDamgeTypes()
+        return this.getWeaponPrototype().getDefaultDamgeTypes()
                 .getFirst();
     }
 
+    /**
+     * @return the unmodified base proficiency.
+     */
     public final Proficiency getBaseProficiency() {
-        return this.getInventoryItemPrototype().getProficiency();
+        return this.getWeaponPrototype().getProficiency();
     }
 
+    /**
+     * @return the unmodified base encumbrance.
+     */
     public final Encumbrance getBaseEncumbrance() {
-        return this.getInventoryItemPrototype().getEncumbrance();
+        return this.getWeaponPrototype().getEncumbrance();
     }
 
+    /**
+     * @return the unmodified base weapon types.
+     */
     public final WeaponTypes getBaseWeaponTypes() {
-        return this.getInventoryItemPrototype().getWeaponTypes();
+        return this.getWeaponPrototype().getWeaponTypes();
     }
 
+    /**
+     * @return the unmodified base critical minimum level.
+     */
     public final CriticalMinimumLevel getBaseCriticalMinimumLevel() {
-        return this.getInventoryItemPrototype().getCriticalMinimumLevel();
+        return this.getWeaponPrototype().getCriticalMinimumLevel();
     }
 
+    /**
+     * @return the unmodified base critical factor.
+     */
     public final CriticalFactor getBaseCriticalFactor() {
-        return this.getInventoryItemPrototype().getCriticalFactor();
+        return this.getWeaponPrototype().getCriticalFactor();
     }
 
+    /**
+     * @return the unmodified base damage.
+     */
     public final DiceAction getBaseDamage() {
-        return this.getInventoryItemPrototype().getBaseDamage();
+        return this.getWeaponPrototype().getBaseDamage();
     }
 
 }

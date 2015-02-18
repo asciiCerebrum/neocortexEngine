@@ -178,6 +178,13 @@ public class CombatRound {
         return this.combatRoundEntries.getOrderedPositions().iterator();
     }
 
+    /**
+     * Retrieves the participants for a given position in the combat round.
+     *
+     * @param roundPosition the combat round position the participants shall
+     * have.
+     * @return the collection of participants.
+     */
     public final DndCharacters getParticipantsForPosition(
             final CombatRoundPosition roundPosition) {
         return this.combatRoundEntries

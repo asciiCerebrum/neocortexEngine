@@ -50,10 +50,10 @@ public class Campaign {
     }
 
     /**
-     * @param combatRound the combatRound to set
+     * @param combatRoundInput the combatRound to set
      */
-    public final void setCombatRound(final CombatRound combatRound) {
-        this.combatRound = combatRound;
+    public final void setCombatRound(final CombatRound combatRoundInput) {
+        this.combatRound = combatRoundInput;
     }
 
 }
