@@ -29,10 +29,16 @@ public class Race implements BonusSource, ObserverSource {
      */
     private BodySlots bodySlotBluePrint;
 
+    /**
+     * @return the size category.
+     */
     public final SizeCategory getSize() {
         return size;
     }
 
+    /**
+     * @param sizeInput the size category.
+     */
     public final void setSize(final SizeCategory sizeInput) {
         this.size = sizeInput;
     }

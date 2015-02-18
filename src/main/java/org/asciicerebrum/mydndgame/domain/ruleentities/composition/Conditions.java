@@ -15,16 +15,32 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSour
  */
 public class Conditions implements BonusSource, ObserverSource {
 
+    /**
+     * The central collection of conditions.
+     */
     private final List<Condition> elements = new ArrayList<Condition>();
 
+    /**
+     * Default constructor.
+     */
     public Conditions() {
 
     }
 
+    /**
+     * Constructs a collection of conditions by a given list.
+     *
+     * @param conditionsInput the list of conditions.
+     */
     public Conditions(final Condition... conditionsInput) {
         this.elements.addAll(Arrays.asList(conditionsInput));
     }
 
+    /**
+     * Adds a further condition to the collection.
+     *
+     * @param condition the condition to add.
+     */
     public final void add(final Condition condition) {
         this.elements.add(condition);
     }
@@ -45,6 +61,11 @@ public class Conditions implements BonusSource, ObserverSource {
         return bonusSources;
     }
 
+    /**
+     * Iterator over the collection of conditions.
+     *
+     * @return the iterator.
+     */
     public final Iterator<Condition> iterator() {
         return this.elements.iterator();
     }

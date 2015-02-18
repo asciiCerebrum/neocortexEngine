@@ -21,29 +21,29 @@ public class Dice {
     /**
      * @return the id
      */
-    public UniqueId getId() {
+    public final UniqueId getId() {
         return id;
     }
 
     /**
-     * @param id the id to set
+     * @param idInput the id to set
      */
-    public void setId(UniqueId id) {
-        this.id = id;
+    public final void setId(final UniqueId idInput) {
+        this.id = idInput;
     }
 
     /**
      * @return the sides
      */
-    public DiceSides getSides() {
+    public final DiceSides getSides() {
         return sides;
     }
 
     /**
-     * @param sides the sides to set
+     * @param sidesInput the sides to set
      */
-    public void setSides(DiceSides sides) {
-        this.sides = sides;
+    public final void setSides(final DiceSides sidesInput) {
+        this.sides = sidesInput;
     }
 
 }

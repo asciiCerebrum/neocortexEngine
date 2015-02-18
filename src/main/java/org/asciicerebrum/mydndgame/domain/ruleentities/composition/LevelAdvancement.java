@@ -22,10 +22,19 @@ public class LevelAdvancement implements BonusSource, ObserverSource {
      */
     private AdvancementNumber advNumber;
 
+    /**
+     * The class level that was gained.
+     */
     private ClassLevel classLevel;
 
+    /**
+     * The additional hit points that were won.
+     */
     private HitPoints hpAdvancement;
 
+    /**
+     * The further ability where one point was achieved.
+     */
     private Ability abilityAdvancement;
 
     /**
@@ -104,6 +113,12 @@ public class LevelAdvancement implements BonusSource, ObserverSource {
         this.featAdvancement = featAdvancementInput;
     }
 
+    /**
+     * Tests if the feat of the feat advancement is of the given feattype.
+     *
+     * @param featType the feat type in question.
+     * @return true if it is of that type, false otherwise.
+     */
     public final boolean hasFeatType(final FeatType featType) {
         return this.getFeatAdvancement().getFeatType().equals(featType);
     }

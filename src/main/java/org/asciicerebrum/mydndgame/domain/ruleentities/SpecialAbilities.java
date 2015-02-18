@@ -28,25 +28,40 @@ public class SpecialAbilities implements BonusSource, ObserverSource {
         this.elements = specialAbilitiesInput;
     }
 
+    /**
+     * Adds a further special ability to the collection.
+     *
+     * @param specialAbilityInput the special ability to add.
+     */
     public final void add(final SpecialAbility specialAbilityInput) {
         this.elements.add(specialAbilityInput);
     }
 
+    /**
+     * Adds a further collection of special abilities to the collection.
+     *
+     * @param specialAbilitiesInput the collection to add.
+     */
     public final void add(final SpecialAbilities specialAbilitiesInput) {
         this.elements.addAll(specialAbilitiesInput.elements);
     }
 
+    /**
+     * Iterator over the collection of special abilities.
+     *
+     * @return the iterator.
+     */
     public final Iterator<SpecialAbility> iterator() {
         return this.elements.iterator();
     }
 
     @Override
-    public Boni getBoni() {
+    public final Boni getBoni() {
         return Boni.EMPTY_BONI;
     }
 
     @Override
-    public BonusSources getBonusSources() {
+    public final BonusSources getBonusSources() {
         final BonusSources bonusSources = new BonusSources();
 
         for (final SpecialAbility ability : this.elements) {

@@ -8,12 +8,18 @@ import java.util.List;
  */
 public class CombatRoundSetup extends AbstractEntitySetup {
 
+    /**
+     * @param combatRoundEntries the combat round entries.
+     */
     public final void setCombatRoundEntries(
             final List<EntitySetup> combatRoundEntries) {
         this.getListSetup().put(SetupProperty.COMBAT_ROUND_ENTRIES,
                 combatRoundEntries);
     }
 
+    /**
+     * @param worldDate the current date.
+     */
     public final void setCurrentDate(final EntitySetup worldDate) {
         this.getSingleSetup().put(SetupProperty.COMBAT_ROUND_CURRENT_DATE,
                 worldDate);

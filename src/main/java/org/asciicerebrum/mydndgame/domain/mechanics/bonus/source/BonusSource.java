@@ -8,8 +8,14 @@ import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
  */
 public interface BonusSource {
 
+    /**
+     * @return the collection of boni.
+     */
     Boni getBoni();
 
+    /**
+     * @return the collection of bonus sources.
+     */
     BonusSources getBonusSources();
 
 }

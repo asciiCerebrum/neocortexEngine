@@ -9,6 +9,9 @@ import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
  */
 public class Observer {
 
+    /**
+     * Defines the scope of the observer.
+     */
     public enum ObserverScope {
 
         /**
@@ -41,18 +44,30 @@ public class Observer {
      */
     private ObserverScope scope = ObserverScope.ALL;
 
+    /**
+     * @return the hook.
+     */
     public final ObserverHook getHook() {
         return this.hook;
     }
 
+    /**
+     * @param hookInput the hook.
+     */
     public final void setHook(final ObserverHook hookInput) {
         this.hook = hookInput;
     }
 
+    /**
+     * @return the condition evaluator.
+     */
     public final ConditionEvaluator getConditionEvaluator() {
         return conditionEvaluator;
     }
 
+    /**
+     * @param conditionEvaluatorInput the condition evaluator.
+     */
     public final void setConditionEvaluator(
             final ConditionEvaluator conditionEvaluatorInput) {
         this.conditionEvaluator = conditionEvaluatorInput;

@@ -28,7 +28,10 @@ public class DamageTypes {
         this.elements = damageTypesInput;
     }
 
-    public DamageType getFirst() {
+    /**
+     * @return the first damage type element of the collection.
+     */
+    public final DamageType getFirst() {
         if (!this.elements.isEmpty()) {
             return this.elements.get(0);
         }

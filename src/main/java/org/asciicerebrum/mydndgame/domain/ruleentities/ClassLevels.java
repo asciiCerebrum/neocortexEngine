@@ -11,11 +11,22 @@ import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
  */
 public class ClassLevels {
 
+    /**
+     * The unique identifier for the class levels collection.
+     */
     private UniqueId id;
 
+    /**
+     * The central collection of class levels.
+     */
     private final List<ClassLevel> elements = new ArrayList<ClassLevel>();
 
-    public void addClass(final ClassLevel classLevel) {
+    /**
+     * Adds a further class level to the collection.
+     *
+     * @param classLevel the class leve to add.
+     */
+    public final void addClass(final ClassLevel classLevel) {
         this.elements.add(classLevel);
     }
 
@@ -25,7 +36,7 @@ public class ClassLevels {
      * level.
      * @return the level-th element of the classLevel list.
      */
-    public ClassLevel getClassLevelByLevel(final Level level) {
+    public final ClassLevel getClassLevelByLevel(final Level level) {
         for (ClassLevel clLvl : this.elements) {
             if (level.equals(clLvl.getLevel())) {
                 return clLvl;
@@ -37,15 +48,15 @@ public class ClassLevels {
     /**
      * @return the id
      */
-    public UniqueId getId() {
+    public final UniqueId getId() {
         return id;
     }
 
     /**
-     * @param id the id to set
+     * @param idInput the id to set
      */
-    public void setId(UniqueId id) {
-        this.id = id;
+    public final void setId(final UniqueId idInput) {
+        this.id = idInput;
     }
 
 }

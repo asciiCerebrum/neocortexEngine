@@ -21,10 +21,10 @@ public class BodySlotType {
     }
 
     /**
-     * @param id the id to set
+     * @param idInput the id to set
      */
-    public final void setId(final UniqueId id) {
-        this.id = id;
+    public final void setId(final UniqueId idInput) {
+        this.id = idInput;
     }
 
 }

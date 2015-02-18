@@ -7,7 +7,7 @@ import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
  *
  * @author species8472
  */
-public class WorldDate {
+public class WorldDate implements Comparable {
 
     /**
      * Base value for hash sum.
@@ -28,8 +28,21 @@ public class WorldDate {
      */
     private CombatRoundPosition combatRoundPosition;
 
+    /**
+     * Default constructor without parameters.
+     */
     public WorldDate() {
 
+    }
+
+    /**
+     * Construct new world date from a given world date. Copy constructor.
+     *
+     * @param worldDate the world date to clone.
+     */
+    public WorldDate(final WorldDate worldDate) {
+        this.combatRoundNumber = worldDate.combatRoundNumber;
+        this.combatRoundPosition = worldDate.combatRoundPosition;
     }
 
     /**
@@ -38,24 +51,27 @@ public class WorldDate {
      *
      * @param position the position the world date should have.
      */
-    public void initializeDate(final CombatRoundPosition position) {
+    public final void initializeDate(final CombatRoundPosition position) {
         this.setCombatRoundNumber(new CombatRoundNumber(0L));
         this.setCombatRoundPosition(position);
     }
 
-    public WorldDate(final WorldDate worldDate) {
-        this.combatRoundNumber = worldDate.combatRoundNumber;
-        this.combatRoundPosition = worldDate.combatRoundPosition;
-    }
-
+    /**
+     * Tests if given world date is after this instance.
+     *
+     * @param t the world date to test.
+     * @return true if date is after this one, false otherwise.
+     */
     public final boolean isAfter(final WorldDate t) {
         return this.compareTo(t) > 0;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public final int compareTo(final WorldDate t) {
+    @Override
+    public final int compareTo(final Object o) {
+        if (!(o instanceof WorldDate)) {
+            return 0;
+        }
+        final WorldDate t = (WorldDate) o;
         int comparison = this.getCombatRoundNumber().compareTo(
                 t.getCombatRoundNumber());
         if (comparison == 0) {
@@ -66,9 +82,6 @@ public class WorldDate {
         return comparison;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public final boolean equals(final Object o) {
         if (o instanceof WorldDate) {
@@ -82,9 +95,6 @@ public class WorldDate {
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public final int hashCode() {
         int hash = HASH_BASE;
@@ -99,6 +109,9 @@ public class WorldDate {
         return hash;
     }
 
+    /**
+     * Increments the round number of this world date by 1.
+     */
     public final void incrementRoundNumber() {
         this.combatRoundNumber = new CombatRoundNumber(
                 this.combatRoundNumber.getValue() + 1);

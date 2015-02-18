@@ -2,7 +2,6 @@ package org.asciicerebrum.mydndgame.domain.ruleentities;
 
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
@@ -70,11 +69,6 @@ public abstract class Feature implements BonusSource, ObserverSource {
      */
     public final void setObservers(final Observers observersInput) {
         this.observers = observersInput;
-    }
-
-    @Override
-    public BonusSources getBonusSources() {
-        return BonusSources.EMPTY_BONUSSOURCES;
     }
 
 }

@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame.domain.ruleentities;
 
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTarget;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 
 /**
  *
@@ -27,7 +28,7 @@ public class WeaponCategory extends Feature {
     }
 
     /**
-     * @param associatedAttackDiceActionInput
+     * @param associatedAttackDiceActionInput the associated attack dice action.
      */
     public final void setAssociatedAttackDiceAction(
             final BonusTarget associatedAttackDiceActionInput) {
@@ -47,6 +48,11 @@ public class WeaponCategory extends Feature {
     public final void setAssociatedDamageHook(
             final ObserverHook associatedDamageHookInput) {
         this.associatedDamageHook = associatedDamageHookInput;
+    }
+
+    @Override
+    public final BonusSources getBonusSources() {
+        return BonusSources.EMPTY_BONUSSOURCES;
     }
 
 }

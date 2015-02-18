@@ -14,8 +14,16 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSour
  */
 public class Feats implements BonusSource, ObserverSource {
 
+    /**
+     * Central collection of feats.
+     */
     private final List<FeatType> elements = new ArrayList<FeatType>();
 
+    /**
+     * Adds a further feat to the collection.
+     *
+     * @param feat the feat to add.
+     */
     public final void addFeat(final FeatType feat) {
         this.elements.add(feat);
     }
@@ -36,6 +44,11 @@ public class Feats implements BonusSource, ObserverSource {
         return bonusSources;
     }
 
+    /**
+     * Iterator over the collection of feats.
+     *
+     * @return the iterator.
+     */
     public final Iterator<FeatType> iterator() {
         return this.elements.iterator();
     }

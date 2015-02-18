@@ -9,12 +9,15 @@ import java.util.List;
  */
 public abstract class InventoryItemSetup extends AbstractEntitySetup {
 
+    /**
+     * The required properties.
+     */
     private static final SetupProperty[] REQUIRED_SINGLE_PROPERTIES
             = {SetupProperty.NAME, SetupProperty.SIZE_CATEGORY,
                 SetupProperty.UNIQUEID};
 
     @Override
-    public boolean isSetupComplete() {
+    public final boolean isSetupComplete() {
         return this.checkRequiredSingleProperties(REQUIRED_SINGLE_PROPERTIES);
     }
 

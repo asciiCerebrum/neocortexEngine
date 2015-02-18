@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities;
 
 import java.util.List;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 
 /**
  *
@@ -29,4 +30,8 @@ public class DamageType extends Feature {
         this.compoundDamageTypes = compoundDamageTypesInput;
     }
 
+    @Override
+    public final BonusSources getBonusSources() {
+        return BonusSources.EMPTY_BONUSSOURCES;
+    }
 }

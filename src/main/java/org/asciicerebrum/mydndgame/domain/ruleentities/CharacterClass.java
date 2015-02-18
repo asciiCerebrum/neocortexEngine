@@ -31,6 +31,9 @@ public class CharacterClass implements BonusSource, ObserverSource {
      */
     private Feats classFeats;
 
+    /**
+     * @return the hit dice.
+     */
     public final Dice getHitDice() {
         return hitDice;
     }
@@ -45,29 +48,29 @@ public class CharacterClass implements BonusSource, ObserverSource {
     /**
      * @return the id
      */
-    public UniqueId getId() {
+    public final UniqueId getId() {
         return id;
     }
 
     /**
-     * @param id the id to set
+     * @param idInput the id to set
      */
-    public void setId(UniqueId id) {
-        this.id = id;
+    public final void setId(final UniqueId idInput) {
+        this.id = idInput;
     }
 
     /**
      * @return the classFeats
      */
-    public Feats getClassFeats() {
+    public final Feats getClassFeats() {
         return classFeats;
     }
 
     /**
-     * @param classFeats the classFeats to set
+     * @param classFeatsInput the classFeats to set
      */
-    public void setClassFeats(Feats classFeats) {
-        this.classFeats = classFeats;
+    public final void setClassFeats(final Feats classFeatsInput) {
+        this.classFeats = classFeatsInput;
     }
 
     @Override

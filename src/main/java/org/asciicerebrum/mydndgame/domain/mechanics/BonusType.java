@@ -22,29 +22,29 @@ public class BonusType {
     /**
      * @return the id
      */
-    public UniqueId getId() {
+    public final UniqueId getId() {
         return id;
     }
 
     /**
-     * @param id the id to set
+     * @param idInput the id to set
      */
-    public void setId(UniqueId id) {
-        this.id = id;
+    public final void setId(final UniqueId idInput) {
+        this.id = idInput;
     }
 
     /**
      * @return the doesStack
      */
-    public Stackability getDoesStack() {
+    public final Stackability getDoesStack() {
         return doesStack;
     }
 
     /**
-     * @param doesStack the doesStack to set
+     * @param doesStackInput the doesStack to set
      */
-    public void setDoesStack(Stackability doesStack) {
-        this.doesStack = doesStack;
+    public final void setDoesStack(final Stackability doesStackInput) {
+        this.doesStack = doesStackInput;
     }
 
 }

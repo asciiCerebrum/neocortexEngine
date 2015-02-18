@@ -22,29 +22,29 @@ public class InteractionType {
     /**
      * @return the id
      */
-    public UniqueId getId() {
+    public final UniqueId getId() {
         return id;
     }
 
     /**
-     * @param id the id to set
+     * @param idInput the id to set
      */
-    public void setId(UniqueId id) {
-        this.id = id;
+    public final void setId(final UniqueId idInput) {
+        this.id = idInput;
     }
 
     /**
      * @return the workflows
      */
-    public Workflows getWorkflows() {
+    public final Workflows getWorkflows() {
         return workflows;
     }
 
     /**
-     * @param workflows the workflows to set
+     * @param workflowsInput the workflows to set
      */
-    public void setWorkflows(Workflows workflows) {
-        this.workflows = workflows;
+    public final void setWorkflows(final Workflows workflowsInput) {
+        this.workflows = workflowsInput;
     }
 
 }

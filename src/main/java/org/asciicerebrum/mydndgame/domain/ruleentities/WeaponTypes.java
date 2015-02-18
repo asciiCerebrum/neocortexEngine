@@ -28,6 +28,12 @@ public class WeaponTypes {
         this.elements.addAll(weaponTypesInput);
     }
 
+    /**
+     * Tests if given weapon type is part of the collection.
+     *
+     * @param weaponType the weapon type in question.
+     * @return true if part of the collection, false otherwise.
+     */
     public final boolean contains(final WeaponType weaponType) {
         return this.elements.contains(weaponType);
     }

@@ -16,24 +16,38 @@ import org.asciicerebrum.mydndgame.domain.core.particles.AbilityScore;
  */
 public class BaseAbilities implements BonusSource, ObserverSource {
 
+    /**
+     * Central map of base abilities.
+     */
     private final Map<Ability, AbilityScore> elements
             = new HashMap<Ability, AbilityScore>();
 
+    /**
+     * Add a further base ability entry to the map.
+     *
+     * @param entry the entry to add.
+     */
     public final void addBaseAbilityEntry(final BaseAbilityEntry entry) {
         this.elements.put(entry.getAbility(), entry.getAbilityValue());
     }
 
+    /**
+     * Retrieves the ability score for the corresponding ability.
+     *
+     * @param ability the ability the score is needed for.
+     * @return the ability score.
+     */
     public final AbilityScore getValueForAbility(final Ability ability) {
         return this.elements.get(ability);
     }
 
     @Override
-    public Boni getBoni() {
+    public final Boni getBoni() {
         return Boni.EMPTY_BONI;
     }
 
     @Override
-    public BonusSources getBonusSources() {
+    public final BonusSources getBonusSources() {
         BonusSources bonusSources = new BonusSources();
 
         for (Ability ability : this.elements.keySet()) {
@@ -43,6 +57,11 @@ public class BaseAbilities implements BonusSource, ObserverSource {
         return bonusSources;
     }
 
+    /**
+     * Iterator over the abilities of the map.
+     *
+     * @return the iterator.
+     */
     public final Iterator<Ability> abilityIterator() {
         return this.elements.keySet().iterator();
     }

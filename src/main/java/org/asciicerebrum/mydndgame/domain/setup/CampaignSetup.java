@@ -14,6 +14,11 @@ public class CampaignSetup extends AbstractEntitySetup {
         return true;
     }
 
+    /**
+     * Adds a further dnd character setup.
+     *
+     * @param characterSetup the character setup.
+     */
     public final void addDndCharacter(
             final EntitySetup characterSetup) {
         List<EntitySetup> participantSetups
@@ -27,6 +32,11 @@ public class CampaignSetup extends AbstractEntitySetup {
         participantSetups.add(characterSetup);
     }
 
+    /**
+     * Adds a further inventory item setup.
+     *
+     * @param inventorySetup the inventory item setup.
+     */
     public final void addInventoryItem(
             final EntitySetup inventorySetup) {
         List<EntitySetup> inventorySetups
@@ -40,6 +50,9 @@ public class CampaignSetup extends AbstractEntitySetup {
         inventorySetups.add(inventorySetup);
     }
 
+    /**
+     * @param combatRoundSetup the combat round setup.
+     */
     public final void setCombatRound(
             final EntitySetup combatRoundSetup) {
         this.getSingleSetup().put(SetupProperty.COMBAT_ROUND, combatRoundSetup);

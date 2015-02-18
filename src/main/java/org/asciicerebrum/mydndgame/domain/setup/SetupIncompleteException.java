@@ -6,7 +6,12 @@ package org.asciicerebrum.mydndgame.domain.setup;
  */
 public class SetupIncompleteException extends RuntimeException {
 
-    public SetupIncompleteException(String message) {
+    /**
+     * Constructing the exception.
+     *
+     * @param message the message to print.
+     */
+    public SetupIncompleteException(final String message) {
         super(message);
     }
 

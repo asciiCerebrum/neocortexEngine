@@ -30,10 +30,16 @@ public class Interaction {
      */
     private CombatRound combatRound;
 
+    /**
+     * @return the interaction type.
+     */
     public final InteractionType getInteractionType() {
         return interactionType;
     }
 
+    /**
+     * @param interactionTypeInput the interaction type.
+     */
     public final void setInteractionType(
             final InteractionType interactionTypeInput) {
         this.interactionType = interactionTypeInput;
@@ -83,6 +89,9 @@ public class Interaction {
         this.targetCharacters = targetCharactersInput;
     }
 
+    /**
+     * @return the first dnd character targeted.
+     */
     public final DndCharacter getFirstTargetCharacter() {
         return this.getTargetCharacters().iterator().next();
     }

@@ -39,6 +39,12 @@ public class BodySlot {
         this.bodySlotType = bodySlotTypeInput;
     }
 
+    /**
+     * Tests if the type of this instance is the same as the one given.
+     *
+     * @param bodySlotTypeInput the body slot type in question.
+     * @return true if both are equal, false otherwise.
+     */
     public final boolean isOfType(final BodySlotType bodySlotTypeInput) {
         return this.bodySlotType == bodySlotTypeInput;
     }
@@ -72,6 +78,11 @@ public class BodySlot {
         this.isPrimaryAttackSlot = isPrimaryAttackSlotInput;
     }
 
+    /**
+     * Returns a cloned body slot of this instance.
+     *
+     * @return the clone.
+     */
     public final BodySlot cloneSlot() {
         final BodySlot clonedSlot = new BodySlot();
 

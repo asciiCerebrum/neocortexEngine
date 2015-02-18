@@ -31,29 +31,29 @@ public class Damage {
     /**
      * @return the damageType
      */
-    public DamageType getDamageType() {
+    public final DamageType getDamageType() {
         return damageType;
     }
 
     /**
-     * @param damageType the damageType to set
+     * @param damageTypeInput the damageType to set
      */
-    public void setDamageType(DamageType damageType) {
-        this.damageType = damageType;
+    public final void setDamageType(final DamageType damageTypeInput) {
+        this.damageType = damageTypeInput;
     }
 
     /**
      * @return the weapon
      */
-    public Weapon getWeapon() {
+    public final Weapon getWeapon() {
         return weapon;
     }
 
     /**
-     * @param weapon the weapon to set
+     * @param weaponInput the weapon to set
      */
-    public void setWeapon(Weapon weapon) {
-        this.weapon = weapon;
+    public final void setWeapon(final Weapon weaponInput) {
+        this.weapon = weaponInput;
     }
 
     /**

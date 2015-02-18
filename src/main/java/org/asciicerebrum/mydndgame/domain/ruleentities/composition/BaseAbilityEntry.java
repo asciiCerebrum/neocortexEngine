@@ -9,8 +9,14 @@ import org.asciicerebrum.mydndgame.domain.core.particles.AbilityScore;
  */
 public class BaseAbilityEntry {
 
+    /**
+     * The ability this entry is associated with.
+     */
     private Ability ability;
 
+    /**
+     * The ability score of this entry.
+     */
     private AbilityScore abilityValue;
 
     /**

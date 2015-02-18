@@ -30,8 +30,8 @@ public class SpecialAbility extends Feature {
     }
 
     @Override
-    public BonusSources getBonusSources() {
-        final BonusSources bonusSources = super.getBonusSources();
+    public final BonusSources getBonusSources() {
+        final BonusSources bonusSources = new BonusSources();
 
         bonusSources.add(this.subAbilities);
 

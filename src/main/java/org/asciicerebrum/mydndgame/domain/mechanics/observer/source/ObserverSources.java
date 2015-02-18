@@ -11,27 +11,48 @@ import java.util.List;
  */
 public class ObserverSources {
 
+    /**
+     * Ready to use empty collection of observer sources.
+     */
     public static final ObserverSources EMPTY_OBSERVERSOURCES
             = new ObserverSources();
 
+    /**
+     * The central collection of observer sources.
+     */
     private final List<ObserverSource> elements
             = new ArrayList<ObserverSource>();
 
+    /**
+     * Default constructor.
+     */
     public ObserverSources() {
     }
 
+    /**
+     * Constructs the collection out of a given list.
+     *
+     * @param observerSources the list of observer sources.
+     */
     public ObserverSources(final ObserverSource... observerSources) {
         this.elements.addAll(Arrays.asList(observerSources));
     }
 
-    public void add(final ObserverSource observerSource) {
+    /**
+     * Adds a further observer source to the collection.
+     *
+     * @param observerSource the observer source to add.
+     */
+    public final void add(final ObserverSource observerSource) {
         this.elements.add(observerSource);
     }
 
     /**
-     * @return the bonusSources
+     * Iterator over the collection of observer sources.
+     *
+     * @return the iterator.
      */
-    public Iterator<ObserverSource> iterator() {
+    public final Iterator<ObserverSource> iterator() {
         return this.elements.iterator();
     }
 }

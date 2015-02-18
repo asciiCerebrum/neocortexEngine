@@ -10,12 +10,25 @@ import java.util.List;
  */
 public class Workflows {
 
+    /**
+     * Central collection of workflows.
+     */
     private final List<IWorkflow> elements = new ArrayList<IWorkflow>();
 
+    /**
+     * Adds a futher workflow to the collection.
+     *
+     * @param workflow the workflow to add.
+     */
     public final void addWorkflow(final IWorkflow workflow) {
         this.elements.add(workflow);
     }
 
+    /**
+     * Iterator over the collection of workflows.
+     *
+     * @return the iterator.
+     */
     public final Iterator<IWorkflow> iterator() {
         return this.elements.iterator();
     }
