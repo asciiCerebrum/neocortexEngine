@@ -10,12 +10,12 @@ public class CombatRoundSetup extends AbstractEntitySetup {
 
     public final void setCombatRoundEntries(
             final List<EntitySetup> combatRoundEntries) {
-        this.listSetup.put(SetupProperty.COMBAT_ROUND_ENTRIES,
+        this.getListSetup().put(SetupProperty.COMBAT_ROUND_ENTRIES,
                 combatRoundEntries);
     }
 
     public final void setCurrentDate(final EntitySetup worldDate) {
-        this.singleSetup.put(SetupProperty.COMBAT_ROUND_CURRENT_DATE,
+        this.getSingleSetup().put(SetupProperty.COMBAT_ROUND_CURRENT_DATE,
                 worldDate);
     }
 

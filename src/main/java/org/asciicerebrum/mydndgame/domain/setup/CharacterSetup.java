@@ -8,6 +8,9 @@ import java.util.List;
  */
 public class CharacterSetup extends AbstractEntitySetup {
 
+    /**
+     * Defines the required properties.
+     */
     private static final SetupProperty[] REQUIRED_SINGLE_PROPERTIES
             = {SetupProperty.RACE, SetupProperty.UNIQUEID,
                 SetupProperty.HIT_POINTS, SetupProperty.EXPERIENCE_POINTS,
@@ -19,49 +22,81 @@ public class CharacterSetup extends AbstractEntitySetup {
         return this.checkRequiredSingleProperties(REQUIRED_SINGLE_PROPERTIES);
     }
 
-    public void setRace(final String race) {
-        this.singleProperties.put(SetupProperty.RACE, race);
+    /**
+     * @param race the race.
+     */
+    public final void setRace(final String race) {
+        this.getSingleProperties().put(SetupProperty.RACE, race);
     }
 
-    public void setUniqueId(final String uniqueId) {
-        this.singleProperties.put(SetupProperty.UNIQUEID, uniqueId);
+    /**
+     * @param uniqueId the unique id.
+     */
+    public final void setUniqueId(final String uniqueId) {
+        this.getSingleProperties().put(SetupProperty.UNIQUEID, uniqueId);
     }
 
-    public void setCurrentHp(final String currentHp) {
-        this.singleProperties.put(SetupProperty.HIT_POINTS, currentHp);
+    /**
+     * @param currentHp the current hp.
+     */
+    public final void setCurrentHp(final String currentHp) {
+        this.getSingleProperties().put(SetupProperty.HIT_POINTS, currentHp);
     }
 
-    public void setCurrentHpNonLethal(final String currentHpNonLethal) {
-        this.singleProperties.put(SetupProperty.HIT_POINTS_NONLETHAL,
+    /**
+     * @param currentHpNonLethal the current non-lethal hp.
+     */
+    public final void setCurrentHpNonLethal(final String currentHpNonLethal) {
+        this.getSingleProperties().put(SetupProperty.HIT_POINTS_NONLETHAL,
                 currentHpNonLethal);
     }
 
-    public void setCurrentXp(final String currentXp) {
-        this.singleProperties.put(SetupProperty.EXPERIENCE_POINTS, currentXp);
+    /**
+     * @param currentXp the current xp.
+     */
+    public final void setCurrentXp(final String currentXp) {
+        this.getSingleProperties()
+                .put(SetupProperty.EXPERIENCE_POINTS, currentXp);
     }
 
-    public void setBodySlotSetups(final List<EntitySetup> bodySlotSetups) {
-        this.listSetup.put(SetupProperty.BODY_SLOTS, bodySlotSetups);
+    /**
+     * @param bodySlotSetups the body slot setups.
+     */
+    public final void setBodySlotSetups(
+            final List<EntitySetup> bodySlotSetups) {
+        this.getListSetup().put(SetupProperty.BODY_SLOTS, bodySlotSetups);
     }
 
-    public void setLevelAdvancementSetups(
+    /**
+     * @param lvlAdvSetups the level advancement setups.
+     */
+    public final void setLevelAdvancementSetups(
             final List<EntitySetup> lvlAdvSetups) {
-        this.listSetup.put(SetupProperty.LEVEL_ADVANCEMENTS, lvlAdvSetups);
+        this.getListSetup().put(SetupProperty.LEVEL_ADVANCEMENTS, lvlAdvSetups);
     }
 
-    public void setStateRegistrySetup(final EntitySetup registrySetup) {
-        this.singleSetup.put(SetupProperty.STATE_REGISTRY, registrySetup);
+    /**
+     * @param registrySetup the state registry setup.
+     */
+    public final void setStateRegistrySetup(final EntitySetup registrySetup) {
+        this.getSingleSetup().put(SetupProperty.STATE_REGISTRY, registrySetup);
     }
 
-    public void setBaseAbilitySetups(
+    /**
+     * @param baseAbilitySetups the base ability setups.
+     */
+    public final void setBaseAbilitySetups(
             final List<EntitySetup> baseAbilitySetups) {
-        this.listSetup.put(SetupProperty.BASE_ABILITY_ENTRIES,
+        this.getListSetup().put(SetupProperty.BASE_ABILITY_ENTRIES,
                 baseAbilitySetups);
     }
 
-    public void setConditionSetups(
+    /**
+     * @param conditionSetups the conditions setups.
+     */
+    public final void setConditionSetups(
             final List<EntitySetup> conditionSetups) {
-        this.listSetup.put(SetupProperty.CONDITIONS, conditionSetups);
+        this.getListSetup().put(SetupProperty.CONDITIONS, conditionSetups);
     }
 
 }

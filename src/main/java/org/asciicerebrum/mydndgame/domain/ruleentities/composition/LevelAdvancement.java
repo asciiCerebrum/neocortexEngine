@@ -17,6 +17,9 @@ import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
  */
 public class LevelAdvancement implements BonusSource, ObserverSource {
 
+    /**
+     * Gives an order of the level advancements for a character.
+     */
     private AdvancementNumber advNumber;
 
     private ClassLevel classLevel;

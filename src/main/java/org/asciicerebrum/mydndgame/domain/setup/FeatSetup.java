@@ -15,11 +15,11 @@ public class FeatSetup extends AbstractEntitySetup {
     }
 
     public final void setFeatType(final String featTypeId) {
-        this.singleProperties.put(SetupProperty.FEAT_TYPE, featTypeId);
+        this.getSingleProperties().put(SetupProperty.FEAT_TYPE, featTypeId);
     }
 
     public final void setFeatBinding(final String featBindingId) {
-        this.singleProperties.put(SetupProperty.FEAT_BINDING, featBindingId);
+        this.getSingleProperties().put(SetupProperty.FEAT_BINDING, featBindingId);
     }
 
 }

@@ -17,12 +17,12 @@ public class BaseAbilityEntrySetup
     }
 
     public void setAbility(final String ability) {
-        this.singleProperties.put(
+        this.getSingleProperties().put(
                 SetupProperty.BASE_ABILITY, ability);
     }
 
     public void setAbilityValue(final String abilityValue) {
-        this.singleProperties.put(
+        this.getSingleProperties().put(
                 SetupProperty.BASE_ABILITY_VALUE, abilityValue);
     }
 

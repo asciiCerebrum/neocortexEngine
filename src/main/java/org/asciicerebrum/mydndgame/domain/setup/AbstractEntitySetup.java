@@ -11,55 +11,73 @@ import org.apache.commons.lang.StringUtils;
  */
 public abstract class AbstractEntitySetup implements EntitySetup {
 
-    protected final Map<SetupProperty, String> singleProperties
+    /**
+     * The map holding the specific properties.
+     */
+    private final Map<SetupProperty, String> singleProperties
             = new EnumMap<SetupProperty, String>(SetupProperty.class);
 
-    protected final Map<SetupProperty, List<String>> listProperties
+    /**
+     * The map holding the list-like properties.
+     */
+    private final Map<SetupProperty, List<String>> listProperties
             = new EnumMap<SetupProperty, List<String>>(SetupProperty.class);
 
-    protected final Map<SetupProperty, EntitySetup> singleSetup
+    /**
+     * The map holding the specific setups.
+     */
+    private final Map<SetupProperty, EntitySetup> singleSetup
             = new EnumMap<SetupProperty, EntitySetup>(SetupProperty.class);
 
-    protected final Map<SetupProperty, List<EntitySetup>> listSetup
+    /**
+     * The map holding list-like setups.
+     */
+    private final Map<SetupProperty, List<EntitySetup>> listSetup
             = new EnumMap<SetupProperty, List<EntitySetup>>(
                     SetupProperty.class);
 
     @Override
     public final String getProperty(final SetupProperty setupProperty) {
-        return this.singleProperties.get(setupProperty);
+        return this.getSingleProperties().get(setupProperty);
     }
 
     @Override
     public final List<String> getProperties(final SetupProperty setupProperty) {
-        return this.listProperties.get(setupProperty);
+        return this.getListProperties().get(setupProperty);
     }
 
     @Override
     public final EntitySetup getPropertySetup(
             final SetupProperty setupProperty) {
-        return this.singleSetup.get(setupProperty);
+        return this.getSingleSetup().get(setupProperty);
     }
 
     @Override
     public final List<EntitySetup> getPropertySetups(
             final SetupProperty setupProperty) {
-        return this.listSetup.get(setupProperty);
+        return this.getListSetup().get(setupProperty);
     }
 
     @Override
-    public void setProperty(final SetupProperty setupProperty,
+    public final void setProperty(final SetupProperty setupProperty,
             final String value) {
-        this.singleProperties.put(setupProperty, value);
+        this.getSingleProperties().put(setupProperty, value);
     }
 
     /**
      * @param idInput the id to set
      */
     public final void setId(final String idInput) {
-        this.singleProperties.put(SetupProperty.UNIQUEID, idInput);
+        this.getSingleProperties().put(SetupProperty.UNIQUEID, idInput);
     }
 
-    protected boolean checkRequiredSingleProperties(
+    /**
+     * Tests if all required single properties were set.
+     *
+     * @param requiredProps the list of required properties.
+     * @return true if the conditions are met, false otherwise.
+     */
+    protected final boolean checkRequiredSingleProperties(
             final SetupProperty[] requiredProps) {
         for (SetupProperty requiredProperty : requiredProps) {
             if (StringUtils.isBlank(this.getProperty(requiredProperty))) {
@@ -69,7 +87,13 @@ public abstract class AbstractEntitySetup implements EntitySetup {
         return true;
     }
 
-    protected boolean checkRequiredListProperties(
+    /**
+     * Tests if all required list-like properties were set.
+     *
+     * @param requiredProps the list of required properties.
+     * @return true if the conditions are met, false otherwise.
+     */
+    protected final boolean checkRequiredListProperties(
             final SetupProperty[] requiredProps) {
         for (SetupProperty requiredProperty : requiredProps) {
             List<String> listProp = this.getProperties(requiredProperty);
@@ -83,7 +107,13 @@ public abstract class AbstractEntitySetup implements EntitySetup {
         return true;
     }
 
-    protected boolean checkRequiredSingleSetup(
+    /**
+     * Tests if all required setups were set.
+     *
+     * @param requiredProps the list of required setup properties.
+     * @return true if the conditions are met, false otherwise.
+     */
+    protected final boolean checkRequiredSingleSetup(
             final SetupProperty[] requiredProps) {
         for (SetupProperty requiredProperty : requiredProps) {
             EntitySetup setupProp = this.getPropertySetup(requiredProperty);
@@ -94,7 +124,13 @@ public abstract class AbstractEntitySetup implements EntitySetup {
         return true;
     }
 
-    protected boolean checkRequiredListSetup(
+    /**
+     * Tests if all required list-like setups were set.
+     *
+     * @param requiredProps the list of required setup properties.
+     * @return true if the conditions are met, false otherwise.
+     */
+    protected final boolean checkRequiredListSetup(
             final SetupProperty[] requiredProps) {
         for (SetupProperty requiredProperty : requiredProps) {
             List<EntitySetup> listSetupProp
@@ -109,6 +145,34 @@ public abstract class AbstractEntitySetup implements EntitySetup {
             }
         }
         return true;
+    }
+
+    /**
+     * @return the singleProperties
+     */
+    protected final Map<SetupProperty, String> getSingleProperties() {
+        return singleProperties;
+    }
+
+    /**
+     * @return the listProperties
+     */
+    protected final Map<SetupProperty, List<String>> getListProperties() {
+        return listProperties;
+    }
+
+    /**
+     * @return the singleSetup
+     */
+    protected final Map<SetupProperty, EntitySetup> getSingleSetup() {
+        return singleSetup;
+    }
+
+    /**
+     * @return the listSetup
+     */
+    protected final Map<SetupProperty, List<EntitySetup>> getListSetup() {
+        return listSetup;
     }
 
 }

@@ -181,10 +181,16 @@ public class Bonus {
         return Boolean.TRUE;
     }
 
+    /**
+     * @return the condition evaluator.
+     */
     public final ConditionEvaluator getConditionEvaluator() {
         return conditionEvaluator;
     }
 
+    /**
+     * @param conditionEvaluatorInput the condition evaluator.
+     */
     public final void setConditionEvaluator(
             final ConditionEvaluator conditionEvaluatorInput) {
         this.conditionEvaluator = conditionEvaluatorInput;
@@ -193,44 +199,44 @@ public class Bonus {
     /**
      * @return the bonusType
      */
-    public BonusType getBonusType() {
+    public final BonusType getBonusType() {
         return bonusType;
     }
 
     /**
-     * @param bonusType the bonusType to set
+     * @param bonusTypeInput the bonusType to set
      */
-    public void setBonusType(BonusType bonusType) {
-        this.bonusType = bonusType;
+    public final void setBonusType(final BonusType bonusTypeInput) {
+        this.bonusType = bonusTypeInput;
     }
 
     /**
      * @return the target
      */
-    public BonusTarget getTarget() {
+    public final BonusTarget getTarget() {
         return target;
     }
 
     /**
-     * @param target the target to set
+     * @param targetInput the target to set
      */
-    public void setTarget(BonusTarget target) {
-        this.target = target;
+    public final void setTarget(final BonusTarget targetInput) {
+        this.target = targetInput;
     }
 
     /**
      * @return the dynamicValueProvider
      */
-    public DynamicValueProvider getDynamicValueProvider() {
+    public final DynamicValueProvider getDynamicValueProvider() {
         return dynamicValueProvider;
     }
 
     /**
-     * @param dynamicValueProvider the dynamicValueProvider to set
+     * @param dynamicValueProviderInput the dynamicValueProvider to set
      */
-    public void setDynamicValueProvider(
-            final DynamicValueProvider dynamicValueProvider) {
-        this.dynamicValueProvider = dynamicValueProvider;
+    public final void setDynamicValueProvider(
+            final DynamicValueProvider dynamicValueProviderInput) {
+        this.dynamicValueProvider = dynamicValueProviderInput;
     }
 
     /**

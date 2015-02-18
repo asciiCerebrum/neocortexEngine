@@ -11,12 +11,12 @@ public class CombatRoundEntrySetup extends AbstractEntitySetup {
                 SetupProperty.COMBAT_ROUND_POSITION};
 
     public final void setParticipantId(final String participantId) {
-        this.singleProperties.put(SetupProperty.COMBAT_ROUND_PARTICIPANT,
+        this.getSingleProperties().put(SetupProperty.COMBAT_ROUND_PARTICIPANT,
                 participantId);
     }
 
     public final void setRoundPosition(final String roundPosition) {
-        this.singleProperties.put(SetupProperty.COMBAT_ROUND_POSITION,
+        this.getSingleProperties().put(SetupProperty.COMBAT_ROUND_POSITION,
                 roundPosition);
     }
 

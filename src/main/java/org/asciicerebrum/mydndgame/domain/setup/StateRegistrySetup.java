@@ -6,49 +6,71 @@ package org.asciicerebrum.mydndgame.domain.setup;
  */
 public class StateRegistrySetup extends AbstractEntitySetup {
 
+    /**
+     * Subclass for the state registry entry setup.
+     */
     public static class StateRegistryEntrySetup extends AbstractEntitySetup {
 
+        /**
+         * Required properties.
+         */
         private static final SetupProperty[] REQUIRED_SINGLE_PROPERTIES
                 = {SetupProperty.STATE_REGISTRY_PARTICLE,
                     SetupProperty.STATE_REGISTRY_VALUE,
                     SetupProperty.STATE_REGISTRY_VALUE_TYPE};
 
         @Override
-        public boolean isSetupComplete() {
+        public final boolean isSetupComplete() {
             return this.checkRequiredSingleProperties(
                     REQUIRED_SINGLE_PROPERTIES);
         }
 
-        public void setRegistryParticle(final String particle) {
-            this.singleProperties.put(SetupProperty.STATE_REGISTRY_PARTICLE,
-                    particle);
+        /**
+         * @param particle the particle.
+         */
+        public final void setRegistryParticle(final String particle) {
+            this.getSingleProperties()
+                    .put(SetupProperty.STATE_REGISTRY_PARTICLE, particle);
         }
 
-        public void setContextObjectId(final String contextObjectId) {
-            this.singleProperties.put(
+        /**
+         * @param contextObjectId the context object id.
+         */
+        public final void setContextObjectId(final String contextObjectId) {
+            this.getSingleProperties().put(
                     SetupProperty.STATE_REGISTRY_CONTEXT_OBJECT_ID,
                     contextObjectId);
         }
 
-        public void setRegistryValue(final String value) {
-            this.singleProperties.put(SetupProperty.STATE_REGISTRY_VALUE,
+        /**
+         * @param value the value.
+         */
+        public final void setRegistryValue(final String value) {
+            this.getSingleProperties().put(SetupProperty.STATE_REGISTRY_VALUE,
                     value);
         }
 
-        public void setRegistryValueType(final String valueType) {
-            this.singleProperties.put(SetupProperty.STATE_REGISTRY_VALUE_TYPE,
-                    valueType);
+        /**
+         * @param valueType the value type.
+         */
+        public final void setRegistryValueType(final String valueType) {
+            this.getSingleProperties().put(
+                    SetupProperty.STATE_REGISTRY_VALUE_TYPE, valueType);
         }
 
     }
 
     @Override
-    public boolean isSetupComplete() {
+    public final boolean isSetupComplete() {
         return true;
     }
 
-    public void setStateRegistryEntry(final EntitySetup entrySetup) {
-        this.singleSetup.put(SetupProperty.STATE_REGISTRY_ENTRY, entrySetup);
+    /**
+     * @param entrySetup the entry setup.
+     */
+    public final void setStateRegistryEntry(final EntitySetup entrySetup) {
+        this.getSingleSetup()
+                .put(SetupProperty.STATE_REGISTRY_ENTRY, entrySetup);
     }
 
 }

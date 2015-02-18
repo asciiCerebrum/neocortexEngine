@@ -22,22 +22,49 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedB
 public class DndCharacter extends UniqueEntity implements ICharacter,
         BonusSource, ObserverSource {
 
+    /**
+     * The level advancements the character has gathered.
+     */
     private LevelAdvancements levelAdvancements;
 
+    /**
+     * The base abilities.
+     */
     private BaseAbilities baseAbilities;
 
+    /**
+     * The race of the character.
+     */
     private Race race;
 
+    /**
+     * All the personalized body slots the character has.
+     */
     private PersonalizedBodySlots personalizedBodySlots;
 
+    /**
+     * The registry holding the state.
+     */
     private StateRegistry stateRegistry;
 
+    /**
+     * The current static HP of the character.
+     */
     private HitPoints currentStaticHp;
 
+    /**
+     * The current static non lethal HP of the character.
+     */
     private HitPoints currentStaticHpNonLethal;
 
+    /**
+     * The current XP of the character.
+     */
     private ExperiencePoints currentXp;
 
+    /**
+     * All the conditions the character is currently in.
+     */
     private Conditions conditions;
 
     /**
@@ -171,7 +198,7 @@ public class DndCharacter extends UniqueEntity implements ICharacter,
     }
 
     @Override
-    public BonusSources getBonusSources() {
+    public final BonusSources getBonusSources() {
         final BonusSources bonusSources = new BonusSources();
 
         bonusSources.add(this.baseAbilities);
@@ -184,7 +211,7 @@ public class DndCharacter extends UniqueEntity implements ICharacter,
     }
 
     @Override
-    public Boni getBoni() {
+    public final Boni getBoni() {
         return Boni.EMPTY_BONI;
     }
 
@@ -197,6 +224,11 @@ public class DndCharacter extends UniqueEntity implements ICharacter,
         return this.race.getSize();
     }
 
+    /**
+     * All armor the character is currently wearing.
+     *
+     * @return the collection of armor.
+     */
     public final Armors getArmorWorn() {
         return (Armors) this.getPersonalizedBodySlots().getItemsByClass(
                 new Armors(), Armor.class);

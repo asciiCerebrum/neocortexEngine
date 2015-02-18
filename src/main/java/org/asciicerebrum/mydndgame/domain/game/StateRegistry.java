@@ -28,6 +28,9 @@ public class StateRegistry {
     private static final Logger LOG
             = LoggerFactory.getLogger(StateRegistry.class);
 
+    /**
+     * Some kind of further characterization of the aspect of the state.
+     */
     public enum StateParticle {
 
         /**
@@ -45,8 +48,14 @@ public class StateRegistry {
         WEAPON_DAMAGE_TYPE
     }
 
+    /**
+     * The type of the state value.
+     */
     public enum StateValueType {
 
+        /**
+         * A boolean type. True of false.
+         */
         BOOLEAN {
                     @Override
                     public Object parseToType(final String input,
@@ -55,6 +64,9 @@ public class StateRegistry {
                         return Boolean.valueOf(input);
                     }
                 },
+        /**
+         * An ordinary string type.
+         */
         STRING {
                     @Override
                     public Object parseToType(final String input,
@@ -63,6 +75,9 @@ public class StateRegistry {
                         return input;
                     }
                 },
+        /**
+         * A numerical value type of the long variant.
+         */
         LONG {
                     @Override
                     public Object parseToType(final String input,
@@ -71,6 +86,9 @@ public class StateRegistry {
                         return Long.valueOf(input);
                     }
                 },
+        /**
+         * A unique entity used.
+         */
         UNIQUE_ENTITY {
                     @Override
                     public Object parseToType(final String input,
@@ -79,6 +97,9 @@ public class StateRegistry {
                         return campaign.getEntityById(new UniqueId(input));
                     }
                 },
+        /**
+         * A bean from the application context.
+         */
         BEAN {
                     @Override
                     public Object parseToType(final String input,
@@ -88,16 +109,51 @@ public class StateRegistry {
                     }
                 };
 
+        /**
+         * Parses a string input to its corresponding object instance.
+         *
+         * @param input the input to parse to an object.
+         * @param campaign the campaign the object is valid for.
+         * @param context the application context.
+         * @return the parsed object.
+         */
         public abstract Object parseToType(final String input,
                 final Campaign campaign, final ApplicationContext context);
     }
 
-    public static class StateRegistryKey {
+    /**
+     * The key objects used in the state registry.
+     */
+    public static final class StateRegistryKey {
 
+        /**
+         * Initial value for hash code calculation.
+         */
+        private static final int INITIAL_NON_ZERO_ODD_NUMBER = 17;
+
+        /**
+         * Modifier for hash code calculation.
+         */
+        private static final int MULTIPLIER_NON_ZERO_ODD_NUMBER = 31;
+
+        /**
+         * The state particles characterizing the state of the object.
+         */
         private final StateParticle stateParticle;
 
+        /**
+         * The object whose state is to be described.
+         */
         private final UniqueEntity contextObject;
 
+        /**
+         * Constructing the state key out of the particle and the unique entity.
+         *
+         * @param key the particle for a better description of the state.
+         * Sometimes the entit itself is not enough because it can have
+         * different states for different aspects of it.
+         * @param contextObjectInput the object to describe the state for.
+         */
         private StateRegistryKey(final StateParticle key,
                 final UniqueEntity contextObjectInput) {
             this.stateParticle = key;
@@ -121,22 +177,40 @@ public class StateRegistry {
 
         @Override
         public int hashCode() {
-            return new HashCodeBuilder(17, 31)
+            return new HashCodeBuilder(INITIAL_NON_ZERO_ODD_NUMBER,
+                    MULTIPLIER_NON_ZERO_ODD_NUMBER)
                     .append(this.stateParticle)
                     .append(this.contextObject)
                     .toHashCode();
         }
     }
 
+    /**
+     * The central map representing the state registry.
+     */
     private final Map<StateRegistryKey, Object> stateMap
             = new HashMap<StateRegistryKey, Object>();
 
-    public void putState(final StateParticle particle,
+    /**
+     * Putting a state value with its particle into the registry.
+     *
+     * @param particle the particle describing the state.
+     * @param stateValue the value of the state.
+     */
+    public final void putState(final StateParticle particle,
             final Object stateValue) {
         this.putState(particle, null, stateValue);
     }
 
-    public void putState(final StateParticle particle,
+    /**
+     * Putting a state value, the affected object and its particle into the
+     * registry.
+     *
+     * @param particle the particle describing the state.
+     * @param contextObject the unique entity which is affected by the state.
+     * @param stateValue the value of the state.
+     */
+    public final void putState(final StateParticle particle,
             final UniqueEntity contextObject, final Object stateValue) {
         final StateRegistryKey key
                 = new StateRegistryKey(particle, contextObject);
@@ -144,14 +218,14 @@ public class StateRegistry {
     }
 
     /**
-     * Trying to cast to T.
+     * Retrieves the state back from the registry. Trying to cast to T.
      *
-     * @param <T>
-     * @param particle
-     * @param contextObject
-     * @return
+     * @param <T> The type of the object which is to be retrieved.
+     * @param particle the particle describing the state.
+     * @param contextObject the unique entity affected.
+     * @return the state value.
      */
-    public <T> T getState(final StateParticle particle,
+    public final <T> T getState(final StateParticle particle,
             final UniqueEntity contextObject) {
         final StateRegistryKey key
                 = new StateRegistryKey(particle, contextObject);
@@ -162,7 +236,12 @@ public class StateRegistry {
         return null;
     }
 
-    public void removeState(final StateRegistryKey key) {
+    /**
+     * Deletes an entry from the state registry.
+     *
+     * @param key the key of the element to remove.
+     */
+    public final void removeState(final StateRegistryKey key) {
         this.stateMap.remove(key);
     }
 
@@ -173,8 +252,8 @@ public class StateRegistry {
      * @param contextObject the contextual object component of the registry key.
      * @return the type of the state value.
      */
-    public StateValueType getStateValueTypeForKey(final StateParticle particle,
-            final UniqueEntity contextObject) {
+    public final StateValueType getStateValueTypeForKey(
+            final StateParticle particle, final UniqueEntity contextObject) {
         final StateRegistryKey key
                 = new StateRegistryKey(particle, contextObject);
         final Object value = this.stateMap.get(key);
@@ -196,7 +275,13 @@ public class StateRegistry {
         return StateValueType.BEAN;
     }
 
-    public StateValueType getStateValueTypeForKey(
+    /**
+     * Used for the serialization of the state registry entries.
+     *
+     * @param particle the particle component of the registry key.
+     * @return the type of the state value.
+     */
+    public final StateValueType getStateValueTypeForKey(
             final StateParticle particle) {
         return this.getStateValueTypeForKey(particle, null);
     }

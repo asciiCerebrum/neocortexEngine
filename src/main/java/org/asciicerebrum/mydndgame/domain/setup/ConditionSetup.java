@@ -17,21 +17,21 @@ public class ConditionSetup extends AbstractEntitySetup {
     }
 
     public final void setConditionType(final String conditionType) {
-        this.singleProperties.put(SetupProperty.CONDITION_TYPE, conditionType);
+        this.getSingleProperties().put(SetupProperty.CONDITION_TYPE, conditionType);
     }
 
     public final void setCauseEntity(final String causeEntity) {
-        this.singleProperties.put(SetupProperty.CONDITION_CAUSE_ENTITY,
+        this.getSingleProperties().put(SetupProperty.CONDITION_CAUSE_ENTITY,
                 causeEntity);
     }
 
     public final void setStartingDate(final WorldDateSetup setup) {
-        this.singleSetup.put(SetupProperty.CONDITION_START_DATE,
+        this.getSingleSetup().put(SetupProperty.CONDITION_START_DATE,
                 (EntitySetup) setup);
     }
 
     public final void setExpiryDate(final WorldDateSetup setup) {
-        this.singleSetup.put(SetupProperty.CONDITION_EXPIRY_DATE,
+        this.getSingleSetup().put(SetupProperty.CONDITION_EXPIRY_DATE,
                 (EntitySetup) setup);
     }
 

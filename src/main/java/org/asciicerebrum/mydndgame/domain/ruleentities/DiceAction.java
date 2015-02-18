@@ -55,57 +55,57 @@ public class DiceAction implements BonusSource, BonusTarget, ObserverSource {
     /**
      * @return the id
      */
-    public UniqueId getId() {
+    public final UniqueId getId() {
         return id;
     }
 
     /**
-     * @param id the id to set
+     * @param idInput the id to set
      */
-    public void setId(UniqueId id) {
-        this.id = id;
+    public final void setId(final UniqueId idInput) {
+        this.id = idInput;
     }
 
     /**
      * @return the diceType
      */
-    public Dice getDiceType() {
+    public final Dice getDiceType() {
         return diceType;
     }
 
     /**
-     * @param diceType the diceType to set
+     * @param diceTypeInput the diceType to set
      */
-    public void setDiceType(Dice diceType) {
-        this.diceType = diceType;
+    public final void setDiceType(final Dice diceTypeInput) {
+        this.diceType = diceTypeInput;
     }
 
     /**
      * @return the diceNumber
      */
-    public DiceNumber getDiceNumber() {
+    public final DiceNumber getDiceNumber() {
         return diceNumber;
     }
 
     /**
-     * @param diceNumber the diceNumber to set
+     * @param diceNumberInput the diceNumber to set
      */
-    public void setDiceNumber(DiceNumber diceNumber) {
-        this.diceNumber = diceNumber;
+    public final void setDiceNumber(final DiceNumber diceNumberInput) {
+        this.diceNumber = diceNumberInput;
     }
 
     /**
      * @return the constValue
      */
-    public DiceConstant getConstValue() {
+    public final DiceConstant getConstValue() {
         return constValue;
     }
 
     /**
-     * @param constValue the constValue to set
+     * @param constValueInput the constValue to set
      */
-    public void setConstValue(DiceConstant constValue) {
-        this.constValue = constValue;
+    public final void setConstValue(final DiceConstant constValueInput) {
+        this.constValue = constValueInput;
     }
 
     /**
@@ -126,15 +126,15 @@ public class DiceAction implements BonusSource, BonusTarget, ObserverSource {
     /**
      * @return the targetObservers
      */
-    public Observers getTargetObservers() {
+    public final Observers getTargetObservers() {
         return targetObservers;
     }
 
     /**
-     * @param targetObservers the targetObservers to set
+     * @param targetObserversInput the targetObservers to set
      */
-    public void setTargetObservers(Observers targetObservers) {
-        this.targetObservers = targetObservers;
+    public final void setTargetObservers(final Observers targetObserversInput) {
+        this.targetObservers = targetObserversInput;
     }
 
     /**
@@ -154,6 +154,9 @@ public class DiceAction implements BonusSource, BonusTarget, ObserverSource {
         this.associatedHook = associatedHookInput;
     }
 
+    /**
+     * @return the observers.
+     */
     public final Observers getObservers() {
         return this.targetObservers;
     }

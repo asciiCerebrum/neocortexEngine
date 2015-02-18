@@ -14,10 +14,22 @@ import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPositions;
  */
 public class CombatRoundEntries {
 
+    /**
+     * List filtering predicate that compares participants with the one given in
+     * the constructor.
+     */
     private static class IdentifyParticipantPredicate implements Predicate {
 
+        /**
+         * The dnd character to compare the others with.
+         */
         private final DndCharacter dndCharacter;
 
+        /**
+         * Constructing the predicate with a dnd character.
+         *
+         * @param dndCharacterInput the dnd character to rule them all.
+         */
         public IdentifyParticipantPredicate(
                 final DndCharacter dndCharacterInput) {
             this.dndCharacter = dndCharacterInput;
@@ -32,6 +44,9 @@ public class CombatRoundEntries {
         }
     }
 
+    /**
+     * The central list of combat round entries.
+     */
     private final List<CombatRoundEntry> elements
             = new ArrayList<CombatRoundEntry>();
 
@@ -53,6 +68,12 @@ public class CombatRoundEntries {
         }
     }
 
+    /**
+     * Retrieves the one combat round entry containing the given dnd character.
+     *
+     * @param dndCharacter the dnd character in question.
+     * @return the combat round entry with this character.
+     */
     public final CombatRoundEntry getEntryByParticipant(
             final DndCharacter dndCharacter) {
         return (CombatRoundEntry) CollectionUtils
@@ -60,6 +81,13 @@ public class CombatRoundEntries {
                         new IdentifyParticipantPredicate(dndCharacter));
     }
 
+    /**
+     * Retrieves the one combat round position associated with the given dnd
+     * character.
+     *
+     * @param dndCharacter the dnd character in question.
+     * @return his / her combat round position.
+     */
     public final CombatRoundPosition getPositionForParticipant(
             final DndCharacter dndCharacter) {
         final CombatRoundEntry entry = this.getEntryByParticipant(dndCharacter);
@@ -69,6 +97,13 @@ public class CombatRoundEntries {
         return null;
     }
 
+    /**
+     * Retrieves all participants with the same given combat round position.
+     *
+     * @param roundPosition the position in the combat round the participants
+     * should have.
+     * @return the collection of participants with that position.
+     */
     public final DndCharacters getParticipantsForPosition(
             final CombatRoundPosition roundPosition) {
         DndCharacters participants = new DndCharacters();
@@ -83,6 +118,11 @@ public class CombatRoundEntries {
         return participants;
     }
 
+    /**
+     * Extracts all the positions out of the collection of combat round entries.
+     *
+     * @return the combat round positions found in this collection.
+     */
     final CombatRoundPositions getPositions() {
         CombatRoundPositions crPositions = new CombatRoundPositions();
         for (CombatRoundEntry crEntry : this.elements) {
@@ -92,14 +132,33 @@ public class CombatRoundEntries {
         return crPositions;
     }
 
+    /**
+     * Extracts all the positions out of the collection of combat round entries
+     * and sorts them in a natural alphanumeric way.
+     *
+     * @return the sorted collection of combat round positions found in this
+     * collection.
+     */
     public final CombatRoundPositions getOrderedPositions() {
         return this.getPositions().sort();
     }
 
+    /**
+     * Retrieves the very first combat round position of this collection.
+     *
+     * @return the first combat round position.
+     */
     public final CombatRoundPosition getFirstRoundPosition() {
-        return this.getPositions().first();
+        return this.getOrderedPositions().first();
     }
 
+    /**
+     * Retrieves the one combat round position that directy follows the given
+     * one.
+     *
+     * @param combatRoundPosition the previous combat round position.
+     * @return the next combat round position.
+     */
     public final CombatRoundPosition getRoundPositionFollowUp(
             final CombatRoundPosition combatRoundPosition) {
         return this.getPositions().getFollowUp(combatRoundPosition);
@@ -114,7 +173,7 @@ public class CombatRoundEntries {
     public final Iterator<DndCharacter> participantsIterator() {
         return new Iterator<DndCharacter>() {
 
-            private Iterator<CombatRoundEntry> creIterator
+            private final Iterator<CombatRoundEntry> creIterator
                     = elements.iterator();
 
             public boolean hasNext() {

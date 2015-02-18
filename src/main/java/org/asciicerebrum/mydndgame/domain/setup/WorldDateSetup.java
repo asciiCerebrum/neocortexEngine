@@ -16,12 +16,12 @@ public class WorldDateSetup extends AbstractEntitySetup {
     }
 
     public final void setCombatRoundNumber(final String combatRoundNumber) {
-        this.singleProperties.put(SetupProperty.WORLD_DATE_ROUND,
+        this.getSingleProperties().put(SetupProperty.WORLD_DATE_ROUND,
                 combatRoundNumber);
     }
 
     public final void setCombatRoundPosition(final String combatRoundPosition) {
-        this.singleProperties.put(SetupProperty.WORLD_DATE_ROUND_POSITION,
+        this.getSingleProperties().put(SetupProperty.WORLD_DATE_ROUND_POSITION,
                 combatRoundPosition);
     }
 

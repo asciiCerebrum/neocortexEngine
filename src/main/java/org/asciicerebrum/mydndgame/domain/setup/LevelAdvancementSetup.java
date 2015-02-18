@@ -12,25 +12,26 @@ public class LevelAdvancementSetup extends AbstractEntitySetup {
                 SetupProperty.HIT_POINTS_ADVANCEMENT};
 
     public final void setAdvancementNumber(final String advNumber) {
-        this.singleProperties.put(SetupProperty.ADVANCEMENT_NUMBER, advNumber);
+        this.getSingleProperties()
+                .put(SetupProperty.ADVANCEMENT_NUMBER, advNumber);
     }
 
     public final void setClassLevel(final String classLevel) {
-        this.singleProperties.put(SetupProperty.CLASS_LEVEL, classLevel);
+        this.getSingleProperties().put(SetupProperty.CLASS_LEVEL, classLevel);
     }
 
     public final void setHpAdvancement(final String hpAdvancement) {
-        this.singleProperties.put(SetupProperty.HIT_POINTS_ADVANCEMENT,
+        this.getSingleProperties().put(SetupProperty.HIT_POINTS_ADVANCEMENT,
                 hpAdvancement);
     }
 
     public final void setAbilityAdvancement(final String abilityAdvancement) {
-        this.singleProperties.put(SetupProperty.ABILITY_ADVANCEMENT,
+        this.getSingleProperties().put(SetupProperty.ABILITY_ADVANCEMENT,
                 abilityAdvancement);
     }
 
     public final void setFeatAdvancement(final EntitySetup featSetup) {
-        this.singleSetup.put(SetupProperty.FEAT_ADVANCEMENT, featSetup);
+        this.getSingleSetup().put(SetupProperty.FEAT_ADVANCEMENT, featSetup);
     }
 
     @Override

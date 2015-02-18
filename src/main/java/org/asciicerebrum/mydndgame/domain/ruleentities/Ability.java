@@ -40,78 +40,79 @@ public class Ability implements BonusSource, BonusTarget, ObserverSource {
     /**
      * @return the id
      */
-    public UniqueId getId() {
+    public final UniqueId getId() {
         return id;
     }
 
     /**
-     * @param id the id to set
+     * @param idInput the id to set
      */
-    public void setId(UniqueId id) {
-        this.id = id;
+    public final void setId(final UniqueId idInput) {
+        this.id = idInput;
     }
 
     /**
      * @return the name
      */
-    public GenericName getName() {
+    public final GenericName getName() {
         return name;
     }
 
     /**
-     * @param name the name to set
+     * @param nameInput the name to set
      */
-    public void setName(GenericName name) {
-        this.name = name;
+    public final void setName(final GenericName nameInput) {
+        this.name = nameInput;
     }
 
     /**
      * @return the boni
      */
     @Override
-    public Boni getBoni() {
+    public final Boni getBoni() {
         return boni;
     }
 
     /**
-     * @param boni the boni to set
+     * @param boniInput the boni to set
      */
-    public void setBoni(Boni boni) {
-        this.boni = boni;
+    public final void setBoni(final Boni boniInput) {
+        this.boni = boniInput;
     }
 
     /**
      * @return the associatedAttackMode
      */
-    public WeaponCategory getAssociatedAttackMode() {
+    public final WeaponCategory getAssociatedAttackMode() {
         return associatedAttackMode;
     }
 
     /**
-     * @param associatedAttackMode the associatedAttackMode to set
+     * @param associatedAttackModeInput the associatedAttackMode to set
      */
-    public void setAssociatedAttackMode(WeaponCategory associatedAttackMode) {
-        this.associatedAttackMode = associatedAttackMode;
+    public final void setAssociatedAttackMode(
+            final WeaponCategory associatedAttackModeInput) {
+        this.associatedAttackMode = associatedAttackModeInput;
     }
 
     /**
      * @return the associatedHook
      */
     @Override
-    public ObserverHook getAssociatedHook() {
+    public final ObserverHook getAssociatedHook() {
         return associatedHook;
     }
 
     /**
-     * @param associatedHook the associatedHook to set
+     * @param associatedHookIn the associatedHook to set
      */
     @Override
-    public void setAssociatedHook(ObserverHook associatedHook) {
-        this.associatedHook = associatedHook;
+    public final void setAssociatedHook(final ObserverHook associatedHookIn) {
+        this.associatedHook = associatedHookIn;
     }
 
     @Override
-    public BonusSources getBonusSources() {
+    public final BonusSources getBonusSources() {
         return BonusSources.EMPTY_BONUSSOURCES;
     }
 

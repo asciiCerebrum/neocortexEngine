@@ -2,7 +2,6 @@ package org.asciicerebrum.mydndgame.domain.game;
 
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
 import java.util.Iterator;
-import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
 
 /**
@@ -71,8 +70,7 @@ public class CombatRound {
      */
     final void initializeDate() {
         this.setCurrentDate(new WorldDate());
-        this.currentDate.setCombatRoundNumber(new CombatRoundNumber(0L));
-        this.currentDate.setCombatRoundPosition(
+        this.getCurrentDate().initializeDate(
                 this.combatRoundEntries.getFirstRoundPosition());
     }
 

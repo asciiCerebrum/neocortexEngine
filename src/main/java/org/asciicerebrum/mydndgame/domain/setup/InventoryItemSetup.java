@@ -22,14 +22,14 @@ public abstract class InventoryItemSetup extends AbstractEntitySetup {
      * @param nameInput the name to set
      */
     public final void setName(final String nameInput) {
-        this.singleProperties.put(SetupProperty.NAME, nameInput);
+        this.getSingleProperties().put(SetupProperty.NAME, nameInput);
     }
 
     /**
      * @param sizeCategoryInput the sizeCategory to set
      */
     public final void setSizeCategory(final String sizeCategoryInput) {
-        this.singleProperties.put(SetupProperty.SIZE_CATEGORY,
+        this.getSingleProperties().put(SetupProperty.SIZE_CATEGORY,
                 sizeCategoryInput);
     }
 
@@ -39,10 +39,10 @@ public abstract class InventoryItemSetup extends AbstractEntitySetup {
     public final void addSpecialAbility(
             final String specialAbilityInput) {
         List<String> specialAbilities
-                = this.listProperties.get(SetupProperty.SPECIAL_ABILITIES);
+                = this.getListProperties().get(SetupProperty.SPECIAL_ABILITIES);
         if (specialAbilities == null) {
             specialAbilities = new ArrayList<String>();
-            this.listProperties.put(SetupProperty.SPECIAL_ABILITIES,
+            this.getListProperties().put(SetupProperty.SPECIAL_ABILITIES,
                     specialAbilities);
         }
         specialAbilities.add(specialAbilityInput);

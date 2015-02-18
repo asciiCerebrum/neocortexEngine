@@ -36,6 +36,12 @@ public class ClassLevel implements BonusSource, ObserverSource {
      */
     private ClassLevel previousClassLevel;
 
+    /**
+     * Retrieves the base attack bonus by a given rank.
+     *
+     * @param rank the rank of the attack bonus.
+     * @return the value of the bonus.
+     */
     public final BonusValue getBaseAtkBonusByRank(final BonusRank rank) {
         return getBaseAtkBoni().getBonusValueByRank(rank);
     }
@@ -43,59 +49,67 @@ public class ClassLevel implements BonusSource, ObserverSource {
     /**
      * @return the level
      */
-    public Level getLevel() {
+    public final Level getLevel() {
         return level;
     }
 
     /**
-     * @param level the level to set
+     * @param levelInput the level to set
      */
-    public void setLevel(Level level) {
-        this.level = level;
+    public final void setLevel(final Level levelInput) {
+        this.level = levelInput;
     }
 
     /**
      * @return the baseAtkBoni
      */
-    public BonusValueTuple getBaseAtkBoni() {
+    public final BonusValueTuple getBaseAtkBoni() {
         return baseAtkBoni;
     }
 
     /**
-     * @param baseAtkBoni the baseAtkBoni to set
+     * @param baseAtkBoniInput the baseAtkBoni to set
      */
-    public void setBaseAtkBoni(BonusValueTuple baseAtkBoni) {
-        this.baseAtkBoni = baseAtkBoni;
+    public final void setBaseAtkBoni(final BonusValueTuple baseAtkBoniInput) {
+        this.baseAtkBoni = baseAtkBoniInput;
     }
 
     /**
      * @return the characterClass
      */
-    public CharacterClass getCharacterClass() {
+    public final CharacterClass getCharacterClass() {
         return characterClass;
     }
 
     /**
-     * @param characterClass the characterClass to set
+     * @param characterClassInput the characterClass to set
      */
-    public void setCharacterClass(CharacterClass characterClass) {
-        this.characterClass = characterClass;
+    public final void setCharacterClass(
+            final CharacterClass characterClassInput) {
+        this.characterClass = characterClassInput;
     }
 
     /**
      * @return the previousClassLevel
      */
-    public ClassLevel getPreviousClassLevel() {
+    public final ClassLevel getPreviousClassLevel() {
         return previousClassLevel;
     }
 
     /**
-     * @param previousClassLevel the previousClassLevel to set
+     * @param previousClassLevelInput the previousClassLevel to set
      */
-    public void setPreviousClassLevel(ClassLevel previousClassLevel) {
-        this.previousClassLevel = previousClassLevel;
+    public final void setPreviousClassLevel(
+            final ClassLevel previousClassLevelInput) {
+        this.previousClassLevel = previousClassLevelInput;
     }
 
+    /**
+     * Returns the difference of the base attack bonus from this instance and
+     * the previous class level of the same class.
+     *
+     * @return the difference as a bonus value tuple for each rank.
+     */
     public final BonusValueTuple getBaseAtkBoniDelta() {
         if (this.previousClassLevel == null) {
             return this.baseAtkBoni;
@@ -103,6 +117,13 @@ public class ClassLevel implements BonusSource, ObserverSource {
         return this.baseAtkBoni.subtract(this.previousClassLevel.baseAtkBoni);
     }
 
+    /**
+     * Returns the difference of the base attack bonus from this instance and
+     * the previous class level of the same class.
+     *
+     * @param rank the rank of the bonus.
+     * @return the difference as a bonus value for the given rank.
+     */
     public final BonusValue getBaseAtkBoniDeltaByRank(
             final BonusRank rank) {
 

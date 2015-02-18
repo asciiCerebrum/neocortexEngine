@@ -32,6 +32,17 @@ public class WorldDate {
 
     }
 
+    /**
+     * Initializes a world date instance with very basic parameters. The initial
+     * value of the combat round number is 0.
+     *
+     * @param position the position the world date should have.
+     */
+    public void initializeDate(final CombatRoundPosition position) {
+        this.setCombatRoundNumber(new CombatRoundNumber(0L));
+        this.setCombatRoundPosition(position);
+    }
+
     public WorldDate(final WorldDate worldDate) {
         this.combatRoundNumber = worldDate.combatRoundNumber;
         this.combatRoundPosition = worldDate.combatRoundPosition;
