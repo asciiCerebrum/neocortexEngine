@@ -28,6 +28,11 @@ public class AndListEvaluator implements ConditionEvaluator {
         this.conditionEvaluators = conditionEvaluatorsInput;
     }
 
+    /**
+     * Iterator of the the condition evaluators.
+     *
+     * @return the iterator.
+     */
     public final Iterator<ConditionEvaluator> iterator() {
         return this.conditionEvaluators.iterator();
     }

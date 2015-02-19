@@ -17,8 +17,10 @@ public class DefaultArmorServiceFacade extends DefaultInventoryItemServiceFacade
         implements ArmorServiceFacade {
 
     /**
-     * {@inheritDoc }
+     * Maximum thinkable bonus value. It is considered unreachable in practice.
      */
+    private static final long MAX_BONUS_VALUE = 999L;
+
     @Override
     public final BonusValue getArmorCheckPenalty(final Armor armor,
             final DndCharacter dndCharacter) {
@@ -26,23 +28,20 @@ public class DefaultArmorServiceFacade extends DefaultInventoryItemServiceFacade
         final BonusValue baseArmorCheckPenalty
                 = armor.getBaseArmorCheckPenalty();
 
-        return (BonusValue) this.observableService.triggerObservers(
+        return (BonusValue) this.getObservableService().triggerObservers(
                 baseArmorCheckPenalty, armor,
                 new ObserverSources(dndCharacter),
                 new ObserverHooks(ObserverHook.ARMOR_CHECK_PENALTY),
                 dndCharacter);
     }
 
-    /**
-     * {@inheritDoc }
-     */
     @Override
     public final BonusValue getMaxDexBonus(final Armor armor,
             final DndCharacter dndCharacter) {
 
         final BonusValue baseMaxDexBonus = armor.getBaseMaxDexBonus();
 
-        return (BonusValue) this.observableService.triggerObservers(
+        return (BonusValue) this.getObservableService().triggerObservers(
                 baseMaxDexBonus, armor,
                 new ObserverSources(dndCharacter),
                 new ObserverHooks(ObserverHook.ARMOR_MAX_DEX_BONUS),
@@ -71,7 +70,7 @@ public class DefaultArmorServiceFacade extends DefaultInventoryItemServiceFacade
     public final BonusValue getMinimumMaxDexBonus(final Armors armors,
             final DndCharacter dndCharacter) {
 
-        BonusValue minimumMaxDex = new BonusValue(999L);
+        BonusValue minimumMaxDex = new BonusValue(MAX_BONUS_VALUE);
         final Iterator<Armor> armorIterator = armors.iterator();
         while (armorIterator.hasNext()) {
             final Armor armor = armorIterator.next();

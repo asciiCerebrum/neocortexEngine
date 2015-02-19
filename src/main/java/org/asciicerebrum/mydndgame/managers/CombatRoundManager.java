@@ -63,7 +63,7 @@ public class CombatRoundManager {
      * Retrieves the desired interaction from the character and executes it.
      * Rejects it, if it comes from the wrong character.
      *
-     * @param campaign
+     * @param campaign the campaign this interaction takes place in.
      * @param interaction the interaction in question.
      */
     public final void executeInteraction(final Campaign campaign,

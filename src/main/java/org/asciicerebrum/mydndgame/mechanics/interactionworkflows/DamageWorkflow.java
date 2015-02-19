@@ -25,6 +25,9 @@ public class DamageWorkflow implements IWorkflow {
      */
     private DefaultDiceRollManager diceRollManager;
 
+    /**
+     * The damage application service.
+     */
     private DamageApplicationService damageApplicationService;
 
     /**
@@ -32,6 +35,9 @@ public class DamageWorkflow implements IWorkflow {
      */
     private DiceRoll minimumDamage;
 
+    /**
+     * The damage calculation service.
+     */
     private DamageCalculationService damageService;
 
     /**
@@ -61,7 +67,8 @@ public class DamageWorkflow implements IWorkflow {
         // make one damage roll
         final DiceRoll sourceDamageRoll
                 = this.getDiceRollManager().rollDice(
-                        this.getWeaponServiceFacade().getDamage((Weapon) sourceWeapon,
+                        this.getWeaponServiceFacade().getDamage(
+                                (Weapon) sourceWeapon,
                                 interaction.getTriggeringCharacter()));
 
         final BonusValue sourceDamageBonus

@@ -13,6 +13,9 @@ import org.asciicerebrum.mydndgame.services.application.ConditionApplicationServ
  */
 public class ConditionExpirationWorkflow implements IWorkflow {
 
+    /**
+     * The condition application service.
+     */
     private ConditionApplicationService conditionService;
 
     /**

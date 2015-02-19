@@ -29,9 +29,6 @@ public class CriticalDamageWorkflow implements IWorkflow {
      */
     private WeaponServiceFacade weaponServiceFacade;
 
-    /**
-     * {@inheritDoc }
-     */
     @Override
     public final void runWorkflow(final Interaction interaction) {
 

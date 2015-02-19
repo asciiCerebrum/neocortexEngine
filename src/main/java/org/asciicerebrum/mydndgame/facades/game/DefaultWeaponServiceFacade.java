@@ -28,7 +28,7 @@ public class DefaultWeaponServiceFacade
             final Weapon weapon, final DndCharacter dndCharacter) {
         final CriticalMinimumLevel baseValue
                 = weapon.getBaseCriticalMinimumLevel();
-        return (CriticalMinimumLevel) this.observableService
+        return (CriticalMinimumLevel) this.getObservableService()
                 .triggerObservers(baseValue, weapon,
                         new ObserverSources(dndCharacter),
                         new ObserverHooks(ObserverHook.CRITICAL_MIMINUM_LEVEL),
@@ -39,7 +39,7 @@ public class DefaultWeaponServiceFacade
     public final CriticalFactor getCriticalFactor(
             final Weapon weapon, final DndCharacter dndCharacter) {
         final CriticalFactor baseValue = weapon.getBaseCriticalFactor();
-        return (CriticalFactor) this.observableService
+        return (CriticalFactor) this.getObservableService()
                 .triggerObservers(baseValue, weapon,
                         new ObserverSources(dndCharacter),
                         new ObserverHooks(ObserverHook.CRITICAL_FACTOR),
@@ -50,7 +50,7 @@ public class DefaultWeaponServiceFacade
     public final DiceAction getDamage(final Weapon weapon,
             final DndCharacter dndCharacter) {
         final DiceAction baseValue = weapon.getBaseDamage();
-        return (DiceAction) this.observableService
+        return (DiceAction) this.getObservableService()
                 .triggerObservers(baseValue, weapon,
                         new ObserverSources(dndCharacter),
                         new ObserverHooks(ObserverHook.WEAPON_DAMAGE),
@@ -61,7 +61,7 @@ public class DefaultWeaponServiceFacade
     public final WeaponTypes getWeaponTypes(final Weapon weapon,
             final DndCharacter dndCharacter) {
         final WeaponTypes baseValue = weapon.getBaseWeaponTypes();
-        return (WeaponTypes) this.observableService
+        return (WeaponTypes) this.getObservableService()
                 .triggerObservers(baseValue, weapon,
                         new ObserverSources(dndCharacter),
                         new ObserverHooks(ObserverHook.WEAPON_TYPES),
@@ -72,7 +72,7 @@ public class DefaultWeaponServiceFacade
     public final Encumbrance getEncumbrance(final Weapon weapon,
             final DndCharacter dndCharacter) {
         final Encumbrance baseValue = weapon.getBaseEncumbrance();
-        return (Encumbrance) this.observableService
+        return (Encumbrance) this.getObservableService()
                 .triggerObservers(baseValue, weapon,
                         new ObserverSources(dndCharacter),
                         new ObserverHooks(ObserverHook.ENCUMBRANCE),
@@ -83,7 +83,7 @@ public class DefaultWeaponServiceFacade
     public final Proficiency getProficiency(final Weapon weapon,
             final DndCharacter dndCharacter) {
         final Proficiency baseValue = weapon.getBaseProficiency();
-        return (Proficiency) this.observableService
+        return (Proficiency) this.getObservableService()
                 .triggerObservers(baseValue, weapon,
                         new ObserverSources(dndCharacter),
                         new ObserverHooks(ObserverHook.PROFICIENCY),
@@ -94,7 +94,7 @@ public class DefaultWeaponServiceFacade
     public final WeaponCategories getCategories(final Weapon weapon,
             final DndCharacter dndCharacter) {
         final WeaponCategories baseValue = weapon.getBaseCategories();
-        return (WeaponCategories) this.observableService
+        return (WeaponCategories) this.getObservableService()
                 .triggerObservers(baseValue, weapon,
                         new ObserverSources(dndCharacter),
                         new ObserverHooks(ObserverHook.WEAPON_CATEGORIES),

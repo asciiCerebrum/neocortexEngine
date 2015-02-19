@@ -9,5 +9,11 @@ import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
  */
 public interface CharacterServiceFacade {
 
+    /**
+     * Calculates the modified size value of a character.
+     *
+     * @param dndCharacter the character in question.
+     * @return the modified value.
+     */
     SizeCategory getSize(DndCharacter dndCharacter);
 }

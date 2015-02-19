@@ -15,11 +15,11 @@ import org.asciicerebrum.mydndgame.facades.game.InventoryItemServiceFacade;
  */
 public class CorrectInventoryItemSlotEvaluator implements ConditionEvaluator {
 
+    /**
+     * Facade for retrieving modified inventory item values.
+     */
     private InventoryItemServiceFacade itemFacade;
 
-    /**
-     * {@inheritDoc }
-     */
     @Override
     public final boolean evaluate(final ICharacter iCharacter,
             final UniqueEntity contextItem) {
@@ -37,8 +37,9 @@ public class CorrectInventoryItemSlotEvaluator implements ConditionEvaluator {
             return false;
         }
 
-        return this.getItemFacade().isCorrectlyWielded(bodySlot.getBodySlotType(),
-                (InventoryItem) contextItem, dndCharacter);
+        return this.getItemFacade().isCorrectlyWielded(
+                bodySlot.getBodySlotType(), (InventoryItem) contextItem,
+                dndCharacter);
     }
 
     /**

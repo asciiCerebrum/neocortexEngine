@@ -18,6 +18,9 @@ import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
  */
 public class CorrectProficiencyForFeatEvaluator implements ConditionEvaluator {
 
+    /**
+     * The feat type.
+     */
     private FeatType featType;
 
     /**

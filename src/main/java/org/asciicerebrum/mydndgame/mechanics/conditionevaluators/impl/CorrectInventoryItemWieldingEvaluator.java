@@ -54,7 +54,7 @@ public class CorrectInventoryItemWieldingEvaluator
          * The evaluation of the wielding type de-factoly takes place here.
          *
          * @param bodySlot the body slot of the item.
-         * @param dndCharacter the character wielding the item.
+         * @param bodySlots the collection of body slots available.
          * @return if the condition is met.
          */
         abstract boolean evaluate(PersonalizedBodySlot bodySlot,

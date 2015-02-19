@@ -42,8 +42,8 @@ public class CorrectProficiencyEvaluator implements ConditionEvaluator {
             return false;
         }
 
-        return this.getWeaponServiceFacade().hasProficiency(this.getProficiency(),
-                (Weapon) contextItem, dndCharacter);
+        return this.getWeaponServiceFacade().hasProficiency(
+                this.getProficiency(), (Weapon) contextItem, dndCharacter);
     }
 
     /**

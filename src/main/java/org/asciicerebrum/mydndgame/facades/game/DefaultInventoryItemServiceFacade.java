@@ -21,18 +21,18 @@ public class DefaultInventoryItemServiceFacade
     /**
      * The observable service.
      */
-    protected ObservableService observableService;
+    private ObservableService observableService;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Cost getCost(final InventoryItem inventoryItem,
+    public final Cost getCost(final InventoryItem inventoryItem,
             final DndCharacter dndCharacter) {
 
         final Cost baseCost = inventoryItem.getBaseCost();
 
-        return (Cost) this.observableService.triggerObservers(
+        return (Cost) this.getObservableService().triggerObservers(
                 baseCost, inventoryItem,
                 new ObserverSources(dndCharacter),
                 new ObserverHooks(ObserverHook.PRICE),
@@ -50,7 +50,7 @@ public class DefaultInventoryItemServiceFacade
         final BodySlotTypes baseBodySlotTypes
                 = inventoryItem.getBaseDesignatedBodySlotTypes();
 
-        return (BodySlotTypes) this.observableService.triggerObservers(
+        return (BodySlotTypes) this.getObservableService().triggerObservers(
                 baseBodySlotTypes, inventoryItem,
                 new ObserverSources(dndCharacter),
                 new ObserverHooks(ObserverHook.DESIGNATED_BODY_SLOT),
@@ -70,7 +70,7 @@ public class DefaultInventoryItemServiceFacade
             final DndCharacter dndCharacter) {
         final SizeCategory baseValue = inventoryItem.getSizeCategory();
 
-        return (SizeCategory) this.observableService
+        return (SizeCategory) this.getObservableService()
                 .triggerObservers(baseValue, inventoryItem,
                         new ObserverSources(dndCharacter),
                         new ObserverHooks(ObserverHook.SIZE_CATEGORY),
@@ -83,6 +83,13 @@ public class DefaultInventoryItemServiceFacade
             final DndCharacter dndCharacter) {
         return this.getDesignatedBodySlotTypes(inventoryItem, dndCharacter)
                 .contains(bodySlotType);
+    }
+
+    /**
+     * @return the observableService
+     */
+    protected final ObservableService getObservableService() {
+        return observableService;
     }
 
 }
