@@ -25,6 +25,9 @@ import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 public class DefaultBonusCalculationServiceImpl
         implements BonusCalculationService {
 
+    /**
+     * The observable service.
+     */
     private ObservableService observableService;
 
     @Override

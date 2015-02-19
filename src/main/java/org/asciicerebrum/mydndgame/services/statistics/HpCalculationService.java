@@ -37,6 +37,12 @@ public class HpCalculationService {
      */
     private AbilityCalculationService abilityService;
 
+    /**
+     * Calculates the unmodified base hit points of a given dnd character.
+     *
+     * @param dndCharacter the character the hit points are needed for.
+     * @return the base hit points.
+     */
     final HitPoints calcBaseHp(final DndCharacter dndCharacter) {
         final HitPoints baseHp = new HitPoints();
 
@@ -65,8 +71,8 @@ public class HpCalculationService {
      * The maximum hit points the character normally has. Without any special
      * effects in action.
      *
-     * @param dndCharacter
-     * @return
+     * @param dndCharacter the character the max hit points are needed for.
+     * @return the max hit points.
      */
     public final HitPoints calcMaxHp(final DndCharacter dndCharacter) {
         final HitPoints maxHp = this.calcBaseHp(dndCharacter);
@@ -83,8 +89,8 @@ public class HpCalculationService {
      * magical effects or other stuff is applied (false life, rage, effects on
      * abilities or on hp directly, etc.) which also affects the maximum hp.
      *
-     * @param dndCharacter
-     * @return
+     * @param dndCharacter the character the max hp are needed for.
+     * @return the max hit points.
      */
     public final HitPoints calcCurrentMaxHp(final DndCharacter dndCharacter) {
         final HitPoints maxHp = this.calcBaseHp(dndCharacter);
@@ -106,6 +112,12 @@ public class HpCalculationService {
         return maxHp;
     }
 
+    /**
+     * Calculates the current active hitpoints of a given dnd character.
+     *
+     * @param dndCharacter the character the hp are needed for.
+     * @return the hit points.
+     */
     public final HitPoints calcCurrentHp(final DndCharacter dndCharacter) {
         final HitPoints currentHp = dndCharacter.getCurrentStaticHp();
 

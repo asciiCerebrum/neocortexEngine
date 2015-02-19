@@ -26,7 +26,7 @@ public class SpecialAbilityObserverAccumulatorStrategy
         }
         final SpecialAbility specialAbility = (SpecialAbility) observerSource;
 
-        Observers observers = super.getObservers(observerSource, targetEntity);
+        Observers observers = new Observers();
         observers.add(this.getSpecialAbilitiesStrategy().getObservers(
                 specialAbility.getSubAbilities(), targetEntity));
         return observers;

@@ -13,6 +13,9 @@ import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 public class InventoryItemObserverAccumulatorStrategy
         implements ObserverAccumulatorStrategy {
 
+    /**
+     * The observer accumulator strategy for the special abilities.
+     */
     private ObserverAccumulatorStrategy specialAbilitiesStrategy;
 
     @Override

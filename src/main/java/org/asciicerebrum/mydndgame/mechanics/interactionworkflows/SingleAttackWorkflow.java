@@ -52,8 +52,14 @@ public class SingleAttackWorkflow implements IWorkflow {
      */
     private IWorkflow criticalDamageWorkflow;
 
+    /**
+     * The attack calculation service.
+     */
     private AtkCalculationService atkService;
 
+    /**
+     * The armor class calculation service.
+     */
     private AcCalculationService acService;
 
     /**
@@ -120,6 +126,13 @@ public class SingleAttackWorkflow implements IWorkflow {
         this.terminate(isCritical, interaction);
     }
 
+    /**
+     * Terminates the workflow by making the decision whether to continue with a
+     * critical damage workflow or a standard one.
+     *
+     * @param isCritical if hit was critical.
+     * @param interaction the interaction.
+     */
     final void terminate(final boolean isCritical,
             final Interaction interaction) {
         if (isCritical && this.criticalDamageWorkflow != null) {
@@ -133,10 +146,10 @@ public class SingleAttackWorkflow implements IWorkflow {
     /**
      * Determines if an attack is critical or not.
      *
-     * @param atkRollResult the result of the first attack roll.
+     * @param atkRollResultRaw the result of the first attack roll.
      * @param sourceAtkBonus the bonus that is added to the attack roll.
      * @param targetAc the armor class of the target character.
-     * @param interaction the interaction object.
+     * @param triggeringCharacter the triggering character.
      * @return the criticallity of the attack.
      */
     final boolean determineCritical(final DiceRoll atkRollResultRaw,

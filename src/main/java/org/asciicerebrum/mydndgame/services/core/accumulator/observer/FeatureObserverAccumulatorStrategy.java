@@ -1,29 +1,10 @@
 package org.asciicerebrum.mydndgame.services.core.accumulator.observer;
 
-import org.asciicerebrum.mydndgame.domain.ruleentities.Feature;
-import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
-
 /**
  *
  * @author species8472
  */
-public class FeatureObserverAccumulatorStrategy
+public abstract class FeatureObserverAccumulatorStrategy
         implements ObserverAccumulatorStrategy {
-
-    @Override
-    public Observers getObservers(final ObserverSource observerSource,
-            final UniqueEntity targetEntity) {
-        if (!(observerSource instanceof Feature)) {
-            return new Observers();
-        }
-        return ((Feature) observerSource).getObservers();
-    }
-
-    @Override
-    public boolean isApplicable(final ObserverSource observerSource) {
-        return observerSource instanceof Feature;
-    }
 
 }

@@ -14,6 +14,9 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
 public class FeatsObserverAccumulatorStrategy
         implements ObserverAccumulatorStrategy {
 
+    /**
+     * The observer accumulator strategy for the feat.
+     */
     private ObserverAccumulatorStrategy featStrategy;
 
     @Override

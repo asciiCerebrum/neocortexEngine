@@ -26,6 +26,9 @@ public class AbilityCalculationService {
      * values were not put into the spring xml.
      */
     private static final double ABILITY_BONUS_OFFSET = 10.0;
+    /**
+     * Constant for calculating the ability mod from the ability score.
+     */
     private static final double ABILITY_BONUS_FRACTION = 2.0;
 
     /**
@@ -37,6 +40,14 @@ public class AbilityCalculationService {
      */
     private BonusCalculationService bonusService;
 
+    /**
+     * Calculates the unmodified default ability score from an ability in the
+     * context of a dnd character.
+     *
+     * @param dndCharacter the character holding the ability.
+     * @param ability the ability to calculate the score from.
+     * @return the ability score.
+     */
     public final AbilityScore calcAbilityScore(final DndCharacter dndCharacter,
             final Ability ability) {
         final AbilityScore baseValue
@@ -48,6 +59,14 @@ public class AbilityCalculationService {
         return baseValue;
     }
 
+    /**
+     * Calculates the modified currently active ability score from an ability in
+     * the context of a given dnd character.
+     *
+     * @param dndCharacter the character holding the ability.
+     * @param ability the ability to calculate the score from.
+     * @return the ability score.
+     */
     public final AbilityScore calcCurrentAbilityScore(
             final DndCharacter dndCharacter, final Ability ability) {
 
@@ -72,6 +91,13 @@ public class AbilityCalculationService {
         return baseValue;
     }
 
+    /**
+     * Calculates the unmodified default ability mod for a given ability.
+     *
+     * @param dndCharacter the character holding the ability.
+     * @param ability the ability to calculate the mod from.
+     * @return the ability mod.
+     */
     public final BonusValue calcAbilityMod(final DndCharacter dndCharacter,
             final Ability ability) {
         final AbilityScore score = this.calcAbilityScore(
@@ -80,6 +106,13 @@ public class AbilityCalculationService {
         return this.calcAbilityMod(score);
     }
 
+    /**
+     * Calculates the modified currently active ability mod for a given ability.
+     *
+     * @param dndCharacter the character holding the ability.
+     * @param ability the ability to calculate the mod from.
+     * @return the ability mod.
+     */
     public final BonusValue calcCurrentAbilityMod(
             final DndCharacter dndCharacter, final Ability ability) {
 
@@ -93,6 +126,12 @@ public class AbilityCalculationService {
         return this.calcAbilityMod(score);
     }
 
+    /**
+     * Basic calculation method from the ability score to the mod.
+     *
+     * @param score the ability score.
+     * @return the corresponding ability mod.
+     */
     final BonusValue calcAbilityMod(final AbilityScore score) {
         long mod = Math.round(Math.floor((score.getValue()
                 - ABILITY_BONUS_OFFSET) / ABILITY_BONUS_FRACTION));

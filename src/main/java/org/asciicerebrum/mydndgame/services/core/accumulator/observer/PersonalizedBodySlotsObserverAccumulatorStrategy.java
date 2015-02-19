@@ -28,7 +28,8 @@ public class PersonalizedBodySlotsObserverAccumulatorStrategy
         }
         final PersonalizedBodySlots bodySlots
                 = (PersonalizedBodySlots) observerSource;
-        final Iterator<PersonalizedBodySlot> slotIterator = bodySlots.iterator();
+        final Iterator<PersonalizedBodySlot> slotIterator
+                = bodySlots.iterator();
 
         while (slotIterator.hasNext()) {
             final PersonalizedBodySlot slot = slotIterator.next();

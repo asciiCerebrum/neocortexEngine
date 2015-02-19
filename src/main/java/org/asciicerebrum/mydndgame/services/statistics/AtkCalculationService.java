@@ -36,6 +36,12 @@ public class AtkCalculationService {
      */
     private DiceAction attackAction;
 
+    /**
+     * Calculates the base attack boni of a given dnd character.
+     *
+     * @param dndCharacter the character the base attack boni are needed for.
+     * @return the base attack boni.
+     */
     public final BonusValueTuple calcBaseAtkBoni(
             final DndCharacter dndCharacter) {
 
@@ -62,9 +68,9 @@ public class AtkCalculationService {
      * I currently have wielded, what attack mode have I chosen, etc. (by
      * querying the state registry of the character).
      *
-     * @param weapon
-     * @param dndCharacter
-     * @return
+     * @param weapon the weapon the boni are needed for.
+     * @param dndCharacter the dnd character the boni are needed for.
+     * @return the attack boni.
      */
     public final BonusValueTuple calcAtkBoni(final Weapon weapon,
             final DndCharacter dndCharacter) {

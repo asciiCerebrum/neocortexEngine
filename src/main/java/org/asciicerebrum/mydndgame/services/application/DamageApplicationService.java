@@ -15,8 +15,17 @@ import org.asciicerebrum.mydndgame.services.core.ObservableService;
  */
 public class DamageApplicationService {
 
+    /**
+     * The observable service.
+     */
     private ObservableService observableService;
 
+    /**
+     * Applies damages on the given dnd character.
+     *
+     * @param dndCharacter the character to apply the damage on.
+     * @param damages the damages collection to apply.
+     */
     public final void applyDamage(final DndCharacter dndCharacter,
             final Damages damages) {
 
@@ -36,6 +45,12 @@ public class DamageApplicationService {
         }
     }
 
+    /**
+     * Applies a single damage on the character.
+     *
+     * @param dndCharacter the character to apply the damage on.
+     * @param damage the damage to apply.
+     */
     final void applySingleDamage(final DndCharacter dndCharacter,
             final Damage damage) {
         //TODO subtract from temporary hit points first! (e.g. spell false life)

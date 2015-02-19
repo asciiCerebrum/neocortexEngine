@@ -12,7 +12,7 @@ import org.asciicerebrum.mydndgame.services.core.BonusCalculationService;
  *
  * @author species8472
  */
-public class DefaultInitiativeCalculationService implements 
+public class DefaultInitiativeCalculationService implements
         InitiativeCalculationService {
 
     /**

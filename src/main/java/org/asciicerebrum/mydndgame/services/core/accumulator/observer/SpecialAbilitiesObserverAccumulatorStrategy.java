@@ -14,6 +14,9 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
 public class SpecialAbilitiesObserverAccumulatorStrategy
         implements ObserverAccumulatorStrategy {
 
+    /**
+     * The observer accumulator strategy for the special ability.
+     */
     private ObserverAccumulatorStrategy specialAbilityStrategy;
 
     @Override

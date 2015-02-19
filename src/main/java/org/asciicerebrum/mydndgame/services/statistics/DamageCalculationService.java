@@ -36,7 +36,14 @@ public class DamageCalculationService {
     private SituationContextService situationContextService;
 
     //TODO test this thouroughly!! also with multiple weapons in the slots!
-    public BonusValue calcDamageBonus(final Weapon weapon,
+    /**
+     * Calculates the damage bonus for a given weapon/character combination.
+     *
+     * @param weapon the weapon the damage bonus is needed for.
+     * @param dndCharacter the character the damage bonus is needed for.
+     * @return the damage bonus.
+     */
+    public final BonusValue calcDamageBonus(final Weapon weapon,
             final DndCharacter dndCharacter) {
 
         final BonusValueTuple damageValues

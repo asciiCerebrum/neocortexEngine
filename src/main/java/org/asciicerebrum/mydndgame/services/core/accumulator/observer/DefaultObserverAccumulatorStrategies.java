@@ -11,9 +11,17 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSour
 public class DefaultObserverAccumulatorStrategies
         implements ObserverAccumulatorStrategies {
 
+    /**
+     * Central collection of observer accumulator strategies.
+     */
     private final List<ObserverAccumulatorStrategy> elements
             = new ArrayList<ObserverAccumulatorStrategy>();
 
+    /**
+     * Constructs the collection from a given list.
+     *
+     * @param elementsInput the list of strategies.
+     */
     public DefaultObserverAccumulatorStrategies(
             final List<ObserverAccumulatorStrategy> elementsInput) {
         this.elements.addAll(elementsInput);

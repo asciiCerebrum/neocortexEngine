@@ -28,6 +28,7 @@ public class AbilityBonusValueProvider implements DynamicValueProvider {
      *
      * @param dndCharacter The character as the context for calculating the
      * bonus of the given ability.
+     * @param contextItem the item the bonus is calculated for.
      * @return the dynamically calculated bonus value of the given ability -
      * depending on the character.
      */

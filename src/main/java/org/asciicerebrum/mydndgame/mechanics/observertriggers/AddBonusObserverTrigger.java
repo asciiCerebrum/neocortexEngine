@@ -97,11 +97,11 @@ public class AddBonusObserverTrigger implements ObserverTriggerStrategy {
     }
 
     /**
-     * @param registryStateKey the registryStateKey to set
+     * @param registryStateKeyInput the registryStateKey to set
      */
     public final void setRegistryStateKey(
-            final StateParticle registryStateKey) {
-        this.registryStateKey = registryStateKey;
+            final StateParticle registryStateKeyInput) {
+        this.registryStateKey = registryStateKeyInput;
     }
 
     /**

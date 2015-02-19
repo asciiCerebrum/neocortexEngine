@@ -12,14 +12,29 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
 public class DndCharacterObserverAccumulatorStrategy
         implements ObserverAccumulatorStrategy {
 
+    /**
+     * The observer accumulator strategy for the base abilities.
+     */
     private ObserverAccumulatorStrategy baseAbilitiesStrategy;
 
+    /**
+     * The observer accumulator strategy for the personalized body slots.
+     */
     private ObserverAccumulatorStrategy personalizedBodySlotsStrategy;
 
+    /**
+     * The observer accumulator strategy for the conditions.
+     */
     private ObserverAccumulatorStrategy conditionsStrategy;
 
+    /**
+     * The observer accumulator strategy for the level advancements.
+     */
     private ObserverAccumulatorStrategy levelAdvancementsStrategy;
 
+    /**
+     * The observer accumulator strategy for the race.
+     */
     private ObserverAccumulatorStrategy raceStrategy;
 
     @Override

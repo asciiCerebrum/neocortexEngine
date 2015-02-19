@@ -40,6 +40,12 @@ public class AcCalculationService {
      */
     private BonusCalculationService bonusService;
 
+    /**
+     * Calculates the armor class of a given dnd character.
+     *
+     * @param dndCharacter the character the ac is needed for.
+     * @return the ac.
+     */
     public final ArmorClass calcAc(
             final DndCharacter dndCharacter) {
 
@@ -59,6 +65,12 @@ public class AcCalculationService {
         return this.toArmorClass(acTuple);
     }
 
+    /**
+     * Converts a bonus value tuple to an armor class value.
+     *
+     * @param acTuple the bonus value tuple given.
+     * @return the corresponding armor class.
+     */
     final ArmorClass toArmorClass(final BonusValueTuple acTuple) {
         final ArmorClass armorClass = new ArmorClass();
         armorClass.add(acTuple.getBonusValueByRank(BonusRank.RANK_0))
@@ -144,32 +156,32 @@ public class AcCalculationService {
     }
 
     /**
-     * @param acBaseAction the acBaseAction to set
+     * @param acBaseActionInput the acBaseAction to set
      */
-    public final void setAcBaseAction(final DiceAction acBaseAction) {
-        this.acBaseAction = acBaseAction;
+    public final void setAcBaseAction(final DiceAction acBaseActionInput) {
+        this.acBaseAction = acBaseActionInput;
     }
 
     /**
-     * @param acAction the acAction to set
+     * @param acActionInput the acAction to set
      */
-    public final void setAcAction(final DiceAction acAction) {
-        this.acAction = acAction;
+    public final void setAcAction(final DiceAction acActionInput) {
+        this.acAction = acActionInput;
     }
 
     /**
-     * @param flatFooted the flatFooted to set
+     * @param flatFootedInput the flatFooted to set
      */
-    public final void setFlatFooted(final ConditionType flatFooted) {
-        this.flatFooted = flatFooted;
+    public final void setFlatFooted(final ConditionType flatFootedInput) {
+        this.flatFooted = flatFootedInput;
     }
 
     /**
-     * @param touchAttackAction the touchAttackAction to set
+     * @param touchAttackActionInput the touchAttackAction to set
      */
     public final void setTouchAttackAction(
-            final DiceAction touchAttackAction) {
-        this.touchAttackAction = touchAttackAction;
+            final DiceAction touchAttackActionInput) {
+        this.touchAttackAction = touchAttackActionInput;
     }
 
     /**

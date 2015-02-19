@@ -11,7 +11,8 @@ import org.asciicerebrum.mydndgame.domain.mechanics.bonus.DynamicValueProvider;
  *
  * @author species8472
  */
-public class SimpleArithmeticObserverTrigger implements ObserverTriggerStrategy {
+public class SimpleArithmeticObserverTrigger
+        implements ObserverTriggerStrategy {
 
     /**
      * Numeric modificatioin of the base value called numeric.

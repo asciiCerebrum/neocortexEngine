@@ -16,8 +16,17 @@ import org.asciicerebrum.mydndgame.services.core.ObservableService;
  */
 public class ConditionApplicationService {
 
+    /**
+     * The observable service.
+     */
     private ObservableService observableService;
 
+    /**
+     * Applies the given conditions on the dnd character.
+     *
+     * @param dndCharacter the character to apply the conditions on.
+     * @param conditions the conditions to apply.
+     */
     public final void applyCondition(final DndCharacter dndCharacter,
             final Conditions conditions) {
 
@@ -38,11 +47,23 @@ public class ConditionApplicationService {
         }
     }
 
+    /**
+     * Applies a single condition on the character.
+     *
+     * @param dndCharacter the character to apply the condition on.
+     * @param condition the condition to apply.
+     */
     final void applySingleCondition(final DndCharacter dndCharacter,
             final Condition condition) {
         dndCharacter.getConditions().add(condition);
     }
 
+    /**
+     * Takes away expired conditions from a dnd character.
+     *
+     * @param dndCharacter the dnd character.
+     * @param currentDate the world date that defines the current date.
+     */
     public final void removeExpiredConditions(
             final DndCharacter dndCharacter,
             final WorldDate currentDate) {
