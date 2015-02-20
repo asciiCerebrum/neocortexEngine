@@ -3,15 +3,15 @@ package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 import org.asciicerebrum.mydndgame.domain.core.particles.ArmorClass;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
+import org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
-import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
-import org.asciicerebrum.mydndgame.managers.DefaultDiceRollManager;
+import org.asciicerebrum.mydndgame.managers.DiceRollManager;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.asciicerebrum.mydndgame.services.statistics.AcCalculationService;
 import org.asciicerebrum.mydndgame.services.statistics.AtkCalculationService;
@@ -30,7 +30,7 @@ public class SingleAttackWorkflow implements IWorkflow {
     /**
      * Service for rolling dice.
      */
-    private DefaultDiceRollManager diceRollManager;
+    private DiceRollManager diceRollManager;
 
     /**
      * Roll results that leads to automatic failure.
@@ -93,35 +93,29 @@ public class SingleAttackWorkflow implements IWorkflow {
         }
 
         // make an attack roll and add attack bonus
-        DiceRoll atkRollResultRaw
+        final DiceRoll atkRollResultRaw
                 = this.getDiceRollManager().rollDice(this.getAttackAction());
 
-        // consider automatic failure and success
-        if (atkRollResultRaw.lessThanOrEqualTo(this.getAutoFailureRoll())) {
-            return;
-        }
-
-        BonusValue sourceAtkBonus
+        final BonusValue sourceAtkBonus
                 = this.getAtkService().calcAtkBoni((Weapon) sourceWeapon,
                         interaction.getTriggeringCharacter())
                 .getBonusValueByRank(this.getAtkBonusRank());
 
-        DiceRoll atkRollResult = atkRollResultRaw.add(sourceAtkBonus);
-
         // single attack always attacks the first of the target characters.
-        ArmorClass targetAc
+        final ArmorClass targetAc
                 = this.getAcService().calcAc(interaction
                         .getFirstTargetCharacter());
 
-        // check against target's ac
-        // not able to surpass foe's ac and also no auto success
-        if (atkRollResult.lessThan(targetAc)
-                && atkRollResult.lessThan(this.getAutoSuccessRoll())) {
+        if (!this.isHit(atkRollResultRaw, sourceAtkBonus, targetAc)) {
             return;
         }
 
+        final CriticalMinimumLevel critMinLvl = this.getWeaponServiceFacade()
+                .getCriticalMinimumLevel((Weapon) sourceWeapon,
+                        interaction.getTriggeringCharacter());
+
         boolean isCritical = this.determineCritical(atkRollResultRaw,
-                sourceAtkBonus, targetAc, interaction.getTriggeringCharacter());
+                sourceAtkBonus, targetAc, critMinLvl);
 
         this.terminate(isCritical, interaction);
     }
@@ -135,12 +129,11 @@ public class SingleAttackWorkflow implements IWorkflow {
      */
     final void terminate(final boolean isCritical,
             final Interaction interaction) {
-        if (isCritical && this.criticalDamageWorkflow != null) {
-            this.criticalDamageWorkflow.runWorkflow(interaction);
+        if (isCritical) {
+            this.getCriticalDamageWorkflow().runWorkflow(interaction);
+            return;
         }
-        if (!isCritical && this.getDamageWorkflow() != null) {
-            this.getDamageWorkflow().runWorkflow(interaction);
-        }
+        this.getDamageWorkflow().runWorkflow(interaction);
     }
 
     /**
@@ -149,49 +142,45 @@ public class SingleAttackWorkflow implements IWorkflow {
      * @param atkRollResultRaw the result of the first attack roll.
      * @param sourceAtkBonus the bonus that is added to the attack roll.
      * @param targetAc the armor class of the target character.
-     * @param triggeringCharacter the triggering character.
+     * @param sourceCritMinLvl the criticial minimum level for the weapon.
      * @return the criticallity of the attack.
      */
     final boolean determineCritical(final DiceRoll atkRollResultRaw,
             final BonusValue sourceAtkBonus,
             final ArmorClass targetAc,
-            final DndCharacter triggeringCharacter) {
-
-        final Weapon sourceWeapon
-                = (Weapon) this.getSituationContextService().getActiveItem(
-                        triggeringCharacter);
+            final CriticalMinimumLevel sourceCritMinLvl) {
 
         // when you are here you have hit the enemy!!!
         // it could be critical
         final Boolean isThreat
-                = atkRollResultRaw.greaterThanOrEqualTo(
-                        this.getWeaponServiceFacade().getCriticalMinimumLevel(
-                                sourceWeapon, triggeringCharacter));
+                = atkRollResultRaw.greaterThanOrEqualTo(sourceCritMinLvl);
 
         Boolean isCritical = false;
         if (isThreat) {
             final DiceRoll secondAtkRollResultRaw
                     = this.getDiceRollManager().rollDice(
                             this.getAttackAction());
-            final DiceRoll secondAtkRollResult
-                    = secondAtkRollResultRaw.add(sourceAtkBonus);
-            isCritical = this.isHit(secondAtkRollResult, targetAc);
+            isCritical = this.isHit(secondAtkRollResultRaw,
+                    sourceAtkBonus, targetAc);
         }
         return isCritical;
     }
 
     /**
-     * Determines if an attack roll hits the target.
+     * Determines if an attack roll hits the target. Considers automatic failure
+     * and success. Checked against target's ac.
      *
-     * @param atkRollResult the rsult of the attack roll.
+     * @param atkRoll the attack roll result without any boni.
+     * @param atkBonus the attack bonus.
      * @param targetAc the target's armor class.
      * @return true if attack was successfull, false otherwise.
      */
-    final boolean isHit(final DiceRoll atkRollResult,
+    final boolean isHit(final DiceRoll atkRoll,
+            final BonusValue atkBonus,
             final ArmorClass targetAc) {
-        return atkRollResult.greaterThanOrEqualTo(targetAc)
-                || atkRollResult.greaterThanOrEqualTo(
-                        this.getAutoSuccessRoll());
+        return atkRoll.greaterThan(this.getAutoFailureRoll())
+                && (atkRoll.add(atkBonus).greaterThanOrEqualTo(targetAc)
+                || atkRoll.greaterThanOrEqualTo(this.getAutoSuccessRoll()));
     }
 
     /**
@@ -205,7 +194,7 @@ public class SingleAttackWorkflow implements IWorkflow {
      * @param diceRollManagerInput the diceRollManager to set
      */
     public final void setDiceRollManager(
-            final DefaultDiceRollManager diceRollManagerInput) {
+            final DiceRollManager diceRollManagerInput) {
         this.diceRollManager = diceRollManagerInput;
     }
 
@@ -287,7 +276,7 @@ public class SingleAttackWorkflow implements IWorkflow {
     /**
      * @return the diceRollManager
      */
-    public final DefaultDiceRollManager getDiceRollManager() {
+    public final DiceRollManager getDiceRollManager() {
         return diceRollManager;
     }
 
@@ -345,6 +334,13 @@ public class SingleAttackWorkflow implements IWorkflow {
      */
     public final SituationContextService getSituationContextService() {
         return situationContextService;
+    }
+
+    /**
+     * @return the criticalDamageWorkflow
+     */
+    public final IWorkflow getCriticalDamageWorkflow() {
+        return criticalDamageWorkflow;
     }
 
 }
