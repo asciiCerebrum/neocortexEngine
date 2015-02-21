@@ -119,7 +119,7 @@ public class WeaponFinesseObserverTrigger implements ObserverTriggerStrategy {
      * @param usedWeapon the weapon in question.
      * @return the validity of the feat.
      */
-    private boolean determineSituationContextValidity(
+    final boolean determineSituationContextValidity(
             final DndCharacter dndCharacter, final Weapon usedWeapon) {
 
         // test size category
