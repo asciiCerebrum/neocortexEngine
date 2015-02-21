@@ -123,10 +123,6 @@ public class DefaultBonusCalculationServiceImpl
 
             // keep in mind that the effectValue might be null
             // --> the bonus does not exist --> continue!
-            if (subTuple == null) {
-                continue;
-            }
-
             bonusValueTuple.add(subTuple);
         }
         return bonusValueTuple;
@@ -164,6 +160,7 @@ public class DefaultBonusCalculationServiceImpl
                     new BonusValue(bonus.getDynamicValueProvider()
                             .getDynamicValue(dndCharacter, targetEntity)
                             .getValue()));
+            return bonusValues;
         }
         return null;
     }

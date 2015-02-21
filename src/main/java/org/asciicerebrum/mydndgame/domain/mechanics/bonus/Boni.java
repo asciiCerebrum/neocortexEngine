@@ -129,6 +129,9 @@ public class Boni {
      * @param boniInput the boni to add.
      */
     public final void addBoni(final Boni boniInput) {
+        if (boniInput == null) {
+            return;
+        }
         this.elements.addAll(boniInput.elements);
     }
 

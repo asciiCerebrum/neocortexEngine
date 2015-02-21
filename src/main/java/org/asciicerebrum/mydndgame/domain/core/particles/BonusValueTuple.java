@@ -112,6 +112,9 @@ public class BonusValueTuple {
      * @param summand the tuple used for adding.
      */
     public final void add(final BonusValueTuple summand) {
+        if (summand == null) {
+            return;
+        }
         for (Entry<BonusRank, BonusValue> tupleEntry
                 : summand.rankedBoni.entrySet()) {
 
