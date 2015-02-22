@@ -1,18 +1,28 @@
 package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 
-import javax.naming.OperationNotSupportedException;
+import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
+import org.asciicerebrum.mydndgame.domain.game.CombatRound;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
+import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  *
  * @author species8472
  */
 public class EndTurnWorkflowTest {
+
+    private EndTurnWorkflow endFlow;
+
+    private IWorkflow condExpFlow;
 
     public EndTurnWorkflowTest() {
     }
@@ -27,38 +37,37 @@ public class EndTurnWorkflowTest {
 
     @Before
     public void setUp() {
+        this.endFlow = new EndTurnWorkflow();
+        this.condExpFlow = mock(IWorkflow.class);
 
+        this.endFlow.setConditionExpirationWorkflow(this.condExpFlow);
     }
 
     @After
     public void tearDown() {
     }
 
-    /**
-     * Test of runWorkflow method, of class EndTurnWorkflow.
-     */
     @Test
-    public void testRunWorkflow_IInteraction()
-            throws OperationNotSupportedException {
-        fail();
-    }
+    public void runWorkflowNormalTest() {
+        final Interaction interaction = new Interaction();
+        final CombatRound combatRound = new CombatRound();
+        interaction.setCombatRound(combatRound);
+        combatRound.addParticipant(new DndCharacter(),
+                new CombatRoundPosition("1"));
 
-    /**
-     * Test of runWorkflow method, of class EndTurnWorkflow.
-     */
-    @Test
-    public void testRunWorkflow_IInteraction_IInteractionResponse() {
-        fail();
+        this.endFlow.runWorkflow(interaction);
+        verify(this.condExpFlow, times(1)).runWorkflow(interaction);
     }
 
     @Test
-    public void testRunWorkflow_IInteraction_IInteractionResponseReturn() {
-        fail();
+    public void runWorkflowNoCondExpTest() {
+        final Interaction interaction = new Interaction();
+        final CombatRound combatRound = new CombatRound();
+        interaction.setCombatRound(combatRound);
+        combatRound.addParticipant(new DndCharacter(),
+                new CombatRoundPosition("1"));
+        this.endFlow.setConditionExpirationWorkflow(null);
+        this.endFlow.runWorkflow(interaction);
+        verify(this.condExpFlow, times(0)).runWorkflow(interaction);
     }
-
-    @Test
-    public void testRunWorkflow_IInteraction_IInteractionResponseExpWorkflow() {
-        fail();
-    }
-
 }
