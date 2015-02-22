@@ -1,8 +1,17 @@
 package org.asciicerebrum.mydndgame.mechanics.observertriggers;
 
+import com.google.common.collect.Iterators;
+import org.asciicerebrum.mydndgame.domain.core.ICharacter;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.Weapon;
+import org.asciicerebrum.mydndgame.domain.mechanics.BonusType;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus.ResemblanceFacet;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,6 +21,14 @@ import org.junit.Test;
  * @author species8472
  */
 public class RemoveBonusObserverTriggerTest {
+
+    private RemoveBonusObserverTrigger trigger;
+
+    private Bonus removeBonus;
+
+    private BonusType removeBonusType;
+
+    private ResemblanceFacet[] resemblanceFacets;
 
     public RemoveBonusObserverTriggerTest() {
     }
@@ -26,6 +43,15 @@ public class RemoveBonusObserverTriggerTest {
 
     @Before
     public void setUp() {
+        this.trigger = new RemoveBonusObserverTrigger();
+        this.removeBonus = new Bonus();
+        this.removeBonusType = new BonusType();
+        this.removeBonus.setBonusType(this.removeBonusType);
+        this.resemblanceFacets = new ResemblanceFacet[]{
+            ResemblanceFacet.BONUS_TYPE};
+
+        this.trigger.setRemoveBonus(this.removeBonus);
+        this.trigger.setResemblanceFacets(this.resemblanceFacets);
 
     }
 
@@ -33,33 +59,20 @@ public class RemoveBonusObserverTriggerTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of trigger method, of class RemoveBonusObserver.
-     */
     @Test
-    public void testTrigger() {
-        fail();
-    }
+    public void triggerTest() {
+        final Boni boni = new Boni();
+        final Bonus bonusA = new Bonus();
+        boni.addBonus(bonusA);
+        bonusA.setBonusType(new BonusType());
+        final Bonus bonusB = new Bonus();
+        boni.addBonus(bonusB);
+        bonusB.setBonusType(this.removeBonusType);
+        final ICharacter dndCharacter = new DndCharacter();
+        final UniqueEntity contextItem = new Weapon();
 
-    /**
-     * Test of trigger method, of class RemoveBonusObserver.
-     */
-    @Test
-    public void testTriggerCorrectBonus() {
-        fail();
-    }
+        this.trigger.trigger(boni, dndCharacter, contextItem);
 
-    /**
-     * Test of trigger method, of class RemoveBonusObserver. Condition not met.
-     */
-    @Test
-    public void testTriggerCorrectBonusInvalidCondition() {
-        fail();
+        assertEquals(1L, Iterators.size(boni.iterator()));
     }
-
-    @Test
-    public void testTriggerWithFacets() {
-        fail();
-    }
-
 }
