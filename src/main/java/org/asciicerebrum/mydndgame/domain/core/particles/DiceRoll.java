@@ -23,7 +23,11 @@ public class DiceRoll extends LongParticle {
      * @return the new instance with the summated value.
      */
     public final DiceRoll add(final BonusValue bonusValue) {
-        return new DiceRoll(this.getValue() + bonusValue.getValue());
+        long value = this.getValue();
+        if (bonusValue != null) {
+            value += bonusValue.getValue();
+        }
+        return new DiceRoll(value);
     }
 
     /**
