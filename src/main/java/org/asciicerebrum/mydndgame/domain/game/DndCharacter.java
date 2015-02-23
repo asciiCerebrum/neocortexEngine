@@ -230,8 +230,13 @@ public class DndCharacter extends UniqueEntity implements ICharacter,
      * @return the collection of armor.
      */
     public final Armors getArmorWorn() {
-        return (Armors) this.getPersonalizedBodySlots().getItemsByClass(
-                new Armors(), Armor.class);
+        final PersonalizedBodySlots personalizedSlots
+                = this.getPersonalizedBodySlots();
+        final Armors armors = new Armors();
+        if (personalizedSlots == null) {
+            return armors;
+        }
+        return (Armors) personalizedSlots.getItemsByClass(armors, Armor.class);
     }
 
 }
