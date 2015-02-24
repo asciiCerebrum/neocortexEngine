@@ -35,12 +35,12 @@ public class CorrectWeaponTypeEvaluator implements ConditionEvaluator {
             final UniqueEntity contextItem) {
         final DndCharacter dndCharacter = (DndCharacter) iCharacter;
 
-        if (this.weaponType == null || contextItem == null
+        if (this.getWeaponType() == null || contextItem == null
                 || !(contextItem instanceof Weapon)) {
             return false;
         }
 
-        return this.getWeaponServiceFacade().hasWeaponType(this.weaponType,
+        return this.getWeaponServiceFacade().hasWeaponType(this.getWeaponType(),
                 (Weapon) contextItem, dndCharacter);
     }
 

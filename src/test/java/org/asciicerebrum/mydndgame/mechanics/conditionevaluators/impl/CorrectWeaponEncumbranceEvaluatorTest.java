@@ -1,17 +1,33 @@
 package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl;
 
+import static junit.framework.Assert.assertFalse;
+import org.asciicerebrum.mydndgame.domain.core.ICharacter;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.game.Armor;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.Weapon;
+import org.asciicerebrum.mydndgame.domain.ruleentities.Encumbrance;
+import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  *
  * @author species8472
  */
 public class CorrectWeaponEncumbranceEvaluatorTest {
+
+    private CorrectWeaponEncumbranceEvaluator evaluator;
+
+    private Encumbrance encumbrance;
+
+    private WeaponServiceFacade weaponServiceFacade;
 
     public CorrectWeaponEncumbranceEvaluatorTest() {
     }
@@ -26,6 +42,12 @@ public class CorrectWeaponEncumbranceEvaluatorTest {
 
     @Before
     public void setUp() {
+        this.evaluator = new CorrectWeaponEncumbranceEvaluator();
+        this.encumbrance = new Encumbrance();
+        this.weaponServiceFacade = mock(WeaponServiceFacade.class);
+
+        this.evaluator.setEncumbrance(this.encumbrance);
+        this.evaluator.setWeaponServiceFacade(this.weaponServiceFacade);
 
     }
 
@@ -33,37 +55,52 @@ public class CorrectWeaponEncumbranceEvaluatorTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of evaluate method, of class CorrectWeaponEncumbranceEvaluator.
-     */
     @Test
-    public void testEvaluate() {
-        fail();
+    public void evaluateCorrectTest() {
+        final ICharacter dndCharacter = new DndCharacter();
+        final UniqueEntity contextItem = new Weapon();
+
+        when(this.weaponServiceFacade.hasEncumbrance(
+                this.encumbrance, (Weapon) contextItem,
+                (DndCharacter) dndCharacter)).thenReturn(Boolean.TRUE);
+
+        final boolean result = this.evaluator.evaluate(
+                dndCharacter, contextItem);
+
+        assertTrue(result);
     }
 
     @Test
-    public void testEvaluateNullRefEncumbrance() {
-        fail();
+    public void evaluateNoWeaponTest() {
+        final ICharacter dndCharacter = new DndCharacter();
+        final UniqueEntity contextItem = new Armor();
+
+        final boolean result = this.evaluator.evaluate(
+                dndCharacter, contextItem);
+
+        assertFalse(result);
     }
 
     @Test
-    public void testEvaluateDifferentRefEncumbrance() {
-        fail();
+    public void evaluateNullEncumbranceTest() {
+        final ICharacter dndCharacter = new DndCharacter();
+        final UniqueEntity contextItem = new Armor();
+
+        this.evaluator.setEncumbrance(null);
+        final boolean result = this.evaluator.evaluate(
+                dndCharacter, contextItem);
+
+        assertFalse(result);
     }
 
     @Test
-    public void testEvaluateNoItemInSlot() {
-        fail();
-    }
+    public void evaluateNullItemTest() {
+        final ICharacter dndCharacter = new DndCharacter();
+        final UniqueEntity contextItem = null;
 
-    @Test
-    public void testEvaluateNotWeaponInSlot() {
-        fail();
-    }
+        final boolean result = this.evaluator.evaluate(
+                dndCharacter, contextItem);
 
-    @Test
-    public void testEvaluateNoEncumbrance() {
-        fail();
+        assertFalse(result);
     }
-
 }
