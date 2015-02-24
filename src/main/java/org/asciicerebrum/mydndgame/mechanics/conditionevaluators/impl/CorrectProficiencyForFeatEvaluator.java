@@ -37,13 +37,12 @@ public class CorrectProficiencyForFeatEvaluator implements ConditionEvaluator {
             return false;
         }
 
-        final FeatBindings featBindings = dndCharacter.getLevelAdvancements()
-                .getFeatBindingsByFeatType(this.getFeatType());
-
         if (!(contextItem instanceof Weapon)) {
             return false;
         }
 
+        final FeatBindings featBindings = dndCharacter.getLevelAdvancements()
+                .getFeatBindingsByFeatType(this.getFeatType());
         final Weapon weapon = (Weapon) contextItem;
         final Iterator<FeatBinding> featBindingIterator
                 = featBindings.iterator();
