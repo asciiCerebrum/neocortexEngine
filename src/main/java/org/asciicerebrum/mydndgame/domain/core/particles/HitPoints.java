@@ -13,6 +13,15 @@ public class HitPoints extends LongParticle {
     }
 
     /**
+     * Creates an instance from a long.
+     *
+     * @param longInput the long to create the instance from.
+     */
+    public HitPoints(final long longInput) {
+        this.setValue(longInput);
+    }
+
+    /**
      * Creates an instance from a string.
      *
      * @param hitPointsString the string to create the instance from.
