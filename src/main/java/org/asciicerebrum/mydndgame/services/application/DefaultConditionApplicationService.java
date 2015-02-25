@@ -51,7 +51,7 @@ public class DefaultConditionApplicationService
      */
     final void applySingleCondition(final DndCharacter dndCharacter,
             final Condition condition) {
-        dndCharacter.getConditions().add(condition);
+        dndCharacter.addCondition(condition);
     }
 
     @Override

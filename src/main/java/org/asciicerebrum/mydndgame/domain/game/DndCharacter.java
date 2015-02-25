@@ -11,6 +11,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSour
 import org.asciicerebrum.mydndgame.domain.ruleentities.Race;
 import org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.BaseAbilities;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Condition;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Conditions;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.LevelAdvancements;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlots;
@@ -237,6 +238,19 @@ public class DndCharacter extends UniqueEntity implements ICharacter,
             return armors;
         }
         return (Armors) personalizedSlots.getItemsByClass(armors, Armor.class);
+    }
+
+    /**
+     * Adds a condition to the character. Checks if the conditions collection is
+     * already set.
+     *
+     * @param condition the condition to add.
+     */
+    public final void addCondition(final Condition condition) {
+        if (this.getConditions() == null) {
+            this.setConditions(new Conditions());
+        }
+        this.getConditions().add(condition);
     }
 
 }

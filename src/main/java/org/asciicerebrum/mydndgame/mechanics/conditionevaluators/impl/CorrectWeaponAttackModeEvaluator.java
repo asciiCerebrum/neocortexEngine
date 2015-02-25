@@ -35,11 +35,18 @@ public class CorrectWeaponAttackModeEvaluator implements ConditionEvaluator {
             final UniqueEntity contextItem) {
         final DndCharacter dndCharacter = (DndCharacter) iCharacter;
 
+        if (contextItem == null) {
+            return false;
+        }
+
         final WeaponCategory refAttackMode = this.getSituationContextService()
                 .getItemAttackMode(contextItem, dndCharacter);
 
-        if (refAttackMode == null || contextItem == null
-                || !(contextItem instanceof Weapon)) {
+        if (refAttackMode == null) {
+            return false;
+        }
+
+        if (!(contextItem instanceof Weapon)) {
             return false;
         }
 
