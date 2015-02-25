@@ -176,6 +176,15 @@ public class Observers {
     }
 
     /**
+     * Adding a single additional observer to this collection.
+     *
+     * @param observerInput the observer to add.
+     */
+    public final void add(final Observer observerInput) {
+        this.elements.add(observerInput);
+    }
+
+    /**
      * Tests if a given observer is part of the collection.
      *
      * @param observer the observer to test.

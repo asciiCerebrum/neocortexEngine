@@ -38,8 +38,8 @@ public class DefaultObservableService implements ObservableService {
         Object modificatedObject = observerTarget;
         while (observerIterator.hasNext()) {
             final Observer observer = observerIterator.next();
-            if (observer.getConditionEvaluator() != null
-                    && observer.getConditionEvaluator()
+            if (observer.getConditionEvaluator() == null
+                    || observer.getConditionEvaluator()
                     .evaluate(dndCharacter, targetEntity)) {
                 modificatedObject = observer.getTriggerStrategy()
                         .trigger(observerTarget, dndCharacter, targetEntity);
