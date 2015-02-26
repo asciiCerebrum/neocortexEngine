@@ -25,12 +25,12 @@ public class CorrectArmorProficiencyEvaluator implements ConditionEvaluator {
             final UniqueEntity contextEntity) {
         final DndCharacter dndCharacter = (DndCharacter) iCharacter;
 
-        if (this.proficiency == null) {
+        if (this.getProficiency() == null) {
             return false;
         }
 
         return dndCharacter.getArmorWorn()
-                .containsProficiency(this.proficiency);
+                .containsProficiency(this.getProficiency());
     }
 
     /**

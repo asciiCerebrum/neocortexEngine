@@ -2,7 +2,6 @@ package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl;
 
 import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
@@ -26,15 +25,6 @@ public class AndListEvaluator implements ConditionEvaluator {
     public final void setConditionEvaluators(
             final List<ConditionEvaluator> conditionEvaluatorsInput) {
         this.conditionEvaluators = conditionEvaluatorsInput;
-    }
-
-    /**
-     * Iterator of the the condition evaluators.
-     *
-     * @return the iterator.
-     */
-    public final Iterator<ConditionEvaluator> iterator() {
-        return this.conditionEvaluators.iterator();
     }
 
     /**

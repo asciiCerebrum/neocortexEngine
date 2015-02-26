@@ -120,6 +120,10 @@ public class BonusValueComparisonEvaluator implements ConditionEvaluator {
     public final boolean evaluate(final ICharacter dndCharacter,
             final UniqueEntity uniqueEntity) {
 
+        if (this.getReferenceValue() == null) {
+            return false;
+        }
+        
         final LongParticle bonusValue = this.getBonusValueProvider()
                 .getDynamicValue(dndCharacter, uniqueEntity);
 
