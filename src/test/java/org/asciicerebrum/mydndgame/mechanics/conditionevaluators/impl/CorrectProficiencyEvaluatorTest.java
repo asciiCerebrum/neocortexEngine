@@ -1,17 +1,33 @@
 package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl;
 
+import org.asciicerebrum.mydndgame.domain.core.ICharacter;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.game.Armor;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.Weapon;
+import org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency;
+import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  *
  * @author species8472
  */
 public class CorrectProficiencyEvaluatorTest {
+
+    private CorrectProficiencyEvaluator evaluator;
+
+    private Proficiency proficiency;
+
+    private WeaponServiceFacade weaponServiceFacade;
 
     public CorrectProficiencyEvaluatorTest() {
     }
@@ -26,46 +42,61 @@ public class CorrectProficiencyEvaluatorTest {
 
     @Before
     public void setUp() {
+        this.evaluator = new CorrectProficiencyEvaluator();
+        this.proficiency = new Proficiency();
+        this.weaponServiceFacade = mock(WeaponServiceFacade.class);
 
+        this.evaluator.setProficiency(this.proficiency);
+        this.evaluator.setWeaponServiceFacade(this.weaponServiceFacade);
     }
 
     @After
     public void tearDown() {
     }
 
-    /**
-     * Test of evaluate method, of class CorrectProficiencyEvaluator.
-     */
     @Test
-    public void testEvaluate() {
-        fail();
+    public void evaluateCorrectTest() {
+        final ICharacter dndCharacter = new DndCharacter();
+        final UniqueEntity contextItem = new Weapon();
+
+        when(this.weaponServiceFacade.hasProficiency(this.proficiency,
+                (Weapon) contextItem, (DndCharacter) dndCharacter))
+                .thenReturn(Boolean.TRUE);
+
+        final boolean result = this.evaluator.evaluate(
+                dndCharacter, contextItem);
+        assertTrue(result);
     }
 
-    /**
-     * Test of evaluate method, of class CorrectProficiencyEvaluator. Null
-     * proficiency.
-     */
     @Test
-    public void testEvaluateNullProficiency() {
-        fail();
+    public void evaluateNullProficiencyTest() {
+        final ICharacter dndCharacter = new DndCharacter();
+        final UniqueEntity contextItem = new Weapon();
+
+        this.evaluator.setProficiency(null);
+        final boolean result = this.evaluator.evaluate(
+                dndCharacter, contextItem);
+        assertFalse(result);
     }
 
-    /**
-     * Test of evaluate method, of class CorrectProficiencyEvaluator. No item in
-     * slot.
-     */
     @Test
-    public void testEvaluateNoItem() {
-        fail();
+    public void evaluateNoWeaponTest() {
+        final ICharacter dndCharacter = new DndCharacter();
+        final UniqueEntity contextItem = new Armor();
+
+        final boolean result = this.evaluator.evaluate(
+                dndCharacter, contextItem);
+        assertFalse(result);
     }
 
-    /**
-     * Test of evaluate method, of class CorrectProficiencyEvaluator. Item in
-     * slot is not a weapon.
-     */
     @Test
-    public void testEvaluateNoWeapon() {
-        fail();
+    public void evaluateNullItemTest() {
+        final ICharacter dndCharacter = new DndCharacter();
+        final UniqueEntity contextItem = null;
+
+        final boolean result = this.evaluator.evaluate(
+                dndCharacter, contextItem);
+        assertFalse(result);
     }
 
 }

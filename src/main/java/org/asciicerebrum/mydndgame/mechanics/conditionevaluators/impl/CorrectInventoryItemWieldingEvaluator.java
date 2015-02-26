@@ -81,10 +81,10 @@ public class CorrectInventoryItemWieldingEvaluator
         protected final boolean evaluateBoth(
                 final PersonalizedBodySlot bodySlot,
                 final PersonalizedBodySlots bodySlots) {
-            final UniqueEntity item = bodySlot.getItem();
-            if (item == null) {
+            if (bodySlot == null) {
                 return false;
             }
+            final UniqueEntity item = bodySlot.getItem();
             final PersonalizedBodySlot counterSlot
                     = bodySlots.getCounterSlotForSlot(bodySlot);
             if (counterSlot == null) {
