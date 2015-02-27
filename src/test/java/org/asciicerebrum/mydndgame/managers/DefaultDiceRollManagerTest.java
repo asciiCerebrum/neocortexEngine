@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
  *
  * @author species8472
  */
-public class DiceRollManagerTest {
+public class DefaultDiceRollManagerTest {
 
     private DefaultDiceRollManager drManager;
 
@@ -27,7 +27,7 @@ public class DiceRollManagerTest {
 
     private DiceAction diceAction;
 
-    public DiceRollManagerTest() {
+    public DefaultDiceRollManagerTest() {
     }
 
     @BeforeClass
@@ -42,14 +42,13 @@ public class DiceRollManagerTest {
     public void setUp() {
         this.drManager = new DefaultDiceRollManager();
         this.rand = mock(SecureRandom.class);
-        this.diceAction = mock(DiceAction.class);
+        this.diceAction = new DiceAction();
         this.drManager.setRandom(this.rand);
 
-        Dice diceType = mock(Dice.class);
-
-        when(diceType.getSides()).thenReturn(new DiceSides(20l));
-        when(this.diceAction.getDiceNumber()).thenReturn(new DiceNumber(2l));
-        when(this.diceAction.getDiceType()).thenReturn(diceType);
+        Dice diceType = new Dice();
+        diceType.setSides(new DiceSides(20L));
+        this.diceAction.setDiceNumber(new DiceNumber(2));
+        this.diceAction.setDiceType(diceType);
     }
 
     @After
