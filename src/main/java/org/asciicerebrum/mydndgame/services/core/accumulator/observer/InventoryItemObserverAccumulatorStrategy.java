@@ -23,6 +23,10 @@ public class InventoryItemObserverAccumulatorStrategy
             final UniqueEntity targetEntity) {
         final Observers observers = new Observers();
 
+        if (!(observerSource instanceof InventoryItem)) {
+            return observers;
+        }
+
         // the inventory item is a unique entity, so it is VERY RELEVANT,
         // if the target entity is identical to this inventory item!!!
         // E.g.: In one hand you have a mwk weapon A, in the other a mwk weapon
