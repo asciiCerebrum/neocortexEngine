@@ -60,11 +60,13 @@ public abstract class InventoryItemFactory<T extends InventoryItem>
         concreteItem.setSpecialAbilities(specialAbilities);
 
         // adding special abilities
-        for (String specialAbilityKey
-                : setup.getProperties(SetupProperty.SPECIAL_ABILITIES)) {
-            SpecialAbility specAb = this.getContext().getBean(specialAbilityKey,
-                    SpecialAbility.class);
-            specialAbilities.add(specAb);
+        if (setup.getProperties(SetupProperty.SPECIAL_ABILITIES) != null) {
+            for (String specialAbilityKey
+                    : setup.getProperties(SetupProperty.SPECIAL_ABILITIES)) {
+                SpecialAbility specAb = this.getContext()
+                        .getBean(specialAbilityKey, SpecialAbility.class);
+                specialAbilities.add(specAb);
+            }
         }
 
         this.finalizeCreation(concreteItem);
