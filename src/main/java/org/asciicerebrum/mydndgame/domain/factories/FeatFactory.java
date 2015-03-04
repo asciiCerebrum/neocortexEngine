@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
+import org.apache.commons.lang.StringUtils;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatBinding;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Feat;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
@@ -37,11 +38,13 @@ public class FeatFactory implements EntityFactory<Feat> {
 
         final FeatType featType = this.getContext().getBean(featTypeId,
                 FeatType.class);
-        final FeatBinding featBinding = this.getContext().getBean(featBindingId,
-                FeatBinding.class);
-
         feat.setFeatType(featType);
-        feat.setFeatBinding(featBinding);
+
+        if (StringUtils.isNotBlank(featBindingId)) {
+            final FeatBinding featBinding = this.getContext().getBean(
+                    featBindingId, FeatBinding.class);
+            feat.setFeatBinding(featBinding);
+        }
 
         return feat;
     }

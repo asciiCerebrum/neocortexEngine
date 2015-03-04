@@ -10,13 +10,19 @@ public class ConditionSetup extends AbstractEntitySetup {
      * The required properties.
      */
     private static final SetupProperty[] REQUIRED_SINGLE_PROPERTIES
+            = {SetupProperty.CONDITION_TYPE};
+
+    /**
+     * The required properties for sub setups.
+     */
+    private static final SetupProperty[] REQUIRED_SETUP_PROPERTIES
             = {SetupProperty.CONDITION_START_DATE,
-                SetupProperty.CONDITION_EXPIRY_DATE,
-                SetupProperty.CONDITION_TYPE};
+                SetupProperty.CONDITION_EXPIRY_DATE};
 
     @Override
     public final boolean isSetupComplete() {
-        return this.checkRequiredSingleProperties(REQUIRED_SINGLE_PROPERTIES);
+        return this.checkRequiredSingleProperties(REQUIRED_SINGLE_PROPERTIES)
+                && this.checkRequiredSingleSetup(REQUIRED_SETUP_PROPERTIES);
     }
 
     /**

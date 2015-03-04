@@ -71,19 +71,18 @@ public class PersonalizedBodySlotFactory
      *
      * @param setup the setup of the personalized body slot.
      * @param entity the body slot to be filled with an item.
-     * @return true, if the item could be resolved (found in the campaign),
-     * false otherwise.
+     * @return true, if the item could NOT be resolved (NOT found in the
+     * campaign), false otherwise.
      */
     public final boolean assignItem(final EntitySetup setup,
             final PersonalizedBodySlot entity) {
         String itemId = setup.getProperty(SetupProperty.BODY_SLOT_ITEM);
-        boolean itemUnresolved = false;
-        if (StringUtils.isNotBlank(itemId)) {
-            final UniqueEntity item = this.getCampaign().getEntityById(
-                    new UniqueId(itemId));
-            itemUnresolved = item == null;
-            entity.setItem(item);
-        }
+        // itemId cannot be null as it is mandatory!
+        final UniqueEntity item = this.getCampaign().getEntityById(
+                new UniqueId(itemId));
+        boolean itemUnresolved = item == null;
+        entity.setItem(item);
+
         return itemUnresolved;
     }
 
