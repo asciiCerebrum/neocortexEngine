@@ -40,6 +40,9 @@ public class CombatRoundEntries {
             final CombatRoundEntry entry
                     = (CombatRoundEntry) object;
 
+            if (entry.getParticipant() == null) {
+                return false;
+            }
             return entry.getParticipant().equals(this.dndCharacter);
         }
     }
