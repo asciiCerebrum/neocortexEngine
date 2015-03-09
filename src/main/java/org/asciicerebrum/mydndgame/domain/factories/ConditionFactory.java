@@ -73,7 +73,7 @@ public class ConditionFactory implements EntityFactory<Condition> {
 
     @Override
     public final void reAssign(final EntitySetup setup,
-            final Condition entity) {
+            final Condition entity, final Reassignments reassignments) {
         entity.setCauseEntity(this.getCampaign().getEntityById(
                 new UniqueId(setup.getProperty(
                                 SetupProperty.CONDITION_CAUSE_ENTITY))));

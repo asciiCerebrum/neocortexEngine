@@ -57,7 +57,7 @@ public class CombatRoundFactory implements EntityFactory<CombatRound> {
 
     @Override
     public final void reAssign(final EntitySetup setup,
-            final CombatRound entity) {
+            final CombatRound entity, final Reassignments reassignments) {
         //nothing to do here
     }
 

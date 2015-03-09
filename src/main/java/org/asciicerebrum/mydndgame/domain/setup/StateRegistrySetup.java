@@ -1,5 +1,8 @@
 package org.asciicerebrum.mydndgame.domain.setup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author species8472
@@ -68,9 +71,15 @@ public class StateRegistrySetup extends AbstractEntitySetup {
     /**
      * @param entrySetup the entry setup.
      */
-    public final void setStateRegistryEntry(final EntitySetup entrySetup) {
-        this.getSingleSetup()
-                .put(SetupProperty.STATE_REGISTRY_ENTRY, entrySetup);
+    public final void addStateRegistryEntry(final EntitySetup entrySetup) {
+        List<EntitySetup> stateRegistryEntries
+                = this.getListSetup().get(SetupProperty.STATE_REGISTRY_ENTRY);
+        if (stateRegistryEntries == null) {
+            stateRegistryEntries = new ArrayList<EntitySetup>();
+            this.getListSetup().put(SetupProperty.STATE_REGISTRY_ENTRY,
+                    stateRegistryEntries);
+        }
+        stateRegistryEntries.add(entrySetup);
     }
 
 }

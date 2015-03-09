@@ -1,10 +1,10 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.apache.commons.lang.StringUtils;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.AttackAbility;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlot;
 import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlot;
 import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotType;
@@ -39,6 +39,29 @@ public class PersonalizedBodySlotFactory
                     + " is not complete.");
         }
 
+        return this.build(setup, reassignments);
+    }
+
+    /**
+     * Central builder for the personalized body slot. It is used by multiple
+     * public methods of this class.
+     *
+     * @param setup the setup of the specific object to create.
+     * @param reassignments the reassignment object for resolving unfound
+     * objects.
+     * @return the created instance.
+     */
+    private PersonalizedBodySlot build(final EntitySetup setup,
+            final Reassignments reassignments) {
+
+        // retrieve holder from campaign
+        final DndCharacter holder = (DndCharacter) this.retrieveHolder(setup);
+        if (holder == null) {
+            reassignments.addEntry(this, setup, null);
+            return null;
+        }
+
+        // generating the blue print body slot from the given setup
         final PersonalizedBodySlot personalizedBodySlot
                 = new PersonalizedBodySlot();
         final BodySlot bluePrintSlot = new BodySlot();
@@ -47,43 +70,65 @@ public class PersonalizedBodySlotFactory
                 setup.getProperty(SetupProperty.BODY_SLOT_TYPE),
                 BodySlotType.class));
 
-        final String isPrimaryAttack
-                = setup.getProperty(SetupProperty.BODY_SLOT_PRIMARY_ATTACK);
-        if (StringUtils.isNotBlank(isPrimaryAttack)) {
-            bluePrintSlot.setIsPrimaryAttackSlot(
-                    new AttackAbility(isPrimaryAttack));
-        }
+        bluePrintSlot.setIsPrimaryAttackSlot(
+                new AttackAbility(setup.getProperty(
+                                SetupProperty.BODY_SLOT_PRIMARY_ATTACK)));
+
         personalizedBodySlot.setBodySlot(bluePrintSlot);
 
-        return personalizedBodySlot;
-    }
+        // retrieving a resembling personalized body slot from the character
+        // Here this personalized body slot is retrieved by comparing the
+        // attributes.
+        final PersonalizedBodySlot realBodySlot
+                = holder.getPersonalizedBodySlots()
+                .findFirstSimilar(personalizedBodySlot,
+                        PersonalizedBodySlot.Facet.BODY_SLOT_TYPE,
+                        PersonalizedBodySlot.Facet.PRIMARY_ATTACK_SLOT,
+                        PersonalizedBodySlot.Facet.ITEM);
 
-    @Override
-    public final void reAssign(final EntitySetup setup,
-            final PersonalizedBodySlot entity) {
-
-        this.assignItem(setup, entity);
+        // Retrieving the item for the slot
+        final UniqueEntity item = this.retrieveItem(setup);
+        if (item == null) {
+            reassignments.addEntry(this, setup, null);
+            return null;
+        }
+        realBodySlot.setItem(item);
+        return realBodySlot;
     }
 
     /**
-     * Assigns an item by retrieving it from the context or campaign and putting
-     * it into the slot.
+     * Retrieves a holder (dndCharacter) from the campaign.
      *
      * @param setup the setup of the personalized body slot.
-     * @param entity the body slot to be filled with an item.
-     * @return true, if the item could NOT be resolved (NOT found in the
-     * campaign), false otherwise.
+     * @return the holder as a unique entity.
      */
-    public final boolean assignItem(final EntitySetup setup,
-            final PersonalizedBodySlot entity) {
+    final UniqueEntity retrieveHolder(final EntitySetup setup) {
+        String holderId = setup.getProperty(SetupProperty.BODY_SLOT_HOLDER);
+        // holderId cannot be null as it is mandatory!
+        final UniqueEntity holder = this.getCampaign().getEntityById(
+                new UniqueId(holderId));
+        return holder;
+    }
+
+    /**
+     * Retrieves an item from the campaign .
+     *
+     * @param setup the setup of the personalized body slot.
+     * @return the item as a unique entity.
+     */
+    final UniqueEntity retrieveItem(final EntitySetup setup) {
         String itemId = setup.getProperty(SetupProperty.BODY_SLOT_ITEM);
         // itemId cannot be null as it is mandatory!
         final UniqueEntity item = this.getCampaign().getEntityById(
                 new UniqueId(itemId));
-        boolean itemUnresolved = item == null;
-        entity.setItem(item);
+        return item;
+    }
 
-        return itemUnresolved;
+    @Override
+    public final void reAssign(final EntitySetup setup,
+            final PersonalizedBodySlot entity,
+            final Reassignments reassignments) {
+        this.build(setup, reassignments);
     }
 
     /**

@@ -65,7 +65,7 @@ public class LevelAdvancementFactory
 
     @Override
     public final void reAssign(final EntitySetup setup,
-            final LevelAdvancement entity) {
+            final LevelAdvancement entity, final Reassignments reassignments) {
         // nothing to do here
     }
 

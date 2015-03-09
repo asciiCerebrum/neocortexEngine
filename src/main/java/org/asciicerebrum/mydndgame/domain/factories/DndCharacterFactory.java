@@ -1,5 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
+import java.util.List;
+import org.apache.commons.lang.StringUtils;
 import org.asciicerebrum.mydndgame.domain.core.particles.ExperiencePoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
@@ -12,7 +14,6 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Conditions;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.LevelAdvancement;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.LevelAdvancements;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlot;
-import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlot.Facet;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlots;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Race;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
@@ -66,7 +67,8 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
                     + " is not complete.");
         }
 
-        DndCharacter dndCharacter = this.context.getBean(DndCharacter.class);
+        DndCharacter dndCharacter = this.getContext()
+                .getBean(DndCharacter.class);
 
         this.trivialSetup(setup, dndCharacter);
         this.fillBodySlots(setup, dndCharacter, reassignments);
@@ -80,7 +82,7 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
 
     @Override
     public final void reAssign(final EntitySetup setup,
-            final DndCharacter entity) {
+            final DndCharacter entity, final Reassignments reassignments) {
         // nothing to do here.
     }
 
@@ -92,16 +94,20 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
      */
     final void trivialSetup(final EntitySetup setup,
             final DndCharacter dndCharacter) {
-        dndCharacter.setRace(this.context.getBean(
+        dndCharacter.setRace(this.getContext().getBean(
                 setup.getProperty(SetupProperty.RACE), Race.class));
         dndCharacter.setUniqueId(new UniqueId(
                 setup.getProperty(SetupProperty.UNIQUEID)));
         dndCharacter.setCurrentStaticHp(new HitPoints(
                 setup.getProperty(SetupProperty.HIT_POINTS)));
-        dndCharacter.setCurrentStaticHpNonLethal(new HitPoints(
-                setup.getProperty(SetupProperty.HIT_POINTS_NONLETHAL)));
         dndCharacter.setCurrentXp(new ExperiencePoints(
                 setup.getProperty(SetupProperty.EXPERIENCE_POINTS)));
+
+        if (StringUtils.isNotBlank(
+                setup.getProperty(SetupProperty.HIT_POINTS_NONLETHAL))) {
+            dndCharacter.setCurrentStaticHpNonLethal(new HitPoints(
+                    setup.getProperty(SetupProperty.HIT_POINTS_NONLETHAL)));
+        }
     }
 
     /**
@@ -116,36 +122,32 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
             final DndCharacter dndCharacter,
             final Reassignments reassignments) {
 
+        // Get the blueprint body slots from the race, wrap them into
+        // personalized body slots and mass-assign the holder.
         final PersonalizedBodySlots personalizedBodySlots
                 = new PersonalizedBodySlots();
         personalizedBodySlots.wrapSlots(
                 dndCharacter.getRace().getBodySlotBluePrint());
         personalizedBodySlots.setHolder(dndCharacter);
 
-        for (EntitySetup bodySlotSetup
-                : setup.getPropertySetups(SetupProperty.BODY_SLOTS)) {
+        dndCharacter.setPersonalizedBodySlots(personalizedBodySlots);
 
-            final PersonalizedBodySlot bluePrintBodySlot
-                    = this.bodySlotFactory.newEntity(bodySlotSetup,
-                            reassignments);
-            // final an empty slot (facet.item) of the same type and primary-
-            // attack-slot-value
-            final PersonalizedBodySlot realBodySlot
-                    = personalizedBodySlots.findFirstSimilar(bluePrintBodySlot,
-                            Facet.BODY_SLOT_TYPE, Facet.PRIMARY_ATTACK_SLOT,
-                            Facet.ITEM);
+        final List<EntitySetup> bodySlotSetups
+                = setup.getPropertySetups(SetupProperty.BODY_SLOTS);
+        if (bodySlotSetups != null) {
+            for (EntitySetup bodySlotSetup : bodySlotSetups) {
 
-            boolean itemUnresolved
-                    = ((PersonalizedBodySlotFactory) this.bodySlotFactory)
-                    .assignItem(bodySlotSetup, realBodySlot);
+                bodySlotSetup.setProperty(SetupProperty.BODY_SLOT_HOLDER,
+                        dndCharacter.getUniqueId().getValue());
 
-            if (itemUnresolved) {
-                reassignments.addEntry(this.bodySlotFactory, bodySlotSetup,
-                        realBodySlot);
+                // The body slot factory creates an example body slot from the
+                // setup. This example is used to get the first personal body
+                // slot from the collection created above that resembles its
+                // attributes.
+                this.getBodySlotFactory().newEntity(bodySlotSetup,
+                        reassignments);
             }
         }
-
-        dndCharacter.setPersonalizedBodySlots(personalizedBodySlots);
     }
 
     /**
@@ -162,9 +164,8 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
         LevelAdvancements levelAdvancements = new LevelAdvancements();
         for (EntitySetup lvlAdvSetup
                 : setup.getPropertySetups(SetupProperty.LEVEL_ADVANCEMENTS)) {
-            levelAdvancements.add(
-                    this.levelAdvancementFactory.newEntity(lvlAdvSetup,
-                            reassignments));
+            levelAdvancements.add(this.getLevelAdvancementFactory()
+                    .newEntity(lvlAdvSetup, reassignments));
         }
         dndCharacter.setLevelAdvancements(levelAdvancements);
     }
@@ -180,7 +181,7 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
     final void fillStateRegistry(final EntitySetup setup,
             final DndCharacter dndCharacter,
             final Reassignments reassignments) {
-        dndCharacter.setStateRegistry(this.stateRegistryFactory.newEntity(
+        dndCharacter.setStateRegistry(this.getStateRegistryFactory().newEntity(
                 setup.getPropertySetup(SetupProperty.STATE_REGISTRY),
                 reassignments));
     }
@@ -199,9 +200,8 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
         BaseAbilities baseAbilities = new BaseAbilities();
         for (EntitySetup abilityEntrySetup
                 : setup.getPropertySetups(SetupProperty.BASE_ABILITY_ENTRIES)) {
-            baseAbilities.addBaseAbilityEntry(
-                    this.baseAbilityEntryFactory.newEntity(abilityEntrySetup,
-                            reassignments));
+            baseAbilities.addBaseAbilityEntry(this.getBaseAbilityEntryFactory()
+                    .newEntity(abilityEntrySetup, reassignments));
         }
         dndCharacter.setBaseAbilities(baseAbilities);
 
@@ -209,6 +209,7 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
 
     /**
      * Setting up the conditions the character suffers or profits from.
+     * Conditions are not mandatory.
      *
      * @param setup the dnd character setup.
      * @param dndCharacter the character to set up.
@@ -218,14 +219,107 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
     final void fillConditions(final EntitySetup setup,
             final DndCharacter dndCharacter,
             final Reassignments reassignments) {
-        Conditions conditions = new Conditions();
-        for (EntitySetup conditionSetup
-                : setup.getPropertySetups(SetupProperty.CONDITIONS)) {
-            conditions.add(
-                    this.conditionFactory.newEntity(conditionSetup,
-                            reassignments));
+        final Conditions conditions = new Conditions();
+        final List<EntitySetup> conditionSetups
+                = setup.getPropertySetups(SetupProperty.CONDITIONS);
+        if (conditionSetups != null) {
+            for (EntitySetup conditionSetup : conditionSetups) {
+                conditions.add(this.getConditionFactory()
+                        .newEntity(conditionSetup, reassignments));
+            }
+            dndCharacter.setConditions(conditions);
         }
-        dndCharacter.setConditions(conditions);
+    }
+
+    /**
+     * @return the context
+     */
+    protected final ApplicationContext getContext() {
+        return context;
+    }
+
+    /**
+     * @param contextInput the context to set
+     */
+    protected final void setContext(final ApplicationContext contextInput) {
+        this.context = contextInput;
+    }
+
+    /**
+     * @return the levelAdvancementFactory
+     */
+    protected final EntityFactory<LevelAdvancement>
+            getLevelAdvancementFactory() {
+        return levelAdvancementFactory;
+    }
+
+    /**
+     * @param levelAdvancementFactoryIn the levelAdvancementFactory to set
+     */
+    protected final void setLevelAdvancementFactory(
+            final EntityFactory<LevelAdvancement> levelAdvancementFactoryIn) {
+        this.levelAdvancementFactory = levelAdvancementFactoryIn;
+    }
+
+    /**
+     * @return the bodySlotFactory
+     */
+    protected final EntityFactory<PersonalizedBodySlot> getBodySlotFactory() {
+        return bodySlotFactory;
+    }
+
+    /**
+     * @param bodySlotFactoryInput the bodySlotFactory to set
+     */
+    protected final void setBodySlotFactory(
+            final EntityFactory<PersonalizedBodySlot> bodySlotFactoryInput) {
+        this.bodySlotFactory = bodySlotFactoryInput;
+    }
+
+    /**
+     * @return the stateRegistryFactory
+     */
+    protected final EntityFactory<StateRegistry> getStateRegistryFactory() {
+        return stateRegistryFactory;
+    }
+
+    /**
+     * @param stateRegistryFactoryInput the stateRegistryFactory to set
+     */
+    protected final void setStateRegistryFactory(
+            final EntityFactory<StateRegistry> stateRegistryFactoryInput) {
+        this.stateRegistryFactory = stateRegistryFactoryInput;
+    }
+
+    /**
+     * @return the baseAbilityEntryFactory
+     */
+    protected final EntityFactory<BaseAbilityEntry>
+            getBaseAbilityEntryFactory() {
+        return baseAbilityEntryFactory;
+    }
+
+    /**
+     * @param baseAbilityEntryFactoryIn the baseAbilityEntryFactory to set
+     */
+    protected final void setBaseAbilityEntryFactory(
+            final EntityFactory<BaseAbilityEntry> baseAbilityEntryFactoryIn) {
+        this.baseAbilityEntryFactory = baseAbilityEntryFactoryIn;
+    }
+
+    /**
+     * @return the conditionFactory
+     */
+    protected final EntityFactory<Condition> getConditionFactory() {
+        return conditionFactory;
+    }
+
+    /**
+     * @param conditionFactoryInput the conditionFactory to set
+     */
+    protected final void setConditionFactory(
+            final EntityFactory<Condition> conditionFactoryInput) {
+        this.conditionFactory = conditionFactoryInput;
     }
 
 }

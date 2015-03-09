@@ -61,7 +61,7 @@ public class CombatRoundEntryFactory
 
     @Override
     public final void reAssign(final EntitySetup setup,
-            final CombatRoundEntry entity) {
+            final CombatRoundEntry entity, final Reassignments reassignments) {
         final DndCharacter participant = this.findParticipant(setup);
         entity.setParticipant(participant);
     }

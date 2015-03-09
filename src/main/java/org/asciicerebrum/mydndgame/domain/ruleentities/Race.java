@@ -24,8 +24,8 @@ public class Race implements BonusSource, ObserverSource {
 
     /**
      * All the body slots this race is providing. The structure of body slots
-     * has to be cloned (deep copy) when a new character is created and the copy
-     * has to be put into the dnd character object.
+     * has to be wrapped into personalized body slots when a new character is
+     * created and to be put into the dnd character object.
      */
     private BodySlots bodySlotBluePrint;
 

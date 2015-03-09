@@ -1,5 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.core.particles;
 
+import org.apache.commons.lang.BooleanUtils;
+
 /**
  *
  * @author species8472
@@ -29,7 +31,7 @@ public class AttackAbility extends BooleanParticle {
      * @param stringValue the value as string.
      */
     public final void setValue(final String stringValue) {
-        this.setValue(Boolean.parseBoolean(stringValue));
+        this.setValue(BooleanUtils.toBoolean(stringValue));
     }
 
     /**

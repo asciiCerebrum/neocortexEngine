@@ -40,7 +40,7 @@ public class BaseAbilityEntryFactory
 
     @Override
     public void reAssign(final EntitySetup setup,
-            final BaseAbilityEntry entity) {
+            final BaseAbilityEntry entity, final Reassignments reassignments) {
         // nothing to do here.
     }
 

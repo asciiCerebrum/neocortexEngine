@@ -28,6 +28,10 @@ public enum SetupProperty {
      */
     BASE_ABILITY_VALUE,
     /**
+     * The holder unique id of the personalized body slot.
+     */
+    BODY_SLOT_HOLDER,
+    /**
      * The item inside a body slot.
      */
     BODY_SLOT_ITEM,

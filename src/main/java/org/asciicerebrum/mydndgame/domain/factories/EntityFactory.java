@@ -27,7 +27,9 @@ public interface EntityFactory<T> {
      *
      * @param setup the base setup to get the properties from.
      * @param entity the entity to reassign the yet unresolved values to.
+     * @param reassignments Something could still go wrong here. But unfound
+     * objects could still be retrieved later.
      */
-    void reAssign(EntitySetup setup, T entity);
+    void reAssign(EntitySetup setup, T entity, Reassignments reassignments);
 
 }

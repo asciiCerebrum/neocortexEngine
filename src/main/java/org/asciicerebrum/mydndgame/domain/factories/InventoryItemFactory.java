@@ -83,7 +83,7 @@ public abstract class InventoryItemFactory<T extends InventoryItem>
 
     @Override
     public void reAssign(final EntitySetup setup,
-            final InventoryItem entity) {
+            final InventoryItem entity, final Reassignments reassignments) {
         // nothing to do here.
     }
 

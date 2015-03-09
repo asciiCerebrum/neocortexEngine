@@ -7,10 +7,12 @@ package org.asciicerebrum.mydndgame.domain.setup;
 public class PersonalizedBodySlotSetup extends AbstractEntitySetup {
 
     /**
-     * The required properties.
+     * The required properties. The body slot holder has no setter as it is
+     * injected by the dnd character factory.
      */
     private static final SetupProperty[] REQUIRED_SINGLE_PROPERTIES
-            = {SetupProperty.BODY_SLOT_TYPE, SetupProperty.BODY_SLOT_ITEM};
+            = {SetupProperty.BODY_SLOT_TYPE, SetupProperty.BODY_SLOT_ITEM,
+                SetupProperty.BODY_SLOT_HOLDER};
 
     /**
      * @param itemId the item id.

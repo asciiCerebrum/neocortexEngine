@@ -33,7 +33,7 @@ public class WorldDateFactory implements EntityFactory<WorldDate> {
 
     @Override
     public final void reAssign(final EntitySetup setup,
-            final WorldDate entity) {
+            final WorldDate entity, final Reassignments reassignments) {
         // nothing to do here
     }
 

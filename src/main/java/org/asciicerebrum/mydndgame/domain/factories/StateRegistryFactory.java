@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
+import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;
@@ -8,6 +9,7 @@ import org.asciicerebrum.mydndgame.domain.game.StateRegistry.StateValueType;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
+import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
 import org.springframework.context.ApplicationContext;
 
@@ -33,9 +35,12 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
 
         StateRegistry stateReg = new StateRegistry();
 
-        for (EntitySetup entrySetup
-                : setup.getPropertySetups(SetupProperty.STATE_REGISTRY_ENTRY)) {
-            this.addSingleState(stateReg, entrySetup, reassignments);
+        final List<EntitySetup> registryEntrySetups
+                = setup.getPropertySetups(SetupProperty.STATE_REGISTRY_ENTRY);
+        if (registryEntrySetups != null) {
+            for (EntitySetup entrySetup : registryEntrySetups) {
+                this.addSingleState(stateReg, entrySetup, reassignments);
+            }
         }
 
         return stateReg;
@@ -53,8 +58,8 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
             final EntitySetup entrySetup, final Reassignments reassignments) {
 
         if (!entrySetup.isSetupComplete()) {
-            //TODO log warning
-            return;
+            throw new SetupIncompleteException("The setup of the state "
+                    + " registry entry is not complete.");
         }
 
         final StateParticle particle
@@ -69,8 +74,7 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
             contextObject = this.getCampaign().getEntityById(
                     new UniqueId(contextObjectId));
         }
-        if (reassignments != null
-                && contextObject == null
+        if (contextObject == null
                 && StringUtils.isNotBlank(contextObjectId)) {
             // something did not work - reassigning for later resolution
             //TODO log this with info
@@ -92,9 +96,9 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
 
     @Override
     public final void reAssign(final EntitySetup setup,
-            final StateRegistry entity) {
+            final StateRegistry entity, final Reassignments reassignments) {
 
-        this.addSingleState(entity, setup, null);
+        this.addSingleState(entity, setup, reassignments);
     }
 
     /**

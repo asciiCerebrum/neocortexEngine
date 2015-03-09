@@ -13,13 +13,22 @@ public class CharacterSetup extends AbstractEntitySetup {
      */
     private static final SetupProperty[] REQUIRED_SINGLE_PROPERTIES
             = {SetupProperty.RACE, SetupProperty.UNIQUEID,
-                SetupProperty.HIT_POINTS, SetupProperty.EXPERIENCE_POINTS,
-                SetupProperty.BODY_SLOTS, SetupProperty.LEVEL_ADVANCEMENTS,
+                SetupProperty.HIT_POINTS, SetupProperty.EXPERIENCE_POINTS};
+
+    /**
+     * Defines the required setup list properties. The body slots are not part
+     * of the mandatory attributes because a character could have no items at
+     * all. That makes him just use the default blueprint body slots by its
+     * race.
+     */
+    private static final SetupProperty[] REQUIRED_SETUPLIST_PROPERTIES
+            = {SetupProperty.LEVEL_ADVANCEMENTS,
                 SetupProperty.BASE_ABILITY_ENTRIES};
 
     @Override
     public final boolean isSetupComplete() {
-        return this.checkRequiredSingleProperties(REQUIRED_SINGLE_PROPERTIES);
+        return this.checkRequiredSingleProperties(REQUIRED_SINGLE_PROPERTIES)
+                && this.checkRequiredListSetup(REQUIRED_SETUPLIST_PROPERTIES);
     }
 
     /**

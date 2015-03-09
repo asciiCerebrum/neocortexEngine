@@ -50,7 +50,8 @@ public class FeatFactory implements EntityFactory<Feat> {
     }
 
     @Override
-    public final void reAssign(final EntitySetup setup, final Feat entity) {
+    public final void reAssign(final EntitySetup setup, final Feat entity,
+            final Reassignments reassignments) {
         // nothing to do here
     }
 

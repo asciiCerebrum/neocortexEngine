@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame.domain.factories;
 
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import java.util.Iterator;
+import java.util.List;
 import org.asciicerebrum.mydndgame.domain.factories.Reassignments.ReassignmentEntry;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
@@ -42,18 +43,22 @@ public class CampaignFactory implements EntityFactory<Campaign> {
 
         Campaign campaign = this.getContext().getBean(Campaign.class);
 
-        for (EntitySetup itemSetup
-                : setup.getPropertySetups(
-                        SetupProperty.INVENTORY_ITEMS)) {
-            campaign.registerUniqueEntity(this.getInventoryItemFactory()
-                    .newEntity(itemSetup, reassignments));
+        final List<EntitySetup> inventoryItemSetups
+                = setup.getPropertySetups(SetupProperty.INVENTORY_ITEMS);
+        if (inventoryItemSetups != null) {
+            for (EntitySetup itemSetup : inventoryItemSetups) {
+                campaign.registerUniqueEntity(this.getInventoryItemFactory()
+                        .newEntity(itemSetup, reassignments));
+            }
         }
 
-        for (EntitySetup characterSetup
-                : setup.getPropertySetups(
-                        SetupProperty.PARTICIPANT_CHARACTERS)) {
-            campaign.registerUniqueEntity(this.getCharacterFactory()
-                    .newEntity(characterSetup, reassignments));
+        final List<EntitySetup> participantSetups
+                = setup.getPropertySetups(SetupProperty.PARTICIPANT_CHARACTERS);
+        if (participantSetups != null) {
+            for (EntitySetup characterSetup : participantSetups) {
+                campaign.registerUniqueEntity(this.getCharacterFactory()
+                        .newEntity(characterSetup, reassignments));
+            }
         }
 
         EntitySetup combatRoundSetup
@@ -68,14 +73,16 @@ public class CampaignFactory implements EntityFactory<Campaign> {
         while (entryIterator.hasNext()) {
             //TODO log this
             ReassignmentEntry entry = entryIterator.next();
-            entry.getFactory().reAssign(entry.getSetup(), entry.getEntity());
+            entry.getFactory().reAssign(entry.getSetup(), entry.getEntity(),
+                    reassignments);
         }
 
         return campaign;
     }
 
     @Override
-    public final void reAssign(final EntitySetup setup, final Campaign entity) {
+    public final void reAssign(final EntitySetup setup, final Campaign entity,
+            final Reassignments reassignments) {
         // nothing to do here
     }
 
