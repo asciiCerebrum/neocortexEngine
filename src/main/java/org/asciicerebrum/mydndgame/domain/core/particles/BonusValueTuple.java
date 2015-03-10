@@ -62,10 +62,12 @@ public class BonusValueTuple {
         }
         BonusValueTuple oTuple = (BonusValueTuple) o;
 
-        return ListUtils.isEqualList(this.rankedBoni.entrySet(),
-                oTuple.rankedBoni.entrySet())
-                && ListUtils.isEqualList(this.rankedBoni.values(),
-                        oTuple.rankedBoni.values());
+        if (ListUtils.isEqualList(this.rankedBoni.entrySet(),
+                oTuple.rankedBoni.entrySet())) {
+            return ListUtils.isEqualList(this.rankedBoni.values(),
+                    oTuple.rankedBoni.values());
+        }
+        return false;
     }
 
     @Override
