@@ -22,6 +22,15 @@ public class DamageTypes {
     }
 
     /**
+     * Adds a further element to the collection.
+     *
+     * @param damageType the element to add.
+     */
+    public final void addDamageType(final DamageType damageType) {
+        this.elements.add(damageType);
+    }
+
+    /**
      * @param damageTypesInput the damageTypes to set
      */
     public final void setDamageTypes(final List<DamageType> damageTypesInput) {

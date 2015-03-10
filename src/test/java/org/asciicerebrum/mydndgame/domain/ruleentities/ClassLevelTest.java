@@ -1,17 +1,24 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities;
 
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author species8472
  */
 public class ClassLevelTest {
+
+    private ClassLevel classLevel;
+
+    private BonusValueTuple baseAtkBoni;
 
     public ClassLevelTest() {
     }
@@ -26,50 +33,37 @@ public class ClassLevelTest {
 
     @Before
     public void setUp() {
-
+        this.classLevel = new ClassLevel();
+        this.baseAtkBoni = new BonusValueTuple();
+        this.baseAtkBoni.addBonusValue(BonusRank.RANK_0, new BonusValue(13L));
+        this.classLevel.setBaseAtkBoni(this.baseAtkBoni);
     }
 
     @After
     public void tearDown() {
     }
 
-    /**
-     * Test of getBaseAtkBonusByRank method, of class ClassLevel.
-     */
     @Test
-    public void testGetBaseAtkBonusByRank() {
-        fail();
-    }
+    public void getBaseAtkBoniDeltaNoPreviousTest() {
+        final BonusValueTuple result = this.classLevel.getBaseAtkBoniDelta();
 
-    /**
-     * Test of getBaseAtkBonusByRank method, of class ClassLevel. Rank out of
-     * range.
-     */
-    @Test
-    public void testGetBaseAtkBonusByRankOutOfRange() {
-        fail();
-    }
-
-    /**
-     * Delta value without previous class level.
-     */
-    @Test
-    public void testGetBaseAtkBonusValueDeltaByRankWithoutPrevCLevel() {
-        fail();
+        assertEquals(13L, result.getBonusValueByRank(BonusRank.RANK_0)
+                .getValue());
     }
 
     @Test
-    public void testGetBaseAtkBonusValueDeltaByRank() {
-        fail();
-    }
+    public void getBaseAtkBoniDeltaWithPreviousTest() {
+        final ClassLevel prevClLvl = new ClassLevel();
+        final BonusValueTuple prevBaseAtkBoni = new BonusValueTuple();
+        prevBaseAtkBoni.addBonusValue(BonusRank.RANK_0, new BonusValue(8L));
+        prevClLvl.setBaseAtkBoni(prevBaseAtkBoni);
 
-    /**
-     * Delta value without the same rank in the previous class level.
-     */
-    @Test
-    public void testGetBaseAtkBonusValueDeltaByRankWithoutRank() {
-        fail();
+        this.classLevel.setPreviousClassLevel(prevClLvl);
 
+        final BonusValueTuple result = this.classLevel.getBaseAtkBoniDelta();
+
+        assertEquals(5L, result.getBonusValueByRank(BonusRank.RANK_0)
+                .getValue());
     }
 
 }
