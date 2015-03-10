@@ -1,8 +1,12 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
+import com.google.common.collect.Iterators;
 import java.util.ArrayList;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
+import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlot;
+import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotType;
 import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlots;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Race;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.BaseAbilityEntry;
@@ -11,10 +15,12 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.composition.LevelAdvancem
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlot;
 import org.asciicerebrum.mydndgame.domain.setup.BaseAbilityEntrySetup;
 import org.asciicerebrum.mydndgame.domain.setup.CharacterSetup;
+import org.asciicerebrum.mydndgame.domain.setup.ConditionSetup;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.LevelAdvancementSetup;
 import org.asciicerebrum.mydndgame.domain.setup.PersonalizedBodySlotSetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
+import org.asciicerebrum.mydndgame.domain.setup.WorldDateSetup;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -22,7 +28,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.withSettings;
 import org.springframework.context.ApplicationContext;
@@ -139,9 +148,21 @@ public class DndCharacterFactoryTest {
         baseAbilityEntrySetup.setAbilityValue("12");
 
         final Race race = new Race();
-        race.setBodySlotBluePrint(new BodySlots());
+        final BodySlots raceBodySlots = new BodySlots();
+        final BodySlot raceBodySlot = new BodySlot();
+        final BodySlotType raceBodySlotType = new BodySlotType();
+        raceBodySlotType.setId(new UniqueId("slotTypeId"));
+        raceBodySlot.setBodySlotType(raceBodySlotType);
+        raceBodySlots.add(raceBodySlot);
+        race.setBodySlotBluePrint(raceBodySlots);
         when(this.applicationContext.getBean("raceId", Race.class))
                 .thenReturn(race);
+        when(this.levelAdvancementFactory.newEntity(eq(lvlAdvSetup),
+                (Reassignments) anyObject()))
+                .thenReturn(new LevelAdvancement());
+        when(this.baseAbilityEntryFactory.newEntity(eq(baseAbilityEntrySetup),
+                (Reassignments) anyObject()))
+                .thenReturn(new BaseAbilityEntry());
     }
 
     @Test
@@ -168,6 +189,127 @@ public class DndCharacterFactoryTest {
                 = this.factory.newEntity(setup, reassignments);
 
         assertEquals(25L, result.getCurrentStaticHp().getValue());
+    }
+
+    @Test
+    public void newEntityBodySlotItemTest() {
+        final CharacterSetup setup = new CharacterSetup();
+        final Reassignments reassignments = new Reassignments();
+
+        this.makeComplete(setup);
+
+        final DndCharacter result
+                = this.factory.newEntity(setup, reassignments);
+
+        assertEquals("slotTypeId", result.getPersonalizedBodySlots()
+                .iterator().next().getBodySlotType().getId().getValue());
+    }
+
+    @Test
+    public void newEntityBodySlotItemCountTest() {
+        final CharacterSetup setup = new CharacterSetup();
+        final Reassignments reassignments = new Reassignments();
+
+        this.makeComplete(setup);
+
+        final DndCharacter result
+                = this.factory.newEntity(setup, reassignments);
+
+        assertEquals(1L, Iterators.size(result.getPersonalizedBodySlots()
+                .iterator()));
+    }
+
+    @Test
+    public void newEntityLevelAdvancementCountTest() {
+        final CharacterSetup setup = new CharacterSetup();
+        final Reassignments reassignments = new Reassignments();
+
+        this.makeComplete(setup);
+
+        final DndCharacter result
+                = this.factory.newEntity(setup, reassignments);
+
+        assertEquals(1L, Iterators.size(result.getLevelAdvancements()
+                .iterator()));
+    }
+
+    @Test
+    public void newEntityBaseAbilitiesCountTest() {
+        final CharacterSetup setup = new CharacterSetup();
+        final Reassignments reassignments = new Reassignments();
+
+        this.makeComplete(setup);
+
+        final DndCharacter result
+                = this.factory.newEntity(setup, reassignments);
+
+        assertEquals(1L, Iterators.size(result.getBaseAbilities()
+                .abilityIterator()));
+    }
+
+    @Test
+    public void newEntityOneBodySlotsTest() {
+        final CharacterSetup setup = new CharacterSetup();
+        final Reassignments reassignments = new Reassignments();
+
+        this.makeComplete(setup);
+
+        this.factory.newEntity(setup, reassignments);
+
+        verify(this.bodySlotFactory, times(1)).newEntity(
+                (EntitySetup) anyObject(), (Reassignments) anyObject());
+    }
+
+    @Test
+    public void newEntityNoBodySlotsTest() {
+        final CharacterSetup setup = new CharacterSetup();
+        final Reassignments reassignments = new Reassignments();
+
+        this.makeComplete(setup);
+        setup.setBodySlotSetups(null);
+
+        this.factory.newEntity(setup, reassignments);
+
+        verify(this.bodySlotFactory, times(0)).newEntity(
+                (EntitySetup) anyObject(), (Reassignments) anyObject());
+    }
+
+    @Test
+    public void newEntityZeroNonlethalHitPointsTest() {
+        final CharacterSetup setup = new CharacterSetup();
+        final Reassignments reassignments = new Reassignments();
+
+        this.makeComplete(setup);
+
+        final DndCharacter result
+                = this.factory.newEntity(setup, reassignments);
+
+        assertEquals(0L, result.getCurrentStaticHpNonLethal().getValue());
+    }
+
+    @Test
+    public void newEntityWithConditionsTest() {
+        final CharacterSetup setup = new CharacterSetup();
+        final Reassignments reassignments = new Reassignments();
+
+        this.makeComplete(setup);
+        final ConditionSetup conditionSetup = new ConditionSetup();
+        setup.setConditionSetups(new ArrayList<EntitySetup>() {
+            {
+                this.add(conditionSetup);
+            }
+        });
+        final WorldDateSetup dateSetup = new WorldDateSetup();
+        dateSetup.setCombatRoundNumber("1");
+        dateSetup.setCombatRoundPosition("1");
+        conditionSetup.setConditionType("conditionTypeId");
+        conditionSetup.setStartingDate(dateSetup);
+        conditionSetup.setExpiryDate(dateSetup);
+
+        final DndCharacter result
+                = this.factory.newEntity(setup, reassignments);
+
+        assertEquals(1L, Iterators.size(result.getConditions().iterator()));
     }
 
 }

@@ -105,9 +105,7 @@ public class PersonalizedBodySlotFactory
     final UniqueEntity retrieveHolder(final EntitySetup setup) {
         String holderId = setup.getProperty(SetupProperty.BODY_SLOT_HOLDER);
         // holderId cannot be null as it is mandatory!
-        final UniqueEntity holder = this.getCampaign().getEntityById(
-                new UniqueId(holderId));
-        return holder;
+        return this.getCampaign().getEntityById(new UniqueId(holderId));
     }
 
     /**
@@ -119,9 +117,7 @@ public class PersonalizedBodySlotFactory
     final UniqueEntity retrieveItem(final EntitySetup setup) {
         String itemId = setup.getProperty(SetupProperty.BODY_SLOT_ITEM);
         // itemId cannot be null as it is mandatory!
-        final UniqueEntity item = this.getCampaign().getEntityById(
-                new UniqueId(itemId));
-        return item;
+        return this.getCampaign().getEntityById(new UniqueId(itemId));
     }
 
     @Override

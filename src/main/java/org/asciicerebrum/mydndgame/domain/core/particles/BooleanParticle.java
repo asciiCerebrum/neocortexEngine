@@ -55,7 +55,7 @@ public class BooleanParticle {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public final boolean equals(final Object o) {
         if (!(o instanceof BooleanParticle)) {
             return false;
         }
@@ -69,7 +69,7 @@ public class BooleanParticle {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return new HashCodeBuilder(INITIAL_NON_ZERO_ODD_NUMBER,
                 MULTIPLIER_NON_ZERO_ODD_NUMBER)
                 .append(this.value)

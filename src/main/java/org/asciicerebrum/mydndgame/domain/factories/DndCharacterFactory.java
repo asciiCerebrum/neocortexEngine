@@ -1,7 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
 import java.util.List;
-import org.apache.commons.lang.StringUtils;
 import org.asciicerebrum.mydndgame.domain.core.particles.ExperiencePoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
@@ -102,12 +101,8 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
                 setup.getProperty(SetupProperty.HIT_POINTS)));
         dndCharacter.setCurrentXp(new ExperiencePoints(
                 setup.getProperty(SetupProperty.EXPERIENCE_POINTS)));
-
-        if (StringUtils.isNotBlank(
-                setup.getProperty(SetupProperty.HIT_POINTS_NONLETHAL))) {
-            dndCharacter.setCurrentStaticHpNonLethal(new HitPoints(
-                    setup.getProperty(SetupProperty.HIT_POINTS_NONLETHAL)));
-        }
+        dndCharacter.setCurrentStaticHpNonLethal(new HitPoints(
+                setup.getProperty(SetupProperty.HIT_POINTS_NONLETHAL)));
     }
 
     /**

@@ -1,5 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.core.particles;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  *
  * @author species8472
@@ -36,7 +38,9 @@ public class HitPoints extends LongParticle {
      * @param hitPointsString the string.
      */
     public final void setValue(final String hitPointsString) {
-        super.setValue(Long.parseLong(hitPointsString));
+        if (StringUtils.isNotBlank(hitPointsString)) {
+            super.setValue(Long.parseLong(hitPointsString));
+        }
     }
 
     /**
