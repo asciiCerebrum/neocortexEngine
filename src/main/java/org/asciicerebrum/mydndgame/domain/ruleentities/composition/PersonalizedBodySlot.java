@@ -44,9 +44,10 @@ public class PersonalizedBodySlot implements BonusSource, ObserverSource {
                             final PersonalizedBodySlot bluePrint,
                             final PersonalizedBodySlot candidate) {
                                 // both null or both equal
-                                return bluePrint.getItem() == null
-                                && candidate.getItem() == null
-                                || bluePrint.getItem()
+                                if (bluePrint.getItem() == null) {
+                                    return candidate.getItem() == null;
+                                }
+                                return bluePrint.getItem()
                                 .equals(candidate.getItem());
                             }
                 },

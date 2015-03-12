@@ -120,7 +120,10 @@ public class LevelAdvancement implements BonusSource, ObserverSource {
      * @return true if it is of that type, false otherwise.
      */
     public final boolean hasFeatType(final FeatType featType) {
-        return this.getFeatAdvancement().getFeatType().equals(featType);
+        if (this.getFeatAdvancement() == null) {
+            return false;
+        }
+        return featType.equals(this.getFeatAdvancement().getFeatType());
     }
 
     @Override
