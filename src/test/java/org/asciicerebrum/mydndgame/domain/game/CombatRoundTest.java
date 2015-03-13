@@ -1,8 +1,13 @@
 package org.asciicerebrum.mydndgame.domain.game;
 
+import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundNumber;
+import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,6 +17,12 @@ import org.junit.Test;
  * @author species8472
  */
 public class CombatRoundTest {
+
+    private CombatRound combatRound;
+
+    private DndCharacter charA;
+
+    private DndCharacter charB;
 
     public CombatRoundTest() {
     }
@@ -26,7 +37,23 @@ public class CombatRoundTest {
 
     @Before
     public void setUp() {
+        this.combatRound = new CombatRound();
 
+        final WorldDate currentDate = new WorldDate();
+        currentDate.setCombatRoundNumber(new CombatRoundNumber(10L));
+        currentDate.setCombatRoundPosition(new CombatRoundPosition("1"));
+        this.combatRound.setCurrentDate(currentDate);
+
+        this.charA = new DndCharacter();
+        this.charA.setUniqueId(new UniqueId("charA"));
+
+        this.charB = new DndCharacter();
+        this.charB.setUniqueId(new UniqueId("charB"));
+
+        this.combatRound.addParticipant(this.charA,
+                new CombatRoundPosition("1"));
+        this.combatRound.addParticipant(this.charB,
+                new CombatRoundPosition("2"));
     }
 
     @After
@@ -34,68 +61,50 @@ public class CombatRoundTest {
     }
 
     @Test
-    public void testMoveToNextPositionFromStart() {
-        fail();
+    public void moveToNextPositionTest() {
+        this.combatRound.moveToNextPosition();
+
+        assertEquals("2", this.combatRound.getCurrentDate()
+                .getCombatRoundPosition().getValue());
     }
 
     @Test
-    public void testMoveToNextPositionFromEnd() {
-        fail();
+    public void moveToNextPositionWithRoundNumberSwitchPositionTest() {
+        this.combatRound.getCurrentDate().setCombatRoundPosition(
+                new CombatRoundPosition("2"));
+        this.combatRound.moveToNextPosition();
+
+        assertEquals("1", this.combatRound.getCurrentDate()
+                .getCombatRoundPosition().getValue());
     }
 
     @Test
-    public void testMoveToNextPositionFromMiddle() {
-        fail();
+    public void moveToNextPositionWithRoundNumberSwitchRoundNumberTest() {
+        this.combatRound.getCurrentDate().setCombatRoundPosition(
+                new CombatRoundPosition("2"));
+        this.combatRound.moveToNextPosition();
+
+        assertEquals(11L, this.combatRound.getCurrentDate()
+                .getCombatRoundNumber().getValue());
     }
 
     @Test
-    public void testGetCurrentPositionFromBlank() {
-        fail();
+    public void getNextParticipationDateUnknownTest() {
+        assertNull(this.combatRound.getNextParticipationDate(
+                new DndCharacter()));
     }
 
     @Test
-    public void testGetCurrentPositionNormal() {
-        fail();
+    public void getNextParticipationDateKnownTest() {
+        assertEquals("2", this.combatRound.getNextParticipationDate(
+                this.charB).getCombatRoundPosition().getValue());
     }
 
     @Test
-    public void testGetParticipantForPosition() {
-        fail();
+    public void getNextParticipationDateKnownInPastTest() {
+        this.combatRound.getCurrentDate().setCombatRoundPosition(
+                new CombatRoundPosition("2"));
+        assertEquals(11L, this.combatRound.getNextParticipationDate(
+                this.charA).getCombatRoundNumber().getValue());
     }
-
-    @Test
-    public void testGetParticipantForPositionSize() {
-        fail();
-    }
-
-    @Test
-    public void testGetParticipantForPositionBlankInputSize() {
-        fail();
-    }
-
-    @Test
-    public void testGetParticipantForPositionUnknownInputSize() {
-        fail();
-    }
-
-    @Test
-    public void testGetParticipantForPositionInvalidParticipantSize() {
-        fail();
-    }
-
-    @Test
-    public void testGetPositionForParticipant() {
-        fail();
-    }
-
-    @Test
-    public void testGetParticipantsSize() {
-        fail();
-    }
-
-    @Test
-    public void testGetCurrentParticipant() {
-        fail();
-    }
-
 }

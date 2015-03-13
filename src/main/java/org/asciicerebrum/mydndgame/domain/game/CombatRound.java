@@ -43,10 +43,6 @@ public class CombatRound {
      */
     public final DndCharacter getCurrentParticipant() {
         final WorldDate currDate = this.getCurrentDate();
-        if (currDate == null) {
-            throw new IllegalStateException("Current date of combat round "
-                    + "not yet set up.");
-        }
         DndCharacters currentParticipants
                 = this.combatRoundEntries.getParticipantsForPosition(
                         currDate.getCombatRoundPosition());

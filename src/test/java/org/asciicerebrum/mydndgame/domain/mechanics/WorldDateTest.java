@@ -1,6 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.mechanics;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
 import org.junit.After;
@@ -41,16 +40,16 @@ public class WorldDateTest {
     @Before
     public void setUp() {
         this.wd1 = new WorldDate();
-        wd1.setCombatRoundNumber(new CombatRoundNumber(1l));
+        wd1.setCombatRoundNumber(new CombatRoundNumber(1L));
         wd1.setCombatRoundPosition(new CombatRoundPosition("1"));
         this.wd2 = new WorldDate();
-        wd2.setCombatRoundNumber(new CombatRoundNumber(1l));
+        wd2.setCombatRoundNumber(new CombatRoundNumber(1L));
         wd2.setCombatRoundPosition(new CombatRoundPosition("12"));
         this.wd3 = new WorldDate();
-        wd3.setCombatRoundNumber(new CombatRoundNumber(2l));
+        wd3.setCombatRoundNumber(new CombatRoundNumber(2L));
         wd3.setCombatRoundPosition(new CombatRoundPosition("2"));
         this.wd4 = new WorldDate();
-        wd4.setCombatRoundNumber(new CombatRoundNumber(1l));
+        wd4.setCombatRoundNumber(new CombatRoundNumber(1L));
         wd4.setCombatRoundPosition(new CombatRoundPosition("1"));
     }
 
@@ -63,8 +62,8 @@ public class WorldDateTest {
      */
     @Test
     public void testCompareToLarger() {
-        int compare12 = this.wd1.compareTo(this.wd2);
-        assertEquals(1, compare12);
+        int compare21 = this.wd2.compareTo(this.wd1);
+        assertEquals(1, compare21);
     }
 
     @Test
@@ -155,6 +154,16 @@ public class WorldDateTest {
         int hash4 = this.wd4.hashCode();
 
         assertEquals(hash1, hash4);
+    }
+
+    @Test
+    public void isAfterTest() {
+        assertTrue(this.wd2.isAfter(this.wd1));
+    }
+
+    @Test
+    public void isAfter2Test() {
+        assertTrue(this.wd3.isAfter(this.wd2));
     }
 
 }

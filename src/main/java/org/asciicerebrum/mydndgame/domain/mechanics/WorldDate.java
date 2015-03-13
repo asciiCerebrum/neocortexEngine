@@ -75,8 +75,7 @@ public class WorldDate implements Comparable {
         int comparison = this.getCombatRoundNumber().compareTo(
                 t.getCombatRoundNumber());
         if (comparison == 0) {
-            // negativate because of inverse order!
-            comparison = -1 * this.getCombatRoundPosition().compareTo(
+            comparison = this.getCombatRoundPosition().compareTo(
                     t.getCombatRoundPosition());
         }
         return comparison;
