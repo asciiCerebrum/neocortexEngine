@@ -71,9 +71,16 @@ public class LevelAdvancement implements BonusSource, ObserverSource {
     }
 
     /**
+     * In case of the very first character class level (adv number 0) the
+     * maximum number of the class's hit dice is returned.
+     *
      * @return the hpAdvancement
      */
     public final HitPoints getHpAdvancement() {
+        if (AdvancementNumber.ADV_NO_0.equals(this.advNumber)) {
+            return new HitPoints(this.classLevel.getCharacterClass()
+                    .getHitDice().getSides().getValue());
+        }
         return hpAdvancement;
     }
 

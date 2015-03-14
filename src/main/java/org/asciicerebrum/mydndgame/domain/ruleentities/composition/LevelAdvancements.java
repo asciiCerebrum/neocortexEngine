@@ -206,4 +206,28 @@ public class LevelAdvancements implements BonusSource, ObserverSource {
         return featBindings;
     }
 
+    /**
+     * Summates the unmodified base hit points of the collection of level
+     * advancements.
+     *
+     * @return the base hit points.
+     */
+    public final HitPoints summateHpAdvancements() {
+        final HitPoints baseHp = new HitPoints();
+        for (final LevelAdvancement lvlAdv : this.elements) {
+            baseHp.add(lvlAdv.getHpAdvancement());
+        }
+        return baseHp;
+    }
+
+    /**
+     * Calculates the total number of level advancements. This equals the level
+     * of the character.
+     *
+     * @return the total number of class levels.
+     */
+    public final AdvancementNumber countLevelAdvancements() {
+        return new AdvancementNumber(this.elements.size());
+    }
+
 }

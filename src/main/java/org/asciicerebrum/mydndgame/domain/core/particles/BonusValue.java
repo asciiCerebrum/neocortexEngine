@@ -57,6 +57,19 @@ public class BonusValue extends LongParticle {
     }
 
     /**
+     * Creates a new bonus value whose value is the product of this instance and
+     * a given advancement number. This is for example needed when calculating
+     * the max hp of a character.
+     *
+     * @param advNumber the advancement number to multiply with.
+     * @return the product of both.
+     */
+    public final BonusValue multiply(final AdvancementNumber advNumber) {
+        long product = this.getValue() * advNumber.getValue();
+        return new BonusValue(product);
+    }
+
+    /**
      * Tests for the non-zeroness of this instance of a bonus value.
      *
      * @return true if not zero. False otherwise.

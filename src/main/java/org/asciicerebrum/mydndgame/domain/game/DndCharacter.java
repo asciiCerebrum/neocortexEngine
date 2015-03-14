@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame.domain.game;
 
 import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.particles.AdvancementNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.ExperiencePoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
@@ -251,6 +252,27 @@ public class DndCharacter extends UniqueEntity implements ICharacter,
             this.setConditions(new Conditions());
         }
         this.getConditions().add(condition);
+    }
+
+    /**
+     * Calculates the unmodified base hit points of a given dnd character by
+     * gathering them from each level advancement. This value is not modified by
+     * the con modifier!
+     *
+     * @return the base hit points.
+     */
+    public final HitPoints getBaseMaxHp() {
+        return this.levelAdvancements.summateHpAdvancements();
+    }
+
+    /**
+     * Calculates the total number of level advancements. This equals the level
+     * of the character.
+     *
+     * @return the total number of class levels.
+     */
+    public final AdvancementNumber getTotalClassLevel() {
+        return this.levelAdvancements.countLevelAdvancements();
     }
 
 }
