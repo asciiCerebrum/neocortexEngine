@@ -38,9 +38,6 @@ public class Boni {
 
         @Override
         public final boolean evaluate(final Object o) {
-            if (!(o instanceof Bonus)) {
-                return false;
-            }
             Bonus oBonus = (Bonus) o;
             return target.equals(oBonus.getTarget());
         }

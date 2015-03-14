@@ -89,7 +89,7 @@ public class Bonus {
      * @param bonus the bonus to test the resemblance with.
      * @return true if all attributes match. False otherwise.
      */
-    public final Boolean resembles(final Bonus bonus) {
+    public final boolean resembles(final Bonus bonus) {
         return this.resemblesValues(bonus, ResemblanceFacet.values());
     }
 
@@ -103,7 +103,7 @@ public class Bonus {
      * lead to the full facet spectrum.
      * @return true if all given facets match. False otherwise.
      */
-    public final Boolean resembles(final Bonus bonus,
+    public final boolean resembles(final Bonus bonus,
             final ResemblanceFacet... facets) {
 
         if (facets == null || facets.length == 0) {
@@ -120,7 +120,7 @@ public class Bonus {
      * @param facets the facets to take into account.
      * @return false or further delegate result.
      */
-    private Boolean resemblesValues(final Bonus bonus,
+    private boolean resemblesValues(final Bonus bonus,
             final ResemblanceFacet... facets) {
         if (Arrays.asList(facets).contains(ResemblanceFacet.VALUE)
                 && !this.getValues().equals(bonus.getValues())) {
@@ -136,7 +136,7 @@ public class Bonus {
      * @param facets the facets to take into account.
      * @return false or further delegate result.
      */
-    private Boolean resemblesBonusType(final Bonus bonus,
+    private boolean resemblesBonusType(final Bonus bonus,
             final ResemblanceFacet... facets) {
         if (Arrays.asList(facets).contains(ResemblanceFacet.BONUS_TYPE)
                 && !ObjectUtils.equals(bonus.getBonusType(),
@@ -153,7 +153,7 @@ public class Bonus {
      * @param facets the facets to take into account.
      * @return false or further delegate result.
      */
-    private Boolean resemblesTarget(final Bonus bonus,
+    private boolean resemblesTarget(final Bonus bonus,
             final ResemblanceFacet... facets) {
         if (Arrays.asList(facets).contains(ResemblanceFacet.TARGET)
                 && !ObjectUtils.equals(bonus.getTarget(), this.getTarget())) {
@@ -169,7 +169,7 @@ public class Bonus {
      * @param facets the facets to take into account.
      * @return false or further delegate result, which is true in this case.
      */
-    private Boolean resemblesDynamicValueProvider(final Bonus bonus,
+    private boolean resemblesDynamicValueProvider(final Bonus bonus,
             final ResemblanceFacet... facets) {
         if (Arrays.asList(facets).contains(
                 ResemblanceFacet.DYNAMIC_VALUE_PROVIDER)

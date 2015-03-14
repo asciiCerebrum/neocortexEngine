@@ -78,7 +78,7 @@ public class LevelAdvancement implements BonusSource, ObserverSource {
      */
     public final HitPoints getHpAdvancement() {
         if (AdvancementNumber.ADV_NO_0.equals(this.advNumber)) {
-            return new HitPoints(this.classLevel.getCharacterClass()
+            return new HitPoints(this.getClassLevel().getCharacterClass()
                     .getHitDice().getSides().getValue());
         }
         return hpAdvancement;
