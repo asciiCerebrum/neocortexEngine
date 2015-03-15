@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
@@ -21,49 +22,51 @@ import static org.mockito.Mockito.verify;
  * @author species8472
  */
 public class ConditionExpirationWorkflowTest {
-
+    
     private ConditionExpirationWorkflow workflow;
-
+    
     private ConditionApplicationService conditionApplicationService;
-
+    
     public ConditionExpirationWorkflowTest() {
     }
-
+    
     @BeforeClass
     public static void setUpClass() {
     }
-
+    
     @AfterClass
     public static void tearDownClass() {
     }
-
+    
     @Before
     public void setUp() {
         this.workflow = new ConditionExpirationWorkflow();
         this.conditionApplicationService
                 = mock(ConditionApplicationService.class);
-
+        
         this.workflow.setConditionService(this.conditionApplicationService);
     }
-
+    
     @After
     public void tearDown() {
     }
-
+    
     @Test
     public void runWorkflowTest() {
         final Interaction interaction = new Interaction();
         final DndCharacter characterA = new DndCharacter();
+        characterA.setUniqueId(new UniqueId("characterA"));
         final DndCharacter characterB = new DndCharacter();
+        characterB.setUniqueId(new UniqueId("characterB"));
         final CombatRound combatRound = new CombatRound();
         combatRound.addParticipant(characterA, new CombatRoundPosition("0"));
         combatRound.addParticipant(characterB, new CombatRoundPosition("1"));
         interaction.setCombatRound(combatRound);
-
+        
         this.workflow.runWorkflow(interaction);
         verify(this.conditionApplicationService, times(2))
                 .removeExpiredConditions((DndCharacter) anyObject(),
                         (WorldDate) anyObject());
     }
-
+    
 }

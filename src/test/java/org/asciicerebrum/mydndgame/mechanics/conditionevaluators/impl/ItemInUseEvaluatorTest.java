@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl;
 
 import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.Armor;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
@@ -80,9 +81,13 @@ public class ItemInUseEvaluatorTest {
     public void evaluateBothNotEqualTest() {
         final ICharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = new Weapon();
+        contextItem.setUniqueId(new UniqueId("contextItem"));
+
+        final Armor inventoryItem = new Armor();
+        inventoryItem.setUniqueId(new UniqueId("inventoryItem"));
 
         when(this.sitConService.getActiveItem((DndCharacter) dndCharacter))
-                .thenReturn((InventoryItem) new Armor());
+                .thenReturn((InventoryItem) inventoryItem);
 
         final boolean result = this.evaluator.evaluate(
                 dndCharacter, contextItem);

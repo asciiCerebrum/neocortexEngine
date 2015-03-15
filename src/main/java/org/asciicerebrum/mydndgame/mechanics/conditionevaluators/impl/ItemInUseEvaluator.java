@@ -35,15 +35,10 @@ public class ItemInUseEvaluator implements ConditionEvaluator {
         final InventoryItem item = this.getCtxService()
                 .getActiveItem(dndCharacter);
 
-        if (contextItem == null && item == null) {
-            return true;
+        if (item == null) {
+            return contextItem == null;
         }
-
-        if (item != null) {
-            return item.equals(contextItem);
-        }
-
-        return false;
+        return item.equals(contextItem);
     }
 
     /**
