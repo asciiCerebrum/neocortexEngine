@@ -3,6 +3,7 @@ package org.asciicerebrum.mydndgame.domain.game;
 import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.AdvancementNumber;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.core.particles.ExperiencePoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
@@ -273,6 +274,16 @@ public class DndCharacter extends UniqueEntity implements ICharacter,
      */
     public final AdvancementNumber getTotalClassLevel() {
         return this.levelAdvancements.countLevelAdvancements();
+    }
+
+    /**
+     * Calculates the unmodified base attack boni of this dnd character
+     * instance.
+     *
+     * @return the base attack boni.
+     */
+    public final BonusValueTuple getBaseAtkBoni() {
+        return this.levelAdvancements.summateBaseAtkBoni();
     }
 
 }

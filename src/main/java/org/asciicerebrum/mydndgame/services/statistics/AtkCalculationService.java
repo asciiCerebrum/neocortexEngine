@@ -11,14 +11,6 @@ import org.asciicerebrum.mydndgame.domain.game.Weapon;
 public interface AtkCalculationService {
 
     /**
-     * Calculates the base attack boni of a given dnd character.
-     *
-     * @param dndCharacter the character the base attack boni are needed for.
-     * @return the base attack boni.
-     */
-    BonusValueTuple calcBaseAtkBoni(DndCharacter dndCharacter);
-
-    /**
      * For statistical (and other) purposes it is necessary to calculate the
      * attack boni for a given weapon inside a given body slot with a given
      * attack mode (ranged or melee). E.g. I want to know the attack boni of my

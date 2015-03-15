@@ -10,6 +10,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.particles.AbilityScore;
 import org.asciicerebrum.mydndgame.domain.core.particles.AdvancementNumber;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
 import org.asciicerebrum.mydndgame.domain.ruleentities.ClassLevel;
@@ -228,6 +229,26 @@ public class LevelAdvancements implements BonusSource, ObserverSource {
      */
     public final AdvancementNumber countLevelAdvancements() {
         return new AdvancementNumber(this.elements.size());
+    }
+
+    /**
+     * Summates the unmodified base attack boni of this collection of leven
+     * advancements.
+     *
+     * @return the base attack boni.
+     */
+    public final BonusValueTuple summateBaseAtkBoni() {
+        final BonusValueTuple boniTuple = new BonusValueTuple();
+
+        final Iterator<ClassLevel> clLvlIterator
+                = this.classLevelIterator();
+
+        while (clLvlIterator.hasNext()) {
+            final ClassLevel clLvl = clLvlIterator.next();
+            boniTuple.add(clLvl.getBaseAtkBoniDelta());
+        }
+
+        return boniTuple;
     }
 
 }
