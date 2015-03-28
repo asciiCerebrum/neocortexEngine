@@ -3,24 +3,20 @@ package org.asciicerebrum.mydndgame.domain.factories;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import org.asciicerebrum.mydndgame.domain.factories.Reassignments.ReassignmentEntry;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
-import org.springframework.context.ApplicationContext;
+import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
 
 /**
  *
  * @author species8472
  */
 public class CampaignFactory implements EntityFactory<Campaign> {
-
-    /**
-     * Spring context to get the beans from.
-     */
-    private ApplicationContext context;
 
     /**
      * The factory for creating dnd characters.
@@ -30,7 +26,7 @@ public class CampaignFactory implements EntityFactory<Campaign> {
     /**
      * The factory for creating inventory items.
      */
-    private EntityFactory<InventoryItem> inventoryItemFactory;
+    private Map<Class, EntityFactory<InventoryItem>> inventoryItemFactories;
 
     /**
      * The factory for creating a combat round instance.
@@ -39,16 +35,22 @@ public class CampaignFactory implements EntityFactory<Campaign> {
 
     @Override
     public final Campaign newEntity(final EntitySetup setup,
-            final Reassignments reassignments) {
+            final Campaign campaignInput) {
 
-        Campaign campaign = this.getContext().getBean(Campaign.class);
+        final Campaign campaign = ApplicationContextProvider
+                .getApplicationContext().getBean(Campaign.class);
 
         final List<EntitySetup> inventoryItemSetups
                 = setup.getPropertySetups(SetupProperty.INVENTORY_ITEMS);
         if (inventoryItemSetups != null) {
             for (EntitySetup itemSetup : inventoryItemSetups) {
-                campaign.registerUniqueEntity(this.getInventoryItemFactory()
-                        .newEntity(itemSetup, reassignments));
+                final Class setupClass = itemSetup.getClass();
+                final EntityFactory<InventoryItem> factory
+                        = this.getInventoryItemFactories().get(setupClass);
+                final InventoryItem item
+                        = factory.newEntity(itemSetup, campaign);
+
+                campaign.registerUniqueEntity(item);
             }
         }
 
@@ -57,7 +59,7 @@ public class CampaignFactory implements EntityFactory<Campaign> {
         if (participantSetups != null) {
             for (EntitySetup characterSetup : participantSetups) {
                 campaign.registerUniqueEntity(this.getCharacterFactory()
-                        .newEntity(characterSetup, reassignments));
+                        .newEntity(characterSetup, campaign));
             }
         }
 
@@ -65,16 +67,17 @@ public class CampaignFactory implements EntityFactory<Campaign> {
                 = setup.getPropertySetup(SetupProperty.COMBAT_ROUND);
         if (combatRoundSetup != null) {
             campaign.setCombatRound(this.getCombatRoundFactory()
-                    .newEntity(combatRoundSetup, reassignments));
+                    .newEntity(combatRoundSetup, campaign));
         }
 
         // do reassignments because of yet unresolved cyclic dependencies.
-        Iterator<ReassignmentEntry> entryIterator = reassignments.getIterator();
+        Iterator<ReassignmentEntry> entryIterator
+                = campaign.reassignmentIterator();
         while (entryIterator.hasNext()) {
             //TODO log this
             ReassignmentEntry entry = entryIterator.next();
             entry.getFactory().reAssign(entry.getSetup(), entry.getEntity(),
-                    reassignments);
+                    campaign);
         }
 
         return campaign;
@@ -82,15 +85,8 @@ public class CampaignFactory implements EntityFactory<Campaign> {
 
     @Override
     public final void reAssign(final EntitySetup setup, final Campaign entity,
-            final Reassignments reassignments) {
+            final Campaign campaign) {
         // nothing to do here
-    }
-
-    /**
-     * @param contextInput the context to set
-     */
-    public final void setContext(final ApplicationContext contextInput) {
-        this.context = contextInput;
     }
 
     /**
@@ -102,11 +98,11 @@ public class CampaignFactory implements EntityFactory<Campaign> {
     }
 
     /**
-     * @param inventoryItemFactoryInput the inventoryItemFactory to set
+     * @param factoriesInput the inventoryItemFactory to set
      */
-    public final void setInventoryItemFactory(
-            final EntityFactory<InventoryItem> inventoryItemFactoryInput) {
-        this.inventoryItemFactory = inventoryItemFactoryInput;
+    public final void setInventoryItemFactories(
+            final Map<Class, EntityFactory<InventoryItem>> factoriesInput) {
+        this.inventoryItemFactories = factoriesInput;
     }
 
     /**
@@ -118,31 +114,25 @@ public class CampaignFactory implements EntityFactory<Campaign> {
     }
 
     /**
-     * @return the context
-     */
-    public final ApplicationContext getContext() {
-        return context;
-    }
-
-    /**
      * @return the characterFactory
      */
     public final EntityFactory<DndCharacter> getCharacterFactory() {
-        return characterFactory;
+        return this.characterFactory;
     }
 
     /**
      * @return the inventoryItemFactory
      */
-    public final EntityFactory<InventoryItem> getInventoryItemFactory() {
-        return inventoryItemFactory;
+    public final Map<Class, EntityFactory<InventoryItem>>
+            getInventoryItemFactories() {
+        return this.inventoryItemFactories;
     }
 
     /**
      * @return the combatRoundFactory
      */
     public final EntityFactory<CombatRound> getCombatRoundFactory() {
-        return combatRoundFactory;
+        return this.combatRoundFactory;
     }
 
 }

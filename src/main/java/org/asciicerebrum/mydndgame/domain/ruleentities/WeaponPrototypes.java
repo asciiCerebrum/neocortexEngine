@@ -26,6 +26,15 @@ public class WeaponPrototypes {
     }
 
     /**
+     * @param elementsInput the elements to put into the list
+     */
+    public final void setWeaponPrototypes(
+            final List<WeaponPrototype> elementsInput) {
+        this.elements.clear();
+        this.elements.addAll(elementsInput);
+    }
+
+    /**
      * Iterator over the collection of weapon prototypes.
      *
      * @return the iterator.

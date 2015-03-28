@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame.domain.factories;
 
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
+import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
 
 /**
  * Builder for a unique weapon from the prototype.
@@ -16,7 +17,8 @@ public class WeaponFactory extends InventoryItemFactory {
     @Override
     protected final InventoryItem getConcreteInventoryItem() {
 
-        return this.getContext().getBean(Weapon.class);
+        return ApplicationContextProvider
+                .getApplicationContext().getBean(Weapon.class);
 
     }
 

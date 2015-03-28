@@ -22,6 +22,16 @@ public class WeaponTypes {
     }
 
     /**
+     * Clears the collection first.
+     *
+     * @param weaponTypes the list of weapon types to set.
+     */
+    public final void setWeaponTypes(final List<WeaponType> weaponTypes) {
+        this.elements.clear();
+        this.elements.addAll(weaponTypes);
+    }
+
+    /**
      * @param weaponTypesInput the weaponTypes to set
      */
     public final void add(final List<WeaponType> weaponTypesInput) {

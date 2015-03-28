@@ -28,6 +28,7 @@
         <property name="levelAdvancementsStrategy" ref="levelAdvancementsObserverAccumulatorStrategy" />
         <property name="personalizedBodySlotsStrategy" ref="personalizedBodySlotsObserverAccumulatorStrategy" />
         <property name="raceStrategy" ref="raceObserverAccumulatorStrategy" />
+        <property name="prototypeSpecialAbilitiesStrategy" ref="specialAbilitiesObserverAccumulatorStrategy" />
     </bean>
     <bean id="featObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.FeatObserverAccumulatorStrategy">
         <property name="featTypeStrategy" ref="featTypeObserverAccumulatorStrategy" />
@@ -37,8 +38,13 @@
         <property name="featStrategy" ref="featObserverAccumulatorStrategy" />
     </bean>
     <bean id="featureObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.FeatureObserverAccumulatorStrategy" />
+    <bean id="inventoryItemPrototypeObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.InventoryItemPrototypeObserverAccumulatorStrategy">
+        <property name="specialAbilitiesStrategy" ref="specialAbilitiesObserverAccumulatorStrategy" />
+    </bean>
     <bean id="inventoryItemObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.InventoryItemObserverAccumulatorStrategy">
         <property name="specialAbilitiesStrategy" ref="specialAbilitiesObserverAccumulatorStrategy" />
+        <property name="inventoryItemPrototypeStrategy" ref="inventoryItemPrototypeObserverAccumulatorStrategy" />
+        <property name="conditionsStrategy" ref="conditionsObserverAccumulatorStrategy" />
     </bean>
     <bean id="levelAdvancementObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.LevelAdvancementObserverAccumulatorStrategy">
         <property name="classLevelStrategy" ref="classLevelObserverAccumulatorStrategy" />
@@ -79,6 +85,7 @@
                 <ref bean="featTypeObserverAccumulatorStrategy" />
                 <ref bean="featsObserverAccumulatorStrategy" />
                 <ref bean="featureObserverAccumulatorStrategy" />
+                <ref bean="inventoryItemPrototypeObserverAccumulatorStrategy" />
                 <ref bean="inventoryItemObserverAccumulatorStrategy" />
                 <ref bean="levelAdvancementObserverAccumulatorStrategy" />
                 <ref bean="levelAdvancementsObserverAccumulatorStrategy" />
@@ -94,9 +101,49 @@
     <bean id="observableService" class="org.asciicerebrum.mydndgame.services.core.DefaultObservableService">
         <property name="accumulatorStrategies" ref="observerAccumulatorStrategies" />
     </bean>
-    
     <bean id="bonusCalculationService" class="org.asciicerebrum.mydndgame.services.core.DefaultBonusCalculationServiceImpl">
         <property name="observableService" ref="observableService" />
     </bean>
     
+    <bean id="abilityCalculationService" class="org.asciicerebrum.mydndgame.services.statistics.DefaultAbilityCalculationService">
+        <property name="bonusService" ref="bonusCalculationService" />
+    </bean>
+    <bean id="acCalculationService" class="org.asciicerebrum.mydndgame.services.statistics.DefaultAcCalculationService">
+        <property name="bonusService" ref="bonusCalculationService" />
+        <property name="acAction" ref="ac" />
+        <property name="acBaseAction" ref="acBase" />
+        <property name="flatFooted" ref="flatFooted" />
+        <property name="touchAttackAction" ref="touchAttack" />
+    </bean>
+    <bean id="atkCalculationService" class="org.asciicerebrum.mydndgame.services.statistics.DefaultAtkCalculationService">
+        <property name="bonusService" ref="bonusCalculationService" />
+        <property name="situationContextService" ref="situationContextService" />
+        <property name="attackAction" ref="attack" />
+    </bean>
+    <bean id="damageCalculationService" class="org.asciicerebrum.mydndgame.services.statistics.DefaultDamageCalculationService">
+        <property name="bonusService" ref="bonusCalculationService" />
+        <property name="situationContextService" ref="situationContextService" />
+        <property name="damageAction" ref="damage" />
+    </bean>
+    <bean id="hpCalculationService" class="org.asciicerebrum.mydndgame.services.statistics.DefaultHpCalculationService">
+        <property name="bonusService" ref="bonusCalculationService" />
+        <property name="abilityService" ref="abilityCalculationService" />
+        <property name="conAbility" ref="con" />
+        <property name="hpAction" ref="hp" />
+    </bean>
+    <bean id="initiativeCalculationService" class="org.asciicerebrum.mydndgame.services.statistics.DefaultInitiativeCalculationService">
+        <property name="bonusService" ref="bonusCalculationService" />
+        <property name="initAction" ref="initiative" />
+    </bean>
+    
+    <bean id="situationContextService" class="org.asciicerebrum.mydndgame.services.context.DefaultSituationContextService">
+    </bean>
+    
+    <bean id="conditionApplicationService" class="org.asciicerebrum.mydndgame.services.application.DefaultConditionApplicationService">
+        <property name="observableService" ref="observableService" />
+    </bean>
+    <bean id="damageApplicationService" class="org.asciicerebrum.mydndgame.services.application.DefaultDamageApplicationService">
+        <property name="observableService" ref="observableService" />
+    </bean>
+                
 </beans>

@@ -3,15 +3,15 @@ package org.asciicerebrum.mydndgame.domain.factories;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
-import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry.StateParticle;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry.StateValueType;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
-import org.springframework.context.ApplicationContext;
+import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
 
 /**
  *
@@ -19,19 +19,9 @@ import org.springframework.context.ApplicationContext;
  */
 public class StateRegistryFactory implements EntityFactory<StateRegistry> {
 
-    /**
-     * The campaign holding the basic data of encounters and characters.
-     */
-    private Campaign campaign;
-
-    /**
-     * The spring application context to find beans.
-     */
-    private ApplicationContext context;
-
     @Override
     public final StateRegistry newEntity(final EntitySetup setup,
-            final Reassignments reassignments) {
+            final Campaign campaign) {
 
         StateRegistry stateReg = new StateRegistry();
 
@@ -39,7 +29,7 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
                 = setup.getPropertySetups(SetupProperty.STATE_REGISTRY_ENTRY);
         if (registryEntrySetups != null) {
             for (EntitySetup entrySetup : registryEntrySetups) {
-                this.addSingleState(stateReg, entrySetup, reassignments);
+                this.addSingleState(stateReg, entrySetup, campaign);
             }
         }
 
@@ -51,11 +41,10 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
      *
      * @param stateReg the state registry to put the state in.
      * @param entrySetup the setup for the registry entry.
-     * @param reassignments the reassignment object for resolving unfound
-     * objects.
+     * @param campaign the campaign as the central entity map.
      */
     final void addSingleState(final StateRegistry stateReg,
-            final EntitySetup entrySetup, final Reassignments reassignments) {
+            final EntitySetup entrySetup, final Campaign campaign) {
 
         if (!entrySetup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the state "
@@ -67,18 +56,17 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
                                 SetupProperty.STATE_REGISTRY_PARTICLE));
 
         UniqueEntity contextObject = null;
-        final String contextObjectId
-                = entrySetup.getProperty(
-                        SetupProperty.STATE_REGISTRY_CONTEXT_OBJECT_ID);
+        final String contextObjectId = entrySetup.getProperty(
+                SetupProperty.STATE_REGISTRY_CONTEXT_OBJECT_ID);
         if (StringUtils.isNotBlank(contextObjectId)) {
-            contextObject = this.getCampaign().getEntityById(
+            contextObject = campaign.getEntityById(
                     new UniqueId(contextObjectId));
         }
         if (contextObject == null
                 && StringUtils.isNotBlank(contextObjectId)) {
             // something did not work - reassigning for later resolution
             //TODO log this with info
-            reassignments.addEntry(this, entrySetup, stateReg);
+            campaign.addReassignmentEntry(this, entrySetup, stateReg);
             return;
         }
 
@@ -90,43 +78,16 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
                         SetupProperty.STATE_REGISTRY_VALUE);
 
         stateReg.putState(particle, contextObject,
-                stateValueType.parseToType(stateValueString, this.getCampaign(),
-                        this.getContext()));
+                stateValueType.parseToType(stateValueString, campaign,
+                        ApplicationContextProvider
+                        .getApplicationContext()));
     }
 
     @Override
     public final void reAssign(final EntitySetup setup,
-            final StateRegistry entity, final Reassignments reassignments) {
+            final StateRegistry entity, final Campaign campaign) {
 
-        this.addSingleState(entity, setup, reassignments);
-    }
-
-    /**
-     * @param campaignInput the campaign to set
-     */
-    public final void setCampaign(final Campaign campaignInput) {
-        this.campaign = campaignInput;
-    }
-
-    /**
-     * @param contextInput the context to set
-     */
-    public final void setContext(final ApplicationContext contextInput) {
-        this.context = contextInput;
-    }
-
-    /**
-     * @return the campaign
-     */
-    public final Campaign getCampaign() {
-        return campaign;
-    }
-
-    /**
-     * @return the context
-     */
-    public final ApplicationContext getContext() {
-        return context;
+        this.addSingleState(entity, setup, campaign);
     }
 
 }

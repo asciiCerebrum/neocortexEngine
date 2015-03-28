@@ -13,13 +13,13 @@ public class BodySlots {
     /**
      * The list of body slots.
      */
-    private List<BodySlot> elements = new ArrayList<BodySlot>();
+    private final List<BodySlot> elements = new ArrayList<BodySlot>();
 
     /**
      * @param bodySlotsInput the bodySlots to set
      */
     public final void setBodySlots(final List<BodySlot> bodySlotsInput) {
-        this.elements = bodySlotsInput;
+        this.elements.addAll(bodySlotsInput);
     }
 
     /**

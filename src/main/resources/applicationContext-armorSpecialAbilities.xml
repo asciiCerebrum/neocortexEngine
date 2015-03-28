@@ -9,21 +9,41 @@
     The masterwork quality of a suit of armor or shield never provides a bonus on attack or damage rolls, even if the armor or shield is used as a weapon.  -->
 
     <bean id="masterworkArmor" class="org.asciicerebrum.mydndgame.ArmorSpecialAbility">
-        <property name="id" value="masterworkArmor" />
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="masterworkArmor" />
+            </bean>
+        </property>
         <property name="observers">
-            <list>
-                <!-- The masterwork quality adds 150 gp to the cost of a normal armor -->
-                <bean class="org.asciicerebrum.mydndgame.observers.SimpleArithmeticObserver">
-                    <property name="hook" value="PRICE" />
-                    <property name="modValue" value="150" />
-                    <property name="operation" value="ADDITION" />
-                </bean>
-                <bean class="org.asciicerebrum.mydndgame.observers.SimpleArithmeticObserver">
-                    <property name="hook" value="ARMOR_CHECK_PENALTY" />
-                    <property name="modValue" value="1" />
-                    <property name="operation" value="ADDITION" />
-                </bean>
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers">
+                <constructor-arg>
+                    <list>
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
+                            <property name="hook" value="PRICE" />
+                            <!-- The masterwork quality adds 150 gp to the cost of a normal armor -->
+                            <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.SimpleArithmeticObserverTrigger">
+                                <property name="modValue">
+                                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.LongParticle">
+                                        <constructor-arg value="150" />
+                                    </bean>
+                                </property>
+                                <property name="operation" value="ADDITION" />
+                            </bean>
+                        </bean>
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
+                            <property name="hook" value="ARMOR_CHECK_PENALTY" />
+                            <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.SimpleArithmeticObserverTrigger">
+                                <property name="modValue">
+                                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.LongParticle">
+                                        <constructor-arg value="1" />
+                                    </bean>
+                                </property>
+                                <property name="operation" value="ADDITION" />
+                            </bean>
+                        </bean>
+                    </list>
+                </constructor-arg>
+            </bean>
         </property>        
     </bean>
 

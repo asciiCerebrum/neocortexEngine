@@ -5,168 +5,437 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- armor categories -->
-    <bean id="armor" class="org.asciicerebrum.mydndgame.ArmorCategory">
-        <property name="id" value="armor" />
+    <bean id="armor" class="org.asciicerebrum.mydndgame.domain.ruleentities.ArmorCategory">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="armor" />
+            </bean>
+        </property>
     </bean>
-    <bean id="shield" class="org.asciicerebrum.mydndgame.ArmorCategory">
-        <property name="id" value="shield" />
+    <bean id="shield" class="org.asciicerebrum.mydndgame.domain.ruleentities.ArmorCategory">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="shield" />
+            </bean>
+        </property>
     </bean>
-    <bean id="extra" class="org.asciicerebrum.mydndgame.ArmorCategory">
-        <property name="id" value="extra" />
+    <bean id="extra" class="org.asciicerebrum.mydndgame.domain.ruleentities.ArmorCategory">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="extra" />
+            </bean>
+        </property>
     </bean>
     
     <!-- armor/shield proficiencies -->
-    <bean id="lightArmor" class="org.asciicerebrum.mydndgame.Proficiency">
-        <property name="id" value="lightArmor" />
+    <bean id="lightArmor" class="org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="lightArmor" />
+            </bean>
+        </property>
     </bean>
-    <bean id="mediumArmor" class="org.asciicerebrum.mydndgame.Proficiency">
-        <property name="id" value="mediumArmor" />
+    <bean id="mediumArmor" class="org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="mediumArmor" />
+            </bean>
+        </property>
     </bean>
-    <bean id="heavyArmor" class="org.asciicerebrum.mydndgame.Proficiency">
-        <property name="id" value="heavyArmor" />
+    <bean id="heavyArmor" class="org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="heavyArmor" />
+            </bean>
+        </property>
     </bean>
-    <bean id="lightShieldArmor" class="org.asciicerebrum.mydndgame.Proficiency">
-        <property name="id" value="lightShieldArmor" />
+    <bean id="lightShieldArmor" class="org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="lightShieldArmor" />
+            </bean>
+        </property>
     </bean>
-    <bean id="heavyShieldArmor" class="org.asciicerebrum.mydndgame.Proficiency">
-        <property name="id" value="heavyShieldArmor" />
+    <bean id="heavyShieldArmor" class="org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="heavyShieldArmor" />
+            </bean>
+        </property>
     </bean>
-    <bean id="towerShieldArmor" class="org.asciicerebrum.mydndgame.Proficiency">
-        <property name="id" value="towerShieldArmor" />
+    <bean id="towerShieldArmor" class="org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="towerShieldArmor" />
+            </bean>
+        </property>
     </bean>
     
     <!-- armor prototypes -->
-    <bean id="abstractArmor" class="org.asciicerebrum.mydndgame.InventoryItem" scope="prototype" abstract="true">
-        <property name="observableDelegate" ref="observableDelegate" />
-    </bean>
-    
-    <bean id="studdedLeather" class="org.asciicerebrum.mydndgame.Armor" scope="prototype"
-          parent="abstractArmor">
-        <property name="name" value="studdedLeather" />
+    <bean id="studdedLeather" class="org.asciicerebrum.mydndgame.domain.ruleentities.ArmorPrototype">
+        <property name="genericName">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="studdedLeather" />
+            </bean>
+        </property>
         <property name="armorCategory" ref="armor" />
         <property name="proficiency" ref="lightArmor" />
-        <property name="baseCost" value="25" />
-        <property name="maxDexBonus" value="5" />
-        <property name="armorCheckPenalty" value="-1" />
-        <property name="arcaneSpellFailure" value="15" />
-        <property name="weight" value="20" />
-        <property name="designatedBodySlots">
-            <list>
-                <ref bean="torso" />
-            </list>
+        <property name="baseCost">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+                <constructor-arg value="25" />
+            </bean>
         </property>
-        <property name="boni">
-            <list>
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="armorBonus" />
-                    <property name="target" ref="acBase" />
-                    <property name="value" value="3" />
-                </bean>
-            </list>
+        <property name="baseWeight">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+                <constructor-arg value="20" />
+            </bean>                
+        </property>
+        <property name="maxDexBonus">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                <constructor-arg value="5" />
+            </bean>            
+        </property>
+        <property name="armorCheckPenalty">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                <constructor-arg value="-1" />
+            </bean>            
+        </property>
+        <property name="arcaneSpellFailure">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.SpellFailure">
+                <constructor-arg value="15" />
+            </bean>            
+        </property>
+        <property name="designatedBodySlots">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+                <property name="bodySlotTypes">
+                    <list>
+                        <ref bean="torso" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="specialAbilities">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities">
+                <property name="specialAbilities">
+                    <list>
+                        <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
+                            <property name="boni">
+                                <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+                                    <constructor-arg>
+                                        <list>
+                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                                                <property name="bonusType" ref="armorBonus" />
+                                                <property name="target" ref="acBase" />
+                                                <property name="values">
+                                                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+                                                        <constructor-arg>
+                                                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                                                <constructor-arg value="3" />
+                                                            </bean>
+                                                        </constructor-arg>
+                                                    </bean>
+                                                </property>
+                                            </bean>
+                                        </list>
+                                    </constructor-arg>
+                                </bean>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
     
-    <bean id="chainmail" class="org.asciicerebrum.mydndgame.Armor" scope="prototype"
-          parent="abstractArmor">
-        <property name="name" value="chainmail" />
+    <bean id="chainmail" class="org.asciicerebrum.mydndgame.domain.ruleentities.ArmorPrototype">
+        <property name="genericName">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="chainmail" />
+            </bean>
+        </property>
         <property name="armorCategory" ref="armor" />
         <property name="proficiency" ref="mediumArmor" />
-        <property name="baseCost" value="150" />
-        <property name="maxDexBonus" value="2" />
-        <property name="armorCheckPenalty" value="-5" />
-        <property name="arcaneSpellFailure" value="30" />
-        <property name="weight" value="40" />
-        <property name="designatedBodySlots">
-            <list>
-                <ref bean="torso" />
-            </list>
+        <property name="baseCost">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+                <constructor-arg value="150" />
+            </bean>
         </property>
-        <property name="boni">
-            <list>
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="armorBonus" />
-                    <property name="target" ref="acBase" />
-                    <property name="value" value="5" />
-                </bean>
-            </list>
+        <property name="baseWeight">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+                <constructor-arg value="40" />
+            </bean>                
+        </property>
+        <property name="maxDexBonus">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                <constructor-arg value="2" />
+            </bean>            
+        </property>
+        <property name="armorCheckPenalty">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                <constructor-arg value="-5" />
+            </bean>            
+        </property>
+        <property name="arcaneSpellFailure">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.SpellFailure">
+                <constructor-arg value="30" />
+            </bean>            
+        </property>
+        <property name="designatedBodySlots">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+                <property name="bodySlotTypes">
+                    <list>
+                        <ref bean="torso" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="specialAbilities">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities">
+                <property name="specialAbilities">
+                    <list>
+                        <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
+                            <property name="boni">
+                                <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+                                    <constructor-arg>
+                                        <list>
+                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                                                <property name="bonusType" ref="armorBonus" />
+                                                <property name="target" ref="acBase" />
+                                                <property name="values">
+                                                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+                                                        <constructor-arg>
+                                                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                                                <constructor-arg value="5" />
+                                                            </bean>
+                                                        </constructor-arg>
+                                                    </bean>
+                                                </property>
+                                            </bean>
+                                        </list>
+                                    </constructor-arg>
+                                </bean>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
 
-    <bean id="halfPlate" class="org.asciicerebrum.mydndgame.Armor" scope="prototype"
-          parent="abstractArmor">
-        <property name="name" value="halfPlate" />
+    <bean id="halfPlate" class="org.asciicerebrum.mydndgame.domain.ruleentities.ArmorPrototype">
+        <property name="genericName">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="halfPlate" />
+            </bean>
+        </property>
         <property name="armorCategory" ref="armor" />
         <property name="proficiency" ref="heavyArmor" />
-        <property name="baseCost" value="600" />
-        <property name="maxDexBonus" value="0" />
-        <property name="armorCheckPenalty" value="-7" />
-        <property name="arcaneSpellFailure" value="40" />
-        <property name="weight" value="50" />
-        <property name="designatedBodySlots">
-            <list>
-                <ref bean="torso" />
-            </list>
+        <property name="baseCost">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+                <constructor-arg value="600" />
+            </bean>
         </property>
-        <property name="boni">
-            <list>
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="armorBonus" />
-                    <property name="target" ref="acBase" />
-                    <property name="value" value="7" />
-                </bean>
-            </list>
+        <property name="baseWeight">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+                <constructor-arg value="50" />
+            </bean>                
+        </property>
+        <property name="maxDexBonus">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                <constructor-arg value="0" />
+            </bean>            
+        </property>
+        <property name="armorCheckPenalty">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                <constructor-arg value="-7" />
+            </bean>            
+        </property>
+        <property name="arcaneSpellFailure">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.SpellFailure">
+                <constructor-arg value="40" />
+            </bean>            
+        </property>
+        <property name="designatedBodySlots">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+                <property name="bodySlotTypes">
+                    <list>
+                        <ref bean="torso" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="specialAbilities">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities">
+                <property name="specialAbilities">
+                    <list>
+                        <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
+                            <property name="boni">
+                                <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+                                    <constructor-arg>
+                                        <list>
+                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                                                <property name="bonusType" ref="armorBonus" />
+                                                <property name="target" ref="acBase" />
+                                                <property name="values">
+                                                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+                                                        <constructor-arg>
+                                                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                                                <constructor-arg value="7" />
+                                                            </bean>
+                                                        </constructor-arg>
+                                                    </bean>
+                                                </property>
+                                            </bean>
+                                        </list>
+                                    </constructor-arg>
+                                </bean>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
         
-    <bean id="lightWoodenShield" class="org.asciicerebrum.mydndgame.Armor" scope="prototype"
-          parent="abstractArmor">
-        <property name="name" value="lightWoodenShield" />
+    <bean id="lightWoodenShield" class="org.asciicerebrum.mydndgame.domain.ruleentities.ArmorPrototype">
+        <property name="genericName">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="lightWoodenShield" />
+            </bean>
+        </property>
         <property name="armorCategory" ref="shield" />
         <property name="proficiency" ref="lightShieldArmor" />
-        <property name="baseCost" value="3" />
-        <property name="armorCheckPenalty" value="-1" />
-        <property name="arcaneSpellFailure" value="5" />
-        <property name="weight" value="5" />
-        <property name="designatedBodySlots">
-            <list>
-                <ref bean="primaryHand" />
-                <ref bean="secondaryHand" />
-            </list>
+        <property name="baseCost">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+                <constructor-arg value="3" />
+            </bean>
         </property>
-        <property name="boni">
-            <list>
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="shieldBonus" />
-                    <property name="target" ref="acBase" />
-                    <property name="value" value="1" />
-                </bean>
-            </list>
+        <property name="baseWeight">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+                <constructor-arg value="5" />
+            </bean>                
+        </property>
+        <property name="armorCheckPenalty">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                <constructor-arg value="-1" />
+            </bean>            
+        </property>
+        <property name="arcaneSpellFailure">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.SpellFailure">
+                <constructor-arg value="5" />
+            </bean>            
+        </property>
+        <property name="designatedBodySlots">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+                <property name="bodySlotTypes">
+                    <list>
+                        <ref bean="primaryHand" />
+                        <ref bean="secondaryHand" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="specialAbilities">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities">
+                <property name="specialAbilities">
+                    <list>
+                        <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
+                            <property name="boni">
+                                <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+                                    <constructor-arg>
+                                        <list>
+                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                                                <property name="bonusType" ref="shieldBonus" />
+                                                <property name="target" ref="acBase" />
+                                                <property name="values">
+                                                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+                                                        <constructor-arg>
+                                                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                                                <constructor-arg value="1" />
+                                                            </bean>
+                                                        </constructor-arg>
+                                                    </bean>
+                                                </property>
+                                            </bean>
+                                        </list>
+                                    </constructor-arg>
+                                </bean>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
     
-    <bean id="heavySteelShield" class="org.asciicerebrum.mydndgame.Armor" scope="prototype"
-          parent="abstractArmor">
-        <property name="name" value="heavySteelShield" />
+    <bean id="heavySteelShield" class="org.asciicerebrum.mydndgame.domain.ruleentities.ArmorPrototype">
+        <property name="genericName">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="heavySteelShield" />
+            </bean>
+        </property>
         <property name="armorCategory" ref="shield" />
         <property name="proficiency" ref="heavyShieldArmor" />
-        <property name="baseCost" value="20" />
-        <property name="armorCheckPenalty" value="-2" />
-        <property name="arcaneSpellFailure" value="15" />
-        <property name="weight" value="15" />
-        <property name="designatedBodySlots">
-            <list>
-                <ref bean="primaryHand" />
-                <ref bean="secondaryHand" />
-            </list>
+        <property name="baseCost">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+                <constructor-arg value="20" />
+            </bean>
         </property>
-        <property name="boni">
-            <list>
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="shieldBonus" />
-                    <property name="target" ref="acBase" />
-                    <property name="value" value="2" />
-                </bean>
-            </list>
+        <property name="baseWeight">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+                <constructor-arg value="15" />
+            </bean>                
+        </property>
+        <property name="armorCheckPenalty">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                <constructor-arg value="-2" />
+            </bean>            
+        </property>
+        <property name="arcaneSpellFailure">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.SpellFailure">
+                <constructor-arg value="15" />
+            </bean>            
+        </property>
+        <property name="designatedBodySlots">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+                <property name="bodySlotTypes">
+                    <list>
+                        <ref bean="primaryHand" />
+                        <ref bean="secondaryHand" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="specialAbilities">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities">
+                <property name="specialAbilities">
+                    <list>
+                        <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
+                            <property name="boni">
+                                <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+                                    <constructor-arg>
+                                        <list>
+                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                                                <property name="bonusType" ref="shieldBonus" />
+                                                <property name="target" ref="acBase" />
+                                                <property name="values">
+                                                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+                                                        <constructor-arg>
+                                                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                                                <constructor-arg value="2" />
+                                                            </bean>
+                                                        </constructor-arg>
+                                                    </bean>
+                                                </property>
+                                            </bean>
+                                        </list>
+                                    </constructor-arg>
+                                </bean>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
         

@@ -25,6 +25,15 @@ public class FeatBindings {
     }
 
     /**
+     * Adds a collection of feat bindings to the collection.
+     *
+     * @param featBindings the feat bindings collection to add.
+     */
+    public final void add(final FeatBindings featBindings) {
+        this.elements.addAll(featBindings.elements);
+    }
+
+    /**
      * Tests if a given feat binding is part of the collection.
      *
      * @param featBinding the feat binding to check.

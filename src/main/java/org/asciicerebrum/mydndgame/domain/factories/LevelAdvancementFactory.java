@@ -6,11 +6,12 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
 import org.asciicerebrum.mydndgame.domain.ruleentities.ClassLevel;
 import org.asciicerebrum.mydndgame.domain.core.particles.AdvancementNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.LevelAdvancement;
-import org.springframework.context.ApplicationContext;
+import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
 
 /**
  *
@@ -20,18 +21,13 @@ public class LevelAdvancementFactory
         implements EntityFactory<LevelAdvancement> {
 
     /**
-     * Spring context to get the beans from.
-     */
-    private ApplicationContext context;
-
-    /**
      * Factory for the feat and its binding.
      */
     private EntityFactory<Feat> featFactory;
 
     @Override
     public final LevelAdvancement newEntity(final EntitySetup setup,
-            final Reassignments reassignments) {
+            final Campaign campaign) {
 
         if (!setup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the level "
@@ -44,12 +40,14 @@ public class LevelAdvancementFactory
                 SetupProperty.ADVANCEMENT_NUMBER)));
         levelAdv.setHpAdvancement(new HitPoints(setup.getProperty(
                 SetupProperty.HIT_POINTS_ADVANCEMENT)));
-        levelAdv.setClassLevel(this.getContext().getBean(setup.getProperty(
+        levelAdv.setClassLevel(ApplicationContextProvider
+                .getApplicationContext().getBean(setup.getProperty(
                 SetupProperty.CLASS_LEVEL), ClassLevel.class));
 
         String abilityId = setup.getProperty(SetupProperty.ABILITY_ADVANCEMENT);
         if (StringUtils.isNotBlank(abilityId)) {
-            levelAdv.setAbilityAdvancement(this.getContext().getBean(
+            levelAdv.setAbilityAdvancement(ApplicationContextProvider
+                .getApplicationContext().getBean(
                     abilityId, Ability.class));
         }
 
@@ -57,7 +55,7 @@ public class LevelAdvancementFactory
                 SetupProperty.FEAT_ADVANCEMENT);
         if (featSetup != null) {
             levelAdv.setFeatAdvancement(this.getFeatFactory().newEntity(
-                    featSetup, reassignments));
+                    featSetup, campaign));
         }
 
         return levelAdv;
@@ -65,15 +63,8 @@ public class LevelAdvancementFactory
 
     @Override
     public final void reAssign(final EntitySetup setup,
-            final LevelAdvancement entity, final Reassignments reassignments) {
+            final LevelAdvancement entity, final Campaign campaign) {
         // nothing to do here
-    }
-
-    /**
-     * @param contextInput the context to set
-     */
-    public final void setContext(final ApplicationContext contextInput) {
-        this.context = contextInput;
     }
 
     /**
@@ -82,13 +73,6 @@ public class LevelAdvancementFactory
     public final void setFeatFactory(
             final EntityFactory<Feat> featFactoryInput) {
         this.featFactory = featFactoryInput;
-    }
-
-    /**
-     * @return the context
-     */
-    public final ApplicationContext getContext() {
-        return context;
     }
 
     /**

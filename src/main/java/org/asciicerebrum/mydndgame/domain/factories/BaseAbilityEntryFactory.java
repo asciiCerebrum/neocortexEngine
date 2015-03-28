@@ -2,11 +2,12 @@ package org.asciicerebrum.mydndgame.domain.factories;
 
 import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
 import org.asciicerebrum.mydndgame.domain.core.particles.AbilityScore;
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.BaseAbilityEntry;
-import org.springframework.context.ApplicationContext;
+import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
 
 /**
  *
@@ -15,14 +16,9 @@ import org.springframework.context.ApplicationContext;
 public class BaseAbilityEntryFactory
         implements EntityFactory<BaseAbilityEntry> {
 
-    /**
-     * The spring application context for retrieving the prototype beans.
-     */
-    private ApplicationContext context;
-
     @Override
     public final BaseAbilityEntry newEntity(final EntitySetup setup,
-            final Reassignments reassignments) {
+            final Campaign campaign) {
         BaseAbilityEntry entry = new BaseAbilityEntry();
 
         if (!setup.isSetupComplete()) {
@@ -30,8 +26,9 @@ public class BaseAbilityEntryFactory
                     + " entry is not complete.");
         }
 
-        entry.setAbility(this.getContext().getBean(setup.getProperty(
-                SetupProperty.BASE_ABILITY), Ability.class));
+        entry.setAbility(ApplicationContextProvider
+                .getApplicationContext().getBean(setup.getProperty(
+                                SetupProperty.BASE_ABILITY), Ability.class));
         entry.setAbilityValue(new AbilityScore(setup.getProperty(
                 SetupProperty.BASE_ABILITY_VALUE)));
 
@@ -40,22 +37,8 @@ public class BaseAbilityEntryFactory
 
     @Override
     public void reAssign(final EntitySetup setup,
-            final BaseAbilityEntry entity, final Reassignments reassignments) {
+            final BaseAbilityEntry entity, final Campaign campaign) {
         // nothing to do here.
-    }
-
-    /**
-     * @param contextInput the context to set
-     */
-    public final void setContext(final ApplicationContext contextInput) {
-        this.context = contextInput;
-    }
-
-    /**
-     * @return the context
-     */
-    public final ApplicationContext getContext() {
-        return context;
     }
 
 }

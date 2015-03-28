@@ -30,8 +30,7 @@ public class GenericNameTest {
 
     @Before
     public void setUp() {
-        this.genericName = new GenericName();
-        this.genericName.setValue("testname");
+        this.genericName = new GenericName("testname");
     }
 
     @After
@@ -50,15 +49,13 @@ public class GenericNameTest {
 
     @Test
     public void equalsEqualInstanceTest() {
-        final GenericName testName = new GenericName();
-        testName.setValue("testname");
+        final GenericName testName = new GenericName("testname");
         assertTrue(this.genericName.equals(testName));
     }
 
     @Test
     public void equalsUnequalInstanceTest() {
-        final GenericName testName = new GenericName();
-        testName.setValue("testname2");
+        final GenericName testName = new GenericName("testname2");
         assertFalse(this.genericName.equals(testName));
     }
 

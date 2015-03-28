@@ -9,7 +9,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
-import org.asciicerebrum.mydndgame.managers.DiceRollManager;
+import org.asciicerebrum.mydndgame.mechanics.managers.DiceRollManager;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.asciicerebrum.mydndgame.services.statistics.AcCalculationService;
 import org.asciicerebrum.mydndgame.services.statistics.AtkCalculationService;
@@ -101,8 +101,7 @@ public class SingleAttackWorkflowTest {
         final DiceRoll atkRollResultRaw = new DiceRoll(10L);
         final BonusValue sourceAtkBonus = new BonusValue(2L);
         final ArmorClass targetAc = new ArmorClass();
-        final CriticalMinimumLevel critMinLvl = new CriticalMinimumLevel();
-        critMinLvl.setValue(18L);
+        final CriticalMinimumLevel critMinLvl = new CriticalMinimumLevel(18L);
 
         final boolean isCritical = this.singleAttackWf.determineCritical(
                 atkRollResultRaw, sourceAtkBonus, targetAc, critMinLvl);
@@ -115,8 +114,7 @@ public class SingleAttackWorkflowTest {
         final BonusValue sourceAtkBonus = new BonusValue(2L);
         final ArmorClass targetAc = new ArmorClass();
         targetAc.setValue(10L);
-        final CriticalMinimumLevel critMinLvl = new CriticalMinimumLevel();
-        critMinLvl.setValue(18L);
+        final CriticalMinimumLevel critMinLvl = new CriticalMinimumLevel(18L);
 
         final DiceRoll secondAtkRollResultRaw = new DiceRoll(4L);
         when(this.diceRollManager.rollDice(this.attackAction))
@@ -133,8 +131,7 @@ public class SingleAttackWorkflowTest {
         final BonusValue sourceAtkBonus = new BonusValue(2L);
         final ArmorClass targetAc = new ArmorClass();
         targetAc.setValue(10L);
-        final CriticalMinimumLevel critMinLvl = new CriticalMinimumLevel();
-        critMinLvl.setValue(18L);
+        final CriticalMinimumLevel critMinLvl = new CriticalMinimumLevel(18L);
 
         final DiceRoll secondAtkRollResultRaw = new DiceRoll(16L);
         when(this.diceRollManager.rollDice(this.attackAction))

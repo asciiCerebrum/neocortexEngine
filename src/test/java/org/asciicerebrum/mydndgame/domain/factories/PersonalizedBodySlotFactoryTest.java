@@ -13,6 +13,7 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedB
 import org.asciicerebrum.mydndgame.domain.setup.PersonalizedBodySlotSetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
+import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -77,8 +78,9 @@ public class PersonalizedBodySlotFactoryTest {
         this.item = new Weapon();
         this.item.setUniqueId(new UniqueId("itemId"));
 
-        this.factory.setCampaign(this.campaign);
-        this.factory.setContext(this.applicationContext);
+        ApplicationContextProvider ctxProvider
+                = new ApplicationContextProvider();
+        ctxProvider.setApplicationContext(this.applicationContext);
 
         when(this.applicationContext.getBean("typeId", BodySlotType.class))
                 .thenReturn(slotType);
@@ -91,9 +93,8 @@ public class PersonalizedBodySlotFactoryTest {
     @Test(expected = SetupIncompleteException.class)
     public void newEntityIncompleteTest() {
         final PersonalizedBodySlotSetup setup = new PersonalizedBodySlotSetup();
-        final Reassignments reassignments = new Reassignments();
 
-        this.factory.newEntity(setup, reassignments);
+        this.factory.newEntity(setup, this.campaign);
     }
 
     private void makeComplete(PersonalizedBodySlotSetup setup) {
@@ -105,12 +106,10 @@ public class PersonalizedBodySlotFactoryTest {
     @Test
     public void newEntityNullHolderTest() {
         final PersonalizedBodySlotSetup setup = new PersonalizedBodySlotSetup();
-        final Reassignments reassignments = new Reassignments();
-
         this.makeComplete(setup);
 
         final PersonalizedBodySlot result
-                = this.factory.newEntity(setup, reassignments);
+                = this.factory.newEntity(setup, this.campaign);
 
         assertNull(result);
     }
@@ -118,13 +117,12 @@ public class PersonalizedBodySlotFactoryTest {
     @Test
     public void newEntityNullItemTest() {
         final PersonalizedBodySlotSetup setup = new PersonalizedBodySlotSetup();
-        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
         this.campaign.registerUniqueEntity(this.holder);
 
         final PersonalizedBodySlot result
-                = this.factory.newEntity(setup, reassignments);
+                = this.factory.newEntity(setup, this.campaign);
 
         assertNull(result);
     }
@@ -132,14 +130,13 @@ public class PersonalizedBodySlotFactoryTest {
     @Test
     public void newEntityCompleteTest() {
         final PersonalizedBodySlotSetup setup = new PersonalizedBodySlotSetup();
-        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
         this.campaign.registerUniqueEntity(this.holder);
         this.campaign.registerUniqueEntity(this.item);
 
         final PersonalizedBodySlot result
-                = this.factory.newEntity(setup, reassignments);
+                = this.factory.newEntity(setup, this.campaign);
 
         assertNotNull(result);
     }
@@ -147,14 +144,13 @@ public class PersonalizedBodySlotFactoryTest {
     @Test
     public void newEntityCorrectTypeTest() {
         final PersonalizedBodySlotSetup setup = new PersonalizedBodySlotSetup();
-        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
         this.campaign.registerUniqueEntity(this.holder);
         this.campaign.registerUniqueEntity(this.item);
 
         final PersonalizedBodySlot result
-                = this.factory.newEntity(setup, reassignments);
+                = this.factory.newEntity(setup, this.campaign);
 
         assertEquals("typeId", result.getBodySlotType().getId().getValue());
     }
@@ -168,7 +164,8 @@ public class PersonalizedBodySlotFactoryTest {
         entity.setUniqueId(new UniqueId("itemId"));
         this.campaign.registerUniqueEntity(entity);
 
-        final UniqueEntity result = this.factory.retrieveItem(setup);
+        final UniqueEntity result = this.factory.retrieveItem(
+                setup, this.campaign);
 
         assertEquals(entity, result);
     }

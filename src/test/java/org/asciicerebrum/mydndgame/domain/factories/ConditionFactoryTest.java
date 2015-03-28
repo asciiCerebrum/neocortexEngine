@@ -11,6 +11,7 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Condition;
 import org.asciicerebrum.mydndgame.domain.setup.ConditionSetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.WorldDateSetup;
+import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -58,8 +59,9 @@ public class ConditionFactoryTest {
                 .extraInterfaces(ConfigurableApplicationContext.class));
         this.worldDateFactory = mock(EntityFactory.class);
 
-        this.factory.setCampaign(this.campaign);
-        this.factory.setContext(this.applicationContext);
+        ApplicationContextProvider ctxProvider
+                = new ApplicationContextProvider();
+        ctxProvider.setApplicationContext(this.applicationContext);
         this.factory.setWorldDateFactory(this.worldDateFactory);
     }
 
@@ -70,9 +72,8 @@ public class ConditionFactoryTest {
     @Test(expected = SetupIncompleteException.class)
     public void newEntityIncompleteTest() {
         final ConditionSetup setup = new ConditionSetup();
-        final Reassignments reassignments = new Reassignments();
 
-        this.factory.newEntity(setup, reassignments);
+        this.factory.newEntity(setup, this.campaign);
     }
 
     private void makeComplete(ConditionSetup setup) {
@@ -88,11 +89,10 @@ public class ConditionFactoryTest {
     @Test
     public void newEntityCompleteTest() {
         final ConditionSetup setup = new ConditionSetup();
-        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
-        this.factory.newEntity(setup, reassignments);
+        this.factory.newEntity(setup, this.campaign);
 
         verify(this.applicationContext, times(1))
                 .getBean("conditionTypeId", ConditionType.class);
@@ -101,7 +101,6 @@ public class ConditionFactoryTest {
     @Test
     public void newEntityWithCauseEntityFoundTest() {
         final ConditionSetup setup = new ConditionSetup();
-        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
         setup.setCauseEntity("causeEntity");
@@ -110,7 +109,7 @@ public class ConditionFactoryTest {
         entity.setUniqueId(new UniqueId("causeEntity"));
         this.campaign.registerUniqueEntity(entity);
 
-        final Condition result = this.factory.newEntity(setup, reassignments);
+        final Condition result = this.factory.newEntity(setup, this.campaign);
 
         assertEquals(entity, result.getCauseEntity());
     }
@@ -118,14 +117,13 @@ public class ConditionFactoryTest {
     @Test
     public void newEntityWithCauseEntityNotFoundTest() {
         final ConditionSetup setup = new ConditionSetup();
-        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
         setup.setCauseEntity("causeEntity");
 
-        this.factory.newEntity(setup, reassignments);
+        this.factory.newEntity(setup, this.campaign);
 
-        assertEquals(1L, Iterators.size(reassignments.getIterator()));
+        assertEquals(1L, Iterators.size(this.campaign.reassignmentIterator()));
     }
 
 }

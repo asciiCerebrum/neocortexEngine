@@ -25,6 +25,16 @@ public class BodySlotTypes {
     }
 
     /**
+     * Clears the list first.
+     *
+     * @param bodySlotTypes the collection of body slot types to set.
+     */
+    public final void setBodySlotTypes(final List<BodySlotType> bodySlotTypes) {
+        this.elements.clear();
+        this.elements.addAll(bodySlotTypes);
+    }
+
+    /**
      * Tests if the collection contains the given body slot type.
      *
      * @param bodySlotType the body slot type in question.

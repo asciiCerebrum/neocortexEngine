@@ -1,8 +1,10 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.BaseAbilityEntry;
 import org.asciicerebrum.mydndgame.domain.setup.BaseAbilityEntrySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
+import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -42,7 +44,9 @@ public class BaseAbilityEntryFactoryTest {
                 withSettings()
                 .extraInterfaces(ConfigurableApplicationContext.class));
 
-        this.factory.setContext(this.applicationContext);
+        ApplicationContextProvider ctxProvider
+                = new ApplicationContextProvider();
+        ctxProvider.setApplicationContext(this.applicationContext);
     }
 
     @After
@@ -52,9 +56,9 @@ public class BaseAbilityEntryFactoryTest {
     @Test(expected = SetupIncompleteException.class)
     public void newEntityIncompleteTest() {
         final BaseAbilityEntrySetup setup = new BaseAbilityEntrySetup();
-        final Reassignments reassignments = new Reassignments();
+        final Campaign campaign = new Campaign();
 
-        this.factory.newEntity(setup, reassignments);
+        this.factory.newEntity(setup, campaign);
     }
 
     private void makeComplete(BaseAbilityEntrySetup setup) {
@@ -65,12 +69,12 @@ public class BaseAbilityEntryFactoryTest {
     @Test
     public void newEntityCompleteTest() {
         final BaseAbilityEntrySetup setup = new BaseAbilityEntrySetup();
-        final Reassignments reassignments = new Reassignments();
+        final Campaign campaign = new Campaign();
 
         this.makeComplete(setup);
 
         final BaseAbilityEntry itemResult
-                = this.factory.newEntity(setup, reassignments);
+                = this.factory.newEntity(setup, campaign);
 
         assertEquals(15L, itemResult.getAbilityValue().getValue());
     }

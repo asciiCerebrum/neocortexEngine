@@ -10,8 +10,11 @@ import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
+import org.asciicerebrum.mydndgame.domain.ruleentities.FeatBindings;
+import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Race;
 import org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory;
+import org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.BaseAbilities;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Condition;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Conditions;
@@ -69,6 +72,13 @@ public class DndCharacter extends UniqueEntity implements ICharacter,
      * All the conditions the character is currently in.
      */
     private Conditions conditions;
+
+    /**
+     * The special abilities given by the prototype dnd character. All dnd
+     * characters will have those and they are injected by the application
+     * context.
+     */
+    private SpecialAbilities prototypeSpecialAbilities;
 
     /**
      * @return the levelAdvancements
@@ -209,6 +219,7 @@ public class DndCharacter extends UniqueEntity implements ICharacter,
         bonusSources.add(this.conditions);
         bonusSources.add(this.levelAdvancements);
         bonusSources.add(this.race);
+        bonusSources.add(this.prototypeSpecialAbilities);
 
         return bonusSources;
     }
@@ -284,6 +295,40 @@ public class DndCharacter extends UniqueEntity implements ICharacter,
      */
     public final BonusValueTuple getBaseAtkBoni() {
         return this.levelAdvancements.summateBaseAtkBoni();
+    }
+
+    /**
+     * Retrieves the feat bindings by the given feat type from multiple sources.
+     *
+     * @param featType the feat type the bindings are needed for.
+     * @return the collection of feat bindings.
+     */
+    public final FeatBindings getFeatBindingsByFeatType(
+            final FeatType featType) {
+
+        final FeatBindings featBindings = new FeatBindings();
+
+        featBindings.add(this.levelAdvancements
+                .getFeatBindingsByFeatType(featType));
+        //TODO add further sources of feats here. E.g. class levels.
+
+        return featBindings;
+    }
+
+    /**
+     * @return the prototypeSpecialAbilities
+     */
+    public final SpecialAbilities getPrototypeSpecialAbilities() {
+        return prototypeSpecialAbilities;
+    }
+
+    /**
+     * @param prototypeSpecialAbilitiesInput the prototypeSpecialAbilities to
+     * set
+     */
+    public final void setPrototypeSpecialAbilities(
+            final SpecialAbilities prototypeSpecialAbilitiesInput) {
+        this.prototypeSpecialAbilities = prototypeSpecialAbilitiesInput;
     }
 
 }

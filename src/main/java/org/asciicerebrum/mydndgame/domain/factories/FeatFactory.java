@@ -1,13 +1,14 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
 import org.apache.commons.lang.StringUtils;
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatBinding;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Feat;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
-import org.springframework.context.ApplicationContext;
+import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
 
 /**
  *
@@ -15,14 +16,9 @@ import org.springframework.context.ApplicationContext;
  */
 public class FeatFactory implements EntityFactory<Feat> {
 
-    /**
-     * Spring context to get the beans from.
-     */
-    private ApplicationContext context;
-
     @Override
     public final Feat newEntity(final EntitySetup setup,
-            final Reassignments reassignments) {
+            final Campaign campaign) {
 
         if (!setup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the feat "
@@ -36,13 +32,15 @@ public class FeatFactory implements EntityFactory<Feat> {
         final String featBindingId = setup.getProperty(
                 SetupProperty.FEAT_BINDING);
 
-        final FeatType featType = this.getContext().getBean(featTypeId,
-                FeatType.class);
+        final FeatType featType = ApplicationContextProvider
+                .getApplicationContext().getBean(featTypeId,
+                        FeatType.class);
         feat.setFeatType(featType);
 
         if (StringUtils.isNotBlank(featBindingId)) {
-            final FeatBinding featBinding = this.getContext().getBean(
-                    featBindingId, FeatBinding.class);
+            final FeatBinding featBinding = ApplicationContextProvider
+                    .getApplicationContext().getBean(
+                            featBindingId, FeatBinding.class);
             feat.setFeatBinding(featBinding);
         }
 
@@ -51,22 +49,8 @@ public class FeatFactory implements EntityFactory<Feat> {
 
     @Override
     public final void reAssign(final EntitySetup setup, final Feat entity,
-            final Reassignments reassignments) {
+            final Campaign campaign) {
         // nothing to do here
-    }
-
-    /**
-     * @param contextInput the context to set
-     */
-    public final void setContext(final ApplicationContext contextInput) {
-        this.context = contextInput;
-    }
-
-    /**
-     * @return the context
-     */
-    public final ApplicationContext getContext() {
-        return context;
     }
 
 }

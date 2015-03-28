@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.managers;
 
+import org.asciicerebrum.mydndgame.mechanics.managers.DefaultDiceRollManager;
 import java.security.SecureRandom;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;

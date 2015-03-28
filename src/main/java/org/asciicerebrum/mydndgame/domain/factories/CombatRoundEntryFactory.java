@@ -16,15 +16,10 @@ import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
 public class CombatRoundEntryFactory
         implements EntityFactory<CombatRoundEntry> {
 
-    /**
-     * The campaign holding the basic data of encounters and characters.
-     */
-    private Campaign campaign;
-
     @Override
     public final CombatRoundEntry newEntity(
             final EntitySetup setup,
-            final Reassignments reassignments) {
+            final Campaign campaign) {
 
         if (!setup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the combat round "
@@ -36,9 +31,9 @@ public class CombatRoundEntryFactory
         crEntry.setCombatRoundPosition(new CombatRoundPosition(
                 setup.getProperty(SetupProperty.COMBAT_ROUND_POSITION)));
 
-        final DndCharacter participant = this.findParticipant(setup);
+        final DndCharacter participant = this.findParticipant(setup, campaign);
         if (participant == null) {
-            reassignments.addEntry(this, setup, crEntry);
+            campaign.addReassignmentEntry(this, setup, crEntry);
         }
         crEntry.setParticipant(participant);
 
@@ -50,34 +45,21 @@ public class CombatRoundEntryFactory
      * given by the setup.
      *
      * @param setup the setup containing the id.
+     * @param campaign the campaign as the central entity map.
      * @return the dnd character found.
      */
     final DndCharacter findParticipant(
-            final EntitySetup setup) {
+            final EntitySetup setup, final Campaign campaign) {
         final UniqueId uniqueId = new UniqueId(setup.getProperty(
                 SetupProperty.COMBAT_ROUND_PARTICIPANT));
-        return (DndCharacter) this.getCampaign().getEntityById(uniqueId);
+        return (DndCharacter) campaign.getEntityById(uniqueId);
     }
 
     @Override
     public final void reAssign(final EntitySetup setup,
-            final CombatRoundEntry entity, final Reassignments reassignments) {
-        final DndCharacter participant = this.findParticipant(setup);
+            final CombatRoundEntry entity, final Campaign campaign) {
+        final DndCharacter participant = this.findParticipant(setup, campaign);
         entity.setParticipant(participant);
-    }
-
-    /**
-     * @param campaignInput the campaign to set
-     */
-    public final void setCampaign(final Campaign campaignInput) {
-        this.campaign = campaignInput;
-    }
-
-    /**
-     * @return the campaign
-     */
-    public final Campaign getCampaign() {
-        return campaign;
     }
 
 }

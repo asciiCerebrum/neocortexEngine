@@ -4,90 +4,150 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="str" class="org.asciicerebrum.mydndgame.Ability">
-        <property name="id" value="str" />
-        <property name="name" value="strength" />
+    <bean id="str" class="org.asciicerebrum.mydndgame.domain.ruleentities.Ability">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="str" />
+            </bean>
+        </property>
+        <property name="name">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="strength" />
+            </bean>
+        </property>
         <property name="associatedHook" value="ABILITY_STR" />
         <property name="boni">
-            <list>
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="strBonus" />
-                    <property name="target" ref="meleeAttack" />
-                    <property name="dynamicValueProvider" ref="strAbilityBonusValueProvider" />
-                </bean>
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="strBonus" />
-                    <property name="target" ref="damage" />
-                    <property name="dynamicValueProvider" ref="strAbilityBonusValueProvider" />
-                    <property name="conditionEvaluator">
-                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.OrListEvaluator">
-                            <property name="conditionEvaluators">
-                                <list>
-                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectAttackModeEvaluator"><!-- Better use the attack mode??? hit someone with bow - bow used as melee weapon! -->
-                                        <property name="weaponCategory" ref="meleeWeapon" />
-                                    </bean>
-                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectWeaponTypeEvaluator">
-                                        <property name="weaponType" ref="thrownWeapon" />
-                                    </bean>
-                                </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+                <constructor-arg>
+                    <list>
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                            <property name="bonusType" ref="strBonus" />
+                            <property name="target" ref="meleeAttack" />
+                            <property name="dynamicValueProvider" ref="strAbilityBonusValueProvider" />
+                        </bean>
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                            <property name="bonusType" ref="strBonus" />
+                            <property name="target" ref="damage" />
+                            <property name="dynamicValueProvider" ref="strAbilityBonusValueProvider" />
+                            <property name="conditionEvaluator">
+                                <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.OrListEvaluator">
+                                    <property name="conditionEvaluators">
+                                        <list>
+                                            <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectAttackModeEvaluator"><!-- Better use the attack mode??? hit someone with bow - bow used as melee weapon! -->
+                                                <property name="weaponCategory" ref="meleeWeapon" />
+                                            </bean>
+                                            <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectWeaponTypeEvaluator">
+                                                <property name="weaponType" ref="thrownWeapon" />
+                                            </bean>
+                                        </list>
+                                    </property>
+                                </bean>
                             </property>
                         </bean>
-                    </property>
-                </bean>
-            </list>
+                    </list>
+                </constructor-arg>
+            </bean>
         </property>
     </bean>
-    <bean id="dex" class="org.asciicerebrum.mydndgame.Ability">
-        <property name="id" value="dex" />
-        <property name="name" value="dexterity" />
+    <bean id="dex" class="org.asciicerebrum.mydndgame.domain.ruleentities.Ability">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="dex" />
+            </bean>
+        </property>
+        <property name="name">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="dexterity" />
+            </bean>
+        </property>
         <property name="associatedHook" value="ABILITY_DEX" />
         <property name="boni">
-            <list>
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="dexBonus" />
-                    <property name="target" ref="acBase" />
-                    <property name="dynamicValueProvider" ref="dexAbilityBonusValueProvider" />
-                </bean>
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="dexBonus" />
-                    <property name="target" ref="rangedAttack" />
-                    <property name="dynamicValueProvider" ref="dexAbilityBonusValueProvider" />
-                </bean>
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="dexBonus" />
-                    <property name="target" ref="initiative" />
-                    <property name="dynamicValueProvider" ref="dexAbilityBonusValueProvider" />
-                </bean>
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+                <constructor-arg>
+                    <list>
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                            <property name="bonusType" ref="dexBonus" />
+                            <property name="target" ref="acBase" />
+                            <property name="dynamicValueProvider" ref="dexAbilityBonusValueProvider" />
+                        </bean>
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                            <property name="bonusType" ref="dexBonus" />
+                            <property name="target" ref="rangedAttack" />
+                            <property name="dynamicValueProvider" ref="dexAbilityBonusValueProvider" />
+                        </bean>
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                            <property name="bonusType" ref="dexBonus" />
+                            <property name="target" ref="initiative" />
+                            <property name="dynamicValueProvider" ref="dexAbilityBonusValueProvider" />
+                        </bean>
+                    </list>
+                </constructor-arg>
+            </bean>
         </property>
     </bean>
-    <bean id="con" class="org.asciicerebrum.mydndgame.Ability">
-        <property name="id" value="con" />
-        <property name="name" value="constitution" />
+    <bean id="con" class="org.asciicerebrum.mydndgame.domain.ruleentities.Ability">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="con" />
+            </bean>
+        </property>
+        <property name="name">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="constitution" />
+            </bean>
+        </property>
         <property name="associatedHook" value="ABILITY_CON" />
         <property name="boni">
-            <list>
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="conBonus" />
-                    <property name="target" ref="hp" />
-                    <property name="dynamicValueProvider" ref="conAbilityBonusValueProvider" />
-                </bean>
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+                <constructor-arg>
+                    <list>
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                            <property name="bonusType" ref="conBonus" />
+                            <property name="target" ref="hp" />
+                            <property name="dynamicValueProvider" ref="conAbilityBonusValueProvider" />
+                        </bean>
+                    </list>
+                </constructor-arg>
+            </bean>
         </property>
     </bean>
-    <bean id="int" class="org.asciicerebrum.mydndgame.Ability">
-        <property name="id" value="int" />
-        <property name="name" value="intelligence" />
+    <bean id="int" class="org.asciicerebrum.mydndgame.domain.ruleentities.Ability">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="int" />
+            </bean>
+        </property>
+        <property name="name">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="intelligence" />
+            </bean>
+        </property>
         <property name="associatedHook" value="ABILITY_INT" />
     </bean>
-    <bean id="wis" class="org.asciicerebrum.mydndgame.Ability">
-        <property name="id" value="wis" />
-        <property name="name" value="wisdom" />
+    <bean id="wis" class="org.asciicerebrum.mydndgame.domain.ruleentities.Ability">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="wis" />
+            </bean>
+        </property>
+        <property name="name">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="wisdom" />
+            </bean>
+        </property>
         <property name="associatedHook" value="ABILITY_WIS" />
     </bean>
-    <bean id="cha" class="org.asciicerebrum.mydndgame.Ability">
-        <property name="id" value="cha" />
-        <property name="name" value="charisma" />
+    <bean id="cha" class="org.asciicerebrum.mydndgame.domain.ruleentities.Ability">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="cha" />
+            </bean>
+        </property>
+        <property name="name">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="charisma" />
+            </bean>
+        </property>
         <property name="associatedHook" value="ABILITY_CHA" />
     </bean>    
 </beans>

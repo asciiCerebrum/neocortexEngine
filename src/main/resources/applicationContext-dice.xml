@@ -4,41 +4,113 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="d2" class="org.asciicerebrum.mydndgame.Dice">
-        <property name="id" value="d2" />
-        <property name="sides" value="2" />
+    <bean id="d2" class="org.asciicerebrum.mydndgame.domain.ruleentities.Dice">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="d2" />
+            </bean>
+        </property>
+        <property name="sides">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceSides">
+                <constructor-arg value="2" />
+            </bean>
+        </property>
     </bean>
-    <bean id="d3" class="org.asciicerebrum.mydndgame.Dice">
-        <property name="id" value="d3" />
-        <property name="sides" value="3" />
+    <bean id="d3" class="org.asciicerebrum.mydndgame.domain.ruleentities.Dice">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="d3" />
+            </bean>
+        </property>
+        <property name="sides">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceSides">
+                <constructor-arg value="3" />
+            </bean>
+        </property>
     </bean>
-    <bean id="d4" class="org.asciicerebrum.mydndgame.Dice">
-        <property name="id" value="d4" />
-        <property name="sides" value="4" />
+    <bean id="d4" class="org.asciicerebrum.mydndgame.domain.ruleentities.Dice">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="d4" />
+            </bean>
+        </property>
+        <property name="sides">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceSides">
+                <constructor-arg value="4" />
+            </bean>
+        </property>
     </bean>
-    <bean id="d6" class="org.asciicerebrum.mydndgame.Dice">
-        <property name="id" value="d6" />
-        <property name="sides" value="6" />
+    <bean id="d6" class="org.asciicerebrum.mydndgame.domain.ruleentities.Dice">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="d6" />
+            </bean>
+        </property>
+        <property name="sides">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceSides">
+                <constructor-arg value="6" />
+            </bean>
+        </property>
     </bean>
-    <bean id="d8" class="org.asciicerebrum.mydndgame.Dice">
-        <property name="id" value="d8" />
-        <property name="sides" value="8" />
+    <bean id="d8" class="org.asciicerebrum.mydndgame.domain.ruleentities.Dice">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="d8" />
+            </bean>
+        </property>
+        <property name="sides">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceSides">
+                <constructor-arg value="8" />
+            </bean>
+        </property>
     </bean>
-    <bean id="d10" class="org.asciicerebrum.mydndgame.Dice">
-        <property name="id" value="d10" />
-        <property name="sides" value="10" />
+    <bean id="d10" class="org.asciicerebrum.mydndgame.domain.ruleentities.Dice">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="d10" />
+            </bean>
+        </property>
+        <property name="sides">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceSides">
+                <constructor-arg value="10" />
+            </bean>
+        </property>
     </bean>
-    <bean id="d12" class="org.asciicerebrum.mydndgame.Dice">
-        <property name="id" value="d12" />
-        <property name="sides" value="12" />
+    <bean id="d12" class="org.asciicerebrum.mydndgame.domain.ruleentities.Dice">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="d12" />
+            </bean>
+        </property>
+        <property name="sides">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceSides">
+                <constructor-arg value="12" />
+            </bean>
+        </property>
     </bean>
-    <bean id="d20" class="org.asciicerebrum.mydndgame.Dice">
-        <property name="id" value="d20" />
-        <property name="sides" value="20" />
+    <bean id="d20" class="org.asciicerebrum.mydndgame.domain.ruleentities.Dice">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="d20" />
+            </bean>
+        </property>
+        <property name="sides">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceSides">
+                <constructor-arg value="20" />
+            </bean>
+        </property>
     </bean>
-    <bean id="d100" class="org.asciicerebrum.mydndgame.Dice">
-        <property name="id" value="d100" />
-        <property name="sides" value="100" />
+    <bean id="d100" class="org.asciicerebrum.mydndgame.domain.ruleentities.Dice">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="d100" />
+            </bean>
+        </property>
+        <property name="sides">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceSides">
+                <constructor-arg value="100" />
+            </bean>
+        </property>
     </bean>
     
 </beans>

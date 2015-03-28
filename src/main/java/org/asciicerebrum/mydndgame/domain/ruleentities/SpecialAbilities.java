@@ -17,15 +17,18 @@ public class SpecialAbilities implements BonusSource, ObserverSource {
     /**
      * The list of special abilities.
      */
-    private List<SpecialAbility> elements
+    private final List<SpecialAbility> elements
             = new ArrayList<SpecialAbility>();
 
     /**
+     * The collection is cleared first.
+     *
      * @param specialAbilitiesInput the specialAbilities to set
      */
     public final void setSpecialAbilities(
             final List<SpecialAbility> specialAbilitiesInput) {
-        this.elements = specialAbilitiesInput;
+        this.elements.clear();
+        this.elements.addAll(specialAbilitiesInput);
     }
 
     /**

@@ -19,6 +19,15 @@ public class GenericName extends StringParticle {
      */
     private static final int MULTIPLIER_NON_ZERO_ODD_NUMBER = 31;
 
+    /**
+     * Creates an instance from a string.
+     *
+     * @param genericNameInput the string to create the instance from.
+     */
+    public GenericName(final String genericNameInput) {
+        this.setValue(genericNameInput);
+    }
+
     @Override
     public final boolean equals(final Object obj) {
         if (!(obj instanceof GenericName)) {

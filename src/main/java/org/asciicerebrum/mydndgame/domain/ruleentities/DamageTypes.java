@@ -12,7 +12,7 @@ public class DamageTypes {
     /**
      * The list of damage types.
      */
-    private List<DamageType> elements = new ArrayList<DamageType>();
+    private final List<DamageType> elements = new ArrayList<DamageType>();
 
     /**
      * @return the damageTypes
@@ -34,7 +34,8 @@ public class DamageTypes {
      * @param damageTypesInput the damageTypes to set
      */
     public final void setDamageTypes(final List<DamageType> damageTypesInput) {
-        this.elements = damageTypesInput;
+        this.elements.clear();
+        this.elements.addAll(damageTypesInput);
     }
 
     /**

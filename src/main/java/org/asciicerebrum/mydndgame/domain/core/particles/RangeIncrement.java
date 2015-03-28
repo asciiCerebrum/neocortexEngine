@@ -6,6 +6,15 @@ package org.asciicerebrum.mydndgame.domain.core.particles;
  */
 public class RangeIncrement extends LongParticle {
 
+    /**
+     * Basic constructor for the long type.
+     *
+     * @param rangeIncrementInput the range increment.
+     */
+    public RangeIncrement(final long rangeIncrementInput) {
+        this.setValue(rangeIncrementInput);
+    }
+
     @Override
     public final boolean equals(final Object o) {
         return this.equalsHelper(o);

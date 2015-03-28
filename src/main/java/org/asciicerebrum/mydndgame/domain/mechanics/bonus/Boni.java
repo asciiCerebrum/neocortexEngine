@@ -108,6 +108,22 @@ public class Boni {
     private final List<Bonus> elements = new ArrayList<Bonus>();
 
     /**
+     * Empty constructor for an empty list of boni.
+     */
+    public Boni() {
+
+    }
+
+    /**
+     * Adding the given list of boni to the fresh instance.
+     *
+     * @param boni the list of boni to add.
+     */
+    public Boni(final List<Bonus> boni) {
+        this.elements.addAll(boni);
+    }
+
+    /**
      * @param boniInput the boni to set
      */
     final void addBoni(final Collection<Bonus> boniInput) {

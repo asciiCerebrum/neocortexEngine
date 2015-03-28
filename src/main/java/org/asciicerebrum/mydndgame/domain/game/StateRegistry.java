@@ -38,6 +38,11 @@ public class StateRegistry {
          */
         ACTIVE_ITEM,
         /**
+         * The value of the bonus the character can define to be used in the
+         * power attack feat.
+         */
+        POWER_ATTACK_BONUS,
+        /**
          * Defines the per-weapon attack mode. The attack mode can be different
          * for each weapon.
          */
@@ -45,7 +50,11 @@ public class StateRegistry {
         /**
          * Defines the per-weapon damage type.
          */
-        WEAPON_DAMAGE_TYPE
+        WEAPON_DAMAGE_TYPE,
+        /**
+         * Defines if weapon is used in weapon finesse mode, e.g. rapier.
+         */
+        WEAPON_FINESSE_MODE
     }
 
     /**

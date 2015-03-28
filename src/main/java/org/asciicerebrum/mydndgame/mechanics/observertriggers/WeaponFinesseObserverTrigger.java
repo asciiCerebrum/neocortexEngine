@@ -13,7 +13,6 @@ import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype;
 import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototypes;
 import org.asciicerebrum.mydndgame.facades.game.CharacterServiceFacade;
-import org.asciicerebrum.mydndgame.facades.game.InventoryItemServiceFacade;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.ObserverTriggerStrategy;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
@@ -58,11 +57,6 @@ public class WeaponFinesseObserverTrigger implements ObserverTriggerStrategy {
      * Facade for retrieving basic values of the entity.
      */
     private CharacterServiceFacade characterServiceFacade;
-
-    /**
-     * Facade for retrieving basic values of the item entity.
-     */
-    private InventoryItemServiceFacade itemFacade;
 
     /**
      * Getting modified real-time-values from the weapon.
@@ -123,8 +117,9 @@ public class WeaponFinesseObserverTrigger implements ObserverTriggerStrategy {
             final DndCharacter dndCharacter, final Weapon usedWeapon) {
 
         // test size category
-        if (!this.getItemFacade().getSize(usedWeapon, dndCharacter).equals(
-                this.getCharacterServiceFacade().getSize(dndCharacter))) {
+        if (!this.getWeaponServiceFacade().getSize(usedWeapon, dndCharacter)
+                .equals(this.getCharacterServiceFacade()
+                        .getSize(dndCharacter))) {
             return false;
         }
 
@@ -202,14 +197,6 @@ public class WeaponFinesseObserverTrigger implements ObserverTriggerStrategy {
     }
 
     /**
-     * @param itemFacadeItem the itemFacade to set
-     */
-    public final void setItemFacade(
-            final InventoryItemServiceFacade itemFacadeItem) {
-        this.itemFacade = itemFacadeItem;
-    }
-
-    /**
      * @param weaponServiceFacadeInput the weaponServiceFacade to set
      */
     public final void setWeaponServiceFacade(
@@ -264,13 +251,6 @@ public class WeaponFinesseObserverTrigger implements ObserverTriggerStrategy {
      */
     public final CharacterServiceFacade getCharacterServiceFacade() {
         return characterServiceFacade;
-    }
-
-    /**
-     * @return the itemFacade
-     */
-    public final InventoryItemServiceFacade getItemFacade() {
-        return itemFacade;
     }
 
     /**

@@ -4,56 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!-- service infrastructure beans -->
-    <bean id="observableDelegate"
-          class="org.asciicerebrum.mydndgame.DefaultObservableDelegate" />
-
-    <bean id="bonusCalculationService"
-          class="org.asciicerebrum.mydndgame.DefaultBonusCalculationServiceImpl" />
-
-    <bean id="strAbilityBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.valueproviders.AbilityBonusValueProvider">
-        <property name="ability" ref="str" />
-    </bean>
-    <bean id="dexAbilityBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.valueproviders.AbilityBonusValueProvider">
-        <property name="ability" ref="dex" />
-    </bean>
-    <bean id="conAbilityBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.valueproviders.AbilityBonusValueProvider">
-        <property name="ability" ref="con" />
-    </bean>
-    <bean id="rank0AtkBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.valueproviders.AtkBonusValueProvider">
-        <property name="rank" value="0" />
-    </bean>
-    <bean id="rank1AtkBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.valueproviders.AtkBonusValueProvider">
-        <property name="rank" value="1" />
-    </bean>
-    <bean id="rank2AtkBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.valueproviders.AtkBonusValueProvider">
-        <property name="rank" value="2" />
-    </bean>
-    <bean id="rank3AtkBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.valueproviders.AtkBonusValueProvider">
-        <property name="rank" value="3" />
-    </bean>
-    <bean id="rank4AtkBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.valueproviders.AtkBonusValueProvider">
-        <property name="rank" value="4" />
-    </bean>
-    
-    <!-- Managers -->
-    <bean id="combatRoundManager" class="org.asciicerebrum.mydndgame.managers.CombatRoundManager">
-        <property name="conditionExpirationWorkflow" ref="conditionExpirationWorkflow" />
-        <property name="initializeCombatRoundWorkflow" ref="initializeCombatRoundWorkflow" />
-    </bean>
-
-    <bean id="diceRollManager" class="org.asciicerebrum.mydndgame.managers.DiceRollManager" />
-
-    <!-- services -->
-    <import resource="applicationContext-infrastructure-services.xml" />
+    <bean id="applicationContextProvider" class="org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider"></bean>
     
     <!-- d20 rule entity beans -->
     <import resource="applicationContext-dice.xml"/>
@@ -66,11 +17,24 @@
     <import resource="applicationContext-characterClasses.xml"/>
     <import resource="applicationContext-weaponSpecialAbilities.xml"/>
     <import resource="applicationContext-armorSpecialAbilities.xml"/>
-    <import resource="applicationContext-weapons.xml"/>
-    <import resource="applicationContext-armor.xml"/>
     <import resource="applicationContext-races.xml"/>
     <import resource="applicationContext-feats.xml"/>
-    <import resource="applicationContext-interactions.xml" />
+
+    <!-- game entities -->
+    <import resource="applicationContext-weapons.xml"/>
+    <import resource="applicationContext-armor.xml"/>
     <import resource="applicationContext-dndCharacter.xml"/>
-    
+    <import resource="applicationContext-campaign.xml"/>
+
+    <!-- facades -->
+    <import resource="applicationContext-facades.xml" />
+    <!-- mechanics -->
+    <import resource="applicationContext-mechanics.xml" />
+    <!-- services -->
+    <import resource="applicationContext-services.xml" />
+    <!-- factories -->
+    <import resource="applicationContext-factories.xml" />
+    <!-- dynamic value providers -->
+    <import resource="applicationContext-dynamicValueProvider.xml" />
+            
 </beans>

@@ -5,356 +5,678 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- Damage types -->
-    <bean id="slashing" class="org.asciicerebrum.mydndgame.DamageType">
-        <property name="id" value="slashing" />
+    <bean id="slashing" class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageType">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="slashing" />
+            </bean>
+        </property>
     </bean>
-    <bean id="piercing" class="org.asciicerebrum.mydndgame.DamageType">
-        <property name="id" value="piercing" />
+    <bean id="piercing" class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageType">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="piercing" />
+            </bean>
+        </property>
     </bean>
-    <bean id="bludgeoning" class="org.asciicerebrum.mydndgame.DamageType">
-        <property name="id" value="bludgeoning" />
+    <bean id="bludgeoning" class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageType">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="bludgeoning" />
+            </bean>
+        </property>
     </bean>
-    <bean id="bludgeoningAndPiercing" class="org.asciicerebrum.mydndgame.DamageType">
-        <property name="id" value="bludgeoningAndPiercing" />
+    <bean id="bludgeoningAndPiercing" class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageType">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="bludgeoningAndPiercing" />
+            </bean>
+        </property>
         <property name="compoundDamageTypes">
-            <list>
-                <ref bean="bludgeoning" />
-                <ref bean="piercing" />
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageTypes">
+                <property name="damageTypes">
+                    <list>
+                        <ref bean="bludgeoning" />
+                        <ref bean="piercing" />
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>    
                 
     <!-- Encumbrances -->
-    <bean id="light" class="org.asciicerebrum.mydndgame.Encumbrance">
-        <property name="id" value="light" />
+    <bean id="light" class="org.asciicerebrum.mydndgame.domain.ruleentities.Encumbrance">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="light" />
+            </bean>
+        </property>
     </bean>
-    <bean id="oneHanded" class="org.asciicerebrum.mydndgame.Encumbrance">
-        <property name="id" value="oneHanded" />
+    <bean id="oneHanded" class="org.asciicerebrum.mydndgame.domain.ruleentities.Encumbrance">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="oneHanded" />
+            </bean>
+        </property>
     </bean>
-    <bean id="twoHanded" class="org.asciicerebrum.mydndgame.Encumbrance">
-        <property name="id" value="twoHanded" />
+    <bean id="twoHanded" class="org.asciicerebrum.mydndgame.domain.ruleentities.Encumbrance">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="twoHanded" />
+            </bean>
+        </property>
     </bean>
 
     <!-- Proficiencies -->
-    <bean id="simpleWeapon" class="org.asciicerebrum.mydndgame.Proficiency">
-        <property name="id" value="simpleWeapon" />
+    <bean id="simpleWeapon" class="org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="simpleWeapon" />
+            </bean>
+        </property>
     </bean>
-    <bean id="martialWeapon" class="org.asciicerebrum.mydndgame.Proficiency">
-        <property name="id" value="martialWeapon" />
+    <bean id="martialWeapon" class="org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="martialWeapon" />
+            </bean>
+        </property>
     </bean>
-    <bean id="exoticWeapon" class="org.asciicerebrum.mydndgame.Proficiency">
-        <property name="id" value="exoticWeapon" />
+    <bean id="exoticWeapon" class="org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="exoticWeapon" />
+            </bean>
+        </property>
     </bean>
 
     <!-- Weapon Categories -->
-    <bean id="meleeWeapon" class="org.asciicerebrum.mydndgame.WeaponCategory">
-        <property name="id" value="meleeWeapon" />
+    <bean id="meleeWeapon" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="meleeWeapon" />
+            </bean>
+        </property>
         <property name="associatedAttackDiceAction" ref="meleeAttack" />
         <property name="associatedDamageHook" value="MELEE_DAMAGE" />
     </bean>
-    <bean id="rangedWeapon" class="org.asciicerebrum.mydndgame.WeaponCategory">
-        <property name="id" value="rangedWeapon" />
+    <bean id="rangedWeapon" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="rangedWeapon" />
+            </bean>
+        </property>
         <property name="associatedAttackDiceAction" ref="rangedAttack" />
         <property name="associatedDamageHook" value="RANGED_DAMAGE" />
     </bean>
     
     <!-- Weapon Types -->
-    <bean id="thrownWeapon" class="org.asciicerebrum.mydndgame.WeaponType">
-        <property name="id" value="thrownWeapon" />
+    <bean id="thrownWeapon" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponType">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="thrownWeapon" />
+            </bean>
+        </property>
     </bean>
                                                                                                                                                 
-    <!-- Weapon prototypes -->
-    <bean id="abstractWeapon" class="org.asciicerebrum.mydndgame.InventoryItem" scope="prototype" abstract="true">
-        <property name="observableDelegate" ref="observableDelegate" />
-    </bean>
-    
-    <bean id="longsword" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
-          parent="abstractWeapon">
-        <property name="name" value="longsword" />
-        <property name="baseCost" value="15" />
-        <property name="weight" value="4" />
-        <property name="size" ref="medium" />
-        <property name="damage">
-            <bean class="org.asciicerebrum.mydndgame.DiceAction">
-                <property name="id" value="damage" />
-                <property name="diceNumber" value="1" />
+    <!-- Weapon prototypes -->    
+    <bean id="longsword" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+        <property name="genericName">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="longsword" />
+            </bean>
+        </property>
+        <property name="baseCost">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+                <constructor-arg value="15" />
+            </bean>
+        </property>
+        <property name="baseWeight">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+                <constructor-arg value="4" />
+            </bean>                
+        </property>
+        <property name="baseSize" ref="medium" />
+        <property name="baseDamage">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+                <property name="diceNumber">
+                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+                        <constructor-arg value="1" />
+                    </bean>
+                </property>                    
                 <property name="diceType" ref="d8" />
             </bean>
         </property>
-        <property name="criticalMinimumLevel" value="19" />
+        <property name="criticalMinimumLevel">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel">
+                <constructor-arg value="19" />
+            </bean>
+        </property>
         <property name="defaultDamageTypes">
-            <list>
-                <ref bean="slashing" />
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageTypes">
+                <property name="damageTypes">
+                    <list>
+                        <ref bean="slashing" />
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="encumbrance" ref="oneHanded" />
         <property name="proficiency" ref="martialWeapon" />
         <property name="defaultCategories">
-            <list>
-                <ref bean="meleeWeapon" />
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategories">
+                <property name="weaponCategories">
+                    <list>
+                        <ref bean="meleeWeapon" />
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="designatedBodySlots">
-            <list>
-                <ref bean="primaryHand" />
-                <ref bean="secondaryHand" />
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+                <property name="bodySlotTypes">
+                    <list>
+                        <ref bean="primaryHand" />
+                        <ref bean="secondaryHand" />
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
 
-    <bean id="battleaxe" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
-          parent="abstractWeapon">
-        <property name="name" value="battleaxe" />
-        <property name="baseCost" value="10" />
-        <property name="weight" value="6" />
-        <property name="size" ref="medium" />
-        <property name="damage">
-            <bean class="org.asciicerebrum.mydndgame.DiceAction">
-                <property name="id" value="damage" />
-                <property name="diceNumber" value="1" />
+    <bean id="battleaxe" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+        <property name="genericName">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="battleaxe" />
+            </bean>
+        </property>
+        <property name="baseCost">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+                <constructor-arg value="10" />
+            </bean>
+        </property>
+        <property name="baseWeight">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+                <constructor-arg value="6" />
+            </bean>                
+        </property>
+        <property name="baseSize" ref="medium" />
+        <property name="baseDamage">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+                <property name="diceNumber">
+                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+                        <constructor-arg value="1" />
+                    </bean>
+                </property>                    
                 <property name="diceType" ref="d8" />
             </bean>
         </property>
-        <property name="criticalFactor" value="3" />
+        <property name="criticalFactor">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor">
+                <constructor-arg value="3" />
+            </bean>
+        </property>
         <property name="defaultDamageTypes">
-            <list>
-                <ref bean="slashing" />
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageTypes">
+                <property name="damageTypes">
+                    <list>
+                        <ref bean="slashing" />
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="encumbrance" ref="oneHanded" />
         <property name="proficiency" ref="martialWeapon" />
         <property name="defaultCategories">
-            <list>
-                <ref bean="meleeWeapon" />
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategories">
+                <property name="weaponCategories">
+                    <list>
+                        <ref bean="meleeWeapon" />
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="designatedBodySlots">
-            <list>
-                <ref bean="primaryHand" />
-                <ref bean="secondaryHand" />
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+                <property name="bodySlotTypes">
+                    <list>
+                        <ref bean="primaryHand" />
+                        <ref bean="secondaryHand" />
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
 
-    <bean id="rapier" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
-          parent="abstractWeapon">
-        <property name="name" value="rapier" />
-        <property name="baseCost" value="20" />
-        <property name="weight" value="2" />
-        <property name="size" ref="medium" />
-        <property name="damage">
-            <bean class="org.asciicerebrum.mydndgame.DiceAction">
-                <property name="id" value="damage" />
-                <property name="diceNumber" value="1" />
+    <bean id="rapier" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+        <property name="genericName">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="rapier" />
+            </bean>
+        </property>
+        <property name="baseCost">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+                <constructor-arg value="20" />
+            </bean>
+        </property>
+        <property name="baseWeight">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+                <constructor-arg value="2" />
+            </bean>                
+        </property>
+        <property name="baseSize" ref="medium" />
+        <property name="baseDamage">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+                <property name="diceNumber">
+                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+                        <constructor-arg value="1" />
+                    </bean>
+                </property>                    
                 <property name="diceType" ref="d6" />
             </bean>
         </property>
-        <property name="criticalMinimumLevel" value="18" />
+        <property name="criticalMinimumLevel">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel">
+                <constructor-arg value="18" />
+            </bean>
+        </property>
         <property name="defaultDamageTypes">
-            <list>
-                <ref bean="piercing" />
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageTypes">
+                <property name="damageTypes">
+                    <list>
+                        <ref bean="piercing" />
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="encumbrance" ref="oneHanded" />
         <property name="proficiency" ref="martialWeapon" />
         <property name="defaultCategories">
-            <list>
-                <ref bean="meleeWeapon" />
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategories">
+                <property name="weaponCategories">
+                    <list>
+                        <ref bean="meleeWeapon" />
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="designatedBodySlots">
-            <list>
-                <ref bean="primaryHand" />
-                <ref bean="secondaryHand" />
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+                <property name="bodySlotTypes">
+                    <list>
+                        <ref bean="primaryHand" />
+                        <ref bean="secondaryHand" />
+                    </list>
+                </property>
+            </bean>
         </property>
-        <property name="observers">
-            <list>
-                <!--1.5 times str bonus for damage when wielded in two hands does not apply.-->
-                <bean class="org.asciicerebrum.mydndgame.observers.BonusValueModificationObserver">
-                    <property name="hook" value="DAMAGE" />
-                    <property name="operation" value="DIVISION" />
-                    <property name="modValue" value="1.5" />
-                    <property name="referenceBonus"><!-- The bonus to modify must resemble this one. -->
-                        <bean class="org.asciicerebrum.mydndgame.Bonus">
-                            <property name="bonusType" ref="strBonus" />
-                            <property name="target" ref="damage" />
+        <property name="specialAbilities">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities">
+                <property name="specialAbilities">
+                    <list>
+                        <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
+                            <property name="observers">
+                                <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers">
+                                    <property name="observers">
+                                        <list>
+                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
+                                                <property name="hook" value="DAMAGE" />
+                                                <property name="triggerStrategy">
+                                                    <!--1.5 times str bonus for damage when wielded in two hands does not apply.-->
+                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.BonusValueModificationObserverTrigger">
+                                                        <property name="bonusService" ref="bonusCalculationService" />
+                                                        <property name="operation" value="DIVISION" />
+                                                        <property name="modValue">
+                                                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle">
+                                                                <constructor-arg value="1.5" />
+                                                            </bean>
+                                                        </property>
+                                                        <property name="referenceBonus"><!-- The bonus to modify must resemble this one. -->
+                                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                                                                <property name="bonusType" ref="strBonus" />
+                                                                <property name="target" ref="damage" />
+                                                            </bean>
+                                                        </property>
+                                                    </bean>
+                                                </property>
+                                                <property name="conditionEvaluator">
+                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectInventoryItemWieldingEvaluator">
+                                                        <property name="wieldingType" value="BOTH" /><!-- This is an enum defined in this evaluator. -->
+                                                    </bean>
+                                                </property>
+                                            </bean>
+                                        </list>
+                                    </property>
+                                </bean>
+                            </property>
                         </bean>
-                    </property>
-                    <property name="conditionEvaluator">
-                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectInventoryItemWieldingEvaluator">
-                            <property name="wieldingType" value="BOTH" /><!-- This is an enum defined in this evaluator. -->
-                        </bean>
-                    </property>
-                </bean>
-            </list>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
-    
-    <bean id="dagger" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
-          parent="abstractWeapon">
-        <property name="name" value="dagger" />
-        <property name="baseCost" value="2" />
-        <property name="weight" value="1" />
-        <property name="size" ref="medium" />
-        <property name="damage">
-            <bean class="org.asciicerebrum.mydndgame.DiceAction">
-                <property name="id" value="damage" />
-                <property name="diceNumber" value="1" />
+
+    <bean id="dagger" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+        <property name="genericName">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="dagger" />
+            </bean>
+        </property>
+        <property name="baseCost">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+                <constructor-arg value="2" />
+            </bean>
+        </property>
+        <property name="baseWeight">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+                <constructor-arg value="1" />
+            </bean>                
+        </property>
+        <property name="baseSize" ref="medium" />
+        <property name="baseDamage">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+                <property name="diceNumber">
+                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+                        <constructor-arg value="1" />
+                    </bean>
+                </property>                    
                 <property name="diceType" ref="d4" />
             </bean>
         </property>
-        <property name="criticalMinimumLevel" value="19" />
-        <property name="rangeIncrement" value="10" />
+        <property name="criticalMinimumLevel">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel">
+                <constructor-arg value="19" />
+            </bean>
+        </property>
+        <property name="rangeIncrement">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.RangeIncrement">
+                <constructor-arg value="10" />
+            </bean>
+        </property>
         <property name="defaultDamageTypes">
-            <list>
-                <ref bean="piercing" />
-                <ref bean="slashing" />
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageTypes">
+                <property name="damageTypes">
+                    <list>
+                        <ref bean="piercing" />
+                        <ref bean="slashing" />
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="encumbrance" ref="light" />
         <property name="proficiency" ref="simpleWeapon" />
         <property name="defaultCategories">
-            <list>
-                <ref bean="meleeWeapon" />
-                <ref bean="rangedWeapon" />
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategories">
+                <property name="weaponCategories">
+                    <list>
+                        <ref bean="meleeWeapon" />
+                        <ref bean="rangedWeapon" />
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="designatedBodySlots">
-            <list>
-                <ref bean="primaryHand" />
-                <ref bean="secondaryHand" />
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+                <property name="bodySlotTypes">
+                    <list>
+                        <ref bean="primaryHand" />
+                        <ref bean="secondaryHand" />
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="weaponTypes">
-            <list>
-                <ref bean="thrownWeapon" />
-            </list>
-        </property>
-    </bean>
-    
-    <bean id="whip" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
-          parent="abstractWeapon">
-    </bean>
-    
-    <bean id="spikedChain" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
-          parent="abstractWeapon">
-    </bean>
-
-    <bean id="club" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
-          parent="abstractWeapon">
-    </bean>
-    
-    <bean id="dart" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
-          parent="abstractWeapon">
-        <property name="weaponTypes">
-            <list>
-                <ref bean="thrownWeapon" />
-            </list>
-        </property>
-    </bean>
-    
-    <bean id="quarterstaff" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
-          parent="abstractWeapon">
-    </bean>
-    
-    <bean id="sling" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
-          parent="abstractWeapon">
-        <property name="name" value="sling" />
-        <property name="boni">
-            <list>
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="strBonus" />
-                    <property name="target" ref="damage" />
-                    <property name="dynamicValueProvider" ref="strAbilityBonusValueProvider" />
-                </bean>
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponTypes">
+                <property name="weaponTypes">
+                    <list>
+                        <ref bean="thrownWeapon" />
+                    </list>
+                </property>
+            </bean>            
         </property>
     </bean>
 
-    <bean id="longbow" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
-          parent="abstractWeapon">
-        <property name="name" value="longbow" />
-        <property name="baseCost" value="75" />
-        <property name="weight" value="3" />
-        <property name="size" ref="medium" />
-        <property name="damage">
-            <bean class="org.asciicerebrum.mydndgame.DiceAction">
-                <property name="id" value="damage" />
-                <property name="diceNumber" value="1" />
+    <bean id="whip" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+        <property name="genericName">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="whip" />
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="spikedChain" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+        <property name="genericName">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="spikedChain" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="club" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+        <property name="genericName">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="club" />
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="dart" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+        <property name="genericName">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="dart" />
+            </bean>
+        </property>
+        <property name="weaponTypes">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponTypes">
+                <property name="weaponTypes">
+                    <list>
+                        <ref bean="thrownWeapon" />
+                    </list>
+                </property>
+            </bean>            
+        </property>
+    </bean>
+    
+    <bean id="quarterstaff" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+        <property name="genericName">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="quarterstaff" />
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="sling" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" scope="prototype">
+        <property name="genericName">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="sling" />
+            </bean>
+        </property>
+        <property name="specialAbilities">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities">
+                <property name="specialAbilities">
+                    <list>
+                        <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
+                            <property name="boni">
+                                <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+                                    <constructor-arg>
+                                        <list>
+                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                                                <property name="bonusType" ref="strBonus" />
+                                                <property name="target" ref="damage" />
+                                                <property name="dynamicValueProvider" ref="strAbilityBonusValueProvider" />
+                                            </bean>
+                                        </list>
+                                    </constructor-arg>
+                                </bean>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="longbow" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+        <property name="genericName">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="longbow" />
+            </bean>
+        </property>
+        <property name="baseCost">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+                <constructor-arg value="75" />
+            </bean>
+        </property>
+        <property name="baseWeight">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+                <constructor-arg value="3" />
+            </bean>                
+        </property>
+        <property name="baseSize" ref="medium" />
+        <property name="baseDamage">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+                <property name="diceNumber">
+                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+                        <constructor-arg value="1" />
+                    </bean>
+                </property>                    
                 <property name="diceType" ref="d8" />
             </bean>
         </property>
-        <property name="criticalFactor" value="3" />
-        <property name="rangeIncrement" value="100" />
+        <property name="criticalFactor">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor">
+                <constructor-arg value="3" />
+            </bean>
+        </property>
+        <property name="rangeIncrement">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.RangeIncrement">
+                <constructor-arg value="100" />
+            </bean>
+        </property>
         <property name="defaultDamageTypes">
-            <list>
-                <ref bean="piercing" />
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageTypes">
+                <property name="damageTypes">
+                    <list>
+                        <ref bean="piercing" />
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="proficiency" ref="martialWeapon" />
         <property name="defaultCategories">
-            <list>
-                <ref bean="rangedWeapon" />
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategories">
+                <property name="weaponCategories">
+                    <list>
+                        <ref bean="rangedWeapon" />
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="designatedBodySlots">
-            <list>
-                <ref bean="primaryHand" />
-                <ref bean="secondaryHand" />
-            </list>
-        </property>        
-        <property name="boni">
-            <list>
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="strBonus" />
-                    <property name="target" ref="damage" />
-                    <property name="dynamicValueProvider" ref="strAbilityBonusValueProvider" />
-                    <property name="conditionEvaluator">
-                        <!--bonus applies only when negative-->
-                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.BonusValueComparisonEvaluator">
-                            <property name="bonusValueProvider" ref="strAbilityBonusValueProvider" />
-                            <property name="comparator" value="LT" /><!-- Enum defined in this class: LT, LE, EQ, GE, GT -->
-                            <property name="referenceValue" value="0" />
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+                <property name="bodySlotTypes">
+                    <list>
+                        <ref bean="primaryHand" />
+                        <ref bean="secondaryHand" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="specialAbilities">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities">
+                <property name="specialAbilities">
+                    <list>
+                        <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
+                            <property name="boni">
+                                <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+                                    <constructor-arg>
+                                        <list>
+                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                                                <property name="bonusType" ref="strBonus" />
+                                                <property name="target" ref="damage" />
+                                                <property name="dynamicValueProvider" ref="strAbilityBonusValueProvider" />
+                                                <property name="conditionEvaluator">
+                                                    <!--bonus applies only when negative-->
+                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.BonusValueComparisonEvaluator">
+                                                        <property name="bonusValueProvider" ref="strAbilityBonusValueProvider" />
+                                                        <property name="comparator" value="LT" /><!-- Enum defined in this class: LT, LE, EQ, GE, GT -->
+                                                        <property name="referenceValue" value="0" />
+                                                    </bean>
+                                                </property>
+                                            </bean>
+                                        </list>
+                                    </constructor-arg>
+                                </bean>
+                            </property>
                         </bean>
-                    </property>
-                </bean>
-            </list>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
-            
-    <bean id="bastardsword" class="org.asciicerebrum.mydndgame.Weapon" scope="prototype"
-          parent="abstractWeapon">
-        <property name="name" value="bastardsword" />
-        <property name="baseCost" value="35" />
-        <property name="weight" value="6" />
-        <property name="size" ref="medium" />
-        <property name="damage">
-            <bean class="org.asciicerebrum.mydndgame.DiceAction">
-                <property name="id" value="damage" />
-                <property name="diceNumber" value="1" />
+
+    <bean id="bastardsword" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+        <property name="genericName">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="bastardsword" />
+            </bean>
+        </property>
+        <property name="baseCost">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+                <constructor-arg value="35" />
+            </bean>
+        </property>
+        <property name="baseWeight">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+                <constructor-arg value="6" />
+            </bean>                
+        </property>
+        <property name="baseSize" ref="medium" />
+        <property name="baseDamage">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+                <property name="diceNumber">
+                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+                        <constructor-arg value="1" />
+                    </bean>
+                </property>                    
                 <property name="diceType" ref="d8" />
             </bean>
         </property>
-        <property name="criticalMinimumLevel" value="19" />
+        <property name="criticalMinimumLevel">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel">
+                <constructor-arg value="19" />
+            </bean>
+        </property>
         <property name="defaultDamageTypes">
-            <list>
-                <ref bean="slashing" />
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageTypes">
+                <property name="damageTypes">
+                    <list>
+                        <ref bean="slashing" />
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="encumbrance" ref="oneHanded" />
         <property name="proficiency" ref="exoticWeapon" />
         <property name="defaultCategories">
-            <list>
-                <ref bean="meleeWeapon" />
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategories">
+                <property name="weaponCategories">
+                    <list>
+                        <ref bean="meleeWeapon" />
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="designatedBodySlots">
-            <list>
-                <ref bean="primaryHand" />
-                <ref bean="secondaryHand" />
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+                <property name="bodySlotTypes">
+                    <list>
+                        <ref bean="primaryHand" />
+                        <ref bean="secondaryHand" />
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
-                                                                                                                                                                                                                                                                                                                                    
+                
 </beans>

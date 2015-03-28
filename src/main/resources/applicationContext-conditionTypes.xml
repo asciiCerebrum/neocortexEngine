@@ -4,36 +4,52 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="flatFooted" class="org.asciicerebrum.mydndgame.ConditionType">
-        <property name="id" value="flatFooted" />
+    <bean id="flatFooted" class="org.asciicerebrum.mydndgame.domain.ruleentities.ConditionType">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="flatFooted" />
+            </bean>
+        </property>
         <property name="observers">
-            <list>
-                <!-- You can’t use your Dexterity bonus to AC (if any) while flat-footed.
-                Any situation that denies you your Dexterity bonus also denies you dodge bonuses.
-                But a dexterity penalty still applies! -->
-                <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
-                    <property name="hook" value="AC" />
-                    <property name="removeBonus">
-                        <bean class="org.asciicerebrum.mydndgame.Bonus">
-                            <property name="bonusType" ref="dexBonus" />
-                            <property name="target" ref="acBase" />
+            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers">
+                <constructor-arg>
+                    <list>
+                        <!-- You can’t use your Dexterity bonus to AC (if any) while flat-footed.
+                        Any situation that denies you your Dexterity bonus also denies you dodge bonuses.
+                        But a dexterity penalty still applies! -->
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
+                            <property name="hook" value="AC" />
+                            <property name="triggerStrategy">
+                                <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.RemoveBonusObserverTrigger">
+                                    <property name="removeBonus">
+                                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                                            <property name="bonusType" ref="dexBonus" />
+                                            <property name="target" ref="acBase" />
+                                        </bean>
+                                    </property>
+                                    <property name="resemblanceFacets">
+                                        <list>
+                                            <value>BONUS_TYPE</value>
+                                            <value>TARGET</value>
+                                        </list>
+                                    </property>
+                                </bean>
+                            </property>
+                            <property name="conditionEvaluator">
+                                <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.BonusValueComparisonEvaluator">
+                                    <property name="bonusValueProvider" ref="dexAbilityBonusValueProvider" />
+                                    <property name="comparator" value="GE" />
+                                    <property name="referenceValue">
+                                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                            <constructor-arg value="0" />
+                                        </bean>
+                                    </property>
+                                </bean>
+                            </property>
                         </bean>
-                    </property>
-                    <property name="resemblanceFacets">
-                        <list>
-                            <value>BONUS_TYPE</value>
-                            <value>TARGET</value>
-                        </list>
-                    </property>
-                    <property name="conditionEvaluator">
-                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.BonusValueComparisonEvaluator">
-                            <property name="bonusValueProvider" ref="dexAbilityBonusValueProvider" />
-                            <property name="comparator" value="GE" />
-                            <property name="referenceValue" value="0" />
-                        </bean>
-                    </property>
-                </bean>
-            </list>
+                    </list>
+                </constructor-arg>
+            </bean>
         </property>
     </bean>
 

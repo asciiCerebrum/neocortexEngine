@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.managers;
+package org.asciicerebrum.mydndgame.mechanics.managers;
 
 import java.util.Iterator;
 import javax.naming.OperationNotSupportedException;

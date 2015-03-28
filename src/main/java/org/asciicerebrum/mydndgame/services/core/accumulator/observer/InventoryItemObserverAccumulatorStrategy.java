@@ -18,6 +18,16 @@ public class InventoryItemObserverAccumulatorStrategy
      */
     private ObserverAccumulatorStrategy specialAbilitiesStrategy;
 
+    /**
+     * The observer accumulator strategy for the prototype.
+     */
+    private ObserverAccumulatorStrategy inventoryItemPrototypeStrategy;
+
+    /**
+     * The observer accumulator strategy for the conditions.
+     */
+    private ObserverAccumulatorStrategy conditionsStrategy;
+
     @Override
     public final Observers getObservers(final ObserverSource observerSource,
             final UniqueEntity targetEntity) {
@@ -27,6 +37,7 @@ public class InventoryItemObserverAccumulatorStrategy
             return observers;
         }
 
+        final InventoryItem item = (InventoryItem) observerSource;
         // the inventory item is a unique entity, so it is VERY RELEVANT,
         // if the target entity is identical to this inventory item!!!
         // E.g.: In one hand you have a mwk weapon A, in the other a mwk weapon
@@ -40,7 +51,11 @@ public class InventoryItemObserverAccumulatorStrategy
         // filtering.
         // When they differ, only the ALL-scopes observers must be used!
         observers.add(this.getSpecialAbilitiesStrategy().getObservers(
-                observerSource, targetEntity));
+                item.getSpecialAbilities(), targetEntity));
+        observers.add(this.getInventoryItemPrototypeStrategy().getObservers(
+                item.getInventoryItemPrototype(), targetEntity));
+        observers.add(this.getConditionsStrategy().getObservers(
+                item.getConditions(), targetEntity));
 
         if (observerSource != targetEntity) {
             // Here the observers with scope SPECIFIC are filtered out, because
@@ -70,6 +85,38 @@ public class InventoryItemObserverAccumulatorStrategy
      */
     public final ObserverAccumulatorStrategy getSpecialAbilitiesStrategy() {
         return specialAbilitiesStrategy;
+    }
+
+    /**
+     * @return the inventoryItemPrototypeStrategy
+     */
+    public final ObserverAccumulatorStrategy
+            getInventoryItemPrototypeStrategy() {
+        return inventoryItemPrototypeStrategy;
+    }
+
+    /**
+     * @param invItemPrototypeStrategyInpput the inventoryItemPrototypeStrategy
+     * to set
+     */
+    public final void setInventoryItemPrototypeStrategy(
+            final ObserverAccumulatorStrategy invItemPrototypeStrategyInpput) {
+        this.inventoryItemPrototypeStrategy = invItemPrototypeStrategyInpput;
+    }
+
+    /**
+     * @return the conditionsStrategy
+     */
+    public final ObserverAccumulatorStrategy getConditionsStrategy() {
+        return conditionsStrategy;
+    }
+
+    /**
+     * @param conditionsStrategyInput the conditionsStrategy to set
+     */
+    public final void setConditionsStrategy(
+            final ObserverAccumulatorStrategy conditionsStrategyInput) {
+        this.conditionsStrategy = conditionsStrategyInput;
     }
 
 }

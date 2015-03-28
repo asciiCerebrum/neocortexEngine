@@ -4,127 +4,109 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="dndCharacter" class="org.asciicerebrum.mydndgame.DndCharacter" scope="prototype">
-        <property name="bonusService" ref="bonusCalculationService" />
-        <property name="situationContext">
-            <bean class="org.asciicerebrum.mydndgame.SituationContextService" />
-        </property>
-        <property name="observableDelegate" ref="observableDelegate" />
-        <property name="hp" ref="hp" />
-        <property name="acBaseAction" ref="acBase" />
-        <property name="acAction" ref="ac" />
-        <property name="flatFooted" ref="flatFooted" />
-        <property name="attackAction" ref="attack" />
-        <property name="touchAttackAction" ref="touchAttack" />
-        <property name="meleeAttackAction" ref="meleeAttack" />
-        <property name="rangedAttackAction" ref="rangedAttack" />
-        <property name="damageAction" ref="damage" />
-        <property name="initiativeAction" ref="initiative" />
-        <property name="baseAttackBonus" ref="baseAttackBonus" />
-        <property name="abilityBonusOffset" value="10" />
-        <property name="baseAtkBoni">
-            <list>
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="baseAttackBonus" />
-                    <property name="target" ref="attack" />
-                    <property name="rank" value="0" />
-                    <property name="dynamicValueProvider" ref="rank0AtkBonusValueProvider" />
-                </bean>
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="baseAttackBonus" />
-                    <property name="target" ref="attack" />
-                    <property name="rank" value="1" />
-                    <property name="dynamicValueProvider" ref="rank1AtkBonusValueProvider" />
-                </bean>
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="baseAttackBonus" />
-                    <property name="target" ref="attack" />
-                    <property name="rank" value="2" />
-                    <property name="dynamicValueProvider" ref="rank2AtkBonusValueProvider" />
-                </bean>
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="baseAttackBonus" />
-                    <property name="target" ref="attack" />
-                    <property name="rank" value="3" />
-                    <property name="dynamicValueProvider" ref="rank3AtkBonusValueProvider" />
-                </bean>
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="baseAttackBonus" />
-                    <property name="target" ref="attack" />
-                    <property name="rank" value="4" />
-                    <property name="dynamicValueProvider" ref="rank4AtkBonusValueProvider" />
-                </bean>
-            </list>
-        </property>
-        <property name="boni">
-            <list>
-                <ref bean="nonproficiencyPenaltyBonus" />
-                <!-- non proficiency penalty for armor / shields: A character who is wearing armor with which she is not proficient applies its armor check penalty to attack rolls and to all skill checks that involve moving, including Ride. -->
-                <ref bean="armorsArmorCheckPenaltyBonus" />
-                <ref bean="shieldsArmorCheckPenaltyBonus" />
-            </list>
-        </property>
-        <property name="observers">
-            <list>
-                <!--1.5 times the bonus when wielded in two hands, except light weapon, only melee of course -->
-                <bean class="org.asciicerebrum.mydndgame.observers.BonusValueModificationObserver">
-                    <property name="hook" value="DAMAGE" />
-                    <property name="operation" value="MULTIPLICATION" />
-                    <property name="modValue" value="1.5" />
-                    <property name="referenceBonus"><!-- The bonus to modify must resemble this one. -->
-                        <bean class="org.asciicerebrum.mydndgame.Bonus">
-                            <property name="bonusType" ref="strBonus" />
-                            <property name="target" ref="damage" />
-                        </bean>
-                    </property>
-                    <property name="conditionEvaluator">
-                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.AndListEvaluator">
-                            <property name="conditionEvaluators">
-                                <list>
-                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectInventoryItemWieldingEvaluator">
-                                        <property name="wieldingType" value="BOTH" /><!--use enums here for wielding type-->
-                                    </bean>
-                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.NotEvaluator">
-                                        <property name="conditionEvaluator">
-                                            <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectWeaponEncumbranceEvaluator">
-                                                <property name="encumbrance" ref="light" />
-                                            </bean>
-                                        </property>
-                                    </bean>
-                                    <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectAttackModeEvaluator">
-                                        <property name="weaponCategory" ref="meleeWeapon" />
-                                    </bean>
-                                </list>
+    <bean id="dndCharacter" class="org.asciicerebrum.mydndgame.domain.game.DndCharacter" scope="prototype">
+
+        <property name="prototypeSpecialAbilities">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities">
+                <property name="specialAbilities">
+                    <list>
+                        <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
+                            <property name="boni">
+                                <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+                                    <constructor-arg>
+                                        <list>
+                                            <ref bean="nonproficiencyPenaltyBonus" />
+                                            <!-- non proficiency penalty for armor / shields: A character who is wearing armor with which she is not proficient applies its armor check penalty to attack rolls and to all skill checks that involve moving, including Ride. -->
+                                            <ref bean="armorsArmorCheckPenaltyBonus" />
+                                            <ref bean="shieldsArmorCheckPenaltyBonus" />
+                                        </list>
+                                    </constructor-arg>
+                                </bean>
                             </property>
                         </bean>
-                    </property>
-                </bean>
-                <!--0.5 times the bonus when wielded in secondary hand-->
-                <bean class="org.asciicerebrum.mydndgame.observers.BonusValueModificationObserver">
-                    <property name="hook" value="DAMAGE" />
-                    <property name="operation" value="MULTIPLICATION" />
-                    <property name="modValue" value="0.5" />
-                    <property name="referenceBonus"><!-- The bonus to modify must resemble this one. -->
-                        <bean class="org.asciicerebrum.mydndgame.Bonus">
-                            <property name="bonusType" ref="strBonus" />
-                            <property name="target" ref="damage" />
+                        <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
+                            <property name="observers">
+                                <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers">
+                                    <property name="observers">
+                                        <list>
+                                            <!--1.5 times the bonus when wielded in two hands, except light weapon, only melee of course -->
+                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
+                                                <property name="hook" value="DAMAGE" />
+                                                <property name="triggerStrategy">
+                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.BonusValueModificationObserverTrigger">
+                                                        <property name="operation" value="MULTIPLICATION" />
+                                                        <property name="modValue">
+                                                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle">
+                                                                <constructor-arg value="1.5" />
+                                                            </bean>
+                                                        </property>
+                                                        <property name="referenceBonus"><!-- The bonus to modify must resemble this one. -->
+                                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                                                                <property name="bonusType" ref="strBonus" />
+                                                                <property name="target" ref="damage" />
+                                                            </bean>
+                                                        </property>
+                                                        <property name="bonusService" ref="bonusCalculationService" />
+                                                    </bean>
+                                                </property>
+                                                <property name="conditionEvaluator">
+                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.AndListEvaluator">
+                                                        <property name="conditionEvaluators">
+                                                            <list>
+                                                                <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectInventoryItemWieldingEvaluator">
+                                                                    <property name="wieldingType" value="BOTH" /><!--use enums here for wielding type-->
+                                                                </bean>
+                                                                <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.NotEvaluator">
+                                                                    <property name="conditionEvaluator">
+                                                                        <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectWeaponEncumbranceEvaluator">
+                                                                            <property name="encumbrance" ref="light" />
+                                                                            <property name="weaponServiceFacade" ref="weaponServiceFacade" />
+                                                                        </bean>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectAttackModeEvaluator">
+                                                                    <property name="weaponCategory" ref="meleeWeapon" />
+                                                                    <property name="situationContextService" ref="situationContextService" />
+                                                                </bean>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                </property>
+                                            </bean>
+                                            <!--0.5 times the bonus when wielded in secondary hand-->
+                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
+                                                <property name="hook" value="DAMAGE" />
+                                                <property name="triggerStrategy">
+                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.BonusValueModificationObserverTrigger">
+                                                        <property name="operation" value="MULTIPLICATION" />
+                                                        <property name="modValue">
+                                                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle">
+                                                                <constructor-arg value="0.5" />
+                                                            </bean>
+                                                        </property>
+                                                        <property name="referenceBonus"><!-- The bonus to modify must resemble this one. -->
+                                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                                                                <property name="bonusType" ref="strBonus" />
+                                                                <property name="target" ref="damage" />
+                                                            </bean>
+                                                        </property>
+                                                        <property name="bonusService" ref="bonusCalculationService" />
+                                                    </bean>
+                                                </property>
+                                                <property name="conditionEvaluator">
+                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectInventoryItemWieldingEvaluator">
+                                                        <property name="wieldingType" value="SECONDARY" /><!--use enums here for wielding type-->
+                                                    </bean>
+                                                </property>
+                                            </bean>
+                                        </list>
+                                    </property>
+                                </bean>
+                            </property>
                         </bean>
-                    </property>
-                    <property name="conditionEvaluator">
-                        <bean class="org.asciicerebrum.mydndgame.conditionevaluator.CorrectInventoryItemWieldingEvaluator">
-                            <property name="wieldingType" value="SECONDARY" /><!--use enums here for wielding type-->
-                        </bean>
-                    </property>
-                </bean>
-                <!-- applying the maximum limit of the dexterity bonus, the value for the limit is taken from the concrete armor prototype -->
-                <bean class="org.asciicerebrum.mydndgame.observers.SimpleArithmeticObserver">
-                    <property name="hook" value="ABILITY_DEX" />
-                    <property name="operation" value="MINIMUM" />
-                    <property name="modValueProvider">
-                        <bean class="org.asciicerebrum.mydndgame.valueproviders.ArmorDexterityLimitProvider" />
-                    </property>
-                </bean>
-            </list>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
     

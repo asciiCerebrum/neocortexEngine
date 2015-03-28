@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.managers;
 
+import org.asciicerebrum.mydndgame.mechanics.managers.DefaultCombatRoundManager;
 import javax.naming.OperationNotSupportedException;
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;

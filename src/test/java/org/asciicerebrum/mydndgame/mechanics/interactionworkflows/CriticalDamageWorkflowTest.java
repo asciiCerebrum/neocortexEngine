@@ -78,8 +78,7 @@ public class CriticalDamageWorkflowTest {
     public void runWorkflowNormalTest() {
         final Interaction interaction = new Interaction();
         final DndCharacter triggerCharacter = new DndCharacter();
-        final CriticalFactor critFactor = new CriticalFactor();
-        critFactor.setValue(3L);
+        final CriticalFactor critFactor = new CriticalFactor(3L);
         interaction.setTriggeringCharacter(triggerCharacter);
 
         when(this.sitConService.getActiveItem(triggerCharacter))

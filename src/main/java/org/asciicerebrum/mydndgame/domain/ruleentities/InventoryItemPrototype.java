@@ -2,12 +2,17 @@ package org.asciicerebrum.mydndgame.domain.ruleentities;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.Cost;
 import org.asciicerebrum.mydndgame.domain.core.particles.Weight;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 
 /**
  *
  * @author species8472
  */
-public abstract class InventoryItemPrototype extends GameEntity {
+public abstract class InventoryItemPrototype extends GameEntity
+        implements BonusSource, ObserverSource {
 
     /**
      * Weight of the object.
@@ -106,6 +111,20 @@ public abstract class InventoryItemPrototype extends GameEntity {
     public final void setDesignatedBodySlotTypes(
             final BodySlotTypes designatedBodySlotTypesInput) {
         this.designatedBodySlotTypes = designatedBodySlotTypesInput;
+    }
+
+    @Override
+    public final Boni getBoni() {
+        return Boni.EMPTY_BONI;
+    }
+
+    @Override
+    public final BonusSources getBonusSources() {
+        final BonusSources bonusSources = new BonusSources();
+
+        bonusSources.add(this.specialAbilities);
+
+        return bonusSources;
     }
 
 }

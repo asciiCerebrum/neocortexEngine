@@ -1,10 +1,12 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility;
 import org.asciicerebrum.mydndgame.domain.setup.InventoryItemSetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
+import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -58,7 +60,9 @@ public class InventoryItemFactoryTest {
                 withSettings()
                 .extraInterfaces(ConfigurableApplicationContext.class));
 
-        this.factory.setContext(this.applicationContext);
+        ApplicationContextProvider ctxProvider
+                = new ApplicationContextProvider();
+        ctxProvider.setApplicationContext(this.applicationContext);
 
         ConfigurableListableBeanFactory beanFactory
                 = mock(ConfigurableListableBeanFactory.class);
@@ -74,9 +78,9 @@ public class InventoryItemFactoryTest {
     public void newEntityIncompleteTest() {
         final InventoryItemSetup setup = new InventoryItemSetup() {
         };
-        final Reassignments reassignments = new Reassignments();
+        final Campaign campaign = new Campaign();
 
-        this.factory.newEntity(setup, reassignments);
+        this.factory.newEntity(setup, campaign);
     }
 
     private void makeComplete(InventoryItemSetup setup) {
@@ -89,12 +93,12 @@ public class InventoryItemFactoryTest {
     public void newEntityCompleteTest() {
         final InventoryItemSetup setup = new InventoryItemSetup() {
         };
-        final Reassignments reassignments = new Reassignments();
+        final Campaign campaign = new Campaign();
 
         this.makeComplete(setup);
 
         final InventoryItem itemResult
-                = this.factory.newEntity(setup, reassignments);
+                = this.factory.newEntity(setup, campaign);
 
         assertEquals("id", itemResult.getUniqueId().getValue());
     }
@@ -103,14 +107,14 @@ public class InventoryItemFactoryTest {
     public void newEntityWithAbilitiesTest() {
         final InventoryItemSetup setup = new InventoryItemSetup() {
         };
-        final Reassignments reassignments = new Reassignments();
+        final Campaign campaign = new Campaign();
 
         this.makeComplete(setup);
         setup.addSpecialAbility("ability");
         setup.addSpecialAbility("ability");
         setup.addSpecialAbility("ability");
 
-        this.factory.newEntity(setup, reassignments);
+        this.factory.newEntity(setup, campaign);
 
         verify(this.applicationContext, times(3))
                 .getBean("ability", SpecialAbility.class);

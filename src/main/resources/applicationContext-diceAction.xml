@@ -4,102 +4,178 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="hp" class="org.asciicerebrum.mydndgame.DiceAction">
-        <property name="id" value="hp" />
+    <bean id="hp" class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="hp" />
+            </bean>
+        </property>
     </bean>
 
-    <bean id="damage" class="org.asciicerebrum.mydndgame.DiceAction">
-        <property name="id" value="damage" />
+    <bean id="damage" class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="damage" />
+            </bean>
+        </property>
     </bean>
 
-    <bean id="ac" class="org.asciicerebrum.mydndgame.DiceAction">
-        <property name="id" value="ac" />
+    <bean id="ac" class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="ac" />
+            </bean>
+        </property>
     </bean>
 
-    <bean id="acBase" class="org.asciicerebrum.mydndgame.DiceAction">
-        <property name="id" value="acBase" />
-        <property name="constValue" value="10" />
+    <bean id="acBase" class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="acBase" />
+            </bean>
+        </property>
+        <property name="constValue">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceConstant">
+                <constructor-arg value="10" />
+            </bean>
+        </property>
     </bean>
     
-    <bean id="initiative" class="org.asciicerebrum.mydndgame.DiceAction">
-        <property name="id" value="initiative" />
-        <property name="diceNumber" value="1" />
+    <bean id="initiative" class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="initiative" />
+            </bean>
+        </property>
+        <property name="diceNumber">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+                <constructor-arg value="1" />
+            </bean>
+        </property>
         <property name="diceType" ref="d20" />
     </bean>
 
-    <bean id="attack" class="org.asciicerebrum.mydndgame.DiceAction">
-        <property name="id" value="attack" />
-        <property name="diceNumber" value="1" />
+    <bean id="attack" class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="attack" />
+            </bean>
+        </property>
+        <property name="diceNumber">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+                <constructor-arg value="1" />
+            </bean>
+        </property>
         <property name="diceType" ref="d20" />
     </bean>
 
-    <bean id="touchAttack" class="org.asciicerebrum.mydndgame.DiceAction">
-        <property name="id" value="attack" />
-        <property name="diceNumber" value="1" />
+    <bean id="touchAttack" class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="touchAttack" />
+            </bean>
+        </property>
+        <property name="diceNumber">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+                <constructor-arg value="1" />
+            </bean>
+        </property>
         <property name="diceType" ref="d20" />
         <property name="targetObservers">
-            <list>
-                <!-- When you are the target of a touch attack, your AC doesn’t include any armor bonus, shield bonus, or natural armor bonus. -->
-                <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
-                    <property name="hook" value="AC" />
-                    <property name="removeBonus">
-                        <bean class="org.asciicerebrum.mydndgame.Bonus">
-                            <property name="bonusType" ref="armorBonus" />
-                            <property name="target" ref="acBase" />
+            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers" >
+                <constructor-arg>
+                    <list>
+                        <!-- When you are the target of a touch attack, your AC doesn’t include any armor bonus, shield bonus, or natural armor bonus. -->
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
+                            <property name="hook" value="AC" />
+                            <property name="triggerStrategy">
+                                <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.RemoveBonusObserverTrigger">
+                                    <property name="removeBonus">
+                                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                                            <property name="bonusType" ref="armorBonus" />
+                                            <property name="target" ref="acBase" />
+                                        </bean>
+                                    </property>
+                                    <property name="resemblanceFacets">
+                                        <list>
+                                            <value>BONUS_TYPE</value>
+                                            <value>TARGET</value>
+                                        </list>
+                                    </property>
+                                </bean>                                
+                            </property>
                         </bean>
-                    </property>
-                    <property name="resemblanceFacets">
-                        <list>
-                            <value>BONUS_TYPE</value>
-                            <value>TARGET</value>
-                        </list>
-                    </property>
-                </bean>
-                <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
-                    <property name="hook" value="AC" />
-                    <property name="removeBonus">
-                        <bean class="org.asciicerebrum.mydndgame.Bonus">
-                            <property name="bonusType" ref="shieldBonus" />
-                            <property name="target" ref="acBase" />
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
+                            <property name="hook" value="AC" />
+                            <property name="triggerStrategy">
+                                <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.RemoveBonusObserverTrigger">
+                                    <property name="removeBonus">
+                                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                                            <property name="bonusType" ref="shieldBonus" />
+                                            <property name="target" ref="acBase" />
+                                        </bean>
+                                    </property>
+                                    <property name="resemblanceFacets">
+                                        <list>
+                                            <value>BONUS_TYPE</value>
+                                            <value>TARGET</value>
+                                        </list>
+                                    </property>
+                                </bean>                                
+                            </property>
                         </bean>
-                    </property>
-                    <property name="resemblanceFacets">
-                        <list>
-                            <value>BONUS_TYPE</value>
-                            <value>TARGET</value>
-                        </list>
-                    </property>
-                </bean>
-                <bean class="org.asciicerebrum.mydndgame.observers.RemoveBonusObserver">
-                    <property name="hook" value="AC" />
-                    <property name="removeBonus">
-                        <bean class="org.asciicerebrum.mydndgame.Bonus">
-                            <property name="bonusType" ref="naturalArmorBonus" />
-                            <property name="target" ref="acBase" />
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
+                            <property name="hook" value="AC" />
+                            <property name="triggerStrategy">
+                                <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.RemoveBonusObserverTrigger">
+                                    <property name="removeBonus">
+                                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                                            <property name="bonusType" ref="naturalArmorBonus" />
+                                            <property name="target" ref="acBase" />
+                                        </bean>
+                                    </property>
+                                    <property name="resemblanceFacets">
+                                        <list>
+                                            <value>BONUS_TYPE</value>
+                                            <value>TARGET</value>
+                                        </list>
+                                    </property>
+                                </bean>                                
+                            </property>
                         </bean>
-                    </property>
-                    <property name="resemblanceFacets">
-                        <list>
-                            <value>BONUS_TYPE</value>
-                            <value>TARGET</value>
-                        </list>
-                    </property>
-                </bean>
-            </list>
+                    </list>
+                </constructor-arg>
+            </bean>
         </property>
     </bean>
    
-    <bean id="meleeAttack" class="org.asciicerebrum.mydndgame.DiceAction">
-        <property name="id" value="meleeAttack" />
-        <property name="diceNumber" value="1" />
+    <bean id="meleeAttack" class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="meleeAttack" />
+            </bean>
+        </property>
+        <property name="diceNumber">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+                <constructor-arg value="1" />
+            </bean>
+        </property>
         <property name="diceType" ref="d20" />
         <property name="associatedAttackMode" ref="meleeWeapon" />
         <property name="associatedHook" value="MELEE_ATTACK" />
     </bean>
     
-    <bean id="rangedAttack" class="org.asciicerebrum.mydndgame.DiceAction">
-        <property name="id" value="rangedAttack" />
-        <property name="diceNumber" value="1" />
+    <bean id="rangedAttack" class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="rangedAttack" />
+            </bean>
+        </property>
+        <property name="diceNumber">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+                <constructor-arg value="1" />
+            </bean>
+        </property>
         <property name="diceType" ref="d20" />
         <property name="associatedAttackMode" ref="rangedWeapon" />
         <property name="associatedHook" value="RANGED_ATTACK" />

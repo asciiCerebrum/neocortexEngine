@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 
 /**
@@ -14,11 +15,10 @@ public interface EntityFactory<T> {
      * setup.
      *
      * @param setup the setup of the specific object to create.
-     * @param reassignments the reassignment object for resolving unfound
-     * objects.
+     * @param campaign the campaign as the base entity map.
      * @return the created instance.
      */
-    T newEntity(EntitySetup setup, Reassignments reassignments);
+    T newEntity(EntitySetup setup, Campaign campaign);
 
     /**
      * Only set specific attributes that were impossible to set in the first run
@@ -27,9 +27,8 @@ public interface EntityFactory<T> {
      *
      * @param setup the base setup to get the properties from.
      * @param entity the entity to reassign the yet unresolved values to.
-     * @param reassignments Something could still go wrong here. But unfound
-     * objects could still be retrieved later.
+     * @param campaign the campaign as the base entity map.
      */
-    void reAssign(EntitySetup setup, T entity, Reassignments reassignments);
+    void reAssign(EntitySetup setup, T entity, Campaign campaign);
 
 }

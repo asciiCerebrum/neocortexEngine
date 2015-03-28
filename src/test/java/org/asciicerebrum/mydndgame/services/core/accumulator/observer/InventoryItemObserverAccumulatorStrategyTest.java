@@ -46,6 +46,10 @@ public class InventoryItemObserverAccumulatorStrategyTest {
 
         this.strategy.setSpecialAbilitiesStrategy(
                 this.specialAbilitiesStrategy);
+        this.strategy.setInventoryItemPrototypeStrategy(
+                this.specialAbilitiesStrategy);
+        this.strategy.setConditionsStrategy(
+                this.specialAbilitiesStrategy);
     }
 
     @After
@@ -82,7 +86,7 @@ public class InventoryItemObserverAccumulatorStrategyTest {
         final Observers result = this.strategy.getObservers(
                 observerSource, targetEntity);
 
-        assertEquals(1L, Iterators.size(result.iterator()));
+        assertEquals(3L, Iterators.size(result.iterator()));
     }
 
     @Test
@@ -104,7 +108,7 @@ public class InventoryItemObserverAccumulatorStrategyTest {
         final Observers result = this.strategy.getObservers(
                 observerSource, targetEntity);
 
-        assertEquals(2L, Iterators.size(result.iterator()));
+        assertEquals(6L, Iterators.size(result.iterator()));
     }
 
 }

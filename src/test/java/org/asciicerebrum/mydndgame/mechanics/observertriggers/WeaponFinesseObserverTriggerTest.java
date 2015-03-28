@@ -13,7 +13,6 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory;
 import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype;
 import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototypes;
 import org.asciicerebrum.mydndgame.facades.game.CharacterServiceFacade;
-import org.asciicerebrum.mydndgame.facades.game.InventoryItemServiceFacade;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.junit.After;
@@ -36,8 +35,6 @@ public class WeaponFinesseObserverTriggerTest {
     private WeaponFinesseObserverTrigger weaponFinesseObserverTrigger;
 
     private CharacterServiceFacade characterServiceFacade;
-
-    private InventoryItemServiceFacade itemServiceFacade;
 
     private StateRegistry.StateParticle stateParticle;
 
@@ -70,7 +67,6 @@ public class WeaponFinesseObserverTriggerTest {
     public void setUp() {
         this.weaponFinesseObserverTrigger = new WeaponFinesseObserverTrigger();
         this.characterServiceFacade = mock(CharacterServiceFacade.class);
-        this.itemServiceFacade = mock(InventoryItemServiceFacade.class);
         this.stateParticle = StateRegistry.StateParticle.ACTIVE_ITEM;
         this.removeBonus = new Bonus();
         this.replacementBonus = new Bonus();
@@ -87,7 +83,6 @@ public class WeaponFinesseObserverTriggerTest {
 
         this.weaponFinesseObserverTrigger.setCharacterServiceFacade(
                 this.characterServiceFacade);
-        this.weaponFinesseObserverTrigger.setItemFacade(this.itemServiceFacade);
         this.weaponFinesseObserverTrigger.setRegistryKey(this.stateParticle);
         this.weaponFinesseObserverTrigger.setRemoveBonus(this.removeBonus);
         this.weaponFinesseObserverTrigger.setReplacementBonus(
@@ -115,7 +110,7 @@ public class WeaponFinesseObserverTriggerTest {
         final SizeCategory sizeCharacter = new SizeCategory();
         sizeCharacter.setUniqueId(new UniqueId("characterSize"));
 
-        when(this.itemServiceFacade.getSize(usedWeapon, dndCharacter))
+        when(this.weaponServiceFacade.getSize(usedWeapon, dndCharacter))
                 .thenReturn(sizeWeapon);
         when(this.characterServiceFacade.getSize(dndCharacter))
                 .thenReturn(sizeCharacter);
@@ -134,7 +129,7 @@ public class WeaponFinesseObserverTriggerTest {
         final SizeCategory size = new SizeCategory();
         size.setUniqueId(new UniqueId("validsize"));
 
-        when(this.itemServiceFacade.getSize(usedWeapon, dndCharacter))
+        when(this.weaponServiceFacade.getSize(usedWeapon, dndCharacter))
                 .thenReturn(size);
         when(this.characterServiceFacade.getSize(dndCharacter))
                 .thenReturn(size);
@@ -156,7 +151,7 @@ public class WeaponFinesseObserverTriggerTest {
         final SizeCategory size = new SizeCategory();
         size.setUniqueId(new UniqueId("validsize"));
 
-        when(this.itemServiceFacade.getSize(usedWeapon, dndCharacter))
+        when(this.weaponServiceFacade.getSize(usedWeapon, dndCharacter))
                 .thenReturn(size);
         when(this.characterServiceFacade.getSize(dndCharacter))
                 .thenReturn(size);
@@ -178,7 +173,7 @@ public class WeaponFinesseObserverTriggerTest {
         final SizeCategory size = new SizeCategory();
         size.setUniqueId(new UniqueId("validsize"));
 
-        when(this.itemServiceFacade.getSize(usedWeapon, dndCharacter))
+        when(this.weaponServiceFacade.getSize(usedWeapon, dndCharacter))
                 .thenReturn(size);
         when(this.characterServiceFacade.getSize(dndCharacter))
                 .thenReturn(size);
@@ -219,7 +214,7 @@ public class WeaponFinesseObserverTriggerTest {
         final SizeCategory size = new SizeCategory();
         size.setUniqueId(new UniqueId("validsize"));
 
-        when(this.itemServiceFacade.getSize(weapon, dndCharacter))
+        when(this.weaponServiceFacade.getSize(weapon, dndCharacter))
                 .thenReturn(size);
         when(this.characterServiceFacade.getSize(dndCharacter))
                 .thenReturn(size);
@@ -248,7 +243,7 @@ public class WeaponFinesseObserverTriggerTest {
         final SizeCategory size = new SizeCategory();
         size.setUniqueId(new UniqueId("validsize"));
 
-        when(this.itemServiceFacade.getSize(weapon, dndCharacter))
+        when(this.weaponServiceFacade.getSize(weapon, dndCharacter))
                 .thenReturn(size);
         when(this.characterServiceFacade.getSize(dndCharacter))
                 .thenReturn(size);

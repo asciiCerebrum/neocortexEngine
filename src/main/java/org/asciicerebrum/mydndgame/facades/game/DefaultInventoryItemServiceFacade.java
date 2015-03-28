@@ -15,7 +15,7 @@ import org.asciicerebrum.mydndgame.services.core.ObservableService;
  *
  * @author species8472
  */
-public class DefaultInventoryItemServiceFacade
+public abstract class DefaultInventoryItemServiceFacade
         implements InventoryItemServiceFacade {
 
     /**

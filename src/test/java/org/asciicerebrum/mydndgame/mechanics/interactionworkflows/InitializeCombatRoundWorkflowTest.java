@@ -11,7 +11,7 @@ import org.asciicerebrum.mydndgame.domain.game.DndCharacters;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
 import org.asciicerebrum.mydndgame.domain.ruleentities.ConditionType;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
-import org.asciicerebrum.mydndgame.managers.DiceRollManager;
+import org.asciicerebrum.mydndgame.mechanics.managers.DiceRollManager;
 import org.asciicerebrum.mydndgame.services.application.ConditionApplicationService;
 import org.asciicerebrum.mydndgame.services.statistics.InitiativeCalculationService;
 import org.junit.After;

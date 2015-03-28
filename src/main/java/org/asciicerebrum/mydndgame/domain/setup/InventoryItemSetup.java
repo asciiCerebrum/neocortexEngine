@@ -50,4 +50,13 @@ public abstract class InventoryItemSetup extends AbstractEntitySetup {
         }
         specialAbilities.add(specialAbilityInput);
     }
+
+    /**
+     * @param conditionSetups the conditions setups.
+     */
+    public final void setConditionSetups(
+            final List<EntitySetup> conditionSetups) {
+        this.getListSetup().put(SetupProperty.CONDITIONS, conditionSetups);
+    }
+
 }

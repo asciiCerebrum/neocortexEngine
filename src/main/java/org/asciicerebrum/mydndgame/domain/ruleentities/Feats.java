@@ -20,6 +20,23 @@ public class Feats implements BonusSource, ObserverSource {
     private final List<FeatType> elements = new ArrayList<FeatType>();
 
     /**
+     * Standard constructor for an empty list of feat types.
+     */
+    public Feats() {
+
+    }
+
+    /**
+     * Constructor for a given list of feat types.
+     *
+     * @param featTypes the feat types to add to the collection from the
+     * beginning.
+     */
+    public Feats(final ArrayList<FeatType> featTypes) {
+        this.elements.addAll(featTypes);
+    }
+
+    /**
      * Adds a further feat to the collection.
      *
      * @param feat the feat to add.

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    <bean id="combatRoundManager" class="org.asciicerebrum.mydndgame.mechanics.managers.DefaultCombatRoundManager">
+        <property name="conditionExpirationWorkflow" ref="conditionExpirationWorkflow" />
+        <property name="initializeCombatRoundWorkflow" ref="initializeCombatRoundWorkflow" />
+    </bean>
+    <bean id="diceRollManager" class="org.asciicerebrum.mydndgame.mechanics.managers.DefaultDiceRollManager">
+    </bean>
+    
+    <bean id="conditionExpirationWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.ConditionExpirationWorkflow">
+        <property name="conditionService" ref="conditionApplicationService" />
+    </bean>
+    <bean id="criticalDamageWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.CriticalDamageWorkflow">
+        <property name="situationContextService" ref="situationContextService" />
+        <property name="damageWorkflow" ref="damageWorkflow" />
+        <property name="weaponServiceFacade" ref="weaponServiceFacade" />
+    </bean>
+    <bean id="damageWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.DamageWorkflow">
+        <property name="damageApplicationService" ref="damageApplicationService" />
+        <property name="damageService" ref="damageCalculationService" />
+        <property name="diceRollManager" ref="diceRollManager" />
+        <property name="minimumDamage">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll">
+                <constructor-arg value="1" />
+            </bean>
+        </property>
+        <property name="situationContextService" ref="situationContextService" />
+        <property name="weaponServiceFacade" ref="weaponServiceFacade" />
+    </bean>
+    <bean id="endTurnWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.EndTurnWorkflow">
+        <property name="conditionExpirationWorkflow" ref="conditionExpirationWorkflow" />
+    </bean>
+    <bean id="initializeCombatRoundWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.InitializeCombatRoundWorkflow">
+        <property name="conditionApplicationService" ref="conditionApplicationService" />
+        <property name="diceRollManager" ref="diceRollManager" />
+        <property name="initiativeCalculationService" ref="initiativeCalculationService" />
+        <property name="flatFootedType" ref="flatFooted" />
+        <property name="initiativeAction" ref="initiative" />
+    </bean>
+    <bean id="singleAttackWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.SingleAttackWorkflow">
+        <property name="acService" ref="acCalculationService" />
+        <property name="atkService" ref="atkCalculationService" />
+        <property name="situationContextService" ref="situationContextService" />
+        <property name="criticalDamageWorkflow" ref="criticalDamageWorkflow" />
+        <property name="damageWorkflow" ref="damageWorkflow" />
+        <property name="diceRollManager" ref="diceRollManager" />
+        <property name="weaponServiceFacade" ref="weaponServiceFacade" />
+        <property name="attackAction" ref="attack" />
+        <property name="autoFailureRoll">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll">
+                <constructor-arg value="1" />
+            </bean>
+        </property>
+        <property name="autoSuccessRoll">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll">
+                <constructor-arg value="20" />
+            </bean>
+        </property>
+    </bean>
+    
+                                            
+</beans>

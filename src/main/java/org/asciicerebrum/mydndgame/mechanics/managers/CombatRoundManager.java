@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.managers;
+package org.asciicerebrum.mydndgame.mechanics.managers;
 
 import javax.naming.OperationNotSupportedException;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;

@@ -8,7 +8,8 @@ import org.asciicerebrum.mydndgame.domain.core.particles.RangeIncrement;
  *
  * @author species8472
  */
-public class WeaponPrototype extends InventoryItemPrototype {
+public class WeaponPrototype extends InventoryItemPrototype
+        implements FeatBinding {
 
     /**
      * Factor for damage rolls after a successful criticial hit.

@@ -16,6 +16,60 @@ import org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle.Operatio
 public class BonusValueTuple {
 
     /**
+     * This class is used for easy creation of a bonus value tuple instance.
+     * Thee bonus value is coupled with the bonus rank into one object that can
+     * be used to instantiate a bonus value tuple.
+     */
+    public static class BonusValueEntry {
+
+        /**
+         * The rank of the bonus.
+         */
+        private final BonusRank bonusRank;
+
+        /**
+         * The numerical value of the bonus.
+         */
+        private final BonusValue bonusValue;
+
+        /**
+         * Constructor of the entry without a rank. The rank is set to 0.
+         *
+         * @param valueInput the value of the bonus.
+         */
+        public BonusValueEntry(final BonusValue valueInput) {
+            this.bonusRank = BonusRank.RANK_0;
+            this.bonusValue = valueInput;
+        }
+
+        /**
+         * Constructor of the entry with rank and value.
+         *
+         * @param rankInput the rank of the bonus.
+         * @param valueInput the value of the bonus.
+         */
+        public BonusValueEntry(final BonusRank rankInput,
+                final BonusValue valueInput) {
+            this.bonusRank = rankInput;
+            this.bonusValue = valueInput;
+        }
+
+        /**
+         * @return the rank of the bonus.
+         */
+        public final BonusRank getBonusRank() {
+            return this.bonusRank;
+        }
+
+        /**
+         * @return the value of the bonus.
+         */
+        public final BonusValue getBonusValue() {
+            return this.bonusValue;
+        }
+    }
+
+    /**
      * Initial value for hash code calculation.
      */
     private static final int INITIAL_NON_ZERO_ODD_NUMBER = 7;
@@ -32,6 +86,34 @@ public class BonusValueTuple {
             = new TreeMap<BonusRank, BonusValue>();
 
     /**
+     * Empty constructor. The instance starts with an empty map of ranks and
+     * values.
+     */
+    public BonusValueTuple() {
+
+    }
+
+    /**
+     * Constructing the map from single bonus value. The rank is set to 0.
+     *
+     * @param value the value of the rank-0 bonus.
+     */
+    public BonusValueTuple(final BonusValue value) {
+        this.addBonusValue(value);
+    }
+
+    /**
+     * Constructing the map from a list of rank-value entries.
+     *
+     * @param entries the entries containing ranks and values.
+     */
+    public BonusValueTuple(final BonusValueEntry... entries) {
+        for (BonusValueEntry entry : entries) {
+            this.addBonusValueEntry(entry);
+        }
+    }
+
+    /**
      * Retrieve the bonus value of a given rank.
      *
      * @param rank the rank the bonus should have.
@@ -42,7 +124,7 @@ public class BonusValueTuple {
     }
 
     /**
-     * Put a new bonus-rank-combination into the map.
+     * Put a new value-rank-combination into the map.
      *
      * @param rank the rank of the bonus.
      * @param bonusValue the bonus value of that rank.
@@ -50,6 +132,24 @@ public class BonusValueTuple {
     public final void addBonusValue(final BonusRank rank,
             final BonusValue bonusValue) {
         this.rankedBoni.put(rank, bonusValue);
+    }
+
+    /**
+     * Put a new value into the map. The rank is set to 0.
+     *
+     * @param bonusValue the value to put into the map.
+     */
+    public final void addBonusValue(final BonusValue bonusValue) {
+        this.rankedBoni.put(BonusRank.RANK_0, bonusValue);
+    }
+
+    /**
+     * Put a new value-rank-entry into the map.
+     *
+     * @param entry the entry to add to the map.
+     */
+    public final void addBonusValueEntry(final BonusValueEntry entry) {
+        this.rankedBoni.put(entry.getBonusRank(), entry.getBonusValue());
     }
 
     @Override

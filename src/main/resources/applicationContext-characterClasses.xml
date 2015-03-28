@@ -4,72 +4,107 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="fighter1" class="org.asciicerebrum.mydndgame.ClassLevel">
-        <property name="level" value="1" />
-        <property name="nextClassLevel" ref="fighter2" />
+    <bean id="fighter1" class="org.asciicerebrum.mydndgame.domain.ruleentities.ClassLevel">
+        <property name="level">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Level">
+                <constructor-arg value="1" />
+            </bean>
+        </property>
+        <property name="characterClass" ref="fighter" />
         <property name="baseAtkBoni">
-            <list>
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="baseAttackBonus" />
-                    <property name="target" ref="attack" />
-                    <property name="value" value="1" />
-                    <property name="rank" value="0" />
-                </bean>
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+                <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple$BonusValueEntry">
+                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple$BonusValueEntry">
+                        <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+                                <constructor-arg value="0" />
+                            </bean>
+                        </constructor-arg>
+                        <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                <constructor-arg value="1" />
+                            </bean>
+                        </constructor-arg>
+                    </bean>
+                </constructor-arg>
+            </bean>
         </property>
     </bean>
-    <bean id="fighter2" class="org.asciicerebrum.mydndgame.ClassLevel">
-        <property name="level" value="2" />
+    <bean id="fighter2" class="org.asciicerebrum.mydndgame.domain.ruleentities.ClassLevel">
+        <property name="level">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Level">
+                <constructor-arg value="2" />
+            </bean>
+        </property>
         <property name="previousClassLevel" ref="fighter1" />
+        <property name="characterClass" ref="fighter" />
         <property name="baseAtkBoni">
-            <list>
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="baseAttackBonus" />
-                    <property name="target" ref="attack" />
-                    <property name="value" value="2" />
-                    <property name="rank" value="0" />
-                </bean>
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+                <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple$BonusValueEntry">
+                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple$BonusValueEntry">
+                        <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+                                <constructor-arg value="0" />
+                            </bean>
+                        </constructor-arg>
+                        <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                <constructor-arg value="2" />
+                            </bean>
+                        </constructor-arg>
+                    </bean>
+                </constructor-arg>
+            </bean>
         </property>
     </bean>
     
-    <bean id="fighter" class="org.asciicerebrum.mydndgame.CharacterClass">
-        <property name="id" value="fighter" />
+    <bean id="fighter" class="org.asciicerebrum.mydndgame.domain.ruleentities.CharacterClass">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="fighter" />
+            </bean>
+        </property>
         <property name="hitDice" ref="d10" />
         <property name="classFeats">
-            <list>
-                <ref bean="simpleWeaponProficiency" />
-                <ref bean="martialWeaponProficiency" />
-                <ref bean="lightArmorProficiency" />
-                <ref bean="mediumArmorProficiency" />
-                <ref bean="heavyArmorProficiency" />
-                <ref bean="lightShieldProficiency" />
-                <ref bean="heavyShieldProficiency" />
-                <ref bean="towerShieldProficiency" />
-            </list>
-        </property>
-        <property name="classLevels">
-            <list>
-                <ref bean="fighter1" />
-                <ref bean="fighter2" />
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.Feats">
+                <constructor-arg>
+                    <list>
+                        <ref bean="simpleWeaponProficiency" />
+                        <ref bean="martialWeaponProficiency" />
+                        <ref bean="lightArmorProficiency" />
+                        <ref bean="mediumArmorProficiency" />
+                        <ref bean="heavyArmorProficiency" />
+                        <ref bean="lightShieldProficiency" />
+                        <ref bean="heavyShieldProficiency" />
+                        <ref bean="towerShieldProficiency" />
+                    </list>
+                </constructor-arg>
+            </bean>
         </property>
     </bean>
     
-    <bean id="druid" class="org.asciicerebrum.mydndgame.CharacterClass">
-        <property name="id" value="druid" />
+    <bean id="druid" class="org.asciicerebrum.mydndgame.domain.ruleentities.CharacterClass">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="druid" />
+            </bean>
+        </property>
         <property name="hitDice" ref="d8" />
         <property name="classFeats">
-            <list>
-                <ref bean="simpleWeaponProficiencyClub" />
-                <ref bean="simpleWeaponProficiencyDagger" />
-                <ref bean="simpleWeaponProficiencyDart" />
-                <ref bean="simpleWeaponProficiencyQuarterstaff" />
-                <ref bean="lightArmorProficiency" />
-                <ref bean="mediumArmorProficiency" />
-                <ref bean="lightShieldProficiency" />
-                <ref bean="heavyShieldProficiency" />
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.Feats">
+                <constructor-arg>
+                    <list>
+                        <ref bean="simpleWeaponProficiencyClub" />
+                        <ref bean="simpleWeaponProficiencyDagger" />
+                        <ref bean="simpleWeaponProficiencyDart" />
+                        <ref bean="simpleWeaponProficiencyQuarterstaff" />
+                        <ref bean="lightArmorProficiency" />
+                        <ref bean="mediumArmorProficiency" />
+                        <ref bean="lightShieldProficiency" />
+                        <ref bean="heavyShieldProficiency" />
+                    </list>
+                </constructor-arg>
+            </bean>
         </property>
     </bean>
     

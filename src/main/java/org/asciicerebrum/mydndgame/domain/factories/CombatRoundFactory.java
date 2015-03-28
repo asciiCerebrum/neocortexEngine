@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
 import java.util.List;
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import org.asciicerebrum.mydndgame.domain.game.CombatRoundEntry;
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
@@ -26,7 +27,7 @@ public class CombatRoundFactory implements EntityFactory<CombatRound> {
 
     @Override
     public final CombatRound newEntity(final EntitySetup setup,
-            final Reassignments reassignments) {
+            final Campaign campaign) {
 
         if (!setup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the combat round"
@@ -41,7 +42,7 @@ public class CombatRoundFactory implements EntityFactory<CombatRound> {
             for (EntitySetup crEntrySetup : crEntrySetups) {
                 combatRound.addCombatRoundEntry(
                         this.getCombatRoundEntryFactory().newEntity(
-                                crEntrySetup, reassignments));
+                                crEntrySetup, campaign));
             }
         }
 
@@ -49,7 +50,7 @@ public class CombatRoundFactory implements EntityFactory<CombatRound> {
                 SetupProperty.COMBAT_ROUND_CURRENT_DATE);
         if (dateSetup != null) {
             combatRound.setCurrentDate(this.getWorldDateFactory()
-                    .newEntity(dateSetup, reassignments));
+                    .newEntity(dateSetup, campaign));
         }
 
         return combatRound;
@@ -57,7 +58,7 @@ public class CombatRoundFactory implements EntityFactory<CombatRound> {
 
     @Override
     public final void reAssign(final EntitySetup setup,
-            final CombatRound entity, final Reassignments reassignments) {
+            final CombatRound entity, final Campaign campaign) {
         //nothing to do here
     }
 

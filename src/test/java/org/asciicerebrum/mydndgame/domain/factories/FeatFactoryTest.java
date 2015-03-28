@@ -1,9 +1,11 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatBinding;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
 import org.asciicerebrum.mydndgame.domain.setup.FeatSetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
+import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -46,7 +48,9 @@ public class FeatFactoryTest {
                 withSettings()
                 .extraInterfaces(ConfigurableApplicationContext.class));
 
-        this.factory.setContext(this.applicationContext);
+        ApplicationContextProvider ctxProvider
+                = new ApplicationContextProvider();
+        ctxProvider.setApplicationContext(this.applicationContext);
     }
 
     @After
@@ -56,9 +60,9 @@ public class FeatFactoryTest {
     @Test(expected = SetupIncompleteException.class)
     public void newEntityIncompleteTest() {
         final FeatSetup setup = new FeatSetup();
-        final Reassignments reassignments = new Reassignments();
+        final Campaign campaign = new Campaign();
 
-        this.factory.newEntity(setup, reassignments);
+        this.factory.newEntity(setup, campaign);
     }
 
     private void makeComplete(FeatSetup setup) {
@@ -68,11 +72,11 @@ public class FeatFactoryTest {
     @Test
     public void newEntityCompleteTest() {
         final FeatSetup setup = new FeatSetup();
-        final Reassignments reassignments = new Reassignments();
+        final Campaign campaign = new Campaign();
 
         this.makeComplete(setup);
 
-        this.factory.newEntity(setup, reassignments);
+        this.factory.newEntity(setup, campaign);
 
         verify(this.applicationContext, times(1))
                 .getBean("featTypeId", FeatType.class);
@@ -81,12 +85,12 @@ public class FeatFactoryTest {
     @Test
     public void newEntityWithFeatBindingTest() {
         final FeatSetup setup = new FeatSetup();
-        final Reassignments reassignments = new Reassignments();
+        final Campaign campaign = new Campaign();
 
         this.makeComplete(setup);
         setup.setFeatBinding("featBindingId");
 
-        this.factory.newEntity(setup, reassignments);
+        this.factory.newEntity(setup, campaign);
 
         verify(this.applicationContext, times(1))
                 .getBean("featBindingId", FeatBinding.class);
@@ -95,11 +99,11 @@ public class FeatFactoryTest {
     @Test
     public void newEntityWithoutFeatBindingTest() {
         final FeatSetup setup = new FeatSetup();
-        final Reassignments reassignments = new Reassignments();
+        final Campaign campaign = new Campaign();
 
         this.makeComplete(setup);
 
-        this.factory.newEntity(setup, reassignments);
+        this.factory.newEntity(setup, campaign);
 
         verify(this.applicationContext, times(0))
                 .getBean(anyString(), eq(FeatBinding.class));

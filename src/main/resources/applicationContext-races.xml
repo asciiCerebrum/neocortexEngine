@@ -5,44 +5,89 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- body slot types -->
-    <bean id="primaryHand" class="org.asciicerebrum.mydndgame.BodySlotType">
-        <property name="id" value="primaryHand" />
-        <property name="counterSlot" ref="secondaryHand" /><!-- The opposite slot. Easy way of switching between both. -->
-        <property name="isPrimaryAttackSlot" value="true" />
+    <bean id="primaryHand" class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotType">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="primaryHand" />
+            </bean>
+        </property>
     </bean>
 
-    <bean id="secondaryHand" class="org.asciicerebrum.mydndgame.BodySlotType">
-        <property name="id" value="secondaryHand" />
+    <bean id="secondaryHand" class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotType">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="secondaryHand" />
+            </bean>
+        </property>
         <property name="counterSlot" ref="primaryHand" /><!-- The opposite slot. Easy way of switching between both. -->
         <property name="isPrimaryAttackSlot" value="false" />
     </bean>
     
-    <bean id="torso" class="org.asciicerebrum.mydndgame.BodySlotType">
-        <property name="id" value="torso" />
+    <bean id="torso" class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotType">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="torso" />
+            </bean>
+        </property>
     </bean>
     
+    <!-- concrete body slots -->
+    
+    <bean id="primaryHandHumanoid" class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlot">
+        <property name="bodySlotType" ref="primaryHand" />
+        <property name="counterSlot" ref="secondaryHandHuman" /><!-- The opposite slot. Easy way of switching between both. -->
+        <property name="isPrimaryAttackSlot" value="true" />
+    </bean>
+
+    <bean id="secondaryHandHumanoid" class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlot">
+        <property name="bodySlotType" ref="secondaryHand" />
+        <property name="counterSlot" ref="primaryHandHuman" /><!-- The opposite slot. Easy way of switching between both. -->
+        <property name="isPrimaryAttackSlot" value="false" />
+    </bean>
+
+    <bean id="torsoHumanoid" class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlot">
+        <property name="bodySlotType" ref="torso" />
+        <property name="isPrimaryAttackSlot" value="false" />
+    </bean>
+                                    
     <!-- races -->        
-    <bean id="human" class="org.asciicerebrum.mydndgame.Race">
-        <property name="id" value="human" />
+    <bean id="human" class="org.asciicerebrum.mydndgame.domain.ruleentities.Race">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="human" />
+            </bean>
+        </property>
         <property name="size" ref="medium" />
-        <property name="providedBodySlotTypes">
-            <list>
-                <ref bean="primaryHand" />
-                <ref bean="secondaryHand" />
-                <ref bean="torso" />
-            </list>
+        <property name="bodySlotBluePrint">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlots">
+                <property name="bodySlots">
+                    <list>
+                        <ref bean="primaryHandHumanoid" />
+                        <ref bean="secondaryHandHumanoid" />
+                        <ref bean="torsoHumanoid" />
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
 
-    <bean id="dwarf" class="org.asciicerebrum.mydndgame.Race">
-        <property name="id" value="dwarf" />
+    <bean id="dwarf" class="org.asciicerebrum.mydndgame.domain.ruleentities.Race">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="dwarf" />
+            </bean>
+        </property>
         <property name="size" ref="medium" />
-        <property name="providedBodySlotTypes">
-            <list>
-                <ref bean="primaryHand" />
-                <ref bean="secondaryHand" />
-                <ref bean="torso" />
-            </list>
+        <property name="bodySlotBluePrint">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlots">
+                <property name="bodySlots">
+                    <list>
+                        <ref bean="primaryHandHumanoid" />
+                        <ref bean="secondaryHandHumanoid" />
+                        <ref bean="torsoHumanoid" />
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
             

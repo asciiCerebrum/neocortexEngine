@@ -33,10 +33,6 @@ public class DefaultAbilityCalculationService
     private static final double ABILITY_BONUS_FRACTION = 2.0;
 
     /**
-     * The one ability concerning all the other abilities.
-     */
-    private Ability generalAbility;
-    /**
      * The bonus calculation service needed for dynamic bonus value calculation.
      */
     private BonusCalculationService bonusService;
@@ -63,7 +59,7 @@ public class DefaultAbilityCalculationService
         final BonusValueTuple abilityTuple
                 = this.getBonusService().calculateBonusValues(
                         new BonusSources(dndCharacter),
-                        new BonusTargets(this.generalAbility, ability),
+                        new BonusTargets(ability),
                         dndCharacter,
                         new ObserverSources(dndCharacter),
                         new ObserverHooks(ObserverHook.ABILITY,
@@ -120,13 +116,6 @@ public class DefaultAbilityCalculationService
     public final void setBonusService(
             final BonusCalculationService bonusServiceInput) {
         this.bonusService = bonusServiceInput;
-    }
-
-    /**
-     * @param generalAbilityInput the generalAbility to set
-     */
-    public final void setGeneralAbility(final Ability generalAbilityInput) {
-        this.generalAbility = generalAbilityInput;
     }
 
     /**

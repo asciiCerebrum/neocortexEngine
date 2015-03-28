@@ -4,27 +4,55 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="masterworkWeapon" class="org.asciicerebrum.mydndgame.WeaponSpecialAbility">
-        <property name="id" value="masterworkWeapon" />
+    <bean id="masterworkWeapon" class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="masterworkWeapon" />
+            </bean>
+        </property>
         <property name="boni">
-            <list>
-                <!-- Wielding it provides a +1 enhancement bonus on attack rolls. -->
-                <bean class="org.asciicerebrum.mydndgame.Bonus">
-                    <property name="bonusType" ref="enhancementBonus" />
-                    <property name="value" value="1" />
-                    <property name="target" ref="attack" />
-                </bean>
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+                <constructor-arg>
+                    <list>
+                        <!-- Wielding it provides a +1 enhancement bonus on attack rolls. -->
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                            <property name="bonusType" ref="enhancementBonus" />
+                            <property name="values">
+                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+                                    <constructor-arg>
+                                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                            <constructor-arg value="1" />
+                                        </bean>
+                                    </constructor-arg>
+                                </bean>
+                            </property>
+                            <property name="target" ref="attack" />
+                        </bean>
+                    </list>
+                </constructor-arg>
+            </bean>
         </property>
         <property name="observers">
-            <list>
-                <!-- The masterwork quality adds 300 gp to the cost of a normal weapon. -->
-                <bean class="org.asciicerebrum.mydndgame.observers.SimpleArithmeticObserver">
-                    <property name="hook" value="PRICE" />
-                    <property name="modValue" value="300" />
-                    <property name="operation" value="ADDITION" />
-                </bean>
-            </list>
+            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers">
+                <constructor-arg>
+                    <list>
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
+                            <property name="hook" value="PRICE" />
+                            <property name="triggerStrategy">
+                                <!-- The masterwork quality adds 300 gp to the cost of a normal weapon. -->
+                                <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.SimpleArithmeticObserverTrigger">
+                                    <property name="modValue">
+                                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.LongParticle">
+                                            <constructor-arg value="300" />
+                                        </bean>
+                                    </property>
+                                    <property name="operation" value="ADDITION" />
+                                </bean>
+                            </property>
+                        </bean>
+                    </list>
+                </constructor-arg>
+            </bean>
         </property>        
     </bean>
 

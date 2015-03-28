@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="strAbilityBonusValueProvider"
+          class="org.asciicerebrum.mydndgame.mechanics.valueproviders.AbilityBonusValueProvider">
+        <property name="ability" ref="str" />
+    </bean>
+    <bean id="dexAbilityBonusValueProvider"
+          class="org.asciicerebrum.mydndgame.mechanics.valueproviders.AbilityBonusValueProvider">
+        <property name="ability" ref="dex" />
+    </bean>
+    <bean id="conAbilityBonusValueProvider"
+          class="org.asciicerebrum.mydndgame.mechanics.valueproviders.AbilityBonusValueProvider">
+        <property name="ability" ref="con" />
+    </bean>
+
+    <bean id="rank0AtkBonusValueProvider"
+          class="org.asciicerebrum.mydndgame.mechanics.valueproviders.AtkBonusValueProvider">
+        <property name="rank">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+                <constructor-arg>0</constructor-arg>
+            </bean>
+        </property>
+    </bean>
+    <bean id="rank1AtkBonusValueProvider"
+          class="org.asciicerebrum.mydndgame.mechanics.valueproviders.AtkBonusValueProvider">
+        <property name="rank">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+                <constructor-arg>1</constructor-arg>
+            </bean>
+        </property>
+    </bean>
+    <bean id="rank2AtkBonusValueProvider"
+          class="org.asciicerebrum.mydndgame.mechanics.valueproviders.AtkBonusValueProvider">
+        <property name="rank">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+                <constructor-arg>2</constructor-arg>
+            </bean>
+        </property>
+    </bean>
+    <bean id="rank3AtkBonusValueProvider"
+          class="org.asciicerebrum.mydndgame.mechanics.valueproviders.AtkBonusValueProvider">
+        <property name="rank">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+                <constructor-arg>3</constructor-arg>
+            </bean>
+        </property>
+    </bean>
+    <bean id="rank4AtkBonusValueProvider"
+          class="org.asciicerebrum.mydndgame.mechanics.valueproviders.AtkBonusValueProvider">
+        <property name="rank">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+                <constructor-arg>4</constructor-arg>
+            </bean>
+        </property>
+    </bean>
+        
+</beans>

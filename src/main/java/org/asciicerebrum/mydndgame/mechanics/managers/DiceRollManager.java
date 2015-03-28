@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.managers;
+package org.asciicerebrum.mydndgame.mechanics.managers;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;

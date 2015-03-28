@@ -108,9 +108,27 @@ public class Observers {
     private final List<Observer> elements = new ArrayList<Observer>();
 
     /**
+     * Empty constructor with a default empty list.
+     */
+    public Observers() {
+    }
+
+    /**
+     * Constructor for inserting a given list.
+     *
+     * @param elementsInput the list to add.
+     */
+    public Observers(final List<Observer> elementsInput) {
+        this.elements.addAll(elementsInput);
+    }
+
+    /**
+     * Clears the collection first.
+     *
      * @param observersInput the observers to set
      */
     public final void setObservers(final List<Observer> observersInput) {
+        this.elements.clear();
         this.elements.addAll(observersInput);
     }
 

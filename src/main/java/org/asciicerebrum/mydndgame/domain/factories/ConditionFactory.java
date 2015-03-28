@@ -10,7 +10,7 @@ import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Condition;
-import org.springframework.context.ApplicationContext;
+import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
 
 /**
  *
@@ -19,23 +19,13 @@ import org.springframework.context.ApplicationContext;
 public class ConditionFactory implements EntityFactory<Condition> {
 
     /**
-     * The campaign holding the basic data of encounters and characters.
-     */
-    private Campaign campaign;
-
-    /**
-     * The spring application context for retrieving the prototype beans.
-     */
-    private ApplicationContext context;
-
-    /**
      * Factory for the world date.
      */
     private EntityFactory<WorldDate> worldDateFactory;
 
     @Override
     public final Condition newEntity(final EntitySetup setup,
-            final Reassignments reassignments) {
+            final Campaign campaign) {
 
         if (!setup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the condition "
@@ -48,49 +38,36 @@ public class ConditionFactory implements EntityFactory<Condition> {
                 SetupProperty.CONDITION_CAUSE_ENTITY);
         UniqueEntity uEntity = null;
         if (StringUtils.isNotBlank(causeEntityId)) {
-            uEntity = this.getCampaign().getEntityById(
+            uEntity = campaign.getEntityById(
                     new UniqueId(causeEntityId));
             condition.setCauseEntity(uEntity);
         }
         if (StringUtils.isNotBlank(causeEntityId) && uEntity == null) {
             // add to list of reassignments to reassign later when cyclic
             // dependencies are resolvable
-            reassignments.addEntry(this, setup, condition);
+            campaign.addReassignmentEntry(this, setup, condition);
         }
 
-        condition.setConditionType(this.getContext().getBean(
-                setup.getProperty(SetupProperty.CONDITION_TYPE),
-                ConditionType.class));
+        condition.setConditionType(ApplicationContextProvider
+                .getApplicationContext().getBean(
+                        setup.getProperty(SetupProperty.CONDITION_TYPE),
+                        ConditionType.class));
         condition.setExpiryDate(this.getWorldDateFactory().newEntity(
                 setup.getPropertySetup(SetupProperty.CONDITION_EXPIRY_DATE),
-                reassignments));
+                campaign));
         condition.setStartingDate(this.getWorldDateFactory().newEntity(
                 setup.getPropertySetup(SetupProperty.CONDITION_START_DATE),
-                reassignments));
+                campaign));
 
         return condition;
     }
 
     @Override
     public final void reAssign(final EntitySetup setup,
-            final Condition entity, final Reassignments reassignments) {
-        entity.setCauseEntity(this.getCampaign().getEntityById(
+            final Condition entity, final Campaign campaign) {
+        entity.setCauseEntity(campaign.getEntityById(
                 new UniqueId(setup.getProperty(
                                 SetupProperty.CONDITION_CAUSE_ENTITY))));
-    }
-
-    /**
-     * @param campaignInput the campaign to set
-     */
-    public final void setCampaign(final Campaign campaignInput) {
-        this.campaign = campaignInput;
-    }
-
-    /**
-     * @param contextInput the context to set
-     */
-    public final void setContext(final ApplicationContext contextInput) {
-        this.context = contextInput;
     }
 
     /**
@@ -99,20 +76,6 @@ public class ConditionFactory implements EntityFactory<Condition> {
     public final void setWorldDateFactory(
             final EntityFactory<WorldDate> worldDateFactoryInput) {
         this.worldDateFactory = worldDateFactoryInput;
-    }
-
-    /**
-     * @return the campaign
-     */
-    public final Campaign getCampaign() {
-        return campaign;
-    }
-
-    /**
-     * @return the context
-     */
-    public final ApplicationContext getContext() {
-        return context;
     }
 
     /**

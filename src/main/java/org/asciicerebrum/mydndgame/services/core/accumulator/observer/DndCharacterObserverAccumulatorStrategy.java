@@ -33,6 +33,11 @@ public class DndCharacterObserverAccumulatorStrategy
     private ObserverAccumulatorStrategy levelAdvancementsStrategy;
 
     /**
+     * The observer accumulator strategy for the prototype special abilities.
+     */
+    private ObserverAccumulatorStrategy prototypeSpecialAbilitiesStrategy;
+
+    /**
      * The observer accumulator strategy for the race.
      */
     private ObserverAccumulatorStrategy raceStrategy;
@@ -58,6 +63,8 @@ public class DndCharacterObserverAccumulatorStrategy
                 dndCharacter.getLevelAdvancements(), targetEntity));
         observers.add(this.getRaceStrategy().getObservers(
                 dndCharacter.getRace(), targetEntity));
+        observers.add(this.getPrototypeSpecialAbilitiesStrategy().getObservers(
+                dndCharacter.getPrototypeSpecialAbilities(), targetEntity));
 
         return observers;
     }
@@ -143,6 +150,24 @@ public class DndCharacterObserverAccumulatorStrategy
      */
     public final ObserverAccumulatorStrategy getRaceStrategy() {
         return raceStrategy;
+    }
+
+    /**
+     * @return the prototypeSpecialAbilitiesStrategy
+     */
+    public final ObserverAccumulatorStrategy
+            getPrototypeSpecialAbilitiesStrategy() {
+        return prototypeSpecialAbilitiesStrategy;
+    }
+
+    /**
+     * @param protoSpecialAbilitiesStrategyIn the
+     * prototypeSpecialAbilitiesStrategy to set
+     */
+    public final void setPrototypeSpecialAbilitiesStrategy(
+            final ObserverAccumulatorStrategy protoSpecialAbilitiesStrategyIn) {
+        this.prototypeSpecialAbilitiesStrategy
+                = protoSpecialAbilitiesStrategyIn;
     }
 
 }

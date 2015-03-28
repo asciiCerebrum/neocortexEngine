@@ -23,6 +23,17 @@ public class WeaponCategories {
     }
 
     /**
+     * Clears the list first.
+     *
+     * @param categories the collection of weapon categories to set.
+     */
+    public final void setWeaponCategories(
+            final List<WeaponCategory> categories) {
+        this.elements.clear();
+        this.elements.addAll(categories);
+    }
+
+    /**
      * @param weaponCategoriesInput the weaponCategories to set
      */
     public final void add(final List<WeaponCategory> weaponCategoriesInput) {

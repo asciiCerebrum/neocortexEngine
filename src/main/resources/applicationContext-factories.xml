@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="baseAbilityEntryFactory" class="org.asciicerebrum.mydndgame.domain.factories.BaseAbilityEntryFactory">
+    </bean>
+
+    <bean id="bodySlotFactory" class="org.asciicerebrum.mydndgame.domain.factories.PersonalizedBodySlotFactory">
+    </bean>
+
+    <bean id="worldDateFactory" class="org.asciicerebrum.mydndgame.domain.factories.WorldDateFactory">
+    </bean>
+
+    <bean id="conditionFactory" class="org.asciicerebrum.mydndgame.domain.factories.ConditionFactory">
+        <property name="worldDateFactory" ref="worldDateFactory" />
+    </bean>
+    
+    <bean id="featFactory" class="org.asciicerebrum.mydndgame.domain.factories.FeatFactory">
+    </bean>
+
+    <bean id="levelAdvancementFactory" class="org.asciicerebrum.mydndgame.domain.factories.LevelAdvancementFactory">
+        <property name="featFactory" ref="featFactory" />
+    </bean>
+
+    <bean id="stateRegistryFactory" class="org.asciicerebrum.mydndgame.domain.factories.StateRegistryFactory">
+    </bean>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                
+    <bean id="characterFactory" class="org.asciicerebrum.mydndgame.domain.factories.DndCharacterFactory">
+        <property name="baseAbilityEntryFactory" ref="baseAbilityEntryFactory" />
+        <property name="bodySlotFactory" ref="bodySlotFactory" />
+        <property name="conditionFactory" ref="conditionFactory" />
+        <property name="levelAdvancementFactory" ref="levelAdvancementFactory" />
+        <property name="stateRegistryFactory" ref="stateRegistryFactory" />
+    </bean>
+
+    <bean id="combatRoundEntryFactory" class="org.asciicerebrum.mydndgame.domain.factories.CombatRoundEntryFactory">
+    </bean>
+
+    <bean id="combatRoundFactory" class="org.asciicerebrum.mydndgame.domain.factories.CombatRoundFactory">
+        <property name="combatRoundEntryFactory" ref="combatRoundEntryFactory" />
+        <property name="worldDateFactory" ref="worldDateFactory" />
+    </bean>
+    
+    <bean id="armorFactory" class="org.asciicerebrum.mydndgame.domain.factories.ArmorFactory">
+        <property name="conditionFactory" ref="conditionFactory" />
+    </bean>
+
+    <bean id="weaponFactory" class="org.asciicerebrum.mydndgame.domain.factories.WeaponFactory">
+        <property name="conditionFactory" ref="conditionFactory" />
+    </bean>
+            
+    <bean id="campaignFactory" class="org.asciicerebrum.mydndgame.domain.factories.CampaignFactory">
+        <property name="characterFactory" ref="characterFactory" />
+        <property name="combatRoundFactory" ref="combatRoundFactory" />
+        <property name="inventoryItemFactories">
+            <map>
+                <entry key="org.asciicerebrum.mydndgame.domain.setup.ArmorSetup" value-ref="armorFactory" />
+                <entry key="org.asciicerebrum.mydndgame.domain.setup.WeaponSetup" value-ref="weaponFactory" />
+            </map>
+        </property>
+    </bean>
+    
+</beans>

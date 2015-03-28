@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame.domain.factories;
 
 import org.asciicerebrum.mydndgame.domain.game.Armor;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
+import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
 
 /**
  *
@@ -15,7 +16,8 @@ public class ArmorFactory extends InventoryItemFactory<Armor> {
     @Override
     protected final InventoryItem getConcreteInventoryItem() {
 
-        return this.getContext().getBean(Armor.class);
+        return ApplicationContextProvider
+                .getApplicationContext().getBean(Armor.class);
     }
 
     /**

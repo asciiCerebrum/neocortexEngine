@@ -10,6 +10,7 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes;
 import org.asciicerebrum.mydndgame.domain.ruleentities.InventoryItemPrototype;
 import org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory;
 import org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Conditions;
 
 /**
  *
@@ -32,6 +33,12 @@ public abstract class InventoryItem extends UniqueEntity
      * All individual special abilities for this item instance.
      */
     private SpecialAbilities specialAbilities;
+
+    /**
+     * All the conditions the item is currently in. E.g. a dogslicer can be
+     * broken.
+     */
+    private Conditions conditions;
 
     /**
      * @return the inventoryItemPrototype
@@ -65,7 +72,7 @@ public abstract class InventoryItem extends UniqueEntity
     /**
      * @return the specialAbilities
      */
-    protected final SpecialAbilities getSpecialAbilities() {
+    public final SpecialAbilities getSpecialAbilities() {
         return specialAbilities;
     }
 
@@ -116,8 +123,24 @@ public abstract class InventoryItem extends UniqueEntity
         final BonusSources bonusSources = new BonusSources();
 
         bonusSources.add(this.specialAbilities);
+        bonusSources.add(this.inventoryItemPrototype);
+        bonusSources.add(this.conditions);
 
         return bonusSources;
+    }
+
+    /**
+     * @return the conditions
+     */
+    public final Conditions getConditions() {
+        return conditions;
+    }
+
+    /**
+     * @param conditionsInput the conditions to set
+     */
+    public final void setConditions(final Conditions conditionsInput) {
+        this.conditions = conditionsInput;
     }
 
 }

@@ -8,6 +8,7 @@ import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.StateRegistrySetup;
 import org.asciicerebrum.mydndgame.domain.setup.StateRegistrySetup.StateRegistryEntrySetup;
+import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -51,8 +52,9 @@ public class StateRegistryFactoryTest {
                 withSettings()
                 .extraInterfaces(ConfigurableApplicationContext.class));
 
-        this.factory.setCampaign(this.campaign);
-        this.factory.setContext(this.applicationContext);
+        ApplicationContextProvider ctxProvider
+                = new ApplicationContextProvider();
+        ctxProvider.setApplicationContext(this.applicationContext);
     }
 
     @After
@@ -62,10 +64,9 @@ public class StateRegistryFactoryTest {
     @Test
     public void newEntitySimpleCompleteTest() {
         final StateRegistrySetup setup = new StateRegistrySetup();
-        final Reassignments reassignments = new Reassignments();
 
         final StateRegistry result
-                = this.factory.newEntity(setup, reassignments);
+                = this.factory.newEntity(setup, this.campaign);
 
         assertNotNull(result);
     }
@@ -99,21 +100,19 @@ public class StateRegistryFactoryTest {
     @Test(expected = SetupIncompleteException.class)
     public void newEntityIncompleteTest() {
         final StateRegistrySetup setup = new StateRegistrySetup();
-        final Reassignments reassignments = new Reassignments();
 
         this.makePrepare(setup);
 
-        this.factory.newEntity(setup, reassignments);
+        this.factory.newEntity(setup, this.campaign);
     }
 
     @Test
     public void newEntityCompleteTest() {
         final StateRegistrySetup setup = new StateRegistrySetup();
-        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
-        final StateRegistry reg = this.factory.newEntity(setup, reassignments);
+        final StateRegistry reg = this.factory.newEntity(setup, this.campaign);
 
         final String stateVal = reg.getState(
                 StateRegistry.StateParticle.WEAPON_DAMAGE_TYPE, null);
@@ -123,14 +122,13 @@ public class StateRegistryFactoryTest {
     @Test
     public void newEntityWithObjectTest() {
         final StateRegistrySetup setup = new StateRegistrySetup();
-        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
         final Weapon weapon = new Weapon();
         weapon.setUniqueId(new UniqueId("objectId"));
         this.campaign.registerUniqueEntity(weapon);
 
-        final StateRegistry reg = this.factory.newEntity(setup, reassignments);
+        final StateRegistry reg = this.factory.newEntity(setup, this.campaign);
 
         final String stateVal = reg.getState(
                 StateRegistry.StateParticle.WEAPON_ATTACK_MODE, weapon);
@@ -140,13 +138,12 @@ public class StateRegistryFactoryTest {
     @Test
     public void newEntityWithoutObjectTest() {
         final StateRegistrySetup setup = new StateRegistrySetup();
-        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
-        final StateRegistry reg = this.factory.newEntity(setup, reassignments);
+        final StateRegistry reg = this.factory.newEntity(setup, this.campaign);
 
-        assertEquals(1L, Iterators.size(reassignments.getIterator()));
+        assertEquals(1L, Iterators.size(this.campaign.reassignmentIterator()));
     }
 
 }
