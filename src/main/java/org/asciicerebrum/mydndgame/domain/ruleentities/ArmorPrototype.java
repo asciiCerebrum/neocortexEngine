@@ -7,7 +7,8 @@ import org.asciicerebrum.mydndgame.domain.core.particles.SpellFailure;
  *
  * @author species8472
  */
-public class ArmorPrototype extends InventoryItemPrototype {
+public class ArmorPrototype extends InventoryItemPrototype
+        implements FeatBinding {
 
     /**
      * The maximum dexterity bonus that can be granted by this armor.

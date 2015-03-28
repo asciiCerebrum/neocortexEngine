@@ -32,7 +32,7 @@ public class Feats implements BonusSource, ObserverSource {
      * @param featTypes the feat types to add to the collection from the
      * beginning.
      */
-    public Feats(final ArrayList<FeatType> featTypes) {
+    public Feats(final List<FeatType> featTypes) {
         this.elements.addAll(featTypes);
     }
 

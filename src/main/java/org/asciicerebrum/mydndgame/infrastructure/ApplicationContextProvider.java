@@ -34,6 +34,7 @@ public class ApplicationContextProvider implements ApplicationContextAware {
     /**
      * @param ctxInput the application context to set by the ioc container.
      */
+    @Override
     public final void setApplicationContext(final ApplicationContext ctxInput) {
         setCtx(ctxInput);
     }
