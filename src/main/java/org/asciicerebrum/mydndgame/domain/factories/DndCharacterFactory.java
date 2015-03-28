@@ -53,8 +53,8 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
     private EntityFactory<Condition> conditionFactory;
 
     @Override
-    public final DndCharacter newEntity(
-            final EntitySetup setup, final Campaign campaign) {
+    public final DndCharacter newEntity(final EntitySetup setup,
+            final Campaign campaign, final Reassignments reassignments) {
 
         if (!setup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the character "
@@ -65,18 +65,20 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
                 .getApplicationContext().getBean(DndCharacter.class);
 
         this.trivialSetup(setup, dndCharacter);
-        this.fillBodySlots(setup, dndCharacter, campaign);
-        this.fillLevelAdvancements(setup, dndCharacter, campaign);
-        this.fillStateRegistry(setup, dndCharacter, campaign);
-        this.fillBaseAbilities(setup, dndCharacter, campaign);
-        this.fillConditions(setup, dndCharacter, campaign);
+        this.fillBodySlots(setup, dndCharacter, campaign, reassignments);
+        this.fillLevelAdvancements(setup, dndCharacter, campaign,
+                reassignments);
+        this.fillStateRegistry(setup, dndCharacter, campaign, reassignments);
+        this.fillBaseAbilities(setup, dndCharacter, campaign, reassignments);
+        this.fillConditions(setup, dndCharacter, campaign, reassignments);
 
         return dndCharacter;
     }
 
     @Override
     public final void reAssign(final EntitySetup setup,
-            final DndCharacter entity, final Campaign campaign) {
+            final DndCharacter entity, final Campaign campaign,
+            final Reassignments reassignments) {
         // nothing to do here.
     }
 
@@ -107,10 +109,12 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
      * @param setup the dnd character setup.
      * @param dndCharacter the character whose body slots are to be filled.
      * @param campaign the campaign as the central entity map.
+     * @param reassignments the reassignment object for resolving unfound
+     * objects.
      */
     final void fillBodySlots(final EntitySetup setup,
-            final DndCharacter dndCharacter,
-            final Campaign campaign) {
+            final DndCharacter dndCharacter, final Campaign campaign,
+            final Reassignments reassignments) {
 
         // Get the blueprint body slots from the race, wrap them into
         // personalized body slots and mass-assign the holder.
@@ -134,7 +138,8 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
                 // setup. This example is used to get the first personal body
                 // slot from the collection created above that resembles its
                 // attributes.
-                this.getBodySlotFactory().newEntity(bodySlotSetup, campaign);
+                this.getBodySlotFactory().newEntity(bodySlotSetup, campaign,
+                        reassignments);
             }
         }
     }
@@ -145,14 +150,17 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
      * @param setup the dnd character setup.
      * @param dndCharacter the character who gets level advancements.
      * @param campaign the campaign as the central entity map.
+     * @param reassignments the reassignment object for resolving unfound
+     * objects.
      */
     final void fillLevelAdvancements(final EntitySetup setup,
-            final DndCharacter dndCharacter, final Campaign campaign) {
+            final DndCharacter dndCharacter, final Campaign campaign,
+            final Reassignments reassignments) {
         LevelAdvancements levelAdvancements = new LevelAdvancements();
         for (EntitySetup lvlAdvSetup
                 : setup.getPropertySetups(SetupProperty.LEVEL_ADVANCEMENTS)) {
             levelAdvancements.add(this.getLevelAdvancementFactory()
-                    .newEntity(lvlAdvSetup, campaign));
+                    .newEntity(lvlAdvSetup, campaign, reassignments));
         }
         dndCharacter.setLevelAdvancements(levelAdvancements);
     }
@@ -163,12 +171,15 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
      * @param setup the dnd character setup.
      * @param dndCharacter the character to set up.
      * @param campaign the campaign as the central entity map.
+     * @param reassignments the reassignment object for resolving unfound
+     * objects.
      */
     final void fillStateRegistry(final EntitySetup setup,
-            final DndCharacter dndCharacter, final Campaign campaign) {
+            final DndCharacter dndCharacter, final Campaign campaign,
+            final Reassignments reassignments) {
         dndCharacter.setStateRegistry(this.getStateRegistryFactory().newEntity(
                 setup.getPropertySetup(SetupProperty.STATE_REGISTRY),
-                campaign));
+                campaign, reassignments));
     }
 
     /**
@@ -177,14 +188,17 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
      * @param setup the dnd character setup.
      * @param dndCharacter the character to set up.
      * @param campaign the campaign as the central entity map.
+     * @param reassignments the reassignment object for resolving unfound
+     * objects.
      */
     final void fillBaseAbilities(final EntitySetup setup,
-            final DndCharacter dndCharacter, final Campaign campaign) {
+            final DndCharacter dndCharacter, final Campaign campaign,
+            final Reassignments reassignments) {
         BaseAbilities baseAbilities = new BaseAbilities();
         for (EntitySetup abilityEntrySetup
                 : setup.getPropertySetups(SetupProperty.BASE_ABILITY_ENTRIES)) {
             baseAbilities.addBaseAbilityEntry(this.getBaseAbilityEntryFactory()
-                    .newEntity(abilityEntrySetup, campaign));
+                    .newEntity(abilityEntrySetup, campaign, reassignments));
         }
         dndCharacter.setBaseAbilities(baseAbilities);
 
@@ -197,16 +211,19 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
      * @param setup the dnd character setup.
      * @param dndCharacter the character to set up.
      * @param campaign the campaign as the central entity map.
+     * @param reassignments the reassignment object for resolving unfound
+     * objects.
      */
     final void fillConditions(final EntitySetup setup,
-            final DndCharacter dndCharacter, final Campaign campaign) {
+            final DndCharacter dndCharacter, final Campaign campaign,
+            final Reassignments reassignments) {
         final Conditions conditions = new Conditions();
         final List<EntitySetup> conditionSetups
                 = setup.getPropertySetups(SetupProperty.CONDITIONS);
         if (conditionSetups != null) {
             for (EntitySetup conditionSetup : conditionSetups) {
                 conditions.add(this.getConditionFactory()
-                        .newEntity(conditionSetup, campaign));
+                        .newEntity(conditionSetup, campaign, reassignments));
             }
             dndCharacter.setConditions(conditions);
         }

@@ -16,7 +16,7 @@ public class WorldDateFactory implements EntityFactory<WorldDate> {
 
     @Override
     public final WorldDate newEntity(final EntitySetup setup,
-            final Campaign campaign) {
+            final Campaign campaign, final Reassignments reassignments) {
 
         if (!setup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the world date "
@@ -34,7 +34,8 @@ public class WorldDateFactory implements EntityFactory<WorldDate> {
 
     @Override
     public final void reAssign(final EntitySetup setup,
-            final WorldDate entity, final Campaign campaign) {
+            final WorldDate entity, final Campaign campaign,
+            final Reassignments reassignments) {
         // nothing to do here
     }
 

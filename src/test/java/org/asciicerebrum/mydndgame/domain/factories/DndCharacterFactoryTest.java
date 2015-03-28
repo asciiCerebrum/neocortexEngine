@@ -97,7 +97,7 @@ public class DndCharacterFactoryTest {
         when(this.applicationContext.getBean(DndCharacter.class))
                 .thenReturn(this.resultCharacter);
         when(this.baseAbilityEntryFactory.newEntity((EntitySetup) anyObject(),
-                (Campaign) anyObject()))
+                (Campaign) anyObject(), (Reassignments) anyObject()))
                 .thenReturn(new BaseAbilityEntry());
     }
 
@@ -109,8 +109,9 @@ public class DndCharacterFactoryTest {
     public void newEntityIncompleteTest() {
         final CharacterSetup setup = new CharacterSetup();
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
-        this.factory.newEntity(setup, campaign);
+        this.factory.newEntity(setup, campaign, reassignments);
     }
 
     private void makeComplete(CharacterSetup setup) {
@@ -162,10 +163,10 @@ public class DndCharacterFactoryTest {
         when(this.applicationContext.getBean("raceId", Race.class))
                 .thenReturn(race);
         when(this.levelAdvancementFactory.newEntity(eq(lvlAdvSetup),
-                (Campaign) anyObject()))
+                (Campaign) anyObject(), (Reassignments) anyObject()))
                 .thenReturn(new LevelAdvancement());
         when(this.baseAbilityEntryFactory.newEntity(eq(baseAbilityEntrySetup),
-                (Campaign) anyObject()))
+                (Campaign) anyObject(), (Reassignments) anyObject()))
                 .thenReturn(new BaseAbilityEntry());
     }
 
@@ -173,11 +174,12 @@ public class DndCharacterFactoryTest {
     public void newEntityCompleteUniqueIdTest() {
         final CharacterSetup setup = new CharacterSetup();
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
         final DndCharacter result
-                = this.factory.newEntity(setup, campaign);
+                = this.factory.newEntity(setup, campaign, reassignments);
 
         assertEquals("uniqueId", result.getUniqueId().getValue());
     }
@@ -186,11 +188,12 @@ public class DndCharacterFactoryTest {
     public void newEntityCompleteHpTest() {
         final CharacterSetup setup = new CharacterSetup();
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
         final DndCharacter result
-                = this.factory.newEntity(setup, campaign);
+                = this.factory.newEntity(setup, campaign, reassignments);
 
         assertEquals(25L, result.getCurrentStaticHp().getValue());
     }
@@ -199,11 +202,12 @@ public class DndCharacterFactoryTest {
     public void newEntityBodySlotItemTest() {
         final CharacterSetup setup = new CharacterSetup();
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
         final DndCharacter result
-                = this.factory.newEntity(setup, campaign);
+                = this.factory.newEntity(setup, campaign, reassignments);
 
         assertEquals("slotTypeId", result.getPersonalizedBodySlots()
                 .iterator().next().getBodySlotType().getId().getValue());
@@ -213,11 +217,12 @@ public class DndCharacterFactoryTest {
     public void newEntityBodySlotItemCountTest() {
         final CharacterSetup setup = new CharacterSetup();
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
         final DndCharacter result
-                = this.factory.newEntity(setup, campaign);
+                = this.factory.newEntity(setup, campaign, reassignments);
 
         assertEquals(1L, Iterators.size(result.getPersonalizedBodySlots()
                 .iterator()));
@@ -227,11 +232,12 @@ public class DndCharacterFactoryTest {
     public void newEntityLevelAdvancementCountTest() {
         final CharacterSetup setup = new CharacterSetup();
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
         final DndCharacter result
-                = this.factory.newEntity(setup, campaign);
+                = this.factory.newEntity(setup, campaign, reassignments);
 
         assertEquals(1L, Iterators.size(result.getLevelAdvancements()
                 .iterator()));
@@ -241,11 +247,12 @@ public class DndCharacterFactoryTest {
     public void newEntityBaseAbilitiesCountTest() {
         final CharacterSetup setup = new CharacterSetup();
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
         final DndCharacter result
-                = this.factory.newEntity(setup, campaign);
+                = this.factory.newEntity(setup, campaign, reassignments);
 
         assertEquals(1L, Iterators.size(result.getBaseAbilities()
                 .abilityIterator()));
@@ -255,38 +262,43 @@ public class DndCharacterFactoryTest {
     public void newEntityOneBodySlotsTest() {
         final CharacterSetup setup = new CharacterSetup();
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
-        this.factory.newEntity(setup, campaign);
+        this.factory.newEntity(setup, campaign, reassignments);
 
         verify(this.bodySlotFactory, times(1)).newEntity(
-                (EntitySetup) anyObject(), (Campaign) anyObject());
+                (EntitySetup) anyObject(), (Campaign) anyObject(),
+                (Reassignments) anyObject());
     }
 
     @Test
     public void newEntityNoBodySlotsTest() {
         final CharacterSetup setup = new CharacterSetup();
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
         setup.setBodySlotSetups(null);
 
-        this.factory.newEntity(setup, campaign);
+        this.factory.newEntity(setup, campaign, reassignments);
 
         verify(this.bodySlotFactory, times(0)).newEntity(
-                (EntitySetup) anyObject(), (Campaign) anyObject());
+                (EntitySetup) anyObject(), (Campaign) anyObject(),
+                (Reassignments) anyObject());
     }
 
     @Test
     public void newEntityZeroNonlethalHitPointsTest() {
         final CharacterSetup setup = new CharacterSetup();
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
         final DndCharacter result
-                = this.factory.newEntity(setup, campaign);
+                = this.factory.newEntity(setup, campaign, reassignments);
 
         assertEquals(0L, result.getCurrentStaticHpNonLethal().getValue());
     }
@@ -295,6 +307,7 @@ public class DndCharacterFactoryTest {
     public void newEntityWithConditionsTest() {
         final CharacterSetup setup = new CharacterSetup();
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
         final ConditionSetup conditionSetup = new ConditionSetup();
@@ -311,7 +324,7 @@ public class DndCharacterFactoryTest {
         conditionSetup.setExpiryDate(dateSetup);
 
         final DndCharacter result
-                = this.factory.newEntity(setup, campaign);
+                = this.factory.newEntity(setup, campaign, reassignments);
 
         assertEquals(1L, Iterators.size(result.getConditions().iterator()));
     }

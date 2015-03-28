@@ -96,8 +96,10 @@ public class CampaignFactoryTest {
     @Test
     public void newEntitySimpleCompleteTest() {
         final CampaignSetup setup = new CampaignSetup();
+        final Reassignments reassignments = new Reassignments();
 
-        final Campaign campaign = this.factory.newEntity(setup, null);
+        final Campaign campaign = this.factory.newEntity(setup, null,
+                reassignments);
 
         assertNotNull(campaign);
     }
@@ -105,6 +107,7 @@ public class CampaignFactoryTest {
     @Test
     public void newEntityWithInventoryItemsTest() {
         final CampaignSetup setup = new CampaignSetup();
+        final Reassignments reassignments = new Reassignments();
 
         final InventoryItemSetup itemSetup = new WeaponSetup();
         setup.addInventoryItem(itemSetup);
@@ -113,17 +116,19 @@ public class CampaignFactoryTest {
         weapon.setUniqueId(new UniqueId("weaponId"));
 
         when(this.inventoryItemFactory.newEntity(eq(itemSetup),
-                (Campaign) anyObject())).thenReturn(weapon);
+                (Campaign) anyObject(), eq(reassignments))).thenReturn(weapon);
 
-        this.factory.newEntity(setup, null);
+        this.factory.newEntity(setup, null, reassignments);
 
         verify(this.inventoryItemFactory, times(2))
-                .newEntity(eq(itemSetup), (Campaign) anyObject());
+                .newEntity(eq(itemSetup), (Campaign) anyObject(),
+                        eq(reassignments));
     }
 
     @Test
     public void newEntityWithParticipantsTest() {
         final CampaignSetup setup = new CampaignSetup();
+        final Reassignments reassignments = new Reassignments();
 
         final CharacterSetup characterSetup = new CharacterSetup();
         setup.addDndCharacter(characterSetup);
@@ -133,26 +138,31 @@ public class CampaignFactoryTest {
         dndCharacter.setUniqueId(new UniqueId("characterId"));
 
         when(this.characterFactory.newEntity(eq(characterSetup),
-                (Campaign) anyObject())).thenReturn(dndCharacter);
+                (Campaign) anyObject(), eq(reassignments)))
+                .thenReturn(dndCharacter);
 
-        this.factory.newEntity(setup, null);
+        this.factory.newEntity(setup, null, reassignments);
 
         verify(this.characterFactory, times(3))
-                .newEntity(eq(characterSetup), (Campaign) anyObject());
+                .newEntity(eq(characterSetup), (Campaign) anyObject(),
+                        eq(reassignments));
     }
 
     @Test
     public void newEntityWithCombatRoundTest() {
         final CampaignSetup setup = new CampaignSetup();
+        final Reassignments reassignments = new Reassignments();
 
         final CombatRoundSetup combatRoundSetup = new CombatRoundSetup();
         setup.setCombatRound(combatRoundSetup);
         final CombatRound combatRound = new CombatRound();
 
         when(this.combatRoundFactory.newEntity(eq(combatRoundSetup),
-                (Campaign) anyObject())).thenReturn(combatRound);
+                (Campaign) anyObject(), eq(reassignments)))
+                .thenReturn(combatRound);
 
-        final Campaign result = this.factory.newEntity(setup, null);
+        final Campaign result = this.factory.newEntity(setup, null,
+                reassignments);
 
         assertEquals(combatRound, result.getCombatRound());
     }

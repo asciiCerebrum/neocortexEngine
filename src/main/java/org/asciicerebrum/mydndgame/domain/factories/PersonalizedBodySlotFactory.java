@@ -22,14 +22,14 @@ public class PersonalizedBodySlotFactory
 
     @Override
     public final PersonalizedBodySlot newEntity(final EntitySetup setup,
-            final Campaign campaign) {
+            final Campaign campaign, final Reassignments reassignments) {
 
         if (!setup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the body slot "
                     + " is not complete.");
         }
 
-        return this.build(setup, campaign);
+        return this.build(setup, campaign, reassignments);
     }
 
     /**
@@ -38,16 +38,18 @@ public class PersonalizedBodySlotFactory
      *
      * @param setup the setup of the specific object to create.
      * @param campaign the campaign as the central entity map.
+     * @param reassignments the reassignment object for resolving unfound
+     * objects.
      * @return the created instance.
      */
     private PersonalizedBodySlot build(final EntitySetup setup,
-            final Campaign campaign) {
+            final Campaign campaign, final Reassignments reassignments) {
 
         // retrieve holder from campaign
         final DndCharacter holder
                 = (DndCharacter) this.retrieveHolder(setup, campaign);
         if (holder == null) {
-            campaign.addReassignmentEntry(this, setup, null);
+            reassignments.addEntry(this, setup, null);
             return null;
         }
 
@@ -80,7 +82,7 @@ public class PersonalizedBodySlotFactory
         // Retrieving the item for the slot
         final UniqueEntity item = this.retrieveItem(setup, campaign);
         if (item == null) {
-            campaign.addReassignmentEntry(this, setup, null);
+            reassignments.addEntry(this, setup, null);
             return null;
         }
         realBodySlot.setItem(item);
@@ -118,8 +120,8 @@ public class PersonalizedBodySlotFactory
     @Override
     public final void reAssign(final EntitySetup setup,
             final PersonalizedBodySlot entity,
-            final Campaign campaign) {
-        this.build(setup, campaign);
+            final Campaign campaign, final Reassignments reassignments) {
+        this.build(setup, campaign, reassignments);
     }
 
 }

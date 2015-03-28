@@ -16,9 +16,12 @@ public interface EntityFactory<T> {
      *
      * @param setup the setup of the specific object to create.
      * @param campaign the campaign as the base entity map.
+     * @param reassignments the reassignment object for resolving unfound
+     * objects.
      * @return the created instance.
      */
-    T newEntity(EntitySetup setup, Campaign campaign);
+    T newEntity(EntitySetup setup, Campaign campaign,
+            Reassignments reassignments);
 
     /**
      * Only set specific attributes that were impossible to set in the first run
@@ -28,7 +31,10 @@ public interface EntityFactory<T> {
      * @param setup the base setup to get the properties from.
      * @param entity the entity to reassign the yet unresolved values to.
      * @param campaign the campaign as the base entity map.
+     * @param reassignments the reassignment object for resolving unfound
+     * objects.
      */
-    void reAssign(EntitySetup setup, T entity, Campaign campaign);
+    void reAssign(EntitySetup setup, T entity, Campaign campaign,
+            Reassignments reassignments);
 
 }

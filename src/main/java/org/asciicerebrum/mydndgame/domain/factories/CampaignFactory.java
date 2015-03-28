@@ -35,7 +35,7 @@ public class CampaignFactory implements EntityFactory<Campaign> {
 
     @Override
     public final Campaign newEntity(final EntitySetup setup,
-            final Campaign campaignInput) {
+            final Campaign campaignInput, final Reassignments reassignments) {
 
         final Campaign campaign = ApplicationContextProvider
                 .getApplicationContext().getBean(Campaign.class);
@@ -48,7 +48,7 @@ public class CampaignFactory implements EntityFactory<Campaign> {
                 final EntityFactory<InventoryItem> factory
                         = this.getInventoryItemFactories().get(setupClass);
                 final InventoryItem item
-                        = factory.newEntity(itemSetup, campaign);
+                        = factory.newEntity(itemSetup, campaign, reassignments);
 
                 campaign.registerUniqueEntity(item);
             }
@@ -59,7 +59,7 @@ public class CampaignFactory implements EntityFactory<Campaign> {
         if (participantSetups != null) {
             for (EntitySetup characterSetup : participantSetups) {
                 campaign.registerUniqueEntity(this.getCharacterFactory()
-                        .newEntity(characterSetup, campaign));
+                        .newEntity(characterSetup, campaign, reassignments));
             }
         }
 
@@ -67,17 +67,17 @@ public class CampaignFactory implements EntityFactory<Campaign> {
                 = setup.getPropertySetup(SetupProperty.COMBAT_ROUND);
         if (combatRoundSetup != null) {
             campaign.setCombatRound(this.getCombatRoundFactory()
-                    .newEntity(combatRoundSetup, campaign));
+                    .newEntity(combatRoundSetup, campaign, reassignments));
         }
 
         // do reassignments because of yet unresolved cyclic dependencies.
         Iterator<ReassignmentEntry> entryIterator
-                = campaign.reassignmentIterator();
+                = reassignments.getIterator();
         while (entryIterator.hasNext()) {
             //TODO log this
             ReassignmentEntry entry = entryIterator.next();
             entry.getFactory().reAssign(entry.getSetup(), entry.getEntity(),
-                    campaign);
+                    campaign, reassignments);
         }
 
         return campaign;
@@ -85,7 +85,7 @@ public class CampaignFactory implements EntityFactory<Campaign> {
 
     @Override
     public final void reAssign(final EntitySetup setup, final Campaign entity,
-            final Campaign campaign) {
+            final Campaign campaign, final Reassignments reassignments) {
         // nothing to do here
     }
 

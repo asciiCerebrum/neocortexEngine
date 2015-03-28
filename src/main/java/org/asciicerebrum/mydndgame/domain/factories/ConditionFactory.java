@@ -25,7 +25,7 @@ public class ConditionFactory implements EntityFactory<Condition> {
 
     @Override
     public final Condition newEntity(final EntitySetup setup,
-            final Campaign campaign) {
+            final Campaign campaign, final Reassignments reassignments) {
 
         if (!setup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the condition "
@@ -45,7 +45,7 @@ public class ConditionFactory implements EntityFactory<Condition> {
         if (StringUtils.isNotBlank(causeEntityId) && uEntity == null) {
             // add to list of reassignments to reassign later when cyclic
             // dependencies are resolvable
-            campaign.addReassignmentEntry(this, setup, condition);
+            reassignments.addEntry(this, setup, condition);
         }
 
         condition.setConditionType(ApplicationContextProvider
@@ -54,17 +54,17 @@ public class ConditionFactory implements EntityFactory<Condition> {
                         ConditionType.class));
         condition.setExpiryDate(this.getWorldDateFactory().newEntity(
                 setup.getPropertySetup(SetupProperty.CONDITION_EXPIRY_DATE),
-                campaign));
+                campaign, reassignments));
         condition.setStartingDate(this.getWorldDateFactory().newEntity(
                 setup.getPropertySetup(SetupProperty.CONDITION_START_DATE),
-                campaign));
+                campaign, reassignments));
 
         return condition;
     }
 
     @Override
-    public final void reAssign(final EntitySetup setup,
-            final Condition entity, final Campaign campaign) {
+    public final void reAssign(final EntitySetup setup, final Condition entity,
+            final Campaign campaign, final Reassignments reassignments) {
         entity.setCauseEntity(campaign.getEntityById(
                 new UniqueId(setup.getProperty(
                                 SetupProperty.CONDITION_CAUSE_ENTITY))));

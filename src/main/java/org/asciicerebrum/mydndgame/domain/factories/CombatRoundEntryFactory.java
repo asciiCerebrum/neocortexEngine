@@ -17,9 +17,8 @@ public class CombatRoundEntryFactory
         implements EntityFactory<CombatRoundEntry> {
 
     @Override
-    public final CombatRoundEntry newEntity(
-            final EntitySetup setup,
-            final Campaign campaign) {
+    public final CombatRoundEntry newEntity(final EntitySetup setup,
+            final Campaign campaign, final Reassignments reassignments) {
 
         if (!setup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the combat round "
@@ -33,7 +32,7 @@ public class CombatRoundEntryFactory
 
         final DndCharacter participant = this.findParticipant(setup, campaign);
         if (participant == null) {
-            campaign.addReassignmentEntry(this, setup, crEntry);
+            reassignments.addEntry(this, setup, crEntry);
         }
         crEntry.setParticipant(participant);
 
@@ -57,7 +56,8 @@ public class CombatRoundEntryFactory
 
     @Override
     public final void reAssign(final EntitySetup setup,
-            final CombatRoundEntry entity, final Campaign campaign) {
+            final CombatRoundEntry entity, final Campaign campaign,
+            final Reassignments reassignments) {
         final DndCharacter participant = this.findParticipant(setup, campaign);
         entity.setParticipant(participant);
     }

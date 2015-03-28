@@ -27,7 +27,7 @@ public class CombatRoundFactory implements EntityFactory<CombatRound> {
 
     @Override
     public final CombatRound newEntity(final EntitySetup setup,
-            final Campaign campaign) {
+            final Campaign campaign, final Reassignments reassignments) {
 
         if (!setup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the combat round"
@@ -42,7 +42,7 @@ public class CombatRoundFactory implements EntityFactory<CombatRound> {
             for (EntitySetup crEntrySetup : crEntrySetups) {
                 combatRound.addCombatRoundEntry(
                         this.getCombatRoundEntryFactory().newEntity(
-                                crEntrySetup, campaign));
+                                crEntrySetup, campaign, reassignments));
             }
         }
 
@@ -50,7 +50,7 @@ public class CombatRoundFactory implements EntityFactory<CombatRound> {
                 SetupProperty.COMBAT_ROUND_CURRENT_DATE);
         if (dateSetup != null) {
             combatRound.setCurrentDate(this.getWorldDateFactory()
-                    .newEntity(dateSetup, campaign));
+                    .newEntity(dateSetup, campaign, reassignments));
         }
 
         return combatRound;
@@ -58,7 +58,8 @@ public class CombatRoundFactory implements EntityFactory<CombatRound> {
 
     @Override
     public final void reAssign(final EntitySetup setup,
-            final CombatRound entity, final Campaign campaign) {
+            final CombatRound entity, final Campaign campaign,
+            final Reassignments reassignments) {
         //nothing to do here
     }
 

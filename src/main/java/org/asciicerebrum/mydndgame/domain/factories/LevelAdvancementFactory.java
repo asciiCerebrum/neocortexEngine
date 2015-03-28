@@ -27,7 +27,7 @@ public class LevelAdvancementFactory
 
     @Override
     public final LevelAdvancement newEntity(final EntitySetup setup,
-            final Campaign campaign) {
+            final Campaign campaign, final Reassignments reassignments) {
 
         if (!setup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the level "
@@ -42,20 +42,20 @@ public class LevelAdvancementFactory
                 SetupProperty.HIT_POINTS_ADVANCEMENT)));
         levelAdv.setClassLevel(ApplicationContextProvider
                 .getApplicationContext().getBean(setup.getProperty(
-                SetupProperty.CLASS_LEVEL), ClassLevel.class));
+                                SetupProperty.CLASS_LEVEL), ClassLevel.class));
 
         String abilityId = setup.getProperty(SetupProperty.ABILITY_ADVANCEMENT);
         if (StringUtils.isNotBlank(abilityId)) {
             levelAdv.setAbilityAdvancement(ApplicationContextProvider
-                .getApplicationContext().getBean(
-                    abilityId, Ability.class));
+                    .getApplicationContext().getBean(
+                            abilityId, Ability.class));
         }
 
         EntitySetup featSetup = setup.getPropertySetup(
                 SetupProperty.FEAT_ADVANCEMENT);
         if (featSetup != null) {
             levelAdv.setFeatAdvancement(this.getFeatFactory().newEntity(
-                    featSetup, campaign));
+                    featSetup, campaign, reassignments));
         }
 
         return levelAdv;
@@ -63,7 +63,8 @@ public class LevelAdvancementFactory
 
     @Override
     public final void reAssign(final EntitySetup setup,
-            final LevelAdvancement entity, final Campaign campaign) {
+            final LevelAdvancement entity, final Campaign campaign,
+            final Reassignments reassignments) {
         // nothing to do here
     }
 

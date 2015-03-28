@@ -43,8 +43,9 @@ public class WorldDateFactoryTest {
     public void newEntityIncompleteTest() {
         final WorldDateSetup setup = new WorldDateSetup();
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
-        this.factory.newEntity(setup, campaign);
+        this.factory.newEntity(setup, campaign, reassignments);
     }
 
     private void makeComplete(WorldDateSetup setup) {
@@ -56,11 +57,12 @@ public class WorldDateFactoryTest {
     public void newEntityCompleteTest() {
         final WorldDateSetup setup = new WorldDateSetup();
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
         final WorldDate itemResult
-                = this.factory.newEntity(setup, campaign);
+                = this.factory.newEntity(setup, campaign, reassignments);
 
         assertEquals("1", itemResult.getCombatRoundPosition().getValue());
     }

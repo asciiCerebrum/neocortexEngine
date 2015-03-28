@@ -93,8 +93,9 @@ public class PersonalizedBodySlotFactoryTest {
     @Test(expected = SetupIncompleteException.class)
     public void newEntityIncompleteTest() {
         final PersonalizedBodySlotSetup setup = new PersonalizedBodySlotSetup();
+        final Reassignments reassignments = new Reassignments();
 
-        this.factory.newEntity(setup, this.campaign);
+        this.factory.newEntity(setup, this.campaign, reassignments);
     }
 
     private void makeComplete(PersonalizedBodySlotSetup setup) {
@@ -107,9 +108,10 @@ public class PersonalizedBodySlotFactoryTest {
     public void newEntityNullHolderTest() {
         final PersonalizedBodySlotSetup setup = new PersonalizedBodySlotSetup();
         this.makeComplete(setup);
+        final Reassignments reassignments = new Reassignments();
 
         final PersonalizedBodySlot result
-                = this.factory.newEntity(setup, this.campaign);
+                = this.factory.newEntity(setup, this.campaign, reassignments);
 
         assertNull(result);
     }
@@ -117,12 +119,13 @@ public class PersonalizedBodySlotFactoryTest {
     @Test
     public void newEntityNullItemTest() {
         final PersonalizedBodySlotSetup setup = new PersonalizedBodySlotSetup();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
         this.campaign.registerUniqueEntity(this.holder);
 
         final PersonalizedBodySlot result
-                = this.factory.newEntity(setup, this.campaign);
+                = this.factory.newEntity(setup, this.campaign, reassignments);
 
         assertNull(result);
     }
@@ -130,13 +133,14 @@ public class PersonalizedBodySlotFactoryTest {
     @Test
     public void newEntityCompleteTest() {
         final PersonalizedBodySlotSetup setup = new PersonalizedBodySlotSetup();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
         this.campaign.registerUniqueEntity(this.holder);
         this.campaign.registerUniqueEntity(this.item);
 
         final PersonalizedBodySlot result
-                = this.factory.newEntity(setup, this.campaign);
+                = this.factory.newEntity(setup, this.campaign, reassignments);
 
         assertNotNull(result);
     }
@@ -144,13 +148,14 @@ public class PersonalizedBodySlotFactoryTest {
     @Test
     public void newEntityCorrectTypeTest() {
         final PersonalizedBodySlotSetup setup = new PersonalizedBodySlotSetup();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
         this.campaign.registerUniqueEntity(this.holder);
         this.campaign.registerUniqueEntity(this.item);
 
         final PersonalizedBodySlot result
-                = this.factory.newEntity(setup, this.campaign);
+                = this.factory.newEntity(setup, this.campaign, reassignments);
 
         assertEquals("typeId", result.getBodySlotType().getId().getValue());
     }

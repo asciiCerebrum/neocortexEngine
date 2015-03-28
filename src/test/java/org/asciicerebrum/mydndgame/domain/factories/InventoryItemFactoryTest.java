@@ -79,8 +79,9 @@ public class InventoryItemFactoryTest {
         final InventoryItemSetup setup = new InventoryItemSetup() {
         };
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
-        this.factory.newEntity(setup, campaign);
+        this.factory.newEntity(setup, campaign, reassignments);
     }
 
     private void makeComplete(InventoryItemSetup setup) {
@@ -94,11 +95,12 @@ public class InventoryItemFactoryTest {
         final InventoryItemSetup setup = new InventoryItemSetup() {
         };
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
         final InventoryItem itemResult
-                = this.factory.newEntity(setup, campaign);
+                = this.factory.newEntity(setup, campaign, reassignments);
 
         assertEquals("id", itemResult.getUniqueId().getValue());
     }
@@ -108,13 +110,14 @@ public class InventoryItemFactoryTest {
         final InventoryItemSetup setup = new InventoryItemSetup() {
         };
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
         setup.addSpecialAbility("ability");
         setup.addSpecialAbility("ability");
         setup.addSpecialAbility("ability");
 
-        this.factory.newEntity(setup, campaign);
+        this.factory.newEntity(setup, campaign, reassignments);
 
         verify(this.applicationContext, times(3))
                 .getBean("ability", SpecialAbility.class);

@@ -57,8 +57,9 @@ public class BaseAbilityEntryFactoryTest {
     public void newEntityIncompleteTest() {
         final BaseAbilityEntrySetup setup = new BaseAbilityEntrySetup();
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
-        this.factory.newEntity(setup, campaign);
+        this.factory.newEntity(setup, campaign, reassignments);
     }
 
     private void makeComplete(BaseAbilityEntrySetup setup) {
@@ -70,11 +71,12 @@ public class BaseAbilityEntryFactoryTest {
     public void newEntityCompleteTest() {
         final BaseAbilityEntrySetup setup = new BaseAbilityEntrySetup();
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
         final BaseAbilityEntry itemResult
-                = this.factory.newEntity(setup, campaign);
+                = this.factory.newEntity(setup, campaign, reassignments);
 
         assertEquals(15L, itemResult.getAbilityValue().getValue());
     }

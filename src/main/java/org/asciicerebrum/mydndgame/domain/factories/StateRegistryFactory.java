@@ -21,7 +21,7 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
 
     @Override
     public final StateRegistry newEntity(final EntitySetup setup,
-            final Campaign campaign) {
+            final Campaign campaign, final Reassignments reassignments) {
 
         StateRegistry stateReg = new StateRegistry();
 
@@ -29,7 +29,8 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
                 = setup.getPropertySetups(SetupProperty.STATE_REGISTRY_ENTRY);
         if (registryEntrySetups != null) {
             for (EntitySetup entrySetup : registryEntrySetups) {
-                this.addSingleState(stateReg, entrySetup, campaign);
+                this.addSingleState(stateReg, entrySetup, campaign,
+                        reassignments);
             }
         }
 
@@ -42,9 +43,12 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
      * @param stateReg the state registry to put the state in.
      * @param entrySetup the setup for the registry entry.
      * @param campaign the campaign as the central entity map.
+     * @param reassignments the reassignment object for resolving unfound
+     * objects.
      */
     final void addSingleState(final StateRegistry stateReg,
-            final EntitySetup entrySetup, final Campaign campaign) {
+            final EntitySetup entrySetup, final Campaign campaign,
+            final Reassignments reassignments) {
 
         if (!entrySetup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the state "
@@ -66,7 +70,7 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
                 && StringUtils.isNotBlank(contextObjectId)) {
             // something did not work - reassigning for later resolution
             //TODO log this with info
-            campaign.addReassignmentEntry(this, entrySetup, stateReg);
+            reassignments.addEntry(this, entrySetup, stateReg);
             return;
         }
 
@@ -85,9 +89,10 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
 
     @Override
     public final void reAssign(final EntitySetup setup,
-            final StateRegistry entity, final Campaign campaign) {
+            final StateRegistry entity, final Campaign campaign,
+            final Reassignments reassignments) {
 
-        this.addSingleState(entity, setup, campaign);
+        this.addSingleState(entity, setup, campaign, reassignments);
     }
 
 }

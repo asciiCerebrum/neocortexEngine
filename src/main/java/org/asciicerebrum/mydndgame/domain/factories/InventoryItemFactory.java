@@ -30,17 +30,10 @@ public abstract class InventoryItemFactory<T extends InventoryItem>
      */
     private EntityFactory<Condition> conditionFactory;
 
-    /**
-     * Central method on building the item.
-     *
-     * @param setup the setup for the item to create.
-     * @param campaign the campaign as the central entity map.
-     * @return the created unique item.
-     */
     @Override
     public final InventoryItem newEntity(
-            final EntitySetup setup,
-            final Campaign campaign) {
+            final EntitySetup setup, final Campaign campaign,
+            final Reassignments reassignments) {
 
         if (!setup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the inventory "
@@ -77,7 +70,7 @@ public abstract class InventoryItemFactory<T extends InventoryItem>
         }
 
         // conditions
-        this.fillConditions(setup, concreteItem, campaign);
+        this.fillConditions(setup, concreteItem, campaign, reassignments);
 
         this.finalizeCreation(concreteItem);
 
@@ -93,7 +86,8 @@ public abstract class InventoryItemFactory<T extends InventoryItem>
 
     @Override
     public void reAssign(final EntitySetup setup,
-            final InventoryItem entity, final Campaign campaign) {
+            final InventoryItem entity, final Campaign campaign,
+            final Reassignments reassignments) {
         // nothing to do here.
     }
 
@@ -103,17 +97,19 @@ public abstract class InventoryItemFactory<T extends InventoryItem>
      * @param setup the inventory item setup.
      * @param inventoryItem the inventory item to set up.
      * @param campaign the campaign as the central entity map.
+     * @param reassignments the reassignment object for resolving unfound
+     * objects.
      */
     final void fillConditions(final EntitySetup setup,
             final InventoryItem inventoryItem,
-            final Campaign campaign) {
+            final Campaign campaign, final Reassignments reassignments) {
         final Conditions conditions = new Conditions();
         final List<EntitySetup> conditionSetups
                 = setup.getPropertySetups(SetupProperty.CONDITIONS);
         if (conditionSetups != null) {
             for (EntitySetup conditionSetup : conditionSetups) {
                 conditions.add(this.getConditionFactory()
-                        .newEntity(conditionSetup, campaign));
+                        .newEntity(conditionSetup, campaign, reassignments));
             }
             inventoryItem.setConditions(conditions);
         }

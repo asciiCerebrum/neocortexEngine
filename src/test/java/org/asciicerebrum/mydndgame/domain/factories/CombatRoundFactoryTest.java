@@ -62,8 +62,10 @@ public class CombatRoundFactoryTest {
     public void newEntityCompleteTest() {
         final CombatRoundSetup setup = new CombatRoundSetup();
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
-        final CombatRound result = this.factory.newEntity(setup, campaign);
+        final CombatRound result = this.factory.newEntity(setup, campaign,
+                reassignments);
 
         assertNotNull(result);
     }
@@ -72,6 +74,7 @@ public class CombatRoundFactoryTest {
     public void newEntityWithEntriesTest() {
         final CombatRoundSetup setup = new CombatRoundSetup();
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
         final List<EntitySetup> combatRoundEntries
                 = new ArrayList<EntitySetup>();
@@ -80,27 +83,28 @@ public class CombatRoundFactoryTest {
         combatRoundEntries.add(entryA);
         setup.setCombatRoundEntries(combatRoundEntries);
 
-        when(this.combatRoundEntryFactory.newEntity(entryA, campaign))
-                .thenReturn(new CombatRoundEntry());
+        when(this.combatRoundEntryFactory.newEntity(entryA, campaign,
+                reassignments)).thenReturn(new CombatRoundEntry());
 
-        this.factory.newEntity(setup, campaign);
+        this.factory.newEntity(setup, campaign, reassignments);
 
         verify(this.combatRoundEntryFactory, times(2)).newEntity(
-                entryA, campaign);
+                entryA, campaign, reassignments);
     }
 
     @Test
     public void newEntityWithDateTest() {
         final CombatRoundSetup setup = new CombatRoundSetup();
         final Campaign campaign = new Campaign();
+        final Reassignments reassignments = new Reassignments();
 
         final EntitySetup dateSetup = new WorldDateSetup();
         setup.setCurrentDate(dateSetup);
 
-        this.factory.newEntity(setup, campaign);
+        this.factory.newEntity(setup, campaign, reassignments);
 
         verify(this.worldDateFactory, times(1)).newEntity(
-                dateSetup, campaign);
+                dateSetup, campaign, reassignments);
     }
 
 }

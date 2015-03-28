@@ -47,8 +47,9 @@ public class CombatRoundEntryFactoryTest {
     @Test(expected = SetupIncompleteException.class)
     public void newEntityIncompleteTest() {
         final CombatRoundEntrySetup setup = new CombatRoundEntrySetup();
+        final Reassignments reassignments = new Reassignments();
 
-        this.factory.newEntity(setup, this.campaign);
+        this.factory.newEntity(setup, this.campaign, reassignments);
     }
 
     private void makeComplete(CombatRoundEntrySetup setup) {
@@ -59,11 +60,12 @@ public class CombatRoundEntryFactoryTest {
     @Test
     public void newEntityCompleteTest() {
         final CombatRoundEntrySetup setup = new CombatRoundEntrySetup();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
         final CombatRoundEntry result
-                = this.factory.newEntity(setup, this.campaign);
+                = this.factory.newEntity(setup, this.campaign, reassignments);
 
         assertEquals("posA", result.getCombatRoundPosition().getValue());
     }
@@ -71,6 +73,7 @@ public class CombatRoundEntryFactoryTest {
     @Test
     public void newEntityWithParticipantTest() {
         final CombatRoundEntrySetup setup = new CombatRoundEntrySetup();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
         final DndCharacter participant = new DndCharacter();
@@ -78,7 +81,7 @@ public class CombatRoundEntryFactoryTest {
         this.campaign.registerUniqueEntity(participant);
 
         final CombatRoundEntry result
-                = this.factory.newEntity(setup, this.campaign);
+                = this.factory.newEntity(setup, this.campaign, reassignments);
 
         assertEquals(participant, result.getParticipant());
     }

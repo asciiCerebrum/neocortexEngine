@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.integrationtests.weapon;
 
+import org.asciicerebrum.mydndgame.domain.factories.Reassignments;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.setup.WeaponSetup;
 import org.asciicerebrum.mydndgame.domain.factories.WeaponFactory;
@@ -39,11 +40,14 @@ public class WeaponCreationIntegrationTest {
         axe4HarskSetup.setName("battleaxe");
         axe4HarskSetup.setSizeCategory("medium");
 
+        final Reassignments reassignments = new Reassignments();
+
         this.sword4Valeros
                 = (Weapon) new WeaponFactory().newEntity(
-                        sword4ValerosSetup, null);
+                        sword4ValerosSetup, null, reassignments);
         this.axe4Harsk
-                = (Weapon) new WeaponFactory().newEntity(axe4HarskSetup, null);
+                = (Weapon) new WeaponFactory().newEntity(axe4HarskSetup, null,
+                        reassignments);
     }
 
     @Test

@@ -72,8 +72,9 @@ public class ConditionFactoryTest {
     @Test(expected = SetupIncompleteException.class)
     public void newEntityIncompleteTest() {
         final ConditionSetup setup = new ConditionSetup();
+        final Reassignments reassignments = new Reassignments();
 
-        this.factory.newEntity(setup, this.campaign);
+        this.factory.newEntity(setup, this.campaign, reassignments);
     }
 
     private void makeComplete(ConditionSetup setup) {
@@ -89,10 +90,11 @@ public class ConditionFactoryTest {
     @Test
     public void newEntityCompleteTest() {
         final ConditionSetup setup = new ConditionSetup();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
-        this.factory.newEntity(setup, this.campaign);
+        this.factory.newEntity(setup, this.campaign, reassignments);
 
         verify(this.applicationContext, times(1))
                 .getBean("conditionTypeId", ConditionType.class);
@@ -101,6 +103,7 @@ public class ConditionFactoryTest {
     @Test
     public void newEntityWithCauseEntityFoundTest() {
         final ConditionSetup setup = new ConditionSetup();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
         setup.setCauseEntity("causeEntity");
@@ -109,7 +112,8 @@ public class ConditionFactoryTest {
         entity.setUniqueId(new UniqueId("causeEntity"));
         this.campaign.registerUniqueEntity(entity);
 
-        final Condition result = this.factory.newEntity(setup, this.campaign);
+        final Condition result = this.factory.newEntity(setup, this.campaign,
+                reassignments);
 
         assertEquals(entity, result.getCauseEntity());
     }
@@ -117,13 +121,14 @@ public class ConditionFactoryTest {
     @Test
     public void newEntityWithCauseEntityNotFoundTest() {
         final ConditionSetup setup = new ConditionSetup();
+        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
         setup.setCauseEntity("causeEntity");
 
-        this.factory.newEntity(setup, this.campaign);
+        this.factory.newEntity(setup, this.campaign, reassignments);
 
-        assertEquals(1L, Iterators.size(this.campaign.reassignmentIterator()));
+        assertEquals(1L, Iterators.size(reassignments.getIterator()));
     }
 
 }

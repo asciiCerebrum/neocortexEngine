@@ -18,7 +18,7 @@ public class FeatFactory implements EntityFactory<Feat> {
 
     @Override
     public final Feat newEntity(final EntitySetup setup,
-            final Campaign campaign) {
+            final Campaign campaign, final Reassignments reassignments) {
 
         if (!setup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the feat "
@@ -49,7 +49,7 @@ public class FeatFactory implements EntityFactory<Feat> {
 
     @Override
     public final void reAssign(final EntitySetup setup, final Feat entity,
-            final Campaign campaign) {
+            final Campaign campaign, final Reassignments reassignments) {
         // nothing to do here
     }
 

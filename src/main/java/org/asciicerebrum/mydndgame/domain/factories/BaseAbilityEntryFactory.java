@@ -18,7 +18,7 @@ public class BaseAbilityEntryFactory
 
     @Override
     public final BaseAbilityEntry newEntity(final EntitySetup setup,
-            final Campaign campaign) {
+            final Campaign campaign, final Reassignments reassignments) {
         BaseAbilityEntry entry = new BaseAbilityEntry();
 
         if (!setup.isSetupComplete()) {
@@ -37,7 +37,8 @@ public class BaseAbilityEntryFactory
 
     @Override
     public void reAssign(final EntitySetup setup,
-            final BaseAbilityEntry entity, final Campaign campaign) {
+            final BaseAbilityEntry entity, final Campaign campaign,
+            final Reassignments reassignments) {
         // nothing to do here.
     }
 
