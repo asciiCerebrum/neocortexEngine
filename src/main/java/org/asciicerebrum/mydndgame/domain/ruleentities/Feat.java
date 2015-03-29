@@ -1,14 +1,12 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
-import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 
 /**
  *
  * @author species8472
  */
-public class Feat extends Feature implements BonusSource, ObserverSource {
+public class Feat extends Feature {
 
     /**
      * The feat itself.
