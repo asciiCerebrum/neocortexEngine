@@ -6,7 +6,7 @@ import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
-import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
+import org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -18,11 +18,11 @@ import org.junit.Test;
  *
  * @author species8472
  */
-public class DiceActionObserverAccumulatorStrategyTest {
+public class SizeCategoryObserverAccumulatorStrategyTest {
 
-    private DiceActionObserverAccumulatorStrategy strategy;
+    private SizeCategoryObserverAccumulatorStrategy strategy;
 
-    public DiceActionObserverAccumulatorStrategyTest() {
+    public SizeCategoryObserverAccumulatorStrategyTest() {
     }
 
     @BeforeClass
@@ -35,7 +35,7 @@ public class DiceActionObserverAccumulatorStrategyTest {
 
     @Before
     public void setUp() {
-        this.strategy = new DiceActionObserverAccumulatorStrategy();
+        this.strategy = new SizeCategoryObserverAccumulatorStrategy();
     }
 
     @After
@@ -55,14 +55,14 @@ public class DiceActionObserverAccumulatorStrategyTest {
 
     @Test
     public void getObserversCorrectSizeTest() {
-        final DiceAction observerSource = new DiceAction();
+        final SizeCategory observerSource = new SizeCategory();
         final UniqueEntity targetEntity = new Weapon();
 
         final Observer subObserver = new Observer();
         final Observers subObservers = new Observers();
         subObservers.add(subObserver);
 
-        observerSource.setTargetObservers(subObservers);
+        observerSource.setObservers(subObservers);
 
         final Observers result = this.strategy.getObservers(
                 observerSource, targetEntity);
