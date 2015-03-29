@@ -110,7 +110,7 @@
                             <property name="triggerStrategy">
                                 <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.RemoveBonusObserverTrigger">
                                     <property name="removeBonus">
-                                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
                                             <property name="bonusType" ref="shieldBonus" />
                                             <property name="target" ref="acBase" />
                                         </bean>
@@ -129,7 +129,7 @@
                             <property name="triggerStrategy">
                                 <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.RemoveBonusObserverTrigger">
                                     <property name="removeBonus">
-                                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
                                             <property name="bonusType" ref="naturalArmorBonus" />
                                             <property name="target" ref="acBase" />
                                         </bean>

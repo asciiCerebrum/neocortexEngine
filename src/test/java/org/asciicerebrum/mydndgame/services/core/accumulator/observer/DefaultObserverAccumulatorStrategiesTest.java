@@ -3,7 +3,7 @@ package org.asciicerebrum.mydndgame.services.core.accumulator.observer;
 import java.util.ArrayList;
 import java.util.List;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
+import org.asciicerebrum.mydndgame.domain.ruleentities.Feat;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Race;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -39,7 +39,7 @@ public class DefaultObserverAccumulatorStrategiesTest {
     @Before
     public void setUp() {
         this.strategyA = new ConditionTypeObserverAccumulatorStrategy();
-        this.strategyB = new FeatTypeObserverAccumulatorStrategy();
+        this.strategyB = new FeatObserverAccumulatorStrategy();
 
         List<ObserverAccumulatorStrategy> strategiesList
                 = new ArrayList<ObserverAccumulatorStrategy>();
@@ -56,7 +56,7 @@ public class DefaultObserverAccumulatorStrategiesTest {
 
     @Test
     public void findForSourceHitTest() {
-        final ObserverSource observerSource = new FeatType();
+        final ObserverSource observerSource = new Feat();
 
         final ObserverAccumulatorStrategy strategyResult
                 = this.strategies.findForSource(observerSource);

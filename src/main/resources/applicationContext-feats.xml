@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <bean id="powerAttackType" class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType">
-        <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
-                <constructor-arg value="powerAttack" />
+    <bean id="powerAttack" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
+        <property name="featType">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType">
+                <property name="uniqueId">
+                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                        <constructor-arg value="powerAttack" />
+                    </bean>
+                </property>
             </bean>
         </property>
         <property name="observers">
@@ -19,7 +24,7 @@
                             <property name="triggerStrategy">
                                 <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.AddBonusObserverTrigger">
                                     <property name="bonusType" ref="powerAttackBonus" />
-                                    <property name="registryKey" value="POWER_ATTACK_BONUS" />
+                                    <property name="registryStateKey" value="POWER_ATTACK_BONUS" />
                                     <property name="bonusTarget" ref="meleeAttack" />
                                     <property name="situationContextService" ref="situationContextService" />
                                 </bean>
@@ -30,7 +35,7 @@
                             <property name="triggerStrategy">
                                 <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.AddBonusObserverTrigger"><!-- does NOT apply to light weapons! -->
                                     <property name="bonusType" ref="powerAttackBonus" />
-                                    <property name="registryKey" value="POWER_ATTACK_BONUS" />
+                                    <property name="registryStateKey" value="POWER_ATTACK_BONUS" />
                                     <property name="bonusTarget" ref="damage" />
                                     <property name="situationContextService" ref="situationContextService" />
                                 </bean>
@@ -50,7 +55,7 @@
                             <property name="hook" value="MELEE_ATTACK" />
                             <property name="triggerStrategy">
                                 <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.BonusValueModificationObserverTrigger">
-                                    <property name="bonusService" value="bonusCalculationService" />
+                                    <property name="bonusService" ref="bonusCalculationService" />
                                     <property name="modValue"><!-- the upper powerAttackBonus for melee attack must be substracted! -->
                                         <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle">
                                             <constructor-arg value="-1" />
@@ -70,7 +75,7 @@
                             <property name="hook" value="MELEE_DAMAGE" />
                             <property name="triggerStrategy">
                                 <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.BonusValueModificationObserverTrigger">
-                                    <property name="bonusService" value="bonusCalculationService" />
+                                    <property name="bonusService" ref="bonusCalculationService" />
                                     <property name="modValue"><!-- twice the damage bonus for two-handed weapon or one-handed weapon held in two hands -->
                                         <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle">
                                             <constructor-arg value="2" />
@@ -83,30 +88,30 @@
                                             <property name="target" ref="damage" />
                                         </bean>
                                     </property>
-                                    <property name="conditionEvaluator">
-                                        <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.OrListEvaluator">
-                                            <property name="conditionEvaluators">
-                                                <list>
-                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectWeaponEncumbranceEvaluator">
-                                                        <property name="encumbrance" ref="twoHanded" />
-                                                        <property name="weaponServiceFacade" ref="weaponServiceFacade" />
-                                                    </bean>
-                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.AndListEvaluator">
-                                                        <property name="conditionEvaluators">
-                                                            <list>
-                                                                <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectWeaponEncumbranceEvaluator">
-                                                                    <property name="encumbrance" ref="oneHanded" />
-                                                                    <property name="weaponServiceFacade" ref="weaponServiceFacade" />
-                                                                </bean>
-                                                                <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectInventoryItemWieldingEvaluator">
-                                                                    <property name="wieldingType" value="BOTH" />
-                                                                </bean>
-                                                            </list>
-                                                        </property>
-                                                    </bean>
-                                                </list>
-                                            </property>
-                                        </bean>
+                                </bean>
+                            </property>
+                            <property name="conditionEvaluator">
+                                <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.OrListEvaluator">
+                                    <property name="conditionEvaluators">
+                                        <list>
+                                            <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectWeaponEncumbranceEvaluator">
+                                                <property name="encumbrance" ref="twoHanded" />
+                                                <property name="weaponServiceFacade" ref="weaponServiceFacade" />
+                                            </bean>
+                                            <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.AndListEvaluator">
+                                                <property name="conditionEvaluators">
+                                                    <list>
+                                                        <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectWeaponEncumbranceEvaluator">
+                                                            <property name="encumbrance" ref="oneHanded" />
+                                                            <property name="weaponServiceFacade" ref="weaponServiceFacade" />
+                                                        </bean>
+                                                        <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectInventoryItemWieldingEvaluator">
+                                                            <property name="wieldingType" value="BOTH" />
+                                                        </bean>
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                        </list>
                                     </property>
                                 </bean>
                             </property>
@@ -117,10 +122,14 @@
         </property>
     </bean>
 
-    <bean id="weaponFinesseType" class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType">
-        <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
-                <constructor-arg value="powerAttack" />
+    <bean id="weaponFinesse" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
+        <property name="featType">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType">
+                <property name="uniqueId">
+                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                        <constructor-arg value="weaponFinesse" />
+                    </bean>
+                </property>
             </bean>
         </property>
         <property name="observers">
@@ -131,9 +140,9 @@
                             <property name="hook" value="MELEE_DAMAGE" />
                             <property name="triggerStrategy">
                                 <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.WeaponFinesseObserverTrigger">
-                                    <property name="characterServiceFacade" value="characterServiceFacade" />
-                                    <property name="weaponServiceFacade" value="weaponServiceFacade" />
-                                    <property name="situationContextService" value="situationContextService" />
+                                    <property name="characterServiceFacade" ref="characterServiceFacade" />
+                                    <property name="weaponServiceFacade" ref="weaponServiceFacade" />
+                                    <property name="situationContextService" ref="situationContextService" />
                                     <property name="registryKey" value="WEAPON_FINESSE_MODE" />
                                     <property name="removeBonus">
                                         <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
@@ -169,13 +178,17 @@
             </bean>
         </property>
     </bean>
-    
-    <bean id="simpleWeaponProficiencyType" class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType" scope="prototype">
+
+    <bean id="simpleWeaponProficiencyType" class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType">
         <property name="uniqueId">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
                 <constructor-arg value="simpleWeaponProficiency" />
             </bean>
         </property>
+    </bean>
+            
+    <bean id="simpleWeaponProficiencyParent" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
+        <property name="featType" ref="simpleWeaponProficiencyType" />
         <property name="observers">
             <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers">
                 <constructor-arg>
@@ -195,8 +208,8 @@
                                                 <property name="proficiency" ref="simpleWeapon" />
                                                 <property name="weaponServiceFacade" ref="weaponServiceFacade" />
                                             </bean>
-                                            <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectWeaponForFeatEvaluator"><!-- here goes the correct weapon; return true if not set -->
-                                                <property name="featType" value="simpleWeaponProficiency" />
+                                            <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectWeaponForFeatEvaluator">
+                                                <property name="featType" ref="simpleWeaponProficiencyType" />
                                             </bean>
                                             <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectWeaponAttackModeEvaluator">
                                                 <property name="situationContextService" ref="situationContextService" />
@@ -213,12 +226,16 @@
         </property>
     </bean>
 
-    <bean id="martialWeaponProficiencyType" class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType" scope="prototype">
+    <bean id="martialWeaponProficiencyType" class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType">
         <property name="uniqueId">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
                 <constructor-arg value="martialWeaponProficiency" />
             </bean>
         </property>
+    </bean>
+
+    <bean id="martialWeaponProficiencyParent" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
+        <property name="featType" ref="martialWeaponProficiencyType" />
         <!-- This is useful during character building when I have the feat "exoticWeaponProficiency [scimitar]" for example. -->
         <property name="observers">
             <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers">
@@ -236,10 +253,10 @@
                                     <property name="conditionEvaluators">
                                         <list>
                                             <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectWeaponForFeatEvaluator"><!-- here goes the correct weapon; return true if not set -->
-                                                <property name="featType" value="martialWeaponProficiency" />
+                                                <property name="featType" ref="martialWeaponProficiencyType" />
                                             </bean>
                                             <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectProficiencyEvaluator">
-                                                <property name="weaponServiceFacade" value="weaponServiceFacade" />
+                                                <property name="weaponServiceFacade" ref="weaponServiceFacade" />
                                                 <property name="proficiency" ref="martialWeapon" /><!-- Proficiency of the weapon - e.g. needed when no name is given and thus the feat is valid for all weapons of this proficiency -->
                                             </bean>
                                             <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectWeaponAttackModeEvaluator"><!-- e.g. false, if melee weapon used as ranged weapon, or an improvised weapon for melee/ranged attacks -->
@@ -257,10 +274,14 @@
         </property>
     </bean>
 
-    <bean id="lightArmorProficiencyType" class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType" scope="prototype">
-        <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
-                <constructor-arg value="lightArmorProficiency" />
+    <bean id="lightArmorProficiency" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
+        <property name="featType">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType">
+                <property name="uniqueId">
+                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                        <constructor-arg value="lightArmorProficiency" />
+                    </bean>
+                </property>
             </bean>
         </property>
         <property name="observers">
@@ -297,10 +318,14 @@
         </property>
     </bean>
 
-    <bean id="mediumArmorProficiencyType" class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType" scope="prototype">
-        <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
-                <constructor-arg value="mediumArmorProficiency" />
+    <bean id="mediumArmorProficiency" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
+        <property name="featType">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType">
+                <property name="uniqueId">
+                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                        <constructor-arg value="mediumArmorProficiency" />
+                    </bean>
+                </property>
             </bean>
         </property>
         <property name="observers">
@@ -336,11 +361,15 @@
             </bean>
         </property>
     </bean>
-    
-    <bean id="heavyArmorProficiencyType" class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType" scope="prototype">
-        <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
-                <constructor-arg value="heavyArmorProficiency" />
+        
+    <bean id="heavyArmorProficiency" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
+        <property name="featType">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType">
+                <property name="uniqueId">
+                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                        <constructor-arg value="heavyArmorProficiency" />
+                    </bean>
+                </property>
             </bean>
         </property>
         <property name="observers">
@@ -377,10 +406,14 @@
         </property>
     </bean>
 
-    <bean id="lightShieldProficiencyType" class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType" scope="prototype">
-        <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
-                <constructor-arg value="lightShieldProficiency" />
+    <bean id="lightShieldProficiency" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
+        <property name="featType">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType">
+                <property name="uniqueId">
+                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                        <constructor-arg value="lightShieldProficiency" />
+                    </bean>
+                </property>
             </bean>
         </property>
         <property name="observers">
@@ -417,10 +450,14 @@
         </property>
     </bean>
     
-    <bean id="heavyShieldProficiencyType" class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType" scope="prototype">
-        <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
-                <constructor-arg value="heavyShieldProficiency" />
+    <bean id="heavyShieldProficiency" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
+        <property name="featType">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType">
+                <property name="uniqueId">
+                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                        <constructor-arg value="heavyShieldProficiency" />
+                    </bean>
+                </property>
             </bean>
         </property>
         <property name="observers">
@@ -457,10 +494,14 @@
         </property>
     </bean>
     
-    <bean id="towerShieldProficiencyType" class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType" scope="prototype">
-        <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
-                <constructor-arg value="towerShieldProficiency" />
+    <bean id="towerShieldProficiency" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
+        <property name="featType">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType">
+                <property name="uniqueId">
+                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                        <constructor-arg value="towerShieldProficiency" />
+                    </bean>
+                </property>
             </bean>
         </property>
         <property name="observers">
@@ -497,10 +538,14 @@
         </property>
     </bean>
     
-    <bean id="improvedInitiativeType" class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType">
-        <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
-                <constructor-arg value="improvedInitiative" />
+    <bean id="improvedInitiative" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
+        <property name="featType">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.FeatType">
+                <property name="uniqueId">
+                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                        <constructor-arg value="improvedInitiative" />
+                    </bean>
+                </property>
             </bean>
         </property>
         <property name="observers">
@@ -515,7 +560,15 @@
                                         <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
                                             <!-- this is a typeless bonus! -->
                                             <property name="target" ref="initiative" />
-                                            <property name="value" value="4" />
+                                            <property name="values">
+                                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+                                                    <constructor-arg>
+                                                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                                            <constructor-arg value="4" />
+                                                        </bean>
+                                                    </constructor-arg>
+                                                </bean>
+                                            </property>
                                         </bean>
                                     </property>
                                 </bean>
@@ -527,56 +580,32 @@
         </property>
     </bean>
 
-    <bean id="powerAttack" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
-        <property name="featType" ref="powerAttackType" />
-    </bean>   
-    <bean id="weaponFinesse" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
-        <property name="featType" ref="weaponFinesseType" />
-    </bean>   
-    <bean id="simpleWeaponProficiency" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
-        <property name="featType" ref="simpleWeaponProficiencyType" />
-        <property name="featBinding" value="ALL" />
+    <util:constant id="ALL" static-field="org.asciicerebrum.mydndgame.domain.ruleentities.FeatBinding.GenericBinding.ALL" />
+
+    <bean id="simpleWeaponProficiency" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat"
+          parent="simpleWeaponProficiencyParent">
+        <property name="featBinding" ref="ALL" />
     </bean>    
-    <bean id="simpleWeaponProficiencyClub" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
-        <property name="featType" ref="simpleWeaponProficiencyType" />
+    <bean id="simpleWeaponProficiencyClub" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat"
+          parent="simpleWeaponProficiencyParent">
         <property name="featBinding" ref="club" />
     </bean>
-    <bean id="simpleWeaponProficiencyDagger" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
-        <property name="featType" ref="simpleWeaponProficiencyType" />
+    <bean id="simpleWeaponProficiencyDagger" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat"
+          parent="simpleWeaponProficiencyParent">
         <property name="featBinding" ref="dagger" />
     </bean>
-    <bean id="simpleWeaponProficiencyDart" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
-        <property name="featType" ref="simpleWeaponProficiencyType" />
+    <bean id="simpleWeaponProficiencyDart" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat"
+          parent="simpleWeaponProficiencyParent">
         <property name="featBinding" ref="dart" />
     </bean>
-    <bean id="simpleWeaponProficiencyQuarterstaff" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
-        <property name="featType" ref="simpleWeaponProficiencyType" />
+    <bean id="simpleWeaponProficiencyQuarterstaff" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat"
+          parent="simpleWeaponProficiencyParent">
         <property name="featBinding" ref="quarterstaff" />
     </bean>
-    <bean id="martialWeaponProficiency" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
-        <property name="featType" ref="martialWeaponProficiencyType" />
-        <property name="featBinding" value="ALL" />
-    </bean>
-    <bean id="lightArmorProficiency" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
-        <property name="featType" ref="lightArmorProficiencyType" />
-    </bean>
-    <bean id="mediumArmorProficiency" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
-        <property name="featType" ref="mediumArmorProficiencyType" />
-    </bean>
-    <bean id="heavyArmorProficiency" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
-        <property name="featType" ref="heavyArmorProficiencyType" />
-    </bean>
-    <bean id="lightShieldProficiency" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
-        <property name="featType" ref="lightShieldProficiencyType" />
-    </bean>
-    <bean id="heavyShieldProficiency" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
-        <property name="featType" ref="heavyShieldProficiencyType" />
-    </bean>
-    <bean id="towerShieldProficiency" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
-        <property name="featType" ref="towerShieldProficiencyType" />
-    </bean>
-    <bean id="improvedInitiative" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat">
-        <property name="featType" ref="improvedInitiativeType" />
+
+    <bean id="martialWeaponProficiency" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat"
+          parent="martialWeaponProficiencyParent">
+        <property name="featBinding" ref="ALL" />
     </bean>
 
 </beans>

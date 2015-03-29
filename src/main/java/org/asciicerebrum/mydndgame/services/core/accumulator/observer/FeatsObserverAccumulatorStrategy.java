@@ -3,9 +3,9 @@ package org.asciicerebrum.mydndgame.services.core.accumulator.observer;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Feats;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
+import org.asciicerebrum.mydndgame.domain.ruleentities.Feat;
 
 /**
  *
@@ -27,13 +27,13 @@ public class FeatsObserverAccumulatorStrategy
             return observers;
         }
         final Feats feats = (Feats) observerSource;
-        final Iterator<FeatType> featIterator = feats.iterator();
+        final Iterator<Feat> featIterator = feats.iterator();
 
         while (featIterator.hasNext()) {
-            final FeatType featType = featIterator.next();
+            final Feat feat = featIterator.next();
 
             observers.add(this.getFeatStrategy().getObservers(
-                    featType, targetEntity));
+                    feat, targetEntity));
         }
 
         return observers;

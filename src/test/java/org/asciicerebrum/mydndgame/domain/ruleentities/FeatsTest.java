@@ -44,9 +44,9 @@ public class FeatsTest {
 
     @Test
     public void getBonusSourcesNonEmpty() {
-        this.feats.addFeat(new FeatType());
-        this.feats.addFeat(new FeatType());
-        this.feats.addFeat(new FeatType());
+        this.feats.addFeat(new Feat());
+        this.feats.addFeat(new Feat());
+        this.feats.addFeat(new Feat());
 
         assertEquals(3L, Iterators.size(this.feats
                 .getBonusSources().iterator()));

@@ -232,7 +232,7 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
     /**
      * @return the levelAdvancementFactory
      */
-    protected final EntityFactory<LevelAdvancement>
+    public final EntityFactory<LevelAdvancement>
             getLevelAdvancementFactory() {
         return levelAdvancementFactory;
     }
@@ -240,7 +240,7 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
     /**
      * @param levelAdvancementFactoryIn the levelAdvancementFactory to set
      */
-    protected final void setLevelAdvancementFactory(
+    public final void setLevelAdvancementFactory(
             final EntityFactory<LevelAdvancement> levelAdvancementFactoryIn) {
         this.levelAdvancementFactory = levelAdvancementFactoryIn;
     }
@@ -248,14 +248,14 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
     /**
      * @return the bodySlotFactory
      */
-    protected final EntityFactory<PersonalizedBodySlot> getBodySlotFactory() {
+    public final EntityFactory<PersonalizedBodySlot> getBodySlotFactory() {
         return bodySlotFactory;
     }
 
     /**
      * @param bodySlotFactoryInput the bodySlotFactory to set
      */
-    protected final void setBodySlotFactory(
+    public final void setBodySlotFactory(
             final EntityFactory<PersonalizedBodySlot> bodySlotFactoryInput) {
         this.bodySlotFactory = bodySlotFactoryInput;
     }
@@ -263,14 +263,14 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
     /**
      * @return the stateRegistryFactory
      */
-    protected final EntityFactory<StateRegistry> getStateRegistryFactory() {
+    public final EntityFactory<StateRegistry> getStateRegistryFactory() {
         return stateRegistryFactory;
     }
 
     /**
      * @param stateRegistryFactoryInput the stateRegistryFactory to set
      */
-    protected final void setStateRegistryFactory(
+    public final void setStateRegistryFactory(
             final EntityFactory<StateRegistry> stateRegistryFactoryInput) {
         this.stateRegistryFactory = stateRegistryFactoryInput;
     }
@@ -278,7 +278,7 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
     /**
      * @return the baseAbilityEntryFactory
      */
-    protected final EntityFactory<BaseAbilityEntry>
+    public final EntityFactory<BaseAbilityEntry>
             getBaseAbilityEntryFactory() {
         return baseAbilityEntryFactory;
     }
@@ -286,7 +286,7 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
     /**
      * @param baseAbilityEntryFactoryIn the baseAbilityEntryFactory to set
      */
-    protected final void setBaseAbilityEntryFactory(
+    public final void setBaseAbilityEntryFactory(
             final EntityFactory<BaseAbilityEntry> baseAbilityEntryFactoryIn) {
         this.baseAbilityEntryFactory = baseAbilityEntryFactoryIn;
     }
@@ -294,14 +294,14 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
     /**
      * @return the conditionFactory
      */
-    protected final EntityFactory<Condition> getConditionFactory() {
+    public final EntityFactory<Condition> getConditionFactory() {
         return conditionFactory;
     }
 
     /**
      * @param conditionFactoryInput the conditionFactory to set
      */
-    protected final void setConditionFactory(
+    public final void setConditionFactory(
             final EntityFactory<Condition> conditionFactoryInput) {
         this.conditionFactory = conditionFactoryInput;
     }

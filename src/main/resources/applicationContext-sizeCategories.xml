@@ -5,7 +5,7 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="small" class="org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory">
-        <property name="id">
+        <property name="uniqueId">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
                 <constructor-arg value="small" />
             </bean>
@@ -60,7 +60,7 @@
     </bean>
 
     <bean id="medium" class="org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory">
-        <property name="id">
+        <property name="uniqueId">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
                 <constructor-arg value="medium" />
             </bean>
@@ -69,7 +69,7 @@
             <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
                 <constructor-arg>
                     <list>
-                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
                             <property name="values">
                                 <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
                                     <constructor-arg>
@@ -82,7 +82,7 @@
                             <property name="target" ref="ac" />
                             <property name="bonusType" ref="sizeBonus" />
                         </bean>
-                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
                             <property name="values">
                                 <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
                                     <constructor-arg>
@@ -95,7 +95,7 @@
                             <property name="target" ref="meleeAttack" />
                             <property name="bonusType" ref="sizeBonus" />
                         </bean>
-                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
                             <property name="values">
                                 <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
                                     <constructor-arg>
@@ -115,7 +115,7 @@
     </bean>
 
     <bean id="large" class="org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory">
-        <property name="id">
+        <property name="uniqueId">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
                 <constructor-arg value="large" />
             </bean>
@@ -124,7 +124,7 @@
             <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
                 <constructor-arg>
                     <list>
-                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
                             <property name="values">
                                 <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
                                     <constructor-arg>
@@ -137,7 +137,7 @@
                             <property name="target" ref="ac" />
                             <property name="bonusType" ref="sizeBonus" />
                         </bean>
-                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
                             <property name="values">
                                 <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
                                     <constructor-arg>
@@ -150,7 +150,7 @@
                             <property name="target" ref="meleeAttack" />
                             <property name="bonusType" ref="sizeBonus" />
                         </bean>
-                        <bean class="org.asciicerebrum.mydndgame.Bonus">
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
                             <property name="values">
                                 <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
                                     <constructor-arg>

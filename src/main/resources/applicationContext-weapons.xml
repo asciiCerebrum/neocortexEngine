@@ -172,7 +172,7 @@
                 </property>
             </bean>
         </property>
-        <property name="designatedBodySlots">
+        <property name="designatedBodySlotTypes">
             <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
                     <list>
@@ -236,7 +236,7 @@
                 </property>
             </bean>
         </property>
-        <property name="designatedBodySlots">
+        <property name="designatedBodySlotTypes">
             <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
                     <list>
@@ -300,7 +300,7 @@
                 </property>
             </bean>
         </property>
-        <property name="designatedBodySlots">
+        <property name="designatedBodySlotTypes">
             <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
                     <list>
@@ -415,7 +415,7 @@
                 </property>
             </bean>
         </property>
-        <property name="designatedBodySlots">
+        <property name="designatedBodySlotTypes">
             <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
                     <list>
@@ -572,7 +572,7 @@
                 </property>
             </bean>
         </property>
-        <property name="designatedBodySlots">
+        <property name="designatedBodySlotTypes">
             <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
                     <list>
@@ -600,7 +600,11 @@
                                                     <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.BonusValueComparisonEvaluator">
                                                         <property name="bonusValueProvider" ref="strAbilityBonusValueProvider" />
                                                         <property name="comparator" value="LT" /><!-- Enum defined in this class: LT, LE, EQ, GE, GT -->
-                                                        <property name="referenceValue" value="0" />
+                                                        <property name="referenceValue">
+                                                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                                                <constructor-arg value="0" />
+                                                            </bean>
+                                                        </property>
                                                     </bean>
                                                 </property>
                                             </bean>
@@ -667,7 +671,7 @@
                 </property>
             </bean>
         </property>
-        <property name="designatedBodySlots">
+        <property name="designatedBodySlotTypes">
             <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
                     <list>
@@ -678,5 +682,8 @@
             </bean>
         </property>
     </bean>
+    
+    <!-- all common settings of weapons go here -->
+    <bean id="weaponPrototype" class="org.asciicerebrum.mydndgame.domain.game.Weapon" scope="prototype"></bean>
                 
 </beans>

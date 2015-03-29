@@ -13,19 +13,21 @@
         <property name="characterClass" ref="fighter" />
         <property name="baseAtkBoni">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
-                <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple$BonusValueEntry">
-                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple$BonusValueEntry">
-                        <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
-                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
-                                <constructor-arg value="0" />
-                            </bean>
-                        </constructor-arg>
-                        <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
-                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
-                                <constructor-arg value="1" />
-                            </bean>
-                        </constructor-arg>
-                    </bean>
+                <constructor-arg>
+                    <array>
+                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple$BonusValueEntry">
+                            <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+                                    <constructor-arg value="0" />
+                                </bean>
+                            </constructor-arg>
+                            <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                    <constructor-arg value="1" />
+                                </bean>
+                            </constructor-arg>
+                        </bean>
+                    </array>
                 </constructor-arg>
             </bean>
         </property>
@@ -40,19 +42,21 @@
         <property name="characterClass" ref="fighter" />
         <property name="baseAtkBoni">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
-                <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple$BonusValueEntry">
-                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple$BonusValueEntry">
-                        <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
-                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
-                                <constructor-arg value="0" />
-                            </bean>
-                        </constructor-arg>
-                        <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
-                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
-                                <constructor-arg value="2" />
-                            </bean>
-                        </constructor-arg>
-                    </bean>
+                <constructor-arg>
+                    <array>
+                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple$BonusValueEntry">
+                            <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+                                    <constructor-arg value="0" />
+                                </bean>
+                            </constructor-arg>
+                            <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                    <constructor-arg value="2" />
+                                </bean>
+                            </constructor-arg>
+                        </bean>
+                    </array>
                 </constructor-arg>
             </bean>
         </property>

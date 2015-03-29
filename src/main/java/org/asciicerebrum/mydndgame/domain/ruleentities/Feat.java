@@ -1,6 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
@@ -9,7 +8,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSour
  *
  * @author species8472
  */
-public class Feat implements BonusSource, ObserverSource {
+public class Feat extends Feature implements BonusSource, ObserverSource {
 
     /**
      * The feat itself.
@@ -52,17 +51,8 @@ public class Feat implements BonusSource, ObserverSource {
     }
 
     @Override
-    public final Boni getBoni() {
-        return Boni.EMPTY_BONI;
-    }
-
-    @Override
     public final BonusSources getBonusSources() {
-        final BonusSources bonusSources = new BonusSources();
-
-        bonusSources.add(this.featType);
-
-        return bonusSources;
+        return BonusSources.EMPTY_BONUSSOURCES;
     }
 
 }

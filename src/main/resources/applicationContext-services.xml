@@ -4,6 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
     
+    <bean id="sizeCategoryObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.SizeCategoryObserverAccumulatorStrategy" />
     <bean id="abilityObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.AbilityObserverAccumulatorStrategy" />
     <bean id="baseAbilitiesObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.BaseAbilitiesObserverAccumulatorStrategy">
         <property name="abilityStrategy" ref="abilityObserverAccumulatorStrategy" />
@@ -30,14 +31,10 @@
         <property name="raceStrategy" ref="raceObserverAccumulatorStrategy" />
         <property name="prototypeSpecialAbilitiesStrategy" ref="specialAbilitiesObserverAccumulatorStrategy" />
     </bean>
-    <bean id="featObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.FeatObserverAccumulatorStrategy">
-        <property name="featTypeStrategy" ref="featTypeObserverAccumulatorStrategy" />
-    </bean>
-    <bean id="featTypeObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.FeatTypeObserverAccumulatorStrategy" />
+    <bean id="featObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.FeatObserverAccumulatorStrategy"></bean>
     <bean id="featsObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.FeatsObserverAccumulatorStrategy">
         <property name="featStrategy" ref="featObserverAccumulatorStrategy" />
     </bean>
-    <bean id="featureObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.FeatureObserverAccumulatorStrategy" />
     <bean id="inventoryItemPrototypeObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.InventoryItemPrototypeObserverAccumulatorStrategy">
         <property name="specialAbilitiesStrategy" ref="specialAbilitiesObserverAccumulatorStrategy" />
     </bean>
@@ -60,7 +57,7 @@
         <property name="personalizedBodySlotsStrategy" ref="personalizedBodySlotObserverAccumulatorStrategy" />
     </bean>
     <bean id="raceObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.RaceObserverAccumulatorStrategy">
-        <property name="sizeCategoryStrategy" ref="featureObserverAccumulatorStrategy" />
+        <property name="sizeCategoryStrategy" ref="sizeCategoryObserverAccumulatorStrategy" />
     </bean>
     <bean id="specialAbilitiesObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.SpecialAbilitiesObserverAccumulatorStrategy">
         <property name="specialAbilityStrategy" ref="specialAbilityObserverAccumulatorStrategy" />
@@ -72,6 +69,7 @@
     <bean id="observerAccumulatorStrategies" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.DefaultObserverAccumulatorStrategies">
         <constructor-arg>
             <list>
+                <ref bean="sizeCategoryObserverAccumulatorStrategy" />
                 <ref bean="abilityObserverAccumulatorStrategy" />
                 <ref bean="baseAbilitiesObserverAccumulatorStrategy" />
                 <ref bean="characterClassObserverAccumulatorStrategy" />
@@ -82,9 +80,7 @@
                 <ref bean="diceActionObserverAccumulatorStrategy" />
                 <ref bean="dndCharacterObserverAccumulatorStrategy" />
                 <ref bean="featObserverAccumulatorStrategy" />
-                <ref bean="featTypeObserverAccumulatorStrategy" />
                 <ref bean="featsObserverAccumulatorStrategy" />
-                <ref bean="featureObserverAccumulatorStrategy" />
                 <ref bean="inventoryItemPrototypeObserverAccumulatorStrategy" />
                 <ref bean="inventoryItemObserverAccumulatorStrategy" />
                 <ref bean="levelAdvancementObserverAccumulatorStrategy" />

@@ -46,7 +46,7 @@ public class Weapon extends InventoryItem {
      */
     public final DamageType getDefaultDamageType() {
         // the first from all the or-connected alternatives.
-        return this.getWeaponPrototype().getDefaultDamgeTypes()
+        return this.getWeaponPrototype().getDefaultDamageTypes()
                 .getFirst();
     }
 

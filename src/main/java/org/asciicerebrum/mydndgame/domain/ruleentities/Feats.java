@@ -17,7 +17,7 @@ public class Feats implements BonusSource, ObserverSource {
     /**
      * Central collection of feats.
      */
-    private final List<FeatType> elements = new ArrayList<FeatType>();
+    private final List<Feat> elements = new ArrayList<Feat>();
 
     /**
      * Standard constructor for an empty list of feat types.
@@ -29,11 +29,10 @@ public class Feats implements BonusSource, ObserverSource {
     /**
      * Constructor for a given list of feat types.
      *
-     * @param featTypes the feat types to add to the collection from the
-     * beginning.
+     * @param feats the feat to add to the collection from the beginning.
      */
-    public Feats(final List<FeatType> featTypes) {
-        this.elements.addAll(featTypes);
+    public Feats(final List<Feat> feats) {
+        this.elements.addAll(feats);
     }
 
     /**
@@ -41,7 +40,7 @@ public class Feats implements BonusSource, ObserverSource {
      *
      * @param feat the feat to add.
      */
-    public final void addFeat(final FeatType feat) {
+    public final void addFeat(final Feat feat) {
         this.elements.add(feat);
     }
 
@@ -54,7 +53,7 @@ public class Feats implements BonusSource, ObserverSource {
     public final BonusSources getBonusSources() {
         final BonusSources bonusSources = new BonusSources();
 
-        for (final FeatType feat : this.elements) {
+        for (final Feat feat : this.elements) {
             bonusSources.add(feat);
         }
 
@@ -66,7 +65,7 @@ public class Feats implements BonusSource, ObserverSource {
      *
      * @return the iterator.
      */
-    public final Iterator<FeatType> iterator() {
+    public final Iterator<Feat> iterator() {
         return this.elements.iterator();
     }
 

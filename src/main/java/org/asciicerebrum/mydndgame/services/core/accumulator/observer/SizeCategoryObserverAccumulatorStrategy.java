@@ -1,30 +1,32 @@
 package org.asciicerebrum.mydndgame.services.core.accumulator.observer;
 
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
+import org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory;
 
 /**
  *
  * @author species8472
  */
-public class FeatTypeObserverAccumulatorStrategy
-        implements ObserverAccumulatorStrategy {
+public class SizeCategoryObserverAccumulatorStrategy
+        extends FeatureObserverAccumulatorStrategy {
 
     @Override
     public final Observers getObservers(final ObserverSource observerSource,
             final UniqueEntity targetEntity) {
-        if (!(observerSource instanceof FeatType)) {
+
+        if (!(observerSource instanceof SizeCategory)) {
             return new Observers();
         }
+        final SizeCategory sizeCategory = (SizeCategory) observerSource;
 
-        return ((FeatType) observerSource).getObservers();
+        return sizeCategory.getObservers();
     }
 
     @Override
     public final boolean isApplicable(final ObserverSource observerSource) {
-        return observerSource instanceof FeatType;
+        return observerSource instanceof SizeCategory;
     }
 
 }

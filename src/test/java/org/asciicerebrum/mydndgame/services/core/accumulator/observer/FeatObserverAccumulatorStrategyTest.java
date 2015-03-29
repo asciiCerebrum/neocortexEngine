@@ -5,7 +5,6 @@ import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
-import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Feat;
 import org.junit.After;
@@ -14,10 +13,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  *
@@ -26,8 +21,6 @@ import static org.mockito.Mockito.when;
 public class FeatObserverAccumulatorStrategyTest {
 
     private FeatObserverAccumulatorStrategy strategy;
-
-    private ObserverAccumulatorStrategy featTypeStrategy;
 
     public FeatObserverAccumulatorStrategyTest() {
     }
@@ -43,9 +36,6 @@ public class FeatObserverAccumulatorStrategyTest {
     @Before
     public void setUp() {
         this.strategy = new FeatObserverAccumulatorStrategy();
-        this.featTypeStrategy = mock(ObserverAccumulatorStrategy.class);
-
-        this.strategy.setFeatTypeStrategy(this.featTypeStrategy);
     }
 
     @After
@@ -68,13 +58,11 @@ public class FeatObserverAccumulatorStrategyTest {
         final Feat observerSource = new Feat();
         final UniqueEntity targetEntity = new Weapon();
 
-        final Observer subObserver = new Observer();
-        final Observers subObservers = new Observers();
-        subObservers.add(subObserver);
+        final Observers observers = new Observers();
+        final Observer observer = new Observer();
+        observers.add(observer);
 
-        when(this.featTypeStrategy.getObservers(
-                (ObserverSource) anyObject(),
-                eq(targetEntity))).thenReturn(subObservers);
+        observerSource.setObservers(observers);
 
         final Observers result = this.strategy.getObservers(
                 observerSource, targetEntity);

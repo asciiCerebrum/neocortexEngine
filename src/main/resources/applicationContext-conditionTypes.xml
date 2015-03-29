@@ -5,7 +5,7 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="flatFooted" class="org.asciicerebrum.mydndgame.domain.ruleentities.ConditionType">
-        <property name="id">
+        <property name="uniqueId">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
                 <constructor-arg value="flatFooted" />
             </bean>

@@ -14,8 +14,6 @@ import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
 import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  *
@@ -74,13 +72,6 @@ public abstract class InventoryItemFactory<T extends InventoryItem>
 
         this.finalizeCreation(concreteItem);
 
-        // register it as a spring bean for further retrieval
-        ConfigurableListableBeanFactory beanFactory
-                = ((ConfigurableApplicationContext) ApplicationContextProvider
-                .getApplicationContext()).getBeanFactory();
-        beanFactory.registerSingleton(setup.getProperty(SetupProperty.UNIQUEID),
-                concreteItem);
-
         return concreteItem;
     }
 
@@ -133,14 +124,14 @@ public abstract class InventoryItemFactory<T extends InventoryItem>
     /**
      * @return the conditionFactory
      */
-    protected final EntityFactory<Condition> getConditionFactory() {
+    public final EntityFactory<Condition> getConditionFactory() {
         return conditionFactory;
     }
 
     /**
      * @param conditionFactoryInput the conditionFactory to set
      */
-    protected final void setConditionFactory(
+    public final void setConditionFactory(
             final EntityFactory<Condition> conditionFactoryInput) {
         this.conditionFactory = conditionFactoryInput;
     }

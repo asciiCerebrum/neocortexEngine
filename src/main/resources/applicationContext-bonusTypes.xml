@@ -92,7 +92,7 @@
         </property>
     </bean>
 
-    <bean id="shieldBonus" class="org.asciicerebrum.mydndgame.BonusType">
+    <bean id="shieldBonus" class="org.asciicerebrum.mydndgame.domain.mechanics.BonusType">
         <property name="id">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
                 <constructor-arg value="shieldBonus" />
@@ -100,7 +100,7 @@
         </property>
     </bean>
 
-    <bean id="naturalArmorBonus" class="org.asciicerebrum.mydndgame.BonusType">
+    <bean id="naturalArmorBonus" class="org.asciicerebrum.mydndgame.domain.mechanics.BonusType">
         <property name="id">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
                 <constructor-arg value="naturalArmorBonus" />

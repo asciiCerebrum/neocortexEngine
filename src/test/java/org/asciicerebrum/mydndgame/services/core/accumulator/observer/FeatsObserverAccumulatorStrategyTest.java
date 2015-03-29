@@ -7,7 +7,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
-import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
+import org.asciicerebrum.mydndgame.domain.ruleentities.Feat;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Feats;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -69,15 +69,15 @@ public class FeatsObserverAccumulatorStrategyTest {
         final Feats observerSource = new Feats();
         final UniqueEntity targetEntity = new Weapon();
         
-        final FeatType featType = new FeatType();
-        observerSource.addFeat(featType);
-        observerSource.addFeat(featType);
+        final Feat feat = new Feat();
+        observerSource.addFeat(feat);
+        observerSource.addFeat(feat);
 
         final Observer subObserver = new Observer();
         final Observers subObservers = new Observers();
         subObservers.add(subObserver);
         
-        featType.setObservers(subObservers);
+        feat.setObservers(subObservers);
 
         when(this.featStrategy.getObservers(
                 (ObserverSource) anyObject(),

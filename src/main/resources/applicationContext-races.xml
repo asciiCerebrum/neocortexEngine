@@ -19,8 +19,6 @@
                 <constructor-arg value="secondaryHand" />
             </bean>
         </property>
-        <property name="counterSlot" ref="primaryHand" /><!-- The opposite slot. Easy way of switching between both. -->
-        <property name="isPrimaryAttackSlot" value="false" />
     </bean>
     
     <bean id="torso" class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotType">
@@ -35,13 +33,13 @@
     
     <bean id="primaryHandHumanoid" class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlot">
         <property name="bodySlotType" ref="primaryHand" />
-        <property name="counterSlot" ref="secondaryHandHuman" /><!-- The opposite slot. Easy way of switching between both. -->
+        <property name="counterSlot" ref="secondaryHandHumanoid" /><!-- The opposite slot. Easy way of switching between both. -->
         <property name="isPrimaryAttackSlot" value="true" />
     </bean>
 
     <bean id="secondaryHandHumanoid" class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlot">
         <property name="bodySlotType" ref="secondaryHand" />
-        <property name="counterSlot" ref="primaryHandHuman" /><!-- The opposite slot. Easy way of switching between both. -->
+        <property name="counterSlot" ref="primaryHandHumanoid" /><!-- The opposite slot. Easy way of switching between both. -->
         <property name="isPrimaryAttackSlot" value="false" />
     </bean>
 
@@ -52,7 +50,7 @@
                                     
     <!-- races -->        
     <bean id="human" class="org.asciicerebrum.mydndgame.domain.ruleentities.Race">
-        <property name="id">
+        <property name="uniqueId">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
                 <constructor-arg value="human" />
             </bean>
@@ -72,7 +70,7 @@
     </bean>
 
     <bean id="dwarf" class="org.asciicerebrum.mydndgame.domain.ruleentities.Race">
-        <property name="id">
+        <property name="uniqueId">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
                 <constructor-arg value="dwarf" />
             </bean>

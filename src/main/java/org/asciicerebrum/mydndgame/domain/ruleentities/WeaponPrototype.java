@@ -128,14 +128,14 @@ public class WeaponPrototype extends InventoryItemPrototype
     /**
      * @return the defaultDamgeTypes
      */
-    public final DamageTypes getDefaultDamgeTypes() {
+    public final DamageTypes getDefaultDamageTypes() {
         return defaultDamgeTypes;
     }
 
     /**
      * @param defaultDamgeTypesInput the defaultDamgeTypes to set
      */
-    public final void setDefaultDamgeTypes(
+    public final void setDefaultDamageTypes(
             final DamageTypes defaultDamgeTypesInput) {
         this.defaultDamgeTypes = defaultDamgeTypesInput;
     }

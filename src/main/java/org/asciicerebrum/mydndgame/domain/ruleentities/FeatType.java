@@ -1,16 +1,11 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 
 /**
  *
  * @author species8472
  */
-public class FeatType extends Feature {
-
-    @Override
-    public final BonusSources getBonusSources() {
-        return BonusSources.EMPTY_BONUSSOURCES;
-    }
+public class FeatType extends UniqueEntity {
 
 }
