@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.services.core;
 
+import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTarget;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;

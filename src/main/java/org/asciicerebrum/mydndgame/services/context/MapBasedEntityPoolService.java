@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.services.core;
+package org.asciicerebrum.mydndgame.services.context;
 
 import java.util.HashMap;
 import java.util.Iterator;

@@ -4,7 +4,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSour
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlot;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
-import org.asciicerebrum.mydndgame.services.core.EntityPoolService;
+import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 
 /**
  *

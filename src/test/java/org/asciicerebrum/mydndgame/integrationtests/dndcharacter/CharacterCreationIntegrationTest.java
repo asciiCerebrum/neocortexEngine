@@ -12,7 +12,7 @@ import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.S
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.StandardStuddedLeather;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.StandardBattleaxe;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.StandardLongsword;
-import org.asciicerebrum.mydndgame.services.core.EntityPoolService;
+import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;

@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.services.core;
 
+import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import com.google.common.collect.Iterators;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;

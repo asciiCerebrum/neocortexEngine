@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.services.core;
+package org.asciicerebrum.mydndgame.services.context;
 
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntities;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
