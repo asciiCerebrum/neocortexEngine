@@ -57,6 +57,16 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
                     + "is not complete.");
         }
 
+        final List<EntitySetup> bodySlotSetups
+                = setup.getPropertySetups(SetupProperty.BODY_SLOTS);
+
+        for (EntitySetup bodySlotSetup : bodySlotSetups) {
+            if (!bodySlotSetup.isSetupComplete()) {
+                throw new SetupIncompleteException("The setup of the body slot "
+                        + "is not complete.");
+            }
+        }
+
         DndCharacter dndCharacter = ApplicationContextProvider
                 .getApplicationContext().getBean(DndCharacter.class);
 

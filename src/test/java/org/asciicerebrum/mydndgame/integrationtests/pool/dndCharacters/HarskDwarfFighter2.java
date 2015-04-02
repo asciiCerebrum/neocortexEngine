@@ -71,14 +71,17 @@ public class HarskDwarfFighter2 {
                 = new PersonalizedBodySlotSetup();
         hand1Setup.setBodySlotType("primaryHand");
         hand1Setup.setItem("standardBattleaxe");
+        hand1Setup.setIsPrimaryAttackSlot("true");
         final PersonalizedBodySlotSetup hand2Setup
                 = new PersonalizedBodySlotSetup();
         hand2Setup.setBodySlotType("secondaryHand");
         hand2Setup.setItem("standardLightWoodenShield");
+        hand2Setup.setIsPrimaryAttackSlot("false");
         final PersonalizedBodySlotSetup torsoSetup
                 = new PersonalizedBodySlotSetup();
         torsoSetup.setBodySlotType("torso");
         torsoSetup.setItem("standardStuddedLeather");
+        torsoSetup.setIsPrimaryAttackSlot("false");
 
         harsk.setBodySlotSetups(new ArrayList<EntitySetup>() {
             {

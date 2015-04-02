@@ -144,7 +144,7 @@
         <property name="observableService" ref="observableService" />
     </bean>
 
-    <bean id="entityPoolService" class="org.asciicerebrum.mydndgame.services.core.MapBasedEntityPoolService">
+    <bean id="entityPoolService" class="org.asciicerebrum.mydndgame.services.context.MapBasedEntityPoolService">
     </bean>
                                                 
 </beans>

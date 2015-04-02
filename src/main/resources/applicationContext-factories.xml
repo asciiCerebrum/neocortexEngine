@@ -7,9 +7,6 @@
     <bean id="baseAbilityEntryFactory" class="org.asciicerebrum.mydndgame.domain.factories.BaseAbilityEntryFactory">
     </bean>
 
-    <bean id="bodySlotFactory" class="org.asciicerebrum.mydndgame.domain.factories.PersonalizedBodySlotFactory">
-    </bean>
-
     <bean id="worldDateFactory" class="org.asciicerebrum.mydndgame.domain.factories.WorldDateFactory">
     </bean>
 
@@ -29,7 +26,6 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                 
     <bean id="characterFactory" class="org.asciicerebrum.mydndgame.domain.factories.DndCharacterFactory">
         <property name="baseAbilityEntryFactory" ref="baseAbilityEntryFactory" />
-        <property name="bodySlotFactory" ref="bodySlotFactory" />
         <property name="conditionFactory" ref="conditionFactory" />
         <property name="levelAdvancementFactory" ref="levelAdvancementFactory" />
         <property name="stateRegistryFactory" ref="stateRegistryFactory" />
@@ -52,14 +48,7 @@
     </bean>
             
     <bean id="campaignFactory" class="org.asciicerebrum.mydndgame.domain.factories.CampaignFactory">
-        <property name="characterFactory" ref="characterFactory" />
         <property name="combatRoundFactory" ref="combatRoundFactory" />
-        <property name="inventoryItemFactories">
-            <map>
-                <entry key="org.asciicerebrum.mydndgame.domain.setup.ArmorSetup" value-ref="armorFactory" />
-                <entry key="org.asciicerebrum.mydndgame.domain.setup.WeaponSetup" value-ref="weaponFactory" />
-            </map>
-        </property>
     </bean>
     
 </beans>

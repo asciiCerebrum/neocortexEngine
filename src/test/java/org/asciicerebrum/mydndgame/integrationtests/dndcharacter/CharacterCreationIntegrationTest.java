@@ -1,8 +1,9 @@
 package org.asciicerebrum.mydndgame.integrationtests.dndcharacter;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.factories.ArmorFactory;
 import org.asciicerebrum.mydndgame.domain.factories.DndCharacterFactory;
-import org.asciicerebrum.mydndgame.domain.factories.InventoryItemFactory;
+import org.asciicerebrum.mydndgame.domain.factories.WeaponFactory;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.setup.ArmorSetup;
 import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.HarskDwarfFighter2;
@@ -44,7 +45,10 @@ public class CharacterCreationIntegrationTest {
     private DndCharacterFactory dndCharacterFactory;
 
     @Autowired
-    private InventoryItemFactory inventoryItemFactory;
+    private ArmorFactory armorFactory;
+
+    @Autowired
+    private WeaponFactory weaponFactory;
 
     @Before
     public void setUp() {
@@ -54,15 +58,15 @@ public class CharacterCreationIntegrationTest {
         this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
                 .newEntity(HarskDwarfFighter2.getSetup()));
 
-        this.entityPoolService.registerUniqueEntity(this.inventoryItemFactory
+        this.entityPoolService.registerUniqueEntity(this.armorFactory
                 .newEntity(StandardHalfplate.getSetup()));
-        this.entityPoolService.registerUniqueEntity(this.inventoryItemFactory
+        this.entityPoolService.registerUniqueEntity(this.armorFactory
                 .newEntity(StandardStuddedLeather.getSetup()));
-        this.entityPoolService.registerUniqueEntity(this.inventoryItemFactory
+        this.entityPoolService.registerUniqueEntity(this.weaponFactory
                 .newEntity(StandardLongsword.getSetup()));
-        this.entityPoolService.registerUniqueEntity(this.inventoryItemFactory
+        this.entityPoolService.registerUniqueEntity(this.weaponFactory
                 .newEntity(StandardBattleaxe.getSetup()));
-        this.entityPoolService.registerUniqueEntity(this.inventoryItemFactory
+        this.entityPoolService.registerUniqueEntity(this.armorFactory
                 .newEntity(StandardLightWoodenShield.getSetup()));
     }
 
