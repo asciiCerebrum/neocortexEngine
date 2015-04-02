@@ -50,6 +50,42 @@ public class CombatRoundEntries {
     }
 
     /**
+     * Iterator over the uniqueIds of the participants.
+     */
+    private static class ParticipantsIterator implements Iterator<UniqueId> {
+
+        /**
+         * Subiterator for delegation.
+         */
+        private final Iterator<CombatRoundEntry> creIterator;
+
+        /**
+         * Constructor with the subiterator for delegation.
+         *
+         * @param creIteratorInput the subiterator.
+         */
+        public ParticipantsIterator(
+                final Iterator<CombatRoundEntry> creIteratorInput) {
+            this.creIterator = creIteratorInput;
+        }
+
+        @Override
+        public final boolean hasNext() {
+            return this.creIterator.hasNext();
+        }
+
+        @Override
+        public final UniqueId next() {
+            return this.creIterator.next().getParticipantId();
+        }
+
+        @Override
+        public final void remove() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+    }
+
+    /**
      * The central list of combat round entries.
      */
     private final List<CombatRoundEntry> elements
@@ -177,29 +213,7 @@ public class CombatRoundEntries {
      * @return iterator over only the characters in the combat round entries.
      */
     public final Iterator<UniqueId> participantsIterator() {
-        return new Iterator<UniqueId>() {
-
-            /**
-             * Subiterator for delegation.
-             */
-            private final Iterator<CombatRoundEntry> creIterator
-                    = elements.iterator();
-
-            @Override
-            public final boolean hasNext() {
-                return this.creIterator.hasNext();
-            }
-
-            @Override
-            public final UniqueId next() {
-                return this.creIterator.next().getParticipantId();
-            }
-
-            @Override
-            public final void remove() {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-        };
+        return new ParticipantsIterator(this.elements.iterator());
     }
 
 }
