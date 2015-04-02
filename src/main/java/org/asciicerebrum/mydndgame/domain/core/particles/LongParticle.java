@@ -111,8 +111,7 @@ public abstract class LongParticle {
      * @param doubleParticle the double particle to create the instance from.
      */
     public final void setValue(final DoubleParticle doubleParticle) {
-        this.value = Double.valueOf(Math.floor(doubleParticle.getValue()))
-                .longValue();
+        this.value = (long) Math.floor(doubleParticle.getValue());
     }
 
     /**

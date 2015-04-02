@@ -179,18 +179,24 @@ public class CombatRoundEntries {
     public final Iterator<UniqueId> participantsIterator() {
         return new Iterator<UniqueId>() {
 
+            /**
+             * Subiterator for delegation.
+             */
             private final Iterator<CombatRoundEntry> creIterator
                     = elements.iterator();
 
-            public boolean hasNext() {
+            @Override
+            public final boolean hasNext() {
                 return this.creIterator.hasNext();
             }
 
-            public UniqueId next() {
+            @Override
+            public final UniqueId next() {
                 return this.creIterator.next().getParticipantId();
             }
 
-            public void remove() {
+            @Override
+            public final void remove() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
         };

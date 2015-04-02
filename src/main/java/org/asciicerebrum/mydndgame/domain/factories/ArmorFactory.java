@@ -8,7 +8,7 @@ import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
  *
  * @author species8472
  */
-public class ArmorFactory extends InventoryItemFactory<Armor> {
+public class ArmorFactory extends InventoryItemFactory {
 
     /**
      * {@inheritDoc}

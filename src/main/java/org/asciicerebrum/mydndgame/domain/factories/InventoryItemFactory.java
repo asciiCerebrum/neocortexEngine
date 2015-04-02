@@ -17,9 +17,8 @@ import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
 /**
  *
  * @author species8472
- * @param <T> the type of the inventory item to build.
  */
-public abstract class InventoryItemFactory<T extends InventoryItem>
+public abstract class InventoryItemFactory
         implements EntityFactory<InventoryItem> {
 
     /**
