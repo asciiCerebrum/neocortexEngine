@@ -3,14 +3,13 @@ package org.asciicerebrum.mydndgame.domain.ruleentities.composition;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.asciicerebrum.mydndgame.domain.core.UniqueEntities;
-import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlot;
-import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlots;
 
 /**
  *
@@ -43,43 +42,14 @@ public class PersonalizedBodySlots implements BonusSource, ObserverSource {
     }
 
     /**
-     * Retrives all unique entities in the collection of body slots that are of
-     * a certain class.
-     *
-     * @param uniqueEntities the collection of entities to fill.
-     * @param clazz the class of the items needed.
-     * @return the filled collection of unique entities.
-     */
-    public final UniqueEntities getItemsByClass(
-            final UniqueEntities uniqueEntities, final Class clazz) {
-        for (final PersonalizedBodySlot slot : this.elements) {
-            if (clazz.isInstance(slot.getItem())) {
-                uniqueEntities.add(slot.getItem());
-            }
-        }
-        return uniqueEntities;
-    }
-
-    /**
-     * Sets the holder for all personalized body slots at once.
-     *
-     * @param uniqueEntity the holder.
-     */
-    public final void setHolder(final UniqueEntity uniqueEntity) {
-        for (final PersonalizedBodySlot bodySlot : this.elements) {
-            bodySlot.setHolder(uniqueEntity);
-        }
-    }
-
-    /**
      * Retrieves the body slot that is associated with the given item.
      *
-     * @param item the item to be found in one of the personalized body slots.
+     * @param itemId the item to be found in one of the personalized body slots.
      * @return the slot holding this item.
      */
-    public final PersonalizedBodySlot getSlotForItem(final UniqueEntity item) {
+    public final PersonalizedBodySlot getSlotForItem(final UniqueId itemId) {
         for (final PersonalizedBodySlot bodySlot : this.elements) {
-            if (bodySlot.containsItem(item)) {
+            if (bodySlot.containsItem(itemId)) {
                 return bodySlot;
             }
         }
@@ -123,24 +93,9 @@ public class PersonalizedBodySlots implements BonusSource, ObserverSource {
         return null;
     }
 
-    /**
-     * Adds a collection of normal body slots to this collection while
-     * transforming them to personalized body slots.
-     *
-     * @param bodySlots the body slots to transform and add.
-     */
-    public final void wrapSlots(final BodySlots bodySlots) {
-        final Iterator<BodySlot> slotIterator = bodySlots.iterator();
-        while (slotIterator.hasNext()) {
-            final BodySlot slot = slotIterator.next();
-            final PersonalizedBodySlot wrappedSlot = new PersonalizedBodySlot();
-            wrappedSlot.setBodySlot(slot);
-            this.add(wrappedSlot);
-        }
-    }
-
     @Override
-    public final BonusSources getBonusSources() {
+    public final BonusSources getBonusSources(
+            final UniqueEntityResolver resolver) {
         BonusSources bonusSources = new BonusSources();
 
         for (PersonalizedBodySlot bodySlot : this.elements) {

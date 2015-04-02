@@ -4,8 +4,6 @@ import org.apache.commons.lang.StringUtils;
 import org.asciicerebrum.mydndgame.domain.ruleentities.ConditionType;
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
-import org.asciicerebrum.mydndgame.domain.game.Campaign;
-import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
@@ -24,28 +22,20 @@ public class ConditionFactory implements EntityFactory<Condition> {
     private EntityFactory<WorldDate> worldDateFactory;
 
     @Override
-    public final Condition newEntity(final EntitySetup setup,
-            final Campaign campaign, final Reassignments reassignments) {
+    public final Condition newEntity(final EntitySetup setup) {
 
         if (!setup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the condition "
                     + " is not complete.");
         }
 
-        Condition condition = new Condition();
+        final Condition condition = new Condition();
 
         final String causeEntityId = setup.getProperty(
                 SetupProperty.CONDITION_CAUSE_ENTITY);
-        UniqueEntity uEntity = null;
+
         if (StringUtils.isNotBlank(causeEntityId)) {
-            uEntity = campaign.getEntityById(
-                    new UniqueId(causeEntityId));
-            condition.setCauseEntity(uEntity);
-        }
-        if (StringUtils.isNotBlank(causeEntityId) && uEntity == null) {
-            // add to list of reassignments to reassign later when cyclic
-            // dependencies are resolvable
-            reassignments.addEntry(this, setup, condition);
+            condition.setCauseEntityId(new UniqueId(causeEntityId));
         }
 
         condition.setConditionType(ApplicationContextProvider
@@ -53,21 +43,11 @@ public class ConditionFactory implements EntityFactory<Condition> {
                         setup.getProperty(SetupProperty.CONDITION_TYPE),
                         ConditionType.class));
         condition.setExpiryDate(this.getWorldDateFactory().newEntity(
-                setup.getPropertySetup(SetupProperty.CONDITION_EXPIRY_DATE),
-                campaign, reassignments));
+                setup.getPropertySetup(SetupProperty.CONDITION_EXPIRY_DATE)));
         condition.setStartingDate(this.getWorldDateFactory().newEntity(
-                setup.getPropertySetup(SetupProperty.CONDITION_START_DATE),
-                campaign, reassignments));
+                setup.getPropertySetup(SetupProperty.CONDITION_START_DATE)));
 
         return condition;
-    }
-
-    @Override
-    public final void reAssign(final EntitySetup setup, final Condition entity,
-            final Campaign campaign, final Reassignments reassignments) {
-        entity.setCauseEntity(campaign.getEntityById(
-                new UniqueId(setup.getProperty(
-                                SetupProperty.CONDITION_CAUSE_ENTITY))));
     }
 
     /**

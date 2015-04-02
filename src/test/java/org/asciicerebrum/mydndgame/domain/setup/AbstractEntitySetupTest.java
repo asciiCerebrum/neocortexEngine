@@ -132,21 +132,4 @@ public class AbstractEntitySetupTest {
         assertFalse(testResult);
     }
 
-    @Test
-    public void checkRequiredSingleSetupIncompleteTest() {
-        final SetupProperty[] requiredProps = {
-            SetupProperty.ADVANCEMENT_NUMBER};
-        this.setup.getSingleSetup().put(SetupProperty.ADVANCEMENT_NUMBER,
-                new AbstractEntitySetup() {
-
-                    public boolean isSetupComplete() {
-                        return false;
-                    }
-
-                });
-        final boolean testResult
-                = this.setup.checkRequiredSingleSetup(requiredProps);
-        assertFalse(testResult);
-    }
-
 }

@@ -40,7 +40,7 @@ public class CorrectWeaponAttackModeEvaluator implements ConditionEvaluator {
         }
 
         final WeaponCategory refAttackMode = this.getSituationContextService()
-                .getItemAttackMode(contextItem, dndCharacter);
+                .getItemAttackMode(contextItem.getUniqueId(), dndCharacter);
 
         if (refAttackMode == null) {
             return false;

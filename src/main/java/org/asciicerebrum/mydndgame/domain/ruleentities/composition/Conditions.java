@@ -7,6 +7,7 @@ import java.util.List;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 
 /**
@@ -51,7 +52,8 @@ public class Conditions implements BonusSource, ObserverSource {
     }
 
     @Override
-    public final BonusSources getBonusSources() {
+    public final BonusSources getBonusSources(
+            final UniqueEntityResolver resolver) {
         final BonusSources bonusSources = new BonusSources();
 
         for (final Condition condition : this.elements) {

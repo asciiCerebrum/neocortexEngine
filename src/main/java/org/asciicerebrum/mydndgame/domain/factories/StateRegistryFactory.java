@@ -5,8 +5,6 @@ import org.apache.commons.lang.StringUtils;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry.StateParticle;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry.StateValueType;
-import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
@@ -20,8 +18,7 @@ import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
 public class StateRegistryFactory implements EntityFactory<StateRegistry> {
 
     @Override
-    public final StateRegistry newEntity(final EntitySetup setup,
-            final Campaign campaign, final Reassignments reassignments) {
+    public final StateRegistry newEntity(final EntitySetup setup) {
 
         StateRegistry stateReg = new StateRegistry();
 
@@ -29,8 +26,7 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
                 = setup.getPropertySetups(SetupProperty.STATE_REGISTRY_ENTRY);
         if (registryEntrySetups != null) {
             for (EntitySetup entrySetup : registryEntrySetups) {
-                this.addSingleState(stateReg, entrySetup, campaign,
-                        reassignments);
+                this.addSingleState(stateReg, entrySetup);
             }
         }
 
@@ -42,13 +38,9 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
      *
      * @param stateReg the state registry to put the state in.
      * @param entrySetup the setup for the registry entry.
-     * @param campaign the campaign as the central entity map.
-     * @param reassignments the reassignment object for resolving unfound
-     * objects.
      */
     final void addSingleState(final StateRegistry stateReg,
-            final EntitySetup entrySetup, final Campaign campaign,
-            final Reassignments reassignments) {
+            final EntitySetup entrySetup) {
 
         if (!entrySetup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the state "
@@ -59,20 +51,8 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
                 = StateParticle.valueOf(entrySetup.getProperty(
                                 SetupProperty.STATE_REGISTRY_PARTICLE));
 
-        UniqueEntity contextObject = null;
         final String contextObjectId = entrySetup.getProperty(
                 SetupProperty.STATE_REGISTRY_CONTEXT_OBJECT_ID);
-        if (StringUtils.isNotBlank(contextObjectId)) {
-            contextObject = campaign.getEntityById(
-                    new UniqueId(contextObjectId));
-        }
-        if (contextObject == null
-                && StringUtils.isNotBlank(contextObjectId)) {
-            // something did not work - reassigning for later resolution
-            //TODO log this with info
-            reassignments.addEntry(this, entrySetup, stateReg);
-            return;
-        }
 
         final StateValueType stateValueType
                 = StateValueType.valueOf(entrySetup.getProperty(
@@ -81,18 +61,14 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
                 = entrySetup.getProperty(
                         SetupProperty.STATE_REGISTRY_VALUE);
 
-        stateReg.putState(particle, contextObject,
-                stateValueType.parseToType(stateValueString, campaign,
-                        ApplicationContextProvider
-                        .getApplicationContext()));
-    }
+        UniqueId uniqueId = null;
+        if (StringUtils.isNotBlank(contextObjectId)) {
+            uniqueId = new UniqueId(contextObjectId);
+        }
 
-    @Override
-    public final void reAssign(final EntitySetup setup,
-            final StateRegistry entity, final Campaign campaign,
-            final Reassignments reassignments) {
-
-        this.addSingleState(entity, setup, campaign, reassignments);
+        stateReg.putState(particle, uniqueId,
+                stateValueType.parseToType(stateValueString,
+                        ApplicationContextProvider.getApplicationContext()));
     }
 
 }

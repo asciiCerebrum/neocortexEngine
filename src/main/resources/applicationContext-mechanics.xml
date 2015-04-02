@@ -13,6 +13,7 @@
     
     <bean id="conditionExpirationWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.ConditionExpirationWorkflow">
         <property name="conditionService" ref="conditionApplicationService" />
+        <property name="entityPoolService" ref="entityPoolService" />
     </bean>
     <bean id="criticalDamageWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.CriticalDamageWorkflow">
         <property name="situationContextService" ref="situationContextService" />
@@ -38,6 +39,7 @@
         <property name="conditionApplicationService" ref="conditionApplicationService" />
         <property name="diceRollManager" ref="diceRollManager" />
         <property name="initiativeCalculationService" ref="initiativeCalculationService" />
+        <property name="entityPoolService" ref="entityPoolService" />
         <property name="flatFootedType" ref="flatFooted" />
         <property name="initiativeAction" ref="initiative" />
     </bean>

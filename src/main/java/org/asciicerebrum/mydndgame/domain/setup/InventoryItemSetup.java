@@ -22,7 +22,7 @@ public abstract class InventoryItemSetup extends AbstractEntitySetup {
     }
 
     /**
-     * @param nameInput the name to set
+     * @param nameInput the name of the prototype to set.
      */
     public final void setName(final String nameInput) {
         this.getSingleProperties().put(SetupProperty.NAME, nameInput);

@@ -1,6 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 
 /**
@@ -15,26 +14,8 @@ public interface EntityFactory<T> {
      * setup.
      *
      * @param setup the setup of the specific object to create.
-     * @param campaign the campaign as the base entity map.
-     * @param reassignments the reassignment object for resolving unfound
-     * objects.
      * @return the created instance.
      */
-    T newEntity(EntitySetup setup, Campaign campaign,
-            Reassignments reassignments);
-
-    /**
-     * Only set specific attributes that were impossible to set in the first run
-     * because of possible cyclic dependencies. But now that everything is now
-     * set up, this cycle should be resolvable.
-     *
-     * @param setup the base setup to get the properties from.
-     * @param entity the entity to reassign the yet unresolved values to.
-     * @param campaign the campaign as the base entity map.
-     * @param reassignments the reassignment object for resolving unfound
-     * objects.
-     */
-    void reAssign(EntitySetup setup, T entity, Campaign campaign,
-            Reassignments reassignments);
+    T newEntity(EntitySetup setup);
 
 }

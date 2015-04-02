@@ -1,6 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility;
@@ -78,10 +77,8 @@ public class InventoryItemFactoryTest {
     public void newEntityIncompleteTest() {
         final InventoryItemSetup setup = new InventoryItemSetup() {
         };
-        final Campaign campaign = new Campaign();
-        final Reassignments reassignments = new Reassignments();
 
-        this.factory.newEntity(setup, campaign, reassignments);
+        this.factory.newEntity(setup);
     }
 
     private void makeComplete(InventoryItemSetup setup) {
@@ -94,13 +91,11 @@ public class InventoryItemFactoryTest {
     public void newEntityCompleteTest() {
         final InventoryItemSetup setup = new InventoryItemSetup() {
         };
-        final Campaign campaign = new Campaign();
-        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
         final InventoryItem itemResult
-                = this.factory.newEntity(setup, campaign, reassignments);
+                = this.factory.newEntity(setup);
 
         assertEquals("id", itemResult.getUniqueId().getValue());
     }
@@ -109,15 +104,13 @@ public class InventoryItemFactoryTest {
     public void newEntityWithAbilitiesTest() {
         final InventoryItemSetup setup = new InventoryItemSetup() {
         };
-        final Campaign campaign = new Campaign();
-        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
         setup.addSpecialAbility("ability");
         setup.addSpecialAbility("ability");
         setup.addSpecialAbility("ability");
 
-        this.factory.newEntity(setup, campaign, reassignments);
+        this.factory.newEntity(setup);
 
         verify(this.applicationContext, times(3))
                 .getBean("ability", SpecialAbility.class);

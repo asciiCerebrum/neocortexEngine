@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.game;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 
 /**
  *
@@ -11,26 +12,12 @@ public class CombatRoundEntry {
     /**
      * The participating dnd character in this entry.
      */
-    private DndCharacter participant;
+    private UniqueId participantId;
 
     /**
      * The position associated with the participant.
      */
     private CombatRoundPosition combatRoundPosition;
-
-    /**
-     * @return the participant
-     */
-    public final DndCharacter getParticipant() {
-        return participant;
-    }
-
-    /**
-     * @param participantInput the participant to set
-     */
-    public final void setParticipant(final DndCharacter participantInput) {
-        this.participant = participantInput;
-    }
 
     /**
      * @return the combatRoundPosition
@@ -56,6 +43,20 @@ public class CombatRoundEntry {
     public final boolean isCombatRoundPosition(
             final CombatRoundPosition crPosition) {
         return this.getCombatRoundPosition().equals(crPosition);
+    }
+
+    /**
+     * @return the participantId
+     */
+    public final UniqueId getParticipantId() {
+        return participantId;
+    }
+
+    /**
+     * @param participantIdInput the participantId to set
+     */
+    public final void setParticipantId(final UniqueId participantIdInput) {
+        this.participantId = participantIdInput;
     }
 
 }

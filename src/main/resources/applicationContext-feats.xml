@@ -309,6 +309,7 @@
                             <property name="conditionEvaluator">
                                 <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectArmorProficiencyEvaluator">
                                     <property name="proficiency" ref="lightArmor" />
+                                    <property name="characterServiceFacade" ref="characterServiceFacade" />
                                 </bean>
                             </property>
                         </bean>
@@ -353,6 +354,7 @@
                             <property name="conditionEvaluator">
                                 <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectArmorProficiencyEvaluator">
                                     <property name="proficiency" ref="mediumArmor" />
+                                    <property name="characterServiceFacade" ref="characterServiceFacade" />
                                 </bean>
                             </property>
                         </bean>
@@ -397,6 +399,7 @@
                             <property name="conditionEvaluator">
                                 <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectArmorProficiencyEvaluator">
                                     <property name="proficiency" ref="heavyArmor" />
+                                    <property name="characterServiceFacade" ref="characterServiceFacade" />
                                 </bean>
                             </property>
                         </bean>
@@ -441,6 +444,7 @@
                             <property name="conditionEvaluator">
                                 <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectArmorProficiencyEvaluator">
                                     <property name="proficiency" ref="lightShieldArmor" />
+                                    <property name="characterServiceFacade" ref="characterServiceFacade" />
                                 </bean>
                             </property>
                         </bean>
@@ -485,6 +489,7 @@
                             <property name="conditionEvaluator">
                                 <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectArmorProficiencyEvaluator">
                                     <property name="proficiency" ref="heavyShieldArmor" />
+                                    <property name="characterServiceFacade" ref="characterServiceFacade" />
                                 </bean>
                             </property>
                         </bean>
@@ -529,6 +534,7 @@
                             <property name="conditionEvaluator">
                                 <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectArmorProficiencyEvaluator">
                                     <property name="proficiency" ref="towerShieldArmor" />
+                                    <property name="characterServiceFacade" ref="characterServiceFacade" />
                                 </bean>
                             </property>
                         </bean>

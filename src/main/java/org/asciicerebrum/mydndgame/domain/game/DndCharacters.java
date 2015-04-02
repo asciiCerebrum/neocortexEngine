@@ -3,6 +3,8 @@ package org.asciicerebrum.mydndgame.domain.game;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntities;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 
 /**
  *
@@ -69,6 +71,24 @@ public class DndCharacters {
      */
     public final boolean contains(final DndCharacter dndCharacter) {
         return this.elements.contains(dndCharacter);
+    }
+
+    /**
+     * Merges all dnd character class type intances of the entities collection
+     * into this collection.
+     *
+     * @param uniqueEntities the collection of potential dnd characters..
+     */
+    public final void merge(final UniqueEntities uniqueEntities) {
+        final Iterator<UniqueEntity> entityIterator
+                = uniqueEntities.iterator();
+
+        while (entityIterator.hasNext()) {
+            final UniqueEntity entity = entityIterator.next();
+            if (entity instanceof DndCharacter) {
+                this.addDndCharacter((DndCharacter) entity);
+            }
+        }
     }
 
 }

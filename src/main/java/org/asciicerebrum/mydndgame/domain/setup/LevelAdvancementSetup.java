@@ -23,7 +23,8 @@ public class LevelAdvancementSetup extends AbstractEntitySetup {
     }
 
     /**
-     * @param classLevel the class level.
+     * @param classLevel the class level. The name of the class with the level,
+     * e.g. fighter1.
      */
     public final void setClassLevel(final String classLevel) {
         this.getSingleProperties().put(SetupProperty.CLASS_LEVEL, classLevel);

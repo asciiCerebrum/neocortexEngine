@@ -5,6 +5,7 @@ import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency;
+import org.asciicerebrum.mydndgame.facades.game.CharacterServiceFacade;
 
 /**
  *
@@ -18,6 +19,11 @@ public class CorrectArmorProficiencyEvaluator implements ConditionEvaluator {
     private Proficiency proficiency;
 
     /**
+     * The service facade for the dnd character.
+     */
+    private CharacterServiceFacade characterServiceFacade;
+
+    /**
      * {@inheritDoc} Checks if the worn armor is of the given proficiency.
      */
     @Override
@@ -29,7 +35,7 @@ public class CorrectArmorProficiencyEvaluator implements ConditionEvaluator {
             return false;
         }
 
-        return dndCharacter.getArmorWorn()
+        return this.getCharacterServiceFacade().getArmorWorn(dndCharacter)
                 .containsProficiency(this.getProficiency());
     }
 
@@ -45,6 +51,21 @@ public class CorrectArmorProficiencyEvaluator implements ConditionEvaluator {
      */
     public final void setProficiency(final Proficiency proficiencyInput) {
         this.proficiency = proficiencyInput;
+    }
+
+    /**
+     * @return the characterServiceFacade
+     */
+    public final CharacterServiceFacade getCharacterServiceFacade() {
+        return characterServiceFacade;
+    }
+
+    /**
+     * @param characterServiceFacadeInput the characterServiceFacade to set
+     */
+    public final void setCharacterServiceFacade(
+            final CharacterServiceFacade characterServiceFacadeInput) {
+        this.characterServiceFacade = characterServiceFacadeInput;
     }
 
 }

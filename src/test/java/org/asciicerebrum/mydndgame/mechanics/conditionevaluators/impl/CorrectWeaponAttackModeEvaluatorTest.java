@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl;
 
 import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.Armor;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
@@ -64,9 +65,10 @@ public class CorrectWeaponAttackModeEvaluatorTest {
     public void evaluateCorrectTest() {
         final ICharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = new Weapon();
+        contextItem.setUniqueId(new UniqueId("contextItem"));
 
         when(this.situationContextService.getItemAttackMode(
-                contextItem, (DndCharacter) dndCharacter))
+                contextItem.getUniqueId(), (DndCharacter) dndCharacter))
                 .thenReturn(this.refAttackMode);
         when(this.weaponServiceFacade.isAttackModeCompatible(
                 this.refAttackMode, (Weapon) contextItem,
@@ -81,9 +83,10 @@ public class CorrectWeaponAttackModeEvaluatorTest {
     public void evaluateNullAttackModeTest() {
         final ICharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = new Weapon();
+        contextItem.setUniqueId(new UniqueId("contextItem"));
 
         when(this.situationContextService.getItemAttackMode(
-                contextItem, (DndCharacter) dndCharacter))
+                contextItem.getUniqueId(), (DndCharacter) dndCharacter))
                 .thenReturn(null);
 
         final boolean result = this.evaluator.evaluate(
@@ -97,7 +100,7 @@ public class CorrectWeaponAttackModeEvaluatorTest {
         final UniqueEntity contextItem = null;
 
         when(this.situationContextService.getItemAttackMode(
-                (UniqueEntity) anyObject(), (DndCharacter) eq(dndCharacter)))
+                (UniqueId) anyObject(), (DndCharacter) eq(dndCharacter)))
                 .thenReturn(null);
 
         final boolean result = this.evaluator.evaluate(
@@ -109,9 +112,10 @@ public class CorrectWeaponAttackModeEvaluatorTest {
     public void evaluateAllWrongTest() {
         final ICharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = new Armor();
+        contextItem.setUniqueId(new UniqueId("contextItem"));
 
         when(this.situationContextService.getItemAttackMode(
-                contextItem, (DndCharacter) dndCharacter))
+                contextItem.getUniqueId(), (DndCharacter) dndCharacter))
                 .thenReturn(null);
 
         final boolean result = this.evaluator.evaluate(
@@ -123,9 +127,10 @@ public class CorrectWeaponAttackModeEvaluatorTest {
     public void evaluateNoWeaponTest() {
         final ICharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = new Armor();
+        contextItem.setUniqueId(new UniqueId("contextItem"));
 
         when(this.situationContextService.getItemAttackMode(
-                contextItem, (DndCharacter) dndCharacter))
+                contextItem.getUniqueId(), (DndCharacter) dndCharacter))
                 .thenReturn(this.refAttackMode);
 
         final boolean result = this.evaluator.evaluate(

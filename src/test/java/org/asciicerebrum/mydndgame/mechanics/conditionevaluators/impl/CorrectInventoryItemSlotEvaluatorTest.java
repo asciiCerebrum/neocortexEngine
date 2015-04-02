@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl;
 
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
@@ -56,14 +57,14 @@ public class CorrectInventoryItemSlotEvaluatorTest {
     public void evaluateCorrectTest() {
         final DndCharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = new Weapon();
+        contextItem.setUniqueId(new UniqueId("contextItem"));
 
         final PersonalizedBodySlots pSlots = new PersonalizedBodySlots();
         final PersonalizedBodySlot pSlot = new PersonalizedBodySlot();
         final BodySlot slot = new BodySlot();
         final BodySlotType slotType = new BodySlotType();
         slot.setBodySlotType(slotType);
-        pSlot.setHolder(dndCharacter);
-        pSlot.setItem(contextItem);
+        pSlot.setItemId(contextItem.getUniqueId());
         pSlot.setBodySlot(slot);
         pSlots.add(pSlot);
         dndCharacter.setPersonalizedBodySlots(pSlots);
@@ -81,14 +82,14 @@ public class CorrectInventoryItemSlotEvaluatorTest {
     public void evaluateNoSlotTest() {
         final DndCharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = new Weapon();
+        contextItem.setUniqueId(new UniqueId("contextItem"));
 
         final PersonalizedBodySlots pSlots = new PersonalizedBodySlots();
         final PersonalizedBodySlot pSlot = new PersonalizedBodySlot();
         final BodySlot slot = new BodySlot();
         final BodySlotType slotType = new BodySlotType();
         slot.setBodySlotType(slotType);
-        pSlot.setHolder(dndCharacter);
-        pSlot.setItem(null);
+        pSlot.setItemId(null);
         pSlot.setBodySlot(slot);
         pSlots.add(pSlot);
         dndCharacter.setPersonalizedBodySlots(pSlots);

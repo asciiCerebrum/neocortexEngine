@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl;
 
 import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlot;
@@ -84,17 +85,17 @@ public class CorrectInventoryItemWieldingEvaluator
             if (bodySlot == null) {
                 return false;
             }
-            final UniqueEntity item = bodySlot.getItem();
+            final UniqueId itemId = bodySlot.getItemId();
             final PersonalizedBodySlot counterSlot
                     = bodySlots.getCounterSlotForSlot(bodySlot);
             if (counterSlot == null) {
                 return false;
             }
-            final UniqueEntity counterItem = counterSlot.getItem();
-            if (counterItem == null) {
+            final UniqueId counterItemId = counterSlot.getItemId();
+            if (counterItemId == null) {
                 return false;
             }
-            return item.equals(counterItem);
+            return itemId.equals(counterItemId);
         }
     }
 
@@ -120,7 +121,7 @@ public class CorrectInventoryItemWieldingEvaluator
         }
         return this.wieldingType.evaluate(
                 dndCharacter.getPersonalizedBodySlots()
-                .getSlotForItem(contextItem),
+                .getSlotForItem(contextItem.getUniqueId()),
                 dndCharacter.getPersonalizedBodySlots());
     }
 

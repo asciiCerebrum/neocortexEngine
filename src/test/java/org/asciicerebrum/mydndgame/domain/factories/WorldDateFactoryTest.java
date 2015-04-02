@@ -1,6 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.WorldDateSetup;
@@ -42,10 +41,8 @@ public class WorldDateFactoryTest {
     @Test(expected = SetupIncompleteException.class)
     public void newEntityIncompleteTest() {
         final WorldDateSetup setup = new WorldDateSetup();
-        final Campaign campaign = new Campaign();
-        final Reassignments reassignments = new Reassignments();
 
-        this.factory.newEntity(setup, campaign, reassignments);
+        this.factory.newEntity(setup);
     }
 
     private void makeComplete(WorldDateSetup setup) {
@@ -56,13 +53,10 @@ public class WorldDateFactoryTest {
     @Test
     public void newEntityCompleteTest() {
         final WorldDateSetup setup = new WorldDateSetup();
-        final Campaign campaign = new Campaign();
-        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
-        final WorldDate itemResult
-                = this.factory.newEntity(setup, campaign, reassignments);
+        final WorldDate itemResult = this.factory.newEntity(setup);
 
         assertEquals("1", itemResult.getCombatRoundPosition().getValue());
     }

@@ -1,6 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.game;
 
-import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry.StateValueType;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DamageType;
@@ -20,7 +19,7 @@ public class StateRegistryTest {
 
     private StateRegistry reg;
 
-    private UniqueEntity uniqueEntity;
+    private UniqueId uniqueEntity;
 
     public StateRegistryTest() {
     }
@@ -36,8 +35,7 @@ public class StateRegistryTest {
     @Before
     public void setUp() {
         this.reg = new StateRegistry();
-        this.uniqueEntity = new Weapon();
-        this.uniqueEntity.setUniqueId(new UniqueId("itemId"));
+        this.uniqueEntity = new UniqueId("itemId");
     }
 
     @After
@@ -70,7 +68,7 @@ public class StateRegistryTest {
         final StateValueType valType = this.reg.getStateValueTypeForKey(
                 StateRegistry.StateParticle.ACTIVE_ITEM);
 
-        assertEquals(StateValueType.UNIQUE_ENTITY, valType);
+        assertEquals(StateValueType.UNIQUE_ID, valType);
     }
 
     @Test

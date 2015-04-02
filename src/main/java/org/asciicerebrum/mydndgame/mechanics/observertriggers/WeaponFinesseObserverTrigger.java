@@ -85,7 +85,7 @@ public class WeaponFinesseObserverTrigger implements ObserverTriggerStrategy {
         final BooleanParticle useFinesse
                 = this.getSituationContextService().getFlagForKey(
                         this.getRegistryKey(),
-                        (DndCharacter) dndCharacter, usedWeapon);
+                        (DndCharacter) dndCharacter, usedWeapon.getUniqueId());
 
         if (!useFinesse.isValue() || !situationContextValidity) {
             return boni;

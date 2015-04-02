@@ -1,6 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.BaseAbilityEntry;
 import org.asciicerebrum.mydndgame.domain.setup.BaseAbilityEntrySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
@@ -56,10 +55,8 @@ public class BaseAbilityEntryFactoryTest {
     @Test(expected = SetupIncompleteException.class)
     public void newEntityIncompleteTest() {
         final BaseAbilityEntrySetup setup = new BaseAbilityEntrySetup();
-        final Campaign campaign = new Campaign();
-        final Reassignments reassignments = new Reassignments();
 
-        this.factory.newEntity(setup, campaign, reassignments);
+        this.factory.newEntity(setup);
     }
 
     private void makeComplete(BaseAbilityEntrySetup setup) {
@@ -70,13 +67,11 @@ public class BaseAbilityEntryFactoryTest {
     @Test
     public void newEntityCompleteTest() {
         final BaseAbilityEntrySetup setup = new BaseAbilityEntrySetup();
-        final Campaign campaign = new Campaign();
-        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
         final BaseAbilityEntry itemResult
-                = this.factory.newEntity(setup, campaign, reassignments);
+                = this.factory.newEntity(setup);
 
         assertEquals(15L, itemResult.getAbilityValue().getValue());
     }

@@ -28,10 +28,6 @@ public enum SetupProperty {
      */
     BASE_ABILITY_VALUE,
     /**
-     * The holder unique id of the personalized body slot.
-     */
-    BODY_SLOT_HOLDER,
-    /**
      * The item inside a body slot.
      */
     BODY_SLOT_ITEM,
@@ -120,10 +116,6 @@ public enum SetupProperty {
      */
     HIT_POINTS_NONLETHAL,
     /**
-     * The collection of all inventory items.
-     */
-    INVENTORY_ITEMS,
-    /**
      * The collection of level advancements of a character.
      */
     LEVEL_ADVANCEMENTS,
@@ -131,10 +123,6 @@ public enum SetupProperty {
      * The name of a character or an item.
      */
     NAME,
-    /**
-     * The collection of characters taking part in a campaign.
-     */
-    PARTICIPANT_CHARACTERS,
     /**
      * The race of a character.
      */

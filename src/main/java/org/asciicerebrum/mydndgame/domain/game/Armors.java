@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.game;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
@@ -108,5 +109,22 @@ public class Armors extends InventoryItems<Armor> {
                 new HasArmorCategoryPredicate(armorCategory), armorList);
 
         return new Armors(armorList);
+    }
+
+    /**
+     * Merges all armor class type intances of the items collection into this
+     * collection.
+     *
+     * @param items the collection of potential armor items.
+     */
+    public final void merge(final InventoryItems items) {
+        final Iterator<InventoryItem> itemIterator = items.iterator();
+
+        while (itemIterator.hasNext()) {
+            final InventoryItem item = itemIterator.next();
+            if (item instanceof Armor) {
+                this.add((Armor) item);
+            }
+        }
     }
 }

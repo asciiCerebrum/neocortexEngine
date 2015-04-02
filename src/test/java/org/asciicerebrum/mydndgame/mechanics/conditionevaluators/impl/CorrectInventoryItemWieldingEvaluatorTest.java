@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl;
 
 import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlot;
@@ -72,6 +73,7 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
     public void evaluateBothCorrectTest() {
         final DndCharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = new Weapon();
+        contextItem.setUniqueId(new UniqueId("contextItem"));
 
         final PersonalizedBodySlots pSlots = new PersonalizedBodySlots();
         final PersonalizedBodySlot pSlot = new PersonalizedBodySlot();
@@ -80,11 +82,9 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
         final BodySlot slotCounter = new BodySlot();
         slot.setCounterSlot(slotCounter);
         slotCounter.setCounterSlot(slot);
-        pSlot.setHolder(dndCharacter);
-        pSlot.setItem(contextItem);
+        pSlot.setItemId(contextItem.getUniqueId());
         pSlot.setBodySlot(slot);
-        pSlotCounter.setHolder(dndCharacter);
-        pSlotCounter.setItem(contextItem);
+        pSlotCounter.setItemId(contextItem.getUniqueId());
         pSlotCounter.setBodySlot(slotCounter);
         pSlots.add(pSlot);
         pSlots.add(pSlotCounter);
@@ -99,6 +99,7 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
     public void evaluateBothNothingInSlotTest() {
         final DndCharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = new Weapon();
+        contextItem.setUniqueId(new UniqueId("contextItem"));
 
         final PersonalizedBodySlots pSlots = new PersonalizedBodySlots();
         final PersonalizedBodySlot pSlot = new PersonalizedBodySlot();
@@ -107,11 +108,9 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
         final BodySlot slotCounter = new BodySlot();
         slot.setCounterSlot(slotCounter);
         slotCounter.setCounterSlot(slot);
-        pSlot.setHolder(dndCharacter);
-        pSlot.setItem(null);
+        pSlot.setItemId(null);
         pSlot.setBodySlot(slot);
-        pSlotCounter.setHolder(dndCharacter);
-        pSlotCounter.setItem(null);
+        pSlotCounter.setItemId(null);
         pSlotCounter.setBodySlot(slotCounter);
         pSlots.add(pSlot);
         pSlots.add(pSlotCounter);
@@ -126,6 +125,7 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
     public void evaluateBothNoCounterSlotTest() {
         final DndCharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = new Weapon();
+        contextItem.setUniqueId(new UniqueId("contextItem"));
 
         final PersonalizedBodySlots pSlots = new PersonalizedBodySlots();
         final PersonalizedBodySlot pSlot = new PersonalizedBodySlot();
@@ -134,11 +134,9 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
         final BodySlot slotCounter = new BodySlot();
         slot.setCounterSlot(null);
         slotCounter.setCounterSlot(null);
-        pSlot.setHolder(dndCharacter);
-        pSlot.setItem(contextItem);
+        pSlot.setItemId(contextItem.getUniqueId());
         pSlot.setBodySlot(slot);
-        pSlotCounter.setHolder(dndCharacter);
-        pSlotCounter.setItem(contextItem);
+        pSlotCounter.setItemId(contextItem.getUniqueId());
         pSlotCounter.setBodySlot(slotCounter);
         pSlots.add(pSlot);
         pSlots.add(pSlotCounter);
@@ -153,6 +151,7 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
     public void evaluateBothNoCounterItemTest() {
         final DndCharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = new Weapon();
+        contextItem.setUniqueId(new UniqueId("contextItem"));
 
         final PersonalizedBodySlots pSlots = new PersonalizedBodySlots();
         final PersonalizedBodySlot pSlot = new PersonalizedBodySlot();
@@ -161,11 +160,9 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
         final BodySlot slotCounter = new BodySlot();
         slot.setCounterSlot(slotCounter);
         slotCounter.setCounterSlot(slot);
-        pSlot.setHolder(dndCharacter);
-        pSlot.setItem(contextItem);
+        pSlot.setItemId(contextItem.getUniqueId());
         pSlot.setBodySlot(slot);
-        pSlotCounter.setHolder(dndCharacter);
-        pSlotCounter.setItem(null);
+        pSlotCounter.setItemId(null);
         pSlotCounter.setBodySlot(slotCounter);
         pSlots.add(pSlot);
         pSlots.add(pSlotCounter);

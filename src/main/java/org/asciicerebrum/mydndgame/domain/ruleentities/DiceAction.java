@@ -10,6 +10,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceConstant;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 
 /**
  *
@@ -167,7 +168,8 @@ public class DiceAction implements BonusSource, BonusTarget, ObserverSource {
     }
 
     @Override
-    public final BonusSources getBonusSources() {
+    public final BonusSources getBonusSources(
+            final UniqueEntityResolver resolver) {
         return BonusSources.EMPTY_BONUSSOURCES;
     }
 

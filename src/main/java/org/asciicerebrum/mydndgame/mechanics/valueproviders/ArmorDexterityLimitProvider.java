@@ -6,6 +6,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.bonus.DynamicValueProvider;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.facades.game.ArmorServiceFacade;
+import org.asciicerebrum.mydndgame.facades.game.CharacterServiceFacade;
 
 /**
  *
@@ -19,6 +20,11 @@ public class ArmorDexterityLimitProvider implements DynamicValueProvider {
     private ArmorServiceFacade armorFacade;
 
     /**
+     * The service facade for the dnd character.
+     */
+    private CharacterServiceFacade characterServiceFacade;
+
+    /**
      * {@inheritDoc} Calculate the minimum of the Maximum Dex Bonus through all
      * worn armor.
      */
@@ -27,7 +33,8 @@ public class ArmorDexterityLimitProvider implements DynamicValueProvider {
             final UniqueEntity contextItem) {
 
         return this.getArmorFacade().getMinimumMaxDexBonus(
-                ((DndCharacter) dndCharacter).getArmorWorn(),
+                this.getCharacterServiceFacade().getArmorWorn(
+                        (DndCharacter) dndCharacter),
                 (DndCharacter) dndCharacter);
     }
 
@@ -44,6 +51,21 @@ public class ArmorDexterityLimitProvider implements DynamicValueProvider {
      */
     public final ArmorServiceFacade getArmorFacade() {
         return armorFacade;
+    }
+
+    /**
+     * @return the characterServiceFacade
+     */
+    public final CharacterServiceFacade getCharacterServiceFacade() {
+        return characterServiceFacade;
+    }
+
+    /**
+     * @param characterServiceFacadeInput the characterServiceFacade to set
+     */
+    public final void setCharacterServiceFacade(
+            final CharacterServiceFacade characterServiceFacadeInput) {
+        this.characterServiceFacade = characterServiceFacadeInput;
     }
 
 }

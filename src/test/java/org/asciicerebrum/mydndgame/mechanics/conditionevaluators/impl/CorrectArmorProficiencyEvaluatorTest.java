@@ -1,11 +1,12 @@
 package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl;
 
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.Armor;
+import org.asciicerebrum.mydndgame.domain.game.Armors;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.ruleentities.ArmorPrototype;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency;
-import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlot;
-import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlots;
+import org.asciicerebrum.mydndgame.facades.game.CharacterServiceFacade;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertFalse;
@@ -13,6 +14,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  *
@@ -23,6 +26,8 @@ public class CorrectArmorProficiencyEvaluatorTest {
     private CorrectArmorProficiencyEvaluator evaluator;
 
     private Proficiency proficiency;
+    
+    private CharacterServiceFacade characterServiceFacade;
 
     public CorrectArmorProficiencyEvaluatorTest() {
     }
@@ -39,8 +44,10 @@ public class CorrectArmorProficiencyEvaluatorTest {
     public void setUp() {
         this.evaluator = new CorrectArmorProficiencyEvaluator();
         this.proficiency = new Proficiency();
+        this.characterServiceFacade = mock(CharacterServiceFacade.class);
 
         this.evaluator.setProficiency(this.proficiency);
+        this.evaluator.setCharacterServiceFacade(this.characterServiceFacade);
     }
 
     @After
@@ -51,17 +58,17 @@ public class CorrectArmorProficiencyEvaluatorTest {
     public void evaluateCorrectTest() {
         final DndCharacter dndCharacter = new DndCharacter();
         final Armor contextItem = new Armor();
+        contextItem.setUniqueId(new UniqueId("contextItem"));
 
         final ArmorPrototype armorPrototype = new ArmorPrototype();
         armorPrototype.setProficiency(this.proficiency);
         contextItem.setInventoryItemPrototype(armorPrototype);
-
-        final PersonalizedBodySlots pSlots = new PersonalizedBodySlots();
-        final PersonalizedBodySlot pSlot = new PersonalizedBodySlot();
-        pSlot.setHolder(dndCharacter);
-        pSlot.setItem(contextItem);
-        pSlots.add(pSlot);
-        dndCharacter.setPersonalizedBodySlots(pSlots);
+        
+        final Armors armors = new Armors();
+        armors.add(contextItem);
+        
+        when(this.characterServiceFacade.getArmorWorn(dndCharacter))
+                .thenReturn(armors);
 
         final boolean result = this.evaluator.evaluate(
                 dndCharacter, contextItem);

@@ -1,8 +1,8 @@
 package org.asciicerebrum.mydndgame.services.context;
 
-import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.BooleanParticle;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
@@ -24,19 +24,19 @@ public class DefaultSituationContextService implements SituationContextService {
     }
 
     @Override
-    public final WeaponCategory getItemAttackMode(final UniqueEntity item,
+    public final WeaponCategory getItemAttackMode(final UniqueId itemId,
             final DndCharacter dndCharacter) {
 
-        return dndCharacter.getStateRegistry()
-                .getState(StateRegistry.StateParticle.WEAPON_ATTACK_MODE, item);
+        return dndCharacter.getStateRegistry().getState(
+                StateRegistry.StateParticle.WEAPON_ATTACK_MODE, itemId);
     }
 
     @Override
-    public final DamageType getItemDamageType(final UniqueEntity item,
+    public final DamageType getItemDamageType(final UniqueId itemId,
             final DndCharacter dndCharacter) {
 
-        return dndCharacter.getStateRegistry()
-                .getState(StateRegistry.StateParticle.WEAPON_DAMAGE_TYPE, item);
+        return dndCharacter.getStateRegistry().getState(
+                StateRegistry.StateParticle.WEAPON_DAMAGE_TYPE, itemId);
     }
 
     @Override
@@ -44,16 +44,16 @@ public class DefaultSituationContextService implements SituationContextService {
             final StateRegistry.StateParticle stateKey,
             final DndCharacter dndCharacter) {
         return new BonusValue((Long) dndCharacter.getStateRegistry()
-                .getState(stateKey, dndCharacter));
+                .getState(stateKey, dndCharacter.getUniqueId()));
     }
 
     @Override
     public final BooleanParticle getFlagForKey(
             final StateRegistry.StateParticle stateKey,
-            final DndCharacter dndCharacter, final UniqueEntity uniqueEntity) {
+            final DndCharacter dndCharacter, final UniqueId entityId) {
         return new BooleanParticle(
                 (Boolean) dndCharacter.getStateRegistry()
-                .getState(stateKey, uniqueEntity));
+                .getState(stateKey, entityId));
     }
 
     //TODO when I load the character through deserialization, how do I know what

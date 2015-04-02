@@ -2,7 +2,6 @@ package org.asciicerebrum.mydndgame.domain.factories;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import org.asciicerebrum.mydndgame.domain.game.CombatRoundEntry;
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
@@ -61,11 +60,8 @@ public class CombatRoundFactoryTest {
     @Test
     public void newEntityCompleteTest() {
         final CombatRoundSetup setup = new CombatRoundSetup();
-        final Campaign campaign = new Campaign();
-        final Reassignments reassignments = new Reassignments();
 
-        final CombatRound result = this.factory.newEntity(setup, campaign,
-                reassignments);
+        final CombatRound result = this.factory.newEntity(setup);
 
         assertNotNull(result);
     }
@@ -73,8 +69,6 @@ public class CombatRoundFactoryTest {
     @Test
     public void newEntityWithEntriesTest() {
         final CombatRoundSetup setup = new CombatRoundSetup();
-        final Campaign campaign = new Campaign();
-        final Reassignments reassignments = new Reassignments();
 
         final List<EntitySetup> combatRoundEntries
                 = new ArrayList<EntitySetup>();
@@ -83,28 +77,24 @@ public class CombatRoundFactoryTest {
         combatRoundEntries.add(entryA);
         setup.setCombatRoundEntries(combatRoundEntries);
 
-        when(this.combatRoundEntryFactory.newEntity(entryA, campaign,
-                reassignments)).thenReturn(new CombatRoundEntry());
+        when(this.combatRoundEntryFactory.newEntity(entryA))
+                .thenReturn(new CombatRoundEntry());
 
-        this.factory.newEntity(setup, campaign, reassignments);
+        this.factory.newEntity(setup);
 
-        verify(this.combatRoundEntryFactory, times(2)).newEntity(
-                entryA, campaign, reassignments);
+        verify(this.combatRoundEntryFactory, times(2)).newEntity(entryA);
     }
 
     @Test
     public void newEntityWithDateTest() {
         final CombatRoundSetup setup = new CombatRoundSetup();
-        final Campaign campaign = new Campaign();
-        final Reassignments reassignments = new Reassignments();
 
         final EntitySetup dateSetup = new WorldDateSetup();
         setup.setCurrentDate(dateSetup);
 
-        this.factory.newEntity(setup, campaign, reassignments);
+        this.factory.newEntity(setup);
 
-        verify(this.worldDateFactory, times(1)).newEntity(
-                dateSetup, campaign, reassignments);
+        verify(this.worldDateFactory, times(1)).newEntity(dateSetup);
     }
 
 }

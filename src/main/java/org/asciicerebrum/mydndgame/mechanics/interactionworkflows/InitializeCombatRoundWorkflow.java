@@ -4,6 +4,8 @@ import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueIds;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacters;
@@ -16,6 +18,7 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Condition;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Conditions;
 import org.asciicerebrum.mydndgame.mechanics.managers.DiceRollManager;
 import org.asciicerebrum.mydndgame.services.application.ConditionApplicationService;
+import org.asciicerebrum.mydndgame.services.core.EntityPoolService;
 import org.asciicerebrum.mydndgame.services.statistics.InitiativeCalculationService;
 
 /**
@@ -48,6 +51,11 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
      * Apply conditionsn like flatfooted, etc.
      */
     private ConditionApplicationService conditionApplicationService;
+
+    /**
+     * The entity pool service.
+     */
+    private EntityPoolService entityPoolService;
 
     /**
      * {@inheritDoc}
@@ -86,13 +94,13 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
      * @param combatRound the combat round of this encounter.
      */
     final void applyFlatFooted(final CombatRound combatRound) {
-        Iterator<DndCharacter> participantIterator
+        Iterator<UniqueId> participantIterator
                 = combatRound.participantsIterator();
         while (participantIterator.hasNext()) {
-            final DndCharacter participant = participantIterator.next();
+            final UniqueId participantId = participantIterator.next();
 
             final WorldDate expiryDate = new WorldDate(
-                    combatRound.getNextParticipationDate(participant));
+                    combatRound.getNextParticipationDate(participantId));
             final WorldDate startingDate = combatRound.getCurrentDate();
 
             final Condition flatFooted = new Condition();
@@ -100,7 +108,9 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
             flatFooted.setExpiryDate(expiryDate);
             flatFooted.setStartingDate(startingDate);
 
-            this.getConditionApplicationService().applyCondition(participant,
+            this.getConditionApplicationService().applyCondition(
+                    (DndCharacter) this.getEntityPoolService()
+                    .getEntityById(participantId),
                     new Conditions(flatFooted));
         }
     }
@@ -125,7 +135,8 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
             CombatRoundPosition roundPosition
                     = new CombatRoundPosition(totalInit, initBonus);
 
-            combatRound.addParticipant(participant, roundPosition);
+            combatRound.addParticipant(participant.getUniqueId(),
+                    roundPosition);
         }
     }
 
@@ -170,9 +181,9 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
             final CombatRoundPosition newPosition
                     = new CombatRoundPosition(
                             combatRound.getPositionForParticipant(
-                                    tieParticipant), initReroll);
-            combatRound.addParticipant(
-                    tieParticipant, newPosition);
+                                    tieParticipant.getUniqueId()), initReroll);
+            combatRound.addParticipant(tieParticipant.getUniqueId(),
+                    newPosition);
         }
         return this.getTieingParticipants(combatRound);
     }
@@ -193,9 +204,13 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
         while (positionIterator.hasNext()) {
             final CombatRoundPosition roundPosition = positionIterator.next();
 
-            final DndCharacters candidates = combatRound
+            final UniqueIds candidateIds = combatRound
                     .getParticipantsForPosition(roundPosition);
-            if (candidates.hasMultipleEntries()) {
+            if (candidateIds.hasMultipleEntries()) {
+                final DndCharacters candidates = new DndCharacters();
+                candidates.merge(this.getEntityPoolService()
+                        .getEntitiesByIds(candidateIds));
+
                 tieingParticipants.addDndCharacters(candidates);
             }
         }
@@ -277,6 +292,21 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
      */
     public final ConditionApplicationService getConditionApplicationService() {
         return conditionApplicationService;
+    }
+
+    /**
+     * @return the entityPoolService
+     */
+    public final EntityPoolService getEntityPoolService() {
+        return entityPoolService;
+    }
+
+    /**
+     * @param entityPoolServiceInput the entityPoolService to set
+     */
+    public final void setEntityPoolService(
+            final EntityPoolService entityPoolServiceInput) {
+        this.entityPoolService = entityPoolServiceInput;
     }
 
 }

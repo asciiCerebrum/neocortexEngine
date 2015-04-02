@@ -3,6 +3,8 @@ package org.asciicerebrum.mydndgame.domain.game;
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueIds;
 
 /**
  *
@@ -41,9 +43,9 @@ public class CombatRound {
      *
      * @return the participant of the current move.
      */
-    public final DndCharacter getCurrentParticipant() {
+    public final UniqueId getCurrentParticipantId() {
         final WorldDate currDate = this.getCurrentDate();
-        DndCharacters currentParticipants
+        UniqueIds currentParticipants
                 = this.combatRoundEntries.getParticipantsForPosition(
                         currDate.getCombatRoundPosition());
 
@@ -53,11 +55,11 @@ public class CombatRound {
     /**
      * Tests if the given character is the current participant of the move.
      *
-     * @param dndCharacter the character in question.
+     * @param dndCharacterId the character in question.
      * @return true if it this character is on the move, false otherwise.
      */
-    public final boolean isCurrentParticipant(final DndCharacter dndCharacter) {
-        return dndCharacter.equals(this.getCurrentParticipant());
+    public final boolean isCurrentParticipant(final UniqueId dndCharacterId) {
+        return dndCharacterId.equals(this.getCurrentParticipantId());
     }
 
     /**
@@ -98,7 +100,7 @@ public class CombatRound {
      *
      * @return the iterator.
      */
-    public final Iterator<DndCharacter> participantsIterator() {
+    public final Iterator<UniqueId> participantsIterator() {
         return this.combatRoundEntries.participantsIterator();
     }
 
@@ -113,14 +115,14 @@ public class CombatRound {
      * Adds another participant to the combat round, along with its combat round
      * position.
      *
-     * @param participant the dnd character to add.
+     * @param participantId the dnd character to add.
      * @param roundPosition the position of the character within the combat
      * encounter round.
      */
-    public final void addParticipant(final DndCharacter participant,
+    public final void addParticipant(final UniqueId participantId,
             final CombatRoundPosition roundPosition) {
         final CombatRoundEntry entry = new CombatRoundEntry();
-        entry.setParticipant(participant);
+        entry.setParticipantId(participantId);
         entry.setCombatRoundPosition(roundPosition);
 
         this.combatRoundEntries.addCombatRoundEntry(entry);
@@ -130,24 +132,24 @@ public class CombatRound {
      * Retrieves the position of a given dnd character participant within the
      * combat round.
      *
-     * @param participant the participant the position is required for.
+     * @param participantId the participant the position is required for.
      * @return its position in the combat round.
      */
     public final CombatRoundPosition getPositionForParticipant(
-            final DndCharacter participant) {
-        return this.combatRoundEntries.getPositionForParticipant(participant);
+            final UniqueId participantId) {
+        return this.combatRoundEntries.getPositionForParticipant(participantId);
     }
 
     /**
      * Retrieves the upcoming next participation date of a given participant.
      *
-     * @param dndCharacter the character in question.
+     * @param dndCharacterId the character in question.
      * @return its next participation date in the queue.
      */
     public final WorldDate getNextParticipationDate(
-            final DndCharacter dndCharacter) {
+            final UniqueId dndCharacterId) {
         final CombatRoundEntry entry
-                = this.combatRoundEntries.getEntryByParticipant(dndCharacter);
+                = this.combatRoundEntries.getEntryByParticipant(dndCharacterId);
         if (entry == null) {
             return null;
         }
@@ -181,7 +183,7 @@ public class CombatRound {
      * have.
      * @return the collection of participants.
      */
-    public final DndCharacters getParticipantsForPosition(
+    public final UniqueIds getParticipantsForPosition(
             final CombatRoundPosition roundPosition) {
         return this.combatRoundEntries
                 .getParticipantsForPosition(roundPosition);

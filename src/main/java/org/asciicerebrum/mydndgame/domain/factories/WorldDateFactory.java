@@ -2,7 +2,6 @@ package org.asciicerebrum.mydndgame.domain.factories;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
-import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
@@ -15,8 +14,7 @@ import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
 public class WorldDateFactory implements EntityFactory<WorldDate> {
 
     @Override
-    public final WorldDate newEntity(final EntitySetup setup,
-            final Campaign campaign, final Reassignments reassignments) {
+    public final WorldDate newEntity(final EntitySetup setup) {
 
         if (!setup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the world date "
@@ -30,13 +28,6 @@ public class WorldDateFactory implements EntityFactory<WorldDate> {
                 setup.getProperty(SetupProperty.WORLD_DATE_ROUND_POSITION)));
 
         return worldDate;
-    }
-
-    @Override
-    public final void reAssign(final EntitySetup setup,
-            final WorldDate entity, final Campaign campaign,
-            final Reassignments reassignments) {
-        // nothing to do here
     }
 
 }

@@ -52,6 +52,7 @@
     </bean>
     <bean id="personalizedBodySlotObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.PersonalizedBodySlotObserverAccumulatorStrategy">
         <property name="itemStrategy" ref="inventoryItemObserverAccumulatorStrategy" />
+        <property name="entityPoolService" ref="entityPoolService" />
     </bean>
     <bean id="personalizedBodySlotsObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.PersonalizedBodySlotsObserverAccumulatorStrategy">
         <property name="personalizedBodySlotsStrategy" ref="personalizedBodySlotObserverAccumulatorStrategy" />
@@ -99,6 +100,7 @@
     </bean>
     <bean id="bonusCalculationService" class="org.asciicerebrum.mydndgame.services.core.DefaultBonusCalculationServiceImpl">
         <property name="observableService" ref="observableService" />
+        <property name="entityPoolService" ref="entityPoolService" />
     </bean>
     
     <bean id="abilityCalculationService" class="org.asciicerebrum.mydndgame.services.statistics.DefaultAbilityCalculationService">
@@ -141,5 +143,8 @@
     <bean id="damageApplicationService" class="org.asciicerebrum.mydndgame.services.application.DefaultDamageApplicationService">
         <property name="observableService" ref="observableService" />
     </bean>
-                
+
+    <bean id="entityPoolService" class="org.asciicerebrum.mydndgame.services.core.MapBasedEntityPoolService">
+    </bean>
+                                                
 </beans>

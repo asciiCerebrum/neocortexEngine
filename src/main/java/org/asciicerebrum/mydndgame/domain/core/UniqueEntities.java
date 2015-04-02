@@ -22,7 +22,9 @@ public abstract class UniqueEntities<T extends UniqueEntity> {
      * @param uniqueEntityInput the single entry to add.
      */
     public final void add(final T uniqueEntityInput) {
-        this.getElements().add(uniqueEntityInput);
+        if (uniqueEntityInput != null) {
+            this.getElements().add(uniqueEntityInput);
+        }
     }
 
     /**

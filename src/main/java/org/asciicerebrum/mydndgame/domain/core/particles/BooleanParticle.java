@@ -76,4 +76,9 @@ public class BooleanParticle {
                 .toHashCode();
     }
 
+    @Override
+    public final String toString() {
+        return Boolean.toString(this.isValue());
+    }
+
 }

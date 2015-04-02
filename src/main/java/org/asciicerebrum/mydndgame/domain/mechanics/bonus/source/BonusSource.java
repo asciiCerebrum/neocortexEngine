@@ -14,8 +14,10 @@ public interface BonusSource {
     Boni getBoni();
 
     /**
+     * @param resolver the service for translating the uniqueId to the
+     * corersponding entity.
      * @return the collection of bonus sources.
      */
-    BonusSources getBonusSources();
+    BonusSources getBonusSources(UniqueEntityResolver resolver);
 
 }

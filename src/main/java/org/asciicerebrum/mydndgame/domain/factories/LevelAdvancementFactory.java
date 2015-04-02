@@ -6,7 +6,6 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
 import org.asciicerebrum.mydndgame.domain.ruleentities.ClassLevel;
 import org.asciicerebrum.mydndgame.domain.core.particles.AdvancementNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
-import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
@@ -26,8 +25,7 @@ public class LevelAdvancementFactory
     private EntityFactory<Feat> featFactory;
 
     @Override
-    public final LevelAdvancement newEntity(final EntitySetup setup,
-            final Campaign campaign, final Reassignments reassignments) {
+    public final LevelAdvancement newEntity(final EntitySetup setup) {
 
         if (!setup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the level "
@@ -55,17 +53,10 @@ public class LevelAdvancementFactory
                 SetupProperty.FEAT_ADVANCEMENT);
         if (featSetup != null) {
             levelAdv.setFeatAdvancement(this.getFeatFactory().newEntity(
-                    featSetup, campaign, reassignments));
+                    featSetup));
         }
 
         return levelAdv;
-    }
-
-    @Override
-    public final void reAssign(final EntitySetup setup,
-            final LevelAdvancement entity, final Campaign campaign,
-            final Reassignments reassignments) {
-        // nothing to do here
     }
 
     /**

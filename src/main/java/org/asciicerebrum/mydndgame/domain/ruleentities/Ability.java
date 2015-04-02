@@ -8,6 +8,7 @@ import org.asciicerebrum.mydndgame.domain.core.particles.GenericName;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTarget;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 
 /**
  *
@@ -112,7 +113,8 @@ public class Ability implements BonusSource, BonusTarget, ObserverSource {
     }
 
     @Override
-    public final BonusSources getBonusSources() {
+    public final BonusSources getBonusSources(
+            final UniqueEntityResolver resolver) {
         return BonusSources.EMPTY_BONUSSOURCES;
     }
 

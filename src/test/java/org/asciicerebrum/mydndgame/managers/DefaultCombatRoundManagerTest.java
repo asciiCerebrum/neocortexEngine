@@ -131,12 +131,12 @@ public class DefaultCombatRoundManagerTest {
         interactionType.setWorkflows(flows);
 
         final CombatRoundEntry entryA = new CombatRoundEntry();
-        entryA.setParticipant(dndCharacterA);
+        entryA.setParticipantId(dndCharacterA.getUniqueId());
         entryA.setCombatRoundPosition(new CombatRoundPosition("0"));
         combatRound.addCombatRoundEntry(entryA);
 
         final CombatRoundEntry entryB = new CombatRoundEntry();
-        entryB.setParticipant(dndCharacterB);
+        entryB.setParticipantId(dndCharacterB.getUniqueId());
         entryB.setCombatRoundPosition(new CombatRoundPosition("1"));
         combatRound.addCombatRoundEntry(entryB);
 
@@ -167,12 +167,12 @@ public class DefaultCombatRoundManagerTest {
         interactionType.setWorkflows(flows);
 
         final CombatRoundEntry entryA = new CombatRoundEntry();
-        entryA.setParticipant(dndCharacterA);
+        entryA.setParticipantId(dndCharacterA.getUniqueId());
         entryA.setCombatRoundPosition(new CombatRoundPosition("0"));
         combatRound.addCombatRoundEntry(entryA);
 
         final CombatRoundEntry entryB = new CombatRoundEntry();
-        entryB.setParticipant(dndCharacterB);
+        entryB.setParticipantId(dndCharacterB.getUniqueId());
         entryB.setCombatRoundPosition(new CombatRoundPosition("1"));
         combatRound.addCombatRoundEntry(entryB);
 

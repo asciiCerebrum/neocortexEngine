@@ -12,6 +12,7 @@ import org.asciicerebrum.mydndgame.domain.core.particles.AbilityScore;
 import org.asciicerebrum.mydndgame.domain.core.particles.AdvancementNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
 import org.asciicerebrum.mydndgame.domain.ruleentities.ClassLevel;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
@@ -117,7 +118,8 @@ public class LevelAdvancements implements BonusSource, ObserverSource {
     }
 
     @Override
-    public final BonusSources getBonusSources() {
+    public final BonusSources getBonusSources(
+            final UniqueEntityResolver resolver) {
         BonusSources bonusSources = new BonusSources();
 
         for (LevelAdvancement levelAdvancement : this.elements) {

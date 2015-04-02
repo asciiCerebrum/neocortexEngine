@@ -5,6 +5,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 
 /**
  * The character class does not hold its class levels. The reference is the
@@ -79,7 +80,8 @@ public class CharacterClass implements BonusSource, ObserverSource {
     }
 
     @Override
-    public final BonusSources getBonusSources() {
+    public final BonusSources getBonusSources(
+            final UniqueEntityResolver resolver) {
         final BonusSources bonusSources = new BonusSources();
 
         bonusSources.add(this.classFeats);

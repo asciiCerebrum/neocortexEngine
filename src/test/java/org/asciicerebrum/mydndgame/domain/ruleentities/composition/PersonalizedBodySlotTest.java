@@ -5,6 +5,7 @@ import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.AttackAbility;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlot;
 import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotType;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlot.Facet;
@@ -17,6 +18,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  *
@@ -26,7 +29,9 @@ public class PersonalizedBodySlotTest {
 
     private PersonalizedBodySlot pbSlot;
 
-    private Weapon item;
+    private UniqueEntity item;
+
+    private UniqueEntityResolver resolver;
 
     public PersonalizedBodySlotTest() {
     }
@@ -45,13 +50,17 @@ public class PersonalizedBodySlotTest {
         this.item = new Weapon();
         this.item.setUniqueId(new UniqueId("item"));
 
-        this.pbSlot.setItem(this.item);
+        this.pbSlot.setItemId(this.item.getUniqueId());
 
         final BodySlot slot = new BodySlot();
         final BodySlotType type = new BodySlotType();
         slot.setBodySlotType(type);
         slot.setIsPrimaryAttackSlot(new AttackAbility(true));
         this.pbSlot.setBodySlot(slot);
+
+        this.resolver = mock(UniqueEntityResolver.class);
+        when(this.resolver.resolve(this.item.getUniqueId()))
+                .thenReturn(this.item);
     }
 
     @After
@@ -61,35 +70,33 @@ public class PersonalizedBodySlotTest {
     @Test
     public void getBonusSourcesSizeTest() {
         assertEquals(1L, Iterators.size(this.pbSlot
-                .getBonusSources().iterator()));
+                .getBonusSources(this.resolver).iterator()));
     }
 
     @Test
     public void getBonusSourcesContentTest() {
-        assertEquals(this.item, this.pbSlot.getBonusSources()
+        assertEquals(this.item, this.pbSlot.getBonusSources(this.resolver)
                 .iterator().next());
     }
 
     @Test
     public void getBonusSourcesEmptyTest() {
-        this.pbSlot.setItem(new UniqueEntity() {
-        });
+        this.pbSlot.setItemId(new UniqueId("new"));
 
         assertEquals(0L, Iterators.size(this.pbSlot
-                .getBonusSources().iterator()));
+                .getBonusSources(this.resolver).iterator()));
     }
 
     @Test
     public void containsItemEmptyNullTest() {
-        this.pbSlot.setItem(null);
+        this.pbSlot.setItemId(null);
         assertTrue(this.pbSlot.containsItem(null));
     }
 
     @Test
     public void containsItemNonEmptyNullTest() {
-        this.pbSlot.setItem(null);
-        final Weapon testItem = new Weapon();
-        testItem.setUniqueId(new UniqueId("testitem"));
+        this.pbSlot.setItemId(null);
+        final UniqueId testItem = new UniqueId("testitem");
         assertFalse(this.pbSlot.containsItem(testItem));
     }
 
@@ -135,7 +142,7 @@ public class PersonalizedBodySlotTest {
     @Test
     public void isSimilarItemBothNullTest() {
         final PersonalizedBodySlot candidate = new PersonalizedBodySlot();
-        this.pbSlot.setItem(null);
+        this.pbSlot.setItemId(null);
 
         assertTrue(Facet.ITEM.isSimilar(this.pbSlot, candidate));
     }
@@ -143,7 +150,7 @@ public class PersonalizedBodySlotTest {
     @Test
     public void isSimilarItemBothDifferentTest() {
         final PersonalizedBodySlot candidate = new PersonalizedBodySlot();
-        candidate.setItem(new Weapon());
+        candidate.setItemId(new UniqueId(""));
 
         assertFalse(Facet.ITEM.isSimilar(this.pbSlot, candidate));
     }
@@ -151,8 +158,8 @@ public class PersonalizedBodySlotTest {
     @Test
     public void isSimilarItemFirstNullTest() {
         final PersonalizedBodySlot candidate = new PersonalizedBodySlot();
-        candidate.setItem(new Weapon());
-        this.pbSlot.setItem(null);
+        candidate.setItemId(new UniqueId(""));
+        this.pbSlot.setItemId(null);
 
         assertFalse(Facet.ITEM.isSimilar(this.pbSlot, candidate));
     }

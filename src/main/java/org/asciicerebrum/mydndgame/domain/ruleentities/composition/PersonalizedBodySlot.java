@@ -1,11 +1,12 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities.composition;
 
-import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.particles.AttackAbility;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlot;
 import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotType;
 
@@ -44,11 +45,11 @@ public class PersonalizedBodySlot implements BonusSource, ObserverSource {
                             final PersonalizedBodySlot bluePrint,
                             final PersonalizedBodySlot candidate) {
                                 // both null or both equal
-                                if (bluePrint.getItem() == null) {
-                                    return candidate.getItem() == null;
+                                if (bluePrint.getItemId() == null) {
+                                    return candidate.getItemId() == null;
                                 }
-                                return bluePrint.getItem()
-                                .equals(candidate.getItem());
+                                return bluePrint.getItemId()
+                                .equals(candidate.getItemId());
                             }
                 },
         /**
@@ -85,11 +86,7 @@ public class PersonalizedBodySlot implements BonusSource, ObserverSource {
     /**
      * What item is in the body slot.
      */
-    private UniqueEntity item;
-    /**
-     * The character this slot is associated with.
-     */
-    private UniqueEntity holder;
+    private UniqueId itemId;
 
     @Override
     public final Boni getBoni() {
@@ -97,11 +94,12 @@ public class PersonalizedBodySlot implements BonusSource, ObserverSource {
     }
 
     @Override
-    public final BonusSources getBonusSources() {
+    public final BonusSources getBonusSources(
+            final UniqueEntityResolver resolver) {
         BonusSources bonusSources = new BonusSources();
 
-        if (this.item instanceof BonusSource) {
-            bonusSources.add((BonusSource) this.item);
+        if (resolver.resolve(this.itemId) instanceof BonusSource) {
+            bonusSources.add((BonusSource) resolver.resolve(this.itemId));
         }
 
         return bonusSources;
@@ -110,14 +108,14 @@ public class PersonalizedBodySlot implements BonusSource, ObserverSource {
     /**
      * Tests if the slot contains the given unique entity item.
      *
-     * @param itemInput the item to test.
+     * @param itemIdInput the item to test.
      * @return true if item was found, false otherwise.
      */
-    public final boolean containsItem(final UniqueEntity itemInput) {
-        if (this.item == null) {
-            return itemInput == null;
+    public final boolean containsItem(final UniqueId itemIdInput) {
+        if (this.itemId == null) {
+            return itemIdInput == null;
         }
-        return this.item.equals(itemInput);
+        return this.itemId.equals(itemIdInput);
     }
 
     /**
@@ -142,31 +140,17 @@ public class PersonalizedBodySlot implements BonusSource, ObserverSource {
      *
      * @return the item stored in this slot.
      */
-    public final UniqueEntity getItem() {
-        return item;
+    public final UniqueId getItemId() {
+        return itemId;
     }
 
     /**
      * Store the item in the slot.
      *
-     * @param itemInput the inventory item in question.
+     * @param itemIdInput the inventory item in question.
      */
-    public final void setItem(final UniqueEntity itemInput) {
-        this.item = itemInput;
-    }
-
-    /**
-     * @return the holder
-     */
-    public final UniqueEntity getHolder() {
-        return holder;
-    }
-
-    /**
-     * @param holderInput the holder to set
-     */
-    public final void setHolder(final UniqueEntity holderInput) {
-        this.holder = holderInput;
+    public final void setItemId(final UniqueId itemIdInput) {
+        this.itemId = itemIdInput;
     }
 
     /**

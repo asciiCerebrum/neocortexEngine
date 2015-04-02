@@ -117,7 +117,7 @@ public abstract class AbstractEntitySetup implements EntitySetup {
             final SetupProperty[] requiredProps) {
         for (SetupProperty requiredProperty : requiredProps) {
             EntitySetup setupProp = this.getPropertySetup(requiredProperty);
-            if (setupProp == null || !setupProp.isSetupComplete()) {
+            if (setupProp == null) {
                 return false;
             }
         }
@@ -137,11 +137,6 @@ public abstract class AbstractEntitySetup implements EntitySetup {
                     = this.getPropertySetups(requiredProperty);
             if (listSetupProp == null) {
                 return false;
-            }
-            for (EntitySetup setupProp : listSetupProp) {
-                if (!setupProp.isSetupComplete()) {
-                    return false;
-                }
             }
         }
         return true;

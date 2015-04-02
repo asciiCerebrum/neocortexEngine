@@ -90,7 +90,7 @@ public class DamageWorkflow implements IWorkflow {
         sourceDamage.setDamageValue(totalSourceDamage);
         sourceDamage.setWeapon((Weapon) sourceWeapon);
         sourceDamage.setDamageType(this.getSituationContextService()
-                .getItemDamageType(sourceWeapon,
+                .getItemDamageType(sourceWeapon.getUniqueId(),
                         interaction.getTriggeringCharacter()));
 
         this.getDamageApplicationService().applyDamage(

@@ -30,6 +30,11 @@ public class DefaultBonusCalculationServiceImpl
      */
     private ObservableService observableService;
 
+    /**
+     * The entity pool service.
+     */
+    private EntityPoolService entityPoolService;
+
     @Override
     public final BonusValueTuple calculateBonusValues(
             final BonusSource bonusSource, final BonusTarget bonusTarget,
@@ -90,7 +95,8 @@ public class DefaultBonusCalculationServiceImpl
         }
 
         final Iterator<BonusSource> iterator
-                = bonusSource.getBonusSources().iterator();
+                = bonusSource.getBonusSources(this.getEntityPoolService())
+                .iterator();
         while (iterator.hasNext()) {
             final BonusSource subBonusSource = iterator.next();
             if (subBonusSource == null) {
@@ -201,6 +207,21 @@ public class DefaultBonusCalculationServiceImpl
      */
     public final ObservableService getObservableService() {
         return observableService;
+    }
+
+    /**
+     * @return the entityPoolService
+     */
+    public final EntityPoolService getEntityPoolService() {
+        return entityPoolService;
+    }
+
+    /**
+     * @param entityPoolServiceInput the entityPoolService to set
+     */
+    public final void setEntityPoolService(
+            final EntityPoolService entityPoolServiceInput) {
+        this.entityPoolService = entityPoolServiceInput;
     }
 
 }

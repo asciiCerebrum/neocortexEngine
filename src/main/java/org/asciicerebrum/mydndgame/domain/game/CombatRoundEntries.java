@@ -7,6 +7,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPositions;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueIds;
 
 /**
  *
@@ -23,16 +25,16 @@ public class CombatRoundEntries {
         /**
          * The dnd character to compare the others with.
          */
-        private final DndCharacter dndCharacter;
+        private final UniqueId dndCharacterId;
 
         /**
          * Constructing the predicate with a dnd character.
          *
-         * @param dndCharacterInput the dnd character to rule them all.
+         * @param dndCharacterIdInput the dnd character to rule them all.
          */
         public IdentifyParticipantPredicate(
-                final DndCharacter dndCharacterInput) {
-            this.dndCharacter = dndCharacterInput;
+                final UniqueId dndCharacterIdInput) {
+            this.dndCharacterId = dndCharacterIdInput;
         }
 
         @Override
@@ -40,10 +42,10 @@ public class CombatRoundEntries {
             final CombatRoundEntry entry
                     = (CombatRoundEntry) object;
 
-            if (entry.getParticipant() == null) {
+            if (entry.getParticipantId() == null) {
                 return false;
             }
-            return entry.getParticipant().equals(this.dndCharacter);
+            return entry.getParticipantId().equals(this.dndCharacterId);
         }
     }
 
@@ -61,7 +63,7 @@ public class CombatRoundEntries {
      */
     public final void addCombatRoundEntry(final CombatRoundEntry crEntry) {
         final CombatRoundEntry existingCrEntry
-                = this.getEntryByParticipant(crEntry.getParticipant());
+                = this.getEntryByParticipant(crEntry.getParticipantId());
 
         if (existingCrEntry == null) {
             this.elements.add(crEntry);
@@ -74,26 +76,27 @@ public class CombatRoundEntries {
     /**
      * Retrieves the one combat round entry containing the given dnd character.
      *
-     * @param dndCharacter the dnd character in question.
+     * @param dndCharacterId the dnd character in question.
      * @return the combat round entry with this character.
      */
     public final CombatRoundEntry getEntryByParticipant(
-            final DndCharacter dndCharacter) {
+            final UniqueId dndCharacterId) {
         return (CombatRoundEntry) CollectionUtils
                 .find(this.elements,
-                        new IdentifyParticipantPredicate(dndCharacter));
+                        new IdentifyParticipantPredicate(dndCharacterId));
     }
 
     /**
      * Retrieves the one combat round position associated with the given dnd
      * character.
      *
-     * @param dndCharacter the dnd character in question.
+     * @param dndCharacterId the dnd character in question.
      * @return his / her combat round position.
      */
     public final CombatRoundPosition getPositionForParticipant(
-            final DndCharacter dndCharacter) {
-        final CombatRoundEntry entry = this.getEntryByParticipant(dndCharacter);
+            final UniqueId dndCharacterId) {
+        final CombatRoundEntry entry = this.getEntryByParticipant(
+                dndCharacterId);
         if (entry != null) {
             return entry.getCombatRoundPosition();
         }
@@ -107,14 +110,14 @@ public class CombatRoundEntries {
      * should have.
      * @return the collection of participants with that position.
      */
-    public final DndCharacters getParticipantsForPosition(
+    public final UniqueIds getParticipantsForPosition(
             final CombatRoundPosition roundPosition) {
-        DndCharacters participants = new DndCharacters();
+        UniqueIds participants = new UniqueIds();
 
         for (CombatRoundEntry crEntry : this.elements) {
 
             if (crEntry.isCombatRoundPosition(roundPosition)) {
-                participants.addDndCharacter(crEntry.getParticipant());
+                participants.add(crEntry.getParticipantId());
             }
         }
 
@@ -173,8 +176,8 @@ public class CombatRoundEntries {
      *
      * @return iterator over only the characters in the combat round entries.
      */
-    public final Iterator<DndCharacter> participantsIterator() {
-        return new Iterator<DndCharacter>() {
+    public final Iterator<UniqueId> participantsIterator() {
+        return new Iterator<UniqueId>() {
 
             private final Iterator<CombatRoundEntry> creIterator
                     = elements.iterator();
@@ -183,8 +186,8 @@ public class CombatRoundEntries {
                 return this.creIterator.hasNext();
             }
 
-            public DndCharacter next() {
-                return this.creIterator.next().getParticipant();
+            public UniqueId next() {
+                return this.creIterator.next().getParticipantId();
             }
 
             public void remove() {

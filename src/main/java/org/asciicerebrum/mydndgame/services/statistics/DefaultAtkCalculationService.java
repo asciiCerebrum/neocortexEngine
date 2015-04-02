@@ -43,13 +43,15 @@ public class DefaultAtkCalculationService implements AtkCalculationService {
                 .calculateBonusValues(new BonusSources(dndCharacter),
                         new BonusTargets(this.attackAction,
                                 this.getSituationContextService()
-                                .getItemAttackMode(weapon, dndCharacter)
+                                .getItemAttackMode(weapon.getUniqueId(),
+                                        dndCharacter)
                                 .getAssociatedAttackDiceAction()),
                         weapon,
                         new ObserverSources(dndCharacter),
                         new ObserverHooks(ObserverHook.ATTACK,
                                 this.getSituationContextService()
-                                .getItemAttackMode(weapon, dndCharacter)
+                                .getItemAttackMode(weapon.getUniqueId(),
+                                        dndCharacter)
                                 .getAssociatedDamageHook()),
                         dndCharacter
                 );

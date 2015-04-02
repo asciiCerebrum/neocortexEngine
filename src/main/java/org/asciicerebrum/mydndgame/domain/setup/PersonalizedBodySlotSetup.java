@@ -12,7 +12,7 @@ public class PersonalizedBodySlotSetup extends AbstractEntitySetup {
      */
     private static final SetupProperty[] REQUIRED_SINGLE_PROPERTIES
             = {SetupProperty.BODY_SLOT_TYPE, SetupProperty.BODY_SLOT_ITEM,
-                SetupProperty.BODY_SLOT_HOLDER};
+                SetupProperty.BODY_SLOT_PRIMARY_ATTACK};
 
     /**
      * @param itemId the item id.

@@ -1,7 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
 import org.apache.commons.lang.StringUtils;
-import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatBinding;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Feat;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
@@ -17,8 +16,7 @@ import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
 public class FeatFactory implements EntityFactory<Feat> {
 
     @Override
-    public final Feat newEntity(final EntitySetup setup,
-            final Campaign campaign, final Reassignments reassignments) {
+    public final Feat newEntity(final EntitySetup setup) {
 
         if (!setup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the feat "
@@ -45,12 +43,6 @@ public class FeatFactory implements EntityFactory<Feat> {
         }
 
         return feat;
-    }
-
-    @Override
-    public final void reAssign(final EntitySetup setup, final Feat entity,
-            final Campaign campaign, final Reassignments reassignments) {
-        // nothing to do here
     }
 
 }

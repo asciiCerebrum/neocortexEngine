@@ -2,7 +2,6 @@ package org.asciicerebrum.mydndgame.domain.factories;
 
 import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
 import org.asciicerebrum.mydndgame.domain.core.particles.AbilityScore;
-import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
@@ -17,8 +16,7 @@ public class BaseAbilityEntryFactory
         implements EntityFactory<BaseAbilityEntry> {
 
     @Override
-    public final BaseAbilityEntry newEntity(final EntitySetup setup,
-            final Campaign campaign, final Reassignments reassignments) {
+    public final BaseAbilityEntry newEntity(final EntitySetup setup) {
         BaseAbilityEntry entry = new BaseAbilityEntry();
 
         if (!setup.isSetupComplete()) {
@@ -33,13 +31,6 @@ public class BaseAbilityEntryFactory
                 SetupProperty.BASE_ABILITY_VALUE)));
 
         return entry;
-    }
-
-    @Override
-    public void reAssign(final EntitySetup setup,
-            final BaseAbilityEntry entity, final Campaign campaign,
-            final Reassignments reassignments) {
-        // nothing to do here.
     }
 
 }

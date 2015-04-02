@@ -16,6 +16,7 @@
     
     <bean id="characterServiceFacade" class="org.asciicerebrum.mydndgame.facades.game.DefaultCharacterServiceFacade">
         <property name="observableService" ref="observableService" />
+        <property name="entityPoolService" ref="entityPoolService" />
     </bean>
     
 </beans>

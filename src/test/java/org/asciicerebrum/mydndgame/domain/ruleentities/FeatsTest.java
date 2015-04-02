@@ -1,12 +1,14 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities;
 
 import com.google.common.collect.Iterators;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
 
 /**
  *
@@ -15,6 +17,8 @@ import org.junit.Test;
 public class FeatsTest {
 
     private Feats feats;
+
+    private UniqueEntityResolver resolver;
 
     public FeatsTest() {
     }
@@ -30,6 +34,7 @@ public class FeatsTest {
     @Before
     public void setUp() {
         this.feats = new Feats();
+        this.resolver = mock(UniqueEntityResolver.class);
     }
 
     @After
@@ -39,7 +44,7 @@ public class FeatsTest {
     @Test
     public void getBonusSourcesEmpty() {
         assertEquals(0L, Iterators.size(this.feats
-                .getBonusSources().iterator()));
+                .getBonusSources(this.resolver).iterator()));
     }
 
     @Test
@@ -49,7 +54,7 @@ public class FeatsTest {
         this.feats.addFeat(new Feat());
 
         assertEquals(3L, Iterators.size(this.feats
-                .getBonusSources().iterator()));
+                .getBonusSources(this.resolver).iterator()));
     }
 
 }

@@ -5,7 +5,6 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory;
 import org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities;
 import org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
-import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.ruleentities.InventoryItemPrototype;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Condition;
@@ -29,9 +28,7 @@ public abstract class InventoryItemFactory<T extends InventoryItem>
     private EntityFactory<Condition> conditionFactory;
 
     @Override
-    public final InventoryItem newEntity(
-            final EntitySetup setup, final Campaign campaign,
-            final Reassignments reassignments) {
+    public final InventoryItem newEntity(final EntitySetup setup) {
 
         if (!setup.isSetupComplete()) {
             throw new SetupIncompleteException("The setup of the inventory "
@@ -68,18 +65,11 @@ public abstract class InventoryItemFactory<T extends InventoryItem>
         }
 
         // conditions
-        this.fillConditions(setup, concreteItem, campaign, reassignments);
+        this.fillConditions(setup, concreteItem);
 
         this.finalizeCreation(concreteItem);
 
         return concreteItem;
-    }
-
-    @Override
-    public void reAssign(final EntitySetup setup,
-            final InventoryItem entity, final Campaign campaign,
-            final Reassignments reassignments) {
-        // nothing to do here.
     }
 
     /**
@@ -87,20 +77,16 @@ public abstract class InventoryItemFactory<T extends InventoryItem>
      *
      * @param setup the inventory item setup.
      * @param inventoryItem the inventory item to set up.
-     * @param campaign the campaign as the central entity map.
-     * @param reassignments the reassignment object for resolving unfound
-     * objects.
      */
     final void fillConditions(final EntitySetup setup,
-            final InventoryItem inventoryItem,
-            final Campaign campaign, final Reassignments reassignments) {
+            final InventoryItem inventoryItem) {
         final Conditions conditions = new Conditions();
         final List<EntitySetup> conditionSetups
                 = setup.getPropertySetups(SetupProperty.CONDITIONS);
         if (conditionSetups != null) {
             for (EntitySetup conditionSetup : conditionSetups) {
                 conditions.add(this.getConditionFactory()
-                        .newEntity(conditionSetup, campaign, reassignments));
+                        .newEntity(conditionSetup));
             }
             inventoryItem.setConditions(conditions);
         }

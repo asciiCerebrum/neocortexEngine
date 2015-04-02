@@ -4,6 +4,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSour
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlot;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
+import org.asciicerebrum.mydndgame.services.core.EntityPoolService;
 
 /**
  *
@@ -17,6 +18,11 @@ public class PersonalizedBodySlotObserverAccumulatorStrategy
      */
     private ObserverAccumulatorStrategy itemStrategy;
 
+    /**
+     * The entity pool service.
+     */
+    private EntityPoolService entityPoolService;
+
     @Override
     public final Observers getObservers(final ObserverSource observerSource,
             final UniqueEntity targetEntity) {
@@ -27,10 +33,11 @@ public class PersonalizedBodySlotObserverAccumulatorStrategy
         final PersonalizedBodySlot bodySlot
                 = (PersonalizedBodySlot) observerSource;
 
-        if (bodySlot.getItem() instanceof ObserverSource) {
-            observers.add(this.getItemStrategy().getObservers(
-                    (ObserverSource) bodySlot.getItem(), targetEntity));
-        }
+        final UniqueEntity bodySlotItem = this.getEntityPoolService()
+                .getEntityById(bodySlot.getItemId());
+
+        observers.add(this.getItemStrategy().getObservers(
+                (ObserverSource) bodySlotItem, targetEntity));
 
         return observers;
     }
@@ -53,6 +60,21 @@ public class PersonalizedBodySlotObserverAccumulatorStrategy
      */
     public final ObserverAccumulatorStrategy getItemStrategy() {
         return itemStrategy;
+    }
+
+    /**
+     * @return the entityPoolService
+     */
+    public final EntityPoolService getEntityPoolService() {
+        return entityPoolService;
+    }
+
+    /**
+     * @param entityPoolServiceInput the entityPoolService to set
+     */
+    public final void setEntityPoolService(
+            final EntityPoolService entityPoolServiceInput) {
+        this.entityPoolService = entityPoolServiceInput;
     }
 
 }

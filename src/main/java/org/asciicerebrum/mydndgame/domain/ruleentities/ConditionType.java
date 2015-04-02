@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities;
 
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 
 /**
  *
@@ -9,7 +10,8 @@ import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 public class ConditionType extends Feature {
 
     @Override
-    public final BonusSources getBonusSources() {
+    public final BonusSources getBonusSources(
+            final UniqueEntityResolver resolver) {
         return BonusSources.EMPTY_BONUSSOURCES;
     }
 }

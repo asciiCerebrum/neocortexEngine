@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame.domain.ruleentities.composition;
 
 import com.google.common.collect.Iterators;
 import org.asciicerebrum.mydndgame.domain.core.particles.AbilityScore;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -9,6 +10,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
 
 /**
  *
@@ -17,6 +19,8 @@ import org.junit.Test;
 public class BaseAbilitiesTest {
 
     private BaseAbilities baseAbilities;
+
+    private UniqueEntityResolver resolver;
 
     public BaseAbilitiesTest() {
     }
@@ -48,6 +52,8 @@ public class BaseAbilitiesTest {
         this.baseAbilities.addBaseAbilityEntry(entryA);
         this.baseAbilities.addBaseAbilityEntry(entryB);
         this.baseAbilities.addBaseAbilityEntry(entryC);
+
+        this.resolver = mock(UniqueEntityResolver.class);
     }
 
     @After
@@ -56,8 +62,8 @@ public class BaseAbilitiesTest {
 
     @Test
     public void getBonusSourcesTest() {
-        assertEquals(3L, Iterators.size(this.baseAbilities.getBonusSources()
-                .iterator()));
+        assertEquals(3L, Iterators.size(this.baseAbilities
+                .getBonusSources(this.resolver).iterator()));
     }
 
 }

@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities;
 
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 
 /**
  *
@@ -30,7 +31,8 @@ public class SpecialAbility extends Feature {
     }
 
     @Override
-    public final BonusSources getBonusSources() {
+    public final BonusSources getBonusSources(
+            final UniqueEntityResolver resolver) {
         final BonusSources bonusSources = new BonusSources();
 
         bonusSources.add(this.subAbilities);

@@ -20,9 +20,9 @@ public class CombatRoundTest {
 
     private CombatRound combatRound;
 
-    private DndCharacter charA;
+    private UniqueId charA;
 
-    private DndCharacter charB;
+    private UniqueId charB;
 
     public CombatRoundTest() {
     }
@@ -44,11 +44,9 @@ public class CombatRoundTest {
         currentDate.setCombatRoundPosition(new CombatRoundPosition("1"));
         this.combatRound.setCurrentDate(currentDate);
 
-        this.charA = new DndCharacter();
-        this.charA.setUniqueId(new UniqueId("charA"));
+        this.charA = new UniqueId("charA");
 
-        this.charB = new DndCharacter();
-        this.charB.setUniqueId(new UniqueId("charB"));
+        this.charB = new UniqueId("charB");
 
         this.combatRound.addParticipant(this.charA,
                 new CombatRoundPosition("1"));
@@ -91,7 +89,7 @@ public class CombatRoundTest {
     @Test
     public void getNextParticipationDateUnknownTest() {
         assertNull(this.combatRound.getNextParticipationDate(
-                new DndCharacter()));
+                new UniqueId("unknown")));
     }
 
     @Test

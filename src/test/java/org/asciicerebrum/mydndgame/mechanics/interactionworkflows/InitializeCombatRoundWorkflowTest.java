@@ -8,11 +8,12 @@ import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacters;
-import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
 import org.asciicerebrum.mydndgame.domain.ruleentities.ConditionType;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
 import org.asciicerebrum.mydndgame.mechanics.managers.DiceRollManager;
 import org.asciicerebrum.mydndgame.services.application.ConditionApplicationService;
+import org.asciicerebrum.mydndgame.services.core.EntityPoolService;
+import org.asciicerebrum.mydndgame.services.core.MapBasedEntityPoolService;
 import org.asciicerebrum.mydndgame.services.statistics.InitiativeCalculationService;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -32,7 +33,6 @@ import static org.mockito.Mockito.when;
 public class InitializeCombatRoundWorkflowTest {
 
     private InitializeCombatRoundWorkflow wf;
-    private Interaction interaction;
     private DiceRollManager drManager;
     private DiceAction initiativeAction;
     private ConditionType flatFootedType;
@@ -40,6 +40,7 @@ public class InitializeCombatRoundWorkflowTest {
     private ConditionApplicationService conditionService;
     private DndCharacter positiveCharacter;
     private DndCharacter negativeCharacter;
+    private EntityPoolService entityPoolService;
 
     public InitializeCombatRoundWorkflowTest() {
     }
@@ -55,19 +56,19 @@ public class InitializeCombatRoundWorkflowTest {
     @Before
     public void setUp() {
         this.wf = new InitializeCombatRoundWorkflow();
-        this.interaction = mock(Interaction.class);
         this.drManager = mock(DiceRollManager.class);
         this.initiativeAction = mock(DiceAction.class);
         this.flatFootedType = mock(ConditionType.class);
         this.initService = mock(InitiativeCalculationService.class);
         this.conditionService = mock(ConditionApplicationService.class);
+        this.entityPoolService = new MapBasedEntityPoolService();
 
         this.wf.setConditionApplicationService(this.conditionService);
         this.wf.setDiceRollManager(this.drManager);
         this.wf.setFlatFootedType(this.flatFootedType);
         this.wf.setInitiativeAction(this.initiativeAction);
         this.wf.setInitiativeCalculationService(this.initService);
-
+        this.wf.setEntityPoolService(this.entityPoolService);
     }
 
     @After
@@ -76,16 +77,18 @@ public class InitializeCombatRoundWorkflowTest {
 
     @Test
     public void rollInitiativeTest() {
-        final Iterator<DndCharacter> characterIterator = mock(Iterator.class);
+        final DndCharacters characters = new DndCharacters();
         final CombatRound combatRound = new CombatRound();
 
-        when(characterIterator.hasNext()).thenReturn(Boolean.TRUE, Boolean.TRUE,
-                Boolean.FALSE);
         final DndCharacter characterA = new DndCharacter();
         characterA.setUniqueId(new UniqueId("A"));
         final DndCharacter characterB = new DndCharacter();
         characterA.setUniqueId(new UniqueId("B"));
-        when(characterIterator.next()).thenReturn(characterA, characterB);
+        characters.addDndCharacter(characterA);
+        characters.addDndCharacter(characterB);
+        
+        this.entityPoolService.registerUniqueEntity(characterA);
+        this.entityPoolService.registerUniqueEntity(characterB);
 
         when(this.initService.calcInitBonus(characterA))
                 .thenReturn(new BonusValue(3));
@@ -94,12 +97,12 @@ public class InitializeCombatRoundWorkflowTest {
         when(this.drManager.rollDice(this.initiativeAction))
                 .thenReturn(new DiceRoll(0L));
 
-        this.wf.rollInitiative(characterIterator, combatRound);
+        this.wf.rollInitiative(characters.iterator(), combatRound);
 
-        Iterator<DndCharacter> dndIt = combatRound.participantsIterator();
+        final Iterator<UniqueId> dndIt = combatRound.participantsIterator();
         dndIt.next();
 
-        assertEquals(characterB, dndIt.next());
+        assertEquals(characterB.getUniqueId(), dndIt.next());
     }
 
     private CombatRound setupCombatRound() {
@@ -111,11 +114,16 @@ public class InitializeCombatRoundWorkflowTest {
         this.negativeCharacter = new DndCharacter();
         this.negativeCharacter.setUniqueId(new UniqueId("C"));
 
-        combatRound.addParticipant(this.positiveCharacter,
+        combatRound.addParticipant(this.positiveCharacter.getUniqueId(),
                 new CombatRoundPosition("a"));
-        combatRound.addParticipant(this.negativeCharacter,
+        combatRound.addParticipant(this.negativeCharacter.getUniqueId(),
                 new CombatRoundPosition("c"));
-        combatRound.addParticipant(characterB, new CombatRoundPosition("a"));
+        combatRound.addParticipant(characterB.getUniqueId(),
+                new CombatRoundPosition("a"));
+
+        this.entityPoolService.registerUniqueEntity(characterB);
+        this.entityPoolService.registerUniqueEntity(this.positiveCharacter);
+        this.entityPoolService.registerUniqueEntity(this.negativeCharacter);
 
         return combatRound;
     }
@@ -143,11 +151,11 @@ public class InitializeCombatRoundWorkflowTest {
         furtherCharacter.setUniqueId(new UniqueId("D"));
         tieingParticipants.addDndCharacter(furtherCharacter);
 
-        cRound.addParticipant(furtherCharacter,
+        cRound.addParticipant(furtherCharacter.getUniqueId(),
                 new CombatRoundPosition("c"));
         // the positive character is already there but has to get another
         // position to not interfere with the tieing of the others.
-        cRound.addParticipant(this.positiveCharacter,
+        cRound.addParticipant(this.positiveCharacter.getUniqueId(),
                 new CombatRoundPosition("xyz"));
 
         return tieingParticipants;

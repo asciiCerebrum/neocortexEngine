@@ -50,7 +50,7 @@ public class DefaultCombatRoundManager implements CombatRoundManager {
 
         // reject when it's not the characters turn.
         if (!campaign.getCombatRound().isCurrentParticipant(
-                interaction.getTriggeringCharacter())) {
+                interaction.getTriggeringCharacter().getUniqueId())) {
             return;
         }
 

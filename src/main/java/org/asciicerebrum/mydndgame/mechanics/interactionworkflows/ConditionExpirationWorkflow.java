@@ -2,10 +2,12 @@ package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 import java.util.Iterator;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
 import org.asciicerebrum.mydndgame.services.application.ConditionApplicationService;
+import org.asciicerebrum.mydndgame.services.core.EntityPoolService;
 
 /**
  *
@@ -19,6 +21,11 @@ public class ConditionExpirationWorkflow implements IWorkflow {
     private ConditionApplicationService conditionService;
 
     /**
+     * The entity pool service.
+     */
+    private EntityPoolService entityPoolService;
+
+    /**
      * {@inheritDoc} It checks all conditions of all participants if they expire
      * in this new combat round position and unregisters them.
      */
@@ -27,12 +34,14 @@ public class ConditionExpirationWorkflow implements IWorkflow {
 
         final CombatRound combatRound = interaction.getCombatRound();
 
-        final Iterator<DndCharacter> iterator
+        final Iterator<UniqueId> iterator
                 = combatRound.participantsIterator();
         while (iterator.hasNext()) {
-            final DndCharacter participant = iterator.next();
+            final UniqueId participantId = iterator.next();
 
-            this.getConditionService().removeExpiredConditions(participant,
+            this.getConditionService().removeExpiredConditions(
+                    (DndCharacter) this.getEntityPoolService()
+                    .getEntityById(participantId),
                     combatRound.getCurrentDate());
         }
     }
@@ -50,6 +59,21 @@ public class ConditionExpirationWorkflow implements IWorkflow {
      */
     public final ConditionApplicationService getConditionService() {
         return conditionService;
+    }
+
+    /**
+     * @return the entityPoolService
+     */
+    public final EntityPoolService getEntityPoolService() {
+        return entityPoolService;
+    }
+
+    /**
+     * @param entityPoolServiceInput the entityPoolService to set
+     */
+    public final void setEntityPoolService(
+            final EntityPoolService entityPoolServiceInput) {
+        this.entityPoolService = entityPoolServiceInput;
     }
 
 }

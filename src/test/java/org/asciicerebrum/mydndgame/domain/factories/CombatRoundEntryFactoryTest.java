@@ -1,9 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
-import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.CombatRoundEntry;
-import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.setup.CombatRoundEntrySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.junit.After;
@@ -21,8 +18,6 @@ public class CombatRoundEntryFactoryTest {
 
     private CombatRoundEntryFactory factory;
 
-    private Campaign campaign;
-
     public CombatRoundEntryFactoryTest() {
     }
 
@@ -37,7 +32,6 @@ public class CombatRoundEntryFactoryTest {
     @Before
     public void setUp() {
         this.factory = new CombatRoundEntryFactory();
-        this.campaign = new Campaign();
     }
 
     @After
@@ -47,9 +41,8 @@ public class CombatRoundEntryFactoryTest {
     @Test(expected = SetupIncompleteException.class)
     public void newEntityIncompleteTest() {
         final CombatRoundEntrySetup setup = new CombatRoundEntrySetup();
-        final Reassignments reassignments = new Reassignments();
 
-        this.factory.newEntity(setup, this.campaign, reassignments);
+        this.factory.newEntity(setup);
     }
 
     private void makeComplete(CombatRoundEntrySetup setup) {
@@ -60,12 +53,11 @@ public class CombatRoundEntryFactoryTest {
     @Test
     public void newEntityCompleteTest() {
         final CombatRoundEntrySetup setup = new CombatRoundEntrySetup();
-        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
         final CombatRoundEntry result
-                = this.factory.newEntity(setup, this.campaign, reassignments);
+                = this.factory.newEntity(setup);
 
         assertEquals("posA", result.getCombatRoundPosition().getValue());
     }
@@ -73,17 +65,13 @@ public class CombatRoundEntryFactoryTest {
     @Test
     public void newEntityWithParticipantTest() {
         final CombatRoundEntrySetup setup = new CombatRoundEntrySetup();
-        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
-        final DndCharacter participant = new DndCharacter();
-        participant.setUniqueId(new UniqueId("participantId"));
-        this.campaign.registerUniqueEntity(participant);
 
         final CombatRoundEntry result
-                = this.factory.newEntity(setup, this.campaign, reassignments);
+                = this.factory.newEntity(setup);
 
-        assertEquals(participant, result.getParticipant());
+        assertEquals("participantId", result.getParticipantId().getValue());
     }
 
 }

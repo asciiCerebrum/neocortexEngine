@@ -204,11 +204,12 @@ public class WeaponFinesseObserverTriggerTest {
         final DndCharacter dndCharacter = new DndCharacter();
         final Boni boni = new Boni();
         final Weapon weapon = new Weapon();
+        weapon.setUniqueId(new UniqueId("weapon"));
 
         final BooleanParticle booleanParticle = new BooleanParticle(false);
 
         when(this.situationContextService.getFlagForKey(
-                this.stateParticle, dndCharacter, weapon))
+                this.stateParticle, dndCharacter, weapon.getUniqueId()))
                 .thenReturn(booleanParticle);
 
         final SizeCategory size = new SizeCategory();
@@ -232,12 +233,13 @@ public class WeaponFinesseObserverTriggerTest {
         final DndCharacter dndCharacter = new DndCharacter();
         final Boni boni = new Boni();
         final Weapon weapon = new Weapon();
+        weapon.setUniqueId(new UniqueId("weapon"));
         weapon.setInventoryItemPrototype(new WeaponPrototype());
 
         final BooleanParticle booleanParticle = new BooleanParticle(true);
 
         when(this.situationContextService.getFlagForKey(
-                this.stateParticle, dndCharacter, weapon))
+                this.stateParticle, dndCharacter, weapon.getUniqueId()))
                 .thenReturn(booleanParticle);
 
         final SizeCategory size = new SizeCategory();

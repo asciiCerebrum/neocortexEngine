@@ -6,7 +6,8 @@ import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
-import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 
 /**
  *
@@ -22,7 +23,7 @@ public class Condition implements BonusSource, ObserverSource {
     /**
      * Who is responsible for the effect of this condition.
      */
-    private UniqueEntity causeEntity;
+    private UniqueId causeEntityId;
 
     /**
      * Beginning date of this condition.
@@ -76,32 +77,33 @@ public class Condition implements BonusSource, ObserverSource {
         this.expiryDate = expiryDateInput;
     }
 
-    /**
-     * @return the causeEntity
-     */
-    public final UniqueEntity getCauseEntity() {
-        return causeEntity;
-    }
-
-    /**
-     * @param causeEntityInput the causeEntity to set
-     */
-    public final void setCauseEntity(final UniqueEntity causeEntityInput) {
-        this.causeEntity = causeEntityInput;
-    }
-
     @Override
     public final Boni getBoni() {
         return Boni.EMPTY_BONI;
     }
 
     @Override
-    public final BonusSources getBonusSources() {
+    public final BonusSources getBonusSources(
+            final UniqueEntityResolver resolver) {
         final BonusSources bonusSources = new BonusSources();
 
         bonusSources.add(this.conditionType);
 
         return bonusSources;
+    }
+
+    /**
+     * @return the causeEntityId
+     */
+    public final UniqueId getCauseEntityId() {
+        return causeEntityId;
+    }
+
+    /**
+     * @param causeEntityIdInput the causeEntityId to set
+     */
+    public final void setCauseEntityId(final UniqueId causeEntityIdInput) {
+        this.causeEntityId = causeEntityIdInput;
     }
 
 }

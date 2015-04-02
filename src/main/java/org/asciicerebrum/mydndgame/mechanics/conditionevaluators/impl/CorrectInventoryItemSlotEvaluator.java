@@ -31,7 +31,7 @@ public class CorrectInventoryItemSlotEvaluator implements ConditionEvaluator {
 
         final PersonalizedBodySlot bodySlot
                 = dndCharacter.getPersonalizedBodySlots()
-                .getSlotForItem(contextItem);
+                .getSlotForItem(contextItem.getUniqueId());
 
         if (bodySlot == null) {
             return false;

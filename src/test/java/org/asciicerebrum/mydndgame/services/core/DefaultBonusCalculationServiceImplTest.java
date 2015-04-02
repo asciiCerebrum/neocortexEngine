@@ -34,6 +34,8 @@ public class DefaultBonusCalculationServiceImplTest {
 
     private ObservableService observableService;
 
+    private EntityPoolService entityPoolService;
+
     public DefaultBonusCalculationServiceImplTest() {
     }
 
@@ -49,8 +51,10 @@ public class DefaultBonusCalculationServiceImplTest {
     public void setUp() {
         this.bonusCalcService = new DefaultBonusCalculationServiceImpl();
         this.observableService = mock(ObservableService.class);
+        this.entityPoolService = mock(EntityPoolService.class);
 
         this.bonusCalcService.setObservableService(this.observableService);
+        this.bonusCalcService.setEntityPoolService(this.entityPoolService);
     }
 
     @After
@@ -64,7 +68,7 @@ public class DefaultBonusCalculationServiceImplTest {
         final Bonus bonus = new Bonus();
         boni.addBonus(bonus);
         when(bonusSource.getBoni()).thenReturn(boni);
-        when(bonusSource.getBonusSources())
+        when(bonusSource.getBonusSources(this.entityPoolService))
                 .thenReturn(BonusSources.EMPTY_BONUSSOURCES);
 
         final UniqueEntity uniqueEnity = new DndCharacter();
@@ -91,12 +95,13 @@ public class DefaultBonusCalculationServiceImplTest {
         subBonusSources.add(null);
         subBonusSources.add(subBonusSourceB);
 
-        when(bonusSource.getBonusSources()).thenReturn(subBonusSources);
+        when(bonusSource.getBonusSources(this.entityPoolService))
+                .thenReturn(subBonusSources);
         when(subBonusSourceA.getBoni()).thenReturn(boniA);
-        when(subBonusSourceA.getBonusSources())
+        when(subBonusSourceA.getBonusSources(this.entityPoolService))
                 .thenReturn(BonusSources.EMPTY_BONUSSOURCES);
         when(subBonusSourceB.getBoni()).thenReturn(boniB);
-        when(subBonusSourceB.getBonusSources())
+        when(subBonusSourceB.getBonusSources(this.entityPoolService))
                 .thenReturn(BonusSources.EMPTY_BONUSSOURCES);
 
         final UniqueEntity uniqueEnity = new DndCharacter();

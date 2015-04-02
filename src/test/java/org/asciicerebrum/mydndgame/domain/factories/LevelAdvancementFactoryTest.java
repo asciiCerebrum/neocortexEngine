@@ -1,6 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Feat;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.LevelAdvancement;
@@ -64,10 +63,8 @@ public class LevelAdvancementFactoryTest {
     @Test(expected = SetupIncompleteException.class)
     public void newEntityIncompleteTest() {
         final EntitySetup setup = new LevelAdvancementSetup();
-        final Campaign campaign = new Campaign();
-        final Reassignments reassignments = new Reassignments();
 
-        this.factory.newEntity(setup, campaign, reassignments);
+        this.factory.newEntity(setup);
     }
 
     private void makeComplete(LevelAdvancementSetup setup) {
@@ -79,13 +76,11 @@ public class LevelAdvancementFactoryTest {
     @Test
     public void newEntityCompleteTest() {
         final LevelAdvancementSetup setup = new LevelAdvancementSetup();
-        final Campaign campaign = new Campaign();
-        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
         final LevelAdvancement lvlAdvResult
-                = this.factory.newEntity(setup, campaign, reassignments);
+                = this.factory.newEntity(setup);
 
         assertEquals(2L, lvlAdvResult.getAdvNumber().getValue());
     }
@@ -93,12 +88,10 @@ public class LevelAdvancementFactoryTest {
     @Test
     public void newEntityWithoutAbilityTest() {
         final LevelAdvancementSetup setup = new LevelAdvancementSetup();
-        final Campaign campaign = new Campaign();
-        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
 
-        this.factory.newEntity(setup, campaign, reassignments);
+        this.factory.newEntity(setup);
 
         verify(this.applicationContext, times(0))
                 .getBean(anyString(), eq(Ability.class));
@@ -107,13 +100,11 @@ public class LevelAdvancementFactoryTest {
     @Test
     public void newEntityWithAbilityTest() {
         final LevelAdvancementSetup setup = new LevelAdvancementSetup();
-        final Campaign campaign = new Campaign();
-        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
         setup.setAbilityAdvancement("abilityId");
 
-        this.factory.newEntity(setup, campaign, reassignments);
+        this.factory.newEntity(setup);
 
         verify(this.applicationContext, times(1))
                 .getBean("abilityId", Ability.class);
@@ -122,17 +113,14 @@ public class LevelAdvancementFactoryTest {
     @Test
     public void newEntityWithFeatTest() {
         final LevelAdvancementSetup setup = new LevelAdvancementSetup();
-        final Campaign campaign = new Campaign();
-        final Reassignments reassignments = new Reassignments();
 
         this.makeComplete(setup);
         final EntitySetup featSetup = new FeatSetup();
         setup.setFeatAdvancement(featSetup);
 
-        this.factory.newEntity(setup, campaign, reassignments);
+        this.factory.newEntity(setup);
 
-        verify(this.featFactory, times(1))
-                .newEntity(featSetup, campaign, reassignments);
+        verify(this.featFactory, times(1)).newEntity(featSetup);
     }
 
 }

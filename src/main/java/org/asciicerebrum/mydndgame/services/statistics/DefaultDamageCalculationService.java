@@ -46,13 +46,15 @@ public class DefaultDamageCalculationService
                         new BonusSources(dndCharacter),
                         new BonusTargets(this.damageAction,
                                 this.getSituationContextService()
-                                .getItemAttackMode(weapon, dndCharacter)
+                                .getItemAttackMode(weapon.getUniqueId(),
+                                        dndCharacter)
                                 .getAssociatedAttackDiceAction()),
                         weapon,
                         new ObserverSources(dndCharacter),
                         new ObserverHooks(ObserverHook.DAMAGE,
                                 this.getSituationContextService()
-                                .getItemAttackMode(weapon, dndCharacter)
+                                .getItemAttackMode(weapon.getUniqueId(),
+                                        dndCharacter)
                                 .getAssociatedDamageHook()),
                         dndCharacter
                 );

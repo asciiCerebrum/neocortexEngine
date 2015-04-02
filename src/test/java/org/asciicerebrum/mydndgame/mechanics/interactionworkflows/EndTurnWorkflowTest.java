@@ -1,8 +1,8 @@
 package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
-import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
 import org.junit.After;
@@ -52,7 +52,7 @@ public class EndTurnWorkflowTest {
         final Interaction interaction = new Interaction();
         final CombatRound combatRound = new CombatRound();
         interaction.setCombatRound(combatRound);
-        combatRound.addParticipant(new DndCharacter(),
+        combatRound.addParticipant(new UniqueId("character"),
                 new CombatRoundPosition("1"));
 
         this.endFlow.runWorkflow(interaction);
@@ -64,7 +64,7 @@ public class EndTurnWorkflowTest {
         final Interaction interaction = new Interaction();
         final CombatRound combatRound = new CombatRound();
         interaction.setCombatRound(combatRound);
-        combatRound.addParticipant(new DndCharacter(),
+        combatRound.addParticipant(new UniqueId("character"),
                 new CombatRoundPosition("1"));
         this.endFlow.setConditionExpirationWorkflow(null);
         this.endFlow.runWorkflow(interaction);

@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame.domain.ruleentities.composition;
 
 import com.google.common.collect.Iterators;
 import org.asciicerebrum.mydndgame.domain.core.particles.AdvancementNumber;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
 import org.junit.After;
@@ -11,6 +12,7 @@ import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
 
 /**
  *
@@ -23,6 +25,8 @@ public class LevelAdvancementsTest {
     private Ability refAbility;
 
     private LevelAdvancement lvlAdvB;
+
+    private UniqueEntityResolver resolver;
 
     public LevelAdvancementsTest() {
     }
@@ -55,6 +59,8 @@ public class LevelAdvancementsTest {
         this.levelAdvancements.add(lvlAdvA);
         this.levelAdvancements.add(this.lvlAdvB);
         this.levelAdvancements.add(lvlAdvC);
+
+        this.resolver = mock(UniqueEntityResolver.class);
     }
 
     @After
@@ -64,7 +70,7 @@ public class LevelAdvancementsTest {
     @Test
     public void getBonusSourcesTest() {
         assertEquals(3L, Iterators.size(this.levelAdvancements
-                .getBonusSources().iterator()));
+                .getBonusSources(this.resolver).iterator()));
     }
 
     @Test

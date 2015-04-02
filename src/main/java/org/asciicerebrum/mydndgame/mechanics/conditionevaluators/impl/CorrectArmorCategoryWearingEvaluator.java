@@ -5,6 +5,7 @@ import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.ruleentities.ArmorCategory;
+import org.asciicerebrum.mydndgame.facades.game.CharacterServiceFacade;
 
 /**
  *
@@ -19,6 +20,11 @@ public class CorrectArmorCategoryWearingEvaluator
     private ArmorCategory armorCategory;
 
     /**
+     * The service facade for the dnd character.
+     */
+    private CharacterServiceFacade characterServiceFacade;
+
+    /**
      * {@inheritDoc} Checks if the character wears armor of the given category.
      */
     @Override
@@ -30,7 +36,7 @@ public class CorrectArmorCategoryWearingEvaluator
             return false;
         }
 
-        return dndCharacter.getArmorWorn()
+        return this.getCharacterServiceFacade().getArmorWorn(dndCharacter)
                 .containsArmorCategory(this.armorCategory);
     }
 
@@ -47,6 +53,21 @@ public class CorrectArmorCategoryWearingEvaluator
     public final void setArmorCategory(
             final ArmorCategory armorCategoryInput) {
         this.armorCategory = armorCategoryInput;
+    }
+
+    /**
+     * @return the characterServiceFacade
+     */
+    public final CharacterServiceFacade getCharacterServiceFacade() {
+        return characterServiceFacade;
+    }
+
+    /**
+     * @param characterServiceFacadeInput the characterServiceFacade to set
+     */
+    public final void setCharacterServiceFacade(
+            final CharacterServiceFacade characterServiceFacadeInput) {
+        this.characterServiceFacade = characterServiceFacadeInput;
     }
 
 }

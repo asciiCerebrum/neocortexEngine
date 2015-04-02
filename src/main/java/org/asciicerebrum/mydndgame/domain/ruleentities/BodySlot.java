@@ -9,7 +9,8 @@ import org.asciicerebrum.mydndgame.domain.core.particles.AttackAbility;
 public class BodySlot {
 
     /**
-     * The type of the body slot.
+     * The type of the body slot. E.g. primary hand, secondary hand, torso,
+     * claw, tail, etc.
      */
     private BodySlotType bodySlotType;
     /**

@@ -17,19 +17,22 @@
             </bean>
         </property>
     </bean>
-    
+
     <bean id="armorsArmorCheckPenaltyBonus" class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus" scope="prototype">
         <property name="bonusType" ref="armorsArmorCheckPenalty" />
         <property name="target" ref="attack" />
         <property name="dynamicValueProvider">
-            <bean class="org.asciicerebrum.mydndgame.valueproviders.ArmorCheckPenaltyProvider">
+            <bean class="org.asciicerebrum.mydndgame.mechanics.valueproviders.ArmorCheckPenaltyProvider">
                 <property name="armorCategory" ref="armor" />
+                <property name="armorFacade" ref="armorServiceFacade" />
+                <property name="characterServiceFacade" ref="characterServiceFacade" />
             </bean>
         </property>
         <property name="conditionEvaluator">
             <!-- armor worn -->
             <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectArmorCategoryWearingEvaluator">
                 <property name="armorCategory" ref="armor" />
+                <property name="characterServiceFacade" ref="characterServiceFacade" />
             </bean>
         </property>
     </bean>
@@ -41,12 +44,14 @@
             <bean class="org.asciicerebrum.mydndgame.mechanics.valueproviders.ArmorCheckPenaltyProvider">
                 <property name="armorCategory" ref="shield" />
                 <property name="armorFacade" ref="armorServiceFacade" />
+                <property name="characterServiceFacade" ref="characterServiceFacade" />
             </bean>
         </property>
         <property name="conditionEvaluator">
             <!-- shield worn -->
             <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectArmorCategoryWearingEvaluator">
                 <property name="armorCategory" ref="shield" />
+                <property name="characterServiceFacade" ref="characterServiceFacade" />
             </bean>
         </property>
     </bean>

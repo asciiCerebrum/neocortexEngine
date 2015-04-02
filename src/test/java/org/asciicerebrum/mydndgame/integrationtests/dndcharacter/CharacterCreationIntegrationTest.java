@@ -1,167 +1,77 @@
 package org.asciicerebrum.mydndgame.integrationtests.dndcharacter;
 
-import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotType;
-import org.asciicerebrum.mydndgame.domain.setup.ArmorSetup;
-import org.asciicerebrum.mydndgame.domain.setup.WeaponSetup;
-import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.factories.DndCharacterFactory;
+import org.asciicerebrum.mydndgame.domain.factories.InventoryItemFactory;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.setup.ArmorSetup;
+import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.HarskDwarfFighter2;
+import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.ValerosHumanFighter1;
+import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.StandardHalfplate;
+import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.StandardLightWoodenShield;
+import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.StandardStuddedLeather;
+import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.StandardBattleaxe;
+import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.StandardLongsword;
+import org.asciicerebrum.mydndgame.services.core.EntityPoolService;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
  * @author species8472
  */
 @Category(IntegrationTest.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"/applicationContext.xml"})
 public class CharacterCreationIntegrationTest {
 
-    private static final String CLASS_FIGHTER = "fighter";
-    private static final String FEAT_WEAPON_FINESSE = "weaponFinesse";
-    private static final String AXE4HARSK_ID = "battleAxeHarsk";
-    private static final String BASTARD4HARSK_ID = "bastardSwordHarsk";
-    private static final String RAPIER4VALEROS_ID = "rapierValeros";
-    private static final String DAGGER4VALEROS_ID = "mwkRapierValeros";
-    private static final String PRIMARY_HAND_TYPE = "primaryHand";
-    private static final String TORSO_TYPE = "torso";
-    private static final String SECONDARY_HAND_TYPE = "secondaryHand";
-    private static final String CHAINMAIL4VALEROS_ID = "chainmailValeros";
-    private static final String STUDDEDLEATHER4HARSK_ID = "studdedLeatherHarsk";
-
-    private DndCharacter harsk;
-    private DndCharacter valeros;
-
-    private BodySlotType primaryHand;
-    private BodySlotType secondaryHand;
-    private BodySlotType torso;
-
-    private WeaponCategory meleeAttackMode;
-    private WeaponCategory rangedAttackMode;
-
+    @Autowired
     private ApplicationContext context;
+
+    @Autowired
+    private EntityPoolService entityPoolService;
+
+    @Autowired
+    private DndCharacterFactory dndCharacterFactory;
+
+    @Autowired
+    private InventoryItemFactory inventoryItemFactory;
 
     @Before
     public void setUp() {
-        this.context = new ClassPathXmlApplicationContext(
-                new String[]{"applicationContext.xml"});
 
-        // instance of bean factory to add new beans programmatically, e.g.
-        // all the weapons!
-        ConfigurableListableBeanFactory beanFactory
-                = ((ConfigurableApplicationContext) this.context)
-                .getBeanFactory();
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(ValerosHumanFighter1.getSetup()));
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(HarskDwarfFighter2.getSetup()));
 
-        WeaponSetup axe4HarskSetup = new WeaponSetup();
-        axe4HarskSetup.setId(AXE4HARSK_ID);
-        axe4HarskSetup.setName("battleaxe");
-        axe4HarskSetup.setSizeCategory("medium");
-//        Weapon axe4Harsk
-//                = new WeaponFactory(axe4HarskSetup, this.context).build();
+        this.entityPoolService.registerUniqueEntity(this.inventoryItemFactory
+                .newEntity(StandardHalfplate.getSetup()));
+        this.entityPoolService.registerUniqueEntity(this.inventoryItemFactory
+                .newEntity(StandardStuddedLeather.getSetup()));
+        this.entityPoolService.registerUniqueEntity(this.inventoryItemFactory
+                .newEntity(StandardLongsword.getSetup()));
+        this.entityPoolService.registerUniqueEntity(this.inventoryItemFactory
+                .newEntity(StandardBattleaxe.getSetup()));
+        this.entityPoolService.registerUniqueEntity(this.inventoryItemFactory
+                .newEntity(StandardLightWoodenShield.getSetup()));
+    }
 
-        WeaponSetup bastard4HarskSetup = new WeaponSetup();
-        bastard4HarskSetup.setId(BASTARD4HARSK_ID);
-        bastard4HarskSetup.setName("bastardsword");
-        bastard4HarskSetup.setSizeCategory("medium");
-//        IWeapon bastard4Harsk
-//                = new WeaponFactory(bastard4HarskSetup, this.context).build();
+    @Test
+    public void harskName() {
+        final String id = ((DndCharacter) this.entityPoolService.getEntityById(
+                new UniqueId("harsk"))).getUniqueId().getValue();
 
-        ArmorSetup studdedLeather4HarskSetup = new ArmorSetup();
-        studdedLeather4HarskSetup.setId(STUDDEDLEATHER4HARSK_ID);
-        studdedLeather4HarskSetup.setName("studdedLeather");
-        studdedLeather4HarskSetup.setSizeCategory("medium");
-//        IArmor studdedLeather4Harsk = new ArmorFactory(
-//                studdedLeather4HarskSetup, this.context).build();
-
-        WeaponSetup rapier4ValerosSetup = new WeaponSetup();
-        rapier4ValerosSetup.setId(RAPIER4VALEROS_ID);
-        rapier4ValerosSetup.setName("rapier");
-        rapier4ValerosSetup.setSizeCategory("medium");
-//        IWeapon rapier4Valeros
-//                = new WeaponFactory(rapier4ValerosSetup, this.context).build();
-
-        WeaponSetup dagger4ValerosSetup = new WeaponSetup();
-        dagger4ValerosSetup.setId(DAGGER4VALEROS_ID);
-        dagger4ValerosSetup.setName("dagger");
-        dagger4ValerosSetup.setSizeCategory("medium");
-//        dagger4ValerosSetup.getSpecialAbilities().add("masterworkWeapon");
-//        IWeapon dagger4Valeros
-//                = new WeaponFactory(dagger4ValerosSetup, this.context).build();
-
-        ArmorSetup chainmail4ValerosSetup = new ArmorSetup();
-        chainmail4ValerosSetup.setId(CHAINMAIL4VALEROS_ID);
-        chainmail4ValerosSetup.setName("chainmail");
-        chainmail4ValerosSetup.setSizeCategory("medium");
-//        chainmail4ValerosSetup.getSpecialAbilities().add("masterworkArmor");
-//        IArmor chainmail4Valeros = new ArmorFactory(chainmail4ValerosSetup,
-//                this.context).build();
-
-//        beanFactory.registerSingleton(AXE4HARSK_ID, axe4Harsk);
-//        beanFactory.registerSingleton(BASTARD4HARSK_ID, bastard4Harsk);
-//        beanFactory.registerSingleton(RAPIER4VALEROS_ID, rapier4Valeros);
-//        beanFactory.registerSingleton(DAGGER4VALEROS_ID, dagger4Valeros);
-//        beanFactory.registerSingleton(CHAINMAIL4VALEROS_ID, chainmail4Valeros);
-//        beanFactory.registerSingleton(STUDDEDLEATHER4HARSK_ID,
-//                studdedLeather4Harsk);
-//        CharacterSetup setupHarsk = new CharacterSetup(this.context);
-//        setupHarsk.setName("Harsk");
-//        setupHarsk.setRace("dwarf");
-//        setupHarsk.getBaseAbilityMap().put("str", 14L);
-//        setupHarsk.getBaseAbilityMap().put("dex", 11L);
-//        setupHarsk.getBaseAbilityMap().put("con", 13L);
-//        setupHarsk.getBaseAbilityMap().put("int", 10L);
-//        setupHarsk.getBaseAbilityMap().put("wis", 10L);
-//        setupHarsk.getBaseAbilityMap().put("cha", 8L);
-//        setupHarsk.getLevelAdvancementStack().add(
-//                new LevelAdvancement()
-//                .setClassName(CLASS_FIGHTER)
-//                .setFeatName("powerAttack"));
-//        setupHarsk.getLevelAdvancementStack().add(
-//                new LevelAdvancement()
-//                .setClassName(CLASS_FIGHTER)
-//                .setFeatName("improvedInitiative")
-//                .setHpAddition(7L));
-//        setupHarsk.getPossessionContainer().put(AXE4HARSK_ID, PRIMARY_HAND_TYPE);
-//        setupHarsk.getPossessionContainer().put(BASTARD4HARSK_ID, "secondaryHand");
-//        setupHarsk.getPossessionContainer().put(STUDDEDLEATHER4HARSK_ID, "torso");
-//        setupHarsk.getStateRegistry().put("powerAttackValue", 1L); // first parameter is the stateKey, which is defined in the feat bean, as well as the type of the value - here Long
-//        CharacterSetup setupValeros = new CharacterSetup(this.context);
-//        setupValeros.setName("Valeros");
-//        setupValeros.setRace("human");
-//        setupValeros.getBaseAbilityMap().put("str", 14L);
-//        setupValeros.getBaseAbilityMap().put("dex", 9L);
-//        setupValeros.getBaseAbilityMap().put("con", 14L);
-//        setupValeros.getBaseAbilityMap().put("int", 9L);
-//        setupValeros.getBaseAbilityMap().put("wis", 11L);
-//        setupValeros.getBaseAbilityMap().put("cha", 10L);
-//        setupValeros.getLevelAdvancementStack().add(
-//                new LevelAdvancement()
-//                .setClassName(CLASS_FIGHTER)
-//                .setFeatName(FEAT_WEAPON_FINESSE));
-//        setupValeros.getPossessionContainer().put(RAPIER4VALEROS_ID, PRIMARY_HAND_TYPE);
-//        setupValeros.getPossessionContainer().put(DAGGER4VALEROS_ID, "secondaryHand");
-//        setupValeros.getPossessionContainer().put(CHAINMAIL4VALEROS_ID, "torso");
-//        setupValeros.getStateRegistry().put("weaponFinesseMode." + RAPIER4VALEROS_ID, "true"); // this must not be directly saved at the weapon; stateKey and value type Weapon (or String?)
-//        setupValeros.getStateRegistry().put("weaponFinesseMode." + DAGGER4VALEROS_ID, "true");
-//        setupValeros.getStateRegistry().put("weaponDamageType." + DAGGER4VALEROS_ID, "slashing");
-        this.primaryHand = this.context.getBean(PRIMARY_HAND_TYPE,
-                BodySlotType.class);
-        this.secondaryHand = this.context.getBean(SECONDARY_HAND_TYPE,
-                BodySlotType.class);
-        this.torso = this.context.getBean(TORSO_TYPE, BodySlotType.class);
-
-        this.meleeAttackMode = this.context.getBean("meleeWeapon", WeaponCategory.class);
-        this.rangedAttackMode = this.context.getBean("rangedWeapon", WeaponCategory.class);
-
-//        this.harsk
-//                = new DndCharacterFactory(setupHarsk, this.context).build();
-//        this.valeros
-//                = new DndCharacterFactory(setupValeros, this.context).build();
+        assertEquals("harsk", id);
     }
 
     @Test

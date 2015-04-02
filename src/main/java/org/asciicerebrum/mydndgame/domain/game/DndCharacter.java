@@ -9,6 +9,7 @@ import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatBindings;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
@@ -211,7 +212,8 @@ public class DndCharacter extends UniqueEntity implements ICharacter,
     }
 
     @Override
-    public final BonusSources getBonusSources() {
+    public final BonusSources getBonusSources(
+            final UniqueEntityResolver resolver) {
         final BonusSources bonusSources = new BonusSources();
 
         bonusSources.add(this.baseAbilities);
@@ -236,21 +238,6 @@ public class DndCharacter extends UniqueEntity implements ICharacter,
      */
     public final SizeCategory getBaseSize() {
         return this.race.getSize();
-    }
-
-    /**
-     * All armor the character is currently wearing.
-     *
-     * @return the collection of armor.
-     */
-    public final Armors getArmorWorn() {
-        final PersonalizedBodySlots personalizedSlots
-                = this.getPersonalizedBodySlots();
-        final Armors armors = new Armors();
-        if (personalizedSlots == null) {
-            return armors;
-        }
-        return (Armors) personalizedSlots.getItemsByClass(armors, Armor.class);
     }
 
     /**

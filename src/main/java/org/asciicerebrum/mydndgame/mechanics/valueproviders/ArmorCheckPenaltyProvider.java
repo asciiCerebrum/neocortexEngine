@@ -7,6 +7,7 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.ArmorCategory;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.facades.game.ArmorServiceFacade;
+import org.asciicerebrum.mydndgame.facades.game.CharacterServiceFacade;
 
 /**
  *
@@ -25,6 +26,11 @@ public class ArmorCheckPenaltyProvider implements DynamicValueProvider {
     private ArmorServiceFacade armorFacade;
 
     /**
+     * The service facade for the dnd character.
+     */
+    private CharacterServiceFacade characterServiceFacade;
+
+    /**
      * {@inheritDoc} Collects the armor of the given category and returns the
      * minimum check penalty. The lowest value counts!
      */
@@ -37,7 +43,8 @@ public class ArmorCheckPenaltyProvider implements DynamicValueProvider {
         }
 
         return this.getArmorFacade().getMinimumArmorCheckPenalty(
-                ((DndCharacter) dndCharacter).getArmorWorn()
+                this.getCharacterServiceFacade().getArmorWorn(
+                        (DndCharacter) dndCharacter)
                 .filterByArmorCateogry(this.getArmorCategory()),
                 (DndCharacter) dndCharacter);
     }
@@ -70,6 +77,21 @@ public class ArmorCheckPenaltyProvider implements DynamicValueProvider {
      */
     public final ArmorServiceFacade getArmorFacade() {
         return armorFacade;
+    }
+
+    /**
+     * @return the characterServiceFacade
+     */
+    public final CharacterServiceFacade getCharacterServiceFacade() {
+        return characterServiceFacade;
+    }
+
+    /**
+     * @param characterServiceFacadeInput the characterServiceFacade to set
+     */
+    public final void setCharacterServiceFacade(
+            final CharacterServiceFacade characterServiceFacadeInput) {
+        this.characterServiceFacade = characterServiceFacadeInput;
     }
 
 }

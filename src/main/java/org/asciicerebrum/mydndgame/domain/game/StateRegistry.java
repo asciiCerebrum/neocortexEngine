@@ -5,7 +5,6 @@ import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,7 +67,6 @@ public class StateRegistry {
         BOOLEAN {
                     @Override
                     public Object parseToType(final String input,
-                            final Campaign campaign,
                             final ApplicationContext context) {
                         return Boolean.valueOf(input);
                     }
@@ -79,7 +77,6 @@ public class StateRegistry {
         STRING {
                     @Override
                     public Object parseToType(final String input,
-                            final Campaign campaign,
                             final ApplicationContext context) {
                         return input;
                     }
@@ -90,7 +87,6 @@ public class StateRegistry {
         LONG {
                     @Override
                     public Object parseToType(final String input,
-                            final Campaign campaign,
                             final ApplicationContext context) {
                         return Long.valueOf(input);
                     }
@@ -98,12 +94,11 @@ public class StateRegistry {
         /**
          * A unique entity used.
          */
-        UNIQUE_ENTITY {
+        UNIQUE_ID {
                     @Override
                     public Object parseToType(final String input,
-                            final Campaign campaign,
                             final ApplicationContext context) {
-                        return campaign.getEntityById(new UniqueId(input));
+                        return new UniqueId(input);
                     }
                 },
         /**
@@ -112,7 +107,6 @@ public class StateRegistry {
         BEAN {
                     @Override
                     public Object parseToType(final String input,
-                            final Campaign campaign,
                             final ApplicationContext context) {
                         return context.getBean(input);
                     }
@@ -122,12 +116,11 @@ public class StateRegistry {
          * Parses a string input to its corresponding object instance.
          *
          * @param input the input to parse to an object.
-         * @param campaign the campaign the object is valid for.
          * @param context the application context.
          * @return the parsed object.
          */
         public abstract Object parseToType(final String input,
-                final Campaign campaign, final ApplicationContext context);
+                final ApplicationContext context);
     }
 
     /**
@@ -153,7 +146,7 @@ public class StateRegistry {
         /**
          * The object whose state is to be described.
          */
-        private final UniqueEntity contextObject;
+        private final UniqueId contextObjectId;
 
         /**
          * Constructing the state key out of the particle and the unique entity.
@@ -161,12 +154,12 @@ public class StateRegistry {
          * @param key the particle for a better description of the state.
          * Sometimes the entit itself is not enough because it can have
          * different states for different aspects of it.
-         * @param contextObjectInput the object to describe the state for.
+         * @param contextObjectIdInput the object to describe the state for.
          */
         private StateRegistryKey(final StateParticle key,
-                final UniqueEntity contextObjectInput) {
+                final UniqueId contextObjectIdInput) {
             this.stateParticle = key;
-            this.contextObject = contextObjectInput;
+            this.contextObjectId = contextObjectIdInput;
         }
 
         @Override
@@ -180,7 +173,7 @@ public class StateRegistry {
             StateRegistryKey oKey = (StateRegistryKey) o;
             return new EqualsBuilder()
                     .append(this.stateParticle, oKey.stateParticle)
-                    .append(this.contextObject, oKey.contextObject)
+                    .append(this.contextObjectId, oKey.contextObjectId)
                     .isEquals();
         }
 
@@ -189,7 +182,7 @@ public class StateRegistry {
             return new HashCodeBuilder(INITIAL_NON_ZERO_ODD_NUMBER,
                     MULTIPLIER_NON_ZERO_ODD_NUMBER)
                     .append(this.stateParticle)
-                    .append(this.contextObject)
+                    .append(this.contextObjectId)
                     .toHashCode();
         }
     }
@@ -216,13 +209,13 @@ public class StateRegistry {
      * registry.
      *
      * @param particle the particle describing the state.
-     * @param contextObject the unique entity which is affected by the state.
+     * @param contextObjectId the unique entity which is affected by the state.
      * @param stateValue the value of the state.
      */
     public final void putState(final StateParticle particle,
-            final UniqueEntity contextObject, final Object stateValue) {
+            final UniqueId contextObjectId, final Object stateValue) {
         final StateRegistryKey key
-                = new StateRegistryKey(particle, contextObject);
+                = new StateRegistryKey(particle, contextObjectId);
         this.stateMap.put(key, stateValue);
     }
 
@@ -231,13 +224,13 @@ public class StateRegistry {
      *
      * @param <T> The type of the object which is to be retrieved.
      * @param particle the particle describing the state.
-     * @param contextObject the unique entity affected.
+     * @param contextObjectId the unique entity affected.
      * @return the state value.
      */
     public final <T> T getState(final StateParticle particle,
-            final UniqueEntity contextObject) {
+            final UniqueId contextObjectId) {
         final StateRegistryKey key
-                = new StateRegistryKey(particle, contextObject);
+                = new StateRegistryKey(particle, contextObjectId);
         Object stateKey = this.stateMap.get(key);
         if (stateKey != null) {
             return (T) stateKey;
@@ -258,13 +251,14 @@ public class StateRegistry {
      * Used for the serialization of the state registry entries.
      *
      * @param particle the particle component of the registry key.
-     * @param contextObject the contextual object component of the registry key.
+     * @param contextObjectId the contextual object component of the registry
+     * key.
      * @return the type of the state value.
      */
     public final StateValueType getStateValueTypeForKey(
-            final StateParticle particle, final UniqueEntity contextObject) {
+            final StateParticle particle, final UniqueId contextObjectId) {
         final StateRegistryKey key
-                = new StateRegistryKey(particle, contextObject);
+                = new StateRegistryKey(particle, contextObjectId);
         final Object value = this.stateMap.get(key);
 
         try {
@@ -275,8 +269,8 @@ public class StateRegistry {
             LOG.warn("Class of type {} could not be transformed to a state "
                     + "value. Trying to use the fallback of a unique entity.",
                     value.getClass().getSimpleName(), iae);
-            if (value instanceof UniqueEntity) {
-                return StateValueType.UNIQUE_ENTITY;
+            if (value instanceof UniqueId) {
+                return StateValueType.UNIQUE_ID;
             }
         }
         // it is not possible to determine whether an object is a bean or not.

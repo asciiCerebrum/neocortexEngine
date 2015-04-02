@@ -1,8 +1,8 @@
 package org.asciicerebrum.mydndgame.services.context;
 
-import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.BooleanParticle;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
@@ -26,23 +26,23 @@ public interface SituationContextService {
     /**
      * Retrieves the attack mode of the given item from the situation context.
      *
-     * @param item the item the attack mode is needed for.
+     * @param itemId the item the attack mode is needed for.
      * @param dndCharacter the character giving the context.
      * @return the attack mode of that item in the context of the given
      * character.
      */
-    WeaponCategory getItemAttackMode(UniqueEntity item,
+    WeaponCategory getItemAttackMode(UniqueId itemId,
             DndCharacter dndCharacter);
 
     /**
      * Retrieves the damage type of the given item from the situation context.
      *
-     * @param item the item the damage type is needed for.
+     * @param itemId the item the damage type is needed for.
      * @param dndCharacter the character giving the context.
      * @return the damage type of that item in the context of the given
      * character.
      */
-    DamageType getItemDamageType(UniqueEntity item,
+    DamageType getItemDamageType(UniqueId itemId,
             DndCharacter dndCharacter);
 
     /**
@@ -61,9 +61,9 @@ public interface SituationContextService {
      *
      * @param stateKey the key of the state of interest.
      * @param dndCharacter the character giving the context.
-     * @param uniqueEntity the unique entity defining the key further.
+     * @param entityId the unique entity defining the key further.
      * @return the boolean value of that key.
      */
     BooleanParticle getFlagForKey(StateRegistry.StateParticle stateKey,
-            DndCharacter dndCharacter, UniqueEntity uniqueEntity);
+            DndCharacter dndCharacter, UniqueId entityId);
 }
