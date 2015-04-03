@@ -1,5 +1,8 @@
 package org.asciicerebrum.mydndgame.integrationtests.dndcharacter;
 
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
+import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.factories.ArmorFactory;
 import org.asciicerebrum.mydndgame.domain.factories.DndCharacterFactory;
@@ -7,13 +10,11 @@ import org.asciicerebrum.mydndgame.domain.factories.WeaponFactory;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.setup.ArmorSetup;
 import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.HarskDwarfFighter2;
-import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.ValerosHumanFighter1;
-import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.StandardHalfplate;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.StandardLightWoodenShield;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.StandardStuddedLeather;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.StandardBattleaxe;
-import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.StandardLongsword;
 import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
+import org.asciicerebrum.mydndgame.services.statistics.HpCalculationService;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -33,7 +34,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @Category(IntegrationTest.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
-public class CharacterCreationIntegrationTest {
+public class CharacterPropertiesHarskIntegrationTest {
 
     @Autowired
     private ApplicationContext context;
@@ -50,46 +51,55 @@ public class CharacterCreationIntegrationTest {
     @Autowired
     private WeaponFactory weaponFactory;
 
+    @Autowired
+    private HpCalculationService hpCalculationService;
+
+    private UniqueId harskId;
+
     @Before
     public void setUp() {
 
         this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
-                .newEntity(ValerosHumanFighter1.getSetup()));
-        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
                 .newEntity(HarskDwarfFighter2.getSetup()));
 
         this.entityPoolService.registerUniqueEntity(this.armorFactory
-                .newEntity(StandardHalfplate.getSetup()));
-        this.entityPoolService.registerUniqueEntity(this.armorFactory
                 .newEntity(StandardStuddedLeather.getSetup()));
-        this.entityPoolService.registerUniqueEntity(this.weaponFactory
-                .newEntity(StandardLongsword.getSetup()));
         this.entityPoolService.registerUniqueEntity(this.weaponFactory
                 .newEntity(StandardBattleaxe.getSetup()));
         this.entityPoolService.registerUniqueEntity(this.armorFactory
                 .newEntity(StandardLightWoodenShield.getSetup()));
+
+        this.harskId = new UniqueId("harsk");
     }
 
     @Test
-    public void harskName() {
-        final String id = ((DndCharacter) this.entityPoolService.getEntityById(
-                new UniqueId("harsk"))).getUniqueId().getValue();
+    public void harskNameTest() {
+        final String id = ((DndCharacter) this.entityPoolService
+                .getEntityById(this.harskId)).getUniqueId().getValue();
 
         assertEquals("harsk", id);
     }
 
     @Test
-    public void harskMaxHp() {
-//        assertEquals(Long.valueOf(19), this.harsk.getMaxHp());
-        fail();
+    public void harskMaxHpTest() {
+        final HitPoints result = this.hpCalculationService
+                .calcMaxHp((DndCharacter) this.entityPoolService
+                        .getEntityById(this.harskId));
+
+        // lvl 1 fighter: 10 + con mod 2 (con 15)
+        // lvl 2: 6 + con mod 2
+        assertEquals(20L, result.getValue());
     }
 
     @Test
-    public void harskBaseAtk1() {
-//        assertEquals(Long.valueOf(2),
-//                this.harsk.getBaseAtkBoni().get(0).getDynamicValueProvider()
-//                .getDynamicValue(this.harsk));
-        fail();
+    public void harskBaseAtk1Test() {
+        final BonusValueTuple result
+                = ((DndCharacter) this.entityPoolService
+                .getEntityById(this.harskId)).getBaseAtkBoni();
+
+        // lvl 2 fighter: 2 (no other boni apply here!)
+        assertEquals(2L,
+                result.getBonusValueByRank(BonusRank.RANK_0).getValue());
     }
 
     @Test
