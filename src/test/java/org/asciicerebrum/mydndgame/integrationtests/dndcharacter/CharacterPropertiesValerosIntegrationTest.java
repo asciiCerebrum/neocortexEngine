@@ -123,4 +123,26 @@ public class CharacterPropertiesValerosIntegrationTest {
         assertEquals(17L, ac.getValue());
     }
 
+    @Test
+    public void valerosAcFlatFootedTest() {
+        final ArmorClass ac = this.acCalculationService.calcAcFlatFooted(
+                ((DndCharacter) this.entityPoolService
+                .getEntityById(this.valerosId)));
+
+        // dex 15: +2 NOT GRANTED HERE
+        // mwk chainmail: +5 (and no extra armor bonus for mwk!)
+        assertEquals(15L, ac.getValue());
+    }
+
+    @Test
+    public void valerosAcTouchTest() {
+        final ArmorClass ac = this.acCalculationService.calcAcTouch(
+                ((DndCharacter) this.entityPoolService
+                .getEntityById(this.valerosId)));
+
+        // dex 15: +2
+        // mwk chainmail: +5 (and no extra armor bonus for mwk!) NOT GRANTED!!!
+        assertEquals(12L, ac.getValue());
+    }
+
 }

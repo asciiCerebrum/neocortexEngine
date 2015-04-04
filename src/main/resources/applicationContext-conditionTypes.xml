@@ -18,7 +18,7 @@
                         Any situation that denies you your Dexterity bonus also denies you dodge bonuses.
                         But a dexterity penalty still applies! -->
                         <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
-                            <property name="hook" value="AC" />
+                            <property name="hook" value="AC_BASE" />
                             <property name="triggerStrategy">
                                 <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.RemoveBonusObserverTrigger">
                                     <property name="removeBonus">

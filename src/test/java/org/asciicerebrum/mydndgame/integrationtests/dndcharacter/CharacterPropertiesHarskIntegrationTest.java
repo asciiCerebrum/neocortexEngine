@@ -56,7 +56,7 @@ public class CharacterPropertiesHarskIntegrationTest {
 
     @Autowired
     private HpCalculationService hpCalculationService;
-    
+
     @Autowired
     private AcCalculationService acCalculationService;
 
@@ -124,7 +124,7 @@ public class CharacterPropertiesHarskIntegrationTest {
         final ArmorClass ac = this.acCalculationService.calcAcStandard(
                 ((DndCharacter) this.entityPoolService
                 .getEntityById(this.harskId)));
-        
+
         // dex 15: +2
         // studded leather: +3
         // light wooden shield: +1
@@ -132,17 +132,27 @@ public class CharacterPropertiesHarskIntegrationTest {
     }
 
     @Test
-    public void harskACFlatFooted() {
+    public void harskACFlatFootedTest() {
+        final ArmorClass ac = this.acCalculationService.calcAcFlatFooted(
+                ((DndCharacter) this.entityPoolService
+                .getEntityById(this.harskId)));
+
+        // dex 15: +2 NOT GRANTED HERE
         // studded leather: +3
-//        assertEquals(Long.valueOf(13), this.harsk.getAcFlatFooted());
-        fail();
+        // light wooden shield: +1
+        assertEquals(14L, ac.getValue());
     }
 
     @Test
-    public void harskACTouch() {
-        // studded leather not applied
-//        assertEquals(Long.valueOf(10), this.harsk.getAcTouch());
-        fail();
+    public void harskACTouchTest() {
+        final ArmorClass ac = this.acCalculationService.calcAcTouch(
+                ((DndCharacter) this.entityPoolService
+                .getEntityById(this.harskId)));
+
+        // dex 15: +2
+        // studded leather: +3 NOT GRANTED HERE
+        // light wooden shield: +1 NOT GRANTED HERE
+        assertEquals(12L, ac.getValue());
     }
 
     @Test

@@ -87,7 +87,7 @@
                     <list>
                         <!-- When you are the target of a touch attack, your AC doesn’t include any armor bonus, shield bonus, or natural armor bonus. -->
                         <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
-                            <property name="hook" value="AC" />
+                            <property name="hook" value="AC_BASE" />
                             <property name="triggerStrategy">
                                 <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.RemoveBonusObserverTrigger">
                                     <property name="removeBonus">
@@ -106,7 +106,7 @@
                             </property>
                         </bean>
                         <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
-                            <property name="hook" value="AC" />
+                            <property name="hook" value="AC_BASE" />
                             <property name="triggerStrategy">
                                 <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.RemoveBonusObserverTrigger">
                                     <property name="removeBonus">
@@ -125,7 +125,7 @@
                             </property>
                         </bean>
                         <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
-                            <property name="hook" value="AC" />
+                            <property name="hook" value="AC_BASE" />
                             <property name="triggerStrategy">
                                 <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.RemoveBonusObserverTrigger">
                                     <property name="removeBonus">
