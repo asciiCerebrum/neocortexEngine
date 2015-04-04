@@ -1,5 +1,7 @@
 package org.asciicerebrum.mydndgame.integrationtests.dndcharacter;
 
+import com.google.common.collect.Iterators;
+import org.asciicerebrum.mydndgame.domain.core.particles.ArmorClass;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
@@ -14,6 +16,7 @@ import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.S
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.StandardStuddedLeather;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.StandardBattleaxe;
 import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
+import org.asciicerebrum.mydndgame.services.statistics.AcCalculationService;
 import org.asciicerebrum.mydndgame.services.statistics.HpCalculationService;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
 import static org.junit.Assert.assertEquals;
@@ -53,6 +56,9 @@ public class CharacterPropertiesHarskIntegrationTest {
 
     @Autowired
     private HpCalculationService hpCalculationService;
+    
+    @Autowired
+    private AcCalculationService acCalculationService;
 
     private UniqueId harskId;
 
@@ -103,18 +109,26 @@ public class CharacterPropertiesHarskIntegrationTest {
     }
 
     @Test
-    public void harskBaseAtkLength() {
-//        assertEquals(1, this.harsk.getBaseAtkBoni().size());
-        fail();
+    public void harskBaseAtkLengthTest() {
+        final BonusValueTuple result
+                = ((DndCharacter) this.entityPoolService
+                .getEntityById(this.harskId)).getBaseAtkBoni();
+
+        // lvl 2 fighter: 1 attack
+        assertEquals(1L, Iterators.size(result.iterator()));
     }
 
     //TODO test rank ordered bonus list of a size of at least 2.
     @Test
-    public void harskAC() {
-        // dex: +0
+    public void harskAcTest() {
+        final ArmorClass ac = this.acCalculationService.calcAcStandard(
+                ((DndCharacter) this.entityPoolService
+                .getEntityById(this.harskId)));
+        
+        // dex 15: +2
         // studded leather: +3
-//        assertEquals(Long.valueOf(13), this.harsk.getAcStandard());
-        fail();
+        // light wooden shield: +1
+        assertEquals(16L, ac.getValue());
     }
 
     @Test

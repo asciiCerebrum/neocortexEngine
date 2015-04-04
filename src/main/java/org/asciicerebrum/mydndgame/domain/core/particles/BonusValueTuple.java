@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.core.particles;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -67,6 +68,52 @@ public class BonusValueTuple {
         public final BonusValue getBonusValue() {
             return this.bonusValue;
         }
+    }
+
+    /**
+     * Iterator inner class for the bonus value entries of this tuple.
+     */
+    public static class BonusValueEntryIterator
+            implements Iterator<BonusValueEntry> {
+
+        /**
+         * The map this iterator is based on.
+         */
+        private final Map<BonusRank, BonusValue> rankedBoni;
+
+        /**
+         * The subiterator for delegation.
+         */
+        private final Iterator<BonusRank> subIterator;
+
+        /**
+         * Constructing the iterator from a map.
+         *
+         * @param rankedBoniInput the map this iterator is based on.
+         */
+        public BonusValueEntryIterator(
+                final Map<BonusRank, BonusValue> rankedBoniInput) {
+            this.rankedBoni = rankedBoniInput;
+
+            this.subIterator = rankedBoni.keySet().iterator();
+        }
+
+        @Override
+        public final boolean hasNext() {
+            return this.subIterator.hasNext();
+        }
+
+        @Override
+        public final BonusValueEntry next() {
+            final BonusRank rank = this.subIterator.next();
+            return new BonusValueEntry(rank, rankedBoni.get(rank));
+        }
+
+        @Override
+        public final void remove() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
     }
 
     /**
@@ -262,5 +309,14 @@ public class BonusValueTuple {
                 : this.rankedBoni.entrySet()) {
             tupleEntry.getValue().applyOperation(operation, operand);
         }
+    }
+
+    /**
+     * Iterator over the bonus value entries of this tuple instance.
+     *
+     * @return the iterator.
+     */
+    public final Iterator<BonusValueEntry> iterator() {
+        return new BonusValueEntryIterator(this.rankedBoni);
     }
 }

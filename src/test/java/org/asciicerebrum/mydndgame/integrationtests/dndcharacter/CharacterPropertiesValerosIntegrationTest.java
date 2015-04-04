@@ -1,5 +1,7 @@
 package org.asciicerebrum.mydndgame.integrationtests.dndcharacter;
 
+import com.google.common.collect.Iterators;
+import org.asciicerebrum.mydndgame.domain.core.particles.ArmorClass;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
@@ -9,9 +11,10 @@ import org.asciicerebrum.mydndgame.domain.factories.DndCharacterFactory;
 import org.asciicerebrum.mydndgame.domain.factories.WeaponFactory;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.ValerosHumanFighter1;
-import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.StandardHalfplate;
+import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.MwkChainmail;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.StandardLongsword;
 import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
+import org.asciicerebrum.mydndgame.services.statistics.AcCalculationService;
 import org.asciicerebrum.mydndgame.services.statistics.HpCalculationService;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
 import static org.junit.Assert.assertEquals;
@@ -51,6 +54,9 @@ public class CharacterPropertiesValerosIntegrationTest {
     @Autowired
     private HpCalculationService hpCalculationService;
 
+    @Autowired
+    private AcCalculationService acCalculationService;
+
     private UniqueId valerosId;
 
     @Before
@@ -60,7 +66,7 @@ public class CharacterPropertiesValerosIntegrationTest {
                 .newEntity(ValerosHumanFighter1.getSetup()));
 
         this.entityPoolService.registerUniqueEntity(this.armorFactory
-                .newEntity(StandardHalfplate.getSetup()));
+                .newEntity(MwkChainmail.getSetup()));
         this.entityPoolService.registerUniqueEntity(this.weaponFactory
                 .newEntity(StandardLongsword.getSetup()));
 
@@ -94,6 +100,27 @@ public class CharacterPropertiesValerosIntegrationTest {
         // lvl 1 fighter: 1 (no other boni apply here!)
         assertEquals(1L,
                 result.getBonusValueByRank(BonusRank.RANK_0).getValue());
+    }
+
+    @Test
+    public void valerosBaseAtkLengthTest() {
+        final BonusValueTuple result
+                = ((DndCharacter) this.entityPoolService
+                .getEntityById(this.valerosId)).getBaseAtkBoni();
+
+        // lvl 1 fighter: 1 attack
+        assertEquals(1L, Iterators.size(result.iterator()));
+    }
+
+    @Test
+    public void valerosAcTest() {
+        final ArmorClass ac = this.acCalculationService.calcAcStandard(
+                ((DndCharacter) this.entityPoolService
+                .getEntityById(this.valerosId)));
+
+        // dex 15: +2
+        // mwk chainmail: +5 (and no extra armor bonus for mwk!)
+        assertEquals(17L, ac.getValue());
     }
 
 }

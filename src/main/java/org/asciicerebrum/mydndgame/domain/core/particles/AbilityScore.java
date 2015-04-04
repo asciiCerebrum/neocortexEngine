@@ -47,7 +47,9 @@ public class AbilityScore extends LongParticle {
      * @param bonusValue the bonus value to add.
      */
     public final void add(final BonusValue bonusValue) {
-        this.setValue(this.getValue() + bonusValue.getValue());
+        if (bonusValue != null) {
+            this.setValue(this.getValue() + bonusValue.getValue());
+        }
     }
 
     @Override

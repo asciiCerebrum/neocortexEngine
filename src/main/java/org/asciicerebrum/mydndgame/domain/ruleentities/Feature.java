@@ -20,13 +20,13 @@ public abstract class Feature implements BonusSource, ObserverSource {
     /**
      * The list of quasi static boni that are granted by this feature.
      */
-    private Boni boni;
+    private Boni boni = new Boni();
 
     /**
      * The list of observers that hook into the entity to modify certain
      * attributes dynamically.
      */
-    private Observers observers;
+    private Observers observers = new Observers();
 
     /**
      * @return the uniqueId
