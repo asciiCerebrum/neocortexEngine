@@ -3,12 +3,13 @@ package org.asciicerebrum.mydndgame.mechanics.observertriggers;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle;
 import org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle.Operation;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.ObserverTriggerStrategy;
 import org.asciicerebrum.mydndgame.services.core.BonusCalculationService;
 
@@ -48,35 +49,35 @@ public class BonusValueModificationObserverTrigger
     public final Object trigger(final Object object,
             final ICharacter dndCharacter, final UniqueEntity contextItem) {
 
-        Boni boni = (Boni) object;
+        final ContextBoni ctxBoni = (ContextBoni) object;
 
         if (this.getReferenceBonus() == null) {
-            return boni;
+            return ctxBoni;
         }
 
-        final Iterator<Bonus> bonusIterator = boni.iterator();
+        final Iterator<ContextBonus> bonusIterator = ctxBoni.iterator();
         while (bonusIterator.hasNext()) {
-            final Bonus bonus = bonusIterator.next();
+            final ContextBonus ctxBonus = bonusIterator.next();
             final BonusValueTuple bonusEffectiveValue
-                    = this.getBonusService().getEffectiveValues(bonus,
-                            contextItem, (DndCharacter) dndCharacter);
+                    = this.getBonusService().getEffectiveValues(ctxBonus,
+                            (DndCharacter) dndCharacter);
 
             // it is enough to check for bonus type and target
             // keep in mind that the effectValue might be null
             // --> the bonus does not exist --> continue!
-            if (this.getReferenceBonus().resembles(bonus,
+            if (this.getReferenceBonus().resembles(ctxBonus.getBonus(),
                     Bonus.ResemblanceFacet.BONUS_TYPE,
                     Bonus.ResemblanceFacet.TARGET)) {
 
                 bonusEffectiveValue.applyOperation(this.getOperation(),
                         this.getModValue());
 
-                bonus.setValues(bonusEffectiveValue);
-                bonus.setDynamicValueProvider(null);
+                ctxBonus.getBonus().setValues(bonusEffectiveValue);
+                ctxBonus.getBonus().setDynamicValueProvider(null);
             }
         }
 
-        return boni;
+        return ctxBoni;
     }
 
     /**

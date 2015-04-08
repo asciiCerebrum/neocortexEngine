@@ -1,13 +1,14 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.particles.GenericName;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTarget;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 
 /**
@@ -70,8 +71,9 @@ public class Ability implements BonusSource, BonusTarget, ObserverSource {
      * @return the boni
      */
     @Override
-    public final Boni getBoni() {
-        return boni;
+    public final ContextBoni getBoni(final UniqueEntity context,
+            final UniqueEntityResolver resolver) {
+        return new ContextBoni(this.boni, context);
     }
 
     /**
@@ -110,12 +112,6 @@ public class Ability implements BonusSource, BonusTarget, ObserverSource {
     @Override
     public final void setAssociatedHook(final ObserverHook associatedHookIn) {
         this.associatedHook = associatedHookIn;
-    }
-
-    @Override
-    public final BonusSources getBonusSources(
-            final UniqueEntityResolver resolver) {
-        return BonusSources.EMPTY_BONUSSOURCES;
     }
 
 }

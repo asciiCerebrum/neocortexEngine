@@ -35,4 +35,9 @@ public interface EntityPoolService extends UniqueEntityResolver {
      * @return the object instance with that id.
      */
     UniqueEntities getEntitiesByIds(UniqueIds uniqueIds);
+
+    /**
+     * Deletes all entries from the internal map.
+     */
+    void empty();
 }

@@ -1,15 +1,15 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities.composition;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Feat;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
 import org.asciicerebrum.mydndgame.domain.ruleentities.ClassLevel;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.particles.AdvancementNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 
 /**
@@ -135,19 +135,18 @@ public class LevelAdvancement implements BonusSource, ObserverSource {
     }
 
     @Override
-    public final Boni getBoni() {
-        return Boni.EMPTY_BONI;
-    }
-
-    @Override
-    public final BonusSources getBonusSources(
+    public final ContextBoni getBoni(final UniqueEntity context,
             final UniqueEntityResolver resolver) {
-        final BonusSources bonusSources = new BonusSources();
+        final ContextBoni ctxBoni = new ContextBoni();
 
-        bonusSources.add(this.classLevel);
-        bonusSources.add(this.featAdvancement);
-
-        return bonusSources;
+        if (this.classLevel != null) {
+            ctxBoni.add(this.classLevel.getBoni(context, resolver));
+        }
+        if (this.featAdvancement != null) {
+            ctxBoni.add(this.featAdvancement.getBoni(context, resolver));
+        }
+        
+        return ctxBoni;
     }
 
 }

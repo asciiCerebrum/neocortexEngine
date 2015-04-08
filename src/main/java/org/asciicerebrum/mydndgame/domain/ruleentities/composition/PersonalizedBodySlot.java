@@ -1,11 +1,11 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities.composition;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.particles.AttackAbility;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlot;
 import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotType;
@@ -89,20 +89,16 @@ public class PersonalizedBodySlot implements BonusSource, ObserverSource {
     private UniqueId itemId;
 
     @Override
-    public final Boni getBoni() {
-        return Boni.EMPTY_BONI;
-    }
-
-    @Override
-    public final BonusSources getBonusSources(
+    public final ContextBoni getBoni(final UniqueEntity context,
             final UniqueEntityResolver resolver) {
-        BonusSources bonusSources = new BonusSources();
+        final ContextBoni ctxBoni = new ContextBoni();
 
         if (resolver.resolve(this.itemId) instanceof BonusSource) {
-            bonusSources.add((BonusSource) resolver.resolve(this.itemId));
+            ctxBoni.add(((BonusSource) resolver.resolve(this.itemId))
+                    .getBoni(context, resolver));
         }
 
-        return bonusSources;
+        return ctxBoni;
     }
 
     /**

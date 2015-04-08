@@ -56,4 +56,9 @@ public class MapBasedEntityPoolService implements EntityPoolService {
         return this.getEntityById(uid);
     }
 
+    @Override
+    public final void empty() {
+        this.entities.clear();
+    }
+
 }

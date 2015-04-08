@@ -1,6 +1,5 @@
 package org.asciicerebrum.mydndgame.services.core;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTargets;
@@ -10,9 +9,10 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSour
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTarget;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBonus;
 
 /**
  *
@@ -71,7 +71,7 @@ public interface BonusCalculationService {
      * @param targetEntity the entity the boni are accumulated for.
      * @return the collection of boni.
      */
-    Boni accumulateBoniByTarget(BonusSource bonusSource,
+    ContextBoni accumulateBoniByTarget(BonusSource bonusSource,
             BonusTarget bonusTarget, UniqueEntity targetEntity);
 
     /**
@@ -83,7 +83,7 @@ public interface BonusCalculationService {
      * @param targetEntity the entity the boni are accumulated for.
      * @return the collection of boni.
      */
-    Boni accumulateBoniByTargets(BonusSources bonusSources,
+    ContextBoni accumulateBoniByTargets(BonusSources bonusSources,
             BonusTargets bonusTargets, UniqueEntity targetEntity);
 
     /**
@@ -94,7 +94,8 @@ public interface BonusCalculationService {
      * @param targetEntity the entity the boni are accumulated for.
      * @return the collection of boni.
      */
-    Boni accumulateBoni(BonusSources bonusSources, UniqueEntity targetEntity);
+    ContextBoni accumulateBoni(BonusSources bonusSources,
+            UniqueEntity targetEntity);
 
     /**
      * Accumulate all boni through the whole bonus source tree, beginning with
@@ -104,29 +105,27 @@ public interface BonusCalculationService {
      * @param targetEntity the entity the boni are accumulated for.
      * @return the collection of boni.
      */
-    Boni accumulateBoni(BonusSource bonusSource, UniqueEntity targetEntity);
+    ContextBoni accumulateBoni(BonusSource bonusSource,
+            UniqueEntity targetEntity);
 
     /**
      * Accumulates the list of found boni into a single effective bonus value
      * tuple.
      *
      * @param dndCharacter the context for the calculations.
-     * @param targetEntity the context item.
      * @param foundBoni the list of boni to accumulate the result over.
      * @return the accumulated bonus value tuple.
      */
     BonusValueTuple accumulateBonusValues(
-            DndCharacter dndCharacter, UniqueEntity targetEntity,
-            Boni foundBoni);
+            DndCharacter dndCharacter, ContextBoni foundBoni);
 
     /**
      * Calculates the dynamic effective value of a bonus.
      *
      * @param bonus the bonus to calculate the value for.
-     * @param targetEntity the entity the bonus is calculated for.
      * @param dndCharacter the dnd character which gives the context.
      * @return the effective value as a tuple.
      */
-    BonusValueTuple getEffectiveValues(Bonus bonus, UniqueEntity targetEntity,
+    BonusValueTuple getEffectiveValues(ContextBonus bonus,
             DndCharacter dndCharacter);
 }

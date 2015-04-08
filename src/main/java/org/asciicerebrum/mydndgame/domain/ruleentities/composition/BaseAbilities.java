@@ -4,11 +4,11 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.particles.AbilityScore;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 
 /**
@@ -43,20 +43,13 @@ public class BaseAbilities implements BonusSource, ObserverSource {
     }
 
     @Override
-    public final Boni getBoni() {
-        return Boni.EMPTY_BONI;
-    }
-
-    @Override
-    public final BonusSources getBonusSources(
+    public final ContextBoni getBoni(final UniqueEntity context,
             final UniqueEntityResolver resolver) {
-        BonusSources bonusSources = new BonusSources();
-
+        final ContextBoni contextBoni = new ContextBoni();
         for (Ability ability : this.elements.keySet()) {
-            bonusSources.add(ability);
+            contextBoni.add(ability.getBoni(context, resolver));
         }
-
-        return bonusSources;
+        return contextBoni;
     }
 
     /**

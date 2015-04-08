@@ -1,9 +1,15 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities.composition;
 
 import com.google.common.collect.Iterators;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.AdvancementNumber;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.game.Weapon;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
+import org.asciicerebrum.mydndgame.domain.ruleentities.Feat;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -22,11 +28,15 @@ public class LevelAdvancementsTest {
 
     private LevelAdvancements levelAdvancements;
 
+    private Feat refFeat;
+    
     private Ability refAbility;
 
     private LevelAdvancement lvlAdvB;
 
     private UniqueEntityResolver resolver;
+    
+    private UniqueEntity context;
 
     public LevelAdvancementsTest() {
     }
@@ -48,8 +58,20 @@ public class LevelAdvancementsTest {
         final LevelAdvancement lvlAdvC = new LevelAdvancement();
 
         this.refAbility = new Ability();
+        
+        this.refFeat = new Feat();
+        final Feat otherFeat = new Feat();
+        
+        final Boni boni = new Boni();
+        boni.addBonus(new Bonus());
+        
+        this.refFeat.setBoni(boni);
+        otherFeat.setBoni(boni);
 
+        lvlAdvA.setFeatAdvancement(otherFeat);
+        this.lvlAdvB.setFeatAdvancement(this.refFeat);
         this.lvlAdvB.setAbilityAdvancement(this.refAbility);
+        lvlAdvC.setFeatAdvancement(this.refFeat);
         lvlAdvC.setAbilityAdvancement(this.refAbility);
 
         lvlAdvA.setAdvNumber(AdvancementNumber.ADV_NO_0);
@@ -61,6 +83,8 @@ public class LevelAdvancementsTest {
         this.levelAdvancements.add(lvlAdvC);
 
         this.resolver = mock(UniqueEntityResolver.class);
+        this.context = new Weapon();
+        this.context.setUniqueId(new UniqueId("context"));
     }
 
     @After
@@ -68,9 +92,9 @@ public class LevelAdvancementsTest {
     }
 
     @Test
-    public void getBonusSourcesTest() {
+    public void getBoniTest() {
         assertEquals(3L, Iterators.size(this.levelAdvancements
-                .getBonusSources(this.resolver).iterator()));
+                .getBoni(this.context, this.resolver).iterator()));
     }
 
     @Test

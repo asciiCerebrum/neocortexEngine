@@ -1,7 +1,12 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities.composition;
 
 import com.google.common.collect.Iterators;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.AbilityScore;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.game.Weapon;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
 import org.junit.After;
@@ -22,6 +27,8 @@ public class BaseAbilitiesTest {
 
     private UniqueEntityResolver resolver;
 
+    private UniqueEntity context;
+
     public BaseAbilitiesTest() {
     }
 
@@ -37,16 +44,29 @@ public class BaseAbilitiesTest {
     public void setUp() {
         this.baseAbilities = new BaseAbilities();
 
+        final Boni boni = new Boni();
+        boni.addBonus(new Bonus());
+
+        final Ability abilityA = new Ability();
+        abilityA.setId(new UniqueId("abilityA"));
+        abilityA.setBoni(boni);
+        final Ability abilityB = new Ability();
+        abilityB.setId(new UniqueId("abilityB"));
+        abilityB.setBoni(boni);
+        final Ability abilityC = new Ability();
+        abilityC.setId(new UniqueId("abilityC"));
+        abilityC.setBoni(boni);
+
         final BaseAbilityEntry entryA = new BaseAbilityEntry();
-        entryA.setAbility(new Ability());
+        entryA.setAbility(abilityA);
         entryA.setAbilityValue(new AbilityScore(10L));
 
         final BaseAbilityEntry entryB = new BaseAbilityEntry();
-        entryB.setAbility(new Ability());
+        entryB.setAbility(abilityB);
         entryB.setAbilityValue(new AbilityScore(10L));
 
         final BaseAbilityEntry entryC = new BaseAbilityEntry();
-        entryC.setAbility(new Ability());
+        entryC.setAbility(abilityC);
         entryC.setAbilityValue(new AbilityScore(10L));
 
         this.baseAbilities.addBaseAbilityEntry(entryA);
@@ -54,6 +74,8 @@ public class BaseAbilitiesTest {
         this.baseAbilities.addBaseAbilityEntry(entryC);
 
         this.resolver = mock(UniqueEntityResolver.class);
+        this.context = new Weapon();
+        this.context.setUniqueId(new UniqueId("context"));
     }
 
     @After
@@ -61,9 +83,9 @@ public class BaseAbilitiesTest {
     }
 
     @Test
-    public void getBonusSourcesTest() {
+    public void getBoniTest() {
         assertEquals(3L, Iterators.size(this.baseAbilities
-                .getBonusSources(this.resolver).iterator()));
+                .getBoni(this.context, this.resolver).iterator()));
     }
 
 }

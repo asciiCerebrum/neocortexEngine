@@ -1,12 +1,12 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities.composition;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.ruleentities.ConditionType;
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 
 /**
@@ -78,18 +78,11 @@ public class Condition implements BonusSource, ObserverSource {
     }
 
     @Override
-    public final Boni getBoni() {
-        return Boni.EMPTY_BONI;
-    }
-
-    @Override
-    public final BonusSources getBonusSources(
+    public final ContextBoni getBoni(final UniqueEntity context,
             final UniqueEntityResolver resolver) {
-        final BonusSources bonusSources = new BonusSources();
-
-        bonusSources.add(this.conditionType);
-
-        return bonusSources;
+        final ContextBoni ctxBoni = new ContextBoni();
+        ctxBoni.add(this.conditionType.getBoni(context, resolver));
+        return ctxBoni;
     }
 
     /**

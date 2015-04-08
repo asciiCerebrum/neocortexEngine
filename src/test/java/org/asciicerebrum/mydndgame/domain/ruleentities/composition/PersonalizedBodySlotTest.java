@@ -5,9 +5,14 @@ import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.AttackAbility;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlot;
 import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotType;
+import org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities;
+import org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility;
+import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlot.Facet;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -29,9 +34,13 @@ public class PersonalizedBodySlotTest {
 
     private PersonalizedBodySlot pbSlot;
 
-    private UniqueEntity item;
+    private Weapon item;
+
+    private Bonus itemBonus;
 
     private UniqueEntityResolver resolver;
+
+    private UniqueEntity context;
 
     public PersonalizedBodySlotTest() {
     }
@@ -49,6 +58,14 @@ public class PersonalizedBodySlotTest {
         this.pbSlot = new PersonalizedBodySlot();
         this.item = new Weapon();
         this.item.setUniqueId(new UniqueId("item"));
+        final SpecialAbilities specAbs = new SpecialAbilities();
+        final SpecialAbility specAb = new SpecialAbility();
+        final Boni boni = new Boni();
+        this.itemBonus = new Bonus();
+        boni.addBonus(this.itemBonus);
+        specAb.setBoni(boni);
+        specAbs.add(specAb);
+        this.item.setSpecialAbilities(specAbs);
 
         this.pbSlot.setItemId(this.item.getUniqueId());
 
@@ -57,10 +74,15 @@ public class PersonalizedBodySlotTest {
         slot.setBodySlotType(type);
         slot.setIsPrimaryAttackSlot(new AttackAbility(true));
         this.pbSlot.setBodySlot(slot);
+        
+        this.item.setInventoryItemPrototype(new WeaponPrototype());
 
         this.resolver = mock(UniqueEntityResolver.class);
         when(this.resolver.resolve(this.item.getUniqueId()))
                 .thenReturn(this.item);
+
+        this.context = new Weapon();
+        this.context.setUniqueId(new UniqueId("context"));
     }
 
     @After
@@ -68,23 +90,23 @@ public class PersonalizedBodySlotTest {
     }
 
     @Test
-    public void getBonusSourcesSizeTest() {
+    public void getBoniSizeTest() {
         assertEquals(1L, Iterators.size(this.pbSlot
-                .getBonusSources(this.resolver).iterator()));
+                .getBoni(this.context, this.resolver).iterator()));
     }
 
     @Test
-    public void getBonusSourcesContentTest() {
-        assertEquals(this.item, this.pbSlot.getBonusSources(this.resolver)
-                .iterator().next());
+    public void getBoniContentTest() {
+        assertEquals(this.itemBonus, this.pbSlot.getBoni(this.context,
+                this.resolver).iterator().next().getBonus());
     }
 
     @Test
-    public void getBonusSourcesEmptyTest() {
+    public void getBoniEmptyTest() {
         this.pbSlot.setItemId(new UniqueId("new"));
 
         assertEquals(0L, Iterators.size(this.pbSlot
-                .getBonusSources(this.resolver).iterator()));
+                .getBoni(this.context, this.resolver).iterator()));
     }
 
     @Test

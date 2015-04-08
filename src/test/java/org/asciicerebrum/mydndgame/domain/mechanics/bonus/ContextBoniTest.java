@@ -1,6 +1,9 @@
 package org.asciicerebrum.mydndgame.domain.mechanics.bonus;
 
 import com.google.common.collect.Iterators;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTarget;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTargets;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
@@ -15,17 +18,19 @@ import org.junit.Test;
  *
  * @author species8472
  */
-public class BoniTest {
+public class ContextBoniTest {
 
-    private Boni boni;
-
-    private Bonus bonusA;
-
-    private Bonus bonusB;
+    private ContextBoni ctxBoni;
 
     private BonusTarget targetA;
 
-    public BoniTest() {
+    private ContextBonus ctxBonusA;
+
+    private ContextBonus ctxBonusB;
+
+    private UniqueEntity contextA;
+
+    public ContextBoniTest() {
     }
 
     @BeforeClass
@@ -38,9 +43,8 @@ public class BoniTest {
 
     @Before
     public void setUp() {
-        this.boni = new Boni();
-        this.bonusA = new Bonus();
-        this.bonusB = new Bonus();
+        this.ctxBoni = new ContextBoni();
+
         this.targetA = new BonusTarget() {
 
             public ObserverHook getAssociatedHook() {
@@ -51,10 +55,16 @@ public class BoniTest {
             }
         };
 
-        this.bonusA.setTarget(this.targetA);
-        this.bonusA.setScope(Bonus.BonusScope.SPECIFIC);
+        this.contextA = new Weapon();
+        this.contextA.setUniqueId(new UniqueId("contextA"));
 
-        this.bonusB.setTarget(new BonusTarget() {
+        final Bonus bonusA = new Bonus();
+        bonusA.setTarget(this.targetA);
+
+        this.ctxBonusA = new ContextBonus(bonusA, this.contextA);
+
+        final Bonus bonusB = new Bonus();
+        bonusB.setTarget(new BonusTarget() {
 
             public ObserverHook getAssociatedHook() {
                 return null;
@@ -63,10 +73,12 @@ public class BoniTest {
             public void setAssociatedHook(ObserverHook associatedHook) {
             }
         });
-        this.bonusB.setScope(Bonus.BonusScope.ALL);
+        final UniqueEntity contextB = new Weapon();
+        contextB.setUniqueId(new UniqueId("contextB"));
+        this.ctxBonusB = new ContextBonus(bonusB, contextB);
 
-        this.boni.addBonus(this.bonusA);
-        this.boni.addBonus(this.bonusB);
+        this.ctxBoni.add(this.ctxBonusA);
+        this.ctxBoni.add(this.ctxBonusB);
     }
 
     @After
@@ -75,23 +87,23 @@ public class BoniTest {
 
     @Test
     public void filterByTargetSizeTest() {
-        final Boni result = this.boni.filterByTarget(this.targetA);
+        final ContextBoni result = this.ctxBoni.filterByTarget(this.targetA);
 
         assertEquals(1L, Iterators.size(result.iterator()));
     }
 
     @Test
     public void filterByTargetObjectTest() {
-        final Boni result = this.boni.filterByTarget(this.targetA);
+        final ContextBoni result = this.ctxBoni.filterByTarget(this.targetA);
 
-        assertEquals(this.bonusA, result.iterator().next());
+        assertEquals(this.ctxBonusA, result.iterator().next());
     }
 
     @Test
     public void filterByScopeObjectTest() {
-        final Boni result = this.boni.filterByScope(Bonus.BonusScope.SPECIFIC);
+        final ContextBoni result = this.ctxBoni.filterByScope(this.contextA);
 
-        assertEquals(this.bonusA, result.iterator().next());
+        assertEquals(this.ctxBonusA, result.iterator().next());
     }
 
     @Test
@@ -106,9 +118,8 @@ public class BoniTest {
                     public void setAssociatedHook(ObserverHook associatedHook) {
                     }
                 });
-        final Boni result = this.boni.filterByTargets(targets);
+        final ContextBoni result = this.ctxBoni.filterByTargets(targets);
 
-        assertEquals(this.bonusA, result.iterator().next());
+        assertEquals(this.ctxBonusA, result.iterator().next());
     }
-
 }

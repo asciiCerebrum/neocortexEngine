@@ -1,10 +1,10 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 
 /**
@@ -75,18 +75,13 @@ public class CharacterClass implements BonusSource, ObserverSource {
     }
 
     @Override
-    public final Boni getBoni() {
-        return Boni.EMPTY_BONI;
-    }
-
-    @Override
-    public final BonusSources getBonusSources(
+    public final ContextBoni getBoni(final UniqueEntity context,
             final UniqueEntityResolver resolver) {
-        final BonusSources bonusSources = new BonusSources();
+        final ContextBoni ctxBoni = new ContextBoni();
 
-        bonusSources.add(this.classFeats);
+        ctxBoni.add(this.classFeats.getBoni(context, resolver));
 
-        return bonusSources;
+        return ctxBoni;
     }
 
 }

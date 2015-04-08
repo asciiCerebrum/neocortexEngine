@@ -10,7 +10,11 @@ import org.asciicerebrum.mydndgame.domain.factories.ArmorFactory;
 import org.asciicerebrum.mydndgame.domain.factories.DndCharacterFactory;
 import org.asciicerebrum.mydndgame.domain.factories.WeaponFactory;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
 import org.asciicerebrum.mydndgame.domain.setup.ArmorSetup;
+import org.asciicerebrum.mydndgame.domain.setup.CharacterSetup;
+import org.asciicerebrum.mydndgame.domain.setup.PersonalizedBodySlotSetup;
+import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
 import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.HarskDwarfFighter2;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.StandardLightWoodenShield;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.StandardStuddedLeather;
@@ -19,12 +23,15 @@ import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.services.statistics.AcCalculationService;
 import org.asciicerebrum.mydndgame.services.statistics.HpCalculationService;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
+import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -38,6 +45,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 public class CharacterPropertiesHarskIntegrationTest {
+
+    private static final Logger LOG
+            = LoggerFactory.getLogger(StateRegistry.class);
 
     @Autowired
     private ApplicationContext context;
@@ -76,6 +86,11 @@ public class CharacterPropertiesHarskIntegrationTest {
                 .newEntity(StandardLightWoodenShield.getSetup()));
 
         this.harskId = new UniqueId("harsk");
+    }
+
+    @After
+    public void tearDown() {
+        this.entityPoolService.empty();
     }
 
     @Test
@@ -156,58 +171,76 @@ public class CharacterPropertiesHarskIntegrationTest {
     }
 
     @Test
-    public void harskACWithShield() {
-        // dex: +0
+    public void harskAcWithoutShieldTest() {
+        final CharacterSetup setup = HarskDwarfFighter2.getSetup();
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).remove(1);
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(setup));
+
+        final ArmorClass ac = this.acCalculationService.calcAcStandard(
+                ((DndCharacter) this.entityPoolService
+                .getEntityById(this.harskId)));
+
+        // dex 15: +2
         // studded leather: +3
-        // heavy steel shield: +2
-        ArmorSetup shield4HarskSetup = new ArmorSetup();
-        shield4HarskSetup.setId("shield4Harsk");
-        shield4HarskSetup.setName("heavySteelShield");
-        shield4HarskSetup.setSizeCategory("medium");
-//        IArmor shield4Harsk = new ArmorFactory(
-//                shield4HarskSetup, this.context).build();
-//
-//        this.harsk.getBodySlotByType(this.secondaryHand).setItem(shield4Harsk);
-//
-//        assertEquals(Long.valueOf(15), this.harsk.getAcStandard());
-        fail();
+        assertEquals(15L, ac.getValue());
     }
 
     @Test
-    public void harskACWithShieldInBothHands() {
-        // dex: +0
+    public void harskAcWithShieldInBothHandsTest() {
+        final PersonalizedBodySlotSetup hand1Setup
+                = new PersonalizedBodySlotSetup();
+        hand1Setup.setBodySlotType("primaryHand");
+        hand1Setup.setItem("standardLightWoodenShield");
+        hand1Setup.setIsPrimaryAttackSlot("true");
+
+        final CharacterSetup setup = HarskDwarfFighter2.getSetup();
+        // removal of battleaxe
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).remove(0);
+        // adding the same shield also on primary hand
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).add(hand1Setup);
+
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(setup));
+
+        final ArmorClass ac = this.acCalculationService.calcAcStandard(
+                ((DndCharacter) this.entityPoolService
+                .getEntityById(this.harskId)));
+
+        // dex 15: +2
         // studded leather: +3
-        // heavy steel shield: +2
-        ArmorSetup shield4HarskSetup = new ArmorSetup();
-        shield4HarskSetup.setId("shield4Harsk");
-        shield4HarskSetup.setName("heavySteelShield");
-        shield4HarskSetup.setSizeCategory("medium");
-//        IArmor shield4Harsk = new ArmorFactory(
-//                shield4HarskSetup, this.context).build();
-//
-//        this.harsk.getBodySlotByType(this.primaryHand).setItem(shield4Harsk);
-//        this.harsk.getBodySlotByType(this.secondaryHand).setItem(shield4Harsk);
-//
-//        assertEquals(Long.valueOf(15), this.harsk.getAcStandard());
-        fail();
+        // light wooden shield: +1
+        // holding a shield in two hands does not bring you anything!
+        assertEquals(16L, ac.getValue());
     }
 
     @Test
-    public void harskACWithShieldInWrongSlot() {
-        // dex: +0
-        // studded leather: +3 --> replaced by shield, so not applied
-        // heavy steel shield: +2 --> is on torso, so not applied
-        ArmorSetup shield4HarskSetup = new ArmorSetup();
-        shield4HarskSetup.setId("shield4Harsk");
-        shield4HarskSetup.setName("heavySteelShield");
-        shield4HarskSetup.setSizeCategory("medium");
-//        IArmor shield4Harsk = new ArmorFactory(
-//                shield4HarskSetup, this.context).build();
-//
-//        this.harsk.getBodySlotByType(this.torso).setItem(shield4Harsk);
-//
-//        assertEquals(Long.valueOf(10), this.harsk.getAcStandard());
-        fail();
+    public void harskAcWithShieldInWrongSlotTest() {
+        final PersonalizedBodySlotSetup torsoSetup
+                = new PersonalizedBodySlotSetup();
+        torsoSetup.setBodySlotType("torso");
+        torsoSetup.setItem("standardLightWoodenShield");
+        torsoSetup.setIsPrimaryAttackSlot("false");
+
+        final CharacterSetup setup = HarskDwarfFighter2.getSetup();
+        // removal of studded leather
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).remove(2);
+        // removal of light wooden shield
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).remove(1);
+        // adding the shield on in inappropriate body slot type torso
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).add(torsoSetup);
+
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(setup));
+
+        final ArmorClass ac = this.acCalculationService.calcAcStandard(
+                ((DndCharacter) this.entityPoolService
+                .getEntityById(this.harskId)));
+
+        // dex 15: +2
+        // studded leather: +3 CANNOT BE APPLIED! (removed)
+        // light wooden shield: +1 CANNOT BE APPLIED! (wrong slot)
+        assertEquals(12L, ac.getValue());
     }
 
     @Test

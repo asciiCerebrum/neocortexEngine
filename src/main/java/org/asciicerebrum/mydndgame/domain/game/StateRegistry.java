@@ -266,9 +266,9 @@ public class StateRegistry {
                     value.getClass().getSimpleName()
                     .toUpperCase(Locale.ENGLISH));
         } catch (final IllegalArgumentException iae) {
-            LOG.warn("Class of type {} could not be transformed to a state "
+            LOG.info("Class of type {} could not be transformed to a state "
                     + "value. Trying to use the fallback of a unique entity.",
-                    value.getClass().getSimpleName(), iae);
+                    value.getClass().getSimpleName());
             if (value instanceof UniqueId) {
                 return StateValueType.UNIQUE_ID;
             }

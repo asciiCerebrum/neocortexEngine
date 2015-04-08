@@ -1,10 +1,10 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.Cost;
 import org.asciicerebrum.mydndgame.domain.core.particles.Weight;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 
@@ -115,18 +115,15 @@ public abstract class InventoryItemPrototype extends GameEntity
     }
 
     @Override
-    public final Boni getBoni() {
-        return Boni.EMPTY_BONI;
-    }
-
-    @Override
-    public final BonusSources getBonusSources(
+    public final ContextBoni getBoni(final UniqueEntity context,
             final UniqueEntityResolver resolver) {
-        final BonusSources bonusSources = new BonusSources();
+        final ContextBoni ctxBoni = new ContextBoni();
 
-        bonusSources.add(this.specialAbilities);
+        if (this.specialAbilities != null) {
+            ctxBoni.add(this.specialAbilities.getBoni(context, resolver));
+        }
 
-        return bonusSources;
+        return ctxBoni;
     }
 
 }

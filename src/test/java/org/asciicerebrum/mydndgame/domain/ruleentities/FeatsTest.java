@@ -1,6 +1,11 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities;
 
 import com.google.common.collect.Iterators;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.game.Weapon;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -20,6 +25,8 @@ public class FeatsTest {
 
     private UniqueEntityResolver resolver;
 
+    private UniqueEntity context;
+
     public FeatsTest() {
     }
 
@@ -35,6 +42,8 @@ public class FeatsTest {
     public void setUp() {
         this.feats = new Feats();
         this.resolver = mock(UniqueEntityResolver.class);
+        this.context = new Weapon();
+        this.context.setUniqueId(new UniqueId("weapon"));
     }
 
     @After
@@ -42,19 +51,23 @@ public class FeatsTest {
     }
 
     @Test
-    public void getBonusSourcesEmpty() {
+    public void getBoniEmpty() {
         assertEquals(0L, Iterators.size(this.feats
-                .getBonusSources(this.resolver).iterator()));
+                .getBoni(this.context, this.resolver).iterator()));
     }
 
     @Test
-    public void getBonusSourcesNonEmpty() {
-        this.feats.addFeat(new Feat());
-        this.feats.addFeat(new Feat());
-        this.feats.addFeat(new Feat());
+    public void getBoniNonEmpty() {
+        final Feat feat = new Feat();
+        final Boni boni = new Boni();
+        boni.addBonus(new Bonus());
+        feat.setBoni(boni);
+        this.feats.addFeat(feat);
+        this.feats.addFeat(feat);
+        this.feats.addFeat(feat);
 
         assertEquals(3L, Iterators.size(this.feats
-                .getBonusSources(this.resolver).iterator()));
+                .getBoni(this.context, this.resolver).iterator()));
     }
 
 }

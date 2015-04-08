@@ -1,10 +1,13 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 
 /**
  *
@@ -43,11 +46,18 @@ public abstract class Feature implements BonusSource, ObserverSource {
     }
 
     /**
-     * @return the boni
+     * Helper function to let the children override the getBoni method by
+     * calling this one if they have nothing to add for themselves.
+     *
+     * @param context the context in order to contextualise context free boni
+     * collections.
+     * @param resolver the service for translating the uniqueId to the
+     * corersponding entity.
+     * @return the collection of boni in their specific context.
      */
-    @Override
-    public final Boni getBoni() {
-        return boni;
+    public final ContextBoni getFeatureBoni(final UniqueEntity context,
+            final UniqueEntityResolver resolver) {
+        return new ContextBoni(this.boni, context);
     }
 
     /**

@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 
 /**
@@ -10,8 +11,8 @@ import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityRes
 public class Proficiency extends Feature implements FeatBinding {
 
     @Override
-    public final BonusSources getBonusSources(
+    public final ContextBoni getBoni(final UniqueEntity context,
             final UniqueEntityResolver resolver) {
-        return BonusSources.EMPTY_BONUSSOURCES;
+        return this.getFeatureBoni(context, resolver);
     }
 }

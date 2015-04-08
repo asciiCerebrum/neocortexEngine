@@ -6,9 +6,8 @@ import org.asciicerebrum.mydndgame.domain.core.particles.AdvancementNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.core.particles.ExperiencePoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatBindings;
@@ -212,23 +211,18 @@ public class DndCharacter extends UniqueEntity implements ICharacter,
     }
 
     @Override
-    public final BonusSources getBonusSources(
+    public final ContextBoni getBoni(final UniqueEntity context,
             final UniqueEntityResolver resolver) {
-        final BonusSources bonusSources = new BonusSources();
+        final ContextBoni contextBoni = new ContextBoni();
 
-        bonusSources.add(this.baseAbilities);
-        bonusSources.add(this.personalizedBodySlots);
-        bonusSources.add(this.conditions);
-        bonusSources.add(this.levelAdvancements);
-        bonusSources.add(this.race);
-        bonusSources.add(this.prototypeSpecialAbilities);
+        contextBoni.add(this.baseAbilities.getBoni(this, resolver));
+        contextBoni.add(this.personalizedBodySlots.getBoni(this, resolver));
+        contextBoni.add(this.conditions.getBoni(this, resolver));
+        contextBoni.add(this.levelAdvancements.getBoni(this, resolver));
+        contextBoni.add(this.race.getBoni(this, resolver));
+        contextBoni.add(this.prototypeSpecialAbilities.getBoni(this, resolver));
 
-        return bonusSources;
-    }
-
-    @Override
-    public final Boni getBoni() {
-        return Boni.EMPTY_BONI;
+        return contextBoni;
     }
 
     /**

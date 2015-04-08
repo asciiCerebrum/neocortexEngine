@@ -10,18 +10,20 @@ import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.DynamicValueProvider;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -65,49 +67,38 @@ public class DefaultBonusCalculationServiceImplTest {
     @Test
     public void accumulateBoniSimpleTest() {
         final BonusSource bonusSource = mock(BonusSource.class);
-        final Boni boni = new Boni();
-        final Bonus bonus = new Bonus();
-        boni.addBonus(bonus);
-        when(bonusSource.getBoni()).thenReturn(boni);
-        when(bonusSource.getBonusSources(this.entityPoolService))
-                .thenReturn(BonusSources.EMPTY_BONUSSOURCES);
-
         final UniqueEntity uniqueEnity = new DndCharacter();
+        final Bonus bonus = new Bonus();
+        final ContextBoni ctxBoni = new ContextBoni();
+        final ContextBonus ctxBonus = new ContextBonus(bonus, uniqueEnity);
+        ctxBoni.add(ctxBonus);
+        when(bonusSource.getBoni((UniqueEntity) anyObject(),
+                eq(this.entityPoolService))).thenReturn(ctxBoni);
 
-        final Boni testBoni = this.bonusCalcService.accumulateBoni(
+        final ContextBoni testBoni = this.bonusCalcService.accumulateBoni(
                 bonusSource, uniqueEnity);
 
-        assertTrue(testBoni.contains(bonus));
+        assertEquals(bonus, testBoni.iterator().next().getBonus());
     }
 
     @Test
     public void accumulateBoniComplexTest() {
         final BonusSource bonusSource = mock(BonusSource.class);
-        final BonusSources subBonusSources = new BonusSources();
-        final BonusSource subBonusSourceA = mock(BonusSource.class);
+        final UniqueEntity uniqueEnity = new DndCharacter();
         final Boni boniA = new Boni();
         boniA.addBonus(new Bonus());
-        final BonusSource subBonusSourceB = mock(BonusSource.class);
         final Boni boniB = new Boni();
         boniB.addBonus(new Bonus());
         boniB.addBonus(new Bonus());
 
-        subBonusSources.add(subBonusSourceA);
-        subBonusSources.add(null);
-        subBonusSources.add(subBonusSourceB);
+        final ContextBoni ctxBoni = new ContextBoni();
+        ctxBoni.add(boniA, uniqueEnity);
+        ctxBoni.add(boniB, uniqueEnity);
 
-        when(bonusSource.getBonusSources(this.entityPoolService))
-                .thenReturn(subBonusSources);
-        when(subBonusSourceA.getBoni()).thenReturn(boniA);
-        when(subBonusSourceA.getBonusSources(this.entityPoolService))
-                .thenReturn(BonusSources.EMPTY_BONUSSOURCES);
-        when(subBonusSourceB.getBoni()).thenReturn(boniB);
-        when(subBonusSourceB.getBonusSources(this.entityPoolService))
-                .thenReturn(BonusSources.EMPTY_BONUSSOURCES);
+        when(bonusSource.getBoni(uniqueEnity, this.entityPoolService))
+                .thenReturn(ctxBoni);
 
-        final UniqueEntity uniqueEnity = new DndCharacter();
-
-        final Boni testBoni = this.bonusCalcService.accumulateBoni(
+        final ContextBoni testBoni = this.bonusCalcService.accumulateBoni(
                 bonusSource, uniqueEnity);
 
         assertEquals(3L, Iterators.size(testBoni.iterator()));
@@ -126,9 +117,11 @@ public class DefaultBonusCalculationServiceImplTest {
         when(conditionEvaluator.evaluate(dndCharacter, targetEntity))
                 .thenReturn(Boolean.FALSE);
 
+        final ContextBonus ctxBonus = new ContextBonus(bonus, targetEntity);
+
         final BonusValueTuple testBonusValueTuple
                 = this.bonusCalcService.getEffectiveValues(
-                        bonus, targetEntity, dndCharacter);
+                        ctxBonus, dndCharacter);
 
         assertNull(testBonusValueTuple);
     }
@@ -148,9 +141,11 @@ public class DefaultBonusCalculationServiceImplTest {
         when(conditionEvaluator.evaluate(dndCharacter, targetEntity))
                 .thenReturn(Boolean.TRUE);
 
+        final ContextBonus ctxBonus = new ContextBonus(bonus, targetEntity);
+
         final BonusValueTuple testBonusValueTuple
                 = this.bonusCalcService.getEffectiveValues(
-                        bonus, targetEntity, dndCharacter);
+                        ctxBonus, dndCharacter);
 
         assertEquals(tuple, testBonusValueTuple);
     }
@@ -164,9 +159,11 @@ public class DefaultBonusCalculationServiceImplTest {
         final UniqueEntity targetEntity = new Weapon();
         final DndCharacter dndCharacter = new DndCharacter();
 
+        final ContextBonus ctxBonus = new ContextBonus(bonus, targetEntity);
+
         final BonusValueTuple testBonusValueTuple
                 = this.bonusCalcService.getEffectiveValues(
-                        bonus, targetEntity, dndCharacter);
+                        ctxBonus, dndCharacter);
 
         assertEquals(tuple, testBonusValueTuple);
     }
@@ -183,9 +180,11 @@ public class DefaultBonusCalculationServiceImplTest {
         when(provider.getDynamicValue(dndCharacter, targetEntity))
                 .thenReturn(new BonusValue(5L));
 
+        final ContextBonus ctxBonus = new ContextBonus(bonus, targetEntity);
+
         final BonusValueTuple testBonusValueTuple
                 = this.bonusCalcService.getEffectiveValues(
-                        bonus, targetEntity, dndCharacter);
+                        ctxBonus, dndCharacter);
 
         assertEquals(5L, testBonusValueTuple
                 .getBonusValueByRank(BonusRank.RANK_0).getValue());
@@ -197,9 +196,11 @@ public class DefaultBonusCalculationServiceImplTest {
         final UniqueEntity targetEntity = new Weapon();
         final DndCharacter dndCharacter = new DndCharacter();
 
+        final ContextBonus ctxBonus = new ContextBonus(bonus, targetEntity);
+
         final BonusValueTuple testBonusValueTuple
                 = this.bonusCalcService.getEffectiveValues(
-                        bonus, targetEntity, dndCharacter);
+                        ctxBonus, dndCharacter);
 
         assertNull(testBonusValueTuple);
     }
@@ -223,9 +224,11 @@ public class DefaultBonusCalculationServiceImplTest {
         foundBoni.addBonus(bonusA);
         foundBoni.addBonus(bonusB);
 
+        final ContextBoni ctxBoni = new ContextBoni(foundBoni, targetEntity);
+
         final BonusValueTuple testBonusValueTuple
                 = this.bonusCalcService.accumulateBonusValues(
-                        dndCharacter, targetEntity, foundBoni);
+                        dndCharacter, ctxBoni);
 
         assertEquals(4L, testBonusValueTuple
                 .getBonusValueByRank(BonusRank.RANK_0).getValue());

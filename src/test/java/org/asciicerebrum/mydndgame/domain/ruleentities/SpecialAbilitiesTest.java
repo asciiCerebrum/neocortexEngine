@@ -1,6 +1,11 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities;
 
 import com.google.common.collect.Iterators;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.game.Weapon;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -20,6 +25,8 @@ public class SpecialAbilitiesTest {
 
     private UniqueEntityResolver resolver;
 
+    private UniqueEntity context;
+
     public SpecialAbilitiesTest() {
     }
 
@@ -35,6 +42,8 @@ public class SpecialAbilitiesTest {
     public void setUp() {
         this.specialAbilities = new SpecialAbilities();
         this.resolver = mock(UniqueEntityResolver.class);
+        this.context = new Weapon();
+        this.context.setUniqueId(new UniqueId("context"));
     }
 
     @After
@@ -42,18 +51,22 @@ public class SpecialAbilitiesTest {
     }
 
     @Test
-    public void getBonusSourcesEmptyTest() {
+    public void getBoniEmptyTest() {
         assertEquals(0L, Iterators.size(this.specialAbilities
-                .getBonusSources(this.resolver).iterator()));
+                .getBoni(this.context, this.resolver).iterator()));
     }
 
     @Test
-    public void getBonusSourcesNonEmptyTest() {
-        this.specialAbilities.add(new SpecialAbility());
-        this.specialAbilities.add(new SpecialAbility());
+    public void getBoniNonEmptyTest() {
+        final SpecialAbility specialAbility = new SpecialAbility();
+        final Boni boni = new Boni();
+        boni.addBonus(new Bonus());
+        specialAbility.setBoni(boni);
+        this.specialAbilities.add(specialAbility);
+        this.specialAbilities.add(specialAbility);
 
         assertEquals(2L, Iterators.size(this.specialAbilities
-                .getBonusSources(this.resolver).iterator()));
+                .getBoni(this.context, this.resolver).iterator()));
     }
 
 }

@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities;
 
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 
 /**
@@ -31,13 +32,15 @@ public class SpecialAbility extends Feature {
     }
 
     @Override
-    public final BonusSources getBonusSources(
+    public final ContextBoni getBoni(final UniqueEntity context,
             final UniqueEntityResolver resolver) {
-        final BonusSources bonusSources = new BonusSources();
+        ContextBoni ctxBoni = this.getFeatureBoni(context, resolver);
 
-        bonusSources.add(this.subAbilities);
+        if (this.subAbilities != null) {
+            ctxBoni.add(this.subAbilities.getBoni(context, resolver));
+        }
 
-        return bonusSources;
+        return ctxBoni;
     }
 
 }

@@ -10,8 +10,9 @@ import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTarget;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusType;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBonus;
 import org.asciicerebrum.mydndgame.services.core.BonusCalculationService;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -74,19 +75,19 @@ public class BonusValueModificationObserverTriggerTest {
 
     @Test
     public void triggerNoRefBonusTest() {
-        final Boni boni = new Boni();
+        final ContextBoni ctxBoni = new ContextBoni();
         final ICharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = new Weapon();
 
         this.trigger.setReferenceBonus(null);
         Object testResult = this.trigger.trigger(
-                boni, dndCharacter, contextItem);
-        assertEquals(boni, testResult);
+                ctxBoni, dndCharacter, contextItem);
+        assertEquals(ctxBoni, testResult);
     }
 
     @Test
     public void triggerNormalOperationTest() {
-        final Boni boni = new Boni();
+        final ContextBoni boni = new ContextBoni();
         final ICharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = new Weapon();
         final Bonus bonusA = new Bonus();
@@ -95,12 +96,14 @@ public class BonusValueModificationObserverTriggerTest {
         bonusA.setTarget(mock(BonusTarget.class));
         bonusB.setBonusType(this.bonusType);
         bonusB.setTarget(this.bonusTarget);
-        boni.addBonus(bonusA);
-        boni.addBonus(bonusB);
+        final ContextBonus ctxBonusA = new ContextBonus(bonusA, contextItem);
+        final ContextBonus ctxBonusB = new ContextBonus(bonusB, contextItem);
+        boni.add(ctxBonusA);
+        boni.add(ctxBonusB);
 
         final BonusValueTuple valueB = new BonusValueTuple();
         valueB.addBonusValue(BonusRank.RANK_0, new BonusValue(2L));
-        when(this.bonusCalcService.getEffectiveValues(bonusB, contextItem,
+        when(this.bonusCalcService.getEffectiveValues(ctxBonusB,
                 (DndCharacter) dndCharacter)).thenReturn(valueB);
 
         this.trigger.trigger(
