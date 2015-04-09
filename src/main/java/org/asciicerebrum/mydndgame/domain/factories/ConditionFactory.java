@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.asciicerebrum.mydndgame.domain.ruleentities.ConditionType;
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;

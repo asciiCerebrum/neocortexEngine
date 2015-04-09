@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatBinding;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Feat;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;

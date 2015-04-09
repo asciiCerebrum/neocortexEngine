@@ -1,6 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.core.particles;
 
-import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang3.BooleanUtils;
 
 /**
  *

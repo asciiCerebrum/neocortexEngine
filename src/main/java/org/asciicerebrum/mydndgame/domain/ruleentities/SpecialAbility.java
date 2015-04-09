@@ -34,7 +34,7 @@ public class SpecialAbility extends Feature {
     @Override
     public final ContextBoni getBoni(final UniqueEntity context,
             final UniqueEntityResolver resolver) {
-        ContextBoni ctxBoni = this.getFeatureBoni(context, resolver);
+        ContextBoni ctxBoni = this.getFeatureBoni(context);
 
         if (this.subAbilities != null) {
             ctxBoni.add(this.subAbilities.getBoni(context, resolver));

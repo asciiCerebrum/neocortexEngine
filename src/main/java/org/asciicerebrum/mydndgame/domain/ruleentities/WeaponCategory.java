@@ -55,7 +55,7 @@ public class WeaponCategory extends Feature {
     @Override
     public final ContextBoni getBoni(final UniqueEntity context,
             final UniqueEntityResolver resolver) {
-        return this.getFeatureBoni(context, resolver);
+        return this.getFeatureBoni(context);
     }
 
 }

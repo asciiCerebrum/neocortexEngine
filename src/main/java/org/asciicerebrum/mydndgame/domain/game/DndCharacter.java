@@ -71,14 +71,14 @@ public class DndCharacter extends UniqueEntity implements ICharacter,
     /**
      * All the conditions the character is currently in.
      */
-    private Conditions conditions;
+    private Conditions conditions = new Conditions();
 
     /**
      * The special abilities given by the prototype dnd character. All dnd
      * characters will have those and they are injected by the application
      * context.
      */
-    private SpecialAbilities prototypeSpecialAbilities;
+    private SpecialAbilities prototypeSpecialAbilities = new SpecialAbilities();
 
     /**
      * @return the levelAdvancements

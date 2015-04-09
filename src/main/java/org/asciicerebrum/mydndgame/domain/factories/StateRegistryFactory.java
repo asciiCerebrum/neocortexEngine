@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
 import java.util.List;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry.StateParticle;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry.StateValueType;

@@ -9,6 +9,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.BonusType;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus.ResemblanceFacet;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -71,8 +72,10 @@ public class RemoveBonusObserverTriggerTest {
         final ICharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = new Weapon();
 
-        this.trigger.trigger(boni, dndCharacter, contextItem);
+        final ContextBoni ctxBoni = new ContextBoni(boni, contextItem);
 
-        assertEquals(1L, Iterators.size(boni.iterator()));
+        this.trigger.trigger(ctxBoni, dndCharacter, contextItem);
+
+        assertEquals(1L, Iterators.size(ctxBoni.iterator()));
     }
 }

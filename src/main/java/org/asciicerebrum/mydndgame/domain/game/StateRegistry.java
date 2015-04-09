@@ -3,11 +3,10 @@ package org.asciicerebrum.mydndgame.domain.game;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.EnumUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -20,12 +19,6 @@ import org.springframework.context.ApplicationContext;
  * @author species8472
  */
 public class StateRegistry {
-
-    /**
-     * The logger.
-     */
-    private static final Logger LOG
-            = LoggerFactory.getLogger(StateRegistry.class);
 
     /**
      * Some kind of further characterization of the aspect of the state.
@@ -261,17 +254,14 @@ public class StateRegistry {
                 = new StateRegistryKey(particle, contextObjectId);
         final Object value = this.stateMap.get(key);
 
-        try {
-            return StateValueType.valueOf(
-                    value.getClass().getSimpleName()
-                    .toUpperCase(Locale.ENGLISH));
-        } catch (final IllegalArgumentException iae) {
-            LOG.info("Class of type {} could not be transformed to a state "
-                    + "value. Trying to use the fallback of a unique entity.",
-                    value.getClass().getSimpleName());
-            if (value instanceof UniqueId) {
-                return StateValueType.UNIQUE_ID;
-            }
+        if (value instanceof UniqueId) {
+            return StateValueType.UNIQUE_ID;
+        }
+
+        final String valueClass = value.getClass().getSimpleName()
+                .toUpperCase(Locale.ENGLISH);
+        if (EnumUtils.isValidEnum(StateValueType.class, valueClass)) {
+            return StateValueType.valueOf(valueClass);
         }
         // it is not possible to determine whether an object is a bean or not.
         // So the method of elimination is used.

@@ -143,6 +143,9 @@ public class ContextBoni {
      * @param context the context of these boni.
      */
     public final void add(final Boni boni, final UniqueEntity context) {
+        if (boni == null) {
+            return;
+        }
         final Iterator<Bonus> bonusIterator = boni.iterator();
         while (bonusIterator.hasNext()) {
             final Bonus bonus = bonusIterator.next();

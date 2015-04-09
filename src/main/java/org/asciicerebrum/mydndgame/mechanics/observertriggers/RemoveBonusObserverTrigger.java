@@ -3,9 +3,10 @@ package org.asciicerebrum.mydndgame.mechanics.observertriggers;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus.ResemblanceFacet;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.ObserverTriggerStrategy;
 
 /**
@@ -31,11 +32,11 @@ public class RemoveBonusObserverTrigger implements ObserverTriggerStrategy {
     public final Object trigger(final Object object,
             final ICharacter dndCharacter, final UniqueEntity contextItem) {
 
-        final Boni boni = (Boni) object;
-        final Iterator<Bonus> boniIterator = boni.iterator();
+        final ContextBoni ctxBoni = (ContextBoni) object;
+        final Iterator<ContextBonus> boniIterator = ctxBoni.iterator();
         while (boniIterator.hasNext()) {
-            final Bonus bonus = boniIterator.next();
-            if (this.getRemoveBonus().resembles(bonus,
+            final ContextBonus ctxBonus = boniIterator.next();
+            if (this.getRemoveBonus().resembles(ctxBonus.getBonus(),
                     this.resemblanceFacets)) {
                 boniIterator.remove();
             }

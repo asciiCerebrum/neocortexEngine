@@ -2,7 +2,7 @@ package org.asciicerebrum.mydndgame.domain.mechanics.bonus;
 
 import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
 import java.util.Arrays;
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTarget;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusType;
