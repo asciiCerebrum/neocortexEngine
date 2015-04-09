@@ -67,9 +67,6 @@ public class Ability implements BonusSource, BonusTarget, ObserverSource {
         this.name = nameInput;
     }
 
-    /**
-     * @return the boni
-     */
     @Override
     public final ContextBoni getBoni(final UniqueEntity context,
             final UniqueEntityResolver resolver) {

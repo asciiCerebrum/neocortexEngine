@@ -145,7 +145,7 @@ public class LevelAdvancement implements BonusSource, ObserverSource {
         if (this.featAdvancement != null) {
             ctxBoni.add(this.featAdvancement.getBoni(context, resolver));
         }
-        
+
         return ctxBoni;
     }
 

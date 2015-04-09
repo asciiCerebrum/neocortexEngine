@@ -32,13 +32,13 @@ public abstract class InventoryItem extends UniqueEntity
     /**
      * All individual special abilities for this item instance.
      */
-    private SpecialAbilities specialAbilities;
+    private final SpecialAbilities specialAbilities = new SpecialAbilities();
 
     /**
      * All the conditions the item is currently in. E.g. a dogslicer can be
      * broken.
      */
-    private Conditions conditions;
+    private final Conditions conditions = new Conditions();
 
     /**
      * @return the inventoryItemPrototype
@@ -77,14 +77,6 @@ public abstract class InventoryItem extends UniqueEntity
     }
 
     /**
-     * @param specialAbilitiesInput the specialAbilities to set
-     */
-    public final void setSpecialAbilities(
-            final SpecialAbilities specialAbilitiesInput) {
-        this.specialAbilities = specialAbilitiesInput;
-    }
-
-    /**
      * @return the base cost from the prototype.
      */
     public final Cost getBaseCost() {
@@ -118,13 +110,10 @@ public abstract class InventoryItem extends UniqueEntity
             final UniqueEntityResolver resolver) {
         final ContextBoni contextBoni = new ContextBoni();
 
-        if (this.specialAbilities != null) {
-            contextBoni.add(this.specialAbilities.getBoni(this, resolver));
-        }
-        contextBoni.add(this.inventoryItemPrototype.getBoni(this, resolver));
-        if (this.conditions != null) {
-            contextBoni.add(this.conditions.getBoni(this, resolver));
-        }
+        contextBoni.add(this.specialAbilities.getBoni(this, resolver));
+        contextBoni.add(this.getInventoryItemPrototype()
+                .getBoni(this, resolver));
+        contextBoni.add(this.conditions.getBoni(this, resolver));
 
         return contextBoni;
     }
@@ -134,13 +123,6 @@ public abstract class InventoryItem extends UniqueEntity
      */
     public final Conditions getConditions() {
         return conditions;
-    }
-
-    /**
-     * @param conditionsInput the conditions to set
-     */
-    public final void setConditions(final Conditions conditionsInput) {
-        this.conditions = conditionsInput;
     }
 
 }

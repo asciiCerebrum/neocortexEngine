@@ -81,7 +81,7 @@ public class Condition implements BonusSource, ObserverSource {
     public final ContextBoni getBoni(final UniqueEntity context,
             final UniqueEntityResolver resolver) {
         final ContextBoni ctxBoni = new ContextBoni();
-        ctxBoni.add(this.conditionType.getBoni(context, resolver));
+        ctxBoni.add(this.getConditionType().getBoni(context, resolver));
         return ctxBoni;
     }
 

@@ -49,8 +49,8 @@ public abstract class InventoryItemFactory
                         setup.getProperty(SetupProperty.SIZE_CATEGORY),
                         SizeCategory.class);
         concreteItem.setSizeCategory(sizeCategory);
-        SpecialAbilities specialAbilities = new SpecialAbilities();
-        concreteItem.setSpecialAbilities(specialAbilities);
+        final SpecialAbilities specialAbilities
+                = concreteItem.getSpecialAbilities();
 
         // adding special abilities
         if (setup.getProperties(SetupProperty.SPECIAL_ABILITIES) != null) {
@@ -79,7 +79,7 @@ public abstract class InventoryItemFactory
      */
     final void fillConditions(final EntitySetup setup,
             final InventoryItem inventoryItem) {
-        final Conditions conditions = new Conditions();
+        final Conditions conditions = inventoryItem.getConditions();
         final List<EntitySetup> conditionSetups
                 = setup.getPropertySetups(SetupProperty.CONDITIONS);
         if (conditionSetups != null) {
@@ -87,7 +87,6 @@ public abstract class InventoryItemFactory
                 conditions.add(this.getConditionFactory()
                         .newEntity(conditionSetup));
             }
-            inventoryItem.setConditions(conditions);
         }
     }
 

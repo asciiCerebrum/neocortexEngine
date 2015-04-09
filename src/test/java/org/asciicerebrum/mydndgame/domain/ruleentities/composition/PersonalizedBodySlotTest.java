@@ -58,14 +58,13 @@ public class PersonalizedBodySlotTest {
         this.pbSlot = new PersonalizedBodySlot();
         this.item = new Weapon();
         this.item.setUniqueId(new UniqueId("item"));
-        final SpecialAbilities specAbs = new SpecialAbilities();
+        final SpecialAbilities specAbs = this.item.getSpecialAbilities();
         final SpecialAbility specAb = new SpecialAbility();
         final Boni boni = new Boni();
         this.itemBonus = new Bonus();
         boni.addBonus(this.itemBonus);
         specAb.setBoni(boni);
         specAbs.add(specAb);
-        this.item.setSpecialAbilities(specAbs);
 
         this.pbSlot.setItemId(this.item.getUniqueId());
 
@@ -74,7 +73,7 @@ public class PersonalizedBodySlotTest {
         slot.setBodySlotType(type);
         slot.setIsPrimaryAttackSlot(new AttackAbility(true));
         this.pbSlot.setBodySlot(slot);
-        
+
         this.item.setInventoryItemPrototype(new WeaponPrototype());
 
         this.resolver = mock(UniqueEntityResolver.class);

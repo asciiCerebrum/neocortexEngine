@@ -35,7 +35,7 @@ public class ContextBoni {
         public SameTargetPredicate(final BonusTarget targetInput) {
             this.target = targetInput;
         }
-        
+
         @Override
         public final boolean evaluate(final Object o) {
             final ContextBonus ctxBonus = (ContextBonus) o;
@@ -62,7 +62,7 @@ public class ContextBoni {
         public InTargetsPredicate(final BonusTargets targetsInput) {
             this.targets = targetsInput;
         }
-        
+
         @Override
         public final boolean evaluate(final Object o) {
             final ContextBonus ctxBonus = (ContextBonus) o;
@@ -85,12 +85,12 @@ public class ContextBoni {
         /**
          * Constructing the predicate with a given scope.
          *
-         * @param scopeInput the scope to rule them all.
+         * @param targetEntityInput the target entity defining the scope.
          */
         public SameScopePredicate(final UniqueEntity targetEntityInput) {
             this.targetEntity = targetEntityInput;
         }
-        
+
         @Override
         public final boolean evaluate(final Object o) {
             final ContextBonus ctxBonus = (ContextBonus) o;
@@ -113,7 +113,7 @@ public class ContextBoni {
      * Standard empty contructor for an empty collection.
      */
     public ContextBoni() {
-        
+
     }
 
     /**
@@ -147,7 +147,7 @@ public class ContextBoni {
         while (bonusIterator.hasNext()) {
             final Bonus bonus = bonusIterator.next();
             final ContextBonus ctxBonus = new ContextBonus(bonus, context);
-            
+
             this.elements.add(ctxBonus);
         }
     }
@@ -184,10 +184,10 @@ public class ContextBoni {
      */
     public final ContextBoni filterByTarget(final BonusTarget target) {
         final ContextBoni filteredBoni = new ContextBoni();
-        
+
         filteredBoni.add(CollectionUtils.select(this.elements,
                 new ContextBoni.SameTargetPredicate(target)));
-        
+
         return filteredBoni;
     }
 
@@ -200,10 +200,10 @@ public class ContextBoni {
      */
     public final ContextBoni filterByTargets(final BonusTargets targets) {
         final ContextBoni filteredBoni = new ContextBoni();
-        
+
         filteredBoni.add(CollectionUtils.select(this.elements,
                 new ContextBoni.InTargetsPredicate(targets)));
-        
+
         return filteredBoni;
     }
 
@@ -216,11 +216,11 @@ public class ContextBoni {
      */
     public final ContextBoni filterByScope(final UniqueEntity targetEntity) {
         final ContextBoni filteredBoni = new ContextBoni();
-        
+
         filteredBoni.add(CollectionUtils.select(this.elements,
                 new SameScopePredicate(targetEntity)));
-        
+
         return filteredBoni;
     }
-    
+
 }

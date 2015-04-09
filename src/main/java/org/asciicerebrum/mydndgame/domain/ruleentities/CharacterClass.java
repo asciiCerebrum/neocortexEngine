@@ -30,7 +30,7 @@ public class CharacterClass implements BonusSource, ObserverSource {
      * The list of feats which are automatically granted to the character when
      * acquiring this class.
      */
-    private Feats classFeats;
+    private final Feats classFeats = new Feats();
 
     /**
      * @return the hit dice.
@@ -65,13 +65,6 @@ public class CharacterClass implements BonusSource, ObserverSource {
      */
     public final Feats getClassFeats() {
         return classFeats;
-    }
-
-    /**
-     * @param classFeatsInput the classFeats to set
-     */
-    public final void setClassFeats(final Feats classFeatsInput) {
-        this.classFeats = classFeatsInput;
     }
 
     @Override
