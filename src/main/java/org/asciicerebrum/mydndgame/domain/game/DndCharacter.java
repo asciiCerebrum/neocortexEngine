@@ -46,7 +46,8 @@ public class DndCharacter extends UniqueEntity implements ICharacter,
     /**
      * All the personalized body slots the character has.
      */
-    private PersonalizedBodySlots personalizedBodySlots;
+    private PersonalizedBodySlots personalizedBodySlots
+            = new PersonalizedBodySlots();
 
     /**
      * The registry holding the state.
