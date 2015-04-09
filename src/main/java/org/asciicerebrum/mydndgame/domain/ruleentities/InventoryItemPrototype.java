@@ -40,7 +40,7 @@ public abstract class InventoryItemPrototype extends GameEntity
     /**
      * Collection of special abilities of this item. E.g. mwk, magical, etc.
      */
-    private SpecialAbilities specialAbilities;
+    private SpecialAbilities specialAbilities = new SpecialAbilities();
 
     /**
      * @return the baseWeight
@@ -119,9 +119,7 @@ public abstract class InventoryItemPrototype extends GameEntity
             final UniqueEntityResolver resolver) {
         final ContextBoni ctxBoni = new ContextBoni();
 
-        if (this.specialAbilities != null) {
-            ctxBoni.add(this.specialAbilities.getBoni(context, resolver));
-        }
+        ctxBoni.add(this.getSpecialAbilities().getBoni(context, resolver));
 
         return ctxBoni;
     }

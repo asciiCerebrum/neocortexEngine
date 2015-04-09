@@ -14,7 +14,7 @@ public class SpecialAbility extends Feature {
      * For example a magic weapon is always a masterwork. So the masterwork is
      * the subAbility of the magic feature.
      */
-    private SpecialAbilities subAbilities;
+    private SpecialAbilities subAbilities = new SpecialAbilities();
 
     /**
      * @return the subAbilities
@@ -36,9 +36,7 @@ public class SpecialAbility extends Feature {
             final UniqueEntityResolver resolver) {
         ContextBoni ctxBoni = this.getFeatureBoni(context);
 
-        if (this.subAbilities != null) {
-            ctxBoni.add(this.subAbilities.getBoni(context, resolver));
-        }
+        ctxBoni.add(this.getSubAbilities().getBoni(context, resolver));
 
         return ctxBoni;
     }

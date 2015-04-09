@@ -107,6 +107,22 @@ public class ContextBoniTest {
     }
 
     @Test
+    public void filterByScopeObjectALLScopeTest() {
+        final ContextBoni result = this.ctxBoni.filterByScope(new Weapon());
+
+        assertEquals(2L, Iterators.size(result.iterator()));
+    }
+
+    @Test
+    public void filterByScopeObjectSPECIFICScopeTest() {
+        this.ctxBonusA.getBonus().setScope(Bonus.BonusScope.SPECIFIC);
+        this.ctxBonusB.getBonus().setScope(Bonus.BonusScope.SPECIFIC);
+        final ContextBoni result = this.ctxBoni.filterByScope(new Weapon());
+
+        assertEquals(0L, Iterators.size(result.iterator()));
+    }
+
+    @Test
     public void filterByTargetsObjectTest() {
         final BonusTargets targets = new BonusTargets(this.targetA,
                 new BonusTarget() {

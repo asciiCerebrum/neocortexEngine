@@ -241,9 +241,6 @@ public class DndCharacter extends UniqueEntity implements ICharacter,
      * @param condition the condition to add.
      */
     public final void addCondition(final Condition condition) {
-        if (this.getConditions() == null) {
-            this.setConditions(new Conditions());
-        }
         this.getConditions().add(condition);
     }
 
