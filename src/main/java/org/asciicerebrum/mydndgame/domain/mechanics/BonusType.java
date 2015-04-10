@@ -15,9 +15,10 @@ public class BonusType {
     private UniqueId id;
 
     /**
-     * Determines, if boni of this type are stackable.
+     * Determines, if boni of this type are stackable. Default is false as most
+     * boni do not stack.
      */
-    private Stackability doesStack;
+    private Stackability doesStack = new Stackability(false);
 
     /**
      * @return the id

@@ -91,14 +91,14 @@ public class DefaultBonusCalculationServiceImpl
     @Override
     public final BonusValueTuple accumulateBonusValues(
             final DndCharacter dndCharacter, final ContextBoni foundBoni) {
-        //TODO filter out non-stacking boni
         //TODO track the origin of the bonus, e.g. from ability Constitution
         //TODO skip boni of value 0 - really erase them from the list or don't
         // put them into the list in the first place
         // for hp
         final BonusValueTuple bonusValueTuple = new BonusValueTuple();
 
-        Iterator<ContextBonus> bonusIterator = foundBoni.iterator();
+        Iterator<ContextBonus> bonusIterator
+                = foundBoni.filterByStackability().iterator();
         while (bonusIterator.hasNext()) {
             final ContextBonus ctxBonus = bonusIterator.next();
 

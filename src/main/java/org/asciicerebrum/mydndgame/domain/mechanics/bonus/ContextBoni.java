@@ -2,13 +2,16 @@ package org.asciicerebrum.mydndgame.domain.mechanics.bonus;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTarget;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTargets;
+import org.asciicerebrum.mydndgame.domain.mechanics.BonusType;
 
 /**
  *
@@ -223,6 +226,42 @@ public class ContextBoni {
         filteredBoni.add(CollectionUtils.select(this.elements,
                 new SameScopePredicate(targetEntity)));
 
+        return filteredBoni;
+    }
+
+    /**
+     * Filters out non-stacking boni. If two boni of the same type are in the
+     * list, only the higher one is considered. Boni of multiple ranks are
+     * compared by their rank-0 value.
+     *
+     * @return the filtered list.
+     */
+    public final ContextBoni filterByStackability() {
+        final ContextBoni filteredBoni = new ContextBoni();
+        final Map<BonusType, ContextBonus> bonusStackMap
+                = new HashMap<BonusType, ContextBonus>();
+        final Iterator<ContextBonus> bonusIterator = this.iterator();
+        while (bonusIterator.hasNext()) {
+            final ContextBonus ctxBonus = bonusIterator.next();
+
+            // boni without bonus type always stack
+            if (ctxBonus.getBonus().getBonusType() == null
+                    || ctxBonus.getBonus().getBonusType().getDoesStack()
+                    .isValue()) {
+                filteredBoni.add(ctxBonus);
+                continue;
+            }
+
+            final ContextBonus mappedCtxBonus = bonusStackMap
+                    .get(ctxBonus.getBonus().getBonusType());
+            if (mappedCtxBonus == null
+                    || mappedCtxBonus.getBonus().getValues()
+                    .lessThan(ctxBonus.getBonus().getValues())) {
+                bonusStackMap.put(ctxBonus.getBonus().getBonusType(), ctxBonus);
+            }
+        }
+
+        filteredBoni.add(bonusStackMap.values());
         return filteredBoni;
     }
 

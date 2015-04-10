@@ -319,4 +319,17 @@ public class BonusValueTuple {
     public final Iterator<BonusValueEntry> iterator() {
         return new BonusValueEntryIterator(this.rankedBoni);
     }
+
+    /**
+     * Tests if this instance's value is less than that of a given bonus value
+     * tuple. The rank-0 value is considered for this comparison.
+     *
+     * @param bonusValueTuple the given bonusValueTuple.
+     * @return true if less than, otherwise false.
+     */
+    public final boolean lessThan(final BonusValueTuple bonusValueTuple) {
+        return this.getBonusValueByRank(BonusRank.RANK_0)
+                .lessThan(bonusValueTuple
+                        .getBonusValueByRank(BonusRank.RANK_0));
+    }
 }

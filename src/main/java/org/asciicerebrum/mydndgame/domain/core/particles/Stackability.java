@@ -6,4 +6,12 @@ package org.asciicerebrum.mydndgame.domain.core.particles;
  */
 public class Stackability extends BooleanParticle {
 
+    /**
+     * Constructs this Stackability from a boolean value.
+     *
+     * @param value the boolean value.
+     */
+    public Stackability(final boolean value) {
+        this.setValue(value);
+    }
 }
