@@ -1,11 +1,14 @@
 package org.asciicerebrum.mydndgame.services.core.accumulator.observer;
 
+import com.google.common.collect.Iterators;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities;
 import org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -13,6 +16,12 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
  */
 public class SpecialAbilitiesObserverAccumulatorStrategy
         implements ObserverAccumulatorStrategy {
+
+    /**
+     * The logger instance.
+     */
+    private static final Logger LOG = LoggerFactory.getLogger(
+            SpecialAbilitiesObserverAccumulatorStrategy.class);
 
     /**
      * The observer accumulator strategy for the special ability.
@@ -30,11 +39,18 @@ public class SpecialAbilitiesObserverAccumulatorStrategy
                 = (SpecialAbilities) observerSource;
         final Iterator<SpecialAbility> iterator = specialAbilities.iterator();
 
+        LOG.debug("Found {} special abilities for the item {}.",
+                Iterators.size(specialAbilities.iterator()),
+                targetEntity.getUniqueId().getValue());
+
         while (iterator.hasNext()) {
             final SpecialAbility specialAbility = iterator.next();
             observers.add(this.getSpecialAbilityStrategy().getObservers(
                     specialAbility, targetEntity));
         }
+
+        LOG.debug("Found {} observers for the special abilities.",
+                observers.size());
 
         return observers;
     }

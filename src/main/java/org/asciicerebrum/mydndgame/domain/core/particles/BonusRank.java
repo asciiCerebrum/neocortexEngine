@@ -32,6 +32,13 @@ public class BonusRank extends LongParticle implements Comparable<BonusRank> {
         this.setValue(rankValue);
     }
 
+    /**
+     * Constructor for creating a bonus rank out of a default long value.
+     *
+     */
+    public BonusRank() {
+    }
+
     @Override
     public final int compareTo(final BonusRank rank) {
         return Long.valueOf(this.getValue()).compareTo(rank.getValue());
@@ -45,6 +52,11 @@ public class BonusRank extends LongParticle implements Comparable<BonusRank> {
     @Override
     public final int hashCode() {
         return this.hashCodeHelper();
+    }
+
+    @Override
+    public final LongParticle getNewInstanceOfSameType() {
+        return new BonusRank();
     }
 
 }

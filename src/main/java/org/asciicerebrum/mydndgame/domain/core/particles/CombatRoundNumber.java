@@ -26,6 +26,13 @@ public final class CombatRoundNumber extends LongParticle
     }
 
     /**
+     * Creates an instance from a long primitive default value.
+     *
+     */
+    public CombatRoundNumber() {
+    }
+
+    /**
      * Sets the value of the combat round number.
      *
      * @param stringInput the string to set the value from.
@@ -49,6 +56,11 @@ public final class CombatRoundNumber extends LongParticle
     @Override
     public int hashCode() {
         return this.hashCodeHelper();
+    }
+
+    @Override
+    public LongParticle getNewInstanceOfSameType() {
+        return new CombatRoundNumber();
     }
 
 }

@@ -11,12 +11,20 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSour
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
 import org.asciicerebrum.mydndgame.services.core.accumulator.observer.ObserverAccumulatorStrategies;
 import org.asciicerebrum.mydndgame.services.core.accumulator.observer.ObserverAccumulatorStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author species8472
  */
 public class DefaultObservableService implements ObservableService {
+
+    /**
+     * The logger instance.
+     */
+    private static final Logger LOG
+            = LoggerFactory.getLogger(DefaultObservableService.class);
 
     /**
      * Collections of all availabe observer accumulator strategies. This is used
@@ -81,6 +89,8 @@ public class DefaultObservableService implements ObservableService {
                     targetEntity));
         }
 
+        LOG.debug("Found a total of {} observers.", observers.size());
+
         return observers;
     }
 
@@ -99,6 +109,10 @@ public class DefaultObservableService implements ObservableService {
         // find the starting point of all the accumulator strategies
         final ObserverAccumulatorStrategy strategy
                 = this.getAccumulatorStrategies().findForSource(observerSource);
+
+        LOG.debug("Found accumulation strategy {} of observer source {}.",
+                new Object[]{strategy.getClass().getSimpleName(),
+                    observerSource.getClass().getSimpleName()});
 
         return strategy.getObservers(observerSource, targetEntity);
     }

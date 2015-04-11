@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame.services.core.accumulator.observer;
 
 import com.google.common.collect.Iterators;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
@@ -71,6 +72,8 @@ public class InventoryItemObserverAccumulatorStrategyTest {
     public void getObserversCorrectSizeTest() {
         final Weapon observerSource = new Weapon();
         final UniqueEntity targetEntity = new Weapon();
+        observerSource.setUniqueId(new UniqueId("sourceWeapon"));
+        targetEntity.setUniqueId(new UniqueId("targetWeapon"));
 
         final Observer subObserverA = new Observer();
         final Observer subObserverB = new Observer();
@@ -93,6 +96,7 @@ public class InventoryItemObserverAccumulatorStrategyTest {
     public void getObserversCorrectSizeSourceIsTargetTest() {
         final Weapon observerSource = new Weapon();
         final UniqueEntity targetEntity = observerSource;
+        observerSource.setUniqueId(new UniqueId("sourceWeapon"));
 
         final Observer subObserverA = new Observer();
         final Observer subObserverB = new Observer();

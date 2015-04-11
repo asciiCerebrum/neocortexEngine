@@ -41,6 +41,11 @@ public class LongParticleTest {
             public int hashCode() {
                 return super.hashCodeHelper();
             }
+
+            @Override
+            public LongParticle getNewInstanceOfSameType() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
         };
     }
 

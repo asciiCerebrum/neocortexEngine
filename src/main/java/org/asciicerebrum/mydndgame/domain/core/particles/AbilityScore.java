@@ -25,6 +25,13 @@ public class AbilityScore extends LongParticle {
     }
 
     /**
+     * Constructs the ability score with default value.
+     *
+     */
+    public AbilityScore() {
+    }
+
+    /**
      *
      * @param abilityValueString the ability value as string.
      */
@@ -60,6 +67,11 @@ public class AbilityScore extends LongParticle {
     @Override
     public final int hashCode() {
         return this.hashCodeHelper();
+    }
+
+    @Override
+    public final LongParticle getNewInstanceOfSameType() {
+        return new AbilityScore();
     }
 
 }

@@ -11,7 +11,6 @@ import org.asciicerebrum.mydndgame.domain.factories.DndCharacterFactory;
 import org.asciicerebrum.mydndgame.domain.factories.WeaponFactory;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
-import org.asciicerebrum.mydndgame.domain.setup.ArmorSetup;
 import org.asciicerebrum.mydndgame.domain.setup.CharacterSetup;
 import org.asciicerebrum.mydndgame.domain.setup.PersonalizedBodySlotSetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
@@ -244,97 +243,36 @@ public class CharacterPropertiesHarskIntegrationTest {
     }
 
     @Test
-    public void harskACFlatFootedWithShield() {
+    public void harskACFlatFootedWithoutShieldTest() {
+        final CharacterSetup setup = HarskDwarfFighter2.getSetup();
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).remove(1);
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(setup));
+
+        final ArmorClass ac = this.acCalculationService.calcAcFlatFooted(
+                ((DndCharacter) this.entityPoolService
+                .getEntityById(this.harskId)));
+
+        // dex 15: +2 NOT GRANTED HERE
         // studded leather: +3
-        // heavy steel shield: +2
-        ArmorSetup shield4HarskSetup = new ArmorSetup();
-        shield4HarskSetup.setId("shield4Harsk");
-        shield4HarskSetup.setName("heavySteelShield");
-        shield4HarskSetup.setSizeCategory("medium");
-//        IArmor shield4Harsk = new ArmorFactory(
-//                shield4HarskSetup, this.context).build();
-//
-//        this.harsk.getBodySlotByType(this.secondaryHand).setItem(shield4Harsk);
-//
-//        assertEquals(Long.valueOf(15), this.harsk.getAcFlatFooted());
-        fail();
+        assertEquals(13L, ac.getValue());
+
     }
 
     @Test
-    public void harskACTouchWithShield() {
-        // studded leather not applied
-        // heavy steel shield not applied
-        ArmorSetup shield4HarskSetup = new ArmorSetup();
-        shield4HarskSetup.setId("shield4Harsk");
-        shield4HarskSetup.setName("heavySteelShield");
-        shield4HarskSetup.setSizeCategory("medium");
-//        IArmor shield4Harsk = new ArmorFactory(
-//                shield4HarskSetup, this.context).build();
-//
-//        this.harsk.getBodySlotByType(this.secondaryHand).setItem(shield4Harsk);
-//
-//        assertEquals(Long.valueOf(10), this.harsk.getAcTouch());
-        fail();
-    }
+    public void harskACTouchWithShieldTest() {
+        final CharacterSetup setup = HarskDwarfFighter2.getSetup();
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).remove(1);
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(setup));
 
-    @Test
-    public void valerosMaxHp() {
-//        assertEquals(Long.valueOf(12), this.valeros.getMaxHp());
-        fail();
-    }
+        final ArmorClass ac = this.acCalculationService.calcAcTouch(
+                ((DndCharacter) this.entityPoolService
+                .getEntityById(this.harskId)));
 
-    @Test
-    public void valerosMaxAttackNumber() {
-//        assertEquals(Long.valueOf(1), this.valeros.getMaxAttackNumber());
-        fail();
-    }
-
-    @Test
-    public void valerosBaseAtk1() {
-//        assertEquals(Long.valueOf(1),
-//                this.valeros.getBaseAtkBoni().get(0).getDynamicValueProvider()
-//                .getDynamicValue(this.valeros));
-        fail();
-    }
-
-    @Test
-    public void valerosBaseAtkLength() {
-//        assertEquals(1, this.valeros.getBaseAtkBoni().size());
-        fail();
-    }
-
-    @Test
-    public void valerosAC() {
-        // dex: -1
-        // chainmail: +5
-//        assertEquals(Long.valueOf(14), this.valeros.getAcStandard());
-        fail();
-    }
-
-    @Test
-    public void valerosACFlatFooted() {
-        // dex: -1 -> stays when flat footed!
-        // chainmail: +5
-//        assertEquals(Long.valueOf(14), this.valeros.getAcFlatFooted());
-        fail();
-    }
-
-    @Test
-    public void valerosACTouch() {
-        // dex: -1
-        // chainmail: +5 -> not active when touched
-//        assertEquals(Long.valueOf(9), this.valeros.getAcTouch());
-        fail();
-    }
-
-    @Test
-    public void valerosChainmailCost() {
-        // mwk chainmail!
-
-//        Long cost = this.valeros.getBodySlotByType(this.torso)
-//                .getItem().getCost();
-//        assertEquals(Long.valueOf(300), cost);
-        fail();
+        // dex 15: +2
+        // studded leather: +3 NOT GRANTED HERE
+        assertEquals(12L, ac.getValue());
     }
 
     @Test
@@ -345,14 +283,6 @@ public class CharacterPropertiesHarskIntegrationTest {
         // towerShieldProficiency
         // 1 from character: weaponFinesse
 //        assertEquals(9, this.valeros.getFeats().size());
-        fail();
-    }
-
-    @Test
-    public void valeros3rdFeatName() {
-        // feat 0 till 7 come from the class, feat 8 from the character.
-//        assertEquals(FEAT_WEAPON_FINESSE,
-//                this.valeros.getFeats().get(8).getId());
         fail();
     }
 

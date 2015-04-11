@@ -15,6 +15,13 @@ public class RangeIncrement extends LongParticle {
         this.setValue(rangeIncrementInput);
     }
 
+    /**
+     * Basic constructor for the long type with a default value.
+     *
+     */
+    public RangeIncrement() {
+    }
+
     @Override
     public final boolean equals(final Object o) {
         return this.equalsHelper(o);
@@ -23,5 +30,10 @@ public class RangeIncrement extends LongParticle {
     @Override
     public final int hashCode() {
         return this.hashCodeHelper();
+    }
+
+    @Override
+    public final LongParticle getNewInstanceOfSameType() {
+        return new RangeIncrement();
     }
 }

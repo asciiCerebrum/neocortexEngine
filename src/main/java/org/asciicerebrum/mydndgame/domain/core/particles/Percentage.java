@@ -15,4 +15,9 @@ public class Percentage extends LongParticle {
     public final int hashCode() {
         return this.hashCodeHelper();
     }
+
+    @Override
+    public final LongParticle getNewInstanceOfSameType() {
+        return new Percentage();
+    }
 }

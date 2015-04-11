@@ -15,6 +15,7 @@ import org.asciicerebrum.mydndgame.domain.setup.PersonalizedBodySlotSetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
 import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.ValerosHumanFighter1;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.MwkChainmail;
+import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.MwkHeavySteelShield;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.StandardLightWoodenShield;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.StandardLongsword;
 import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
@@ -74,6 +75,8 @@ public class CharacterPropertiesValerosIntegrationTest {
                 .newEntity(MwkChainmail.getSetup()));
         this.entityPoolService.registerUniqueEntity(this.armorFactory
                 .newEntity(StandardLightWoodenShield.getSetup()));
+        this.entityPoolService.registerUniqueEntity(this.armorFactory
+                .newEntity(MwkHeavySteelShield.getSetup()));
         this.entityPoolService.registerUniqueEntity(this.weaponFactory
                 .newEntity(StandardLongsword.getSetup()));
 
@@ -179,6 +182,41 @@ public class CharacterPropertiesValerosIntegrationTest {
         // chainmail: +5
         // light wooden shield +1
         assertEquals(18L, ac.getValue());
+    }
+
+    @Test
+    public void valerosAcWithTwoShieldsTest() {
+        final PersonalizedBodySlotSetup hand1Setup
+                = new PersonalizedBodySlotSetup();
+        hand1Setup.setBodySlotType("primaryHand");
+        hand1Setup.setItem("standardLightWoodenShield");
+        hand1Setup.setIsPrimaryAttackSlot("true");
+
+        final PersonalizedBodySlotSetup hand2Setup
+                = new PersonalizedBodySlotSetup();
+        hand2Setup.setBodySlotType("secondaryHand");
+        hand2Setup.setItem("mwkHeavySteelShield");
+        hand2Setup.setIsPrimaryAttackSlot("false");
+
+        final CharacterSetup setup = ValerosHumanFighter1.getSetup();
+        // removal of battleaxe
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).remove(0);
+        // adding the shields
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).add(hand1Setup);
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).add(hand2Setup);
+
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(setup));
+
+        final ArmorClass ac = this.acCalculationService.calcAcStandard(
+                ((DndCharacter) this.entityPoolService
+                .getEntityById(this.valerosId)));
+
+        // dex 15: +2
+        // chainmail: +5
+        // light wooden shield: +1 // NOT GRANTED, LOWER SHIELD-BONUS!
+        // mwk Heavy Steel Shield: +2
+        assertEquals(19L, ac.getValue());
     }
 
 }

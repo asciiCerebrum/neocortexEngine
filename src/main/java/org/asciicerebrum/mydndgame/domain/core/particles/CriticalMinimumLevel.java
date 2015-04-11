@@ -15,6 +15,13 @@ public class CriticalMinimumLevel extends LongParticle {
         this.setValue(minLvlInput);
     }
 
+    /**
+     * Basic constructor for the long type with default value.
+     *
+     */
+    public CriticalMinimumLevel() {
+    }
+
     @Override
     public final boolean equals(final Object o) {
         return this.equalsHelper(o);
@@ -23,5 +30,10 @@ public class CriticalMinimumLevel extends LongParticle {
     @Override
     public final int hashCode() {
         return this.hashCodeHelper();
+    }
+
+    @Override
+    public final LongParticle getNewInstanceOfSameType() {
+        return new CriticalMinimumLevel();
     }
 }

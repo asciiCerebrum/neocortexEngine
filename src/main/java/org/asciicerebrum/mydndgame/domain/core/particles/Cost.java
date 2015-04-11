@@ -15,6 +15,13 @@ public class Cost extends LongParticle {
         this.setValue(costInput);
     }
 
+    /**
+     * Basic constructor for cost with default value.
+     *
+     */
+    public Cost() {
+    }
+
     @Override
     public final boolean equals(final Object o) {
         return this.equalsHelper(o);
@@ -23,5 +30,10 @@ public class Cost extends LongParticle {
     @Override
     public final int hashCode() {
         return this.hashCodeHelper();
+    }
+
+    @Override
+    public final LongParticle getNewInstanceOfSameType() {
+        return new Cost();
     }
 }

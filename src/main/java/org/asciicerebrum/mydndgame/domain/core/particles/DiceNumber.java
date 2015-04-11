@@ -15,6 +15,13 @@ public class DiceNumber extends LongParticle {
         this.setValue(longValue);
     }
 
+    /**
+     * Creates a dice number instance from a long primitive with default value.
+     *
+     */
+    public DiceNumber() {
+    }
+
     @Override
     public final boolean equals(final Object o) {
         return this.equalsHelper(o);
@@ -23,5 +30,10 @@ public class DiceNumber extends LongParticle {
     @Override
     public final int hashCode() {
         return this.hashCodeHelper();
+    }
+
+    @Override
+    public final LongParticle getNewInstanceOfSameType() {
+        return new DiceNumber();
     }
 }

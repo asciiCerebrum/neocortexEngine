@@ -15,6 +15,13 @@ public class Weight extends LongParticle {
         this.setValue(weightInput);
     }
 
+    /**
+     * Basic constructor for weight with a default value.
+     *
+     */
+    public Weight() {
+    }
+
     @Override
     public final boolean equals(final Object o) {
         return this.equalsHelper(o);
@@ -23,5 +30,10 @@ public class Weight extends LongParticle {
     @Override
     public final int hashCode() {
         return this.hashCodeHelper();
+    }
+
+    @Override
+    public final LongParticle getNewInstanceOfSameType() {
+        return new Weight();
     }
 }

@@ -24,7 +24,11 @@
     </appender>
     
     <logger name="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl" level="DEBUG" />
-
+    <logger name="org.asciicerebrum.mydndgame.mechanics.observertriggers" level="DEBUG" />
+    <logger name="org.asciicerebrum.mydndgame.services.core" level="DEBUG" />
+    <logger name="org.asciicerebrum.mydndgame.services.core.accumulator.observer" level="DEBUG" />
+    <logger name="org.asciicerebrum.mydndgame.integrationtests.inventoryitems" level="DEBUG" />
+    
     <root level="info" additivity="false">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>

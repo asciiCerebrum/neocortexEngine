@@ -6,6 +6,8 @@ import org.asciicerebrum.mydndgame.domain.core.particles.LongParticle;
 import org.asciicerebrum.mydndgame.domain.core.particles.LongParticle.Operation;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.ObserverTriggerStrategy;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.DynamicValueProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -13,6 +15,12 @@ import org.asciicerebrum.mydndgame.domain.mechanics.bonus.DynamicValueProvider;
  */
 public class SimpleArithmeticObserverTrigger
         implements ObserverTriggerStrategy {
+
+    /**
+     * The logger.
+     */
+    private static final Logger LOG
+            = LoggerFactory.getLogger(SimpleArithmeticObserverTrigger.class);
 
     /**
      * Numeric modificatioin of the base value called numeric.
@@ -49,8 +57,14 @@ public class SimpleArithmeticObserverTrigger
             return numeric;
         }
 
-        numeric.applyOperation(this.operation, effectiveModValue, numeric);
-        return numeric;
+        LOG.debug("Exec of SimpleArithmeticObserverTrigger: {} for {} and {}.",
+                new Object[]{this.operation, effectiveModValue.getValue(),
+                    numeric.getValue()});
+
+        final LongParticle result = numeric.getNewInstanceOfSameType();
+
+        numeric.applyOperation(this.operation, effectiveModValue, result);
+        return result;
     }
 
     /**

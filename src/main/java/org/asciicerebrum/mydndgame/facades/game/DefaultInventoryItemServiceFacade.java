@@ -34,7 +34,7 @@ public abstract class DefaultInventoryItemServiceFacade
 
         return (Cost) this.getObservableService().triggerObservers(
                 baseCost, inventoryItem,
-                new ObserverSources(dndCharacter),
+                new ObserverSources(dndCharacter, inventoryItem),
                 new ObserverHooks(ObserverHook.PRICE),
                 dndCharacter);
     }
@@ -52,7 +52,7 @@ public abstract class DefaultInventoryItemServiceFacade
 
         return (BodySlotTypes) this.getObservableService().triggerObservers(
                 baseBodySlotTypes, inventoryItem,
-                new ObserverSources(dndCharacter),
+                new ObserverSources(dndCharacter, inventoryItem),
                 new ObserverHooks(ObserverHook.DESIGNATED_BODY_SLOT),
                 dndCharacter);
     }
@@ -72,7 +72,7 @@ public abstract class DefaultInventoryItemServiceFacade
 
         return (SizeCategory) this.getObservableService()
                 .triggerObservers(baseValue, inventoryItem,
-                        new ObserverSources(dndCharacter),
+                        new ObserverSources(dndCharacter, inventoryItem),
                         new ObserverHooks(ObserverHook.SIZE_CATEGORY),
                         dndCharacter);
     }

@@ -15,6 +15,13 @@ public class DiceConstant extends LongParticle {
         this.setValue(longInput);
     }
 
+    /**
+     * Creates an instance from a long primitive with default value.
+     *
+     */
+    public DiceConstant() {
+    }
+
     @Override
     public final boolean equals(final Object o) {
         return this.equalsHelper(o);
@@ -23,5 +30,10 @@ public class DiceConstant extends LongParticle {
     @Override
     public final int hashCode() {
         return this.hashCodeHelper();
+    }
+
+    @Override
+    public final LongParticle getNewInstanceOfSameType() {
+        return new DiceConstant();
     }
 }

@@ -5,6 +5,8 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -12,6 +14,12 @@ import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
  */
 public class InventoryItemObserverAccumulatorStrategy
         implements ObserverAccumulatorStrategy {
+
+    /**
+     * The logger instance.
+     */
+    private static final Logger LOG = LoggerFactory.getLogger(
+            InventoryItemObserverAccumulatorStrategy.class);
 
     /**
      * The observer accumulator strategy for the special abilities.
@@ -38,6 +46,12 @@ public class InventoryItemObserverAccumulatorStrategy
         }
 
         final InventoryItem item = (InventoryItem) observerSource;
+
+        LOG.debug("Retrieving observers for observer source {} and target "
+                + "entity {}.",
+                item.getUniqueId().getValue(),
+                targetEntity.getUniqueId().getValue());
+
         // the inventory item is a unique entity, so it is VERY RELEVANT,
         // if the target entity is identical to this inventory item!!!
         // E.g.: In one hand you have a mwk weapon A, in the other a mwk weapon
@@ -56,6 +70,8 @@ public class InventoryItemObserverAccumulatorStrategy
                 item.getInventoryItemPrototype(), targetEntity));
         observers.add(this.getConditionsStrategy().getObservers(
                 item.getConditions(), targetEntity));
+
+        LOG.debug("Retrieved {} observers for the item.", observers.size());
 
         if (observerSource != targetEntity) {
             // Here the observers with scope SPECIFIC are filtered out, because

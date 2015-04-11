@@ -16,6 +16,13 @@ public class Level extends LongParticle {
     }
 
     /**
+     * Creates an instance from a long primitive with a default value.
+     *
+     */
+    public Level() {
+    }
+
+    /**
      * Creates a new level with a decremented value of the original instance.
      * The decrementation is 1.
      *
@@ -33,6 +40,11 @@ public class Level extends LongParticle {
     @Override
     public final int hashCode() {
         return this.hashCodeHelper();
+    }
+
+    @Override
+    public final LongParticle getNewInstanceOfSameType() {
+        return new Level();
     }
 
 }

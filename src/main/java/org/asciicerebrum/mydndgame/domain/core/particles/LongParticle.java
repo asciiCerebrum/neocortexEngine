@@ -235,4 +235,11 @@ public abstract class LongParticle {
         operation.operate(this, operand, result);
     }
 
+    /**
+     * Makes a clone with value 0 of the same class type.
+     *
+     * @return the new instance.
+     */
+    public abstract LongParticle getNewInstanceOfSameType();
+
 }

@@ -16,6 +16,13 @@ public class ExperiencePoints extends LongParticle {
     }
 
     /**
+     * Creates the instance with a default value.
+     *
+     */
+    public ExperiencePoints() {
+    }
+
+    /**
      * Sets the value from a string.
      *
      * @param xpString the string.
@@ -32,5 +39,10 @@ public class ExperiencePoints extends LongParticle {
     @Override
     public final int hashCode() {
         return this.hashCodeHelper();
+    }
+
+    @Override
+    public final LongParticle getNewInstanceOfSameType() {
+        return new ExperiencePoints();
     }
 }

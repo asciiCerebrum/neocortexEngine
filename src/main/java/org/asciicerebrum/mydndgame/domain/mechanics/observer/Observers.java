@@ -221,4 +221,13 @@ public class Observers {
         return this.elements.iterator();
     }
 
+    /**
+     * The size of the underlying list.
+     *
+     * @return the number of observers.
+     */
+    public final int size() {
+        return this.elements.size();
+    }
+
 }

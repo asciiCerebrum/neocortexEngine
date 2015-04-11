@@ -135,6 +135,13 @@ public class AdvancementNumber extends LongParticle {
     }
 
     /**
+     * Constructs the adv number from a default value.
+     *
+     */
+    public AdvancementNumber() {
+    }
+
+    /**
      *
      * @param advNumberString the adv number.
      */
@@ -150,5 +157,10 @@ public class AdvancementNumber extends LongParticle {
     @Override
     public final int hashCode() {
         return this.hashCodeHelper();
+    }
+
+    @Override
+    public final LongParticle getNewInstanceOfSameType() {
+        return new AdvancementNumber();
     }
 }

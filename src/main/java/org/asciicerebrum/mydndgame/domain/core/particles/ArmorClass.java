@@ -39,4 +39,9 @@ public class ArmorClass extends LongParticle {
         return this.hashCodeHelper();
     }
 
+    @Override
+    public final LongParticle getNewInstanceOfSameType() {
+        return new ArmorClass();
+    }
+
 }

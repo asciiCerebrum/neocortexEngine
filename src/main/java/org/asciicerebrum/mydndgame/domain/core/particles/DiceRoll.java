@@ -16,6 +16,13 @@ public class DiceRoll extends LongParticle {
     }
 
     /**
+     * Creates a dice roll instance from a long primitive with default value.
+     *
+     */
+    public DiceRoll() {
+    }
+
+    /**
      * Generates a new instance with a value as the sum of the original instance
      * and an additionally given bonus value.
      *
@@ -53,6 +60,11 @@ public class DiceRoll extends LongParticle {
     @Override
     public final int hashCode() {
         return this.hashCodeHelper();
+    }
+
+    @Override
+    public final LongParticle getNewInstanceOfSameType() {
+        return new DiceRoll();
     }
 
 }
