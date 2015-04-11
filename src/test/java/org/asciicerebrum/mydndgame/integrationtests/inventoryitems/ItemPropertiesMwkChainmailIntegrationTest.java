@@ -11,6 +11,7 @@ import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.ValerosHu
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.MwkChainmail;
 import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
+import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,6 +63,11 @@ public class ItemPropertiesMwkChainmailIntegrationTest {
 
         this.mwkChainmailId = new UniqueId("mwkChainmail");
         this.valerosId = new UniqueId("valeros");
+    }
+
+    @After
+    public void tearDown() {
+        this.entityPoolService.empty();
     }
 
     @Test

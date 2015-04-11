@@ -10,6 +10,10 @@ import org.asciicerebrum.mydndgame.domain.factories.ArmorFactory;
 import org.asciicerebrum.mydndgame.domain.factories.DndCharacterFactory;
 import org.asciicerebrum.mydndgame.domain.factories.WeaponFactory;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlot;
+import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotType;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlot;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlot.Facet;
 import org.asciicerebrum.mydndgame.domain.setup.CharacterSetup;
 import org.asciicerebrum.mydndgame.domain.setup.PersonalizedBodySlotSetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
@@ -217,6 +221,24 @@ public class CharacterPropertiesValerosIntegrationTest {
         // light wooden shield: +1 // NOT GRANTED, LOWER SHIELD-BONUS!
         // mwk Heavy Steel Shield: +2
         assertEquals(19L, ac.getValue());
+    }
+
+    @Test
+    public void valerosPrimaryHandItemNameTest() {
+        final BodySlotType primaryType
+                = this.context.getBean("primaryHand", BodySlotType.class);
+        final BodySlot bSlot = new BodySlot();
+        bSlot.setBodySlotType(primaryType);
+        final PersonalizedBodySlot blueprint = new PersonalizedBodySlot();
+        blueprint.setBodySlot(bSlot);
+
+        final PersonalizedBodySlot result
+                = ((DndCharacter) this.entityPoolService
+                .getEntityById(this.valerosId))
+                .getPersonalizedBodySlots()
+                .findFirstSimilar(blueprint, Facet.BODY_SLOT_TYPE);
+
+        assertEquals("standardLongsword", result.getItemId().getValue());
     }
 
 }

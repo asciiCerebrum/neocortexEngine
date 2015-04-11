@@ -43,6 +43,22 @@ public abstract class DefaultInventoryItemServiceFacade
      * {@inheritDoc}
      */
     @Override
+    public final Cost getCost(final InventoryItem inventoryItem) {
+
+        final Cost baseCost = inventoryItem.getBaseCost();
+        final DndCharacter pseudoCharacter = new DndCharacter();
+
+        return (Cost) this.getObservableService().triggerObservers(
+                baseCost, inventoryItem,
+                new ObserverSources(pseudoCharacter, inventoryItem),
+                new ObserverHooks(ObserverHook.PRICE),
+                pseudoCharacter);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final BodySlotTypes getDesignatedBodySlotTypes(
             final InventoryItem inventoryItem,
             final DndCharacter dndCharacter) {

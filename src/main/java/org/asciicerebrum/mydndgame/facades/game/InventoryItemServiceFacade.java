@@ -24,6 +24,16 @@ public interface InventoryItemServiceFacade {
     Cost getCost(InventoryItem inventoryItem, DndCharacter dndCharacter);
 
     /**
+     * Calculates the modified cost value of a given inventory item without the
+     * context of a dnd character. E.g. for items without an owner (in a shop,
+     * etc.).
+     *
+     * @param inventoryItem the inventory item in question.
+     * @return the modified value.
+     */
+    Cost getCost(InventoryItem inventoryItem);
+
+    /**
      * Calculates the modified value for the designated body slot types of a
      * given inventory item in the context of a dnd character.
      *

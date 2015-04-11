@@ -287,13 +287,6 @@ public class CharacterPropertiesHarskIntegrationTest {
     }
 
     @Test
-    public void valerosPrimaryHandItemName() {
-//        assertEquals(RAPIER4VALEROS_ID,
-//                this.valeros.getBodySlots().get(0).getItem().getId());
-        fail();
-    }
-
-    @Test
     public void valerosMeleeAtkBonusFirstValue() {
 //        List<Long> meleeAtkBoni
 //                = this.valeros.getAtkBoni(this.primaryHand,
@@ -315,14 +308,6 @@ public class CharacterPropertiesHarskIntegrationTest {
         // dex 9 instead of str 12 due to weapon finesse: -1
         // mwk dagger: 1
 //        assertEquals(Long.valueOf(1), meleeAtkBoni.get(0));
-        fail();
-    }
-
-    @Test
-    public void valerosMwkDaggerCost() {
-//        IInventoryItem mwkDagger
-//                = this.valeros.getBodySlotByType(this.secondaryHand).getItem();
-//        assertEquals(Long.valueOf(302), mwkDagger.getCost());
         fail();
     }
 
