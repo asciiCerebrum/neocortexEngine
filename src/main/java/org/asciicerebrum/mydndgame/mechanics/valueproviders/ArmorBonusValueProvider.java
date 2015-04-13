@@ -2,7 +2,6 @@ package org.asciicerebrum.mydndgame.mechanics.valueproviders;
 
 import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.LongParticle;
 import org.asciicerebrum.mydndgame.domain.game.Armor;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.DynamicValueProvider;
@@ -21,7 +20,7 @@ public class ArmorBonusValueProvider implements DynamicValueProvider {
             final UniqueEntity contextItem) {
 
         if (!(contextItem instanceof Armor)) {
-            return new BonusValue();
+            return null;
         }
 
         final Armor armor = (Armor) contextItem;
