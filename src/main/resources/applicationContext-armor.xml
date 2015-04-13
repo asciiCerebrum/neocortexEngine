@@ -4,6 +4,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!-- value providers -->
+    <bean id="armorBonusValueProvider" class="org.asciicerebrum.mydndgame.mechanics.valueproviders.ArmorBonusValueProvider" />
+    
     <!-- armor categories -->
     <bean id="armor" class="org.asciicerebrum.mydndgame.domain.ruleentities.ArmorCategory">
         <property name="uniqueId">
@@ -11,11 +14,47 @@
                 <constructor-arg value="armor" />
             </bean>
         </property>
+        <property name="boni">
+            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+                <constructor-arg>
+                    <list>
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                            <property name="bonusType" ref="armorBonus" />
+                            <property name="target" ref="acBase" />
+                            <property name="dynamicValueProvider" ref="armorBonusValueProvider" />
+                            <property name="conditionEvaluator">
+                                <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectSlotForInventoryItemEvaluator">
+                                    <property name="inventoryItemServiceFacade" ref="armorServiceFacade" />
+                                </bean>
+                            </property>
+                        </bean>
+                    </list>
+                </constructor-arg>
+            </bean>
+        </property>
     </bean>
     <bean id="shield" class="org.asciicerebrum.mydndgame.domain.ruleentities.ArmorCategory">
         <property name="uniqueId">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
                 <constructor-arg value="shield" />
+            </bean>
+        </property>
+        <property name="boni">
+            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+                <constructor-arg>
+                    <list>
+                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                            <property name="bonusType" ref="shieldBonus" />
+                            <property name="target" ref="acBase" />
+                            <property name="dynamicValueProvider" ref="armorBonusValueProvider" />
+                            <property name="conditionEvaluator">
+                                <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectSlotForInventoryItemEvaluator">
+                                    <property name="inventoryItemServiceFacade" ref="armorServiceFacade" />
+                                </bean>
+                            </property>
+                        </bean>
+                    </list>
+                </constructor-arg>
             </bean>
         </property>
     </bean>
@@ -114,41 +153,10 @@
                 </property>
             </bean>
         </property>
-        <property name="specialAbilities">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities">
-                <property name="specialAbilities">
-                    <list>
-                        <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
-                            <property name="boni">
-                                <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
-                                    <constructor-arg>
-                                        <list>
-                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
-                                                <property name="bonusType" ref="armorBonus" />
-                                                <property name="target" ref="acBase" />
-                                                <property name="values">
-                                                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
-                                                        <constructor-arg>
-                                                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
-                                                                <constructor-arg value="3" />
-                                                            </bean>
-                                                        </constructor-arg>
-                                                    </bean>
-                                                </property>
-                                                <property name="conditionEvaluator">
-                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectSlotForInventoryItemEvaluator">
-                                                        <property name="inventoryItemServiceFacade" ref="armorServiceFacade" />
-                                                    </bean>
-                                                </property>
-                                            </bean>
-                                        </list>
-                                    </constructor-arg>
-                                </bean>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
+        <property name="armorBonus">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                <constructor-arg value="3" />
+            </bean>            
         </property>
     </bean>
     
@@ -194,41 +202,10 @@
                 </property>
             </bean>
         </property>
-        <property name="specialAbilities">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities">
-                <property name="specialAbilities">
-                    <list>
-                        <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
-                            <property name="boni">
-                                <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
-                                    <constructor-arg>
-                                        <list>
-                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
-                                                <property name="bonusType" ref="armorBonus" />
-                                                <property name="target" ref="acBase" />
-                                                <property name="values">
-                                                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
-                                                        <constructor-arg>
-                                                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
-                                                                <constructor-arg value="5" />
-                                                            </bean>
-                                                        </constructor-arg>
-                                                    </bean>
-                                                </property>
-                                                <property name="conditionEvaluator">
-                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectSlotForInventoryItemEvaluator">
-                                                        <property name="inventoryItemServiceFacade" ref="armorServiceFacade" />
-                                                    </bean>
-                                                </property>
-                                            </bean>
-                                        </list>
-                                    </constructor-arg>
-                                </bean>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
+        <property name="armorBonus">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                <constructor-arg value="5" />
+            </bean>            
         </property>
     </bean>
 
@@ -274,41 +251,10 @@
                 </property>
             </bean>
         </property>
-        <property name="specialAbilities">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities">
-                <property name="specialAbilities">
-                    <list>
-                        <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
-                            <property name="boni">
-                                <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
-                                    <constructor-arg>
-                                        <list>
-                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
-                                                <property name="bonusType" ref="armorBonus" />
-                                                <property name="target" ref="acBase" />
-                                                <property name="values">
-                                                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
-                                                        <constructor-arg>
-                                                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
-                                                                <constructor-arg value="7" />
-                                                            </bean>
-                                                        </constructor-arg>
-                                                    </bean>
-                                                </property>
-                                                <property name="conditionEvaluator">
-                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectSlotForInventoryItemEvaluator">
-                                                        <property name="inventoryItemServiceFacade" ref="armorServiceFacade" />
-                                                    </bean>
-                                                </property>
-                                            </bean>
-                                        </list>
-                                    </constructor-arg>
-                                </bean>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
+        <property name="armorBonus">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                <constructor-arg value="7" />
+            </bean>            
         </property>
     </bean>
         
@@ -350,41 +296,10 @@
                 </property>
             </bean>
         </property>
-        <property name="specialAbilities">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities">
-                <property name="specialAbilities">
-                    <list>
-                        <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
-                            <property name="boni">
-                                <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
-                                    <constructor-arg>
-                                        <list>
-                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
-                                                <property name="bonusType" ref="shieldBonus" />
-                                                <property name="target" ref="acBase" />
-                                                <property name="values">
-                                                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
-                                                        <constructor-arg>
-                                                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
-                                                                <constructor-arg value="1" />
-                                                            </bean>
-                                                        </constructor-arg>
-                                                    </bean>
-                                                </property>
-                                                <property name="conditionEvaluator">
-                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectSlotForInventoryItemEvaluator">
-                                                        <property name="inventoryItemServiceFacade" ref="armorServiceFacade" />
-                                                    </bean>
-                                                </property>
-                                            </bean>
-                                        </list>
-                                    </constructor-arg>
-                                </bean>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
+        <property name="armorBonus">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                <constructor-arg value="1" />
+            </bean>            
         </property>
     </bean>
     
@@ -426,45 +341,15 @@
                 </property>
             </bean>
         </property>
-        <property name="specialAbilities">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities">
-                <property name="specialAbilities">
-                    <list>
-                        <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
-                            <property name="boni">
-                                <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
-                                    <constructor-arg>
-                                        <list>
-                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
-                                                <property name="bonusType" ref="shieldBonus" />
-                                                <property name="target" ref="acBase" />
-                                                <property name="values">
-                                                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
-                                                        <constructor-arg>
-                                                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
-                                                                <constructor-arg value="2" />
-                                                            </bean>
-                                                        </constructor-arg>
-                                                    </bean>
-                                                </property>
-                                                <property name="conditionEvaluator">
-                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectSlotForInventoryItemEvaluator">
-                                                        <property name="inventoryItemServiceFacade" ref="armorServiceFacade" />
-                                                    </bean>
-                                                </property>
-                                            </bean>
-                                        </list>
-                                    </constructor-arg>
-                                </bean>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
+        <property name="armorBonus">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                <constructor-arg value="2" />
+            </bean>            
         </property>
     </bean>
     
     <!-- all common settings of armor go here -->
-    <bean id="armorPrototype" class="org.asciicerebrum.mydndgame.domain.game.Armor" scope="prototype"></bean>
+    <bean id="armorPrototype" class="org.asciicerebrum.mydndgame.domain.game.Armor" scope="prototype">
+    </bean>
         
 </beans>

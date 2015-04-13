@@ -1,8 +1,10 @@
 package org.asciicerebrum.mydndgame.services.core;
 
+import java.util.HashMap;
 import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTarget;
 import java.util.Iterator;
+import java.util.Map;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTargets;
@@ -16,6 +18,7 @@ import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
+import org.asciicerebrum.mydndgame.domain.mechanics.BonusType;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBonus;
 
@@ -98,7 +101,8 @@ public class DefaultBonusCalculationServiceImpl
         final BonusValueTuple bonusValueTuple = new BonusValueTuple();
 
         Iterator<ContextBonus> bonusIterator
-                = foundBoni.filterByStackability().iterator();
+                = this.filterContextBoniByStackability(foundBoni, dndCharacter)
+                .iterator();
         while (bonusIterator.hasNext()) {
             final ContextBonus ctxBonus = bonusIterator.next();
 
@@ -199,6 +203,46 @@ public class DefaultBonusCalculationServiceImpl
     public final void setEntityPoolService(
             final EntityPoolService entityPoolServiceInput) {
         this.entityPoolService = entityPoolServiceInput;
+    }
+
+    /**
+     * Filters out non-stacking boni. If two boni of the same type are in the
+     * list, only the higher one is considered. Boni of multiple ranks are
+     * compared by their rank-0 value.
+     *
+     * @param ctxBoni the collection of contextual boni to filter.
+     * @param dndCharacter the context giving character.
+     * @return the filtered list.
+     */
+    public final ContextBoni filterContextBoniByStackability(
+            final ContextBoni ctxBoni, final DndCharacter dndCharacter) {
+        final ContextBoni filteredBoni = new ContextBoni();
+        final Map<BonusType, ContextBonus> bonusStackMap
+                = new HashMap<BonusType, ContextBonus>();
+        final Iterator<ContextBonus> bonusIterator = ctxBoni.iterator();
+        while (bonusIterator.hasNext()) {
+            final ContextBonus ctxBonus = bonusIterator.next();
+
+            // boni without bonus type always stack
+            if (ctxBonus.getBonus().getBonusType() == null
+                    || ctxBonus.getBonus().getBonusType().getDoesStack()
+                    .isValue()) {
+                filteredBoni.add(ctxBonus);
+                continue;
+            }
+
+            final ContextBonus mappedCtxBonus = bonusStackMap
+                    .get(ctxBonus.getBonus().getBonusType());
+            if (mappedCtxBonus == null
+                    || this.getEffectiveValues(mappedCtxBonus, dndCharacter)
+                    .lessThan(this.getEffectiveValues(
+                                    ctxBonus, dndCharacter))) {
+                bonusStackMap.put(ctxBonus.getBonus().getBonusType(), ctxBonus);
+            }
+        }
+
+        filteredBoni.add(bonusStackMap.values());
+        return filteredBoni;
     }
 
 }

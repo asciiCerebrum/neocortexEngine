@@ -32,7 +32,7 @@ public abstract class InventoryItem extends UniqueEntity
     /**
      * All individual special abilities for this item instance.
      */
-    private final SpecialAbilities specialAbilities = new SpecialAbilities();
+    private SpecialAbilities specialAbilities = new SpecialAbilities();
 
     /**
      * All the conditions the item is currently in. E.g. a dogslicer can be
@@ -123,6 +123,14 @@ public abstract class InventoryItem extends UniqueEntity
      */
     public final Conditions getConditions() {
         return conditions;
+    }
+
+    /**
+     * @param specialAbilitiesInput the specialAbilities to set
+     */
+    public final void setSpecialAbilities(
+            final SpecialAbilities specialAbilitiesInput) {
+        this.specialAbilities = specialAbilitiesInput;
     }
 
 }

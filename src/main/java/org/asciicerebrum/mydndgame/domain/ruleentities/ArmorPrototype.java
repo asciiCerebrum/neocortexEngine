@@ -1,7 +1,10 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.SpellFailure;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 
 /**
  *
@@ -35,6 +38,11 @@ public class ArmorPrototype extends InventoryItemPrototype
      * Light, medium, heavy or shield.
      */
     private Proficiency proficiency;
+
+    /**
+     * The value of the armor/shield bonus.
+     */
+    private BonusValue armorBonus;
 
     /**
      * @return the maxDexBonus
@@ -107,6 +115,33 @@ public class ArmorPrototype extends InventoryItemPrototype
      */
     public final void setProficiency(final Proficiency proficiencyInput) {
         this.proficiency = proficiencyInput;
+    }
+
+    /**
+     * @return the armorBonus
+     */
+    public final BonusValue getArmorBonus() {
+        return armorBonus;
+    }
+
+    /**
+     * @param armorBonusInput the armorBonus to set
+     */
+    public final void setArmorBonus(final BonusValue armorBonusInput) {
+        this.armorBonus = armorBonusInput;
+    }
+
+    @Override
+    public final ContextBoni getBoni(final UniqueEntity context,
+            final UniqueEntityResolver resolver) {
+        final ContextBoni ctxBoni = new ContextBoni();
+
+        ctxBoni.add(this.getInventoryItemBoni(context, resolver));
+        if (this.armorCategory != null) {
+            ctxBoni.add(this.armorCategory.getBoni(context, resolver));
+        }
+
+        return ctxBoni;
     }
 
 }

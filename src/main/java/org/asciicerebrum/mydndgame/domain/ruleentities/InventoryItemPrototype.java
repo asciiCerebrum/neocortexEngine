@@ -114,8 +114,16 @@ public abstract class InventoryItemPrototype extends GameEntity
         this.designatedBodySlotTypes = designatedBodySlotTypesInput;
     }
 
-    @Override
-    public final ContextBoni getBoni(final UniqueEntity context,
+    /**
+     * Helper method for the child classes to call when invoking getBoni.
+     *
+     * @param context the context in order to contextualise context free boni
+     * collections.
+     * @param resolver the service for translating the uniqueId to the
+     * corersponding entity.
+     * @return the collection of boni in their specific context.
+     */
+    public final ContextBoni getInventoryItemBoni(final UniqueEntity context,
             final UniqueEntityResolver resolver) {
         final ContextBoni ctxBoni = new ContextBoni();
 

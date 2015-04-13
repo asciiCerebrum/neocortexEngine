@@ -1,8 +1,11 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel;
 import org.asciicerebrum.mydndgame.domain.core.particles.RangeIncrement;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 
 /**
  *
@@ -195,6 +198,12 @@ public class WeaponPrototype extends InventoryItemPrototype
      */
     public final void setWeaponTypes(final WeaponTypes weaponTypesInput) {
         this.weaponTypes = weaponTypesInput;
+    }
+
+    @Override
+    public final ContextBoni getBoni(final UniqueEntity context,
+            final UniqueEntityResolver resolver) {
+        return this.getInventoryItemBoni(context, resolver);
     }
 
 }

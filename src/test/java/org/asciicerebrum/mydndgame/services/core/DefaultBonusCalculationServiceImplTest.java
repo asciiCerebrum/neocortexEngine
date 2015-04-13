@@ -6,8 +6,11 @@ import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
+import org.asciicerebrum.mydndgame.domain.core.particles.Stackability;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
+import org.asciicerebrum.mydndgame.domain.mechanics.BonusType;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
@@ -232,6 +235,130 @@ public class DefaultBonusCalculationServiceImplTest {
 
         assertEquals(4L, testBonusValueTuple
                 .getBonusValueByRank(BonusRank.RANK_0).getValue());
+    }
+
+    private ContextBoni prepareCtxBoni() {
+        final ContextBoni ctxBoni = new ContextBoni();
+
+        final Bonus bonusA = new Bonus();
+        final UniqueEntity contextA = new Weapon();
+        contextA.setUniqueId(new UniqueId("contextA"));
+        final ContextBonus ctxBonusA = new ContextBonus(bonusA, contextA);
+
+        final Bonus bonusB = new Bonus();
+        final UniqueEntity contextB = new Weapon();
+        contextB.setUniqueId(new UniqueId("contextB"));
+        final ContextBonus ctxBonusB = new ContextBonus(bonusB, contextB);
+
+        ctxBoni.add(ctxBonusA);
+        ctxBoni.add(ctxBonusB);
+
+        return ctxBoni;
+    }
+
+    @Test
+    public void filterByStackabilitySameTypeStackableSizeTest() {
+        final DndCharacter dndCharacter = new DndCharacter();
+        final ContextBoni ctxBoni = this.prepareCtxBoni();
+
+        final BonusType bonusType = new BonusType();
+        bonusType.setDoesStack(new Stackability(true));
+        Iterators.get(ctxBoni.iterator(), 0).getBonus().setBonusType(bonusType);
+        Iterators.get(ctxBoni.iterator(), 1).getBonus().setBonusType(bonusType);
+
+        final ContextBoni result = this.bonusCalcService
+                .filterContextBoniByStackability(ctxBoni, dndCharacter);
+
+        assertEquals(2L, Iterators.size(result.iterator()));
+    }
+
+    @Test
+    public void filterByStackabilitySameTypeNotStackableSizeTest() {
+        final DndCharacter dndCharacter = new DndCharacter();
+        final ContextBoni ctxBoni = this.prepareCtxBoni();
+
+        final BonusValueTuple bonusVal10
+                = new BonusValueTuple(new BonusValue(10));
+        final BonusValueTuple bonusVal12
+                = new BonusValueTuple(new BonusValue(12));
+
+        final BonusType bonusType = new BonusType();
+        bonusType.setDoesStack(new Stackability(false));
+        Iterators.get(ctxBoni.iterator(), 0).getBonus().setBonusType(bonusType);
+        Iterators.get(ctxBoni.iterator(), 0).getBonus().setValues(bonusVal10);
+        Iterators.get(ctxBoni.iterator(), 1).getBonus().setBonusType(bonusType);
+        Iterators.get(ctxBoni.iterator(), 1).getBonus().setValues(bonusVal12);
+
+        final ContextBoni result = this.bonusCalcService
+                .filterContextBoniByStackability(ctxBoni, dndCharacter);
+
+        assertEquals(1L, Iterators.size(result.iterator()));
+    }
+
+    @Test
+    public void filterByStackabilitySameTypeNotStackableObjectTest() {
+        final DndCharacter dndCharacter = new DndCharacter();
+        final ContextBoni ctxBoni = this.prepareCtxBoni();
+
+        final BonusValueTuple bonusVal10
+                = new BonusValueTuple(new BonusValue(10));
+        final BonusValueTuple bonusVal12
+                = new BonusValueTuple(new BonusValue(12));
+
+        final BonusType bonusType = new BonusType();
+        bonusType.setDoesStack(new Stackability(false));
+        Iterators.get(ctxBoni.iterator(), 0).getBonus().setBonusType(bonusType);
+        Iterators.get(ctxBoni.iterator(), 0).getBonus().setValues(bonusVal10);
+        Iterators.get(ctxBoni.iterator(), 1).getBonus().setBonusType(bonusType);
+        Iterators.get(ctxBoni.iterator(), 1).getBonus().setValues(bonusVal12);
+
+        final ContextBoni result = this.bonusCalcService
+                .filterContextBoniByStackability(ctxBoni, dndCharacter);
+
+        assertEquals(Iterators.get(ctxBoni.iterator(), 1),
+                result.iterator().next());
+    }
+
+    @Test
+    public void filterByStackabilityDifferentTypeSizeTest() {
+        final DndCharacter dndCharacter = new DndCharacter();
+        final ContextBoni ctxBoni = this.prepareCtxBoni();
+
+        final BonusType bonusTypeA = new BonusType();
+        final BonusType bonusTypeB = new BonusType();
+        Iterators.get(ctxBoni.iterator(), 0).getBonus()
+                .setBonusType(bonusTypeA);
+        Iterators.get(ctxBoni.iterator(), 1).getBonus()
+                .setBonusType(bonusTypeB);
+
+        final ContextBoni result = this.bonusCalcService
+                .filterContextBoniByStackability(ctxBoni, dndCharacter);
+
+        assertEquals(2L, Iterators.size(result.iterator()));
+    }
+
+    @Test
+    public void filterByStackabilitySameTypeNotStackableOtherObjectTest() {
+        final DndCharacter dndCharacter = new DndCharacter();
+        final ContextBoni ctxBoni = this.prepareCtxBoni();
+
+        final BonusValueTuple bonusVal10
+                = new BonusValueTuple(new BonusValue(12));
+        final BonusValueTuple bonusVal12
+                = new BonusValueTuple(new BonusValue(10));
+
+        final BonusType bonusType = new BonusType();
+        bonusType.setDoesStack(new Stackability(false));
+        Iterators.get(ctxBoni.iterator(), 0).getBonus().setBonusType(bonusType);
+        Iterators.get(ctxBoni.iterator(), 0).getBonus().setValues(bonusVal10);
+        Iterators.get(ctxBoni.iterator(), 1).getBonus().setBonusType(bonusType);
+        Iterators.get(ctxBoni.iterator(), 1).getBonus().setValues(bonusVal12);
+
+        final ContextBoni result = this.bonusCalcService
+                .filterContextBoniByStackability(ctxBoni, dndCharacter);
+
+        assertEquals(Iterators.get(ctxBoni.iterator(), 0),
+                result.iterator().next());
     }
 
 }
