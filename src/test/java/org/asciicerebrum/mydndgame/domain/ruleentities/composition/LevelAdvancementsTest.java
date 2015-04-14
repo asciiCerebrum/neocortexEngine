@@ -67,11 +67,11 @@ public class LevelAdvancementsTest {
         
         this.refFeat.setBoni(boni);
         otherFeat.setBoni(boni);
-
-        lvlAdvA.setFeatAdvancement(otherFeat);
-        this.lvlAdvB.setFeatAdvancement(this.refFeat);
+        
+        lvlAdvA.getFeatAdvancements().addFeat(otherFeat);
+        this.lvlAdvB.getFeatAdvancements().addFeat(this.refFeat);
         this.lvlAdvB.setAbilityAdvancement(this.refAbility);
-        lvlAdvC.setFeatAdvancement(this.refFeat);
+        lvlAdvC.getFeatAdvancements().addFeat(this.refFeat);
         lvlAdvC.setAbilityAdvancement(this.refAbility);
 
         lvlAdvA.setAdvNumber(AdvancementNumber.ADV_NO_0);

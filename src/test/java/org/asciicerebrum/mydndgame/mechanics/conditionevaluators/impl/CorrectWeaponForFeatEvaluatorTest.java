@@ -62,7 +62,7 @@ public class CorrectWeaponForFeatEvaluatorTest {
         feat.setFeatType(this.featType);
         feat.setFeatBinding(weaponProto);
         weapon.setInventoryItemPrototype(weaponProto);
-        lvlAdv.setFeatAdvancement(feat);
+        lvlAdv.getFeatAdvancements().addFeat(feat);
         lvlAdvs.add(lvlAdv);
 
         dndCharacter.setLevelAdvancements(lvlAdvs);
@@ -107,7 +107,8 @@ public class CorrectWeaponForFeatEvaluatorTest {
 
         this.setupFull(dndCharacter, weapon);
         dndCharacter.getLevelAdvancements().iterator().next()
-                .getFeatAdvancement().setFeatType(new FeatType());
+                .getFeatAdvancements().iterator().next()
+                .setFeatType(new FeatType());
 
         final boolean result = this.evaluator.evaluate(dndCharacter, weapon);
 
@@ -121,7 +122,8 @@ public class CorrectWeaponForFeatEvaluatorTest {
 
         this.setupFull(dndCharacter, weapon);
         dndCharacter.getLevelAdvancements().iterator().next()
-                .getFeatAdvancement().setFeatBinding(new ArmorPrototype());
+                .getFeatAdvancements().iterator().next()
+                .setFeatBinding(new ArmorPrototype());
 
         final boolean result = this.evaluator.evaluate(dndCharacter, weapon);
 
@@ -135,8 +137,8 @@ public class CorrectWeaponForFeatEvaluatorTest {
 
         this.setupFull(dndCharacter, weapon);
         dndCharacter.getLevelAdvancements().iterator().next()
-                .getFeatAdvancement().setFeatBinding(
-                        FeatBinding.GenericBinding.ALL);
+                .getFeatAdvancements().iterator().next()
+                .setFeatBinding(FeatBinding.GenericBinding.ALL);
 
         final boolean result = this.evaluator.evaluate(dndCharacter, weapon);
 
@@ -150,7 +152,8 @@ public class CorrectWeaponForFeatEvaluatorTest {
 
         this.setupFull(dndCharacter, weapon);
         dndCharacter.getLevelAdvancements().iterator().next()
-                .getFeatAdvancement().setFeatBinding(new WeaponPrototype());
+                .getFeatAdvancements().iterator().next()
+                .setFeatBinding(new WeaponPrototype());
 
         final boolean result = this.evaluator.evaluate(dndCharacter, weapon);
 

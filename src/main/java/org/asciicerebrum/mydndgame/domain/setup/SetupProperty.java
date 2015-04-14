@@ -92,9 +92,9 @@ public enum SetupProperty {
      */
     EXPERIENCE_POINTS,
     /**
-     * The feat being added during a level up.
+     * The feats being added during a level up.
      */
-    FEAT_ADVANCEMENT,
+    FEAT_ADVANCEMENTS,
     /**
      * The object that is bound to the feat. E.g. for weapon focus.
      */

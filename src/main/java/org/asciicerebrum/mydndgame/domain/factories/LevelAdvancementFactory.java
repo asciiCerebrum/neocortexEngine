@@ -1,11 +1,13 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
+import java.util.List;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Feat;
 import org.apache.commons.lang3.StringUtils;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
 import org.asciicerebrum.mydndgame.domain.ruleentities.ClassLevel;
 import org.asciicerebrum.mydndgame.domain.core.particles.AdvancementNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
+import org.asciicerebrum.mydndgame.domain.ruleentities.Feats;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
@@ -49,11 +51,15 @@ public class LevelAdvancementFactory
                             abilityId, Ability.class));
         }
 
-        EntitySetup featSetup = setup.getPropertySetup(
-                SetupProperty.FEAT_ADVANCEMENT);
-        if (featSetup != null) {
-            levelAdv.setFeatAdvancement(this.getFeatFactory().newEntity(
-                    featSetup));
+        List<EntitySetup> featsSetups = setup.getPropertySetups(
+                SetupProperty.FEAT_ADVANCEMENTS);
+        if (featsSetups != null) {
+            final Feats featAdvancements = levelAdv.getFeatAdvancements();
+
+            for (final EntitySetup featSetup : featsSetups) {
+                featAdvancements.addFeat(this.getFeatFactory().newEntity(
+                        featSetup));
+            }
         }
 
         return levelAdv;

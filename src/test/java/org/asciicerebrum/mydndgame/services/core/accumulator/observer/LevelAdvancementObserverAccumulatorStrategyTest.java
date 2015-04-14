@@ -7,7 +7,6 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
-import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Condition;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.LevelAdvancement;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -28,7 +27,7 @@ public class LevelAdvancementObserverAccumulatorStrategyTest {
 
     private LevelAdvancementObserverAccumulatorStrategy strategy;
 
-    private ObserverAccumulatorStrategy featStrategy;
+    private ObserverAccumulatorStrategy featsStrategy;
 
     private ObserverAccumulatorStrategy classLevelStrategy;
 
@@ -46,10 +45,10 @@ public class LevelAdvancementObserverAccumulatorStrategyTest {
     @Before
     public void setUp() {
         this.strategy = new LevelAdvancementObserverAccumulatorStrategy();
-        this.featStrategy = mock(ObserverAccumulatorStrategy.class);
+        this.featsStrategy = mock(ObserverAccumulatorStrategy.class);
         this.classLevelStrategy = mock(ObserverAccumulatorStrategy.class);
 
-        this.strategy.setFeatStrategy(this.featStrategy);
+        this.strategy.setFeatsStrategy(this.featsStrategy);
         this.strategy.setClassLevelStrategy(this.classLevelStrategy);
 
     }
@@ -81,7 +80,7 @@ public class LevelAdvancementObserverAccumulatorStrategyTest {
         when(this.classLevelStrategy.getObservers(
                 (ObserverSource) anyObject(),
                 eq(targetEntity))).thenReturn(subObservers);
-        when(this.featStrategy.getObservers(
+        when(this.featsStrategy.getObservers(
                 (ObserverSource) anyObject(),
                 eq(targetEntity))).thenReturn(subObservers);
 

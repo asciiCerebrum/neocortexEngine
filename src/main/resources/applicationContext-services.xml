@@ -45,7 +45,7 @@
     </bean>
     <bean id="levelAdvancementObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.LevelAdvancementObserverAccumulatorStrategy">
         <property name="classLevelStrategy" ref="classLevelObserverAccumulatorStrategy" />
-        <property name="featStrategy" ref="featObserverAccumulatorStrategy" />
+        <property name="featsStrategy" ref="featsObserverAccumulatorStrategy" />
     </bean>
     <bean id="levelAdvancementsObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.LevelAdvancementsObserverAccumulatorStrategy">
         <property name="lvlAdvStrategy" ref="levelAdvancementObserverAccumulatorStrategy" />

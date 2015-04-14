@@ -116,7 +116,7 @@ public class LevelAdvancementFactoryTest {
 
         this.makeComplete(setup);
         final EntitySetup featSetup = new FeatSetup();
-        setup.setFeatAdvancement(featSetup);
+        setup.addFeatAdvancement(featSetup);
 
         this.factory.newEntity(setup);
 

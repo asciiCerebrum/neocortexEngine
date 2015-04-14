@@ -66,4 +66,25 @@ public class Feats implements BonusSource, ObserverSource {
         return this.elements.iterator();
     }
 
+    /**
+     * Gathers all feat bindings within this collection that correspond to a
+     * feat of the given type.
+     *
+     * @param featType the feat type in question.
+     * @return the collection of gathered feat bindings associated with the
+     * type.
+     */
+    public final FeatBindings getFeatBindingsByFeatType(
+            final FeatType featType) {
+        final FeatBindings bindings = new FeatBindings();
+
+        for (final Feat feat : this.elements) {
+            if (featType.equals(feat.getFeatType())
+                    && feat.getFeatBinding() != null) {
+                bindings.add(feat.getFeatBinding());
+            }
+        }
+        return bindings;
+    }
+
 }

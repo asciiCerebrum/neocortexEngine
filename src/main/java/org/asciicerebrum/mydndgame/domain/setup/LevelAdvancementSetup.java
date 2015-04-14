@@ -1,5 +1,8 @@
 package org.asciicerebrum.mydndgame.domain.setup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author species8472
@@ -49,8 +52,15 @@ public class LevelAdvancementSetup extends AbstractEntitySetup {
     /**
      * @param featSetup the feat advancement.
      */
-    public final void setFeatAdvancement(final EntitySetup featSetup) {
-        this.getSingleSetup().put(SetupProperty.FEAT_ADVANCEMENT, featSetup);
+    public final void addFeatAdvancement(final EntitySetup featSetup) {
+        List<EntitySetup> featAdvancements
+                = this.getListSetup().get(SetupProperty.FEAT_ADVANCEMENTS);
+        if (featAdvancements == null) {
+            featAdvancements = new ArrayList<EntitySetup>();
+            this.getListSetup().put(SetupProperty.FEAT_ADVANCEMENTS,
+                    featAdvancements);
+        }
+        featAdvancements.add(featSetup);
     }
 
     @Override

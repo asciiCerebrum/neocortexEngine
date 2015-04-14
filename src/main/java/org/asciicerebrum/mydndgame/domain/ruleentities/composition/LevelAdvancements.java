@@ -196,9 +196,8 @@ public class LevelAdvancements implements BonusSource, ObserverSource {
         final FeatBindings featBindings = new FeatBindings();
 
         for (final LevelAdvancement lvlAdv : this.elements) {
-            if (lvlAdv.hasFeatType(featType)) {
-                featBindings.add(lvlAdv.getFeatAdvancement().getFeatBinding());
-            }
+            featBindings.add(lvlAdv.getFeatAdvancements()
+                    .getFeatBindingsByFeatType(featType));
         }
 
         return featBindings;

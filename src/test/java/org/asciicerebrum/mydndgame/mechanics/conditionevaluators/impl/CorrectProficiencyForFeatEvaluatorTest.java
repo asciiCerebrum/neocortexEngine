@@ -90,9 +90,9 @@ public class CorrectProficiencyForFeatEvaluatorTest {
         featB.setFeatBinding(mock(FeatBinding.class));
         featB.setFeatType(this.featType);
         final LevelAdvancement lvlAdvA = new LevelAdvancement();
-        lvlAdvA.setFeatAdvancement(featA);
+        lvlAdvA.getFeatAdvancements().addFeat(featA);
         final LevelAdvancement lvlAdvB = new LevelAdvancement();
-        lvlAdvB.setFeatAdvancement(featB);
+        lvlAdvB.getFeatAdvancements().addFeat(featB);
         final LevelAdvancements lvlAdvancements = new LevelAdvancements();
         lvlAdvancements.add(lvlAdvA);
         lvlAdvancements.add(lvlAdvB);
@@ -119,9 +119,9 @@ public class CorrectProficiencyForFeatEvaluatorTest {
         featB.setFeatBinding(mock(FeatBinding.class));
         featB.setFeatType(this.featType);
         final LevelAdvancement lvlAdvA = new LevelAdvancement();
-        lvlAdvA.setFeatAdvancement(featA);
+        lvlAdvA.getFeatAdvancements().addFeat(featA);
         final LevelAdvancement lvlAdvB = new LevelAdvancement();
-        lvlAdvB.setFeatAdvancement(featB);
+        lvlAdvB.getFeatAdvancements().addFeat(featB);
         final LevelAdvancements lvlAdvancements = new LevelAdvancements();
         lvlAdvancements.add(lvlAdvA);
         lvlAdvancements.add(lvlAdvB);

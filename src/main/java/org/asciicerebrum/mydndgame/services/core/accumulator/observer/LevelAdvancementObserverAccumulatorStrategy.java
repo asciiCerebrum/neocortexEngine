@@ -15,7 +15,7 @@ public class LevelAdvancementObserverAccumulatorStrategy
     /**
      * Accumulator strategy for the feats.
      */
-    private ObserverAccumulatorStrategy featStrategy;
+    private ObserverAccumulatorStrategy featsStrategy;
 
     /**
      * Accumulator strategy for the class level of the level advancement.
@@ -31,8 +31,8 @@ public class LevelAdvancementObserverAccumulatorStrategy
         }
         final LevelAdvancement lvlAdv = (LevelAdvancement) observerSource;
 
-        observers.add(this.getFeatStrategy().getObservers(
-                lvlAdv.getFeatAdvancement(), targetEntity));
+        observers.add(this.getFeatsStrategy().getObservers(
+                lvlAdv.getFeatAdvancements(), targetEntity));
         observers.add(this.getClassLevelStrategy().getObservers(
                 lvlAdv.getClassLevel(), targetEntity));
 
@@ -45,11 +45,11 @@ public class LevelAdvancementObserverAccumulatorStrategy
     }
 
     /**
-     * @param featStrategyInput the featStrategy to set
+     * @param featsStrategyInput the featStrategy to set
      */
-    public final void setFeatStrategy(
-            final ObserverAccumulatorStrategy featStrategyInput) {
-        this.featStrategy = featStrategyInput;
+    public final void setFeatsStrategy(
+            final ObserverAccumulatorStrategy featsStrategyInput) {
+        this.featsStrategy = featsStrategyInput;
     }
 
     /**
@@ -63,8 +63,8 @@ public class LevelAdvancementObserverAccumulatorStrategy
     /**
      * @return the featStrategy
      */
-    public final ObserverAccumulatorStrategy getFeatStrategy() {
-        return featStrategy;
+    public final ObserverAccumulatorStrategy getFeatsStrategy() {
+        return featsStrategy;
     }
 
     /**

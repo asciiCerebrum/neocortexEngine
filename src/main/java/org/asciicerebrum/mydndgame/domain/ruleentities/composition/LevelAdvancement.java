@@ -1,8 +1,6 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities.composition;
 
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.ruleentities.Feat;
-import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
 import org.asciicerebrum.mydndgame.domain.ruleentities.ClassLevel;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
@@ -11,6 +9,7 @@ import org.asciicerebrum.mydndgame.domain.core.particles.AdvancementNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
+import org.asciicerebrum.mydndgame.domain.ruleentities.Feats;
 
 /**
  *
@@ -41,7 +40,7 @@ public class LevelAdvancement implements BonusSource, ObserverSource {
     /**
      * Feat type plus its binding to a special entity.
      */
-    private Feat featAdvancement;
+    private Feats featAdvancements = new Feats();
 
     /**
      * @return the advNumber
@@ -110,28 +109,15 @@ public class LevelAdvancement implements BonusSource, ObserverSource {
     /**
      * @return the featAdvancement
      */
-    public final Feat getFeatAdvancement() {
-        return featAdvancement;
+    public final Feats getFeatAdvancements() {
+        return featAdvancements;
     }
 
     /**
-     * @param featAdvancementInput the featAdvancement to set
+     * @param featAdvancementsInput the featAdvancement to set
      */
-    public final void setFeatAdvancement(final Feat featAdvancementInput) {
-        this.featAdvancement = featAdvancementInput;
-    }
-
-    /**
-     * Tests if the feat of the feat advancement is of the given feattype.
-     *
-     * @param featType the feat type in question.
-     * @return true if it is of that type, false otherwise.
-     */
-    public final boolean hasFeatType(final FeatType featType) {
-        if (this.getFeatAdvancement() == null) {
-            return false;
-        }
-        return featType.equals(this.getFeatAdvancement().getFeatType());
+    public final void setFeatAdvancements(final Feats featAdvancementsInput) {
+        this.featAdvancements = featAdvancementsInput;
     }
 
     @Override
@@ -142,9 +128,7 @@ public class LevelAdvancement implements BonusSource, ObserverSource {
         if (this.classLevel != null) {
             ctxBoni.add(this.classLevel.getBoni(context, resolver));
         }
-        if (this.featAdvancement != null) {
-            ctxBoni.add(this.featAdvancement.getBoni(context, resolver));
-        }
+        ctxBoni.add(this.featAdvancements.getBoni(context, resolver));
 
         return ctxBoni;
     }
