@@ -139,4 +139,28 @@ public class ContextBoniTest {
         assertEquals(this.ctxBonusA, result.iterator().next());
     }
 
+    @Test
+    public void addNormalBonusTest() {
+        final ContextBoni ctxBoni2Add = new ContextBoni();
+        final Bonus bonus = new Bonus();
+        final UniqueEntity context = new Weapon();
+        context.setUniqueId(new UniqueId("weapon"));
+
+        ctxBoni2Add.add(bonus, context);
+
+        assertEquals(1L, ctxBoni2Add.size());
+    }
+
+    @Test
+    public void addNullBonusTest() {
+        final ContextBoni ctxBoni2Add = new ContextBoni();
+        final Bonus bonus = null;
+        final UniqueEntity context = new Weapon();
+        context.setUniqueId(new UniqueId("weapon"));
+
+        ctxBoni2Add.add(bonus, context);
+
+        assertEquals(0L, ctxBoni2Add.size());
+    }
+
 }
