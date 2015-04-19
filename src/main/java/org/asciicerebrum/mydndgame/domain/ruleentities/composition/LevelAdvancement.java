@@ -9,6 +9,8 @@ import org.asciicerebrum.mydndgame.domain.core.particles.AdvancementNumber;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
+import org.asciicerebrum.mydndgame.domain.ruleentities.FeatBindings;
+import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Feats;
 
 /**
@@ -131,6 +133,25 @@ public class LevelAdvancement implements BonusSource, ObserverSource {
         ctxBoni.add(this.featAdvancements.getBoni(context, resolver));
 
         return ctxBoni;
+    }
+
+    /**
+     * Retrieves the feat bindings by the given feat type.
+     *
+     * @param featType the feat type the bindings are needed for.
+     * @return the collection of feat bindings.
+     */
+    public final FeatBindings getFeatBindingsByFeatType(
+            final FeatType featType) {
+
+        final FeatBindings featBindings = new FeatBindings();
+
+        featBindings.add(this.getFeatAdvancements()
+                .getFeatBindingsByFeatType(featType));
+        featBindings.add(this.getClassLevel()
+                .getFeatBindingsByFeatType(featType));
+
+        return featBindings;
     }
 
 }

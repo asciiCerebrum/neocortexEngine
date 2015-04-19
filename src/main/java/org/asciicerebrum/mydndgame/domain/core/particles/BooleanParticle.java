@@ -41,6 +41,19 @@ public class BooleanParticle {
     }
 
     /**
+     * Create instance from a Boolean object.
+     *
+     * @param booleanValue the object to create the instance from.
+     */
+    public BooleanParticle(final Boolean booleanValue) {
+        if (booleanValue == null) {
+            this.value = false;
+        } else {
+            this.value = booleanValue;
+        }
+    }
+
+    /**
      * @return the value
      */
     public final boolean isValue() {

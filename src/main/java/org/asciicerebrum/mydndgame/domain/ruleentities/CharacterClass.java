@@ -1,11 +1,11 @@
 package org.asciicerebrum.mydndgame.domain.ruleentities;
 
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
-import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSource;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
+import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 
 /**
  * The character class does not hold its class levels. The reference is the
@@ -82,6 +82,23 @@ public class CharacterClass implements BonusSource, ObserverSource {
      */
     public final void setClassFeats(final Feats classFeatsInput) {
         this.classFeats = classFeatsInput;
+    }
+
+    /**
+     * Retrieves the feat bindings by the given feat type.
+     *
+     * @param featType the feat type the bindings are needed for.
+     * @return the collection of feat bindings.
+     */
+    public final FeatBindings getFeatBindingsByFeatType(
+            final FeatType featType) {
+
+        final FeatBindings featBindings = new FeatBindings();
+
+        featBindings.add(this.getClassFeats()
+                .getFeatBindingsByFeatType(featType));
+
+        return featBindings;
     }
 
 }

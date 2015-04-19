@@ -141,4 +141,21 @@ public class ClassLevel implements BonusSource, ObserverSource {
         return ctxBoni;
     }
 
+    /**
+     * Retrieves the feat bindings by the given feat type.
+     *
+     * @param featType the feat type the bindings are needed for.
+     * @return the collection of feat bindings.
+     */
+    public final FeatBindings getFeatBindingsByFeatType(
+            final FeatType featType) {
+
+        final FeatBindings featBindings = new FeatBindings();
+
+        featBindings.add(this.getCharacterClass()
+                .getFeatBindingsByFeatType(featType));
+
+        return featBindings;
+    }
+
 }

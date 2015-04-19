@@ -6,6 +6,8 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.composition.LevelAdvancem
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.LevelAdvancements;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -13,6 +15,13 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
  */
 public class LevelAdvancementsObserverAccumulatorStrategy
         implements ObserverAccumulatorStrategy {
+
+    /**
+     * The logger instance.
+     */
+    private static final Logger LOG
+            = LoggerFactory.getLogger(
+                    LevelAdvancementsObserverAccumulatorStrategy.class);
 
     /**
      * Accumulator strategy for the single level advancements of the collection.
@@ -28,6 +37,9 @@ public class LevelAdvancementsObserverAccumulatorStrategy
         }
         final LevelAdvancements lvlAdvs = (LevelAdvancements) observerSource;
         final Iterator<LevelAdvancement> lvlIterator = lvlAdvs.iterator();
+
+        LOG.debug("Accumulating over {} level advancements for target {}.",
+                lvlAdvs.size(), targetEntity.getUniqueId().getValue());
 
         while (lvlIterator.hasNext()) {
             final LevelAdvancement lvl = lvlIterator.next();

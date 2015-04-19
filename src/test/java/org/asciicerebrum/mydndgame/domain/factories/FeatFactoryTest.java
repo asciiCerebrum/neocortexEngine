@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
+import org.asciicerebrum.mydndgame.domain.ruleentities.Feat;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatBinding;
-import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
 import org.asciicerebrum.mydndgame.domain.setup.FeatSetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
@@ -75,7 +75,7 @@ public class FeatFactoryTest {
         this.factory.newEntity(setup);
 
         verify(this.applicationContext, times(1))
-                .getBean("featTypeId", FeatType.class);
+                .getBean("featTypeId", Feat.class);
     }
 
     @Test

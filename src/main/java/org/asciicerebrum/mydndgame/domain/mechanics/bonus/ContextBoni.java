@@ -137,7 +137,7 @@ public class ContextBoni {
     }
 
     /**
-     * Add a boni with their context to the collection.
+     * Add boni with their context to the collection.
      *
      * @param boni the boni to start from.
      * @param context the context of these boni.
@@ -153,6 +153,19 @@ public class ContextBoni {
 
             this.elements.add(ctxBonus);
         }
+    }
+
+    /**
+     * Add a bonus with its context to the collection.
+     *
+     * @param bonus the bonus to start from.
+     * @param context the context of these boni.
+     */
+    public final void add(final Bonus bonus, final UniqueEntity context) {
+        if (bonus == null) {
+            return;
+        }
+        this.elements.add(new ContextBonus(bonus, context));
     }
 
     /**
@@ -224,6 +237,15 @@ public class ContextBoni {
                 new SameScopePredicate(targetEntity)));
 
         return filteredBoni;
+    }
+
+    /**
+     * The size of the underlying list.
+     *
+     * @return the number of context boni.
+     */
+    public final int size() {
+        return this.elements.size();
     }
 
 }

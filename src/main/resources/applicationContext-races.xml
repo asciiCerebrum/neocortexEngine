@@ -88,5 +88,25 @@
             </bean>
         </property>
     </bean>
-            
+
+    <bean id="elf" class="org.asciicerebrum.mydndgame.domain.ruleentities.Race">
+        <property name="uniqueId">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="elf" />
+            </bean>
+        </property>
+        <property name="size" ref="medium" />
+        <property name="bodySlotBluePrint">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlots">
+                <property name="bodySlots">
+                    <list>
+                        <ref bean="primaryHandHumanoid" />
+                        <ref bean="secondaryHandHumanoid" />
+                        <ref bean="torsoHumanoid" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+                                    
 </beans>

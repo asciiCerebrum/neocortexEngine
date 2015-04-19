@@ -22,6 +22,10 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
 
         StateRegistry stateReg = new StateRegistry();
 
+        if (setup == null) {
+            return stateReg;
+        }
+
         final List<EntitySetup> registryEntrySetups
                 = setup.getPropertySetups(SetupProperty.STATE_REGISTRY_ENTRY);
         if (registryEntrySetups != null) {

@@ -10,7 +10,6 @@ import org.asciicerebrum.mydndgame.domain.factories.ArmorFactory;
 import org.asciicerebrum.mydndgame.domain.factories.DndCharacterFactory;
 import org.asciicerebrum.mydndgame.domain.factories.WeaponFactory;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
 import org.asciicerebrum.mydndgame.domain.setup.CharacterSetup;
 import org.asciicerebrum.mydndgame.domain.setup.PersonalizedBodySlotSetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
@@ -46,7 +45,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class CharacterPropertiesHarskIntegrationTest {
 
     private static final Logger LOG
-            = LoggerFactory.getLogger(StateRegistry.class);
+            = LoggerFactory.getLogger(
+                    CharacterPropertiesHarskIntegrationTest.class);
 
     @Autowired
     private ApplicationContext context;

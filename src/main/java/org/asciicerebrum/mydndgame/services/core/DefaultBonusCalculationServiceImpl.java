@@ -21,6 +21,8 @@ import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusType;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBonus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -28,6 +30,12 @@ import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBonus;
  */
 public class DefaultBonusCalculationServiceImpl
         implements BonusCalculationService {
+
+    /**
+     * The logger.
+     */
+    private static final Logger LOG = LoggerFactory.getLogger(
+            DefaultBonusCalculationServiceImpl.class);
 
     /**
      * The observable service.
@@ -165,6 +173,10 @@ public class DefaultBonusCalculationServiceImpl
                         observerSources, observerHooks, targetEntity);
         final ContextBoni boni = this.accumulateBoniByTargets(
                 bonusSources, bonusTargets, targetEntity);
+
+        LOG.debug("Accumulated {} observers and {} boni for character {}.",
+                new Object[]{observers.size(), boni.size(),
+                    dndCharacter.getUniqueId().getValue()});
 
         // applying observers on list of boni
         final ContextBoni modBoni

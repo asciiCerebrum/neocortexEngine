@@ -13,7 +13,7 @@
         <property name="classFeatsStrategy" ref="featsObserverAccumulatorStrategy" />
     </bean>
     <bean id="classLevelObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.ClassLevelObserverAccumulatorStrategy">
-        <property name="characterClassStrategy" ref="classLevelObserverAccumulatorStrategy" />
+        <property name="characterClassStrategy" ref="characterClassObserverAccumulatorStrategy" />
     </bean>
     <bean id="conditionObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.ConditionObserverAccumulatorStrategy">
         <property name="conditionTypeStrategy" ref="conditionTypeObserverAccumulatorStrategy" />

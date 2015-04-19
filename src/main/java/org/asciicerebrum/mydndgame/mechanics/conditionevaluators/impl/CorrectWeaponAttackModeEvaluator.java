@@ -39,14 +39,18 @@ public class CorrectWeaponAttackModeEvaluator implements ConditionEvaluator {
             return false;
         }
 
-        final WeaponCategory refAttackMode = this.getSituationContextService()
-                .getItemAttackMode(contextItem.getUniqueId(), dndCharacter);
-
-        if (refAttackMode == null) {
+        if (!(contextItem instanceof Weapon)) {
             return false;
         }
 
-        if (!(contextItem instanceof Weapon)) {
+        WeaponCategory refAttackMode = this.getSituationContextService()
+                .getItemAttackMode(contextItem.getUniqueId(), dndCharacter);
+
+        if (refAttackMode == null) {
+            refAttackMode = ((Weapon) contextItem).getDefaultAttackMode();
+        }
+
+        if (refAttackMode == null) {
             return false;
         }
 

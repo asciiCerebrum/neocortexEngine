@@ -196,8 +196,7 @@ public class LevelAdvancements implements BonusSource, ObserverSource {
         final FeatBindings featBindings = new FeatBindings();
 
         for (final LevelAdvancement lvlAdv : this.elements) {
-            featBindings.add(lvlAdv.getFeatAdvancements()
-                    .getFeatBindingsByFeatType(featType));
+            featBindings.add(lvlAdv.getFeatBindingsByFeatType(featType));
         }
 
         return featBindings;
@@ -245,6 +244,15 @@ public class LevelAdvancements implements BonusSource, ObserverSource {
         }
 
         return boniTuple;
+    }
+
+    /**
+     * The size of the underlying list.
+     *
+     * @return the number of level advancements.
+     */
+    public final int size() {
+        return this.elements.size();
     }
 
 }

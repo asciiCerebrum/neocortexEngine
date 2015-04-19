@@ -7,6 +7,7 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Encumbrance;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency;
 import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategories;
+import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory;
 import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype;
 import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponTypes;
 
@@ -48,6 +49,13 @@ public class Weapon extends InventoryItem {
         // the first from all the or-connected alternatives.
         return this.getWeaponPrototype().getDefaultDamageTypes()
                 .getFirst();
+    }
+
+    /**
+     * @return the default attack mode of the weapon (as a fallback).
+     */
+    public final WeaponCategory getDefaultAttackMode() {
+        return this.getWeaponPrototype().getDefaultAttackMode();
     }
 
     /**

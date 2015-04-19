@@ -9,6 +9,8 @@ import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityResolver;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Ability;
+import org.asciicerebrum.mydndgame.domain.ruleentities.CharacterClass;
+import org.asciicerebrum.mydndgame.domain.ruleentities.ClassLevel;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Feat;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
 import org.junit.After;
@@ -68,15 +70,22 @@ public class LevelAdvancementsTest {
         this.refFeat.setBoni(boni);
         otherFeat.setBoni(boni);
         
+        final ClassLevel clLvl = new ClassLevel();
+        final CharacterClass chCl = new CharacterClass();
+        clLvl.setCharacterClass(chCl);        
+        
         lvlAdvA.getFeatAdvancements().addFeat(otherFeat);
+        lvlAdvA.setClassLevel(clLvl);
         this.lvlAdvB.getFeatAdvancements().addFeat(this.refFeat);
         this.lvlAdvB.setAbilityAdvancement(this.refAbility);
+        this.lvlAdvB.setClassLevel(clLvl);
         lvlAdvC.getFeatAdvancements().addFeat(this.refFeat);
         lvlAdvC.setAbilityAdvancement(this.refAbility);
 
         lvlAdvA.setAdvNumber(AdvancementNumber.ADV_NO_0);
         this.lvlAdvB.setAdvNumber(AdvancementNumber.ADV_NO_1);
         lvlAdvC.setAdvNumber(AdvancementNumber.ADV_NO_2);
+        lvlAdvC.setClassLevel(clLvl);
 
         this.levelAdvancements.add(lvlAdvA);
         this.levelAdvancements.add(this.lvlAdvB);

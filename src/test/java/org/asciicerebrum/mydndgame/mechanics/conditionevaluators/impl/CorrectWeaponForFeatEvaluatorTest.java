@@ -5,6 +5,8 @@ import org.asciicerebrum.mydndgame.domain.game.Armor;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.ruleentities.ArmorPrototype;
+import org.asciicerebrum.mydndgame.domain.ruleentities.CharacterClass;
+import org.asciicerebrum.mydndgame.domain.ruleentities.ClassLevel;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Feat;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatBinding;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
@@ -65,13 +67,20 @@ public class CorrectWeaponForFeatEvaluatorTest {
         lvlAdv.getFeatAdvancements().addFeat(feat);
         lvlAdvs.add(lvlAdv);
 
+        final ClassLevel clLvl = new ClassLevel();
+        final CharacterClass chCl = new CharacterClass();
+        clLvl.setCharacterClass(chCl);
+        lvlAdv.setClassLevel(clLvl);
+
         dndCharacter.setLevelAdvancements(lvlAdvs);
     }
 
     @Test
     public void evaluateNormalTest() {
         final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("character"));
         final Weapon weapon = new Weapon();
+        weapon.setUniqueId(new UniqueId("weapon"));
 
         this.setupFull(dndCharacter, weapon);
 
@@ -83,6 +92,7 @@ public class CorrectWeaponForFeatEvaluatorTest {
     @Test
     public void evaluateNullWeaponTest() {
         final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("character"));
         final Weapon weapon = null;
 
         final boolean result = this.evaluator.evaluate(dndCharacter, weapon);
@@ -93,7 +103,9 @@ public class CorrectWeaponForFeatEvaluatorTest {
     @Test
     public void evaluateNotAWeaponTest() {
         final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("character"));
         final Armor armor = new Armor();
+        armor.setUniqueId(new UniqueId("armor"));
 
         final boolean result = this.evaluator.evaluate(dndCharacter, armor);
 
@@ -103,7 +115,9 @@ public class CorrectWeaponForFeatEvaluatorTest {
     @Test
     public void evaluateEmptyFeatBindingsTest() {
         final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("character"));
         final Weapon weapon = new Weapon();
+        weapon.setUniqueId(new UniqueId("weapon"));
 
         this.setupFull(dndCharacter, weapon);
         dndCharacter.getLevelAdvancements().iterator().next()
@@ -118,7 +132,9 @@ public class CorrectWeaponForFeatEvaluatorTest {
     @Test
     public void evaluateWrongFeatBindingsTest() {
         final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("character"));
         final Weapon weapon = new Weapon();
+        weapon.setUniqueId(new UniqueId("weapon"));
 
         this.setupFull(dndCharacter, weapon);
         dndCharacter.getLevelAdvancements().iterator().next()
@@ -133,7 +149,9 @@ public class CorrectWeaponForFeatEvaluatorTest {
     @Test
     public void evaluateALLFeatBindingsTest() {
         final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("character"));
         final Weapon weapon = new Weapon();
+        weapon.setUniqueId(new UniqueId("weapon"));
 
         this.setupFull(dndCharacter, weapon);
         dndCharacter.getLevelAdvancements().iterator().next()
@@ -148,7 +166,9 @@ public class CorrectWeaponForFeatEvaluatorTest {
     @Test
     public void evaluateWrongPrototypeTest() {
         final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("character"));
         final Weapon weapon = new Weapon();
+        weapon.setUniqueId(new UniqueId("weapon"));
 
         this.setupFull(dndCharacter, weapon);
         dndCharacter.getLevelAdvancements().iterator().next()

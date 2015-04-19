@@ -4,6 +4,8 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.CharacterClass;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSource;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -11,6 +13,13 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers;
  */
 public class CharacterClassObserverAccumulatorStrategy
         implements ObserverAccumulatorStrategy {
+
+    /**
+     * The logger instance.
+     */
+    private static final Logger LOG
+            = LoggerFactory.getLogger(
+                    CharacterClassObserverAccumulatorStrategy.class);
 
     /**
      * The class feats of the character class.
@@ -29,6 +38,9 @@ public class CharacterClassObserverAccumulatorStrategy
 
         observers.add(this.getClassFeatsStrategy().getObservers(
                 characterClass.getClassFeats(), targetEntity));
+
+        LOG.debug("Found {} observers for character class {}.",
+                observers.size(), characterClass.getId().getValue());
 
         return observers;
     }

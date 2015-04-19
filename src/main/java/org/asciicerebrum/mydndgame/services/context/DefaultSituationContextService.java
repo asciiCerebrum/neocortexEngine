@@ -51,9 +51,10 @@ public class DefaultSituationContextService implements SituationContextService {
     public final BooleanParticle getFlagForKey(
             final StateRegistry.StateParticle stateKey,
             final DndCharacter dndCharacter, final UniqueId entityId) {
-        return new BooleanParticle(
-                (Boolean) dndCharacter.getStateRegistry()
-                .getState(stateKey, entityId));
+        final Boolean state = dndCharacter.getStateRegistry()
+                .getState(stateKey, entityId);
+
+        return new BooleanParticle(state);
     }
 
     //TODO when I load the character through deserialization, how do I know what

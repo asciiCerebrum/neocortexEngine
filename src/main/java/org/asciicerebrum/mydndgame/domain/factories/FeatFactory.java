@@ -23,24 +23,29 @@ public class FeatFactory implements EntityFactory<Feat> {
                     + " is not complete.");
         }
 
-        final Feat feat = new Feat();
-
         final String featTypeId = setup.getProperty(
                 SetupProperty.FEAT_TYPE);
         final String featBindingId = setup.getProperty(
                 SetupProperty.FEAT_BINDING);
+
+        // if the binding id is not given, then we can assume we want the whole
+        // feat from the context.
+        if (StringUtils.isBlank(featBindingId)) {
+            return ApplicationContextProvider.getApplicationContext()
+                    .getBean(featTypeId, Feat.class);
+        }
+
+        final Feat feat = new Feat();
 
         final FeatType featType = ApplicationContextProvider
                 .getApplicationContext().getBean(featTypeId,
                         FeatType.class);
         feat.setFeatType(featType);
 
-        if (StringUtils.isNotBlank(featBindingId)) {
-            final FeatBinding featBinding = ApplicationContextProvider
-                    .getApplicationContext().getBean(
-                            featBindingId, FeatBinding.class);
-            feat.setFeatBinding(featBinding);
-        }
+        final FeatBinding featBinding = ApplicationContextProvider
+                .getApplicationContext().getBean(
+                        featBindingId, FeatBinding.class);
+        feat.setFeatBinding(featBinding);
 
         return feat;
     }

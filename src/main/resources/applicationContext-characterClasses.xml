@@ -111,5 +111,57 @@
             </bean>
         </property>
     </bean>
-    
+
+    <bean id="rogue1" class="org.asciicerebrum.mydndgame.domain.ruleentities.ClassLevel">
+        <property name="level">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Level">
+                <constructor-arg value="1" />
+            </bean>
+        </property>
+        <property name="characterClass" ref="rogue" />
+        <property name="baseAtkBoni">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+                <constructor-arg>
+                    <array>
+                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple$BonusValueEntry">
+                            <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+                                    <constructor-arg value="0" />
+                                </bean>
+                            </constructor-arg>
+                            <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                    <constructor-arg value="0" />
+                                </bean>
+                            </constructor-arg>
+                        </bean>
+                    </array>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="rogue" class="org.asciicerebrum.mydndgame.domain.ruleentities.CharacterClass">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="rogue" />
+            </bean>
+        </property>
+        <property name="hitDice" ref="d6" />
+        <property name="classFeats">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.Feats">
+                <constructor-arg>
+                    <list>
+                        <ref bean="simpleWeaponProficiency" />
+                        <ref bean="martialWeaponProficiencyRapier" />
+                        <ref bean="martialWeaponProficiencySap" />
+                        <ref bean="martialWeaponProficiencyShortbow" />
+                        <ref bean="martialWeaponProficiencyShortsword" />
+                        <ref bean="lightArmorProficiency" />
+                    </list>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
+            
 </beans>

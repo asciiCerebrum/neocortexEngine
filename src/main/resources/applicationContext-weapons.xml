@@ -172,6 +172,7 @@
                 </property>
             </bean>
         </property>
+        <property name="defaultAttackMode" ref="meleeWeapon" />
         <property name="designatedBodySlotTypes">
             <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
@@ -236,6 +237,7 @@
                 </property>
             </bean>
         </property>
+        <property name="defaultAttackMode" ref="meleeWeapon" />
         <property name="designatedBodySlotTypes">
             <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
@@ -300,6 +302,7 @@
                 </property>
             </bean>
         </property>
+        <property name="defaultAttackMode" ref="meleeWeapon" />
         <property name="designatedBodySlotTypes">
             <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
@@ -415,6 +418,7 @@
                 </property>
             </bean>
         </property>
+        <property name="defaultAttackMode" ref="meleeWeapon" />
         <property name="designatedBodySlotTypes">
             <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
@@ -572,6 +576,7 @@
                 </property>
             </bean>
         </property>
+        <property name="defaultAttackMode" ref="rangedWeapon" />
         <property name="designatedBodySlotTypes">
             <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
@@ -671,6 +676,7 @@
                 </property>
             </bean>
         </property>
+        <property name="defaultAttackMode" ref="meleeWeapon" />
         <property name="designatedBodySlotTypes">
             <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
@@ -679,6 +685,28 @@
                         <ref bean="secondaryHand" />
                     </list>
                 </property>
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="sap" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+        <property name="genericName">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="sap" />
+            </bean>
+        </property>
+    </bean>
+    <bean id="shortbow" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+        <property name="genericName">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="shortbow" />
+            </bean>
+        </property>
+    </bean>
+    <bean id="shortsword" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+        <property name="genericName">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+                <constructor-arg value="shortsword" />
             </bean>
         </property>
     </bean>

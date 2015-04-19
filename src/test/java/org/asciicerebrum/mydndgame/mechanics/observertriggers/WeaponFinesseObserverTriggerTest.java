@@ -6,8 +6,8 @@ import org.asciicerebrum.mydndgame.domain.game.Armor;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Encumbrance;
 import org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory;
 import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype;
@@ -190,19 +190,21 @@ public class WeaponFinesseObserverTriggerTest {
     @Test
     public void triggerNoWeaponTest() {
         final DndCharacter dndCharacter = new DndCharacter();
-        final Boni boni = new Boni();
+        dndCharacter.setUniqueId(new UniqueId("character"));
+        final ContextBoni ctxBoni = new ContextBoni();
         final Armor armor = new Armor();
 
         final Object triggerResult
                 = this.weaponFinesseObserverTrigger.trigger(
-                        boni, dndCharacter, armor);
-        assertEquals(boni, triggerResult);
+                        ctxBoni, dndCharacter, armor);
+        assertEquals(ctxBoni, triggerResult);
     }
 
     @Test
     public void triggerNoFinesseTest() {
         final DndCharacter dndCharacter = new DndCharacter();
-        final Boni boni = new Boni();
+        dndCharacter.setUniqueId(new UniqueId("character"));
+        final ContextBoni ctxBoni = new ContextBoni();
         final Weapon weapon = new Weapon();
         weapon.setUniqueId(new UniqueId("weapon"));
 
@@ -224,14 +226,15 @@ public class WeaponFinesseObserverTriggerTest {
 
         final Object triggerResult
                 = this.weaponFinesseObserverTrigger.trigger(
-                        boni, dndCharacter, weapon);
-        assertEquals(boni, triggerResult);
+                        ctxBoni, dndCharacter, weapon);
+        assertEquals(ctxBoni, triggerResult);
     }
 
     @Test
     public void triggerNoValidityTest() {
         final DndCharacter dndCharacter = new DndCharacter();
-        final Boni boni = new Boni();
+        dndCharacter.setUniqueId(new UniqueId("character"));
+        final ContextBoni ctxBoni = new ContextBoni();
         final Weapon weapon = new Weapon();
         weapon.setUniqueId(new UniqueId("weapon"));
         weapon.setInventoryItemPrototype(new WeaponPrototype());
@@ -254,8 +257,8 @@ public class WeaponFinesseObserverTriggerTest {
 
         final Object triggerResult
                 = this.weaponFinesseObserverTrigger.trigger(
-                        boni, dndCharacter, weapon);
-        assertEquals(boni, triggerResult);
+                        ctxBoni, dndCharacter, weapon);
+        assertEquals(ctxBoni, triggerResult);
     }
 
 }

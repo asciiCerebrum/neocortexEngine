@@ -4,24 +4,34 @@ import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Encumbrance;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
 import org.asciicerebrum.mydndgame.domain.core.particles.BooleanParticle;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry.StateParticle;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus.ResemblanceFacet;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBonus;
 import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype;
 import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototypes;
 import org.asciicerebrum.mydndgame.facades.game.CharacterServiceFacade;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.ObserverTriggerStrategy;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author species8472
  */
 public class WeaponFinesseObserverTrigger implements ObserverTriggerStrategy {
+
+    /**
+     * The logger.
+     */
+    private static final Logger LOG
+            = LoggerFactory.getLogger(WeaponFinesseObserverTrigger.class);
 
     /**
      * Retrieve the value from the character's state registry by this key.
@@ -70,40 +80,57 @@ public class WeaponFinesseObserverTrigger implements ObserverTriggerStrategy {
     public final Object trigger(final Object object,
             final ICharacter dndCharacter, final UniqueEntity contextItem) {
 
-        Boni boni = (Boni) object;
+        LOG.debug("Entering weapon finesse trigger for character {}.",
+                ((DndCharacter) dndCharacter).getUniqueId().getValue());
 
-        if (!(contextItem instanceof Weapon)) {
-            return boni;
+        if (((DndCharacter) dndCharacter).getStateRegistry() == null) {
+            LOG.error("The state registry is null!");
         }
 
-        Weapon usedWeapon = (Weapon) contextItem;
+        final ContextBoni ctxBoni = (ContextBoni) object;
+
+        if (!(contextItem instanceof Weapon)) {
+            return ctxBoni;
+        }
+
+        final Weapon usedWeapon = (Weapon) contextItem;
 
         final boolean situationContextValidity
                 = this.determineSituationContextValidity(
                         (DndCharacter) dndCharacter, usedWeapon);
+
+        LOG.debug("Status of situation context validity: {}.",
+                situationContextValidity);
 
         final BooleanParticle useFinesse
                 = this.getSituationContextService().getFlagForKey(
                         this.getRegistryKey(),
                         (DndCharacter) dndCharacter, usedWeapon.getUniqueId());
 
+        LOG.debug("Status of using finesse by key {} and item id {}: {}.",
+                new Object[]{this.getRegistryKey(),
+                    usedWeapon.getUniqueId().getValue(), useFinesse.isValue()});
+
         if (!useFinesse.isValue() || !situationContextValidity) {
-            return boni;
+            return ctxBoni;
         }
 
         // remove STR bonus
-        final Iterator<Bonus> boniIterator = boni.iterator();
+        final Iterator<ContextBonus> boniIterator = ctxBoni.iterator();
         while (boniIterator.hasNext()) {
-            final Bonus bonus = boniIterator.next();
-            if (this.getRemoveBonus().resembles(bonus)) {
+            final ContextBonus ctxBonus = boniIterator.next();
+            if (this.getRemoveBonus().resembles(ctxBonus.getBonus(),
+                    ResemblanceFacet.BONUS_TYPE,
+                    ResemblanceFacet.DYNAMIC_VALUE_PROVIDER,
+                    ResemblanceFacet.TARGET)) {
                 boniIterator.remove();
             }
         }
 
         // inculde DEX bonus
-        boni.addBonus(this.getReplacementBonus());
+        ctxBoni.add(this.getReplacementBonus(), contextItem);
 
-        return boni;
+        return ctxBoni;
     }
 
     /**

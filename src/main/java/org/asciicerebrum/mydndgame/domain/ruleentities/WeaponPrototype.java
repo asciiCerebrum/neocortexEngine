@@ -54,14 +54,20 @@ public class WeaponPrototype extends InventoryItemPrototype
     private Proficiency proficiency;
 
     /**
-     * Melee or ranged.
+     * Melee and/or ranged. Some weapons can be used in both ways (even without
+     * penalty as an improvised weapon, e.g. dagger. So this should be the
+     * default mode of operation. It should be a list because the dagger has two
+     * default modes (like all melee weapons with a range increment!) while a
+     * sword only has one.
      */
-    //TODO some weapons can be used in both ways (even without penalty as an
-    // improvised weapon, e.g. dagger. So this should be the default mode of
-    // operation. It should be a list because the dagger has two default modes
-    // (like all melee weapons with a range increment!)
-    // while a sword only has one.
     private WeaponCategories defaultCategories;
+
+    /**
+     * Melee or ranged. Only one of the two is possible here as it is no list.
+     * But the setting can be overridden with a setting in the situation context
+     * registry.
+     */
+    private WeaponCategory defaultAttackMode;
 
     /**
      * A list of types this weapon represents. E.g. double weapon, thrown
@@ -204,6 +210,21 @@ public class WeaponPrototype extends InventoryItemPrototype
     public final ContextBoni getBoni(final UniqueEntity context,
             final UniqueEntityResolver resolver) {
         return this.getInventoryItemBoni(context, resolver);
+    }
+
+    /**
+     * @return the defaultAttackMode
+     */
+    public final WeaponCategory getDefaultAttackMode() {
+        return defaultAttackMode;
+    }
+
+    /**
+     * @param defaultAttackModeInput the defaultAttackMode to set
+     */
+    public final void setDefaultAttackMode(
+            final WeaponCategory defaultAttackModeInput) {
+        this.defaultAttackMode = defaultAttackModeInput;
     }
 
 }

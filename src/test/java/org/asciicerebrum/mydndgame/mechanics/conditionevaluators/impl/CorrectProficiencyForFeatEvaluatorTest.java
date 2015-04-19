@@ -4,6 +4,8 @@ import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.game.Armor;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
+import org.asciicerebrum.mydndgame.domain.ruleentities.CharacterClass;
+import org.asciicerebrum.mydndgame.domain.ruleentities.ClassLevel;
 import org.asciicerebrum.mydndgame.domain.ruleentities.Feat;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatBinding;
 import org.asciicerebrum.mydndgame.domain.ruleentities.FeatType;
@@ -98,6 +100,12 @@ public class CorrectProficiencyForFeatEvaluatorTest {
         lvlAdvancements.add(lvlAdvB);
         dndCharacter.setLevelAdvancements(lvlAdvancements);
 
+        final ClassLevel clLvl = new ClassLevel();
+        final CharacterClass chCl = new CharacterClass();
+        clLvl.setCharacterClass(chCl);
+        lvlAdvA.setClassLevel(clLvl);
+        lvlAdvB.setClassLevel(clLvl);
+
         final UniqueEntity contextItem = new Weapon();
 
         when(this.weaponServiceFacade.hasProficiency((Proficiency) featBinding,
@@ -126,6 +134,12 @@ public class CorrectProficiencyForFeatEvaluatorTest {
         lvlAdvancements.add(lvlAdvA);
         lvlAdvancements.add(lvlAdvB);
         dndCharacter.setLevelAdvancements(lvlAdvancements);
+
+        final ClassLevel clLvl = new ClassLevel();
+        final CharacterClass chCl = new CharacterClass();
+        clLvl.setCharacterClass(chCl);
+        lvlAdvA.setClassLevel(clLvl);
+        lvlAdvB.setClassLevel(clLvl);
 
         final UniqueEntity contextItem = new Weapon();
 

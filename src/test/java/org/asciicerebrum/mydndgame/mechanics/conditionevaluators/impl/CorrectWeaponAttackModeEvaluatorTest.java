@@ -7,6 +7,7 @@ import org.asciicerebrum.mydndgame.domain.game.Armor;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory;
+import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.junit.After;
@@ -26,113 +27,115 @@ import static org.mockito.Mockito.when;
  * @author species8472
  */
 public class CorrectWeaponAttackModeEvaluatorTest {
-
+    
     private CorrectWeaponAttackModeEvaluator evaluator;
-
+    
     private SituationContextService situationContextService;
-
+    
     private WeaponServiceFacade weaponServiceFacade;
-
+    
     private WeaponCategory refAttackMode;
-
+    
     public CorrectWeaponAttackModeEvaluatorTest() {
     }
-
+    
     @BeforeClass
     public static void setUpClass() {
     }
-
+    
     @AfterClass
     public static void tearDownClass() {
     }
-
+    
     @Before
     public void setUp() {
         this.evaluator = new CorrectWeaponAttackModeEvaluator();
         this.situationContextService = mock(SituationContextService.class);
         this.weaponServiceFacade = mock(WeaponServiceFacade.class);
         this.refAttackMode = new WeaponCategory();
-
+        
         this.evaluator.setSituationContextService(this.situationContextService);
         this.evaluator.setWeaponServiceFacade(this.weaponServiceFacade);
     }
-
+    
     @After
     public void tearDown() {
     }
-
+    
     @Test
     public void evaluateCorrectTest() {
         final ICharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = new Weapon();
         contextItem.setUniqueId(new UniqueId("contextItem"));
-
+        
         when(this.situationContextService.getItemAttackMode(
                 contextItem.getUniqueId(), (DndCharacter) dndCharacter))
                 .thenReturn(this.refAttackMode);
         when(this.weaponServiceFacade.isAttackModeCompatible(
                 this.refAttackMode, (Weapon) contextItem,
                 (DndCharacter) dndCharacter)).thenReturn(Boolean.TRUE);
-
+        
         final boolean result = this.evaluator.evaluate(
                 dndCharacter, contextItem);
         assertTrue(result);
     }
-
+    
     @Test
     public void evaluateNullAttackModeTest() {
         final ICharacter dndCharacter = new DndCharacter();
-        final UniqueEntity contextItem = new Weapon();
+        final Weapon contextItem = new Weapon();
+        final WeaponPrototype proto = new WeaponPrototype();
         contextItem.setUniqueId(new UniqueId("contextItem"));
-
+        contextItem.setInventoryItemPrototype(proto);
+        
         when(this.situationContextService.getItemAttackMode(
                 contextItem.getUniqueId(), (DndCharacter) dndCharacter))
                 .thenReturn(null);
-
+        
         final boolean result = this.evaluator.evaluate(
                 dndCharacter, contextItem);
         assertFalse(result);
     }
-
+    
     @Test
     public void evaluateNullItemTest() {
         final ICharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = null;
-
+        
         when(this.situationContextService.getItemAttackMode(
                 (UniqueId) anyObject(), (DndCharacter) eq(dndCharacter)))
                 .thenReturn(null);
-
+        
         final boolean result = this.evaluator.evaluate(
                 dndCharacter, contextItem);
         assertFalse(result);
     }
-
+    
     @Test
     public void evaluateAllWrongTest() {
         final ICharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = new Armor();
         contextItem.setUniqueId(new UniqueId("contextItem"));
-
+        
         when(this.situationContextService.getItemAttackMode(
                 contextItem.getUniqueId(), (DndCharacter) dndCharacter))
                 .thenReturn(null);
-
+        
         final boolean result = this.evaluator.evaluate(
                 dndCharacter, contextItem);
         assertFalse(result);
     }
-
+    
     @Test
     public void evaluateNoWeaponTest() {
         final ICharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = new Armor();
         contextItem.setUniqueId(new UniqueId("contextItem"));
-
+        
         when(this.situationContextService.getItemAttackMode(
                 contextItem.getUniqueId(), (DndCharacter) dndCharacter))
                 .thenReturn(this.refAttackMode);
-
+        
         final boolean result = this.evaluator.evaluate(
                 dndCharacter, contextItem);
         assertFalse(result);

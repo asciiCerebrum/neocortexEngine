@@ -613,5 +613,21 @@
           parent="martialWeaponProficiencyParent">
         <property name="featBinding" ref="ALL" />
     </bean>
-
+    <bean id="martialWeaponProficiencyRapier" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat"
+          parent="martialWeaponProficiencyParent">
+        <property name="featBinding" ref="rapier" />
+    </bean>
+    <bean id="martialWeaponProficiencySap" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat"
+          parent="martialWeaponProficiencyParent">
+        <property name="featBinding" ref="sap" />
+    </bean>
+    <bean id="martialWeaponProficiencyShortbow" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat"
+          parent="martialWeaponProficiencyParent">
+        <property name="featBinding" ref="shortbow" />
+    </bean>
+    <bean id="martialWeaponProficiencyShortsword" class="org.asciicerebrum.mydndgame.domain.ruleentities.Feat"
+          parent="martialWeaponProficiencyParent">
+        <property name="featBinding" ref="shortsword" />
+    </bean>
+    
 </beans>

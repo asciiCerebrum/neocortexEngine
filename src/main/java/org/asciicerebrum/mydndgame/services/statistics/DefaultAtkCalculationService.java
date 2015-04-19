@@ -10,6 +10,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
+import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.asciicerebrum.mydndgame.services.core.BonusCalculationService;
 
@@ -39,20 +40,21 @@ public class DefaultAtkCalculationService implements AtkCalculationService {
             final DndCharacter dndCharacter) {
         //TODO test this thouroughly!! also with multiple weapons in the slots!
         final BonusValueTuple atkValues = dndCharacter.getBaseAtkBoni();
+        WeaponCategory itemAttackMode
+                = this.getSituationContextService()
+                .getItemAttackMode(weapon.getUniqueId(), dndCharacter);
+        if (itemAttackMode == null) {
+            itemAttackMode = weapon.getDefaultAttackMode();
+        }
+
         final BonusValueTuple atkBonus = this.getBonusService()
                 .calculateBonusValues(new BonusSources(dndCharacter),
                         new BonusTargets(this.attackAction,
-                                this.getSituationContextService()
-                                .getItemAttackMode(weapon.getUniqueId(),
-                                        dndCharacter)
-                                .getAssociatedAttackDiceAction()),
+                                itemAttackMode.getAssociatedAttackDiceAction()),
                         weapon,
                         new ObserverSources(dndCharacter),
                         new ObserverHooks(ObserverHook.ATTACK,
-                                this.getSituationContextService()
-                                .getItemAttackMode(weapon.getUniqueId(),
-                                        dndCharacter)
-                                .getAssociatedDamageHook()),
+                                itemAttackMode.getAssociatedDamageHook()),
                         dndCharacter
                 );
         atkValues.add(atkBonus.getBonusValueByRank(BonusRank.RANK_0));

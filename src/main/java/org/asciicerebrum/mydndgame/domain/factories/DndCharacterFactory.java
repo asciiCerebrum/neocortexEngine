@@ -201,10 +201,8 @@ public class DndCharacterFactory implements EntityFactory<DndCharacter> {
 
         final EntitySetup regSetup
                 = setup.getPropertySetup(SetupProperty.STATE_REGISTRY);
-        if (regSetup != null) {
-            dndCharacter.setStateRegistry(this.getStateRegistryFactory()
-                    .newEntity(regSetup));
-        }
+        dndCharacter.setStateRegistry(this.getStateRegistryFactory()
+                .newEntity(regSetup));
     }
 
     /**
