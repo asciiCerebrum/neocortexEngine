@@ -2,7 +2,6 @@ package org.asciicerebrum.mydndgame.mechanics.observertriggers;
 
 import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusType;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
@@ -11,6 +10,7 @@ import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry.StateParticle;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTarget;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.ObserverTriggerStrategy;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
@@ -48,16 +48,16 @@ public class AddBonusObserverTrigger implements ObserverTriggerStrategy {
     @Override
     public final Object trigger(final Object object,
             final ICharacter dndCharacter, final UniqueEntity contextItem) {
-        Boni boni = (Boni) object;
+        ContextBoni ctxBoni = (ContextBoni) object;
 
         if (this.getAddBonus() != null) {
-            boni.addBonus(this.getAddBonus());
-            return boni;
+            ctxBoni.add(this.getAddBonus(), contextItem);
+            return ctxBoni;
         }
 
         BonusValue addBonusValue = this.getSituationContextService()
                 .getBonusValueForKey(this.getRegistryStateKey(),
-                        (DndCharacter) dndCharacter);
+                        (DndCharacter) dndCharacter, contextItem.getUniqueId());
 
         if (addBonusValue.isNonZero()) {
             final Bonus altAddBonus = new Bonus();
@@ -69,10 +69,10 @@ public class AddBonusObserverTrigger implements ObserverTriggerStrategy {
 
             altAddBonus.setValues(bonusValueTuple);
 
-            boni.addBonus(altAddBonus);
+            ctxBoni.add(altAddBonus, contextItem);
         }
 
-        return boni;
+        return ctxBoni;
     }
 
     /**

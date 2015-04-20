@@ -5,18 +5,18 @@ import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusTarget;
 import org.asciicerebrum.mydndgame.domain.mechanics.BonusType;
-import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -72,43 +72,50 @@ public class AddBonusObserverTriggerTest {
 
     @Test
     public void triggerGiveSimpleBonusTest() {
-        final Boni boni = new Boni();
         final ICharacter dndCharacter = new DndCharacter();
         final UniqueEntity weapon = new Weapon();
 
-        this.trigger.trigger(boni, dndCharacter, weapon);
+        final ContextBoni ctxBoni = new ContextBoni();
 
-        assertTrue(boni.contains(this.addBonus));
+        this.trigger.trigger(ctxBoni, dndCharacter, weapon);
+
+        assertEquals(this.addBonus, ctxBoni.iterator().next().getBonus());
     }
 
     @Test
     public void triggerZeroValueBonusTest() {
-        final Boni boni = new Boni();
+        final ContextBoni ctxBoni = new ContextBoni();
         final ICharacter dndCharacter = new DndCharacter();
         final UniqueEntity weapon = new Weapon();
+        final UniqueId weaponId = new UniqueId("weapon");
+        weapon.setUniqueId(weaponId);
         this.trigger.setAddBonus(null);
         when(this.sitConService.getBonusValueForKey(
                 StateRegistry.StateParticle.ACTIVE_ITEM,
-                (DndCharacter) dndCharacter)).thenReturn(new BonusValue(0L));
+                (DndCharacter) dndCharacter, weaponId))
+                .thenReturn(new BonusValue(0L));
 
-        this.trigger.trigger(boni, dndCharacter, weapon);
+        this.trigger.trigger(ctxBoni, dndCharacter, weapon);
 
-        assertEquals(0L, Iterators.size(boni.iterator()));
+        assertEquals(0L, Iterators.size(ctxBoni.iterator()));
     }
 
     @Test
     public void triggerNonZeroValueBonusTest() {
-        final Boni boni = new Boni();
+        final ContextBoni ctxBoni = new ContextBoni();
         final ICharacter dndCharacter = new DndCharacter();
         final UniqueEntity weapon = new Weapon();
+        final UniqueId weaponId = new UniqueId("weapon");
+        weapon.setUniqueId(weaponId);
         this.trigger.setAddBonus(null);
         when(this.sitConService.getBonusValueForKey(
                 StateRegistry.StateParticle.ACTIVE_ITEM,
-                (DndCharacter) dndCharacter)).thenReturn(new BonusValue(7L));
+                (DndCharacter) dndCharacter, weaponId))
+                .thenReturn(new BonusValue(7L));
 
-        this.trigger.trigger(boni, dndCharacter, weapon);
+        this.trigger.trigger(ctxBoni, dndCharacter, weapon);
 
-        assertEquals(7L, boni.iterator().next().getValues()
+        assertEquals(7L, ctxBoni.iterator().next().getBonus().getValues()
                 .getBonusValueByRank(BonusRank.RANK_0).getValue());
     }
 

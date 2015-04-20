@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import org.asciicerebrum.mydndgame.domain.setup.BaseAbilityEntrySetup;
 import org.asciicerebrum.mydndgame.domain.setup.CharacterSetup;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
+import org.asciicerebrum.mydndgame.domain.setup.FeatSetup;
 import org.asciicerebrum.mydndgame.domain.setup.LevelAdvancementSetup;
 import org.asciicerebrum.mydndgame.domain.setup.PersonalizedBodySlotSetup;
+import org.asciicerebrum.mydndgame.domain.setup.StateRegistrySetup;
 
 /**
  *
@@ -51,10 +53,14 @@ public class HarskDwarfFighter2 {
             }
         });
 
+        final FeatSetup feat1Setup = new FeatSetup();
+        feat1Setup.setFeatType("powerAttack");
+
         final LevelAdvancementSetup fighter1Setup = new LevelAdvancementSetup();
         fighter1Setup.setAdvancementNumber("0");
         fighter1Setup.setClassLevel("fighter1");
         fighter1Setup.setHpAdvancement("0");
+        fighter1Setup.addFeatAdvancement(feat1Setup);
         final LevelAdvancementSetup fighter2Setup = new LevelAdvancementSetup();
         fighter2Setup.setAdvancementNumber("1");
         fighter2Setup.setClassLevel("fighter2");
@@ -90,6 +96,18 @@ public class HarskDwarfFighter2 {
                 this.add(torsoSetup);
             }
         });
+
+        final StateRegistrySetup regSetup = new StateRegistrySetup();
+        final StateRegistrySetup.StateRegistryEntrySetup entrySetup
+                = new StateRegistrySetup.StateRegistryEntrySetup();
+
+        entrySetup.setRegistryParticle("POWER_ATTACK_BONUS");
+        entrySetup.setContextObjectId("standardBattleaxe");
+        entrySetup.setRegistryValue("-1");
+        entrySetup.setRegistryValueType("LONG");
+
+        regSetup.addStateRegistryEntry(entrySetup);
+        harsk.setStateRegistrySetup(regSetup);
 
         return harsk;
     }

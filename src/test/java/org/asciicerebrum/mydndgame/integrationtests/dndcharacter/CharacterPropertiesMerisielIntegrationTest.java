@@ -9,9 +9,13 @@ import org.asciicerebrum.mydndgame.domain.factories.WeaponFactory;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.setup.CharacterSetup;
+import org.asciicerebrum.mydndgame.domain.setup.PersonalizedBodySlotSetup;
+import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
+import org.asciicerebrum.mydndgame.domain.setup.StateRegistrySetup;
 import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.MerisielElfRogue1;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.StandardStuddedLeather;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.MwkRapier;
+import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.StandardBattleaxe;
 import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.services.statistics.AtkCalculationService;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
@@ -71,6 +75,8 @@ public class CharacterPropertiesMerisielIntegrationTest {
                 .newEntity(StandardStuddedLeather.getSetup()));
         this.entityPoolService.registerUniqueEntity(this.weaponFactory
                 .newEntity(MwkRapier.getSetup()));
+        this.entityPoolService.registerUniqueEntity(this.weaponFactory
+                .newEntity(StandardBattleaxe.getSetup()));
 
         this.merisielId = new UniqueId("merisiel");
     }
@@ -121,6 +127,52 @@ public class CharacterPropertiesMerisielIntegrationTest {
         // weapon finesse: DEX mod: +3 (STR mod +1 NOT GRANTED!)
         // mwk rapier: +1
         assertEquals(4L, atkResult.getBonusValueByRank(BonusRank.RANK_0)
+                .getValue());
+    }
+
+    @Test
+    public void merisielMeleeAtkBonusFirstValueBattleaxeSetupTest() {
+        final CharacterSetup setup = MerisielElfRogue1.getSetup();
+
+        final StateRegistrySetup regSetup
+                = (StateRegistrySetup) setup.getPropertySetup(
+                        SetupProperty.STATE_REGISTRY);
+
+        final StateRegistrySetup.StateRegistryEntrySetup entrySetup
+                = new StateRegistrySetup.StateRegistryEntrySetup();
+
+        entrySetup.setRegistryParticle("WEAPON_FINESSE_MODE");
+        entrySetup.setContextObjectId("standardBattleaxe");
+        entrySetup.setRegistryValue("true");
+        entrySetup.setRegistryValueType("BOOLEAN");
+
+        regSetup.addStateRegistryEntry(entrySetup);
+
+        final PersonalizedBodySlotSetup hand1Setup
+                = new PersonalizedBodySlotSetup();
+        hand1Setup.setBodySlotType("primaryHand");
+        hand1Setup.setItem("standardBattleaxe");
+        hand1Setup.setIsPrimaryAttackSlot("true");
+
+        // removal of rapier
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).remove(0);
+        // adding the battleaxe on primary hand
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).add(hand1Setup);
+
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(setup));
+
+        final BonusValueTuple atkResult
+                = this.atkCalculationService.calcAtkBoni(
+                        (Weapon) this.entityPoolService
+                        .getEntityById(new UniqueId("standardBattleaxe")),
+                        (DndCharacter) this.entityPoolService
+                        .getEntityById(this.merisielId));
+
+        // base atk: 0
+        // STR mod: +1 (weapon finesse DEX mod: +3 NOT GRANTED!)
+        // unproficient with martial weapn battleaxe: -4
+        assertEquals(-3L, atkResult.getBonusValueByRank(BonusRank.RANK_0)
                 .getValue());
     }
 

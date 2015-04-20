@@ -51,10 +51,11 @@ public interface SituationContextService {
      *
      * @param stateKey the key of the state of interest.
      * @param dndCharacter the character giving the context.
+     * @param entityId the unique entity defining the key further.
      * @return the bonus value behind that key.
      */
     BonusValue getBonusValueForKey(StateRegistry.StateParticle stateKey,
-            DndCharacter dndCharacter);
+            DndCharacter dndCharacter, UniqueId entityId);
 
     /**
      * Retrieves a boolean value from a given state key.

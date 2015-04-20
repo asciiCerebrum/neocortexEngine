@@ -42,9 +42,11 @@ public class DefaultSituationContextService implements SituationContextService {
     @Override
     public final BonusValue getBonusValueForKey(
             final StateRegistry.StateParticle stateKey,
-            final DndCharacter dndCharacter) {
-        return new BonusValue((Long) dndCharacter.getStateRegistry()
-                .getState(stateKey, dndCharacter.getUniqueId()));
+            final DndCharacter dndCharacter, final UniqueId entityId) {
+        final Long stateVal = dndCharacter.getStateRegistry()
+                .getState(stateKey, entityId);
+
+        return new BonusValue(stateVal);
     }
 
     @Override

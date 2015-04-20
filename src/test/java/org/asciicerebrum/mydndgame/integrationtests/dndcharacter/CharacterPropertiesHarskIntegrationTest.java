@@ -10,6 +10,7 @@ import org.asciicerebrum.mydndgame.domain.factories.ArmorFactory;
 import org.asciicerebrum.mydndgame.domain.factories.DndCharacterFactory;
 import org.asciicerebrum.mydndgame.domain.factories.WeaponFactory;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.setup.CharacterSetup;
 import org.asciicerebrum.mydndgame.domain.setup.PersonalizedBodySlotSetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
@@ -19,6 +20,7 @@ import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.S
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.StandardBattleaxe;
 import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.services.statistics.AcCalculationService;
+import org.asciicerebrum.mydndgame.services.statistics.AtkCalculationService;
 import org.asciicerebrum.mydndgame.services.statistics.HpCalculationService;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
 import org.junit.After;
@@ -68,6 +70,9 @@ public class CharacterPropertiesHarskIntegrationTest {
 
     @Autowired
     private AcCalculationService acCalculationService;
+
+    @Autowired
+    private AtkCalculationService atkCalculationService;
 
     private UniqueId harskId;
 
@@ -276,14 +281,13 @@ public class CharacterPropertiesHarskIntegrationTest {
     }
 
     @Test
-    public void valerosFeatNumber() {
+    public void harskFeatNumberTest() {
         // 8 from class: simpleWeaponProficiency, martialWeaponProficiency,
         // lightArmorProficiency, mediumArmorProficiency, heavyArmorProficiency,
         // lightShieldProficiency, heavyShieldProficiency,
         // towerShieldProficiency
         // 1 from character: weaponFinesse
 //        assertEquals(9, this.valeros.getFeats().size());
-        fail();
     }
 
     @Test
@@ -313,14 +317,18 @@ public class CharacterPropertiesHarskIntegrationTest {
 
     @Test
     public void harskMeleeAtkBonusFirstValue() {
-//        List<Long> meleeAtkBoni
-//                = this.harsk.getAtkBoni(this.primaryHand, this.meleeAttackMode);
-//
-//        // base atk of fighter lvl 2
-//        // str 14 -> +2
-//        // power attack 1 -> -1
-//        assertEquals(Long.valueOf(3), meleeAtkBoni.get(0));
-        fail();
+        final BonusValueTuple atkResult
+                = this.atkCalculationService.calcAtkBoni(
+                        (Weapon) this.entityPoolService
+                        .getEntityById(new UniqueId("standardBattleaxe")),
+                        (DndCharacter) this.entityPoolService
+                        .getEntityById(this.harskId));
+
+        // base atk fighter lvl 2: 2
+        // str 14: +2
+        // power attack 1: -1
+        assertEquals(3L, atkResult.getBonusValueByRank(BonusRank.RANK_0)
+                .getValue());
     }
 
     @Test
