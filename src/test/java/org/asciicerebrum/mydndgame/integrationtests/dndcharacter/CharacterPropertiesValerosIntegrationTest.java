@@ -10,6 +10,7 @@ import org.asciicerebrum.mydndgame.domain.factories.ArmorFactory;
 import org.asciicerebrum.mydndgame.domain.factories.DndCharacterFactory;
 import org.asciicerebrum.mydndgame.domain.factories.WeaponFactory;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlot;
 import org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotType;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlot;
@@ -21,9 +22,11 @@ import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.ValerosHu
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.MwkChainmail;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.MwkHeavySteelShield;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.StandardLightWoodenShield;
+import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.MwkBastardsword;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.StandardLongsword;
 import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.services.statistics.AcCalculationService;
+import org.asciicerebrum.mydndgame.services.statistics.AtkCalculationService;
 import org.asciicerebrum.mydndgame.services.statistics.HpCalculationService;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
 import org.junit.After;
@@ -67,6 +70,9 @@ public class CharacterPropertiesValerosIntegrationTest {
     @Autowired
     private AcCalculationService acCalculationService;
 
+    @Autowired
+    private AtkCalculationService atkCalculationService;
+
     private UniqueId valerosId;
 
     @Before
@@ -83,6 +89,8 @@ public class CharacterPropertiesValerosIntegrationTest {
                 .newEntity(MwkHeavySteelShield.getSetup()));
         this.entityPoolService.registerUniqueEntity(this.weaponFactory
                 .newEntity(StandardLongsword.getSetup()));
+        this.entityPoolService.registerUniqueEntity(this.weaponFactory
+                .newEntity(MwkBastardsword.getSetup()));
 
         this.valerosId = new UniqueId("valeros");
     }
@@ -239,6 +247,50 @@ public class CharacterPropertiesValerosIntegrationTest {
                 .findFirstSimilar(blueprint, Facet.BODY_SLOT_TYPE);
 
         assertEquals("standardLongsword", result.getItemId().getValue());
+    }
+
+    @Test
+    public void valerosMeleeAtkBonusFirstValueTest() {
+        final BonusValueTuple atkResult
+                = this.atkCalculationService.calcAtkBoni(
+                        (Weapon) this.entityPoolService
+                        .getEntityById(new UniqueId("standardLongsword")),
+                        (DndCharacter) this.entityPoolService
+                        .getEntityById(this.valerosId));
+
+        // base atk fighter lvl 1: +1
+        // str 14: +2
+        assertEquals(3L, atkResult.getBonusValueByRank(BonusRank.RANK_0)
+                .getValue());
+    }
+
+    @Test
+    public void valerosMeleeAtkBonusFirstValueSecHandTest() {
+        final PersonalizedBodySlotSetup hand2Setup
+                = new PersonalizedBodySlotSetup();
+        hand2Setup.setBodySlotType("secondaryHand");
+        hand2Setup.setItem("mwkBastardsword");
+        hand2Setup.setIsPrimaryAttackSlot("false");
+
+        final CharacterSetup setup = ValerosHumanFighter1.getSetup();
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).add(hand2Setup);
+
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(setup));
+
+        final BonusValueTuple atkResult
+                = this.atkCalculationService.calcAtkBoni(
+                        (Weapon) this.entityPoolService
+                        .getEntityById(new UniqueId("mwkBastardsword")),
+                        (DndCharacter) this.entityPoolService
+                        .getEntityById(this.valerosId));
+
+        // base atk of fighter lvl 1: +1
+        // str 14 -> +2
+        // exotic weapon -> nonproficiencyPenalty: -4
+        // mwk weapon: +1
+        assertEquals(0L, atkResult.getBonusValueByRank(BonusRank.RANK_0)
+                .getValue());
     }
 
 }

@@ -281,41 +281,6 @@ public class CharacterPropertiesHarskIntegrationTest {
     }
 
     @Test
-    public void harskFeatNumberTest() {
-        // 8 from class: simpleWeaponProficiency, martialWeaponProficiency,
-        // lightArmorProficiency, mediumArmorProficiency, heavyArmorProficiency,
-        // lightShieldProficiency, heavyShieldProficiency,
-        // towerShieldProficiency
-        // 1 from character: weaponFinesse
-//        assertEquals(9, this.valeros.getFeats().size());
-    }
-
-    @Test
-    public void valerosMeleeAtkBonusFirstValue() {
-//        List<Long> meleeAtkBoni
-//                = this.valeros.getAtkBoni(this.primaryHand,
-//                        this.meleeAttackMode);
-
-        // base atk of fighter lvl 1: 1
-        // dex 9 instead of str 12 due to weapon finesse: -1
-//        assertEquals(Long.valueOf(0), meleeAtkBoni.get(0));
-        fail();
-    }
-
-    @Test
-    public void valerosMeleeAtkBonusFirstValueSecHand() {
-//        List<Long> meleeAtkBoni
-//                = this.valeros.getAtkBoni(this.secondaryHand,
-//                        this.meleeAttackMode);
-
-        // base atk of fighter lvl 1: 1
-        // dex 9 instead of str 12 due to weapon finesse: -1
-        // mwk dagger: 1
-//        assertEquals(Long.valueOf(1), meleeAtkBoni.get(0));
-        fail();
-    }
-
-    @Test
     public void harskMeleeAtkBonusFirstValue() {
         final BonusValueTuple atkResult
                 = this.atkCalculationService.calcAtkBoni(
@@ -329,48 +294,6 @@ public class CharacterPropertiesHarskIntegrationTest {
         // power attack 1: -1
         assertEquals(3L, atkResult.getBonusValueByRank(BonusRank.RANK_0)
                 .getValue());
-    }
-
-    @Test
-    public void valerosRangedAtkBonusFirstValue() {
-//        List<Long> meleeAtkBoni
-//                = this.valeros.getAtkBoni(this.primaryHand,
-//                        this.rangedAttackMode);
-//
-//        // base atk of fighter lvl 1: 1
-//        // dex 9 instead of str 12 due to weapon finesse: -1
-//        // improvised weapon: rapier is not for throwing,
-//        // so you gain a nonproficiency penalty: -4
-//        assertEquals(Long.valueOf(-4), meleeAtkBoni.get(0));
-        fail();
-    }
-
-    @Test
-    public void valerosRangedAtkBonusFirstValueSecHand() {
-//        List<Long> meleeAtkBoni
-//                = this.valeros.getAtkBoni(this.secondaryHand,
-//                        this.rangedAttackMode);
-//
-//        // base atk of fighter lvl 1: 1
-//        // dex 9: -1
-//        // mwk dagger: 1
-//        // dagger is also good for ranged so no changes here.
-//        assertEquals(Long.valueOf(1), meleeAtkBoni.get(0));
-        fail();
-    }
-
-    @Test
-    public void harskMeleeAtkBonusFirstValueSecHand() {
-//        List<Long> meleeAtkBoni
-//                = this.harsk.getAtkBoni(this.secondaryHand,
-//                        this.meleeAttackMode);
-//
-//        // base atk of fighter lvl 2
-//        // str 14 -> +2
-//        // power attack 1 -> -1
-//        // exotic weapon -> nonproficiencyPenalty: -4
-//        assertEquals(Long.valueOf(-1), meleeAtkBoni.get(0));
-        fail();
     }
 
     @Test
@@ -447,55 +370,6 @@ public class CharacterPropertiesHarskIntegrationTest {
 //        // str-bonus -> +2 (*1.5 both hands) -> +3
 //        // power attack 1 -> +1 (*2 both hands) -> +2
 //        assertEquals(Long.valueOf(5), damageBonus);
-        fail();
-    }
-
-    @Test
-    public void valerosRangedDamageBonusBow() {
-//
-//        WeaponSetup bowSetup = new WeaponSetup();
-//        bowSetup.setId("bowValeros");
-//        bowSetup.setName("longbow");
-//        bowSetup.setSizeCategory("medium");
-//        IWeapon bowValeros
-//                = new WeaponFactory(bowSetup, this.context).build();
-//
-//        this.valeros.getBodySlotByType(this.primaryHand).setItem(bowValeros);
-//        this.valeros.getBodySlotByType(this.secondaryHand).setItem(bowValeros);
-//
-//        Long damageBonus = this.valeros.getDamageBonus(this.primaryHand,
-//                this.rangedAttackMode);
-//
-//        // str-bonus not applied!
-//        assertEquals(Long.valueOf(0), damageBonus);
-        fail();
-    }
-
-    /**
-     * test attack with bow in ranged mode: str penalty applies (use weak
-     * character with negative str bonus).
-     */
-    @Test
-    public void valerosWeakRangedDamageBonusBow() {
-
-//        WeaponSetup bowSetup = new WeaponSetup();
-//        bowSetup.setId("bowValeros");
-//        bowSetup.setName("longbow");
-//        bowSetup.setSizeCategory("medium");
-//        IWeapon bowValeros
-//                = new WeaponFactory(bowSetup, this.context).build();
-//
-//        this.valeros.getBodySlotByType(this.primaryHand).setItem(bowValeros);
-//        this.valeros.getBodySlotByType(this.secondaryHand).setItem(bowValeros);
-//
-//        IAbility str = this.context.getBean("str", Ability.class);
-//        this.valeros.getBaseAbilityMap().put(str, 8L); // --> bonus -1
-//
-//        Long damageBonus = this.valeros.getDamageBonus(this.primaryHand,
-//                this.rangedAttackMode);
-//
-//        // str-bonus: -1 is applied!
-//        assertEquals(Long.valueOf(-1), damageBonus);
         fail();
     }
 

@@ -48,7 +48,7 @@ public class AddBonusObserverTrigger implements ObserverTriggerStrategy {
     @Override
     public final Object trigger(final Object object,
             final ICharacter dndCharacter, final UniqueEntity contextItem) {
-        ContextBoni ctxBoni = (ContextBoni) object;
+        final ContextBoni ctxBoni = (ContextBoni) object;
 
         if (this.getAddBonus() != null) {
             ctxBoni.add(this.getAddBonus(), contextItem);
