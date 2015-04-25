@@ -108,7 +108,7 @@ public class DefaultBonusCalculationServiceImpl
         // for hp
         final BonusValueTuple bonusValueTuple = new BonusValueTuple();
 
-        Iterator<ContextBonus> bonusIterator
+        final Iterator<ContextBonus> bonusIterator
                 = this.filterContextBoniByStackability(foundBoni, dndCharacter)
                 .iterator();
         while (bonusIterator.hasNext()) {

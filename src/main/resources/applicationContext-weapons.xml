@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <!-- Damage types -->
     <bean id="slashing" class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageType">
@@ -99,6 +100,7 @@
         </property>
         <property name="associatedAttackDiceAction" ref="meleeAttack" />
         <property name="associatedDamageHook" value="MELEE_DAMAGE" />
+        <property name="associatedAttackHook" value="MELEE_ATTACK" />
     </bean>
     <bean id="rangedWeapon" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory">
         <property name="uniqueId">
@@ -108,6 +110,7 @@
         </property>
         <property name="associatedAttackDiceAction" ref="rangedAttack" />
         <property name="associatedDamageHook" value="RANGED_DAMAGE" />
+        <property name="associatedAttackHook" value="RANGED_ATTACK" />
     </bean>
     
     <!-- Weapon Types -->
@@ -309,50 +312,6 @@
                     <list>
                         <ref bean="primaryHand" />
                         <ref bean="secondaryHand" />
-                    </list>
-                </property>
-            </bean>
-        </property>
-        <property name="specialAbilities">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities">
-                <property name="specialAbilities">
-                    <list>
-                        <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
-                            <property name="observers">
-                                <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers">
-                                    <property name="observers">
-                                        <list>
-                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
-                                                <property name="hook" value="DAMAGE" />
-                                                <property name="triggerStrategy">
-                                                    <!--1.5 times str bonus for damage when wielded in two hands does not apply.-->
-                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.BonusValueModificationObserverTrigger">
-                                                        <property name="bonusService" ref="bonusCalculationService" />
-                                                        <property name="operation" value="DIVISION" />
-                                                        <property name="modValue">
-                                                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle">
-                                                                <constructor-arg value="1.5" />
-                                                            </bean>
-                                                        </property>
-                                                        <property name="referenceBonus"><!-- The bonus to modify must resemble this one. -->
-                                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
-                                                                <property name="bonusType" ref="strBonus" />
-                                                                <property name="target" ref="damage" />
-                                                            </bean>
-                                                        </property>
-                                                    </bean>
-                                                </property>
-                                                <property name="conditionEvaluator">
-                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectInventoryItemWieldingEvaluator">
-                                                        <property name="wieldingType" value="BOTH" /><!-- This is an enum defined in this evaluator. -->
-                                                    </bean>
-                                                </property>
-                                            </bean>
-                                        </list>
-                                    </property>
-                                </bean>
-                            </property>
-                        </bean>
                     </list>
                 </property>
             </bean>
@@ -713,5 +672,10 @@
     
     <!-- all common settings of weapons go here -->
     <bean id="weaponPrototype" class="org.asciicerebrum.mydndgame.domain.game.Weapon" scope="prototype"></bean>
+    
+    <!--1.5 times str bonus for damage when wielded in two hands does not apply.-->
+    <util:list id="twoHandDamageBonusMultiplicationExceptionWeapons" value-type="org.asciicerebrum.mydndgame.domain.ruleentities.InventoryItemPrototype">
+        <ref bean="rapier" />
+    </util:list>
                 
 </beans>

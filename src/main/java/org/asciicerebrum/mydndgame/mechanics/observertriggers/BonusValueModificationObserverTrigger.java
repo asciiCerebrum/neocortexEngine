@@ -3,15 +3,19 @@ package org.asciicerebrum.mydndgame.mechanics.observertriggers;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle;
 import org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle.Operation;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBoni;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.ContextBonus;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.ObserverTriggerStrategy;
 import org.asciicerebrum.mydndgame.services.core.BonusCalculationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -19,6 +23,12 @@ import org.asciicerebrum.mydndgame.services.core.BonusCalculationService;
  */
 public class BonusValueModificationObserverTrigger
         implements ObserverTriggerStrategy {
+
+    /**
+     * The logger.
+     */
+    private static final Logger LOG = LoggerFactory.getLogger(
+            BonusValueModificationObserverTrigger.class);
 
     /**
      * Defines how to arithmetically modify the value.
@@ -55,6 +65,11 @@ public class BonusValueModificationObserverTrigger
             return ctxBoni;
         }
 
+        LOG.debug("Entering bonus value modification with {} context boni.",
+                ctxBoni.size());
+
+        final Boni boniToAdd = new Boni();
+
         final Iterator<ContextBonus> bonusIterator = ctxBoni.iterator();
         while (bonusIterator.hasNext()) {
             final ContextBonus ctxBonus = bonusIterator.next();
@@ -69,14 +84,34 @@ public class BonusValueModificationObserverTrigger
                     Bonus.ResemblanceFacet.BONUS_TYPE,
                     Bonus.ResemblanceFacet.TARGET)) {
 
+                LOG.debug("Modifying bonus value {} with {} and {}.",
+                        new Object[]{bonusEffectiveValue
+                            .getBonusValueByRank(BonusRank.RANK_0)
+                            .getValue(),
+                            this.getOperation().toString(),
+                            this.getModValue().getValue()});
+
                 bonusEffectiveValue.applyOperation(this.getOperation(),
                         this.getModValue());
 
-                ctxBonus.getBonus().setValues(bonusEffectiveValue);
-                ctxBonus.getBonus().setDynamicValueProvider(null);
+                LOG.debug("Modifying to result: {}.",
+                        bonusEffectiveValue
+                        .getBonusValueByRank(BonusRank.RANK_0)
+                        .getValue());
+
+                // creating a new bonus in order not to overwrite the ones
+                // given from the ioc container.
+                final Bonus bonus = new Bonus();
+                bonus.setBonusType(ctxBonus.getBonus().getBonusType());
+                bonus.setTarget(ctxBonus.getBonus().getTarget());
+                bonus.setValues(bonusEffectiveValue);
+
+                bonusIterator.remove();
+                boniToAdd.addBonus(bonus);
             }
         }
 
+        ctxBoni.add(boniToAdd, contextItem);
         return ctxBoni;
     }
 

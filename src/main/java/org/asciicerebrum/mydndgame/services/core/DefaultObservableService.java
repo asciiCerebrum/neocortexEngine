@@ -44,11 +44,20 @@ public class DefaultObservableService implements ObservableService {
         final Iterator<Observer> observerIterator
                 = observers.iterator();
         Object modificatedObject = observerTarget;
+        int i = 1;
         while (observerIterator.hasNext()) {
             final Observer observer = observerIterator.next();
+            LOG.debug("{} - Check observer {} for triggering.", i++,
+                    observer.getTriggerStrategy().getClass().getSimpleName());
             if (observer.getConditionEvaluator() == null
                     || observer.getConditionEvaluator()
                     .evaluate(dndCharacter, targetEntity)) {
+
+                LOG.debug("Now triggering for {}: {}.",
+                        dndCharacter.getUniqueId().getValue(),
+                        observer.getTriggerStrategy().getClass()
+                        .getSimpleName());
+
                 modificatedObject = observer.getTriggerStrategy()
                         .trigger(observerTarget, dndCharacter, targetEntity);
             }
@@ -131,8 +140,13 @@ public class DefaultObservableService implements ObservableService {
             final ObserverSources observerSources,
             final ObserverHooks observerHooks,
             final UniqueEntity targetEntity) {
-        return this.accumulateObservers(observerSources, targetEntity)
+        LOG.info("Accumulating observers by the hooks {}.",
+                observerHooks.toString());
+        final Observers filteredObservers
+                = this.accumulateObservers(observerSources, targetEntity)
                 .filterByHooks(observerHooks);
+        LOG.info("Hook filtering reduced to {}.", filteredObservers.size());
+        return filteredObservers;
     }
 
     /**

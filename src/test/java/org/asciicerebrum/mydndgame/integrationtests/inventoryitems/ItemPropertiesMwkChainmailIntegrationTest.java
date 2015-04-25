@@ -81,11 +81,14 @@ public class ItemPropertiesMwkChainmailIntegrationTest {
 
     @Test
     public void mwkChainmailCostTest() {
+        final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("dndCharacter"));
+
         LOG.debug("Testing mwkChainmailCostTest()...");
         final Cost result
                 = this.armorServiceFacade.getCost(
                         (Armor) this.entityPoolService.getEntityById(
-                                this.mwkChainmailId), new DndCharacter());
+                                this.mwkChainmailId), dndCharacter);
         LOG.debug("...done.");
         // item cost: 150
         // mwk: 150

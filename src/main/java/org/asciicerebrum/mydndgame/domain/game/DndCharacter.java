@@ -216,12 +216,13 @@ public class DndCharacter extends UniqueEntity implements ICharacter,
             final UniqueEntityResolver resolver) {
         final ContextBoni contextBoni = new ContextBoni();
 
-        contextBoni.add(this.baseAbilities.getBoni(this, resolver));
-        contextBoni.add(this.personalizedBodySlots.getBoni(this, resolver));
-        contextBoni.add(this.conditions.getBoni(this, resolver));
-        contextBoni.add(this.levelAdvancements.getBoni(this, resolver));
-        contextBoni.add(this.race.getBoni(this, resolver));
-        contextBoni.add(this.prototypeSpecialAbilities.getBoni(this, resolver));
+        contextBoni.add(this.baseAbilities.getBoni(context, resolver));
+        contextBoni.add(this.personalizedBodySlots.getBoni(context, resolver));
+        contextBoni.add(this.conditions.getBoni(context, resolver));
+        contextBoni.add(this.levelAdvancements.getBoni(context, resolver));
+        contextBoni.add(this.race.getBoni(context, resolver));
+        contextBoni.add(this.prototypeSpecialAbilities.getBoni(
+                context, resolver));
 
         return contextBoni;
     }

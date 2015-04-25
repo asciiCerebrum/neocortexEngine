@@ -1,6 +1,5 @@
 package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl;
 
-import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
@@ -49,7 +48,8 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
 
     @Test
     public void evaluateNullWieldingTypeTest() {
-        final ICharacter dndCharacter = new DndCharacter();
+        final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("character"));
         final UniqueEntity contextItem = new Weapon();
 
         this.evaluator.setWieldingType(null);
@@ -61,7 +61,8 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
 
     @Test
     public void evaluateNullContextItemTest() {
-        final ICharacter dndCharacter = new DndCharacter();
+        final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("character"));
         final UniqueEntity contextItem = null;
 
         final boolean result = this.evaluator.evaluate(
@@ -72,6 +73,7 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
     @Test
     public void evaluateBothCorrectTest() {
         final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("character"));
         final UniqueEntity contextItem = new Weapon();
         contextItem.setUniqueId(new UniqueId("contextItem"));
 
@@ -98,6 +100,7 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
     @Test
     public void evaluateBothNothingInSlotTest() {
         final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("character"));
         final UniqueEntity contextItem = new Weapon();
         contextItem.setUniqueId(new UniqueId("contextItem"));
 
@@ -124,6 +127,7 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
     @Test
     public void evaluateBothNoCounterSlotTest() {
         final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("character"));
         final UniqueEntity contextItem = new Weapon();
         contextItem.setUniqueId(new UniqueId("contextItem"));
 
@@ -150,6 +154,7 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
     @Test
     public void evaluateBothNoCounterItemTest() {
         final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("character"));
         final UniqueEntity contextItem = new Weapon();
         contextItem.setUniqueId(new UniqueId("contextItem"));
 

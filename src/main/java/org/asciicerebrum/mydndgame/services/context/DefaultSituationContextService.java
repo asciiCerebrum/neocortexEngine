@@ -46,6 +46,10 @@ public class DefaultSituationContextService implements SituationContextService {
         final Long stateVal = dndCharacter.getStateRegistry()
                 .getState(stateKey, entityId);
 
+        if (stateVal == null) {
+            return null;
+        }
+
         return new BonusValue(stateVal);
     }
 

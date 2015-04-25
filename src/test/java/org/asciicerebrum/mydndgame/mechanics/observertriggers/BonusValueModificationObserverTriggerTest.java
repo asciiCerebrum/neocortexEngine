@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.mechanics.observertriggers;
 
+import com.google.common.collect.Iterators;
 import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
@@ -106,9 +107,10 @@ public class BonusValueModificationObserverTriggerTest {
         when(this.bonusCalcService.getEffectiveValues(ctxBonusB,
                 (DndCharacter) dndCharacter)).thenReturn(valueB);
 
-        this.trigger.trigger(
+        final ContextBoni ctxBoniResult = (ContextBoni) this.trigger.trigger(
                 boni, dndCharacter, contextItem);
-        assertEquals(4L, bonusB.getValues()
+        assertEquals(4L, Iterators.get(ctxBoniResult.iterator(), 1)
+                .getBonus().getValues()
                 .getBonusValueByRank(BonusRank.RANK_0).getValue());
     }
 

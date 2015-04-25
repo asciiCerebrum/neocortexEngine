@@ -328,6 +328,10 @@ public class BonusValueTuple {
      * @return true if less than, otherwise false.
      */
     public final boolean lessThan(final BonusValueTuple bonusValueTuple) {
+        if (bonusValueTuple == null) {
+            // you can never be less than null
+            return false;
+        }
         return this.getBonusValueByRank(BonusRank.RANK_0)
                 .lessThan(bonusValueTuple
                         .getBonusValueByRank(BonusRank.RANK_0));

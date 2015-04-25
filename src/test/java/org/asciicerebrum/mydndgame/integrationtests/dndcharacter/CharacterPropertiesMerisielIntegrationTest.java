@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.integrationtests.dndcharacter;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.factories.ArmorFactory;
@@ -18,6 +19,8 @@ import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.StandardBattleaxe;
 import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.services.statistics.AtkCalculationService;
+import org.asciicerebrum.mydndgame.services.statistics.DamageCalculationService;
+import org.asciicerebrum.mydndgame.services.statistics.InitiativeCalculationService;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
@@ -62,6 +65,12 @@ public class CharacterPropertiesMerisielIntegrationTest {
 
     @Autowired
     private AtkCalculationService atkCalculationService;
+
+    @Autowired
+    private DamageCalculationService damageCalculationService;
+
+    @Autowired
+    private InitiativeCalculationService initiativeCalculationService;
 
     private UniqueId merisielId;
 
@@ -174,6 +183,89 @@ public class CharacterPropertiesMerisielIntegrationTest {
         // unproficient with martial weapn battleaxe: -4
         assertEquals(-3L, atkResult.getBonusValueByRank(BonusRank.RANK_0)
                 .getValue());
+    }
+
+    @Test
+    public void merisielMeleeDamageBonusPrimHandTest() {
+        final BonusValue damage = this.damageCalculationService.calcDamageBonus(
+                (Weapon) this.entityPoolService
+                .getEntityById(new UniqueId("mwkRapier")),
+                (DndCharacter) this.entityPoolService
+                .getEntityById(this.merisielId));
+
+        // str-bonus -> +1
+        assertEquals(1L, damage.getValue());
+    }
+
+    @Test
+    public void merisielMeleeDamageBonusSecHandTest() {
+        final PersonalizedBodySlotSetup hand2Setup
+                = new PersonalizedBodySlotSetup();
+        hand2Setup.setBodySlotType("secondaryHand");
+        hand2Setup.setItem("mwkRapier");
+        hand2Setup.setIsPrimaryAttackSlot("false");
+
+        final CharacterSetup setup = MerisielElfRogue1.getSetup();
+        // removal of all items
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).clear();
+        // adding the axe on sec hand
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).add(hand2Setup);
+
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(setup));
+
+        final BonusValue damage = this.damageCalculationService.calcDamageBonus(
+                (Weapon) this.entityPoolService
+                .getEntityById(new UniqueId("mwkRapier")),
+                (DndCharacter) this.entityPoolService
+                .getEntityById(this.merisielId));
+
+        // str-bonus -> +1 --> off-hand (*0.5) --> +0
+        assertEquals(0L, damage.getValue());
+    }
+
+    @Test
+    public void merisielMeleeDamageBonusBothHandsTest() {
+        final PersonalizedBodySlotSetup hand1Setup
+                = new PersonalizedBodySlotSetup();
+        hand1Setup.setBodySlotType("primaryHand");
+        hand1Setup.setItem("mwkRapier");
+        hand1Setup.setIsPrimaryAttackSlot("true");
+        final PersonalizedBodySlotSetup hand2Setup
+                = new PersonalizedBodySlotSetup();
+        hand2Setup.setBodySlotType("secondaryHand");
+        hand2Setup.setItem("mwkRapier");
+        hand2Setup.setIsPrimaryAttackSlot("false");
+
+        final CharacterSetup setup = MerisielElfRogue1.getSetup();
+        // removal of all items
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).clear();
+        // adding the sword on prim and sec hand
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).add(hand1Setup);
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).add(hand2Setup);
+
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(setup));
+
+        final BonusValue damage = this.damageCalculationService.calcDamageBonus(
+                (Weapon) this.entityPoolService
+                .getEntityById(new UniqueId("mwkRapier")),
+                (DndCharacter) this.entityPoolService
+                .getEntityById(this.merisielId));
+
+        // str-bonus -> +1 --> two-hands (*1.5) NOT APPLICABLE WITH RAPIER!
+        // --> +1
+        assertEquals(1L, damage.getValue());
+    }
+
+    @Test
+    public void merisielGetInitBonusTest() {
+        final BonusValue initBonusResult
+                = this.initiativeCalculationService.calcInitBonus(
+                        (DndCharacter) this.entityPoolService
+                        .getEntityById(this.merisielId));
+        // dex mod: +3
+        assertEquals(3L, initBonusResult.getValue());
     }
 
 }

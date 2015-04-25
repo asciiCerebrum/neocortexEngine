@@ -1,11 +1,11 @@
 package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl;
 
-import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory;
+import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -56,7 +56,8 @@ public class CorrectAttackModeEvaluatorTest {
 
     @Test
     public void evaluateCorrectTest() {
-        final ICharacter dndCharacter = new DndCharacter();
+        final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("character"));
         final UniqueEntity contextItem = new Weapon();
         contextItem.setUniqueId(new UniqueId("contextItem"));
 
@@ -71,8 +72,11 @@ public class CorrectAttackModeEvaluatorTest {
 
     @Test
     public void evaluateNullRefCategoryTest() {
-        final ICharacter dndCharacter = new DndCharacter();
-        final UniqueEntity contextItem = new Weapon();
+        final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("character"));
+        final Weapon contextItem = new Weapon();
+        final WeaponPrototype proto = new WeaponPrototype();
+        contextItem.setInventoryItemPrototype(proto);
         contextItem.setUniqueId(new UniqueId("contextItem"));
 
         when(this.situationContextService.getItemAttackMode(
@@ -86,7 +90,8 @@ public class CorrectAttackModeEvaluatorTest {
 
     @Test
     public void evaluateNullCategoryTest() {
-        final ICharacter dndCharacter = new DndCharacter();
+        final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("character"));
         final UniqueEntity contextItem = new Weapon();
         contextItem.setUniqueId(new UniqueId("contextItem"));
 

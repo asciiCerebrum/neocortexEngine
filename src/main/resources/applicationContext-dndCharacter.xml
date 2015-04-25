@@ -68,6 +68,13 @@
                                                                     <property name="weaponCategory" ref="meleeWeapon" />
                                                                     <property name="situationContextService" ref="situationContextService" />
                                                                 </bean>
+                                                                <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.NotEvaluator">
+                                                                    <property name="conditionEvaluator">
+                                                                        <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.ContainsInventoryItemPrototypeEvaluator">
+                                                                            <property name="checkList" ref="twoHandDamageBonusMultiplicationExceptionWeapons" />
+                                                                        </bean>
+                                                                    </property>
+                                                                </bean>
                                                             </list>
                                                         </property>
                                                     </bean>

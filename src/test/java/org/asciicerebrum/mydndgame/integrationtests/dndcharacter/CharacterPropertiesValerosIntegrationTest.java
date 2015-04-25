@@ -3,6 +3,7 @@ package org.asciicerebrum.mydndgame.integrationtests.dndcharacter;
 import com.google.common.collect.Iterators;
 import org.asciicerebrum.mydndgame.domain.core.particles.ArmorClass;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
@@ -23,11 +24,14 @@ import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.M
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.MwkHeavySteelShield;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.StandardLightWoodenShield;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.MwkBastardsword;
+import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.MwkRapier;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.StandardLongsword;
 import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.services.statistics.AcCalculationService;
 import org.asciicerebrum.mydndgame.services.statistics.AtkCalculationService;
+import org.asciicerebrum.mydndgame.services.statistics.DamageCalculationService;
 import org.asciicerebrum.mydndgame.services.statistics.HpCalculationService;
+import org.asciicerebrum.mydndgame.services.statistics.InitiativeCalculationService;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
@@ -73,6 +77,12 @@ public class CharacterPropertiesValerosIntegrationTest {
     @Autowired
     private AtkCalculationService atkCalculationService;
 
+    @Autowired
+    private DamageCalculationService damageCalculationService;
+
+    @Autowired
+    private InitiativeCalculationService initiativeCalculationService;
+
     private UniqueId valerosId;
 
     @Before
@@ -91,6 +101,8 @@ public class CharacterPropertiesValerosIntegrationTest {
                 .newEntity(StandardLongsword.getSetup()));
         this.entityPoolService.registerUniqueEntity(this.weaponFactory
                 .newEntity(MwkBastardsword.getSetup()));
+        this.entityPoolService.registerUniqueEntity(this.weaponFactory
+                .newEntity(MwkRapier.getSetup()));
 
         this.valerosId = new UniqueId("valeros");
     }
@@ -291,6 +303,128 @@ public class CharacterPropertiesValerosIntegrationTest {
         // mwk weapon: +1
         assertEquals(0L, atkResult.getBonusValueByRank(BonusRank.RANK_0)
                 .getValue());
+    }
+
+    @Test
+    public void valerosMeleeAtkBonusFirstValueTwoMwkWeaponsTest() {
+        final PersonalizedBodySlotSetup hand1Setup
+                = new PersonalizedBodySlotSetup();
+        hand1Setup.setBodySlotType("primaryHand");
+        hand1Setup.setItem("mwkRapier");
+        hand1Setup.setIsPrimaryAttackSlot("true");
+
+        final PersonalizedBodySlotSetup hand2Setup
+                = new PersonalizedBodySlotSetup();
+        hand2Setup.setBodySlotType("secondaryHand");
+        hand2Setup.setItem("mwkBastardsword");
+        hand2Setup.setIsPrimaryAttackSlot("false");
+
+        final CharacterSetup setup = ValerosHumanFighter1.getSetup();
+
+        // removal of battleaxe
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).remove(0);
+        // adding the rapier
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).add(hand1Setup);
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).add(hand2Setup);
+
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(setup));
+
+        final BonusValueTuple atkResult
+                = this.atkCalculationService.calcAtkBoni(
+                        (Weapon) this.entityPoolService
+                        .getEntityById(new UniqueId("mwkRapier")),
+                        (DndCharacter) this.entityPoolService
+                        .getEntityById(this.valerosId));
+
+        // base atk of fighter lvl 1: +1
+        // str 14 -> +2
+        // mwk weapon: +1
+        assertEquals(4L, atkResult.getBonusValueByRank(BonusRank.RANK_0)
+                .getValue());
+    }
+
+    @Test
+    public void valerosMeleeDamageBonusPrimHandTest() {
+        final BonusValue damage = this.damageCalculationService.calcDamageBonus(
+                (Weapon) this.entityPoolService
+                .getEntityById(new UniqueId("standardLongsword")),
+                (DndCharacter) this.entityPoolService
+                .getEntityById(this.valerosId));
+
+        // str-bonus -> +2
+        assertEquals(2L, damage.getValue());
+    }
+
+    @Test
+    public void valerosMeleeDamageBonusSecHandTest() {
+        final PersonalizedBodySlotSetup hand2Setup
+                = new PersonalizedBodySlotSetup();
+        hand2Setup.setBodySlotType("secondaryHand");
+        hand2Setup.setItem("standardLongsword");
+        hand2Setup.setIsPrimaryAttackSlot("false");
+
+        final CharacterSetup setup = ValerosHumanFighter1.getSetup();
+        // removal of all items
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).clear();
+        // adding the axe on sec hand
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).add(hand2Setup);
+
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(setup));
+
+        final BonusValue damage = this.damageCalculationService.calcDamageBonus(
+                (Weapon) this.entityPoolService
+                .getEntityById(new UniqueId("standardLongsword")),
+                (DndCharacter) this.entityPoolService
+                .getEntityById(this.valerosId));
+
+        // str-bonus -> +2 --> off-hand (*0.5) --> +1
+        assertEquals(1L, damage.getValue());
+    }
+
+    @Test
+    public void valerosMeleeDamageBonusBothHandsTest() {
+        final PersonalizedBodySlotSetup hand1Setup
+                = new PersonalizedBodySlotSetup();
+        hand1Setup.setBodySlotType("primaryHand");
+        hand1Setup.setItem("standardLongsword");
+        hand1Setup.setIsPrimaryAttackSlot("true");
+        final PersonalizedBodySlotSetup hand2Setup
+                = new PersonalizedBodySlotSetup();
+        hand2Setup.setBodySlotType("secondaryHand");
+        hand2Setup.setItem("standardLongsword");
+        hand2Setup.setIsPrimaryAttackSlot("false");
+
+        final CharacterSetup setup = ValerosHumanFighter1.getSetup();
+        // removal of all items
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).clear();
+        // adding the sword on prim and sec hand
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).add(hand1Setup);
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).add(hand2Setup);
+
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(setup));
+
+        final BonusValue damage = this.damageCalculationService.calcDamageBonus(
+                (Weapon) this.entityPoolService
+                .getEntityById(new UniqueId("standardLongsword")),
+                (DndCharacter) this.entityPoolService
+                .getEntityById(this.valerosId));
+
+        // str-bonus -> +2 --> two-hands (*1.5) --> +3
+        assertEquals(3L, damage.getValue());
+    }
+
+    @Test
+    public void valerosGetInitBonusTest() {
+        final BonusValue initBonusResult
+                = this.initiativeCalculationService.calcInitBonus(
+                        (DndCharacter) this.entityPoolService
+                        .getEntityById(this.valerosId));
+        // dex mod: +2
+        // improved init: +4
+        assertEquals(6L, initBonusResult.getValue());
     }
 
 }

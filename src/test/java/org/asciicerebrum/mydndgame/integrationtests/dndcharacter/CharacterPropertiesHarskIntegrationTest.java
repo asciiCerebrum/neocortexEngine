@@ -3,6 +3,7 @@ package org.asciicerebrum.mydndgame.integrationtests.dndcharacter;
 import com.google.common.collect.Iterators;
 import org.asciicerebrum.mydndgame.domain.core.particles.ArmorClass;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple;
 import org.asciicerebrum.mydndgame.domain.core.particles.HitPoints;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
@@ -21,7 +22,9 @@ import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.
 import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.services.statistics.AcCalculationService;
 import org.asciicerebrum.mydndgame.services.statistics.AtkCalculationService;
+import org.asciicerebrum.mydndgame.services.statistics.DamageCalculationService;
 import org.asciicerebrum.mydndgame.services.statistics.HpCalculationService;
+import org.asciicerebrum.mydndgame.services.statistics.InitiativeCalculationService;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
@@ -73,6 +76,12 @@ public class CharacterPropertiesHarskIntegrationTest {
 
     @Autowired
     private AtkCalculationService atkCalculationService;
+
+    @Autowired
+    private DamageCalculationService damageCalculationService;
+
+    @Autowired
+    private InitiativeCalculationService initiativeCalculationService;
 
     private UniqueId harskId;
 
@@ -281,7 +290,7 @@ public class CharacterPropertiesHarskIntegrationTest {
     }
 
     @Test
-    public void harskMeleeAtkBonusFirstValue() {
+    public void harskMeleeAtkBonusFirstValueTest() {
         final BonusValueTuple atkResult
                 = this.atkCalculationService.calcAtkBoni(
                         (Weapon) this.entityPoolService
@@ -297,127 +306,128 @@ public class CharacterPropertiesHarskIntegrationTest {
     }
 
     @Test
-    public void valerosMeleeDamageBonusPrimHand() {
-//        Long damageBonus = this.valeros.getDamageBonus(this.primaryHand,
-//                this.meleeAttackMode);
-//
-//        // str-bonus +2
-//        assertEquals(Long.valueOf(2), damageBonus);
-        fail();
+    public void harskMeleeAtkBonusFirstValueWithoutPowerAttackSetupTest() {
+        final CharacterSetup setup = HarskDwarfFighter2.getSetup();
+        setup.setStateRegistrySetup(null);
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(setup));
+
+        final BonusValueTuple atkResult
+                = this.atkCalculationService.calcAtkBoni(
+                        (Weapon) this.entityPoolService
+                        .getEntityById(new UniqueId("standardBattleaxe")),
+                        (DndCharacter) this.entityPoolService
+                        .getEntityById(this.harskId));
+
+        // base atk fighter lvl 2: 2
+        // str 14: +2
+        assertEquals(4L, atkResult.getBonusValueByRank(BonusRank.RANK_0)
+                .getValue());
     }
 
     @Test
-    public void valerosMeleeDamageBonusSecHand() {
-//        Long damageBonus = this.valeros.getDamageBonus(this.secondaryHand,
-//                this.meleeAttackMode);
-//
-//        // str-bonus +2 but off-hand: +1 (1/2!)
-//        assertEquals(Long.valueOf(1), damageBonus);
-        fail();
+    public void harskMeleeDamageBonusPrimHandTest() {
+        final BonusValue damage = this.damageCalculationService.calcDamageBonus(
+                (Weapon) this.entityPoolService
+                .getEntityById(new UniqueId("standardBattleaxe")),
+                (DndCharacter) this.entityPoolService
+                .getEntityById(this.harskId));
+
+        // str-bonus -> +2
+        // power attack 1 -> +1
+        assertEquals(3L, damage.getValue());
     }
 
     @Test
-    public void harskMeleeDamageBonusPrimHand() {
-//        Long damageBonus = this.harsk.getDamageBonus(this.primaryHand,
-//                this.meleeAttackMode);
-//
-//        // str-bonus -> +2
-//        // power attack 1 -> +1
-//        assertEquals(Long.valueOf(3), damageBonus);
-        fail();
+    public void harskMeleeDamageBonusPrimHandWithoutPowerAttackSetupTest() {
+        final CharacterSetup setup = HarskDwarfFighter2.getSetup();
+        setup.setStateRegistrySetup(null);
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(setup));
+
+        final BonusValue damage = this.damageCalculationService.calcDamageBonus(
+                (Weapon) this.entityPoolService
+                .getEntityById(new UniqueId("standardBattleaxe")),
+                (DndCharacter) this.entityPoolService
+                .getEntityById(this.harskId));
+
+        // str-bonus -> +2
+        assertEquals(2L, damage.getValue());
     }
 
     @Test
-    public void harskMeleeDamageBonusSecHand() {
-//        Long damageBonus = this.harsk.getDamageBonus(this.secondaryHand,
-//                this.meleeAttackMode);
-//
-//        // str-bonus +2 but off-hand: +1
-//        // power attack 1 -> +1
-//        assertEquals(Long.valueOf(2), damageBonus);
-        fail();
-    }
+    public void harskMeleeDamageBonusSecHandTest() {
+        final PersonalizedBodySlotSetup hand2Setup
+                = new PersonalizedBodySlotSetup();
+        hand2Setup.setBodySlotType("secondaryHand");
+        hand2Setup.setItem("standardBattleaxe");
+        hand2Setup.setIsPrimaryAttackSlot("false");
 
-    /**
-     * test damage bonus of rapier in two hands (1.5 Str bonus does NOT apply).
-     */
-    @Test
-    public void valerosMeleeDamageBonusBothHandsRapier() {
-//        //TODO create API to easily sitch position of items.
-//        this.valeros.getBodySlotByType(this.secondaryHand).setItem(
-//                this.valeros.getBodySlotByType(this.primaryHand).getItem()
-//        );
-//        Long damageBonus = this.valeros.getDamageBonus(this.primaryHand,
-//                this.meleeAttackMode);
-//
-//        // str-bonus +2
-//        assertEquals(Long.valueOf(2), damageBonus);
-        fail();
+        final CharacterSetup setup = HarskDwarfFighter2.getSetup();
+        // removal of all items
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).clear();
+        // adding the axe on sec hand
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).add(hand2Setup);
+
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(setup));
+
+        final BonusValue damage = this.damageCalculationService.calcDamageBonus(
+                (Weapon) this.entityPoolService
+                .getEntityById(new UniqueId("standardBattleaxe")),
+                (DndCharacter) this.entityPoolService
+                .getEntityById(this.harskId));
+
+        // str-bonus -> +2 --> off-hand (*0.5) --> +1
+        // power attack 1 -> +1
+        assertEquals(2L, damage.getValue());
     }
 
     /**
      * test damage bonus of battle axe in two hands (1.5 Str bonus applies).
      */
     @Test
-    public void harskMeleeDamageBonusBothHandsBattleAxe() {
-//        this.harsk.getBodySlotByType(this.secondaryHand).setItem(
-//                this.harsk.getBodySlotByType(this.primaryHand).getItem()
-//        );
-//
-//        Long damageBonus = this.harsk.getDamageBonus(this.primaryHand,
-//                this.meleeAttackMode);
-//
-//        // str-bonus -> +2 (*1.5 both hands) -> +3
-//        // power attack 1 -> +1 (*2 both hands) -> +2
-//        assertEquals(Long.valueOf(5), damageBonus);
-        fail();
-    }
+    public void harskMeleeDamageBonusBothHandsTest() {
+        final PersonalizedBodySlotSetup hand1Setup
+                = new PersonalizedBodySlotSetup();
+        hand1Setup.setBodySlotType("primaryHand");
+        hand1Setup.setItem("standardBattleaxe");
+        hand1Setup.setIsPrimaryAttackSlot("true");
+        final PersonalizedBodySlotSetup hand2Setup
+                = new PersonalizedBodySlotSetup();
+        hand2Setup.setBodySlotType("secondaryHand");
+        hand2Setup.setItem("standardBattleaxe");
+        hand2Setup.setIsPrimaryAttackSlot("false");
 
-    /**
-     * test attack with bow in melee mode: str bonus applies normal (use strong
-     * character with positive str bonus).
-     */
-    @Test
-    public void valerosWeakMeleeDamageBonusBow() {
+        final CharacterSetup setup = HarskDwarfFighter2.getSetup();
+        // removal of all items
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).clear();
+        // adding the axe on prim and sec hand
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).add(hand1Setup);
+        setup.getPropertySetups(SetupProperty.BODY_SLOTS).add(hand2Setup);
 
-//        WeaponSetup bowSetup = new WeaponSetup();
-//        bowSetup.setId("bowValeros");
-//        bowSetup.setName("longbow");
-//        bowSetup.setSizeCategory("medium");
-//        IWeapon bowValeros
-//                = new WeaponFactory(bowSetup, this.context).build();
-//
-//        this.valeros.getBodySlotByType(this.primaryHand).setItem(bowValeros);
-//        this.valeros.getBodySlotByType(this.secondaryHand).setItem(bowValeros);
-//
-//        Long damageBonus = this.valeros.getDamageBonus(this.primaryHand,
-//                this.meleeAttackMode);
-//
-//        // str-bonus: +2 is applied! (*1.5 both hands)
-//        assertEquals(Long.valueOf(3), damageBonus);
-        fail();
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(setup));
+
+        final BonusValue damage = this.damageCalculationService.calcDamageBonus(
+                (Weapon) this.entityPoolService
+                .getEntityById(new UniqueId("standardBattleaxe")),
+                (DndCharacter) this.entityPoolService
+                .getEntityById(this.harskId));
+
+        // str-bonus -> +2 --> two-hands (*1.5) --> +3
+        // power attack 1 -> +1 --> two-hands (*2) --> +2
+        assertEquals(5L, damage.getValue());
     }
 
     @Test
-    public void valerosGetInitBonus() {
-//        Long initBonus = this.valeros.getInitBonus();
-//        // dex 9 --> -1
-//        assertEquals(Long.valueOf(-1), initBonus);
-        fail();
+    public void harskGetInitBonusTest() {
+        final BonusValue initBonusResult
+                = this.initiativeCalculationService.calcInitBonus(
+                        (DndCharacter) this.entityPoolService
+                        .getEntityById(this.harskId));
+        // dex mod: +2
+        assertEquals(2L, initBonusResult.getValue());
     }
 
-    @Test
-    public void harskGetInitBonus() {
-//        Long initBonus = this.harsk.getInitBonus();
-//        // dex 11 --> 0
-//        // improved initiative --> 4
-//        assertEquals(Long.valueOf(4), initBonus);
-        fail();
-    }
-
-    //TODO test what happens when wearing two shields!!! the penalties on attack
-    // should not stack!
-    //TODO test if situation context invalidation works: get damage bonus for
-    // ranged directly before damage bonus for melee. There should be no
-    // difference to when you only get damage bonus for melee!!!
 }

@@ -48,13 +48,14 @@ public class DefaultAtkCalculationService implements AtkCalculationService {
         }
 
         final BonusValueTuple atkBonus = this.getBonusService()
-                .calculateBonusValues(new BonusSources(dndCharacter),
+                .calculateBonusValues(
+                        new BonusSources(dndCharacter),
                         new BonusTargets(this.attackAction,
                                 itemAttackMode.getAssociatedAttackDiceAction()),
                         weapon,
                         new ObserverSources(dndCharacter),
                         new ObserverHooks(ObserverHook.ATTACK,
-                                itemAttackMode.getAssociatedDamageHook()),
+                                itemAttackMode.getAssociatedAttackHook()),
                         dndCharacter
                 );
         atkValues.add(atkBonus.getBonusValueByRank(BonusRank.RANK_0));

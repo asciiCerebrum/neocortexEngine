@@ -11,6 +11,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
 import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.BonusSources;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSources;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
+import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.asciicerebrum.mydndgame.services.core.BonusCalculationService;
 
@@ -41,21 +42,22 @@ public class DefaultDamageCalculationService
     public final BonusValue calcDamageBonus(final Weapon weapon,
             final DndCharacter dndCharacter) {
 
+        WeaponCategory itemAttackMode
+                = this.getSituationContextService()
+                .getItemAttackMode(weapon.getUniqueId(), dndCharacter);
+        if (itemAttackMode == null) {
+            itemAttackMode = weapon.getDefaultAttackMode();
+        }
+
         final BonusValueTuple damageValues
                 = this.getBonusService().calculateBonusValues(
                         new BonusSources(dndCharacter),
                         new BonusTargets(this.damageAction,
-                                this.getSituationContextService()
-                                .getItemAttackMode(weapon.getUniqueId(),
-                                        dndCharacter)
-                                .getAssociatedAttackDiceAction()),
+                                itemAttackMode.getAssociatedDamageDiceAction()),
                         weapon,
                         new ObserverSources(dndCharacter),
                         new ObserverHooks(ObserverHook.DAMAGE,
-                                this.getSituationContextService()
-                                .getItemAttackMode(weapon.getUniqueId(),
-                                        dndCharacter)
-                                .getAssociatedDamageHook()),
+                                itemAttackMode.getAssociatedDamageHook()),
                         dndCharacter
                 );
 

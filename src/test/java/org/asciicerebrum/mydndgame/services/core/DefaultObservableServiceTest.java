@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame.services.core;
 
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer;
@@ -58,6 +59,7 @@ public class DefaultObservableServiceTest {
         final UniqueEntity targetEntiy = new Weapon();
         final Observers observers = new Observers();
         final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("character"));
 
         final Observer obsA = mock(Observer.class);
         final Observer obsB = mock(Observer.class);

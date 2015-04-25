@@ -13,14 +13,28 @@ import org.asciicerebrum.mydndgame.domain.mechanics.bonus.source.UniqueEntityRes
 public class WeaponCategory extends Feature {
 
     /**
-     * Either melee or ranged dice action can be associated with this category.
+     * Either melee or ranged attack dice action can be associated with this
+     * category.
      */
     private BonusTarget associatedAttackDiceAction;
 
     /**
-     * Either melee or ranged observer hook associated with this category.
+     * Either melee or ranged damage dice action can be associated with this
+     * category.
+     */
+    private BonusTarget associatedDamageDiceAction;
+
+    /**
+     * Either melee or ranged observer damage hook associated with this
+     * category.
      */
     private ObserverHook associatedDamageHook;
+
+    /**
+     * Either melee or ranged observer attack hook associated with this
+     * category.
+     */
+    private ObserverHook associatedAttackHook;
 
     /**
      * @return the associated attack DiceAction
@@ -56,6 +70,37 @@ public class WeaponCategory extends Feature {
     public final ContextBoni getBoni(final UniqueEntity context,
             final UniqueEntityResolver resolver) {
         return this.getFeatureBoni(context);
+    }
+
+    /**
+     * @return the associatedAttackHook
+     */
+    public final ObserverHook getAssociatedAttackHook() {
+        return associatedAttackHook;
+    }
+
+    /**
+     * @param associatedAttackHookInput the associatedAttackHook to set
+     */
+    public final void setAssociatedAttackHook(
+            final ObserverHook associatedAttackHookInput) {
+        this.associatedAttackHook = associatedAttackHookInput;
+    }
+
+    /**
+     * @return the associatedDamageDiceAction
+     */
+    public final BonusTarget getAssociatedDamageDiceAction() {
+        return associatedDamageDiceAction;
+    }
+
+    /**
+     * @param associatedDamageDiceActionInput the associatedDamageDiceAction to
+     * set
+     */
+    public final void setAssociatedDamageDiceAction(
+            final BonusTarget associatedDamageDiceActionInput) {
+        this.associatedDamageDiceAction = associatedDamageDiceActionInput;
     }
 
 }

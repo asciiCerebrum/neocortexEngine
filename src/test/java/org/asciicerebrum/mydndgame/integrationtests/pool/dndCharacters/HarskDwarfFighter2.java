@@ -103,7 +103,7 @@ public class HarskDwarfFighter2 {
 
         entrySetup.setRegistryParticle("POWER_ATTACK_BONUS");
         entrySetup.setContextObjectId("standardBattleaxe");
-        entrySetup.setRegistryValue("-1");
+        entrySetup.setRegistryValue("1");
         entrySetup.setRegistryValueType("LONG");
 
         regSetup.addStateRegistryEntry(entrySetup);

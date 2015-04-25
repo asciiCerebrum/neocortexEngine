@@ -35,4 +35,14 @@ public class ObserverHooks {
         return this.elements.contains(observerHook);
     }
 
+    @Override
+    public final String toString() {
+        final StringBuilder returnString = new StringBuilder();
+        for (final ObserverHook hook : elements) {
+            returnString.append(hook);
+            returnString.append(" ");
+        }
+        return returnString.toString().trim();
+    }
+
 }

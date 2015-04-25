@@ -35,9 +35,11 @@
                                         <list>
                                             <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectAttackModeEvaluator"><!-- Better use the attack mode??? hit someone with bow - bow used as melee weapon! -->
                                                 <property name="weaponCategory" ref="meleeWeapon" />
+                                                <property name="situationContextService" ref="situationContextService" />
                                             </bean>
                                             <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectWeaponTypeEvaluator">
                                                 <property name="weaponType" ref="thrownWeapon" />
+                                                <property name="weaponServiceFacade" ref="weaponServiceFacade" />
                                             </bean>
                                         </list>
                                     </property>

@@ -7,6 +7,8 @@ import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlot;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.PersonalizedBodySlots;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -16,12 +18,19 @@ public class CorrectInventoryItemWieldingEvaluator
         implements ConditionEvaluator {
 
     /**
+     * The logger instance.
+     */
+    private static final Logger LOG
+            = LoggerFactory.getLogger(
+                    CorrectInventoryItemWieldingEvaluator.class);
+
+    /**
      * Defines the way a weapon is held.
      */
     public static enum WieldingType {
 
         /**
-         * Held in off-hand.
+         * Held in off-hand. That also means not in both hands!
          */
         SECONDARY {
                     /**
@@ -31,7 +40,8 @@ public class CorrectInventoryItemWieldingEvaluator
                     final boolean evaluate(
                             final PersonalizedBodySlot bodySlot,
                             final PersonalizedBodySlots bodySlots) {
-                                return this.evaluateSecondary(bodySlot);
+                                return this.evaluateSecondary(bodySlot)
+                                && !this.evaluateBoth(bodySlot, bodySlots);
                             }
                 },
         /**
@@ -112,6 +122,9 @@ public class CorrectInventoryItemWieldingEvaluator
             final UniqueEntity contextItem) {
         final DndCharacter dndCharacter = (DndCharacter) iCharacter;
 
+        LOG.debug("Eval correct item wielding for {}.",
+                dndCharacter.getUniqueId().getValue());
+
         if (this.wieldingType == null) {
             return false;
         }
@@ -119,10 +132,16 @@ public class CorrectInventoryItemWieldingEvaluator
         if (contextItem == null) {
             return false;
         }
-        return this.wieldingType.evaluate(
+        final boolean evalResult = this.wieldingType.evaluate(
                 dndCharacter.getPersonalizedBodySlots()
                 .getSlotForItem(contextItem.getUniqueId()),
                 dndCharacter.getPersonalizedBodySlots());
+
+        LOG.debug("Correct item wielding result evaluated: {}, {}: {}.",
+                new Object[]{contextItem.getUniqueId().getValue(),
+                    this.wieldingType, evalResult});
+
+        return evalResult;
     }
 
     /**

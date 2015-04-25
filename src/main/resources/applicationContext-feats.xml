@@ -140,7 +140,7 @@
                 <constructor-arg>
                     <list>
                         <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
-                            <property name="hook" value="MELEE_DAMAGE" />
+                            <property name="hook" value="MELEE_ATTACK" />
                             <property name="triggerStrategy">
                                 <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.WeaponFinesseObserverTrigger">
                                     <property name="characterServiceFacade" ref="characterServiceFacade" />
