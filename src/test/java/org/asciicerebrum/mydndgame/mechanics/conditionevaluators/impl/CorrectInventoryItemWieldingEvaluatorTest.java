@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl;
 
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.particles.AttackAbility;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
@@ -164,6 +165,97 @@ public class CorrectInventoryItemWieldingEvaluatorTest {
         final BodySlot slot = new BodySlot();
         final BodySlot slotCounter = new BodySlot();
         slot.setCounterSlot(slotCounter);
+        slotCounter.setCounterSlot(slot);
+        pSlot.setItemId(contextItem.getUniqueId());
+        pSlot.setBodySlot(slot);
+        pSlotCounter.setItemId(null);
+        pSlotCounter.setBodySlot(slotCounter);
+        pSlots.add(pSlot);
+        pSlots.add(pSlotCounter);
+        dndCharacter.setPersonalizedBodySlots(pSlots);
+
+        final boolean result = this.evaluator.evaluate(
+                dndCharacter, contextItem);
+        assertFalse(result);
+    }
+
+    @Test
+    public void evaluateSecondaryNotBothTest() {
+        this.evaluator.setWieldingType(
+                CorrectInventoryItemWieldingEvaluator.WieldingType.SECONDARY);
+
+        final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("character"));
+        final UniqueEntity contextItem = new Weapon();
+        contextItem.setUniqueId(new UniqueId("contextItem"));
+
+        final PersonalizedBodySlots pSlots = new PersonalizedBodySlots();
+        final PersonalizedBodySlot pSlot = new PersonalizedBodySlot();
+        final PersonalizedBodySlot pSlotCounter = new PersonalizedBodySlot();
+        final BodySlot slot = new BodySlot();
+        final BodySlot slotCounter = new BodySlot();
+        slot.setCounterSlot(slotCounter);
+        slotCounter.setCounterSlot(slot);
+        pSlot.setItemId(contextItem.getUniqueId());
+        pSlot.setBodySlot(slot);
+        pSlotCounter.setItemId(null);
+        pSlotCounter.setBodySlot(slotCounter);
+        pSlots.add(pSlot);
+        pSlots.add(pSlotCounter);
+        dndCharacter.setPersonalizedBodySlots(pSlots);
+
+        final boolean result = this.evaluator.evaluate(
+                dndCharacter, contextItem);
+        assertTrue(result);
+    }
+
+    @Test
+    public void evaluateSecondaryAndBothTest() {
+        this.evaluator.setWieldingType(
+                CorrectInventoryItemWieldingEvaluator.WieldingType.SECONDARY);
+
+        final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("character"));
+        final UniqueEntity contextItem = new Weapon();
+        contextItem.setUniqueId(new UniqueId("contextItem"));
+
+        final PersonalizedBodySlots pSlots = new PersonalizedBodySlots();
+        final PersonalizedBodySlot pSlot = new PersonalizedBodySlot();
+        final PersonalizedBodySlot pSlotCounter = new PersonalizedBodySlot();
+        final BodySlot slot = new BodySlot();
+        final BodySlot slotCounter = new BodySlot();
+        slot.setCounterSlot(slotCounter);
+        slotCounter.setCounterSlot(slot);
+        pSlot.setItemId(contextItem.getUniqueId());
+        pSlot.setBodySlot(slot);
+        pSlotCounter.setItemId(contextItem.getUniqueId());
+        pSlotCounter.setBodySlot(slotCounter);
+        pSlots.add(pSlot);
+        pSlots.add(pSlotCounter);
+        dndCharacter.setPersonalizedBodySlots(pSlots);
+
+        final boolean result = this.evaluator.evaluate(
+                dndCharacter, contextItem);
+        assertFalse(result);
+    }
+
+    @Test
+    public void evaluateSecondaryNotSecondaryTest() {
+        this.evaluator.setWieldingType(
+                CorrectInventoryItemWieldingEvaluator.WieldingType.SECONDARY);
+
+        final DndCharacter dndCharacter = new DndCharacter();
+        dndCharacter.setUniqueId(new UniqueId("character"));
+        final UniqueEntity contextItem = new Weapon();
+        contextItem.setUniqueId(new UniqueId("contextItem"));
+
+        final PersonalizedBodySlots pSlots = new PersonalizedBodySlots();
+        final PersonalizedBodySlot pSlot = new PersonalizedBodySlot();
+        final PersonalizedBodySlot pSlotCounter = new PersonalizedBodySlot();
+        final BodySlot slot = new BodySlot();
+        final BodySlot slotCounter = new BodySlot();
+        slot.setCounterSlot(slotCounter);
+        slot.setIsPrimaryAttackSlot(new AttackAbility(true));
         slotCounter.setCounterSlot(slot);
         pSlot.setItemId(contextItem.getUniqueId());
         pSlot.setBodySlot(slot);
