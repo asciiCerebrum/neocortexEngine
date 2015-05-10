@@ -15,6 +15,24 @@ public class BonusValue extends LongParticle {
     }
 
     /**
+     * Creates the instance from a string.
+     *
+     * @param longString the string.
+     */
+    public BonusValue(final String longString) {
+        this.setValue(longString);
+    }
+
+    /**
+     * Sets the value from a string.
+     *
+     * @param longString the string.
+     */
+    public final void setValue(final String longString) {
+        super.setValue(Long.parseLong(longString));
+    }
+
+    /**
      * Creates a bonus value from a long.
      *
      * @param valueInput the long primitive.

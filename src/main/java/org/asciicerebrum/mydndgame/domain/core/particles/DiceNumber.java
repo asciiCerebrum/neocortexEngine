@@ -16,6 +16,24 @@ public class DiceNumber extends LongParticle {
     }
 
     /**
+     * Creates the instance from a string.
+     *
+     * @param longString the string.
+     */
+    public DiceNumber(final String longString) {
+        this.setValue(longString);
+    }
+
+    /**
+     * Sets the value from a string.
+     *
+     * @param longString the string.
+     */
+    public final void setValue(final String longString) {
+        super.setValue(Long.parseLong(longString));
+    }
+
+    /**
      * Creates a dice number instance from a long primitive with default value.
      *
      */

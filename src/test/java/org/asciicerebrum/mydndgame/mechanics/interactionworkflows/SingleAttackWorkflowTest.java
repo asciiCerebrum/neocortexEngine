@@ -1,15 +1,23 @@
 package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.ArmorClass;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueIds;
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
+import org.asciicerebrum.mydndgame.domain.game.CombatRound;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.Weapon;
+import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.RollResult;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
-import org.asciicerebrum.mydndgame.mechanics.managers.DiceRollManager;
+import org.asciicerebrum.mydndgame.mechanics.managers.RollResultManager;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.asciicerebrum.mydndgame.services.statistics.AcCalculationService;
 import org.asciicerebrum.mydndgame.services.statistics.AtkCalculationService;
@@ -20,6 +28,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -49,9 +59,9 @@ public class SingleAttackWorkflowTest {
 
     private IWorkflow damageWorkflow;
 
-    private DiceRollManager diceRollManager;
-
     private WeaponServiceFacade weaponServiceFacade;
+
+    private RollResultManager rollResultManager;
 
     public SingleAttackWorkflowTest() {
     }
@@ -75,7 +85,7 @@ public class SingleAttackWorkflowTest {
         this.autoSuccessRoll = new DiceRoll(20L);
         this.criticalDamageWorkflow = mock(IWorkflow.class);
         this.damageWorkflow = mock(IWorkflow.class);
-        this.diceRollManager = mock(DiceRollManager.class);
+        this.rollResultManager = mock(RollResultManager.class);
         this.weaponServiceFacade = mock(WeaponServiceFacade.class);
 
         this.singleAttackWf.setSituationContextService(this.sitConService);
@@ -88,7 +98,7 @@ public class SingleAttackWorkflowTest {
         this.singleAttackWf.setCriticalDamageWorkflow(
                 this.criticalDamageWorkflow);
         this.singleAttackWf.setDamageWorkflow(this.damageWorkflow);
-        this.singleAttackWf.setDiceRollManager(this.diceRollManager);
+        this.singleAttackWf.setRollResultManager(this.rollResultManager);
         this.singleAttackWf.setWeaponServiceFacade(this.weaponServiceFacade);
     }
 
@@ -102,9 +112,13 @@ public class SingleAttackWorkflowTest {
         final BonusValue sourceAtkBonus = new BonusValue(2L);
         final ArmorClass targetAc = new ArmorClass();
         final CriticalMinimumLevel critMinLvl = new CriticalMinimumLevel(18L);
+        final RollResult rollResult = new RollResult(atkRollResultRaw,
+                sourceAtkBonus);
+        final Interaction interaction = new Interaction(new Campaign());
+        final Weapon weapon = new Weapon();
 
         final boolean isCritical = this.singleAttackWf.determineCritical(
-                atkRollResultRaw, sourceAtkBonus, targetAc, critMinLvl);
+                rollResult, targetAc, critMinLvl, weapon, interaction);
         assertFalse(isCritical);
     }
 
@@ -115,13 +129,26 @@ public class SingleAttackWorkflowTest {
         final ArmorClass targetAc = new ArmorClass();
         targetAc.setValue(10L);
         final CriticalMinimumLevel critMinLvl = new CriticalMinimumLevel(18L);
+        final Interaction interaction = new Interaction(new Campaign());
+        interaction.setCombatRound(new CombatRound());
+        final Weapon weapon = new Weapon();
 
-        final DiceRoll secondAtkRollResultRaw = new DiceRoll(4L);
-        when(this.diceRollManager.rollDice(this.attackAction))
-                .thenReturn(secondAtkRollResultRaw);
+        final RollResult atkResult
+                = new RollResult(atkRollResultRaw, sourceAtkBonus);
+        final RollResult result = new RollResult(new DiceRoll(4L),
+                new BonusValue());
+        when(this.rollResultManager.retrieveRollResult(
+                (BonusValue) anyObject(),
+                eq(this.attackAction),
+                (UniqueEntity) anyObject(),
+                (DndCharacter) anyObject(),
+                (UniqueIds) anyObject(),
+                (WorldDate) anyObject(),
+                (Campaign) anyObject()))
+                .thenReturn(result);
 
         final boolean isCritical = this.singleAttackWf.determineCritical(
-                atkRollResultRaw, sourceAtkBonus, targetAc, critMinLvl);
+                atkResult, targetAc, critMinLvl, weapon, interaction);
         assertFalse(isCritical);
     }
 
@@ -132,13 +159,27 @@ public class SingleAttackWorkflowTest {
         final ArmorClass targetAc = new ArmorClass();
         targetAc.setValue(10L);
         final CriticalMinimumLevel critMinLvl = new CriticalMinimumLevel(18L);
+        final Interaction interaction = new Interaction(new Campaign());
+        final Weapon weapon = new Weapon();
+        interaction.setCombatRound(new CombatRound());
 
-        final DiceRoll secondAtkRollResultRaw = new DiceRoll(16L);
-        when(this.diceRollManager.rollDice(this.attackAction))
-                .thenReturn(secondAtkRollResultRaw);
+        final RollResult atkResult
+                = new RollResult(atkRollResultRaw, sourceAtkBonus);
+
+        final RollResult result = new RollResult(new DiceRoll(16L),
+                new BonusValue());
+        when(this.rollResultManager.retrieveRollResult(
+                (BonusValue) anyObject(),
+                eq(this.attackAction),
+                (UniqueEntity) anyObject(),
+                (DndCharacter) anyObject(),
+                (UniqueIds) anyObject(),
+                (WorldDate) anyObject(),
+                (Campaign) anyObject()))
+                .thenReturn(result);
 
         final boolean isCritical = this.singleAttackWf.determineCritical(
-                atkRollResultRaw, sourceAtkBonus, targetAc, critMinLvl);
+                atkResult, targetAc, critMinLvl, weapon, interaction);
         assertTrue(isCritical);
     }
 
@@ -148,9 +189,9 @@ public class SingleAttackWorkflowTest {
         final BonusValue atkBonus = new BonusValue(2L);
         final ArmorClass targetAc = new ArmorClass();
         targetAc.setValue(16L);
+        final RollResult rollResult = new RollResult(attackRoll, atkBonus);
 
-        final boolean isHit = this.singleAttackWf.isHit(
-                attackRoll, atkBonus, targetAc);
+        final boolean isHit = this.singleAttackWf.isHit(rollResult, targetAc);
         assertFalse(isHit);
     }
 
@@ -160,9 +201,9 @@ public class SingleAttackWorkflowTest {
         final BonusValue atkBonus = new BonusValue(2L);
         final ArmorClass targetAc = new ArmorClass();
         targetAc.setValue(24L);
+        final RollResult rollResult = new RollResult(attackRoll, atkBonus);
 
-        final boolean isHit = this.singleAttackWf.isHit(
-                attackRoll, atkBonus, targetAc);
+        final boolean isHit = this.singleAttackWf.isHit(rollResult, targetAc);
         assertTrue(isHit);
     }
 
@@ -172,9 +213,9 @@ public class SingleAttackWorkflowTest {
         final BonusValue atkBonus = new BonusValue(2L);
         final ArmorClass targetAc = new ArmorClass();
         targetAc.setValue(17L);
+        final RollResult rollResult = new RollResult(attackRoll, atkBonus);
 
-        final boolean isHit = this.singleAttackWf.isHit(
-                attackRoll, atkBonus, targetAc);
+        final boolean isHit = this.singleAttackWf.isHit(rollResult, targetAc);
         assertTrue(isHit);
     }
 
@@ -184,15 +225,15 @@ public class SingleAttackWorkflowTest {
         final BonusValue atkBonus = new BonusValue(2L);
         final ArmorClass targetAc = new ArmorClass();
         targetAc.setValue(19L);
+        final RollResult rollResult = new RollResult(attackRoll, atkBonus);
 
-        final boolean isHit = this.singleAttackWf.isHit(
-                attackRoll, atkBonus, targetAc);
+        final boolean isHit = this.singleAttackWf.isHit(rollResult, targetAc);
         assertFalse(isHit);
     }
 
     @Test
     public void terminateCriticalWorkflowTest() {
-        final Interaction interaction = new Interaction();
+        final Interaction interaction = new Interaction(new Campaign());
 
         this.singleAttackWf.terminate(true, interaction);
         verify(this.criticalDamageWorkflow).runWorkflow(interaction);
@@ -200,7 +241,7 @@ public class SingleAttackWorkflowTest {
 
     @Test
     public void terminateNormalWorkflowTest() {
-        final Interaction interaction = new Interaction();
+        final Interaction interaction = new Interaction(new Campaign());
 
         this.singleAttackWf.terminate(false, interaction);
         verify(this.damageWorkflow).runWorkflow(interaction);
@@ -208,7 +249,7 @@ public class SingleAttackWorkflowTest {
 
     @Test
     public void terminateCriticalWorkflowNoNormalTest() {
-        final Interaction interaction = new Interaction();
+        final Interaction interaction = new Interaction(new Campaign());
 
         this.singleAttackWf.terminate(true, interaction);
         verify(this.damageWorkflow, times(0)).runWorkflow(interaction);
@@ -216,7 +257,7 @@ public class SingleAttackWorkflowTest {
 
     @Test
     public void terminateNormalWorkflowNoCriticalTest() {
-        final Interaction interaction = new Interaction();
+        final Interaction interaction = new Interaction(new Campaign());
 
         this.singleAttackWf.terminate(false, interaction);
         verify(this.criticalDamageWorkflow, times(0)).runWorkflow(interaction);

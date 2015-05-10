@@ -1,0 +1,145 @@
+package org.asciicerebrum.mydndgame.integrationtests.interactions;
+
+import javax.naming.OperationNotSupportedException;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.factories.ArmorFactory;
+import org.asciicerebrum.mydndgame.domain.factories.CampaignFactory;
+import org.asciicerebrum.mydndgame.domain.factories.DndCharacterFactory;
+import org.asciicerebrum.mydndgame.domain.factories.WeaponFactory;
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacters;
+import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.HarskDwarfFighter2;
+import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.MerisielElfRogue1;
+import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.ValerosHumanFighter1;
+import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.MwkChainmail;
+import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.MwkHeavySteelShield;
+import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.StandardLightWoodenShield;
+import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.armors.StandardStuddedLeather;
+import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.MwkBastardsword;
+import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.MwkRapier;
+import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.StandardBattleaxe;
+import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.StandardLongsword;
+import org.asciicerebrum.mydndgame.mechanics.managers.CombatRoundManager;
+import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
+import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
+import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+/**
+ *
+ * @author species8472
+ */
+@Category(IntegrationTest.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"/applicationContext.xml"})
+public class InitializeCombatRoundWorkflowIntegrationTest {
+
+    @Autowired
+    private EntityPoolService entityPoolService;
+
+    @Autowired
+    private DndCharacterFactory dndCharacterFactory;
+
+    @Autowired
+    private ArmorFactory armorFactory;
+
+    @Autowired
+    private WeaponFactory weaponFactory;
+
+    @Autowired
+    private CampaignFactory campaignFactory;
+
+    @Autowired
+    private CombatRoundManager combatRoundManager;
+
+    @Before
+    public void setUp() {
+
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(HarskDwarfFighter2.getSetup()));
+
+        this.entityPoolService.registerUniqueEntity(this.armorFactory
+                .newEntity(StandardStuddedLeather.getSetup()));
+        this.entityPoolService.registerUniqueEntity(this.weaponFactory
+                .newEntity(StandardBattleaxe.getSetup()));
+        this.entityPoolService.registerUniqueEntity(this.armorFactory
+                .newEntity(StandardLightWoodenShield.getSetup()));
+
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(MerisielElfRogue1.getSetup()));
+
+        this.entityPoolService.registerUniqueEntity(this.weaponFactory
+                .newEntity(MwkRapier.getSetup()));
+
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(ValerosHumanFighter1.getSetup()));
+
+        this.entityPoolService.registerUniqueEntity(this.armorFactory
+                .newEntity(MwkChainmail.getSetup()));
+        this.entityPoolService.registerUniqueEntity(this.armorFactory
+                .newEntity(MwkHeavySteelShield.getSetup()));
+        this.entityPoolService.registerUniqueEntity(this.weaponFactory
+                .newEntity(StandardLongsword.getSetup()));
+        this.entityPoolService.registerUniqueEntity(this.weaponFactory
+                .newEntity(MwkBastardsword.getSetup()));
+
+    }
+
+    @Test
+    public void initiateCombatRoundTest()
+            throws OperationNotSupportedException {
+        final Campaign campaign = this.campaignFactory.newEntity();
+        final DndCharacters participants = new DndCharacters();
+
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("harsk")));
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("merisiel")));
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("valeros")));
+
+        this.combatRoundManager.initiateCombatRound(campaign, participants);
+
+        /*TODO
+        develop a dice roll history instance that saves a list of the following:
+        - who? (harsk)
+        - which dice? (3W6)
+        - result? (11)
+        - added total bonus? (+3)
+        - for what? (damage)
+        - further details? (against valeros)
+        - when? (the current worlddate of the roll)
+        a console log is done while this list is filled
+        
+        then the roll history can be reconstructed and the dice roll manager
+        random generator can be replaced by a given list of dice roll results
+        to enforce desired outcomes for better testing!
+        
+        develop a replacement of SecureRandom with the same interface!
+        
+        Then manipulate the dice rolls in such a way this tests has the desired
+        outcome of merisiel being the first participant.
+        
+        Then make another test that requires reroll after a tie in initiative!
+        
+        it must be saved and persisted at the campaign! with its on factory
+        and setup classes and domain model!
+        
+        service class with event listener: whenever a roll is recorded, all
+        registered events are triggered
+        - one such event listener is the logging event listener which writes
+          those information to the console and/or log file.
+        */
+        
+        assertEquals("merisiel", campaign.getCombatRound()
+                .getCurrentParticipantId().getValue());
+    }
+
+}

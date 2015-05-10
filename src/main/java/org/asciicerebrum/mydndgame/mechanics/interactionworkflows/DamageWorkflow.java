@@ -8,8 +8,9 @@ import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.damage.Damage;
 import org.asciicerebrum.mydndgame.domain.mechanics.damage.Damages;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.RollResult;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
-import org.asciicerebrum.mydndgame.mechanics.managers.DiceRollManager;
+import org.asciicerebrum.mydndgame.mechanics.managers.RollResultManager;
 import org.asciicerebrum.mydndgame.services.application.DamageApplicationService;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.asciicerebrum.mydndgame.services.statistics.DamageCalculationService;
@@ -23,7 +24,7 @@ public class DamageWorkflow implements IWorkflow {
     /**
      * Service for rolling dice.
      */
-    private DiceRollManager diceRollManager;
+    private RollResultManager rollResultManager;
 
     /**
      * The damage application service.
@@ -64,21 +65,27 @@ public class DamageWorkflow implements IWorkflow {
             return;
         }
 
-        // make one damage roll
-        final DiceRoll sourceDamageRoll
-                = this.getDiceRollManager().rollDice(
-                        this.getWeaponServiceFacade().getDamage(
-                                (Weapon) sourceWeapon,
-                                interaction.getTriggeringCharacter()));
-
         final BonusValue sourceDamageBonus
                 = this.getDamageService().calcDamageBonus((Weapon) sourceWeapon,
                         interaction.getTriggeringCharacter());
 
+        // make one damage roll
+        final RollResult damageRollResult
+                = this.getRollResultManager().retrieveRollResult(
+                        sourceDamageBonus,
+                        this.getWeaponServiceFacade().getDamage(
+                                (Weapon) sourceWeapon,
+                                interaction.getTriggeringCharacter()),
+                        sourceWeapon,
+                        interaction.getTriggeringCharacter(),
+                        null,
+                        interaction.getCombatRound().getCurrentDate(),
+                        interaction.getCampaign());
+
         // consider minimum damage!
         final DiceRoll totalSourceDamage
                 = DiceRoll.max(this.getMinimumDamage(),
-                        sourceDamageRoll.add(sourceDamageBonus));
+                        damageRollResult.calcTotalResult());
 
         // apply damage: this must be done at the character (special method for
         // applying damage) because special attributes like damage reduction
@@ -98,14 +105,6 @@ public class DamageWorkflow implements IWorkflow {
                 new Damages(sourceDamage));
 
         // set conditions, e.g. unconscious --> this is done in the character!
-    }
-
-    /**
-     * @param diceRollManagerInput the diceRollManager to set
-     */
-    public final void setDiceRollManager(
-            final DiceRollManager diceRollManagerInput) {
-        this.diceRollManager = diceRollManagerInput;
     }
 
     /**
@@ -148,13 +147,6 @@ public class DamageWorkflow implements IWorkflow {
     }
 
     /**
-     * @return the diceRollManager
-     */
-    public final DiceRollManager getDiceRollManager() {
-        return diceRollManager;
-    }
-
-    /**
      * @return the damageApplicationService
      */
     public final DamageApplicationService getDamageApplicationService() {
@@ -187,6 +179,21 @@ public class DamageWorkflow implements IWorkflow {
      */
     public final WeaponServiceFacade getWeaponServiceFacade() {
         return weaponServiceFacade;
+    }
+
+    /**
+     * @return the rollResultManager
+     */
+    public final RollResultManager getRollResultManager() {
+        return rollResultManager;
+    }
+
+    /**
+     * @param rollResultManagerInput the rollResultManager to set
+     */
+    public final void setRollResultManager(
+            final RollResultManager rollResultManagerInput) {
+        this.rollResultManager = rollResultManagerInput;
     }
 
 }

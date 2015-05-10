@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor;
 import org.asciicerebrum.mydndgame.domain.game.Armor;
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
@@ -63,7 +64,7 @@ public class CriticalDamageWorkflowTest {
 
     @Test
     public void runWorkflowNoWeaponTest() {
-        final Interaction interaction = new Interaction();
+        final Interaction interaction = new Interaction(new Campaign());
         final DndCharacter triggerCharacter = new DndCharacter();
         interaction.setTriggeringCharacter(triggerCharacter);
 
@@ -76,7 +77,7 @@ public class CriticalDamageWorkflowTest {
 
     @Test
     public void runWorkflowNormalTest() {
-        final Interaction interaction = new Interaction();
+        final Interaction interaction = new Interaction(new Campaign());
         final DndCharacter triggerCharacter = new DndCharacter();
         final CriticalFactor critFactor = new CriticalFactor(3L);
         interaction.setTriggeringCharacter(triggerCharacter);

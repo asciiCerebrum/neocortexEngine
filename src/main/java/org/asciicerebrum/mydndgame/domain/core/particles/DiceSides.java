@@ -22,6 +22,24 @@ public class DiceSides extends LongParticle {
     public DiceSides() {
     }
 
+    /**
+     * Creates the instance from a string.
+     *
+     * @param longString the string.
+     */
+    public DiceSides(final String longString) {
+        this.setValue(longString);
+    }
+
+    /**
+     * Sets the value from a string.
+     *
+     * @param longString the string.
+     */
+    public final void setValue(final String longString) {
+        super.setValue(Long.parseLong(longString));
+    }
+
     @Override
     public final boolean equals(final Object o) {
         return this.equalsHelper(o);

@@ -49,6 +49,11 @@
             
     <bean id="campaignFactory" class="org.asciicerebrum.mydndgame.domain.factories.CampaignFactory">
         <property name="combatRoundFactory" ref="combatRoundFactory" />
+        <property name="rollHistoryEntryFactory" ref="rollHistoryEntryFactory" />
+    </bean>
+    
+    <bean id="rollHistoryEntryFactory" class="org.asciicerebrum.mydndgame.domain.factories.RollHistoryEntryFactory">
+        <property name="worldDateFactory" ref="worldDateFactory" />
     </bean>
     
 </beans>

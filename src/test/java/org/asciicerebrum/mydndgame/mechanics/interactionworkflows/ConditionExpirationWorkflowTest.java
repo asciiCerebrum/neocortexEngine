@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
@@ -59,7 +60,7 @@ public class ConditionExpirationWorkflowTest {
 
     @Test
     public void runWorkflowTest() {
-        final Interaction interaction = new Interaction();
+        final Interaction interaction = new Interaction(new Campaign());
         final DndCharacter characterA = new DndCharacter();
         characterA.setUniqueId(new UniqueId("characterA"));
         final DndCharacter characterB = new DndCharacter();

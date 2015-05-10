@@ -216,4 +216,13 @@ public class CombatRoundEntries {
         return new ParticipantsIterator(this.elements.iterator());
     }
 
+    /**
+     * Determines emptyness of the underlying collection.
+     *
+     * @return true if there are no elements, false otherwise.
+     */
+    public final boolean isEmpty() {
+        return this.elements.isEmpty();
+    }
+
 }

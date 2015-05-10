@@ -140,12 +140,12 @@ public class DefaultObservableService implements ObservableService {
             final ObserverSources observerSources,
             final ObserverHooks observerHooks,
             final UniqueEntity targetEntity) {
-        LOG.info("Accumulating observers by the hooks {}.",
+        LOG.debug("Accumulating observers by the hooks {}.",
                 observerHooks.toString());
         final Observers filteredObservers
                 = this.accumulateObservers(observerSources, targetEntity)
                 .filterByHooks(observerHooks);
-        LOG.info("Hook filtering reduced to {}.", filteredObservers.size());
+        LOG.debug("Hook filtering reduced to {}.", filteredObservers.size());
         return filteredObservers;
     }
 

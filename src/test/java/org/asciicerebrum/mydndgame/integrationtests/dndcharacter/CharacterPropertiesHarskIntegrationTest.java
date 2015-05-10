@@ -28,7 +28,6 @@ import org.asciicerebrum.mydndgame.services.statistics.InitiativeCalculationServ
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;

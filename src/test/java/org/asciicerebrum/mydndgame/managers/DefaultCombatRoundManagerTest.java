@@ -115,7 +115,7 @@ public class DefaultCombatRoundManagerTest {
     @Test
     public void executeInteractionNormalTest() {
         final Campaign campaign = new Campaign();
-        final Interaction interaction = new Interaction();
+        final Interaction interaction = new Interaction(campaign);
         final InteractionType interactionType = new InteractionType();
         final CombatRound combatRound = new CombatRound();
         final DndCharacter dndCharacterA = new DndCharacter();
@@ -151,7 +151,7 @@ public class DefaultCombatRoundManagerTest {
     @Test
     public void executeInteractionIncorrectParticipantTest() {
         final Campaign campaign = new Campaign();
-        final Interaction interaction = new Interaction();
+        final Interaction interaction = new Interaction(campaign);
         final InteractionType interactionType = new InteractionType();
         final CombatRound combatRound = new CombatRound();
         final DndCharacter dndCharacterA = new DndCharacter();

@@ -28,7 +28,7 @@ public class DefaultCombatRoundManager implements CombatRoundManager {
             final DndCharacters participants)
             throws OperationNotSupportedException {
 
-        Interaction interaction = new Interaction();
+        final Interaction interaction = new Interaction(campaign);
         interaction.setTargetCharacters(participants);
 
         if (this.initializeCombatRoundWorkflow != null) {

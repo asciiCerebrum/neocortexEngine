@@ -4,11 +4,22 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
     
+    <bean id="loggingRollHistoryListener" class="org.asciicerebrum.mydndgame.mechanics.rollhistorylisteners.impl.LoggingRollHistoryListener">
+    </bean>
+    
     <bean id="combatRoundManager" class="org.asciicerebrum.mydndgame.mechanics.managers.DefaultCombatRoundManager">
         <property name="conditionExpirationWorkflow" ref="conditionExpirationWorkflow" />
         <property name="initializeCombatRoundWorkflow" ref="initializeCombatRoundWorkflow" />
     </bean>
     <bean id="diceRollManager" class="org.asciicerebrum.mydndgame.mechanics.managers.DefaultDiceRollManager">
+    </bean>
+    <bean id="rollResultManager" class="org.asciicerebrum.mydndgame.mechanics.managers.DefaultRollResultManager">
+        <property name="diceRollManager" ref="diceRollManager" />
+        <property name="rollHistoryListeners">
+            <list>
+                <ref bean="loggingRollHistoryListener" />
+            </list>
+        </property>
     </bean>
     
     <bean id="conditionExpirationWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.ConditionExpirationWorkflow">
@@ -23,7 +34,7 @@
     <bean id="damageWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.DamageWorkflow">
         <property name="damageApplicationService" ref="damageApplicationService" />
         <property name="damageService" ref="damageCalculationService" />
-        <property name="diceRollManager" ref="diceRollManager" />
+        <property name="rollResultManager" ref="rollResultManager" />
         <property name="minimumDamage">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll">
                 <constructor-arg value="1" />
@@ -37,7 +48,7 @@
     </bean>
     <bean id="initializeCombatRoundWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.InitializeCombatRoundWorkflow">
         <property name="conditionApplicationService" ref="conditionApplicationService" />
-        <property name="diceRollManager" ref="diceRollManager" />
+        <property name="rollResultManager" ref="rollResultManager" />
         <property name="initiativeCalculationService" ref="initiativeCalculationService" />
         <property name="entityPoolService" ref="entityPoolService" />
         <property name="flatFootedType" ref="flatFooted" />
@@ -49,7 +60,7 @@
         <property name="situationContextService" ref="situationContextService" />
         <property name="criticalDamageWorkflow" ref="criticalDamageWorkflow" />
         <property name="damageWorkflow" ref="damageWorkflow" />
-        <property name="diceRollManager" ref="diceRollManager" />
+        <property name="rollResultManager" ref="rollResultManager" />
         <property name="weaponServiceFacade" ref="weaponServiceFacade" />
         <property name="attackAction" ref="attack" />
         <property name="autoFailureRoll">

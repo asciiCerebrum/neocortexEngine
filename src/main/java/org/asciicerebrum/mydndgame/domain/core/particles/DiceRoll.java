@@ -23,6 +23,24 @@ public class DiceRoll extends LongParticle {
     }
 
     /**
+     * Creates the instance from a string.
+     *
+     * @param longString the string.
+     */
+    public DiceRoll(final String longString) {
+        this.setValue(longString);
+    }
+
+    /**
+     * Sets the value from a string.
+     *
+     * @param longString the string.
+     */
+    public final void setValue(final String longString) {
+        super.setValue(Long.parseLong(longString));
+    }
+
+    /**
      * Generates a new instance with a value as the sum of the original instance
      * and an additionally given bonus value.
      *

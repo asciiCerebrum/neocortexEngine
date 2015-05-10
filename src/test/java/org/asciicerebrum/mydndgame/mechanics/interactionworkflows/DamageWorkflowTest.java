@@ -1,15 +1,22 @@
 package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueIds;
 import org.asciicerebrum.mydndgame.domain.game.Armor;
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
+import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacters;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
+import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
 import org.asciicerebrum.mydndgame.domain.mechanics.damage.Damages;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.RollResult;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
-import org.asciicerebrum.mydndgame.mechanics.managers.DiceRollManager;
+import org.asciicerebrum.mydndgame.mechanics.managers.RollResultManager;
 import org.asciicerebrum.mydndgame.services.application.DamageApplicationService;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.asciicerebrum.mydndgame.services.statistics.DamageCalculationService;
@@ -36,7 +43,7 @@ public class DamageWorkflowTest {
 
     private DamageCalculationService damageCalcService;
 
-    private DiceRollManager diceRollManager;
+    private RollResultManager rollResultManager;
 
     private DiceRoll minimumDamage;
 
@@ -60,20 +67,30 @@ public class DamageWorkflowTest {
         this.damageWorkflow = new DamageWorkflow();
         this.damageAppService = mock(DamageApplicationService.class);
         this.damageCalcService = mock(DamageCalculationService.class);
-        this.diceRollManager = mock(DiceRollManager.class);
+        this.rollResultManager = mock(RollResultManager.class);
         this.minimumDamage = new DiceRoll(1L);
         this.sitConService = mock(SituationContextService.class);
         this.weaponFacade = mock(WeaponServiceFacade.class);
 
         this.damageWorkflow.setDamageApplicationService(this.damageAppService);
         this.damageWorkflow.setDamageService(this.damageCalcService);
-        this.damageWorkflow.setDiceRollManager(this.diceRollManager);
+        this.damageWorkflow.setRollResultManager(this.rollResultManager);
         this.damageWorkflow.setMinimumDamage(this.minimumDamage);
         this.damageWorkflow.setSituationContextService(this.sitConService);
         this.damageWorkflow.setWeaponServiceFacade(this.weaponFacade);
 
-        when(this.diceRollManager.rollDice((DiceAction) anyObject()))
-                .thenReturn(new DiceRoll(4L));
+        final RollResult result = new RollResult(new DiceRoll(4L),
+                new BonusValue());
+
+        when(this.rollResultManager.retrieveRollResult(
+                (BonusValue) anyObject(),
+                (DiceAction) anyObject(),
+                (UniqueEntity) anyObject(),
+                (DndCharacter) anyObject(),
+                (UniqueIds) anyObject(),
+                (WorldDate) anyObject(),
+                (Campaign) anyObject()))
+                .thenReturn(result);
     }
 
     @After
@@ -82,7 +99,7 @@ public class DamageWorkflowTest {
 
     @Test
     public void runWorkflowNoWeaponTest() {
-        final Interaction interaction = new Interaction();
+        final Interaction interaction = new Interaction(new Campaign());
 
         when(this.sitConService.getActiveItem((DndCharacter) anyObject()))
                 .thenReturn(new Armor());
@@ -94,11 +111,13 @@ public class DamageWorkflowTest {
 
     @Test
     public void runWorkflowWithWeaponTest() {
-        final Interaction interaction = new Interaction();
+        final Interaction interaction = new Interaction(new Campaign());
         final DndCharacters targetCharacters = new DndCharacters();
         final DndCharacter firstTarget = new DndCharacter();
+        final CombatRound combatRound = new CombatRound();
         targetCharacters.addDndCharacter(firstTarget);
         interaction.setTargetCharacters(targetCharacters);
+        interaction.setCombatRound(combatRound);
 
         when(this.sitConService.getActiveItem((DndCharacter) anyObject()))
                 .thenReturn(new Weapon());

@@ -2,6 +2,7 @@ package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
@@ -49,7 +50,7 @@ public class EndTurnWorkflowTest {
 
     @Test
     public void runWorkflowNormalTest() {
-        final Interaction interaction = new Interaction();
+        final Interaction interaction = new Interaction(new Campaign());
         final CombatRound combatRound = new CombatRound();
         interaction.setCombatRound(combatRound);
         combatRound.addParticipant(new UniqueId("character"),
@@ -61,7 +62,7 @@ public class EndTurnWorkflowTest {
 
     @Test
     public void runWorkflowNoCondExpTest() {
-        final Interaction interaction = new Interaction();
+        final Interaction interaction = new Interaction(new Campaign());
         final CombatRound combatRound = new CombatRound();
         interaction.setCombatRound(combatRound);
         combatRound.addParticipant(new UniqueId("character"),

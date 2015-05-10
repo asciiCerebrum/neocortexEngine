@@ -128,6 +128,46 @@ public enum SetupProperty {
      */
     RACE,
     /**
+     * The bonus value added to the dice roll.
+     */
+    ROLL_HISTORY_BONUS_VALUE,
+    /**
+     * The id of the context entity used in the roll. E.g. the weapon.
+     */
+    ROLL_HISTORY_CONTEXT_ENTITY_ID,
+    /**
+     * The number of dice for the dice roll.
+     */
+    ROLL_HISTORY_DICE_NUMBER,
+    /**
+     * The number of sides of the die used.
+     */
+    ROLL_HISTORY_DICE_SIDES,
+    /**
+     * The id of the dice action.
+     */
+    ROLL_HISTORY_DICEACTION_ID,
+    /**
+     * The list of roll history entries.
+     */
+    ROLL_HISTORY_ENTRIES,
+    /**
+     * The id of the character doing the roll.
+     */
+    ROLL_HISTORY_SOURCE_CHARACTER_ID,
+    /**
+     * The ids of the target characters effected by the roll.
+     */
+    ROLL_HISTORY_TARGET_CHARACTER_IDS,
+    /**
+     * The total result of the roll inclusive the bonus.
+     */
+    ROLL_HISTORY_TOTAL_RESULT,
+    /**
+     * The world date of the dice roll.
+     */
+    ROLL_HISTORY_WORLD_DATE,
+    /**
      * The size category of a sized object.
      */
     SIZE_CATEGORY,

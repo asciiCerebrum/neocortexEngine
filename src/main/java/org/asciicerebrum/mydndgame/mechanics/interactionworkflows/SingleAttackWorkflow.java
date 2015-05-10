@@ -10,8 +10,9 @@ import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.RollResult;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
-import org.asciicerebrum.mydndgame.mechanics.managers.DiceRollManager;
+import org.asciicerebrum.mydndgame.mechanics.managers.RollResultManager;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.asciicerebrum.mydndgame.services.statistics.AcCalculationService;
 import org.asciicerebrum.mydndgame.services.statistics.AtkCalculationService;
@@ -30,7 +31,7 @@ public class SingleAttackWorkflow implements IWorkflow {
     /**
      * Service for rolling dice.
      */
-    private DiceRollManager diceRollManager;
+    private RollResultManager rollResultManager;
 
     /**
      * Roll results that leads to automatic failure.
@@ -92,21 +93,28 @@ public class SingleAttackWorkflow implements IWorkflow {
             return;
         }
 
-        // make an attack roll and add attack bonus
-        final DiceRoll atkRollResultRaw
-                = this.getDiceRollManager().rollDice(this.getAttackAction());
-
         final BonusValue sourceAtkBonus
                 = this.getAtkService().calcAtkBoni((Weapon) sourceWeapon,
                         interaction.getTriggeringCharacter())
                 .getBonusValueByRank(this.getAtkBonusRank());
+
+        // make an attack roll and add attack bonus
+        final RollResult atkRollResult
+                = this.getRollResultManager().retrieveRollResult(
+                        sourceAtkBonus,
+                        this.getAttackAction(),
+                        sourceWeapon,
+                        interaction.getTriggeringCharacter(),
+                        null,
+                        interaction.getCombatRound().getCurrentDate(),
+                        interaction.getCampaign());
 
         // single attack always attacks the first of the target characters.
         final ArmorClass targetAc
                 = this.getAcService().calcAc(interaction
                         .getFirstTargetCharacter());
 
-        if (!this.isHit(atkRollResultRaw, sourceAtkBonus, targetAc)) {
+        if (!this.isHit(atkRollResult, targetAc)) {
             return;
         }
 
@@ -114,8 +122,8 @@ public class SingleAttackWorkflow implements IWorkflow {
                 .getCriticalMinimumLevel((Weapon) sourceWeapon,
                         interaction.getTriggeringCharacter());
 
-        boolean isCritical = this.determineCritical(atkRollResultRaw,
-                sourceAtkBonus, targetAc, critMinLvl);
+        boolean isCritical = this.determineCritical(atkRollResult, targetAc,
+                critMinLvl, sourceWeapon, interaction);
 
         this.terminate(isCritical, interaction);
     }
@@ -145,23 +153,30 @@ public class SingleAttackWorkflow implements IWorkflow {
      * @param sourceCritMinLvl the criticial minimum level for the weapon.
      * @return the criticallity of the attack.
      */
-    final boolean determineCritical(final DiceRoll atkRollResultRaw,
-            final BonusValue sourceAtkBonus,
+    final boolean determineCritical(final RollResult atkRollResult,
             final ArmorClass targetAc,
-            final CriticalMinimumLevel sourceCritMinLvl) {
+            final CriticalMinimumLevel sourceCritMinLvl,
+            final InventoryItem sourceWeapon, final Interaction interaction) {
 
         // when you are here you have hit the enemy!!!
         // it could be critical
         final Boolean isThreat
-                = atkRollResultRaw.greaterThanOrEqualTo(sourceCritMinLvl);
+                = atkRollResult.getRollResult()
+                .greaterThanOrEqualTo(sourceCritMinLvl);
 
         Boolean isCritical = false;
         if (isThreat) {
-            final DiceRoll secondAtkRollResultRaw
-                    = this.getDiceRollManager().rollDice(
-                            this.getAttackAction());
-            isCritical = this.isHit(secondAtkRollResultRaw,
-                    sourceAtkBonus, targetAc);
+            final RollResult secondAtkRollResult
+                    = this.getRollResultManager().retrieveRollResult(
+                            atkRollResult.getBonusValue(),
+                            this.getAttackAction(),
+                            sourceWeapon,
+                            interaction.getTriggeringCharacter(),
+                            null,
+                            interaction.getCombatRound().getCurrentDate(),
+                            interaction.getCampaign());
+
+            isCritical = this.isHit(secondAtkRollResult, targetAc);
         }
         return isCritical;
     }
@@ -175,12 +190,12 @@ public class SingleAttackWorkflow implements IWorkflow {
      * @param targetAc the target's armor class.
      * @return true if attack was successfull, false otherwise.
      */
-    final boolean isHit(final DiceRoll atkRoll,
-            final BonusValue atkBonus,
+    final boolean isHit(final RollResult rollResult,
             final ArmorClass targetAc) {
-        return atkRoll.greaterThan(this.getAutoFailureRoll())
-                && (atkRoll.add(atkBonus).greaterThanOrEqualTo(targetAc)
-                || atkRoll.greaterThanOrEqualTo(this.getAutoSuccessRoll()));
+        return rollResult.getRollResult().greaterThan(this.getAutoFailureRoll())
+                && (rollResult.calcTotalResult().greaterThanOrEqualTo(targetAc)
+                || rollResult.getRollResult()
+                .greaterThanOrEqualTo(this.getAutoSuccessRoll()));
     }
 
     /**
@@ -188,14 +203,6 @@ public class SingleAttackWorkflow implements IWorkflow {
      */
     public final void setAttackAction(final DiceAction attackActionInput) {
         this.attackAction = attackActionInput;
-    }
-
-    /**
-     * @param diceRollManagerInput the diceRollManager to set
-     */
-    public final void setDiceRollManager(
-            final DiceRollManager diceRollManagerInput) {
-        this.diceRollManager = diceRollManagerInput;
     }
 
     /**
@@ -274,13 +281,6 @@ public class SingleAttackWorkflow implements IWorkflow {
     }
 
     /**
-     * @return the diceRollManager
-     */
-    public final DiceRollManager getDiceRollManager() {
-        return diceRollManager;
-    }
-
-    /**
      * @return the autoFailureRoll
      */
     public final DiceRoll getAutoFailureRoll() {
@@ -341,6 +341,21 @@ public class SingleAttackWorkflow implements IWorkflow {
      */
     public final IWorkflow getCriticalDamageWorkflow() {
         return criticalDamageWorkflow;
+    }
+
+    /**
+     * @return the rollResultManager
+     */
+    public final RollResultManager getRollResultManager() {
+        return rollResultManager;
+    }
+
+    /**
+     * @param rollResultManagerInput the rollResultManager to set
+     */
+    public final void setRollResultManager(
+            final RollResultManager rollResultManagerInput) {
+        this.rollResultManager = rollResultManagerInput;
     }
 
 }
