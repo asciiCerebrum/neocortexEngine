@@ -2,7 +2,6 @@ package org.asciicerebrum.mydndgame.domain.game;
 
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
 import java.util.Iterator;
-import org.apache.commons.lang3.StringUtils;
 import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueIds;
@@ -32,6 +31,13 @@ public class CombatRound {
      * @return the date of the current move.
      */
     public final WorldDate getCurrentDate() {
+        if (this.combatRoundEntries.isEmpty()) {
+            // TODO introduce a global date here (year, day of year, hour of
+            // day, minutes and seconds as an offset for when the combat round
+            // starts. Then the null-return here can be replaced by that date!
+            return null;
+        }
+        
         if (this.currentDate == null) {
             this.moveToNextPosition();
         }
@@ -69,12 +75,8 @@ public class CombatRound {
      */
     final void initializeDate() {
         this.setCurrentDate(new WorldDate());
-        CombatRoundPosition initPosition
-                = new CombatRoundPosition(StringUtils.EMPTY);
-
-        if (!this.combatRoundEntries.isEmpty()) {
-            initPosition = this.combatRoundEntries.getFirstRoundPosition();
-        }
+        final CombatRoundPosition initPosition
+                = this.combatRoundEntries.getFirstRoundPosition();
         this.getCurrentDate().initializeDate(initPosition);
     }
 

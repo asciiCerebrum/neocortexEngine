@@ -2,7 +2,9 @@ package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
+import org.asciicerebrum.mydndgame.domain.core.particles.CombatRoundPosition;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueIds;
 import org.asciicerebrum.mydndgame.domain.game.Armor;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;
@@ -118,6 +120,8 @@ public class DamageWorkflowTest {
         targetCharacters.addDndCharacter(firstTarget);
         interaction.setTargetCharacters(targetCharacters);
         interaction.setCombatRound(combatRound);
+        combatRound.addParticipant(new UniqueId("participant"),
+                new CombatRoundPosition(""));
 
         when(this.sitConService.getActiveItem((DndCharacter) anyObject()))
                 .thenReturn(new Weapon());

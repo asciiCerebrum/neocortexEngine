@@ -148,7 +148,7 @@ public class CombatRoundEntries {
      */
     public final UniqueIds getParticipantsForPosition(
             final CombatRoundPosition roundPosition) {
-        UniqueIds participants = new UniqueIds();
+        final UniqueIds participants = new UniqueIds();
 
         for (CombatRoundEntry crEntry : this.elements) {
 

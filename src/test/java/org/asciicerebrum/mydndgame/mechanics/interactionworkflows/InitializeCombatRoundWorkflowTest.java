@@ -91,7 +91,7 @@ public class InitializeCombatRoundWorkflowTest {
         final DndCharacter characterA = new DndCharacter();
         characterA.setUniqueId(new UniqueId("A"));
         final DndCharacter characterB = new DndCharacter();
-        characterA.setUniqueId(new UniqueId("B"));
+        characterB.setUniqueId(new UniqueId("B"));
         characters.addDndCharacter(characterA);
         characters.addDndCharacter(characterB);
 
