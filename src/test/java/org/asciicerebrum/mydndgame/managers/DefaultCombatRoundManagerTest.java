@@ -132,12 +132,12 @@ public class DefaultCombatRoundManagerTest {
 
         final CombatRoundEntry entryA = new CombatRoundEntry();
         entryA.setParticipantId(dndCharacterA.getUniqueId());
-        entryA.setCombatRoundPosition(new CombatRoundPosition("0"));
+        entryA.setCombatRoundPosition(new CombatRoundPosition("1"));
         combatRound.addCombatRoundEntry(entryA);
 
         final CombatRoundEntry entryB = new CombatRoundEntry();
         entryB.setParticipantId(dndCharacterB.getUniqueId());
-        entryB.setCombatRoundPosition(new CombatRoundPosition("1"));
+        entryB.setCombatRoundPosition(new CombatRoundPosition("0"));
         combatRound.addCombatRoundEntry(entryB);
 
         campaign.setCombatRound(combatRound);
@@ -168,12 +168,12 @@ public class DefaultCombatRoundManagerTest {
 
         final CombatRoundEntry entryA = new CombatRoundEntry();
         entryA.setParticipantId(dndCharacterA.getUniqueId());
-        entryA.setCombatRoundPosition(new CombatRoundPosition("0"));
+        entryA.setCombatRoundPosition(new CombatRoundPosition("1"));
         combatRound.addCombatRoundEntry(entryA);
 
         final CombatRoundEntry entryB = new CombatRoundEntry();
         entryB.setParticipantId(dndCharacterB.getUniqueId());
-        entryB.setCombatRoundPosition(new CombatRoundPosition("1"));
+        entryB.setCombatRoundPosition(new CombatRoundPosition("0"));
         combatRound.addCombatRoundEntry(entryB);
 
         campaign.setCombatRound(combatRound);

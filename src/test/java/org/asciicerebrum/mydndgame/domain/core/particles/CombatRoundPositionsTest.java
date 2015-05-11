@@ -34,8 +34,10 @@ public class CombatRoundPositionsTest {
     public void setUp() {
         this.combatRoundPositions = new CombatRoundPositions();
 
+        // lowest number is last!
         this.posA = new CombatRoundPosition("10");
         this.posB = new CombatRoundPosition("20");
+        // highest number is first!
         this.posC = new CombatRoundPosition("30");
 
         this.combatRoundPositions.addCombatRoundPosition(this.posA);
@@ -50,7 +52,7 @@ public class CombatRoundPositionsTest {
     @Test
     public void getFollowUpTest() {
         final CombatRoundPosition result
-                = this.combatRoundPositions.getFollowUp(this.posB);
+                = this.combatRoundPositions.getFollowUp(this.posA);
 
         assertEquals(this.posC, result);
     }
@@ -60,7 +62,7 @@ public class CombatRoundPositionsTest {
         final CombatRoundPosition result
                 = this.combatRoundPositions.getFollowUp(this.posC);
 
-        assertEquals(this.posA, result);
+        assertEquals(this.posB, result);
     }
 
 }

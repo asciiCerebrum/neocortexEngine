@@ -28,12 +28,13 @@ public class CombatRoundPositions {
     }
 
     /**
-     * Sort the list alphanumerically and return it.
+     * Sort the list reverse-alphanumerically and return it.
      *
      * @return the sorted list.
      */
     public final CombatRoundPositions sort() {
         Collections.sort(this.elements);
+        Collections.reverse(this.elements);
         return this;
     }
 

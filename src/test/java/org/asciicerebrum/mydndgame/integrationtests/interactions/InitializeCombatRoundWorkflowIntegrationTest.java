@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.integrationtests.interactions;
 
 import javax.naming.OperationNotSupportedException;
+import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.factories.ArmorFactory;
 import org.asciicerebrum.mydndgame.domain.factories.CampaignFactory;
@@ -9,6 +10,7 @@ import org.asciicerebrum.mydndgame.domain.factories.WeaponFactory;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacters;
+import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
 import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.HarskDwarfFighter2;
 import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.MerisielElfRogue1;
 import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.ValerosHumanFighter1;
@@ -21,6 +23,9 @@ import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.StandardBattleaxe;
 import org.asciicerebrum.mydndgame.integrationtests.pool.inventoryItems.weapons.StandardLongsword;
 import org.asciicerebrum.mydndgame.mechanics.managers.CombatRoundManager;
+import org.asciicerebrum.mydndgame.mechanics.managers.DefaultRollResultManager;
+import org.asciicerebrum.mydndgame.mechanics.managers.DiceRollManager;
+import org.asciicerebrum.mydndgame.mechanics.managers.RollResultManager;
 import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
 import static org.junit.Assert.assertEquals;
@@ -28,7 +33,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -40,6 +49,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 public class InitializeCombatRoundWorkflowIntegrationTest {
+
+    @Autowired
+    private ApplicationContext context;
 
     @Autowired
     private EntityPoolService entityPoolService;
@@ -93,7 +105,7 @@ public class InitializeCombatRoundWorkflowIntegrationTest {
     }
 
     @Test
-    public void initiateCombatRoundTest()
+    public void initiateCombatRoundSimpleTest()
             throws OperationNotSupportedException {
         final Campaign campaign = this.campaignFactory.newEntity();
         final DndCharacters participants = new DndCharacters();
@@ -105,39 +117,47 @@ public class InitializeCombatRoundWorkflowIntegrationTest {
         participants.addDndCharacter((DndCharacter) this.entityPoolService
                 .getEntityById(new UniqueId("valeros")));
 
+        final DiceRollManager mockDiceRollManager = mock(DiceRollManager.class);
+        ((DefaultRollResultManager) this.context
+                .getBean(RollResultManager.class))
+                .setDiceRollManager(mockDiceRollManager);
+
+        when(mockDiceRollManager.rollDice((DiceAction) anyObject()))
+                .thenReturn(new DiceRoll(5L), new DiceRoll(20L),
+                        new DiceRoll(8L));
+
         this.combatRoundManager.initiateCombatRound(campaign, participants);
 
         /*TODO
-        develop a dice roll history instance that saves a list of the following:
-        - who? (harsk)
-        - which dice? (3W6)
-        - result? (11)
-        - added total bonus? (+3)
-        - for what? (damage)
-        - further details? (against valeros)
-        - when? (the current worlddate of the roll)
-        a console log is done while this list is filled
+         develop a dice roll history instance that saves a list of the following:
+         - who? (harsk)
+         - which dice? (3W6)
+         - result? (11)
+         - added total bonus? (+3)
+         - for what? (damage)
+         - further details? (against valeros)
+         - when? (the current worlddate of the roll)
+         a console log is done while this list is filled
         
-        then the roll history can be reconstructed and the dice roll manager
-        random generator can be replaced by a given list of dice roll results
-        to enforce desired outcomes for better testing!
+         then the roll history can be reconstructed and the dice roll manager
+         random generator can be replaced by a given list of dice roll results
+         to enforce desired outcomes for better testing!
         
-        develop a replacement of SecureRandom with the same interface!
+         develop a replacement of SecureRandom with the same interface!
         
-        Then manipulate the dice rolls in such a way this tests has the desired
-        outcome of merisiel being the first participant.
+         Then manipulate the dice rolls in such a way this tests has the desired
+         outcome of merisiel being the first participant.
         
-        Then make another test that requires reroll after a tie in initiative!
+         Then make another test that requires reroll after a tie in initiative!
         
-        it must be saved and persisted at the campaign! with its on factory
-        and setup classes and domain model!
+         it must be saved and persisted at the campaign! with its on factory
+         and setup classes and domain model!
         
-        service class with event listener: whenever a roll is recorded, all
-        registered events are triggered
-        - one such event listener is the logging event listener which writes
-          those information to the console and/or log file.
-        */
-        
+         service class with event listener: whenever a roll is recorded, all
+         registered events are triggered
+         - one such event listener is the logging event listener which writes
+         those information to the console and/or log file.
+         */
         assertEquals("merisiel", campaign.getCombatRound()
                 .getCurrentParticipantId().getValue());
     }

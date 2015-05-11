@@ -87,6 +87,8 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
                 combatRound, interaction.getCampaign());
         this.resolveTies(combatRound, interaction.getCampaign());
         this.applyFlatFooted(combatRound);
+        
+        combatRound.setCurrentDate(null);
     }
 
     /**

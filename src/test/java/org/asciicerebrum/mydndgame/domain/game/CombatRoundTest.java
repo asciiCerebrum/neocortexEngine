@@ -79,7 +79,7 @@ public class CombatRoundTest {
     @Test
     public void moveToNextPositionWithRoundNumberSwitchRoundNumberTest() {
         this.combatRound.getCurrentDate().setCombatRoundPosition(
-                new CombatRoundPosition("2"));
+                new CombatRoundPosition("1"));
         this.combatRound.moveToNextPosition();
 
         assertEquals(11L, this.combatRound.getCurrentDate()
@@ -104,5 +104,16 @@ public class CombatRoundTest {
                 new CombatRoundPosition("2"));
         assertEquals(11L, this.combatRound.getNextParticipationDate(
                 this.charA).getCombatRoundNumber().getValue());
+    }
+
+    @Test
+    public void getCurrentParticipantRealWorldTest() {
+        final CombatRound cr = new CombatRound();
+        cr.addParticipant(new UniqueId("participantA"),
+                new CombatRoundPosition("007003"));
+        cr.addParticipant(new UniqueId("participantB"),
+                new CombatRoundPosition("023003"));
+
+        assertEquals("participantB", cr.getCurrentParticipantId().getValue());
     }
 }
