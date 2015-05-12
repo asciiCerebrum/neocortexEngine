@@ -11,6 +11,7 @@ import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacters;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Condition;
 import org.asciicerebrum.mydndgame.domain.setup.BaseAbilityEntrySetup;
 import org.asciicerebrum.mydndgame.domain.setup.CharacterSetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
@@ -224,6 +225,91 @@ public class InitializeCombatRoundWorkflowIntegrationTest {
 
         assertEquals("merisiel", campaign.getCombatRound()
                 .getCurrentParticipantId().getValue());
+    }
+
+    @Test
+    public void initiateCombatRoundFlatFootedTest()
+            throws OperationNotSupportedException {
+        final Campaign campaign = this.campaignFactory.newEntity();
+        final DndCharacters participants = new DndCharacters();
+
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("harsk")));
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("merisiel")));
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("valeros")));
+
+        when(this.mockDiceRollManager.rollDice((DiceAction) anyObject()))
+                .thenReturn(new DiceRoll(5L), new DiceRoll(20L),
+                        new DiceRoll(8L));
+
+        this.combatRoundManager.initiateCombatRound(campaign, participants);
+
+        final DndCharacter merisiel = (DndCharacter) this.entityPoolService
+                .getEntityById(campaign.getCombatRound()
+                        .getCurrentParticipantId());
+
+        assertEquals("flatFooted", merisiel.getConditions().iterator().next()
+                .getConditionType().getUniqueId().getValue());
+    }
+
+    @Test
+    public void initiateCombatRoundFlatFootedExpiryPositionTest()
+            throws OperationNotSupportedException {
+        final Campaign campaign = this.campaignFactory.newEntity();
+        final DndCharacters participants = new DndCharacters();
+
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("harsk")));
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("merisiel")));
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("valeros")));
+
+        when(this.mockDiceRollManager.rollDice((DiceAction) anyObject()))
+                .thenReturn(new DiceRoll(5L), new DiceRoll(20L),
+                        new DiceRoll(8L));
+
+        this.combatRoundManager.initiateCombatRound(campaign, participants);
+
+        final DndCharacter merisiel = (DndCharacter) this.entityPoolService
+                .getEntityById(campaign.getCombatRound()
+                        .getCurrentParticipantId());
+
+        final Condition flatFooted = merisiel.getConditions().iterator().next();
+
+        assertEquals("023003", flatFooted.getExpiryDate()
+                .getCombatRoundPosition().getValue());
+    }
+
+    @Test
+    public void initiateCombatRoundFlatFootedExpiryRoundTest()
+            throws OperationNotSupportedException {
+        final Campaign campaign = this.campaignFactory.newEntity();
+        final DndCharacters participants = new DndCharacters();
+
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("harsk")));
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("merisiel")));
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("valeros")));
+
+        when(this.mockDiceRollManager.rollDice((DiceAction) anyObject()))
+                .thenReturn(new DiceRoll(5L), new DiceRoll(20L),
+                        new DiceRoll(8L));
+
+        this.combatRoundManager.initiateCombatRound(campaign, participants);
+
+        final DndCharacter merisiel = (DndCharacter) this.entityPoolService
+                .getEntityById(campaign.getCombatRound()
+                        .getCurrentParticipantId());
+
+        final Condition flatFooted = merisiel.getConditions().iterator().next();
+
+        assertEquals(0L, flatFooted.getExpiryDate()
+                .getCombatRoundNumber().getValue());
     }
 
 }
