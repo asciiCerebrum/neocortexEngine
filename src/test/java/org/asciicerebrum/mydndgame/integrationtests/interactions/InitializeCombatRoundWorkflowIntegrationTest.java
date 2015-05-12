@@ -11,6 +11,9 @@ import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacters;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
+import org.asciicerebrum.mydndgame.domain.setup.BaseAbilityEntrySetup;
+import org.asciicerebrum.mydndgame.domain.setup.CharacterSetup;
+import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;
 import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.HarskDwarfFighter2;
 import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.MerisielElfRogue1;
 import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.ValerosHumanFighter1;
@@ -71,6 +74,8 @@ public class InitializeCombatRoundWorkflowIntegrationTest {
     @Autowired
     private CombatRoundManager combatRoundManager;
 
+    private DiceRollManager mockDiceRollManager;
+
     @Before
     public void setUp() {
 
@@ -102,6 +107,11 @@ public class InitializeCombatRoundWorkflowIntegrationTest {
         this.entityPoolService.registerUniqueEntity(this.weaponFactory
                 .newEntity(MwkBastardsword.getSetup()));
 
+        this.mockDiceRollManager = mock(DiceRollManager.class);
+        ((DefaultRollResultManager) this.context
+                .getBean(RollResultManager.class))
+                .setDiceRollManager(this.mockDiceRollManager);
+
     }
 
     @Test
@@ -117,12 +127,7 @@ public class InitializeCombatRoundWorkflowIntegrationTest {
         participants.addDndCharacter((DndCharacter) this.entityPoolService
                 .getEntityById(new UniqueId("valeros")));
 
-        final DiceRollManager mockDiceRollManager = mock(DiceRollManager.class);
-        ((DefaultRollResultManager) this.context
-                .getBean(RollResultManager.class))
-                .setDiceRollManager(mockDiceRollManager);
-
-        when(mockDiceRollManager.rollDice((DiceAction) anyObject()))
+        when(this.mockDiceRollManager.rollDice((DiceAction) anyObject()))
                 .thenReturn(new DiceRoll(5L), new DiceRoll(20L),
                         new DiceRoll(8L));
 
@@ -158,6 +163,65 @@ public class InitializeCombatRoundWorkflowIntegrationTest {
          - one such event listener is the logging event listener which writes
          those information to the console and/or log file.
          */
+        assertEquals("merisiel", campaign.getCombatRound()
+                .getCurrentParticipantId().getValue());
+    }
+
+    @Test
+    public void initiateCombatRoundSameResultsTest()
+            throws OperationNotSupportedException {
+        final Campaign campaign = this.campaignFactory.newEntity();
+        final DndCharacters participants = new DndCharacters();
+
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("harsk")));
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("merisiel")));
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("valeros")));
+
+        when(this.mockDiceRollManager.rollDice((DiceAction) anyObject()))
+                .thenReturn(new DiceRoll(5L), new DiceRoll(17L),
+                        new DiceRoll(14L));
+
+        this.combatRoundManager.initiateCombatRound(campaign, participants);
+
+        assertEquals("valeros", campaign.getCombatRound()
+                .getCurrentParticipantId().getValue());
+    }
+
+    @Test
+    public void initiateCombatRoundSameResultsSameBoniTest()
+            throws OperationNotSupportedException {
+        final Campaign campaign = this.campaignFactory.newEntity();
+        final DndCharacters participants = new DndCharacters();
+
+        // giving harsk a little more dexterity to be equal with merisiel
+        final BaseAbilityEntrySetup dexSetup = new BaseAbilityEntrySetup();
+        dexSetup.setAbility("dex");
+        dexSetup.setAbilityValue("16");
+
+        final CharacterSetup setup = HarskDwarfFighter2.getSetup();
+        setup.getPropertySetups(SetupProperty.BASE_ABILITY_ENTRIES)
+                .add(dexSetup);
+
+        this.entityPoolService.registerUniqueEntity(this.dndCharacterFactory
+                .newEntity(setup));
+
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("harsk")));
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("merisiel")));
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("valeros")));
+
+        // giving additional rolls to resolve the tie between harsk and merisiel
+        when(this.mockDiceRollManager.rollDice((DiceAction) anyObject()))
+                .thenReturn(new DiceRoll(12L), new DiceRoll(12L),
+                        new DiceRoll(1L), new DiceRoll(1L), new DiceRoll(2L));
+
+        this.combatRoundManager.initiateCombatRound(campaign, participants);
+
         assertEquals("merisiel", campaign.getCombatRound()
                 .getCurrentParticipantId().getValue());
     }

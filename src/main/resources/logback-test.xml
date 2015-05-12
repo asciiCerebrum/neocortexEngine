@@ -22,7 +22,22 @@
             <pattern>%d{HH:mm:ss.SSS}  %-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
         </encoder>
     </appender>
-    
+
+    <appender name="EVENTS_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>eventsLog.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+            <!-- keep 1 days' worth of history -->
+            <maxHistory>5</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+            
 <!--    <logger name="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl" level="DEBUG" />
     <logger name="org.asciicerebrum.mydndgame.mechanics.observertriggers" level="DEBUG" />
     <logger name="org.asciicerebrum.mydndgame.services.core" level="DEBUG" />
@@ -34,5 +49,8 @@
         <appender-ref ref="FILE"/>
     </root>
 
+    <logger name="org.asciicerebrum.mydndgame.mechanics.rollhistorylisteners" level="INFO" additivity="false">
+        <appender-ref ref="EVENTS_FILE"/>
+    </logger>
 
 </configuration>   

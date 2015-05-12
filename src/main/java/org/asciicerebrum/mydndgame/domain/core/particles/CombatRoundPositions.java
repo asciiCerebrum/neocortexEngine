@@ -75,4 +75,15 @@ public class CombatRoundPositions {
         return this.elements.iterator();
     }
 
+    /**
+     * Tests if a given combat round position is already part of the collection.
+     *
+     * @param combatRoundPosition the combat round position in question.
+     * @return true, if part of the list, false otherwise.
+     */
+    public final boolean contains(
+            final CombatRoundPosition combatRoundPosition) {
+        return this.elements.contains(combatRoundPosition);
+    }
+
 }

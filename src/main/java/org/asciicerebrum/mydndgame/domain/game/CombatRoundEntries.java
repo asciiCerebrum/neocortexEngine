@@ -162,14 +162,17 @@ public class CombatRoundEntries {
 
     /**
      * Extracts all the positions out of the collection of combat round entries.
+     * There are only unique positions in the list.
      *
      * @return the combat round positions found in this collection.
      */
     final CombatRoundPositions getPositions() {
         CombatRoundPositions crPositions = new CombatRoundPositions();
         for (CombatRoundEntry crEntry : this.elements) {
-            crPositions.addCombatRoundPosition(
-                    crEntry.getCombatRoundPosition());
+            if (!crPositions.contains(crEntry.getCombatRoundPosition())) {
+                crPositions.addCombatRoundPosition(
+                        crEntry.getCombatRoundPosition());
+            }
         }
         return crPositions;
     }
