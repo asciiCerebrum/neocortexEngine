@@ -13,6 +13,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.InteractionType;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Workflows;
+import org.asciicerebrum.mydndgame.services.events.EventTriggerService;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -35,6 +36,8 @@ public class DefaultCombatRoundManagerTest {
 
     private IWorkflow initializeCombatRoundWorkflow;
 
+    private EventTriggerService eventTriggerService;
+
     public DefaultCombatRoundManagerTest() {
     }
 
@@ -51,11 +54,14 @@ public class DefaultCombatRoundManagerTest {
         this.manager = new DefaultCombatRoundManager();
         this.conditionExpirationWorkflow = mock(IWorkflow.class);
         this.initializeCombatRoundWorkflow = mock(IWorkflow.class);
+        this.eventTriggerService = mock(EventTriggerService.class);
 
         this.manager.setConditionExpirationWorkflow(
                 this.conditionExpirationWorkflow);
         this.manager.setInitializeCombatRoundWorkflow(
                 this.initializeCombatRoundWorkflow);
+        this.manager.setEventTriggerService(
+                this.eventTriggerService);
     }
 
     @After

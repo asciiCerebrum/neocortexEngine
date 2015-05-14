@@ -2,7 +2,6 @@ package org.asciicerebrum.mydndgame.domain.core.particles;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  *
@@ -53,6 +52,6 @@ public class UniqueId extends StringParticle {
 
     @Override
     public final String toString() {
-        return new ToStringBuilder(this).append(this.getValue()).toString();
+        return this.getValue();
     }
 }

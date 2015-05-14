@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntities;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueIds;
 
 /**
  *
@@ -89,6 +90,20 @@ public class DndCharacters {
                 this.addDndCharacter((DndCharacter) entity);
             }
         }
+    }
+
+    /**
+     * Creates a collection of uniqueIds from the collection of dndcharacters in
+     * this instance.
+     *
+     * @return the collection of related uniqueIds.
+     */
+    public final UniqueIds getUniqueIds() {
+        final UniqueIds uniqueIds = new UniqueIds();
+        for (final DndCharacter dndCharacter : this.elements) {
+            uniqueIds.add(dndCharacter.getUniqueId());
+        }
+        return uniqueIds;
     }
 
 }

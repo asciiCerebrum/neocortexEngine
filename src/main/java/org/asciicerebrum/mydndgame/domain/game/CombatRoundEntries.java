@@ -189,6 +189,24 @@ public class CombatRoundEntries {
     }
 
     /**
+     * Retrieves all participants in the order they can act.
+     *
+     * @return the collection of ordered participant ids.
+     */
+    public final UniqueIds getOrderedParticipantIds() {
+        final UniqueIds uniqueIds = new UniqueIds();
+
+        final Iterator<CombatRoundPosition> iterator
+                = this.getOrderedPositions().iterator();
+        while (iterator.hasNext()) {
+            final CombatRoundPosition pos = iterator.next();
+            uniqueIds.add(this.getParticipantsForPosition(pos));
+        }
+
+        return uniqueIds;
+    }
+
+    /**
      * Retrieves the very first combat round position of this collection.
      *
      * @return the first combat round position.

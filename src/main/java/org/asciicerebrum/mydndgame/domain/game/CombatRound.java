@@ -37,7 +37,7 @@ public class CombatRound {
             // starts. Then the null-return here can be replaced by that date!
             return null;
         }
-        
+
         if (this.currentDate == null) {
             this.moveToNextPosition();
         }
@@ -182,6 +182,15 @@ public class CombatRound {
      */
     public final Iterator<CombatRoundPosition> getOrderedPositions() {
         return this.combatRoundEntries.getOrderedPositions().iterator();
+    }
+
+    /**
+     * Retrieves all participants in the order they can act.
+     *
+     * @return the collection of ordered participant ids.
+     */
+    public final UniqueIds getOrderedParticipantIds() {
+        return this.combatRoundEntries.getOrderedParticipantIds();
     }
 
     /**

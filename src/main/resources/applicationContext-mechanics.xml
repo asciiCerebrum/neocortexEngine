@@ -10,6 +10,7 @@
     <bean id="combatRoundManager" class="org.asciicerebrum.mydndgame.mechanics.managers.DefaultCombatRoundManager">
         <property name="conditionExpirationWorkflow" ref="conditionExpirationWorkflow" />
         <property name="initializeCombatRoundWorkflow" ref="initializeCombatRoundWorkflow" />
+        <property name="eventTriggerService" ref="eventTriggerService" />
     </bean>
     <bean id="diceRollManager" class="org.asciicerebrum.mydndgame.mechanics.managers.DefaultDiceRollManager">
     </bean>

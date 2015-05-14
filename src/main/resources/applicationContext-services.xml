@@ -153,6 +153,8 @@
             <list>
                 <ref bean="loggingConditionGainingEventEntryListener" />
                 <ref bean="loggingConditionLosingEventEntryListener" />
+                <ref bean="loggingCombatPreInitEventEntryListener" />
+                <ref bean="loggingCombatPostInitEventEntryListener" />
             </list>
         </property>
     </bean>
@@ -166,5 +168,17 @@
         <property name="eventType" value="CONDITION_LOSE" />
         <property name="logTemplate" value="{} loses condition: {}." />
     </bean>
-                                                                                                                                                
+
+    <bean id="loggingCombatPreInitEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingWhomEventEntryListener">
+        <property name="eventType" value="COMBATROUND_PREINIT" />
+        <property name="logTemplate" value="Starting a combat round with the participants: {}." />
+        <property name="listSeparator" value=", " />
+    </bean>
+
+    <bean id="loggingCombatPostInitEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingWhomEventEntryListener">
+        <property name="eventType" value="COMBATROUND_POSTINIT" />
+        <property name="logTemplate" value="The participants act in the following order: {}." />
+        <property name="listSeparator" value=", " />
+    </bean>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 </beans>
