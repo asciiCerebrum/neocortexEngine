@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.domain.ruleentities.composition;
+package org.asciicerebrum.mydndgame.domain.events;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber;

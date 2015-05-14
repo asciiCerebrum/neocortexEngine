@@ -41,16 +41,16 @@ public class WorldDateTest {
     public void setUp() {
         this.wd1 = new WorldDate();
         wd1.setCombatRoundNumber(new CombatRoundNumber(1L));
-        wd1.setCombatRoundPosition(new CombatRoundPosition("1"));
+        wd1.setCombatRoundPosition(new CombatRoundPosition("001"));
         this.wd2 = new WorldDate();
         wd2.setCombatRoundNumber(new CombatRoundNumber(1L));
-        wd2.setCombatRoundPosition(new CombatRoundPosition("12"));
+        wd2.setCombatRoundPosition(new CombatRoundPosition("012"));
         this.wd3 = new WorldDate();
         wd3.setCombatRoundNumber(new CombatRoundNumber(2L));
-        wd3.setCombatRoundPosition(new CombatRoundPosition("2"));
+        wd3.setCombatRoundPosition(new CombatRoundPosition("002"));
         this.wd4 = new WorldDate();
         wd4.setCombatRoundNumber(new CombatRoundNumber(1L));
-        wd4.setCombatRoundPosition(new CombatRoundPosition("1"));
+        wd4.setCombatRoundPosition(new CombatRoundPosition("001"));
     }
 
     @After
@@ -62,8 +62,8 @@ public class WorldDateTest {
      */
     @Test
     public void testCompareToLarger() {
-        int compare21 = this.wd2.compareTo(this.wd1);
-        assertEquals(1, compare21);
+        int compare12 = this.wd1.compareTo(this.wd2);
+        assertEquals(1, compare12);
     }
 
     @Test
@@ -158,7 +158,7 @@ public class WorldDateTest {
 
     @Test
     public void isAfterTest() {
-        assertTrue(this.wd2.isAfter(this.wd1));
+        assertTrue(this.wd1.isAfter(this.wd2));
     }
 
     @Test

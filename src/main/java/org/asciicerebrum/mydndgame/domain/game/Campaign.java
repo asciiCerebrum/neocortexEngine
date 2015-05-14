@@ -1,7 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.game;
 
-import org.asciicerebrum.mydndgame.domain.ruleentities.composition.RollHistory;
-import org.asciicerebrum.mydndgame.domain.ruleentities.composition.RollHistoryEntry;
+import org.asciicerebrum.mydndgame.domain.events.RollHistory;
+import org.asciicerebrum.mydndgame.domain.events.RollHistoryEntry;
 
 /**
  *

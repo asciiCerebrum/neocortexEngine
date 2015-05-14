@@ -41,7 +41,7 @@ public class CombatRoundTest {
 
         final WorldDate currentDate = new WorldDate();
         currentDate.setCombatRoundNumber(new CombatRoundNumber(10L));
-        currentDate.setCombatRoundPosition(new CombatRoundPosition("1"));
+        currentDate.setCombatRoundPosition(new CombatRoundPosition("001"));
         this.combatRound.setCurrentDate(currentDate);
 
         this.charA = new UniqueId("charA");
@@ -49,9 +49,9 @@ public class CombatRoundTest {
         this.charB = new UniqueId("charB");
 
         this.combatRound.addParticipant(this.charA,
-                new CombatRoundPosition("1"));
+                new CombatRoundPosition("001"));
         this.combatRound.addParticipant(this.charB,
-                new CombatRoundPosition("2"));
+                new CombatRoundPosition("002"));
     }
 
     @After
@@ -62,24 +62,24 @@ public class CombatRoundTest {
     public void moveToNextPositionTest() {
         this.combatRound.moveToNextPosition();
 
-        assertEquals("2", this.combatRound.getCurrentDate()
+        assertEquals("002", this.combatRound.getCurrentDate()
                 .getCombatRoundPosition().getValue());
     }
 
     @Test
     public void moveToNextPositionWithRoundNumberSwitchPositionTest() {
         this.combatRound.getCurrentDate().setCombatRoundPosition(
-                new CombatRoundPosition("2"));
+                new CombatRoundPosition("002"));
         this.combatRound.moveToNextPosition();
 
-        assertEquals("1", this.combatRound.getCurrentDate()
+        assertEquals("001", this.combatRound.getCurrentDate()
                 .getCombatRoundPosition().getValue());
     }
 
     @Test
     public void moveToNextPositionWithRoundNumberSwitchRoundNumberTest() {
         this.combatRound.getCurrentDate().setCombatRoundPosition(
-                new CombatRoundPosition("1"));
+                new CombatRoundPosition("001"));
         this.combatRound.moveToNextPosition();
 
         assertEquals(11L, this.combatRound.getCurrentDate()
@@ -94,14 +94,14 @@ public class CombatRoundTest {
 
     @Test
     public void getNextParticipationDateKnownTest() {
-        assertEquals("2", this.combatRound.getNextParticipationDate(
+        assertEquals("002", this.combatRound.getNextParticipationDate(
                 this.charB).getCombatRoundPosition().getValue());
     }
 
     @Test
     public void getNextParticipationDateKnownInPastTest() {
         this.combatRound.getCurrentDate().setCombatRoundPosition(
-                new CombatRoundPosition("2"));
+                new CombatRoundPosition("000"));
         assertEquals(11L, this.combatRound.getNextParticipationDate(
                 this.charA).getCombatRoundNumber().getValue());
     }

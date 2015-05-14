@@ -1,10 +1,10 @@
-package org.asciicerebrum.mydndgame.mechanics.rollhistorylisteners.impl;
+package org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import org.asciicerebrum.mydndgame.domain.ruleentities.composition.RollHistoryEntry;
-import org.asciicerebrum.mydndgame.mechanics.rollhistorylisteners.RollHistoryListener;
+import org.asciicerebrum.mydndgame.domain.events.RollHistoryEntry;
+import org.asciicerebrum.mydndgame.mechanics.eventlisteners.RollHistoryListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

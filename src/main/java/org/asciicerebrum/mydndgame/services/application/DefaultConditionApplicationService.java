@@ -1,6 +1,8 @@
 package org.asciicerebrum.mydndgame.services.application;
 
 import java.util.Iterator;
+import org.asciicerebrum.mydndgame.domain.events.EventEntry;
+import org.asciicerebrum.mydndgame.domain.events.EventType;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
@@ -9,6 +11,7 @@ import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSour
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Condition;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Conditions;
 import org.asciicerebrum.mydndgame.services.core.ObservableService;
+import org.asciicerebrum.mydndgame.services.events.EventTriggerService;
 
 /**
  *
@@ -21,6 +24,11 @@ public class DefaultConditionApplicationService
      * The observable service.
      */
     private ObservableService observableService;
+
+    /**
+     * The service for triggering events.
+     */
+    private EventTriggerService eventTriggerService;
 
     @Override
     public final void applyCondition(final DndCharacter dndCharacter,
@@ -52,6 +60,7 @@ public class DefaultConditionApplicationService
     final void applySingleCondition(final DndCharacter dndCharacter,
             final Condition condition) {
         dndCharacter.addCondition(condition);
+        this.triggerEvent(condition, dndCharacter, EventType.CONDITION_GAIN);
     }
 
     @Override
@@ -65,8 +74,28 @@ public class DefaultConditionApplicationService
 
             if (currentDate.isAfter(condition.getExpiryDate())) {
                 conditionIterator.remove();
+                this.triggerEvent(condition, dndCharacter,
+                        EventType.CONDITION_LOSE);
             }
         }
+    }
+
+    /**
+     * Helper method for triggering condition related events.
+     *
+     * @param condition the condition in question.
+     * @param dndCharacter the character related to the condition.
+     * @param eventType the event type to trigger.
+     */
+    private void triggerEvent(final Condition condition,
+            final DndCharacter dndCharacter, final EventType eventType) {
+        final EventEntry eventEntry
+                = new EventEntry(eventType);
+        eventEntry.setWho(dndCharacter.getUniqueId());
+        eventEntry.setWhat(condition.getConditionType().getUniqueId());
+        eventEntry.setWhen(condition.getStartingDate());
+
+        this.getEventTriggerService().trigger(eventEntry);
     }
 
     /**
@@ -82,5 +111,20 @@ public class DefaultConditionApplicationService
      */
     public final ObservableService getObservableService() {
         return observableService;
+    }
+
+    /**
+     * @return the eventTriggerService
+     */
+    public final EventTriggerService getEventTriggerService() {
+        return eventTriggerService;
+    }
+
+    /**
+     * @param eventTriggerServiceInput the eventTriggerService to set
+     */
+    public final void setEventTriggerService(
+            final EventTriggerService eventTriggerServiceInput) {
+        this.eventTriggerService = eventTriggerServiceInput;
     }
 }

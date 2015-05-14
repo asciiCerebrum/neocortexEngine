@@ -7,9 +7,11 @@ import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSources;
+import org.asciicerebrum.mydndgame.domain.ruleentities.ConditionType;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Condition;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Conditions;
 import org.asciicerebrum.mydndgame.services.core.ObservableService;
+import org.asciicerebrum.mydndgame.services.events.EventTriggerService;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -31,6 +33,8 @@ public class DefaultConditionApplicationServiceTest {
 
     private ObservableService observableService;
 
+    private EventTriggerService eventTriggerService;
+
     public DefaultConditionApplicationServiceTest() {
     }
 
@@ -46,8 +50,10 @@ public class DefaultConditionApplicationServiceTest {
     public void setUp() {
         this.service = new DefaultConditionApplicationService();
         this.observableService = mock(ObservableService.class);
+        this.eventTriggerService = mock(EventTriggerService.class);
 
         this.service.setObservableService(this.observableService);
+        this.service.setEventTriggerService(this.eventTriggerService);
     }
 
     @After
@@ -60,6 +66,9 @@ public class DefaultConditionApplicationServiceTest {
         final Conditions conditions = new Conditions();
         final Condition condA = new Condition();
         final Condition condB = new Condition();
+        final ConditionType condType = new ConditionType();
+        condA.setConditionType(condType);
+        condB.setConditionType(condType);
         conditions.add(condA);
         conditions.add(condB);
 
@@ -80,6 +89,9 @@ public class DefaultConditionApplicationServiceTest {
         final Conditions conditions = new Conditions();
         final Condition condA = new Condition();
         final Condition condB = new Condition();
+        final ConditionType condType = new ConditionType();
+        condA.setConditionType(condType);
+        condB.setConditionType(condType);
         conditions.add(condA);
         conditions.add(condB);
 
@@ -125,6 +137,9 @@ public class DefaultConditionApplicationServiceTest {
         dateA.setCombatRoundPosition(new CombatRoundPosition("1"));
         condA.setExpiryDate(dateA);
         final Condition condB = new Condition();
+        final ConditionType condType = new ConditionType();
+        condA.setConditionType(condType);
+        condB.setConditionType(condType);
         final WorldDate dateB = new WorldDate();
         dateB.setCombatRoundNumber(new CombatRoundNumber(3L));
         dateB.setCombatRoundPosition(new CombatRoundPosition("4"));

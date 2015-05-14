@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.integrationtests.interactions;
 
+import com.google.common.collect.Iterators;
 import javax.naming.OperationNotSupportedException;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
@@ -246,12 +247,36 @@ public class InitializeCombatRoundWorkflowIntegrationTest {
 
         this.combatRoundManager.initiateCombatRound(campaign, participants);
 
-        final DndCharacter merisiel = (DndCharacter) this.entityPoolService
-                .getEntityById(campaign.getCombatRound()
-                        .getCurrentParticipantId());
+        final DndCharacter harsk = (DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("harsk"));
 
-        assertEquals("flatFooted", merisiel.getConditions().iterator().next()
+        assertEquals("flatFooted", harsk.getConditions().iterator().next()
                 .getConditionType().getUniqueId().getValue());
+    }
+
+    @Test
+    public void initiateCombatRoundFirstParticipantNotFlatFootedTest()
+            throws OperationNotSupportedException {
+        final Campaign campaign = this.campaignFactory.newEntity();
+        final DndCharacters participants = new DndCharacters();
+
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("harsk")));
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("merisiel")));
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("valeros")));
+
+        when(this.mockDiceRollManager.rollDice((DiceAction) anyObject()))
+                .thenReturn(new DiceRoll(5L), new DiceRoll(20L),
+                        new DiceRoll(8L));
+
+        this.combatRoundManager.initiateCombatRound(campaign, participants);
+
+        final DndCharacter merisiel = (DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("merisiel"));
+
+        assertEquals(0L, Iterators.size(merisiel.getConditions().iterator()));
     }
 
     @Test
@@ -273,13 +298,12 @@ public class InitializeCombatRoundWorkflowIntegrationTest {
 
         this.combatRoundManager.initiateCombatRound(campaign, participants);
 
-        final DndCharacter merisiel = (DndCharacter) this.entityPoolService
-                .getEntityById(campaign.getCombatRound()
-                        .getCurrentParticipantId());
+        final DndCharacter harsk = (DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("harsk"));
 
-        final Condition flatFooted = merisiel.getConditions().iterator().next();
+        final Condition flatFooted = harsk.getConditions().iterator().next();
 
-        assertEquals("023003", flatFooted.getExpiryDate()
+        assertEquals("007002", flatFooted.getExpiryDate()
                 .getCombatRoundPosition().getValue());
     }
 
@@ -302,11 +326,10 @@ public class InitializeCombatRoundWorkflowIntegrationTest {
 
         this.combatRoundManager.initiateCombatRound(campaign, participants);
 
-        final DndCharacter merisiel = (DndCharacter) this.entityPoolService
-                .getEntityById(campaign.getCombatRound()
-                        .getCurrentParticipantId());
+        final DndCharacter harsk = (DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("harsk"));
 
-        final Condition flatFooted = merisiel.getConditions().iterator().next();
+        final Condition flatFooted = harsk.getConditions().iterator().next();
 
         assertEquals(0L, flatFooted.getExpiryDate()
                 .getCombatRoundNumber().getValue());

@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
     
-    <bean id="loggingRollHistoryListener" class="org.asciicerebrum.mydndgame.mechanics.rollhistorylisteners.impl.LoggingRollHistoryListener">
+    <bean id="loggingRollHistoryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingRollHistoryListener">
     </bean>
     
     <bean id="combatRoundManager" class="org.asciicerebrum.mydndgame.mechanics.managers.DefaultCombatRoundManager">

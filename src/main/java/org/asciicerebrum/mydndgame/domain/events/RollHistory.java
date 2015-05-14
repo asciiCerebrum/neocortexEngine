@@ -1,4 +1,4 @@
-package org.asciicerebrum.mydndgame.domain.ruleentities.composition;
+package org.asciicerebrum.mydndgame.domain.events;
 
 import java.util.ArrayList;
 import java.util.Iterator;

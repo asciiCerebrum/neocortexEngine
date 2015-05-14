@@ -6,7 +6,7 @@ import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceSides;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
-import org.asciicerebrum.mydndgame.domain.ruleentities.composition.RollHistoryEntry;
+import org.asciicerebrum.mydndgame.domain.events.RollHistoryEntry;
 import org.asciicerebrum.mydndgame.domain.setup.EntitySetup;
 import org.asciicerebrum.mydndgame.domain.setup.SetupIncompleteException;
 import org.asciicerebrum.mydndgame.domain.setup.SetupProperty;

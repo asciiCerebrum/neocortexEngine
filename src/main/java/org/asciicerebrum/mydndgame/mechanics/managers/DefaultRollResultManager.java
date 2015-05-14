@@ -9,9 +9,9 @@ import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
-import org.asciicerebrum.mydndgame.domain.ruleentities.composition.RollHistoryEntry;
+import org.asciicerebrum.mydndgame.domain.events.RollHistoryEntry;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.RollResult;
-import org.asciicerebrum.mydndgame.mechanics.rollhistorylisteners.RollHistoryListener;
+import org.asciicerebrum.mydndgame.mechanics.eventlisteners.RollHistoryListener;
 
 /**
  *

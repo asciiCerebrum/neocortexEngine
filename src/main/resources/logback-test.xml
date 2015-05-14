@@ -49,7 +49,7 @@
         <appender-ref ref="FILE"/>
     </root>
 
-    <logger name="org.asciicerebrum.mydndgame.mechanics.rollhistorylisteners" level="INFO" additivity="false">
+    <logger name="org.asciicerebrum.mydndgame.mechanics.eventlisteners" level="INFO" additivity="false">
         <appender-ref ref="EVENTS_FILE"/>
     </logger>
 

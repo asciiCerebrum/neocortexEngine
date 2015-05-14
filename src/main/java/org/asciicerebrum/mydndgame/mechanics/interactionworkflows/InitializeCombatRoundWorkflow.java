@@ -86,9 +86,9 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
         this.rollInitiative(interaction.getTargetCharacters().iterator(),
                 combatRound, interaction.getCampaign());
         this.resolveTies(combatRound, interaction.getCampaign());
-        this.applyFlatFooted(combatRound);
-        
         combatRound.setCurrentDate(null);
+
+        this.applyFlatFooted(combatRound);
     }
 
     /**
@@ -101,6 +101,11 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
                 = combatRound.participantsIterator();
         while (participantIterator.hasNext()) {
             final UniqueId participantId = participantIterator.next();
+
+            // the first participant is not flat footed!
+            if (participantId.equals(combatRound.getCurrentParticipantId())) {
+                continue;
+            }
 
             final WorldDate expiryDate = new WorldDate(
                     combatRound.getNextParticipationDate(participantId));

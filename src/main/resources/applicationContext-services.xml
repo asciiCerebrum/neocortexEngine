@@ -139,6 +139,7 @@
     
     <bean id="conditionApplicationService" class="org.asciicerebrum.mydndgame.services.application.DefaultConditionApplicationService">
         <property name="observableService" ref="observableService" />
+        <property name="eventTriggerService" ref="eventTriggerService" />
     </bean>
     <bean id="damageApplicationService" class="org.asciicerebrum.mydndgame.services.application.DefaultDamageApplicationService">
         <property name="observableService" ref="observableService" />
@@ -146,5 +147,24 @@
 
     <bean id="entityPoolService" class="org.asciicerebrum.mydndgame.services.context.MapBasedEntityPoolService">
     </bean>
-                                                
+    
+    <bean id="eventTriggerService" class="org.asciicerebrum.mydndgame.services.events.DefaultEventTriggerService">
+        <property name="eventEntryListeners">
+            <list>
+                <ref bean="loggingConditionGainingEventEntryListener" />
+                <ref bean="loggingConditionLosingEventEntryListener" />
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="loggingConditionGainingEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingWhoWhatEventEntryListener">
+        <property name="eventType" value="CONDITION_GAIN" />
+        <property name="logTemplate" value="{} gains condition: {}." />
+    </bean>
+
+    <bean id="loggingConditionLosingEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingWhoWhatEventEntryListener">
+        <property name="eventType" value="CONDITION_LOSE" />
+        <property name="logTemplate" value="{} loses condition: {}." />
+    </bean>
+                                                                                                                                                
 </beans>
