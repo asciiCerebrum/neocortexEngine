@@ -147,10 +147,11 @@ public class SingleAttackWorkflow implements IWorkflow {
     /**
      * Determines if an attack is critical or not.
      *
-     * @param atkRollResultRaw the result of the first attack roll.
-     * @param sourceAtkBonus the bonus that is added to the attack roll.
+     * @param atkRollResult the result of the first attack roll.
      * @param targetAc the armor class of the target character.
      * @param sourceCritMinLvl the criticial minimum level for the weapon.
+     * @param sourceWeapon the weapon used in the attack.
+     * @param interaction the interaction.
      * @return the criticallity of the attack.
      */
     final boolean determineCritical(final RollResult atkRollResult,
@@ -185,8 +186,7 @@ public class SingleAttackWorkflow implements IWorkflow {
      * Determines if an attack roll hits the target. Considers automatic failure
      * and success. Checked against target's ac.
      *
-     * @param atkRoll the attack roll result without any boni.
-     * @param atkBonus the attack bonus.
+     * @param rollResult the attack roll result.
      * @param targetAc the target's armor class.
      * @return true if attack was successfull, false otherwise.
      */

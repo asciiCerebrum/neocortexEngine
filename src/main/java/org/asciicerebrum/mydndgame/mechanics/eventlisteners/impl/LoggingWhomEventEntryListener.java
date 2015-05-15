@@ -18,6 +18,9 @@ public class LoggingWhomEventEntryListener
     private static final Logger LOG = LoggerFactory.getLogger(
             LoggingWhomEventEntryListener.class);
 
+    /**
+     * The string separating the list of whom-entries.
+     */
     private String listSeparator;
 
     @Override

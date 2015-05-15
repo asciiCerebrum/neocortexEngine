@@ -8,6 +8,11 @@ import org.asciicerebrum.mydndgame.domain.events.RollHistoryEntry;
  */
 public interface RollHistoryListener {
 
+    /**
+     * Executes code needed to handle the given roll history event.
+     *
+     * @param rollHistoryEntry the event fired.
+     */
     void broadcast(RollHistoryEntry rollHistoryEntry);
-    
+
 }

@@ -70,7 +70,7 @@ public class CombatRoundPosition extends StringParticle implements Comparable {
      * @return the result of the comparison.
      */
     public final int compareTo(final CombatRoundPosition crp) {
-        return this.getValue().compareTo(crp.getValue());
+        return crp.getValue().compareTo(this.getValue());
     }
 
     /**

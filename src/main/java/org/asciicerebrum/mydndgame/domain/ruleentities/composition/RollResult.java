@@ -9,10 +9,22 @@ import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
  */
 public class RollResult {
 
+    /**
+     * The dice roll of the roll result.
+     */
     private DiceRoll rollResult;
 
+    /**
+     * The corresponding bonus value combined to the dice roll.
+     */
     private BonusValue bonusValue;
 
+    /**
+     * Creates a roll result instance from the contained attributes.
+     *
+     * @param rollResultInput the dice roll.
+     * @param bonusValueInput the bonus value.
+     */
     public RollResult(final DiceRoll rollResultInput,
             final BonusValue bonusValueInput) {
         this.rollResult = rollResultInput;

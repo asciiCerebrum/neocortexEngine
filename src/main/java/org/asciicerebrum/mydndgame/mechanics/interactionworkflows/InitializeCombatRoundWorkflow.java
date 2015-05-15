@@ -128,6 +128,7 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
      *
      * @param participantIterator the iterator of the list of participants.
      * @param combatRound the combat round of this encounter.
+     * @param campaign the campaign for the combat round.
      */
     final void rollInitiative(final Iterator<DndCharacter> participantIterator,
             final CombatRound combatRound, final Campaign campaign) {
@@ -162,6 +163,7 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
      * resolved.
      *
      * @param combatRound the combat round in which the tie occurs.
+     * @param campaign the campaign for the combat round.
      */
     final void resolveTies(final CombatRound combatRound,
             final Campaign campaign) {
@@ -181,6 +183,7 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
      * @param tieingParticipants the participants with the same init bonus
      * combination.
      * @param combatRound the combat round in which the tie occurs.
+     * @param campaign the campaign for the combat round.
      * @return the participants with changed combat round position.
      */
     final DndCharacters tieResolutionStep(
