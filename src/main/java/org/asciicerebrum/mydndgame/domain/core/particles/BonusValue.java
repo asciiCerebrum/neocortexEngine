@@ -1,10 +1,17 @@
 package org.asciicerebrum.mydndgame.domain.core.particles;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  *
  * @author species8472
  */
 public class BonusValue extends LongParticle {
+
+    /**
+     * Default value as a string.
+     */
+    private static final String DEFAULT_STRING_VALUE = "0";
 
     /**
      * Creates a bonus value without any actual value. As it extends
@@ -48,7 +55,8 @@ public class BonusValue extends LongParticle {
      * @param longString the string.
      */
     public final void setValue(final String longString) {
-        super.setValue(Long.parseLong(longString));
+        super.setValue(Long.parseLong(StringUtils.defaultString(longString,
+                DEFAULT_STRING_VALUE)));
     }
 
     /**
