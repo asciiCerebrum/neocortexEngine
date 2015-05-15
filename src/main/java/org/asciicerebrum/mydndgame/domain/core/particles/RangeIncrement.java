@@ -24,6 +24,9 @@ public class RangeIncrement extends LongParticle {
 
     @Override
     public final boolean equals(final Object o) {
+        if (!(o instanceof RangeIncrement)) {
+            return false;
+        }
         return this.equalsHelper(o);
     }
 

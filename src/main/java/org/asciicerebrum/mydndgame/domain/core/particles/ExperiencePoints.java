@@ -33,6 +33,9 @@ public class ExperiencePoints extends LongParticle {
 
     @Override
     public final boolean equals(final Object o) {
+        if (!(o instanceof ExperiencePoints)) {
+            return false;
+        }
         return this.equalsHelper(o);
     }
 

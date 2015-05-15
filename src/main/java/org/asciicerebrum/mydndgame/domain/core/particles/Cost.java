@@ -24,6 +24,9 @@ public class Cost extends LongParticle {
 
     @Override
     public final boolean equals(final Object o) {
+        if (!(o instanceof Cost)) {
+            return false;
+        }
         return this.equalsHelper(o);
     }
 

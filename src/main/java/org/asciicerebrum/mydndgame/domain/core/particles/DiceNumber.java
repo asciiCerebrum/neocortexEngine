@@ -42,6 +42,9 @@ public class DiceNumber extends LongParticle {
 
     @Override
     public final boolean equals(final Object o) {
+        if (!(o instanceof DiceNumber)) {
+            return false;
+        }
         return this.equalsHelper(o);
     }
 

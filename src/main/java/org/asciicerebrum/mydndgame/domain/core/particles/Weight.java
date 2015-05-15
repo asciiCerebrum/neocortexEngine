@@ -24,6 +24,9 @@ public class Weight extends LongParticle {
 
     @Override
     public final boolean equals(final Object o) {
+        if (!(o instanceof Weight)) {
+            return false;
+        }
         return this.equalsHelper(o);
     }
 

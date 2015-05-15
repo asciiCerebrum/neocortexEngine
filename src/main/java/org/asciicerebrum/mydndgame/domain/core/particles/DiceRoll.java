@@ -72,6 +72,9 @@ public class DiceRoll extends LongParticle {
 
     @Override
     public final boolean equals(final Object o) {
+        if (!(o instanceof DiceRoll)) {
+            return false;
+        }
         return this.equalsHelper(o);
     }
 

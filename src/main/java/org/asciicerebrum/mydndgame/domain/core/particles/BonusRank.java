@@ -46,6 +46,9 @@ public class BonusRank extends LongParticle implements Comparable<BonusRank> {
 
     @Override
     public final boolean equals(final Object o) {
+        if (!(o instanceof BonusRank)) {
+            return false;
+        }
         return this.equalsHelper(o);
     }
 

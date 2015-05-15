@@ -151,6 +151,9 @@ public class AdvancementNumber extends LongParticle {
 
     @Override
     public final boolean equals(final Object o) {
+        if (!(o instanceof AdvancementNumber)) {
+            return false;
+        }
         return this.equalsHelper(o);
     }
 

@@ -24,6 +24,9 @@ public class DiceConstant extends LongParticle {
 
     @Override
     public final boolean equals(final Object o) {
+        if (!(o instanceof DiceConstant)) {
+            return false;
+        }
         return this.equalsHelper(o);
     }
 

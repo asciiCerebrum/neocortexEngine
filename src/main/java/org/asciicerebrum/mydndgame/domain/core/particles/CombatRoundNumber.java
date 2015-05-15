@@ -50,6 +50,9 @@ public final class CombatRoundNumber extends LongParticle
 
     @Override
     public boolean equals(final Object o) {
+        if (!(o instanceof CombatRoundNumber)) {
+            return false;
+        }
         return this.equalsHelper(o);
     }
 

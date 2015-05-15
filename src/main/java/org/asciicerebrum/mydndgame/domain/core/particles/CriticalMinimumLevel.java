@@ -24,6 +24,9 @@ public class CriticalMinimumLevel extends LongParticle {
 
     @Override
     public final boolean equals(final Object o) {
+        if (!(o instanceof CriticalMinimumLevel)) {
+            return false;
+        }
         return this.equalsHelper(o);
     }
 
