@@ -162,7 +162,7 @@ public class SingleAttackWorkflow implements IWorkflow {
         // when you are here you have hit the enemy!!!
         // it could be critical
         final Boolean isThreat
-                = atkRollResult.getRollResult()
+                = atkRollResult.getDiceRoll()
                 .greaterThanOrEqualTo(sourceCritMinLvl);
 
         Boolean isCritical = false;
@@ -192,9 +192,9 @@ public class SingleAttackWorkflow implements IWorkflow {
      */
     final boolean isHit(final RollResult rollResult,
             final ArmorClass targetAc) {
-        return rollResult.getRollResult().greaterThan(this.getAutoFailureRoll())
+        return rollResult.getDiceRoll().greaterThan(this.getAutoFailureRoll())
                 && (rollResult.calcTotalResult().greaterThanOrEqualTo(targetAc)
-                || rollResult.getRollResult()
+                || rollResult.getDiceRoll()
                 .greaterThanOrEqualTo(this.getAutoSuccessRoll()));
     }
 

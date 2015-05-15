@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.mechanics.managers;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
 
@@ -14,7 +15,7 @@ public class PredestinedDiceRollManager implements DiceRollManager {
      * Static stack that can be manipulated from the outside. This is useful for
      * testing purposes.
      */
-    public static final Stack<Long> RESULT_STACK = new Stack<Long>();
+    public static final Deque<Long> RESULT_STACK = new ArrayDeque<Long>();
 
     @Override
     public final DiceRoll rollDice(final DiceAction diceAction) {

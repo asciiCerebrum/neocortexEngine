@@ -7,6 +7,13 @@ package org.asciicerebrum.mydndgame.domain.core.particles;
 public class DiceNumber extends LongParticle {
 
     /**
+     * Creates a dice number instance from a long primitive with default value.
+     *
+     */
+    public DiceNumber() {
+    }
+
+    /**
      * Creates a dice number instance from a long primitive.
      *
      * @param longValue the long to create the dice number from.
@@ -31,13 +38,6 @@ public class DiceNumber extends LongParticle {
      */
     public final void setValue(final String longString) {
         super.setValue(Long.parseLong(longString));
-    }
-
-    /**
-     * Creates a dice number instance from a long primitive with default value.
-     *
-     */
-    public DiceNumber() {
     }
 
     @Override

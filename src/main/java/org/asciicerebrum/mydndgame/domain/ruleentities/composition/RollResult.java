@@ -12,7 +12,7 @@ public class RollResult {
     /**
      * The dice roll of the roll result.
      */
-    private DiceRoll rollResult;
+    private DiceRoll diceRoll;
 
     /**
      * The corresponding bonus value combined to the dice roll.
@@ -22,12 +22,12 @@ public class RollResult {
     /**
      * Creates a roll result instance from the contained attributes.
      *
-     * @param rollResultInput the dice roll.
+     * @param diceRollInput the dice roll.
      * @param bonusValueInput the bonus value.
      */
-    public RollResult(final DiceRoll rollResultInput,
+    public RollResult(final DiceRoll diceRollInput,
             final BonusValue bonusValueInput) {
-        this.rollResult = rollResultInput;
+        this.diceRoll = diceRollInput;
         this.bonusValue = bonusValueInput;
     }
 
@@ -49,21 +49,21 @@ public class RollResult {
      * @return the totalResult
      */
     public final DiceRoll calcTotalResult() {
-        return this.rollResult.add(this.bonusValue);
+        return this.diceRoll.add(this.bonusValue);
     }
 
     /**
      * @return the rollResult
      */
-    public final DiceRoll getRollResult() {
-        return rollResult;
+    public final DiceRoll getDiceRoll() {
+        return this.diceRoll;
     }
 
     /**
-     * @param rollResultInput the rollResult to set
+     * @param diceRollInput the rollResult to set
      */
-    public final void setRollResult(final DiceRoll rollResultInput) {
-        this.rollResult = rollResultInput;
+    public final void setDiceRoll(final DiceRoll diceRollInput) {
+        this.diceRoll = diceRollInput;
     }
 
 }
