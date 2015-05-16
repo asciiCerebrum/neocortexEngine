@@ -7,6 +7,22 @@ package org.asciicerebrum.mydndgame.domain.core.particles;
 public class ArmorClass extends LongParticle {
 
     /**
+     * Constructs the ac from a default value.
+     *
+     */
+    public ArmorClass() {
+    }
+
+    /**
+     * Constructs the ac from a long.
+     *
+     * @param acLong the ac as long.
+     */
+    public ArmorClass(final long acLong) {
+        this.setValue(acLong);
+    }
+
+    /**
      * Modifies the armor class by adding the given bonus value. Returns itself.
      *
      * @param bonusValue the bonus value to add to the armor class.
