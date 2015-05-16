@@ -14,6 +14,7 @@ import org.asciicerebrum.mydndgame.domain.game.DndCharacters;
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
 import org.asciicerebrum.mydndgame.domain.ruleentities.ConditionType;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
+import org.asciicerebrum.mydndgame.domain.ruleentities.composition.Conditions;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.RollResult;
 import org.asciicerebrum.mydndgame.mechanics.managers.RollResultManager;
 import org.asciicerebrum.mydndgame.services.application.ConditionApplicationService;
@@ -31,6 +32,8 @@ import org.junit.Test;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -233,5 +236,55 @@ public class InitializeCombatRoundWorkflowTest {
                         campaign);
 
         assertTrue(dndCharacters.hasEntries());
+    }
+
+    @Test
+    public void applyFlatFootedTest() {
+        final CombatRound combatRound = new CombatRound();
+
+        combatRound.addParticipant(new UniqueId("A"),
+                new CombatRoundPosition("020"));
+        combatRound.addParticipant(new UniqueId("B"),
+                new CombatRoundPosition("010"));
+
+        final DndCharacter characterA = new DndCharacter();
+        characterA.setUniqueId(new UniqueId("A"));
+        final DndCharacter characterB = new DndCharacter();
+        characterB.setUniqueId(new UniqueId("B"));
+
+        this.entityPoolService.registerUniqueEntity(characterA);
+        this.entityPoolService.registerUniqueEntity(characterB);
+
+        this.wf.applyFlatFooted(combatRound);
+
+        // only the second character becomes flat footed!
+        verify(this.conditionService, times(1)).applyCondition(
+                eq(characterB), (Conditions) anyObject()
+        );
+    }
+
+    @Test
+    public void applyFlatFootedFirstCharacterTest() {
+        final CombatRound combatRound = new CombatRound();
+
+        combatRound.addParticipant(new UniqueId("A"),
+                new CombatRoundPosition("020"));
+        combatRound.addParticipant(new UniqueId("B"),
+                new CombatRoundPosition("010"));
+
+        final DndCharacter characterA = new DndCharacter();
+        characterA.setUniqueId(new UniqueId("A"));
+        final DndCharacter characterB = new DndCharacter();
+        characterB.setUniqueId(new UniqueId("B"));
+
+        this.entityPoolService.registerUniqueEntity(characterA);
+        this.entityPoolService.registerUniqueEntity(characterB);
+
+        this.wf.applyFlatFooted(combatRound);
+
+        // only the second character becomes flat footed!
+        verify(this.conditionService, times(0)).applyCondition(
+                eq(characterA), (Conditions) anyObject()
+        );
     }
 }

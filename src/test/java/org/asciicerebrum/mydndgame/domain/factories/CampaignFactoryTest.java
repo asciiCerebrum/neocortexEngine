@@ -1,9 +1,11 @@
 package org.asciicerebrum.mydndgame.domain.factories;
 
+import org.asciicerebrum.mydndgame.domain.events.RollHistoryEntry;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import org.asciicerebrum.mydndgame.domain.setup.CampaignSetup;
 import org.asciicerebrum.mydndgame.domain.setup.CombatRoundSetup;
+import org.asciicerebrum.mydndgame.domain.setup.RollHistoryEntrySetup;
 import org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -31,6 +33,8 @@ public class CampaignFactoryTest {
 
     private EntityFactory<CombatRound> combatRoundFactory;
 
+    private EntityFactory<RollHistoryEntry> rollHistoryEntryFactory;
+
     public CampaignFactoryTest() {
     }
 
@@ -49,8 +53,10 @@ public class CampaignFactoryTest {
         this.applicationContext = mock(ApplicationContext.class,
                 withSettings()
                 .extraInterfaces(ConfigurableApplicationContext.class));
+        this.rollHistoryEntryFactory = mock(EntityFactory.class);
 
         this.factory.setCombatRoundFactory(this.combatRoundFactory);
+        this.factory.setRollHistoryEntryFactory(this.rollHistoryEntryFactory);
 
         ApplicationContextProvider ctxProvider
                 = new ApplicationContextProvider();
@@ -87,6 +93,24 @@ public class CampaignFactoryTest {
         final Campaign result = this.factory.newEntity(setup);
 
         assertEquals(combatRound, result.getCombatRound());
+    }
+
+    @Test
+    public void newEntityWithRollHistoryEntryTest() {
+        final CampaignSetup setup = new CampaignSetup();
+
+        final RollHistoryEntrySetup rollHistoryEntrySetup
+                = new RollHistoryEntrySetup();
+        setup.addRollHistoryEntry(rollHistoryEntrySetup);
+        setup.addRollHistoryEntry(rollHistoryEntrySetup);
+        final RollHistoryEntry entry = new RollHistoryEntry();
+
+        when(this.rollHistoryEntryFactory.newEntity(eq(rollHistoryEntrySetup)))
+                .thenReturn(entry);
+
+        final Campaign result = this.factory.newEntity(setup);
+
+        assertEquals(entry, result.getRollHistory().iterator().next());
     }
 
 }
