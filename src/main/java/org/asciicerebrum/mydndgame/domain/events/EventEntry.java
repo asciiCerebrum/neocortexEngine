@@ -7,12 +7,12 @@ import org.asciicerebrum.mydndgame.domain.core.particles.UniqueIds;
 import org.asciicerebrum.mydndgame.domain.mechanics.WorldDate;
 
 /**
- * Examples of Events:<br />
+ * Examples of Events:<br>
  *
- * Harsk gains condition flat-footed.<br />
- * Valeros loses condition flat-footed.<br />
- * Merisiel attacks Valeros with rapier.<br />
- * Seoni casts Sleep on goblin A.<br />
+ * Harsk gains condition flat-footed.<br>
+ * Valeros loses condition flat-footed.<br>
+ * Merisiel attacks Valeros with rapier.<br>
+ * Seoni casts Sleep on goblin A.<br>
  *
  * @author species8472
  */

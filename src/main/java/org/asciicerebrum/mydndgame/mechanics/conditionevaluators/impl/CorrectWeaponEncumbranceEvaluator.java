@@ -27,8 +27,6 @@ public class CorrectWeaponEncumbranceEvaluator implements ConditionEvaluator {
     /**
      * {@inheritDoc} Checks if the given weapon's encumbrance corresponds to the
      * one from the situation context.
-     *
-     * @return
      */
     @Override
     public final boolean evaluate(final ICharacter iCharacter,

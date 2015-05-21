@@ -23,14 +23,14 @@ public interface AcCalculationService {
      * 1. Flat-footed: A character who has not yet acted during a combat is
      * flat-footed, not yet reacting normally to the situation. A flat-footed
      * character loses his Dexterity bonus to AC (if any) and cannot make
-     * attacks of opportunity.<br />
-     * 2. Touch attack<br />
-     * 3. Wearing a shield and armor (both mwk)<br />
-     * 3a. Armor that can also be used as a weapon<br />
-     * 3b. Armor that is not worn/wielded does not contribute to the ac.<br />
-     * 4. Feat Dodge: against a designated opponent --> this is only relevant
-     * the real current AC method.<br />
-     * 5. Armor proficiency.<br />
+     * attacks of opportunity.<br>
+     * 2. Touch attack<br>
+     * 3. Wearing a shield and armor (both mwk)<br>
+     * 3a. Armor that can also be used as a weapon<br>
+     * 3b. Armor that is not worn/wielded does not contribute to the ac.<br>
+     * 4. Feat Dodge: against a designated opponent -- this is only relevant
+     * the real current AC method.<br>
+     * 5. Armor proficiency.<br>
      * 6. Max Dexterity Bonus limit.
      *
      * This method is for statistical purpose only. What would be the ideal AC

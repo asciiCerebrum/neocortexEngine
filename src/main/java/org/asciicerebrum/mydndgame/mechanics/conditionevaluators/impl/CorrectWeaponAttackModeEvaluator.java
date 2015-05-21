@@ -27,8 +27,6 @@ public class CorrectWeaponAttackModeEvaluator implements ConditionEvaluator {
 
     /**
      * {@inheritDoc} Checks if the given weapon is used in its destined way.
-     *
-     * @return
      */
     @Override
     public final boolean evaluate(final ICharacter iCharacter,

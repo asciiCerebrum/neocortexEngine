@@ -27,8 +27,6 @@ public class CorrectWeaponTypeEvaluator implements ConditionEvaluator {
     /**
      * {@inheritDoc} Checks if the given weapontype is included in the current
      * weapon's list of types.
-     *
-     * @return
      */
     @Override
     public final boolean evaluate(final ICharacter iCharacter,

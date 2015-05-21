@@ -29,8 +29,6 @@ public class CorrectProficiencyEvaluator implements ConditionEvaluator {
      * proficiency corresponds to the one from the situation context. The
      * proficiency can be compared with equals as it is a singleton (equality by
      * reference).
-     *
-     * @return
      */
     @Override
     public final boolean evaluate(final ICharacter iCharacter,

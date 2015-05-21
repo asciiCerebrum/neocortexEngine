@@ -36,7 +36,6 @@ public class CorrectAttackModeEvaluator implements ConditionEvaluator {
      * {@inheritDoc} Checks if the character's current attack mode equals the
      * one given here. This is independent of the weapon itself.
      *
-     * @return
      */
     @Override
     public final boolean evaluate(final ICharacter iCharacter,
