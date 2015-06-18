@@ -41,19 +41,19 @@ public class DefaultCombatRoundManager implements CombatRoundManager {
         preEvent.setWhom(participants.getUniqueIds());
         this.getEventTriggerService().trigger(preEvent);
 
-        final Interaction interaction = new Interaction(campaign);
+        final Interaction interaction = new Interaction();
         interaction.setTargetCharacters(participants);
 
         if (this.initializeCombatRoundWorkflow != null) {
-            this.initializeCombatRoundWorkflow.runWorkflow(interaction);
-            campaign.setCombatRound(interaction.getCombatRound());
+            this.initializeCombatRoundWorkflow.runWorkflow(interaction,
+                    campaign);
         }
 
         // this workflow can also be not setup!
         if (this.conditionExpirationWorkflow != null) {
             // first participant in row must get rid of the flat footed
             // condition.
-            this.conditionExpirationWorkflow.runWorkflow(interaction);
+            this.conditionExpirationWorkflow.runWorkflow(interaction, campaign);
         }
 
         if (campaign.getCombatRound() != null) {
@@ -79,7 +79,7 @@ public class DefaultCombatRoundManager implements CombatRoundManager {
                 = interaction.getInteractionType().getWorkflows().iterator();
         while (wfIterator.hasNext()) {
             final IWorkflow workflow = wfIterator.next();
-            workflow.runWorkflow(interaction);
+            workflow.runWorkflow(interaction, campaign);
         }
     }
 

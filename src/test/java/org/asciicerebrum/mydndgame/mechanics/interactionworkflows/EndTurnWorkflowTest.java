@@ -50,25 +50,27 @@ public class EndTurnWorkflowTest {
 
     @Test
     public void runWorkflowNormalTest() {
-        final Interaction interaction = new Interaction(new Campaign());
+        final Interaction interaction = new Interaction();
+        final Campaign campaign = new Campaign();
         final CombatRound combatRound = new CombatRound();
-        interaction.setCombatRound(combatRound);
+        campaign.setCombatRound(combatRound);
         combatRound.addParticipant(new UniqueId("character"),
                 new CombatRoundPosition("1"));
 
-        this.endFlow.runWorkflow(interaction);
-        verify(this.condExpFlow, times(1)).runWorkflow(interaction);
+        this.endFlow.runWorkflow(interaction, campaign);
+        verify(this.condExpFlow, times(1)).runWorkflow(interaction, campaign);
     }
 
     @Test
     public void runWorkflowNoCondExpTest() {
-        final Interaction interaction = new Interaction(new Campaign());
+        final Interaction interaction = new Interaction();
+        final Campaign campaign = new Campaign();
         final CombatRound combatRound = new CombatRound();
-        interaction.setCombatRound(combatRound);
+        campaign.setCombatRound(combatRound);
         combatRound.addParticipant(new UniqueId("character"),
                 new CombatRoundPosition("1"));
         this.endFlow.setConditionExpirationWorkflow(null);
-        this.endFlow.runWorkflow(interaction);
-        verify(this.condExpFlow, times(0)).runWorkflow(interaction);
+        this.endFlow.runWorkflow(interaction, campaign);
+        verify(this.condExpFlow, times(0)).runWorkflow(interaction, campaign);
     }
 }

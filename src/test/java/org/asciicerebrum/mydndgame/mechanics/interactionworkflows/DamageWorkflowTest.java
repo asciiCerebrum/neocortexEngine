@@ -101,32 +101,34 @@ public class DamageWorkflowTest {
 
     @Test
     public void runWorkflowNoWeaponTest() {
-        final Interaction interaction = new Interaction(new Campaign());
+        final Interaction interaction = new Interaction();
+        final Campaign campaign = new Campaign();
 
         when(this.sitConService.getActiveItem((DndCharacter) anyObject()))
                 .thenReturn(new Armor());
 
-        this.damageWorkflow.runWorkflow(interaction);
+        this.damageWorkflow.runWorkflow(interaction, campaign);
         verify(this.damageAppService, times(0)).applyDamage(
                 (DndCharacter) anyObject(), (Damages) anyObject());
     }
 
     @Test
     public void runWorkflowWithWeaponTest() {
-        final Interaction interaction = new Interaction(new Campaign());
+        final Interaction interaction = new Interaction();
+        final Campaign campaign = new Campaign();
         final DndCharacters targetCharacters = new DndCharacters();
         final DndCharacter firstTarget = new DndCharacter();
         final CombatRound combatRound = new CombatRound();
         targetCharacters.addDndCharacter(firstTarget);
         interaction.setTargetCharacters(targetCharacters);
-        interaction.setCombatRound(combatRound);
+        campaign.setCombatRound(combatRound);
         combatRound.addParticipant(new UniqueId("participant"),
                 new CombatRoundPosition(""));
 
         when(this.sitConService.getActiveItem((DndCharacter) anyObject()))
                 .thenReturn(new Weapon());
 
-        this.damageWorkflow.runWorkflow(interaction);
+        this.damageWorkflow.runWorkflow(interaction, campaign);
         verify(this.damageAppService, times(1)).applyDamage(
                 (DndCharacter) anyObject(), (Damages) anyObject());
     }

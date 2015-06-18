@@ -1,5 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.mechanics.workflow;
 
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
+
 /**
  *
  * @author species8472
@@ -11,6 +13,7 @@ public interface IWorkflow {
      * this is the first invocation in a row of workflows.
      *
      * @param interaction The interaction with needed workflow parameters.
+     * @param campaign The campaign the interaction takes place in.
      */
-    void runWorkflow(Interaction interaction);
+    void runWorkflow(Interaction interaction, Campaign campaign);
 }

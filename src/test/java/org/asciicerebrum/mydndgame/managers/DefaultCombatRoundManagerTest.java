@@ -20,6 +20,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -77,7 +78,7 @@ public class DefaultCombatRoundManagerTest {
         this.manager.initiateCombatRound(campaign, dndCharacters);
 
         verify(this.conditionExpirationWorkflow, times(1)).runWorkflow(
-                (Interaction) anyObject());
+                (Interaction) anyObject(), eq(campaign));
     }
 
     @Test
@@ -90,7 +91,7 @@ public class DefaultCombatRoundManagerTest {
         this.manager.initiateCombatRound(campaign, dndCharacters);
 
         verify(this.conditionExpirationWorkflow, times(0)).runWorkflow(
-                (Interaction) anyObject());
+                (Interaction) anyObject(), eq(campaign));
     }
 
     @Test
@@ -102,7 +103,7 @@ public class DefaultCombatRoundManagerTest {
         this.manager.initiateCombatRound(campaign, dndCharacters);
 
         verify(this.initializeCombatRoundWorkflow, times(1)).runWorkflow(
-                (Interaction) anyObject());
+                (Interaction) anyObject(), eq(campaign));
     }
 
     @Test
@@ -115,13 +116,13 @@ public class DefaultCombatRoundManagerTest {
         this.manager.initiateCombatRound(campaign, dndCharacters);
 
         verify(this.initializeCombatRoundWorkflow, times(0)).runWorkflow(
-                (Interaction) anyObject());
+                (Interaction) anyObject(), eq(campaign));
     }
 
     @Test
     public void executeInteractionNormalTest() {
         final Campaign campaign = new Campaign();
-        final Interaction interaction = new Interaction(campaign);
+        final Interaction interaction = new Interaction();
         final InteractionType interactionType = new InteractionType();
         final CombatRound combatRound = new CombatRound();
         final DndCharacter dndCharacterA = new DndCharacter();
@@ -151,13 +152,13 @@ public class DefaultCombatRoundManagerTest {
 
         this.manager.executeInteraction(campaign, interaction);
 
-        verify(flowA, times(2)).runWorkflow(interaction);
+        verify(flowA, times(2)).runWorkflow(interaction, campaign);
     }
 
     @Test
     public void executeInteractionIncorrectParticipantTest() {
         final Campaign campaign = new Campaign();
-        final Interaction interaction = new Interaction(campaign);
+        final Interaction interaction = new Interaction();
         final InteractionType interactionType = new InteractionType();
         final CombatRound combatRound = new CombatRound();
         final DndCharacter dndCharacterA = new DndCharacter();
@@ -187,7 +188,7 @@ public class DefaultCombatRoundManagerTest {
 
         this.manager.executeInteraction(campaign, interaction);
 
-        verify(flowA, times(0)).runWorkflow(interaction);
+        verify(flowA, times(0)).runWorkflow(interaction, campaign);
     }
 
 }

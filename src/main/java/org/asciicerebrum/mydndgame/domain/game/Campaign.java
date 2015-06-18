@@ -10,7 +10,8 @@ import org.asciicerebrum.mydndgame.domain.events.RollHistoryEntry;
 public class Campaign {
 
     /**
-     * The most current combat round currently happening in the campaign.
+     * The most current combat round encounter currently happening in the
+     * campaign.
      */
     private CombatRound combatRound;
 

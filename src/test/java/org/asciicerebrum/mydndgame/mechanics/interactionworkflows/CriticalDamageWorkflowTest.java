@@ -64,20 +64,23 @@ public class CriticalDamageWorkflowTest {
 
     @Test
     public void runWorkflowNoWeaponTest() {
-        final Interaction interaction = new Interaction(new Campaign());
+        final Interaction interaction = new Interaction();
+        final Campaign campaign = new Campaign();
         final DndCharacter triggerCharacter = new DndCharacter();
         interaction.setTriggeringCharacter(triggerCharacter);
 
         when(this.sitConService.getActiveItem(triggerCharacter))
                 .thenReturn(new Armor());
 
-        this.workflow.runWorkflow(interaction);
-        verify(this.damageWorkflow, times(0)).runWorkflow(interaction);
+        this.workflow.runWorkflow(interaction, campaign);
+        verify(this.damageWorkflow, times(0)).runWorkflow(interaction,
+                campaign);
     }
 
     @Test
     public void runWorkflowNormalTest() {
-        final Interaction interaction = new Interaction(new Campaign());
+        final Interaction interaction = new Interaction();
+        final Campaign campaign = new Campaign();
         final DndCharacter triggerCharacter = new DndCharacter();
         final CriticalFactor critFactor = new CriticalFactor(3L);
         interaction.setTriggeringCharacter(triggerCharacter);
@@ -87,8 +90,9 @@ public class CriticalDamageWorkflowTest {
         when(this.weaponServiceFacade.getCriticalFactor((Weapon) anyObject(),
                 eq(triggerCharacter))).thenReturn(critFactor);
 
-        this.workflow.runWorkflow(interaction);
-        verify(this.damageWorkflow, times(3)).runWorkflow(interaction);
+        this.workflow.runWorkflow(interaction, campaign);
+        verify(this.damageWorkflow, times(3)).runWorkflow(interaction,
+                campaign);
     }
 
 }

@@ -1,9 +1,18 @@
 package org.asciicerebrum.mydndgame.integrationtests.interactions;
 
+import javax.naming.OperationNotSupportedException;
+import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.factories.ArmorFactory;
 import org.asciicerebrum.mydndgame.domain.factories.CampaignFactory;
 import org.asciicerebrum.mydndgame.domain.factories.DndCharacterFactory;
 import org.asciicerebrum.mydndgame.domain.factories.WeaponFactory;
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
+import org.asciicerebrum.mydndgame.domain.game.DndCharacters;
+import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
+import org.asciicerebrum.mydndgame.domain.mechanics.workflow.InteractionType;
+import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
 import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.HarskDwarfFighter2;
 import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.MerisielElfRogue1;
 import org.asciicerebrum.mydndgame.integrationtests.pool.dndCharacters.ValerosHumanFighter1;
@@ -22,9 +31,12 @@ import org.asciicerebrum.mydndgame.mechanics.managers.RollResultManager;
 import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -99,7 +111,41 @@ public class AttackAndDamageWorkflowIntegrationTest {
                 .setDiceRollManager(this.mockDiceRollManager);
 
     }
-    
-    
-    
+
+    @Test
+    public void merisielMeleeAttacksValerosTest()
+            throws OperationNotSupportedException {
+        final Campaign campaign = this.campaignFactory.newEntity();
+        final DndCharacters participants = new DndCharacters();
+
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("harsk")));
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("merisiel")));
+        participants.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("valeros")));
+
+        when(this.mockDiceRollManager.rollDice((DiceAction) anyObject()))
+                .thenReturn(new DiceRoll(5L), new DiceRoll(20L),
+                        new DiceRoll(8L));
+
+        this.combatRoundManager.initiateCombatRound(campaign, participants);
+
+        //TODO put new roll results into the mocked dice roll manager!
+        final Interaction interaction = new Interaction();
+        interaction.setTriggeringCharacter(
+                (DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("merisiel")));
+        final DndCharacters targetCharacters = new DndCharacters();
+        targetCharacters.addDndCharacter((DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("valeros")));
+        interaction.setTargetCharacters(targetCharacters);
+        final InteractionType interactionType
+                = this.context.getBean("meleeSingleAttack",
+                        InteractionType.class);
+        interaction.setInteractionType(interactionType);
+
+        this.combatRoundManager.executeInteraction(campaign, interaction);
+    }
+
 }

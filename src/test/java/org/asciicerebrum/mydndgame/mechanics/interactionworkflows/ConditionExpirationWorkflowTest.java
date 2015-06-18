@@ -60,7 +60,8 @@ public class ConditionExpirationWorkflowTest {
 
     @Test
     public void runWorkflowTest() {
-        final Interaction interaction = new Interaction(new Campaign());
+        final Interaction interaction = new Interaction();
+        final Campaign campaign = new Campaign();
         final DndCharacter characterA = new DndCharacter();
         characterA.setUniqueId(new UniqueId("characterA"));
         final DndCharacter characterB = new DndCharacter();
@@ -70,12 +71,11 @@ public class ConditionExpirationWorkflowTest {
                 new CombatRoundPosition("0"));
         combatRound.addParticipant(characterB.getUniqueId(),
                 new CombatRoundPosition("1"));
-        interaction.setCombatRound(combatRound);
         
         when(this.entityPoolService.getEntityById((UniqueId) anyObject()))
                 .thenReturn(new DndCharacter());
 
-        this.workflow.runWorkflow(interaction);
+        this.workflow.runWorkflow(interaction, campaign);
         verify(this.conditionApplicationService, times(2))
                 .removeExpiredConditions((DndCharacter) anyObject(),
                         (WorldDate) anyObject());

@@ -1,7 +1,5 @@
 package org.asciicerebrum.mydndgame.domain.mechanics.workflow;
 
-import org.asciicerebrum.mydndgame.domain.game.Campaign;
-import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacters;
 
@@ -27,25 +25,6 @@ public class Interaction {
     private DndCharacters targetCharacters;
 
     /**
-     * Holds meta information about the combat encounter.
-     */
-    private CombatRound combatRound;
-
-    /**
-     * The campaign this interaction takes place in.
-     */
-    private final Campaign campaign;
-
-    /**
-     * The campaign must be set during the construction.
-     *
-     * @param campaignInput the campaign of this interaction.
-     */
-    public Interaction(final Campaign campaignInput) {
-        this.campaign = campaignInput;
-    }
-
-    /**
      * @return the interaction type.
      */
     public final InteractionType getInteractionType() {
@@ -58,20 +37,6 @@ public class Interaction {
     public final void setInteractionType(
             final InteractionType interactionTypeInput) {
         this.interactionType = interactionTypeInput;
-    }
-
-    /**
-     * @return the combatRound
-     */
-    public final CombatRound getCombatRound() {
-        return combatRound;
-    }
-
-    /**
-     * @param combatRoundInput the combatRound to set
-     */
-    public final void setCombatRound(final CombatRound combatRoundInput) {
-        this.combatRound = combatRoundInput;
     }
 
     /**
@@ -109,13 +74,6 @@ public class Interaction {
      */
     public final DndCharacter getFirstTargetCharacter() {
         return this.getTargetCharacters().iterator().next();
-    }
-
-    /**
-     * @return the campaign
-     */
-    public final Campaign getCampaign() {
-        return campaign;
     }
 
 }

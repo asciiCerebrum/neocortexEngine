@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
 
@@ -19,14 +20,14 @@ public class EndTurnWorkflow implements IWorkflow {
      */
     @Override
     public final void runWorkflow(
-            final Interaction interaction) {
+            final Interaction interaction, final Campaign campaign) {
 
-        interaction.getCombatRound().moveToNextPosition();
+        campaign.getCombatRound().moveToNextPosition();
 
         if (this.conditionExpirationWorkflow != null) {
             // run workflow conditionExpirationWorkflow
             this.conditionExpirationWorkflow.runWorkflow(
-                    interaction);
+                    interaction, campaign);
         }
     }
 

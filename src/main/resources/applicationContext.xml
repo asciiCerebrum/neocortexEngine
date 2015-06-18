@@ -36,5 +36,7 @@
     <import resource="applicationContext-factories.xml" />
     <!-- dynamic value providers -->
     <import resource="applicationContext-dynamicValueProvider.xml" />
+    <!-- interaction types -->
+    <import resource="applicationContext-interactionTypes.xml"/>
             
 </beans>

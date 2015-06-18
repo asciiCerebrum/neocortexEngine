@@ -114,11 +114,13 @@ public class SingleAttackWorkflowTest {
         final CriticalMinimumLevel critMinLvl = new CriticalMinimumLevel(18L);
         final RollResult rollResult = new RollResult(atkRollResultRaw,
                 sourceAtkBonus);
-        final Interaction interaction = new Interaction(new Campaign());
+        final Interaction interaction = new Interaction();
+        final Campaign campaign = new Campaign();
         final Weapon weapon = new Weapon();
 
         final boolean isCritical = this.singleAttackWf.determineCritical(
-                rollResult, targetAc, critMinLvl, weapon, interaction);
+                rollResult, targetAc, critMinLvl, weapon, interaction,
+                campaign);
         assertFalse(isCritical);
     }
 
@@ -129,8 +131,9 @@ public class SingleAttackWorkflowTest {
         final ArmorClass targetAc = new ArmorClass();
         targetAc.setValue(10L);
         final CriticalMinimumLevel critMinLvl = new CriticalMinimumLevel(18L);
-        final Interaction interaction = new Interaction(new Campaign());
-        interaction.setCombatRound(new CombatRound());
+        final Interaction interaction = new Interaction();
+        final Campaign campaign = new Campaign();
+        campaign.setCombatRound(new CombatRound());
         final Weapon weapon = new Weapon();
 
         final RollResult atkResult
@@ -148,7 +151,7 @@ public class SingleAttackWorkflowTest {
                 .thenReturn(result);
 
         final boolean isCritical = this.singleAttackWf.determineCritical(
-                atkResult, targetAc, critMinLvl, weapon, interaction);
+                atkResult, targetAc, critMinLvl, weapon, interaction, campaign);
         assertFalse(isCritical);
     }
 
@@ -159,9 +162,10 @@ public class SingleAttackWorkflowTest {
         final ArmorClass targetAc = new ArmorClass();
         targetAc.setValue(10L);
         final CriticalMinimumLevel critMinLvl = new CriticalMinimumLevel(18L);
-        final Interaction interaction = new Interaction(new Campaign());
+        final Interaction interaction = new Interaction();
+        final Campaign campaign = new Campaign();
         final Weapon weapon = new Weapon();
-        interaction.setCombatRound(new CombatRound());
+        campaign.setCombatRound(new CombatRound());
 
         final RollResult atkResult
                 = new RollResult(atkRollResultRaw, sourceAtkBonus);
@@ -179,7 +183,7 @@ public class SingleAttackWorkflowTest {
                 .thenReturn(result);
 
         final boolean isCritical = this.singleAttackWf.determineCritical(
-                atkResult, targetAc, critMinLvl, weapon, interaction);
+                atkResult, targetAc, critMinLvl, weapon, interaction, campaign);
         assertTrue(isCritical);
     }
 
@@ -233,34 +237,40 @@ public class SingleAttackWorkflowTest {
 
     @Test
     public void terminateCriticalWorkflowTest() {
-        final Interaction interaction = new Interaction(new Campaign());
+        final Interaction interaction = new Interaction();
+        final Campaign campaign = new Campaign();
 
-        this.singleAttackWf.terminate(true, interaction);
-        verify(this.criticalDamageWorkflow).runWorkflow(interaction);
+        this.singleAttackWf.terminate(true, interaction, campaign);
+        verify(this.criticalDamageWorkflow).runWorkflow(interaction, campaign);
     }
 
     @Test
     public void terminateNormalWorkflowTest() {
-        final Interaction interaction = new Interaction(new Campaign());
+        final Interaction interaction = new Interaction();
+        final Campaign campaign = new Campaign();
 
-        this.singleAttackWf.terminate(false, interaction);
-        verify(this.damageWorkflow).runWorkflow(interaction);
+        this.singleAttackWf.terminate(false, interaction, campaign);
+        verify(this.damageWorkflow).runWorkflow(interaction, campaign);
     }
 
     @Test
     public void terminateCriticalWorkflowNoNormalTest() {
-        final Interaction interaction = new Interaction(new Campaign());
+        final Interaction interaction = new Interaction();
+        final Campaign campaign = new Campaign();
 
-        this.singleAttackWf.terminate(true, interaction);
-        verify(this.damageWorkflow, times(0)).runWorkflow(interaction);
+        this.singleAttackWf.terminate(true, interaction, campaign);
+        verify(this.damageWorkflow, times(0)).runWorkflow(interaction,
+                campaign);
     }
 
     @Test
     public void terminateNormalWorkflowNoCriticalTest() {
-        final Interaction interaction = new Interaction(new Campaign());
+        final Interaction interaction = new Interaction();
+        final Campaign campaign = new Campaign();
 
-        this.singleAttackWf.terminate(false, interaction);
-        verify(this.criticalDamageWorkflow, times(0)).runWorkflow(interaction);
+        this.singleAttackWf.terminate(false, interaction, campaign);
+        verify(this.criticalDamageWorkflow, times(0)).runWorkflow(interaction,
+                campaign);
     }
 
 }

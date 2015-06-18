@@ -3,6 +3,7 @@ package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 import java.util.Iterator;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.CombatRound;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
@@ -30,9 +31,10 @@ public class ConditionExpirationWorkflow implements IWorkflow {
      * in this new combat round position and unregisters them.
      */
     @Override
-    public final void runWorkflow(final Interaction interaction) {
+    public final void runWorkflow(final Interaction interaction,
+            final Campaign campaign) {
 
-        final CombatRound combatRound = interaction.getCombatRound();
+        final CombatRound combatRound = campaign.getCombatRound();
 
         final Iterator<UniqueId> iterator
                 = combatRound.participantsIterator();

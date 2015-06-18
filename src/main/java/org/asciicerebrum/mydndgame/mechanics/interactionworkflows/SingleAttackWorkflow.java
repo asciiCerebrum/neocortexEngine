@@ -5,6 +5,7 @@ import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
@@ -83,7 +84,8 @@ public class SingleAttackWorkflow implements IWorkflow {
      * {@inheritDoc} Performs an attack on the given target.
      */
     @Override
-    public final void runWorkflow(final Interaction interaction) {
+    public final void runWorkflow(final Interaction interaction,
+            final Campaign campaign) {
 
         final InventoryItem sourceWeapon
                 = this.getSituationContextService().getActiveItem(interaction
@@ -106,8 +108,7 @@ public class SingleAttackWorkflow implements IWorkflow {
                         sourceWeapon,
                         interaction.getTriggeringCharacter(),
                         null,
-                        interaction.getCombatRound().getCurrentDate(),
-                        interaction.getCampaign());
+                        campaign.getCombatRound().getCurrentDate(), campaign);
 
         // single attack always attacks the first of the target characters.
         final ArmorClass targetAc
@@ -123,9 +124,9 @@ public class SingleAttackWorkflow implements IWorkflow {
                         interaction.getTriggeringCharacter());
 
         boolean isCritical = this.determineCritical(atkRollResult, targetAc,
-                critMinLvl, sourceWeapon, interaction);
+                critMinLvl, sourceWeapon, interaction, campaign);
 
-        this.terminate(isCritical, interaction);
+        this.terminate(isCritical, interaction, campaign);
     }
 
     /**
@@ -134,14 +135,15 @@ public class SingleAttackWorkflow implements IWorkflow {
      *
      * @param isCritical if hit was critical.
      * @param interaction the interaction.
+     * @param campaign the campaign.
      */
     final void terminate(final boolean isCritical,
-            final Interaction interaction) {
+            final Interaction interaction, final Campaign campaign) {
         if (isCritical) {
-            this.getCriticalDamageWorkflow().runWorkflow(interaction);
+            this.getCriticalDamageWorkflow().runWorkflow(interaction, campaign);
             return;
         }
-        this.getDamageWorkflow().runWorkflow(interaction);
+        this.getDamageWorkflow().runWorkflow(interaction, campaign);
     }
 
     /**
@@ -152,12 +154,14 @@ public class SingleAttackWorkflow implements IWorkflow {
      * @param sourceCritMinLvl the criticial minimum level for the weapon.
      * @param sourceWeapon the weapon used in the attack.
      * @param interaction the interaction.
+     * @param campaign the campaign.
      * @return the criticallity of the attack.
      */
     final boolean determineCritical(final RollResult atkRollResult,
             final ArmorClass targetAc,
             final CriticalMinimumLevel sourceCritMinLvl,
-            final InventoryItem sourceWeapon, final Interaction interaction) {
+            final InventoryItem sourceWeapon, final Interaction interaction,
+            final Campaign campaign) {
 
         // when you are here you have hit the enemy!!!
         // it could be critical
@@ -174,8 +178,8 @@ public class SingleAttackWorkflow implements IWorkflow {
                             sourceWeapon,
                             interaction.getTriggeringCharacter(),
                             null,
-                            interaction.getCombatRound().getCurrentDate(),
-                            interaction.getCampaign());
+                            campaign.getCombatRound().getCurrentDate(),
+                            campaign);
 
             isCritical = this.isHit(secondAtkRollResult, targetAc);
         }

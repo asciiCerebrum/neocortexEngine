@@ -3,6 +3,7 @@ package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
+import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.damage.Damage;
@@ -55,7 +56,8 @@ public class DamageWorkflow implements IWorkflow {
      * {@inheritDoc} Applies damage on the character.
      */
     @Override
-    public final void runWorkflow(final Interaction interaction) {
+    public final void runWorkflow(final Interaction interaction,
+            final Campaign campaign) {
 
         final InventoryItem sourceWeapon
                 = this.getSituationContextService().getActiveItem(interaction
@@ -79,8 +81,8 @@ public class DamageWorkflow implements IWorkflow {
                         sourceWeapon,
                         interaction.getTriggeringCharacter(),
                         null,
-                        interaction.getCombatRound().getCurrentDate(),
-                        interaction.getCampaign());
+                        campaign.getCombatRound().getCurrentDate(),
+                        campaign);
 
         // consider minimum damage!
         final DiceRoll totalSourceDamage

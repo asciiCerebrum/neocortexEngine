@@ -63,10 +63,10 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
      */
     @Override
     public final void runWorkflow(
-            final Interaction interaction) {
+            final Interaction interaction, final Campaign campaign) {
 
         final CombatRound combatRound = new CombatRound();
-        interaction.setCombatRound(combatRound);
+        campaign.setCombatRound(combatRound);
 
         // roll initiative on each character and save results!
         // Determination of the combat round position:
@@ -84,8 +84,8 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
         // As long as two numbers are the same, a reroll-result is appended
         // until uniqueness is accomplished.
         this.rollInitiative(interaction.getTargetCharacters().iterator(),
-                combatRound, interaction.getCampaign());
-        this.resolveTies(combatRound, interaction.getCampaign());
+                combatRound, campaign);
+        this.resolveTies(combatRound, campaign);
         combatRound.setCurrentDate(null);
 
         this.applyFlatFooted(combatRound);
