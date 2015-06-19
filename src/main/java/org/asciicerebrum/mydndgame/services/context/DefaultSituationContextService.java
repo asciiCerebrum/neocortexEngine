@@ -4,7 +4,6 @@ import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.BooleanParticle;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DamageType;
 import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory;
@@ -16,7 +15,7 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory;
 public class DefaultSituationContextService implements SituationContextService {
 
     @Override
-    public final InventoryItem getActiveItem(
+    public final UniqueId getActiveItemId(
             final DndCharacter dndCharacter) {
 
         return dndCharacter.getStateRegistry()

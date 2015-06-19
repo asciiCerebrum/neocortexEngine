@@ -1,10 +1,10 @@
 package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;
-import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.damage.Damage;
 import org.asciicerebrum.mydndgame.domain.mechanics.damage.Damages;
@@ -13,6 +13,7 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.composition.RollResult;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.mechanics.managers.RollResultManager;
 import org.asciicerebrum.mydndgame.services.application.DamageApplicationService;
+import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.asciicerebrum.mydndgame.services.statistics.DamageCalculationService;
 
@@ -53,15 +54,21 @@ public class DamageWorkflow implements IWorkflow {
     private WeaponServiceFacade weaponServiceFacade;
 
     /**
+     * The entity pool service.
+     */
+    private EntityPoolService entityPoolService;
+
+    /**
      * {@inheritDoc} Applies damage on the character.
      */
     @Override
     public final void runWorkflow(final Interaction interaction,
             final Campaign campaign) {
 
-        final InventoryItem sourceWeapon
-                = this.getSituationContextService().getActiveItem(interaction
-                        .getTriggeringCharacter());
+        final UniqueEntity sourceWeapon
+                = this.getEntityPoolService().getEntityById(
+                        this.getSituationContextService()
+                        .getActiveItemId(interaction.getTriggeringCharacter()));
 
         if (!(sourceWeapon instanceof Weapon)) {
             return;
@@ -196,6 +203,21 @@ public class DamageWorkflow implements IWorkflow {
     public final void setRollResultManager(
             final RollResultManager rollResultManagerInput) {
         this.rollResultManager = rollResultManagerInput;
+    }
+
+    /**
+     * @return the entityPoolService
+     */
+    public final EntityPoolService getEntityPoolService() {
+        return entityPoolService;
+    }
+
+    /**
+     * @param entityPoolServiceInput the entityPoolService to set
+     */
+    public final void setEntityPoolService(
+            final EntityPoolService entityPoolServiceInput) {
+        this.entityPoolService = entityPoolServiceInput;
     }
 
 }

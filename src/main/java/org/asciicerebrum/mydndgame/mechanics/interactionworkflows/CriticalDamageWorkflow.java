@@ -1,12 +1,13 @@
 package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;
-import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
+import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
@@ -30,12 +31,19 @@ public class CriticalDamageWorkflow implements IWorkflow {
      */
     private WeaponServiceFacade weaponServiceFacade;
 
+    /**
+     * The entity pool service.
+     */
+    private EntityPoolService entityPoolService;
+
     @Override
     public final void runWorkflow(final Interaction interaction,
             final Campaign campaign) {
 
-        final InventoryItem sourceWeapon = this.getSituationContextService()
-                .getActiveItem(interaction.getTriggeringCharacter());
+        final UniqueEntity sourceWeapon
+                = this.getEntityPoolService().getEntityById(
+                        this.getSituationContextService()
+                        .getActiveItemId(interaction.getTriggeringCharacter()));
 
         if (!(sourceWeapon instanceof Weapon)) {
             // no damage in this case.
@@ -95,6 +103,21 @@ public class CriticalDamageWorkflow implements IWorkflow {
      */
     public final WeaponServiceFacade getWeaponServiceFacade() {
         return weaponServiceFacade;
+    }
+
+    /**
+     * @return the entityPoolService
+     */
+    public final EntityPoolService getEntityPoolService() {
+        return entityPoolService;
+    }
+
+    /**
+     * @param entityPoolServiceInput the entityPoolService to set
+     */
+    public final void setEntityPoolService(
+            final EntityPoolService entityPoolServiceInput) {
+        this.entityPoolService = entityPoolServiceInput;
     }
 
 }

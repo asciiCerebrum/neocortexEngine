@@ -47,7 +47,7 @@ public class StateRegistryFactory implements EntityFactory<StateRegistry> {
             final EntitySetup entrySetup) {
 
         if (!entrySetup.isSetupComplete()) {
-            throw new SetupIncompleteException("The setup of the state "
+            throw new SetupIncompleteException("The setup of the state"
                     + " registry entry is not complete.");
         }
 

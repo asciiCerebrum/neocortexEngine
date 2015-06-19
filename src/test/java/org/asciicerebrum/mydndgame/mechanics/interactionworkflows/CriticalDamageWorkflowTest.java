@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.Armor;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
@@ -8,6 +9,7 @@ import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
+import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -34,6 +36,8 @@ public class CriticalDamageWorkflowTest {
     private SituationContextService sitConService;
 
     private WeaponServiceFacade weaponServiceFacade;
+    
+    private EntityPoolService entityPoolService;
 
     public CriticalDamageWorkflowTest() {
     }
@@ -52,10 +56,12 @@ public class CriticalDamageWorkflowTest {
         this.damageWorkflow = mock(IWorkflow.class);
         this.sitConService = mock(SituationContextService.class);
         this.weaponServiceFacade = mock(WeaponServiceFacade.class);
+        this.entityPoolService = mock(EntityPoolService.class);
 
         this.workflow.setDamageWorkflow(this.damageWorkflow);
         this.workflow.setSituationContextService(this.sitConService);
         this.workflow.setWeaponServiceFacade(this.weaponServiceFacade);
+        this.workflow.setEntityPoolService(this.entityPoolService);
     }
 
     @After
@@ -69,7 +75,7 @@ public class CriticalDamageWorkflowTest {
         final DndCharacter triggerCharacter = new DndCharacter();
         interaction.setTriggeringCharacter(triggerCharacter);
 
-        when(this.sitConService.getActiveItem(triggerCharacter))
+        when(this.entityPoolService.getEntityById((UniqueId) anyObject()))
                 .thenReturn(new Armor());
 
         this.workflow.runWorkflow(interaction, campaign);
@@ -85,7 +91,7 @@ public class CriticalDamageWorkflowTest {
         final CriticalFactor critFactor = new CriticalFactor(3L);
         interaction.setTriggeringCharacter(triggerCharacter);
 
-        when(this.sitConService.getActiveItem(triggerCharacter))
+        when(this.entityPoolService.getEntityById((UniqueId) anyObject()))
                 .thenReturn(new Weapon());
         when(this.weaponServiceFacade.getCriticalFactor((Weapon) anyObject(),
                 eq(triggerCharacter))).thenReturn(critFactor);

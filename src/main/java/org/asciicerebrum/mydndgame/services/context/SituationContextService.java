@@ -4,7 +4,6 @@ import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.BooleanParticle;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.StateRegistry;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DamageType;
 import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory;
@@ -16,12 +15,12 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory;
 public interface SituationContextService {
 
     /**
-     * Retrieves the item marked as active from the situation context.
+     * Retrieves the if of the item marked as active from the situation context.
      *
      * @param dndCharacter the character giving the context.
-     * @return the active item.
+     * @return the unique id of the active item.
      */
-    InventoryItem getActiveItem(DndCharacter dndCharacter);
+    UniqueId getActiveItemId(DndCharacter dndCharacter);
 
     /**
      * Retrieves the attack mode of the given item from the situation context.

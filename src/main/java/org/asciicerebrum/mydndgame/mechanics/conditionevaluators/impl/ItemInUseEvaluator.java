@@ -4,7 +4,7 @@ import org.asciicerebrum.mydndgame.domain.core.ICharacter;
 import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.mechanics.conditionevaluators.ConditionEvaluator;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
-import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
+import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 
 /**
@@ -23,6 +23,11 @@ public class ItemInUseEvaluator implements ConditionEvaluator {
     private SituationContextService ctxService;
 
     /**
+     * The entity pool service.
+     */
+    private EntityPoolService entityPoolService;
+
+    /**
      * {@inheritDoc} Strategy: gather all boni/observers from the current weapon
      * in the situation context. Then check if this bonus/observer is part of
      * the list.
@@ -32,8 +37,8 @@ public class ItemInUseEvaluator implements ConditionEvaluator {
             final UniqueEntity contextItem) {
         final DndCharacter dndCharacter = (DndCharacter) iCharacter;
 
-        final InventoryItem item = this.getCtxService()
-                .getActiveItem(dndCharacter);
+        final UniqueEntity item = this.getEntityPoolService().getEntityById(
+                this.getCtxService().getActiveItemId(dndCharacter));
 
         if (item == null) {
             return contextItem == null;
@@ -54,6 +59,21 @@ public class ItemInUseEvaluator implements ConditionEvaluator {
      */
     public final SituationContextService getCtxService() {
         return ctxService;
+    }
+
+    /**
+     * @return the entityPoolService
+     */
+    public final EntityPoolService getEntityPoolService() {
+        return entityPoolService;
+    }
+
+    /**
+     * @param entityPoolServiceInput the entityPoolService to set
+     */
+    public final void setEntityPoolService(
+            final EntityPoolService entityPoolServiceInput) {
+        this.entityPoolService = entityPoolServiceInput;
     }
 
 }

@@ -1,6 +1,7 @@
 package org.asciicerebrum.mydndgame.domain.core.particles;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,8 +28,8 @@ public class UniqueIds {
      *
      * @param uniqueIds the list to construct the collection from.
      */
-    public UniqueIds(final List<UniqueId> uniqueIds) {
-        this.elements.addAll(uniqueIds);
+    public UniqueIds(final UniqueId... uniqueIds) {
+        this.elements.addAll(Arrays.asList(uniqueIds));
     }
 
     /**

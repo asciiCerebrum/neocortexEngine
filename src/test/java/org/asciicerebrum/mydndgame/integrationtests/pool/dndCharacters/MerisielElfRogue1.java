@@ -96,6 +96,16 @@ public class MerisielElfRogue1 {
         entrySetup.setRegistryValueType("BOOLEAN");
 
         regSetup.addStateRegistryEntry(entrySetup);
+
+        final StateRegistrySetup.StateRegistryEntrySetup activeWeaponSetup
+                = new StateRegistrySetup.StateRegistryEntrySetup();
+
+        activeWeaponSetup.setRegistryParticle("ACTIVE_ITEM");
+        activeWeaponSetup.setRegistryValue("mwkRapier");
+        activeWeaponSetup.setRegistryValueType("UNIQUE_ID");
+
+        regSetup.addStateRegistryEntry(activeWeaponSetup);
+
         merisiel.setStateRegistrySetup(regSetup);
 
         return merisiel;

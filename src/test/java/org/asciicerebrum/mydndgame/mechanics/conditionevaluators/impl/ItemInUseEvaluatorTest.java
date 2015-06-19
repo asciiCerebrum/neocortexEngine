@@ -7,6 +7,7 @@ import org.asciicerebrum.mydndgame.domain.game.Armor;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
+import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -15,6 +16,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -27,6 +29,8 @@ public class ItemInUseEvaluatorTest {
     private ItemInUseEvaluator evaluator;
 
     private SituationContextService sitConService;
+
+    private EntityPoolService entityPoolService;
 
     public ItemInUseEvaluatorTest() {
     }
@@ -43,8 +47,10 @@ public class ItemInUseEvaluatorTest {
     public void setUp() {
         this.evaluator = new ItemInUseEvaluator();
         this.sitConService = mock(SituationContextService.class);
+        this.entityPoolService = mock(EntityPoolService.class);
 
         this.evaluator.setCtxService(this.sitConService);
+        this.evaluator.setEntityPoolService(this.entityPoolService);
     }
 
     @After
@@ -56,7 +62,7 @@ public class ItemInUseEvaluatorTest {
         final ICharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = null;
 
-        when(this.sitConService.getActiveItem((DndCharacter) dndCharacter))
+        when(this.sitConService.getActiveItemId((DndCharacter) dndCharacter))
                 .thenReturn(null);
 
         final boolean result = this.evaluator.evaluate(
@@ -69,7 +75,7 @@ public class ItemInUseEvaluatorTest {
         final ICharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = new Weapon();
 
-        when(this.sitConService.getActiveItem((DndCharacter) dndCharacter))
+        when(this.entityPoolService.getEntityById((UniqueId) anyObject()))
                 .thenReturn((InventoryItem) contextItem);
 
         final boolean result = this.evaluator.evaluate(
@@ -86,7 +92,7 @@ public class ItemInUseEvaluatorTest {
         final Armor inventoryItem = new Armor();
         inventoryItem.setUniqueId(new UniqueId("inventoryItem"));
 
-        when(this.sitConService.getActiveItem((DndCharacter) dndCharacter))
+        when(this.entityPoolService.getEntityById((UniqueId) anyObject()))
                 .thenReturn((InventoryItem) inventoryItem);
 
         final boolean result = this.evaluator.evaluate(
@@ -99,7 +105,7 @@ public class ItemInUseEvaluatorTest {
         final ICharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = new Weapon();
 
-        when(this.sitConService.getActiveItem((DndCharacter) dndCharacter))
+        when(this.entityPoolService.getEntityById((UniqueId) anyObject()))
                 .thenReturn((InventoryItem) contextItem);
 
         final boolean result = this.evaluator.evaluate(
@@ -112,7 +118,7 @@ public class ItemInUseEvaluatorTest {
         final ICharacter dndCharacter = new DndCharacter();
         final UniqueEntity contextItem = new Weapon();
 
-        when(this.sitConService.getActiveItem((DndCharacter) dndCharacter))
+        when(this.entityPoolService.getEntityById((UniqueId) anyObject()))
                 .thenReturn((InventoryItem) null);
 
         final boolean result = this.evaluator.evaluate(

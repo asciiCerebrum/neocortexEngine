@@ -20,6 +20,7 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.composition.RollResult;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.mechanics.managers.RollResultManager;
 import org.asciicerebrum.mydndgame.services.application.DamageApplicationService;
+import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.asciicerebrum.mydndgame.services.statistics.DamageCalculationService;
 import org.junit.After;
@@ -52,6 +53,8 @@ public class DamageWorkflowTest {
     private SituationContextService sitConService;
 
     private WeaponServiceFacade weaponFacade;
+    
+    private EntityPoolService entityPoolService;
 
     public DamageWorkflowTest() {
     }
@@ -73,6 +76,7 @@ public class DamageWorkflowTest {
         this.minimumDamage = new DiceRoll(1L);
         this.sitConService = mock(SituationContextService.class);
         this.weaponFacade = mock(WeaponServiceFacade.class);
+        this.entityPoolService = mock(EntityPoolService.class);
 
         this.damageWorkflow.setDamageApplicationService(this.damageAppService);
         this.damageWorkflow.setDamageService(this.damageCalcService);
@@ -80,6 +84,7 @@ public class DamageWorkflowTest {
         this.damageWorkflow.setMinimumDamage(this.minimumDamage);
         this.damageWorkflow.setSituationContextService(this.sitConService);
         this.damageWorkflow.setWeaponServiceFacade(this.weaponFacade);
+        this.damageWorkflow.setEntityPoolService(this.entityPoolService);
 
         final RollResult result = new RollResult(new DiceRoll(4L),
                 new BonusValue());
@@ -104,7 +109,7 @@ public class DamageWorkflowTest {
         final Interaction interaction = new Interaction();
         final Campaign campaign = new Campaign();
 
-        when(this.sitConService.getActiveItem((DndCharacter) anyObject()))
+        when(this.entityPoolService.getEntityById((UniqueId) anyObject()))
                 .thenReturn(new Armor());
 
         this.damageWorkflow.runWorkflow(interaction, campaign);
@@ -125,7 +130,7 @@ public class DamageWorkflowTest {
         combatRound.addParticipant(new UniqueId("participant"),
                 new CombatRoundPosition(""));
 
-        when(this.sitConService.getActiveItem((DndCharacter) anyObject()))
+        when(this.entityPoolService.getEntityById((UniqueId) anyObject()))
                 .thenReturn(new Weapon());
 
         this.damageWorkflow.runWorkflow(interaction, campaign);

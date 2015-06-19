@@ -21,6 +21,14 @@ public enum EventType {
     /**
      * The event of losing a condition.
      */
-    CONDITION_LOSE
+    CONDITION_LOSE,
+    /**
+     * The event thrown when the single attack misses.
+     */
+    SINGLE_ATTACK_MISS,
+    /**
+     * The event thrown before a single attack is performed.
+     */
+    SINGLE_ATTACK_PRE,
 
 }

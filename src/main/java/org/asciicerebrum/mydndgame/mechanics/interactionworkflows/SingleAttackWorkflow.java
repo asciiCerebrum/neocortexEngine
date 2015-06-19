@@ -1,12 +1,16 @@
 package org.asciicerebrum.mydndgame.mechanics.interactionworkflows;
 
+import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.core.particles.ArmorClass;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusRank;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
+import org.asciicerebrum.mydndgame.domain.core.particles.EventFact;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueIds;
+import org.asciicerebrum.mydndgame.domain.events.EventEntry;
+import org.asciicerebrum.mydndgame.domain.events.EventType;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;
-import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.Interaction;
@@ -14,15 +18,25 @@ import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
 import org.asciicerebrum.mydndgame.domain.ruleentities.composition.RollResult;
 import org.asciicerebrum.mydndgame.facades.game.WeaponServiceFacade;
 import org.asciicerebrum.mydndgame.mechanics.managers.RollResultManager;
+import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
+import org.asciicerebrum.mydndgame.services.events.EventTriggerService;
 import org.asciicerebrum.mydndgame.services.statistics.AcCalculationService;
 import org.asciicerebrum.mydndgame.services.statistics.AtkCalculationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author species8472
  */
 public class SingleAttackWorkflow implements IWorkflow {
+
+    /**
+     * The logger.
+     */
+    private static final Logger LOG = LoggerFactory.getLogger(
+            SingleAttackWorkflow.class);
 
     /**
      * The dice action for attacking. It contains the dice for this interaction.
@@ -81,19 +95,41 @@ public class SingleAttackWorkflow implements IWorkflow {
     private SituationContextService situationContextService;
 
     /**
+     * Triggering events.
+     */
+    private EventTriggerService eventTriggerService;
+
+    /**
+     * The entity pool service.
+     */
+    private EntityPoolService entityPoolService;
+
+    /**
      * {@inheritDoc} Performs an attack on the given target.
      */
     @Override
     public final void runWorkflow(final Interaction interaction,
             final Campaign campaign) {
 
-        final InventoryItem sourceWeapon
-                = this.getSituationContextService().getActiveItem(interaction
-                        .getTriggeringCharacter());
+        final UniqueEntity sourceWeapon
+                = this.getEntityPoolService().getEntityById(
+                        this.getSituationContextService()
+                        .getActiveItemId(interaction.getTriggeringCharacter()));
 
         if (!(sourceWeapon instanceof Weapon)) {
+            LOG.info("{} has not setup a weapon to attack. Skipping.",
+                    interaction.getTriggeringCharacter().getUniqueId());
             return;
         }
+
+        final EventEntry preEvent
+                = new EventEntry(EventType.SINGLE_ATTACK_PRE);
+        preEvent.setWho(interaction.getTriggeringCharacter().getUniqueId());
+        preEvent.setWhom(new UniqueIds(interaction.getFirstTargetCharacter()
+                .getUniqueId()));
+        preEvent.setWhen(campaign.getCombatRound().getCurrentDate());
+        preEvent.setWhat(sourceWeapon.getUniqueId());
+        this.getEventTriggerService().trigger(preEvent);
 
         final BonusValue sourceAtkBonus
                 = this.getAtkService().calcAtkBoni((Weapon) sourceWeapon,
@@ -116,6 +152,16 @@ public class SingleAttackWorkflow implements IWorkflow {
                         .getFirstTargetCharacter());
 
         if (!this.isHit(atkRollResult, targetAc)) {
+            final EventEntry missEvent
+                    = new EventEntry(EventType.SINGLE_ATTACK_MISS);
+            missEvent.setWho(interaction
+                    .getTriggeringCharacter().getUniqueId());
+            missEvent.setWhom(new UniqueIds(interaction
+                    .getFirstTargetCharacter().getUniqueId()));
+            missEvent.setWhen(campaign.getCombatRound().getCurrentDate());
+            missEvent.addEventFact(new EventFact(
+                    Long.toString(targetAc.getValue())));
+            this.getEventTriggerService().trigger(missEvent);
             return;
         }
 
@@ -160,7 +206,7 @@ public class SingleAttackWorkflow implements IWorkflow {
     final boolean determineCritical(final RollResult atkRollResult,
             final ArmorClass targetAc,
             final CriticalMinimumLevel sourceCritMinLvl,
-            final InventoryItem sourceWeapon, final Interaction interaction,
+            final UniqueEntity sourceWeapon, final Interaction interaction,
             final Campaign campaign) {
 
         // when you are here you have hit the enemy!!!
@@ -360,6 +406,36 @@ public class SingleAttackWorkflow implements IWorkflow {
     public final void setRollResultManager(
             final RollResultManager rollResultManagerInput) {
         this.rollResultManager = rollResultManagerInput;
+    }
+
+    /**
+     * @return the eventTriggerService
+     */
+    public final EventTriggerService getEventTriggerService() {
+        return eventTriggerService;
+    }
+
+    /**
+     * @param eventTriggerServiceInput the eventTriggerService to set
+     */
+    public final void setEventTriggerService(
+            final EventTriggerService eventTriggerServiceInput) {
+        this.eventTriggerService = eventTriggerServiceInput;
+    }
+
+    /**
+     * @return the entityPoolService
+     */
+    public final EntityPoolService getEntityPoolService() {
+        return entityPoolService;
+    }
+
+    /**
+     * @param entityPoolServiceInput the entityPoolService to set
+     */
+    public final void setEntityPoolService(
+            final EntityPoolService entityPoolServiceInput) {
+        this.entityPoolService = entityPoolServiceInput;
     }
 
 }

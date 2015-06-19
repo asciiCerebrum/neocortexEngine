@@ -31,6 +31,7 @@
         <property name="situationContextService" ref="situationContextService" />
         <property name="damageWorkflow" ref="damageWorkflow" />
         <property name="weaponServiceFacade" ref="weaponServiceFacade" />
+        <property name="entityPoolService" ref="entityPoolService" />
     </bean>
     <bean id="damageWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.DamageWorkflow">
         <property name="damageApplicationService" ref="damageApplicationService" />
@@ -43,6 +44,7 @@
         </property>
         <property name="situationContextService" ref="situationContextService" />
         <property name="weaponServiceFacade" ref="weaponServiceFacade" />
+        <property name="entityPoolService" ref="entityPoolService" />
     </bean>
     <bean id="endTurnWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.EndTurnWorkflow">
         <property name="conditionExpirationWorkflow" ref="conditionExpirationWorkflow" />
@@ -74,6 +76,8 @@
                 <constructor-arg value="20" />
             </bean>
         </property>
+        <property name="eventTriggerService" ref="eventTriggerService" />
+        <property name="entityPoolService" ref="entityPoolService" />
     </bean>
     
                                             

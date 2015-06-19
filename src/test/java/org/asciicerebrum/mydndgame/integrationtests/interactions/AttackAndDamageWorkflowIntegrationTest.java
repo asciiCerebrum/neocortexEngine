@@ -132,20 +132,22 @@ public class AttackAndDamageWorkflowIntegrationTest {
         this.combatRoundManager.initiateCombatRound(campaign, participants);
 
         //TODO put new roll results into the mocked dice roll manager!
-        final Interaction interaction = new Interaction();
-        interaction.setTriggeringCharacter(
+        final Interaction meleeSingleAttack = new Interaction();
+        meleeSingleAttack.setTriggeringCharacter(
                 (DndCharacter) this.entityPoolService
                 .getEntityById(new UniqueId("merisiel")));
         final DndCharacters targetCharacters = new DndCharacters();
         targetCharacters.addDndCharacter((DndCharacter) this.entityPoolService
                 .getEntityById(new UniqueId("valeros")));
-        interaction.setTargetCharacters(targetCharacters);
+        meleeSingleAttack.setTargetCharacters(targetCharacters);
         final InteractionType interactionType
                 = this.context.getBean("meleeSingleAttack",
                         InteractionType.class);
-        interaction.setInteractionType(interactionType);
+        meleeSingleAttack.setInteractionType(interactionType);
 
-        this.combatRoundManager.executeInteraction(campaign, interaction);
+        this.combatRoundManager.executeInteraction(campaign, meleeSingleAttack);
+        
+        
     }
 
 }

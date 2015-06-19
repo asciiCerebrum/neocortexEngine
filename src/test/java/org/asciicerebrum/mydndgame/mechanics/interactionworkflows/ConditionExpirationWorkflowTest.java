@@ -71,6 +71,7 @@ public class ConditionExpirationWorkflowTest {
                 new CombatRoundPosition("0"));
         combatRound.addParticipant(characterB.getUniqueId(),
                 new CombatRoundPosition("1"));
+        campaign.setCombatRound(combatRound);
         
         when(this.entityPoolService.getEntityById((UniqueId) anyObject()))
                 .thenReturn(new DndCharacter());
