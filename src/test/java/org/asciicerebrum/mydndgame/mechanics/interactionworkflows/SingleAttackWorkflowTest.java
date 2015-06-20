@@ -239,8 +239,11 @@ public class SingleAttackWorkflowTest {
     public void terminateCriticalWorkflowTest() {
         final Interaction interaction = new Interaction();
         final Campaign campaign = new Campaign();
+        final ArmorClass targetAc = new ArmorClass();
+        targetAc.setValue(19L);
 
-        this.singleAttackWf.terminate(true, interaction, campaign);
+        this.singleAttackWf.setEventTriggerService(null);
+        this.singleAttackWf.terminate(true, interaction, campaign, targetAc);
         verify(this.criticalDamageWorkflow).runWorkflow(interaction, campaign);
     }
 
@@ -248,8 +251,11 @@ public class SingleAttackWorkflowTest {
     public void terminateNormalWorkflowTest() {
         final Interaction interaction = new Interaction();
         final Campaign campaign = new Campaign();
+        final ArmorClass targetAc = new ArmorClass();
+        targetAc.setValue(19L);
 
-        this.singleAttackWf.terminate(false, interaction, campaign);
+        this.singleAttackWf.setEventTriggerService(null);
+        this.singleAttackWf.terminate(false, interaction, campaign, targetAc);
         verify(this.damageWorkflow).runWorkflow(interaction, campaign);
     }
 
@@ -257,8 +263,11 @@ public class SingleAttackWorkflowTest {
     public void terminateCriticalWorkflowNoNormalTest() {
         final Interaction interaction = new Interaction();
         final Campaign campaign = new Campaign();
+        final ArmorClass targetAc = new ArmorClass();
+        targetAc.setValue(19L);
 
-        this.singleAttackWf.terminate(true, interaction, campaign);
+        this.singleAttackWf.setEventTriggerService(null);
+        this.singleAttackWf.terminate(true, interaction, campaign, targetAc);
         verify(this.damageWorkflow, times(0)).runWorkflow(interaction,
                 campaign);
     }
@@ -267,8 +276,11 @@ public class SingleAttackWorkflowTest {
     public void terminateNormalWorkflowNoCriticalTest() {
         final Interaction interaction = new Interaction();
         final Campaign campaign = new Campaign();
+        final ArmorClass targetAc = new ArmorClass();
+        targetAc.setValue(19L);
 
-        this.singleAttackWf.terminate(false, interaction, campaign);
+        this.singleAttackWf.setEventTriggerService(null);
+        this.singleAttackWf.terminate(false, interaction, campaign, targetAc);
         verify(this.criticalDamageWorkflow, times(0)).runWorkflow(interaction,
                 campaign);
     }

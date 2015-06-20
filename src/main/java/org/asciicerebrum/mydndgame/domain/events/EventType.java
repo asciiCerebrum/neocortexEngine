@@ -23,6 +23,14 @@ public enum EventType {
      */
     CONDITION_LOSE,
     /**
+     * The event thrown when the single attack hits normally.
+     */
+    SINGLE_ATTACK_HIT,
+    /**
+     * The event thrown when the single attack hits critically.
+     */
+    SINGLE_ATTACK_HIT_CRITICAL,
+    /**
      * The event thrown when the single attack misses.
      */
     SINGLE_ATTACK_MISS,

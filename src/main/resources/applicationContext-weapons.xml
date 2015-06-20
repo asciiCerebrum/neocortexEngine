@@ -141,7 +141,7 @@
         </property>
         <property name="baseSize" ref="medium" />
         <property name="baseDamage">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction" parent="damage">
                 <property name="diceNumber">
                     <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
                         <constructor-arg value="1" />
@@ -206,7 +206,7 @@
         </property>
         <property name="baseSize" ref="medium" />
         <property name="baseDamage">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction" parent="damage">
                 <property name="diceNumber">
                     <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
                         <constructor-arg value="1" />
@@ -271,7 +271,7 @@
         </property>
         <property name="baseSize" ref="medium" />
         <property name="baseDamage">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction" parent="damage">
                 <property name="diceNumber">
                     <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
                         <constructor-arg value="1" />
@@ -336,7 +336,7 @@
         </property>
         <property name="baseSize" ref="medium" />
         <property name="baseDamage">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction" parent="damage">
                 <property name="diceNumber">
                     <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
                         <constructor-arg value="1" />
@@ -497,7 +497,7 @@
         </property>
         <property name="baseSize" ref="medium" />
         <property name="baseDamage">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction" parent="damage">
                 <property name="diceNumber">
                     <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
                         <constructor-arg value="1" />
@@ -601,7 +601,7 @@
         </property>
         <property name="baseSize" ref="medium" />
         <property name="baseDamage">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction" parent="damage">
                 <property name="diceNumber">
                     <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
                         <constructor-arg value="1" />

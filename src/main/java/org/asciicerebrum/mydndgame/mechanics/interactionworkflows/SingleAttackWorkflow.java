@@ -152,16 +152,8 @@ public class SingleAttackWorkflow implements IWorkflow {
                         .getFirstTargetCharacter());
 
         if (!this.isHit(atkRollResult, targetAc)) {
-            final EventEntry missEvent
-                    = new EventEntry(EventType.SINGLE_ATTACK_MISS);
-            missEvent.setWho(interaction
-                    .getTriggeringCharacter().getUniqueId());
-            missEvent.setWhom(new UniqueIds(interaction
-                    .getFirstTargetCharacter().getUniqueId()));
-            missEvent.setWhen(campaign.getCombatRound().getCurrentDate());
-            missEvent.addEventFact(new EventFact(
-                    Long.toString(targetAc.getValue())));
-            this.getEventTriggerService().trigger(missEvent);
+            this.triggerResultEvent(EventType.SINGLE_ATTACK_MISS, interaction,
+                    campaign, targetAc);
             return;
         }
 
@@ -172,7 +164,33 @@ public class SingleAttackWorkflow implements IWorkflow {
         boolean isCritical = this.determineCritical(atkRollResult, targetAc,
                 critMinLvl, sourceWeapon, interaction, campaign);
 
-        this.terminate(isCritical, interaction, campaign);
+        this.terminate(isCritical, interaction, campaign, targetAc);
+    }
+
+    /**
+     * Constructs and triggers the correct event depending on the outcome of
+     * this attack roll.
+     *
+     * @param eventType the type of result event. E.g. hit or miss.
+     * @param interaction the interaction of the workflow.
+     * @param campaign the campaign for this workflow.
+     * @param targetAc the AC of the target character.
+     */
+    private void triggerResultEvent(final EventType eventType,
+            final Interaction interaction, final Campaign campaign,
+            final ArmorClass targetAc) {
+        if (this.getEventTriggerService() == null) {
+            return;
+        }
+        final EventEntry resultEvent = new EventEntry(eventType);
+        resultEvent.setWho(interaction
+                .getTriggeringCharacter().getUniqueId());
+        resultEvent.setWhom(new UniqueIds(interaction
+                .getFirstTargetCharacter().getUniqueId()));
+        resultEvent.setWhen(campaign.getCombatRound().getCurrentDate());
+        resultEvent.addEventFact(new EventFact(
+                Long.toString(targetAc.getValue())));
+        this.getEventTriggerService().trigger(resultEvent);
     }
 
     /**
@@ -182,13 +200,19 @@ public class SingleAttackWorkflow implements IWorkflow {
      * @param isCritical if hit was critical.
      * @param interaction the interaction.
      * @param campaign the campaign.
+     * @param targetAc the AC of the target character.
      */
     final void terminate(final boolean isCritical,
-            final Interaction interaction, final Campaign campaign) {
+            final Interaction interaction, final Campaign campaign,
+            final ArmorClass targetAc) {
         if (isCritical) {
+            this.triggerResultEvent(EventType.SINGLE_ATTACK_HIT_CRITICAL,
+                    interaction, campaign, targetAc);
             this.getCriticalDamageWorkflow().runWorkflow(interaction, campaign);
             return;
         }
+        this.triggerResultEvent(EventType.SINGLE_ATTACK_HIT, interaction,
+                campaign, targetAc);
         this.getDamageWorkflow().runWorkflow(interaction, campaign);
     }
 

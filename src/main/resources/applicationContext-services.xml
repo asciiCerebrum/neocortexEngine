@@ -157,6 +157,8 @@
                 <ref bean="loggingCombatPostInitEventEntryListener" />
                 <ref bean="loggingSingleAttackPreEventEntryListener" />
                 <ref bean="loggingSingleAttackMissEventEntryListener" />
+                <ref bean="loggingSingleAttackHitEventEntryListener" />
+                <ref bean="loggingSingleAttackHitCriticalEventEntryListener" />
             </list>
         </property>
     </bean>
@@ -190,7 +192,15 @@
 
     <bean id="loggingSingleAttackMissEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingSingleAttackMissEventEntryListener">
         <property name="eventType" value="SINGLE_ATTACK_MISS" />
-    </bean>        
-    
+        <property name="logTemplate" value="{} misses {} (AC {})." />
+    </bean>
+    <bean id="loggingSingleAttackHitEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingSingleAttackMissEventEntryListener">
+        <property name="eventType" value="SINGLE_ATTACK_HIT" />
+        <property name="logTemplate" value="{} hits {} (AC {})." />
+    </bean>
+    <bean id="loggingSingleAttackHitCriticalEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingSingleAttackMissEventEntryListener">
+        <property name="eventType" value="SINGLE_ATTACK_HIT_CRITICAL" />
+        <property name="logTemplate" value="{} hits {} critically (AC {})." />
+    </bean>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 </beans>

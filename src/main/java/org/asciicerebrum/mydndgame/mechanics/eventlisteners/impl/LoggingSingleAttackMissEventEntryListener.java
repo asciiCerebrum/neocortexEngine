@@ -20,7 +20,7 @@ public class LoggingSingleAttackMissEventEntryListener
     @Override
     public final void trigger(final EventEntry eventEntry) {
 
-        LOG.info("{} misses {} (AC {}).", eventEntry.getWho().getValue(),
+        LOG.info(this.getLogTemplate(), eventEntry.getWho().getValue(),
                 eventEntry.getWhom().iterator().next().getValue(),
                 eventEntry.getHow().iterator().next().getValue());
     }

@@ -112,6 +112,10 @@ public class AttackAndDamageWorkflowIntegrationTest {
 
     }
 
+    //TODO test attack misses
+    //TODO test attack hits normally
+    //TODO test attack hits critically
+    
     @Test
     public void merisielMeleeAttacksValerosTest()
             throws OperationNotSupportedException {
@@ -131,7 +135,11 @@ public class AttackAndDamageWorkflowIntegrationTest {
 
         this.combatRoundManager.initiateCombatRound(campaign, participants);
 
-        //TODO put new roll results into the mocked dice roll manager!
+        // put new roll results into the mocked dice roll manager for attack
+        // and damage!
+        when(this.mockDiceRollManager.rollDice((DiceAction) anyObject()))
+                .thenReturn(new DiceRoll(16L), new DiceRoll(4L));
+        
         final Interaction meleeSingleAttack = new Interaction();
         meleeSingleAttack.setTriggeringCharacter(
                 (DndCharacter) this.entityPoolService
