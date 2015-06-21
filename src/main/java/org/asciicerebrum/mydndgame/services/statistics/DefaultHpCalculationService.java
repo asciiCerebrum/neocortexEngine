@@ -68,9 +68,7 @@ public class DefaultHpCalculationService implements HpCalculationService {
 
     @Override
     public final HitPoints calcCurrentHp(final DndCharacter dndCharacter) {
-        final HitPoints currentHp = dndCharacter.getCurrentStaticHp();
-
-        return currentHp;
+        return dndCharacter.getCurrentStaticHp();
     }
 
     /**
