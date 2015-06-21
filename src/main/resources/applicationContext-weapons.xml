@@ -122,8 +122,18 @@
         </property>
     </bean>
                                                                                                                                                 
-    <!-- Weapon prototypes -->    
-    <bean id="longsword" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+    <!-- Weapon prototypes -->
+    
+    <!-- all common settings of weapon prototypes go here -->
+    <bean id="protoWeapon" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+        <property name="criticalFactor">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor">
+                <constructor-arg value="2" />
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="longsword" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
                 <constructor-arg value="longsword" />
@@ -188,7 +198,7 @@
         </property>
     </bean>
 
-    <bean id="battleaxe" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+    <bean id="battleaxe" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
                 <constructor-arg value="battleaxe" />
@@ -253,7 +263,7 @@
         </property>
     </bean>
 
-    <bean id="rapier" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+    <bean id="rapier" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
                 <constructor-arg value="rapier" />
@@ -318,7 +328,7 @@
         </property>
     </bean>
 
-    <bean id="dagger" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+    <bean id="dagger" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
                 <constructor-arg value="dagger" />
@@ -399,7 +409,7 @@
         </property>
     </bean>
 
-    <bean id="whip" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+    <bean id="whip" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
                 <constructor-arg value="whip" />
@@ -407,7 +417,7 @@
         </property>
     </bean>
     
-    <bean id="spikedChain" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+    <bean id="spikedChain" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
                 <constructor-arg value="spikedChain" />
@@ -415,7 +425,7 @@
         </property>
     </bean>
 
-    <bean id="club" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+    <bean id="club" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
                 <constructor-arg value="club" />
@@ -423,7 +433,7 @@
         </property>
     </bean>
     
-    <bean id="dart" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+    <bean id="dart" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
                 <constructor-arg value="dart" />
@@ -440,7 +450,7 @@
         </property>
     </bean>
     
-    <bean id="quarterstaff" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+    <bean id="quarterstaff" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
                 <constructor-arg value="quarterstaff" />
@@ -448,7 +458,7 @@
         </property>
     </bean>
     
-    <bean id="sling" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" scope="prototype">
+    <bean id="sling" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" scope="prototype" parent="protoWeapon">
         <property name="genericName">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
                 <constructor-arg value="sling" />
@@ -479,7 +489,7 @@
         </property>
     </bean>
 
-    <bean id="longbow" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+    <bean id="longbow" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
                 <constructor-arg value="longbow" />
@@ -583,7 +593,7 @@
         </property>
     </bean>
 
-    <bean id="bastardsword" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+    <bean id="bastardsword" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
                 <constructor-arg value="bastardsword" />
@@ -648,21 +658,21 @@
         </property>
     </bean>
     
-    <bean id="sap" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+    <bean id="sap" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
                 <constructor-arg value="sap" />
             </bean>
         </property>
     </bean>
-    <bean id="shortbow" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+    <bean id="shortbow" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
                 <constructor-arg value="shortbow" />
             </bean>
         </property>
     </bean>
-    <bean id="shortsword" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+    <bean id="shortsword" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
             <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
                 <constructor-arg value="shortsword" />

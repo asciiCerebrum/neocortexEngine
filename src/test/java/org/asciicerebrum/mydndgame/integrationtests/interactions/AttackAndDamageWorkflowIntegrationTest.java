@@ -30,6 +30,7 @@ import org.asciicerebrum.mydndgame.mechanics.managers.DiceRollManager;
 import org.asciicerebrum.mydndgame.mechanics.managers.RollResultManager;
 import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.testcategories.IntegrationTest;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -112,16 +113,9 @@ public class AttackAndDamageWorkflowIntegrationTest {
 
     }
 
-    //TODO test attack misses
-    //TODO test attack hits normally
-    //TODO test attack hits critically
-    
-    @Test
-    public void merisielMeleeAttacksValerosTest()
+    private void initiateCombatRound(final Campaign campaign,
+            final DndCharacters participants)
             throws OperationNotSupportedException {
-        final Campaign campaign = this.campaignFactory.newEntity();
-        final DndCharacters participants = new DndCharacters();
-
         participants.addDndCharacter((DndCharacter) this.entityPoolService
                 .getEntityById(new UniqueId("harsk")));
         participants.addDndCharacter((DndCharacter) this.entityPoolService
@@ -134,12 +128,9 @@ public class AttackAndDamageWorkflowIntegrationTest {
                         new DiceRoll(8L));
 
         this.combatRoundManager.initiateCombatRound(campaign, participants);
+    }
 
-        // put new roll results into the mocked dice roll manager for attack
-        // and damage!
-        when(this.mockDiceRollManager.rollDice((DiceAction) anyObject()))
-                .thenReturn(new DiceRoll(16L), new DiceRoll(4L));
-        
+    private void executeMeleeSingleAttack(final Campaign campaign) {
         final Interaction meleeSingleAttack = new Interaction();
         meleeSingleAttack.setTriggeringCharacter(
                 (DndCharacter) this.entityPoolService
@@ -154,8 +145,93 @@ public class AttackAndDamageWorkflowIntegrationTest {
         meleeSingleAttack.setInteractionType(interactionType);
 
         this.combatRoundManager.executeInteraction(campaign, meleeSingleAttack);
-        
-        
+    }
+
+    //TODO test end combat round and the next character loses flat-footedness
+    @Test
+    public void merisielMeleeAttacksValerosHitTest()
+            throws OperationNotSupportedException {
+        final Campaign campaign = this.campaignFactory.newEntity();
+        final DndCharacters participants = new DndCharacters();
+
+        this.initiateCombatRound(campaign, participants);
+
+        // put new roll results into the mocked dice roll manager for attack
+        // and damage!
+        when(this.mockDiceRollManager.rollDice((DiceAction) anyObject()))
+                .thenReturn(new DiceRoll(16L), new DiceRoll(4L));
+
+        this.executeMeleeSingleAttack(campaign);
+
+        final DndCharacter valeros = (DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("valeros"));
+
+        assertEquals(6L, valeros.getCurrentStaticHp().getValue());
+    }
+
+    @Test
+    public void merisielMeleeAttacksValerosMissTest()
+            throws OperationNotSupportedException {
+        final Campaign campaign = this.campaignFactory.newEntity();
+        final DndCharacters participants = new DndCharacters();
+
+        this.initiateCombatRound(campaign, participants);
+
+        // put new roll results into the mocked dice roll manager for attack
+        // and damage!
+        when(this.mockDiceRollManager.rollDice((DiceAction) anyObject()))
+                .thenReturn(new DiceRoll(10L));
+
+        this.executeMeleeSingleAttack(campaign);
+
+        final DndCharacter valeros = (DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("valeros"));
+
+        assertEquals(11L, valeros.getCurrentStaticHp().getValue());
+    }
+
+    @Test
+    public void merisielMeleeAttacksValerosCriticalHitTest()
+            throws OperationNotSupportedException {
+        final Campaign campaign = this.campaignFactory.newEntity();
+        final DndCharacters participants = new DndCharacters();
+
+        this.initiateCombatRound(campaign, participants);
+
+        // put new roll results into the mocked dice roll manager for attack
+        // and damage!
+        when(this.mockDiceRollManager.rollDice((DiceAction) anyObject()))
+                .thenReturn(new DiceRoll(19L), new DiceRoll(16L),
+                        new DiceRoll(4L), new DiceRoll(3L));
+
+        this.executeMeleeSingleAttack(campaign);
+
+        final DndCharacter valeros = (DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("valeros"));
+
+        assertEquals(2L, valeros.getCurrentStaticHp().getValue());
+    }
+
+    @Test
+    public void merisielMeleeAttacksValerosNearlyCriticalHitTest()
+            throws OperationNotSupportedException {
+        final Campaign campaign = this.campaignFactory.newEntity();
+        final DndCharacters participants = new DndCharacters();
+
+        this.initiateCombatRound(campaign, participants);
+
+        // put new roll results into the mocked dice roll manager for attack
+        // and damage!
+        when(this.mockDiceRollManager.rollDice((DiceAction) anyObject()))
+                .thenReturn(new DiceRoll(19L), new DiceRoll(2L),
+                        new DiceRoll(3L));
+
+        this.executeMeleeSingleAttack(campaign);
+
+        final DndCharacter valeros = (DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("valeros"));
+
+        assertEquals(7L, valeros.getCurrentStaticHp().getValue());
     }
 
 }

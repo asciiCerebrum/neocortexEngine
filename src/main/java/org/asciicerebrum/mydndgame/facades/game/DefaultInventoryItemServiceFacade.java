@@ -9,6 +9,7 @@ import org.asciicerebrum.mydndgame.domain.core.particles.Cost;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.InventoryItem;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
+import org.asciicerebrum.mydndgame.services.context.SituationContextService;
 import org.asciicerebrum.mydndgame.services.core.ObservableService;
 
 /**
@@ -22,6 +23,11 @@ public abstract class DefaultInventoryItemServiceFacade
      * The observable service.
      */
     private ObservableService observableService;
+
+    /**
+     * The situation context service.
+     */
+    private SituationContextService situationContextService;
 
     /**
      * {@inheritDoc}
@@ -106,6 +112,21 @@ public abstract class DefaultInventoryItemServiceFacade
      */
     protected final ObservableService getObservableService() {
         return observableService;
+    }
+
+    /**
+     * @return the situationContextService
+     */
+    public final SituationContextService getSituationContextService() {
+        return situationContextService;
+    }
+
+    /**
+     * @param situationContextServiceInput the situationContextService to set
+     */
+    public final void setSituationContextService(
+            final SituationContextService situationContextServiceInput) {
+        this.situationContextService = situationContextServiceInput;
     }
 
 }

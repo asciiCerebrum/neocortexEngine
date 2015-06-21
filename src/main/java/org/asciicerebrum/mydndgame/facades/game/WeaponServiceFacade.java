@@ -10,6 +10,7 @@ import org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor;
 import org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
+import org.asciicerebrum.mydndgame.domain.ruleentities.DamageType;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
 
 /**
@@ -48,6 +49,16 @@ public interface WeaponServiceFacade extends InventoryItemServiceFacade {
      * @return the modified value.
      */
     DiceAction getDamage(Weapon weapon, DndCharacter dndCharacter);
+
+    /**
+     * Calculates the current valid damage type of the given weapon in the
+     * context of the given character.
+     *
+     * @param weapon the weapon to calculate the value for.
+     * @param dndCharacter the context.
+     * @return the current damage type selected.
+     */
+    DamageType getDamageType(Weapon weapon, DndCharacter dndCharacter);
 
     /**
      * Calculates the modified available weapon types of a given weapon in the

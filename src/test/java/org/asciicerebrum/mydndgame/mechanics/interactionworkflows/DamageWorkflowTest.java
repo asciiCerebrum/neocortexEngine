@@ -132,7 +132,8 @@ public class DamageWorkflowTest {
 
         when(this.entityPoolService.getEntityById((UniqueId) anyObject()))
                 .thenReturn(new Weapon());
-
+        
+        this.damageWorkflow.setEventTriggerService(null);
         this.damageWorkflow.runWorkflow(interaction, campaign);
         verify(this.damageAppService, times(1)).applyDamage(
                 (DndCharacter) anyObject(), (Damages) anyObject());

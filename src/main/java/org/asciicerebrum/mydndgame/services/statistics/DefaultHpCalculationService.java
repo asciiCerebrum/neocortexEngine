@@ -70,15 +70,6 @@ public class DefaultHpCalculationService implements HpCalculationService {
     public final HitPoints calcCurrentHp(final DndCharacter dndCharacter) {
         final HitPoints currentHp = dndCharacter.getCurrentStaticHp();
 
-        final BonusValueTuple hpBoni
-                = this.getBonusService().calculateBonusValues(dndCharacter,
-                        this.getHpAction(),
-                        dndCharacter,
-                        dndCharacter,
-                        ObserverHook.HIT_POINTS,
-                        dndCharacter);
-        currentHp.add(hpBoni.getBonusValueByRank(BonusRank.RANK_0));
-
         return currentHp;
     }
 

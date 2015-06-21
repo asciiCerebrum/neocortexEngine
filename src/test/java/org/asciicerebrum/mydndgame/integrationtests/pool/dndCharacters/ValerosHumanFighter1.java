@@ -20,7 +20,7 @@ public class ValerosHumanFighter1 {
         valeros.setId("valeros");
         valeros.setRace("human");
         valeros.setCurrentXp("0");
-        valeros.setCurrentHp("0");
+        valeros.setCurrentHp("11");
 
         final BaseAbilityEntrySetup strSetup = new BaseAbilityEntrySetup();
         strSetup.setAbility("str");

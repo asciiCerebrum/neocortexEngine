@@ -143,6 +143,8 @@
     </bean>
     <bean id="damageApplicationService" class="org.asciicerebrum.mydndgame.services.application.DefaultDamageApplicationService">
         <property name="observableService" ref="observableService" />
+        <property name="eventTriggerService" ref="eventTriggerService" />
+        <property name="hpCalculationService" ref="hpCalculationService" />
     </bean>
 
     <bean id="entityPoolService" class="org.asciicerebrum.mydndgame.services.context.MapBasedEntityPoolService">
@@ -159,6 +161,8 @@
                 <ref bean="loggingSingleAttackMissEventEntryListener" />
                 <ref bean="loggingSingleAttackHitEventEntryListener" />
                 <ref bean="loggingSingleAttackHitCriticalEventEntryListener" />
+                <ref bean="loggingDamageInflictedEventEntryListener" />
+                <ref bean="loggingDamageApplicationEventEntryListener" />
             </list>
         </property>
     </bean>
@@ -202,5 +206,14 @@
         <property name="eventType" value="SINGLE_ATTACK_HIT_CRITICAL" />
         <property name="logTemplate" value="{} hits {} critically (AC {})." />
     </bean>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+    <bean id="loggingDamageInflictedEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingSingleAttackMissEventEntryListener">
+        <property name="eventType" value="DAMAGE_INFLICTED" />
+        <property name="logTemplate" value="{} inflicts {} damage on {} for {} hp." />
+    </bean>
+
+    <bean id="loggingDamageApplicationEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingWhoHowEventEntryListener">
+        <property name="eventType" value="DAMAGE_APPLICATION" />
+        <property name="logTemplate" value="{} loses {} hp and is now at {} hp." />
+    </bean>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 </beans>

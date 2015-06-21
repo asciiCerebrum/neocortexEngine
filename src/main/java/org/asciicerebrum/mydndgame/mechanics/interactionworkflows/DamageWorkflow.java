@@ -4,6 +4,10 @@ import org.asciicerebrum.mydndgame.domain.core.UniqueEntity;
 import org.asciicerebrum.mydndgame.domain.mechanics.workflow.IWorkflow;
 import org.asciicerebrum.mydndgame.domain.core.particles.BonusValue;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
+import org.asciicerebrum.mydndgame.domain.core.particles.EventFact;
+import org.asciicerebrum.mydndgame.domain.core.particles.UniqueIds;
+import org.asciicerebrum.mydndgame.domain.events.EventEntry;
+import org.asciicerebrum.mydndgame.domain.events.EventType;
 import org.asciicerebrum.mydndgame.domain.game.Campaign;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.mechanics.damage.Damage;
@@ -15,6 +19,7 @@ import org.asciicerebrum.mydndgame.mechanics.managers.RollResultManager;
 import org.asciicerebrum.mydndgame.services.application.DamageApplicationService;
 import org.asciicerebrum.mydndgame.services.context.EntityPoolService;
 import org.asciicerebrum.mydndgame.services.context.SituationContextService;
+import org.asciicerebrum.mydndgame.services.events.EventTriggerService;
 import org.asciicerebrum.mydndgame.services.statistics.DamageCalculationService;
 
 /**
@@ -57,6 +62,11 @@ public class DamageWorkflow implements IWorkflow {
      * The entity pool service.
      */
     private EntityPoolService entityPoolService;
+
+    /**
+     * Triggering events.
+     */
+    private EventTriggerService eventTriggerService;
 
     /**
      * {@inheritDoc} Applies damage on the character.
@@ -102,12 +112,26 @@ public class DamageWorkflow implements IWorkflow {
         //TODO consider possible sneak attack of rogue, etc.
         //TODO an attack could inflict multiple types of damage,
         // e.g. +1d6 poison, etc. So we deliver a list of damages.
-        Damage sourceDamage = new Damage();
+        final Damage sourceDamage = new Damage();
         sourceDamage.setDamageValue(totalSourceDamage);
         sourceDamage.setWeapon((Weapon) sourceWeapon);
-        sourceDamage.setDamageType(this.getSituationContextService()
-                .getItemDamageType(sourceWeapon.getUniqueId(),
+        sourceDamage.setDamageType(this.getWeaponServiceFacade()
+                .getDamageType((Weapon) sourceWeapon,
                         interaction.getTriggeringCharacter()));
+
+        if (this.getEventTriggerService() != null) {
+            final EventEntry resultEvent
+                    = new EventEntry(EventType.DAMAGE_INFLICTED);
+            resultEvent.setWho(interaction
+                    .getTriggeringCharacter().getUniqueId());
+            resultEvent.setWhom(new UniqueIds(interaction
+                    .getFirstTargetCharacter().getUniqueId()));
+            resultEvent.setWhen(campaign.getCombatRound().getCurrentDate());
+            resultEvent.setWhat(sourceDamage.getDamageType().getUniqueId());
+            resultEvent.addEventFact(new EventFact(
+                    Long.toString(totalSourceDamage.getValue())));
+            this.getEventTriggerService().trigger(resultEvent);
+        }
 
         this.getDamageApplicationService().applyDamage(
                 interaction.getFirstTargetCharacter(),
@@ -218,6 +242,21 @@ public class DamageWorkflow implements IWorkflow {
     public final void setEntityPoolService(
             final EntityPoolService entityPoolServiceInput) {
         this.entityPoolService = entityPoolServiceInput;
+    }
+
+    /**
+     * @return the eventTriggerService
+     */
+    public final EventTriggerService getEventTriggerService() {
+        return eventTriggerService;
+    }
+
+    /**
+     * @param eventTriggerServiceInput the eventTriggerService to set
+     */
+    public final void setEventTriggerService(
+            final EventTriggerService eventTriggerServiceInput) {
+        this.eventTriggerService = eventTriggerServiceInput;
     }
 
 }

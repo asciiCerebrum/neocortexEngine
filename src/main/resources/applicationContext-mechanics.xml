@@ -45,6 +45,7 @@
         <property name="situationContextService" ref="situationContextService" />
         <property name="weaponServiceFacade" ref="weaponServiceFacade" />
         <property name="entityPoolService" ref="entityPoolService" />
+        <property name="eventTriggerService" ref="eventTriggerService" />
     </bean>
     <bean id="endTurnWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.EndTurnWorkflow">
         <property name="conditionExpirationWorkflow" ref="conditionExpirationWorkflow" />

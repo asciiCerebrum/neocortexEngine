@@ -23,6 +23,14 @@ public enum EventType {
      */
     CONDITION_LOSE,
     /**
+     * The event of applying the inflicted damage.
+     */
+    DAMAGE_APPLICATION,
+    /**
+     * The event of inflicting damage.
+     */
+    DAMAGE_INFLICTED,
+    /**
      * The event thrown when the single attack hits normally.
      */
     SINGLE_ATTACK_HIT,

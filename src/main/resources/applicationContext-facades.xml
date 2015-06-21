@@ -6,6 +6,7 @@
     
     <bean id="inventoryItemServiceFacade" class="org.asciicerebrum.mydndgame.facades.game.DefaultInventoryItemServiceFacade" abstract="true">
         <property name="observableService" ref="observableService" />
+        <property name="situationContextService" ref="situationContextService" />
     </bean>
     
     <bean id="weaponServiceFacade" class="org.asciicerebrum.mydndgame.facades.game.DefaultWeaponServiceFacade" parent="inventoryItemServiceFacade">

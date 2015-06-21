@@ -14,6 +14,7 @@ import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.game.Weapon;
 import org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
+import org.asciicerebrum.mydndgame.domain.ruleentities.DamageType;
 
 /**
  *
@@ -55,6 +56,17 @@ public class DefaultWeaponServiceFacade
                         new ObserverSources(dndCharacter),
                         new ObserverHooks(ObserverHook.WEAPON_DAMAGE),
                         dndCharacter);
+    }
+
+    @Override
+    public final DamageType getDamageType(final Weapon weapon,
+            final DndCharacter dndCharacter) {
+        final DamageType damageType = this.getSituationContextService()
+                .getItemDamageType(weapon.getUniqueId(), dndCharacter);
+        if (damageType == null) {
+            return weapon.getDefaultDamageType();
+        }
+        return damageType;
     }
 
     @Override

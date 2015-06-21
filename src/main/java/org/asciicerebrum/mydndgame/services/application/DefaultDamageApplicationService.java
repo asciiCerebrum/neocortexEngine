@@ -1,6 +1,9 @@
 package org.asciicerebrum.mydndgame.services.application;
 
 import java.util.Iterator;
+import org.asciicerebrum.mydndgame.domain.core.particles.EventFact;
+import org.asciicerebrum.mydndgame.domain.events.EventEntry;
+import org.asciicerebrum.mydndgame.domain.events.EventType;
 import org.asciicerebrum.mydndgame.domain.game.DndCharacter;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHook;
 import org.asciicerebrum.mydndgame.domain.mechanics.ObserverHooks;
@@ -8,6 +11,8 @@ import org.asciicerebrum.mydndgame.domain.mechanics.damage.Damage;
 import org.asciicerebrum.mydndgame.domain.mechanics.damage.Damages;
 import org.asciicerebrum.mydndgame.domain.mechanics.observer.source.ObserverSources;
 import org.asciicerebrum.mydndgame.services.core.ObservableService;
+import org.asciicerebrum.mydndgame.services.events.EventTriggerService;
+import org.asciicerebrum.mydndgame.services.statistics.HpCalculationService;
 
 /**
  *
@@ -20,6 +25,16 @@ public class DefaultDamageApplicationService
      * The observable service.
      */
     private ObservableService observableService;
+
+    /**
+     * Triggering events.
+     */
+    private EventTriggerService eventTriggerService;
+
+    /**
+     * The service for calculating everything related to hp.
+     */
+    private HpCalculationService hpCalculationService;
 
     @Override
     public final void applyDamage(final DndCharacter dndCharacter,
@@ -35,8 +50,22 @@ public class DefaultDamageApplicationService
                             new ObserverSources(dndCharacter),
                             new ObserverHooks(ObserverHook.DAMAGE_APPLICATION),
                             dndCharacter);
+
             if (convertedDamage != null) {
                 this.applySingleDamage(dndCharacter, convertedDamage);
+
+                if (this.getEventTriggerService() != null) {
+                    final EventEntry resultEvent
+                            = new EventEntry(EventType.DAMAGE_APPLICATION);
+                    resultEvent.setWho(dndCharacter.getUniqueId());
+                    resultEvent.addEventFact(new EventFact(
+                            Long.toString(convertedDamage.getDamageValue()
+                                    .getValue())));
+                    resultEvent.addEventFact(new EventFact(
+                            Long.toString(this.getHpCalculationService()
+                                    .calcCurrentHp(dndCharacter).getValue())));
+                    this.getEventTriggerService().trigger(resultEvent);
+                }
             }
         }
     }
@@ -72,6 +101,36 @@ public class DefaultDamageApplicationService
      */
     public final ObservableService getObservableService() {
         return observableService;
+    }
+
+    /**
+     * @return the eventTriggerService
+     */
+    public final EventTriggerService getEventTriggerService() {
+        return eventTriggerService;
+    }
+
+    /**
+     * @param eventTriggerServiceInput the eventTriggerService to set
+     */
+    public final void setEventTriggerService(
+            final EventTriggerService eventTriggerServiceInput) {
+        this.eventTriggerService = eventTriggerServiceInput;
+    }
+
+    /**
+     * @return the hpCalculationService
+     */
+    public final HpCalculationService getHpCalculationService() {
+        return hpCalculationService;
+    }
+
+    /**
+     * @param hpCalculationServiceInput the hpCalculationService to set
+     */
+    public final void setHpCalculationService(
+            final HpCalculationService hpCalculationServiceInput) {
+        this.hpCalculationService = hpCalculationServiceInput;
     }
 
 }
