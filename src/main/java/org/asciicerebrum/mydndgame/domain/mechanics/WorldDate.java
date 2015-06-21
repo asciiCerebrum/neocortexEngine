@@ -66,6 +66,17 @@ public class WorldDate implements Comparable {
         return this.compareTo(t) > 0;
     }
 
+    /**
+     * Tests if given world date is after this instance or at the same time.
+     *
+     * @param t the world date to test.
+     * @return true if date is after this one or at the same time, false
+     * otherwise.
+     */
+    public final boolean isAfterOrEqual(final WorldDate t) {
+        return this.compareTo(t) >= 0;
+    }
+
     @Override
     public final int compareTo(final Object o) {
         if (!(o instanceof WorldDate)) {

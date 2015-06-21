@@ -1,5 +1,6 @@
 package org.asciicerebrum.mydndgame.integrationtests.interactions;
 
+import com.google.common.collect.Iterators;
 import javax.naming.OperationNotSupportedException;
 import org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll;
 import org.asciicerebrum.mydndgame.domain.core.particles.UniqueId;
@@ -38,6 +39,8 @@ import org.junit.runner.RunWith;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -51,6 +54,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 public class AttackAndDamageWorkflowIntegrationTest {
+
+    private static final Logger LOG
+            = LoggerFactory.getLogger(
+                    AttackAndDamageWorkflowIntegrationTest.class);
 
     @Autowired
     private ApplicationContext context;
@@ -147,7 +154,18 @@ public class AttackAndDamageWorkflowIntegrationTest {
         this.combatRoundManager.executeInteraction(campaign, meleeSingleAttack);
     }
 
-    //TODO test end combat round and the next character loses flat-footedness
+    private void executeEndTurn(final Campaign campaign) {
+        final Interaction endTurn = new Interaction();
+        endTurn.setTriggeringCharacter(
+                (DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("merisiel")));
+        final InteractionType interactionType
+                = this.context.getBean("endTurn", InteractionType.class);
+        endTurn.setInteractionType(interactionType);
+
+        this.combatRoundManager.executeInteraction(campaign, endTurn);
+    }
+
     @Test
     public void merisielMeleeAttacksValerosHitTest()
             throws OperationNotSupportedException {
@@ -232,6 +250,48 @@ public class AttackAndDamageWorkflowIntegrationTest {
                 .getEntityById(new UniqueId("valeros"));
 
         assertEquals(7L, valeros.getCurrentStaticHp().getValue());
+    }
+
+    @Test
+    public void merisielMeleeAttacksValerosEndTurnTest()
+            throws OperationNotSupportedException {
+        final Campaign campaign = this.campaignFactory.newEntity();
+        final DndCharacters participants = new DndCharacters();
+
+        this.initiateCombatRound(campaign, participants);
+
+        // put new roll results into the mocked dice roll manager for attack
+        // and damage!
+        when(this.mockDiceRollManager.rollDice((DiceAction) anyObject()))
+                .thenReturn(new DiceRoll(16L), new DiceRoll(4L));
+
+        this.executeMeleeSingleAttack(campaign);
+        this.executeEndTurn(campaign);
+
+        assertEquals("valeros", campaign.getCombatRound()
+                .getCurrentParticipantId().getValue());
+    }
+
+    @Test
+    public void merisielMeleeAttacksValerosEndTurnLoseFlatfootedTest()
+            throws OperationNotSupportedException {
+        final Campaign campaign = this.campaignFactory.newEntity();
+        final DndCharacters participants = new DndCharacters();
+
+        this.initiateCombatRound(campaign, participants);
+
+        // put new roll results into the mocked dice roll manager for attack
+        // and damage!
+        when(this.mockDiceRollManager.rollDice((DiceAction) anyObject()))
+                .thenReturn(new DiceRoll(16L), new DiceRoll(4L));
+
+        this.executeMeleeSingleAttack(campaign);
+        this.executeEndTurn(campaign);
+
+        final DndCharacter valeros = (DndCharacter) this.entityPoolService
+                .getEntityById(new UniqueId("valeros"));
+
+        assertEquals(0L, Iterators.size(valeros.getConditions().iterator()));
     }
 
 }

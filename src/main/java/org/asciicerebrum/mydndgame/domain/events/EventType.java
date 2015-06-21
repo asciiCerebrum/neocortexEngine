@@ -31,6 +31,15 @@ public enum EventType {
      */
     DAMAGE_INFLICTED,
     /**
+     * The event of some character ending its turn.
+     */
+    END_TURN_END,
+    /**
+     * The event of some character starting its turn after the end turn of the
+     * previous character.
+     */
+    END_TURN_START,
+    /**
      * The event thrown when the single attack hits normally.
      */
     SINGLE_ATTACK_HIT,

@@ -72,7 +72,7 @@ public class DefaultConditionApplicationService
         while (conditionIterator.hasNext()) {
             final Condition condition = conditionIterator.next();
 
-            if (currentDate.isAfter(condition.getExpiryDate())) {
+            if (currentDate.isAfterOrEqual(condition.getExpiryDate())) {
                 conditionIterator.remove();
                 this.triggerEvent(condition, dndCharacter,
                         EventType.CONDITION_LOSE);

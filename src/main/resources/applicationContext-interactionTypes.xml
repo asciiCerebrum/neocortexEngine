@@ -21,4 +21,21 @@
         </property>
     </bean>
 
+    <bean id="endTurn" class="org.asciicerebrum.mydndgame.domain.mechanics.workflow.InteractionType">
+        <property name="id">
+            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+                <constructor-arg value="endTurn" />
+            </bean>
+        </property>
+        <property name="workflows">
+            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.workflow.Workflows">
+                <constructor-arg>
+                    <array>
+                        <ref bean="endTurnWorkflow" />
+                    </array>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
+
 </beans>

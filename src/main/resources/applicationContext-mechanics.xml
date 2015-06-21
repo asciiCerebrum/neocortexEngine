@@ -49,6 +49,7 @@
     </bean>
     <bean id="endTurnWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.EndTurnWorkflow">
         <property name="conditionExpirationWorkflow" ref="conditionExpirationWorkflow" />
+        <property name="eventTriggerService" ref="eventTriggerService" />
     </bean>
     <bean id="initializeCombatRoundWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.InitializeCombatRoundWorkflow">
         <property name="conditionApplicationService" ref="conditionApplicationService" />
