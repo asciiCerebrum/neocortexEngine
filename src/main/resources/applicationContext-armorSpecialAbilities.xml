@@ -8,23 +8,23 @@
     A masterwork suit of armor or shield costs an extra 150 gp over and above the normal cost for that type of armor or shield. 
     The masterwork quality of a suit of armor or shield never provides a bonus on attack or damage rolls, even if the armor or shield is used as a weapon.  -->
 
-    <bean id="masterworkArmor" class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
+    <bean id="masterworkArmor" class="org.asciicerebrum.neocortexengine.domain.ruleentities.SpecialAbility">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="masterworkArmor" />
             </bean>
         </property>
         <property name="observers">
-            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers">
+            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.observer.Observers">
                 <constructor-arg>
                     <list>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.observer.Observer">
                             <property name="hook" value="PRICE" />
                             <property name="triggerStrategy">
                                 <!-- The masterwork quality adds 150 gp to the cost of a normal armor -->
-                                <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.SimpleArithmeticObserverTrigger">
+                                <bean class="org.asciicerebrum.neocortexengine.mechanics.observertriggers.SimpleArithmeticObserverTrigger">
                                     <property name="modValue">
-                                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                        <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                                             <constructor-arg value="150" />
                                         </bean>
                                     </property>
@@ -32,12 +32,12 @@
                                 </bean>
                             </property>
                         </bean>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.observer.Observer">
                             <property name="hook" value="ARMOR_CHECK_PENALTY" />
                             <property name="triggerStrategy">
-                                <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.SimpleArithmeticObserverTrigger">
+                                <bean class="org.asciicerebrum.neocortexengine.mechanics.observertriggers.SimpleArithmeticObserverTrigger">
                                     <property name="modValue">
-                                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                        <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                                             <constructor-arg value="1" />
                                         </bean>
                                     </property>

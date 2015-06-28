@@ -38,18 +38,18 @@
         </encoder>
     </appender>
             
-<!--    <logger name="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl" level="DEBUG" />
-    <logger name="org.asciicerebrum.mydndgame.mechanics.observertriggers" level="DEBUG" />
-    <logger name="org.asciicerebrum.mydndgame.services.core" level="DEBUG" />
-    <logger name="org.asciicerebrum.mydndgame.services.core.accumulator.observer" level="DEBUG" />
-    <logger name="org.asciicerebrum.mydndgame.integrationtests.inventoryitems" level="DEBUG" />-->
+<!--    <logger name="org.asciicerebrum.neocortexengine.mechanics.conditionevaluators.impl" level="DEBUG" />
+    <logger name="org.asciicerebrum.neocortexengine.mechanics.observertriggers" level="DEBUG" />
+    <logger name="org.asciicerebrum.neocortexengine.services.core" level="DEBUG" />
+    <logger name="org.asciicerebrum.neocortexengine.services.core.accumulator.observer" level="DEBUG" />
+    <logger name="org.asciicerebrum.neocortexengine.integrationtests.inventoryitems" level="DEBUG" />-->
     
     <root level="info" additivity="false">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
     </root>
 
-    <logger name="org.asciicerebrum.mydndgame.mechanics.eventlisteners" level="INFO" additivity="false">
+    <logger name="org.asciicerebrum.neocortexengine.mechanics.eventlisteners" level="INFO" additivity="false">
         <appender-ref ref="EVENTS_FILE"/>
     </logger>
 

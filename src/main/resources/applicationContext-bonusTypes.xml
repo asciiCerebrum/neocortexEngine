@@ -4,105 +4,105 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="sizeBonus" class="org.asciicerebrum.mydndgame.domain.mechanics.BonusType">
+    <bean id="sizeBonus" class="org.asciicerebrum.neocortexengine.domain.mechanics.BonusType">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="sizeBonus" />
             </bean>
         </property>
     </bean>
 
-    <bean id="baseAttackBonus" class="org.asciicerebrum.mydndgame.domain.mechanics.BonusType">
+    <bean id="baseAttackBonus" class="org.asciicerebrum.neocortexengine.domain.mechanics.BonusType">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="baseAttackBonus" />
             </bean>
         </property>
     </bean>            
 
-    <bean id="dexBonus" class="org.asciicerebrum.mydndgame.domain.mechanics.BonusType">
+    <bean id="dexBonus" class="org.asciicerebrum.neocortexengine.domain.mechanics.BonusType">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="dexBonus" />
             </bean>
         </property>
     </bean> 
 
-    <bean id="strBonus" class="org.asciicerebrum.mydndgame.domain.mechanics.BonusType">
+    <bean id="strBonus" class="org.asciicerebrum.neocortexengine.domain.mechanics.BonusType">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="strBonus" />
             </bean>
         </property>
     </bean> 
 
-    <bean id="conBonus" class="org.asciicerebrum.mydndgame.domain.mechanics.BonusType">
+    <bean id="conBonus" class="org.asciicerebrum.neocortexengine.domain.mechanics.BonusType">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="conBonus" />
             </bean>
         </property>
     </bean>
 
-    <bean id="powerAttackBonus" class="org.asciicerebrum.mydndgame.domain.mechanics.BonusType">
+    <bean id="powerAttackBonus" class="org.asciicerebrum.neocortexengine.domain.mechanics.BonusType">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="powerAttackBonus" />
             </bean>
         </property>
     </bean>
     
-    <bean id="enhancementBonus" class="org.asciicerebrum.mydndgame.domain.mechanics.BonusType">
+    <bean id="enhancementBonus" class="org.asciicerebrum.neocortexengine.domain.mechanics.BonusType">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="enhancementBonus" />
             </bean>
         </property>
     </bean>
 
-    <bean id="nonproficiencyPenalty" class="org.asciicerebrum.mydndgame.domain.mechanics.BonusType">
+    <bean id="nonproficiencyPenalty" class="org.asciicerebrum.neocortexengine.domain.mechanics.BonusType">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="nonproficiencyPenalty" />
             </bean>
         </property>
     </bean>
 
-    <bean id="armorsArmorCheckPenalty" class="org.asciicerebrum.mydndgame.domain.mechanics.BonusType">
+    <bean id="armorsArmorCheckPenalty" class="org.asciicerebrum.neocortexengine.domain.mechanics.BonusType">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="armorsArmorCheckPenalty" />
             </bean>
         </property>
     </bean>
     
-    <bean id="shieldsArmorCheckPenalty" class="org.asciicerebrum.mydndgame.domain.mechanics.BonusType">
+    <bean id="shieldsArmorCheckPenalty" class="org.asciicerebrum.neocortexengine.domain.mechanics.BonusType">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="shieldsArmorCheckPenalty" />
             </bean>
         </property>
     </bean>
 
-    <bean id="armorBonus" class="org.asciicerebrum.mydndgame.domain.mechanics.BonusType">
+    <bean id="armorBonus" class="org.asciicerebrum.neocortexengine.domain.mechanics.BonusType">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="armorBonus" />
             </bean>
         </property>
     </bean>
 
-    <bean id="shieldBonus" class="org.asciicerebrum.mydndgame.domain.mechanics.BonusType">
+    <bean id="shieldBonus" class="org.asciicerebrum.neocortexengine.domain.mechanics.BonusType">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="shieldBonus" />
             </bean>
         </property>
     </bean>
 
-    <bean id="naturalArmorBonus" class="org.asciicerebrum.mydndgame.domain.mechanics.BonusType">
+    <bean id="naturalArmorBonus" class="org.asciicerebrum.neocortexengine.domain.mechanics.BonusType">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="naturalArmorBonus" />
             </bean>
         </property>

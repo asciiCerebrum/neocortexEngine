@@ -4,15 +4,15 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="dndCharacter" class="org.asciicerebrum.mydndgame.domain.game.DndCharacter" scope="prototype">
+    <bean id="dndCharacter" class="org.asciicerebrum.neocortexengine.domain.game.DndCharacter" scope="prototype">
 
         <property name="prototypeSpecialAbilities">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.SpecialAbilities">
                 <property name="specialAbilities">
                     <list>
-                        <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.SpecialAbility">
                             <property name="boni">
-                                <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+                                <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Boni">
                                     <constructor-arg>
                                         <list>
                                             <ref bean="nonproficiencyPenaltyBonus" />
@@ -24,24 +24,24 @@
                                 </bean>
                             </property>
                         </bean>
-                        <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.SpecialAbility">
                             <property name="observers">
-                                <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers">
+                                <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.observer.Observers">
                                     <property name="observers">
                                         <list>
                                             <!--1.5 times the bonus when wielded in two hands, except light weapon, only melee of course -->
-                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
+                                            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.observer.Observer">
                                                 <property name="hook" value="DAMAGE" />
                                                 <property name="triggerStrategy">
-                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.BonusValueModificationObserverTrigger">
+                                                    <bean class="org.asciicerebrum.neocortexengine.mechanics.observertriggers.BonusValueModificationObserverTrigger">
                                                         <property name="operation" value="MULTIPLICATION" />
                                                         <property name="modValue">
-                                                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle">
+                                                            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.DoubleParticle">
                                                                 <constructor-arg value="1.5" />
                                                             </bean>
                                                         </property>
                                                         <property name="referenceBonus"><!-- The bonus to modify must resemble this one. -->
-                                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                                                            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                                                                 <property name="bonusType" ref="strBonus" />
                                                                 <property name="target" ref="damage" />
                                                             </bean>
@@ -50,27 +50,27 @@
                                                     </bean>
                                                 </property>
                                                 <property name="conditionEvaluator">
-                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.AndListEvaluator">
+                                                    <bean class="org.asciicerebrum.neocortexengine.mechanics.conditionevaluators.impl.AndListEvaluator">
                                                         <property name="conditionEvaluators">
                                                             <list>
-                                                                <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectInventoryItemWieldingEvaluator">
+                                                                <bean class="org.asciicerebrum.neocortexengine.mechanics.conditionevaluators.impl.CorrectInventoryItemWieldingEvaluator">
                                                                     <property name="wieldingType" value="BOTH" /><!--use enums here for wielding type-->
                                                                 </bean>
-                                                                <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.NotEvaluator">
+                                                                <bean class="org.asciicerebrum.neocortexengine.mechanics.conditionevaluators.impl.NotEvaluator">
                                                                     <property name="conditionEvaluator">
-                                                                        <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectWeaponEncumbranceEvaluator">
+                                                                        <bean class="org.asciicerebrum.neocortexengine.mechanics.conditionevaluators.impl.CorrectWeaponEncumbranceEvaluator">
                                                                             <property name="encumbrance" ref="light" />
                                                                             <property name="weaponServiceFacade" ref="weaponServiceFacade" />
                                                                         </bean>
                                                                     </property>
                                                                 </bean>
-                                                                <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectAttackModeEvaluator">
+                                                                <bean class="org.asciicerebrum.neocortexengine.mechanics.conditionevaluators.impl.CorrectAttackModeEvaluator">
                                                                     <property name="weaponCategory" ref="meleeWeapon" />
                                                                     <property name="situationContextService" ref="situationContextService" />
                                                                 </bean>
-                                                                <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.NotEvaluator">
+                                                                <bean class="org.asciicerebrum.neocortexengine.mechanics.conditionevaluators.impl.NotEvaluator">
                                                                     <property name="conditionEvaluator">
-                                                                        <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.ContainsInventoryItemPrototypeEvaluator">
+                                                                        <bean class="org.asciicerebrum.neocortexengine.mechanics.conditionevaluators.impl.ContainsInventoryItemPrototypeEvaluator">
                                                                             <property name="checkList" ref="twoHandDamageBonusMultiplicationExceptionWeapons" />
                                                                         </bean>
                                                                     </property>
@@ -81,18 +81,18 @@
                                                 </property>
                                             </bean>
                                             <!--0.5 times the bonus when wielded in secondary hand-->
-                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
+                                            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.observer.Observer">
                                                 <property name="hook" value="DAMAGE" />
                                                 <property name="triggerStrategy">
-                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.BonusValueModificationObserverTrigger">
+                                                    <bean class="org.asciicerebrum.neocortexengine.mechanics.observertriggers.BonusValueModificationObserverTrigger">
                                                         <property name="operation" value="MULTIPLICATION" />
                                                         <property name="modValue">
-                                                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DoubleParticle">
+                                                            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.DoubleParticle">
                                                                 <constructor-arg value="0.5" />
                                                             </bean>
                                                         </property>
                                                         <property name="referenceBonus"><!-- The bonus to modify must resemble this one. -->
-                                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                                                            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                                                                 <property name="bonusType" ref="strBonus" />
                                                                 <property name="target" ref="damage" />
                                                             </bean>
@@ -101,7 +101,7 @@
                                                     </bean>
                                                 </property>
                                                 <property name="conditionEvaluator">
-                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectInventoryItemWieldingEvaluator">
+                                                    <bean class="org.asciicerebrum.neocortexengine.mechanics.conditionevaluators.impl.CorrectInventoryItemWieldingEvaluator">
                                                         <property name="wieldingType" value="SECONDARY" /><!--use enums here for wielding type-->
                                                     </bean>
                                                 </property>

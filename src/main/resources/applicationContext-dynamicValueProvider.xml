@@ -5,57 +5,57 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="strAbilityBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.mechanics.valueproviders.AbilityBonusValueProvider">
+          class="org.asciicerebrum.neocortexengine.mechanics.valueproviders.AbilityBonusValueProvider">
         <property name="ability" ref="str" />
         <property name="abilityCalcService" ref="abilityCalculationService" />
     </bean>
     <bean id="dexAbilityBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.mechanics.valueproviders.AbilityBonusValueProvider">
+          class="org.asciicerebrum.neocortexengine.mechanics.valueproviders.AbilityBonusValueProvider">
         <property name="ability" ref="dex" />
         <property name="abilityCalcService" ref="abilityCalculationService" />
     </bean>
     <bean id="conAbilityBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.mechanics.valueproviders.AbilityBonusValueProvider">
+          class="org.asciicerebrum.neocortexengine.mechanics.valueproviders.AbilityBonusValueProvider">
         <property name="ability" ref="con" />
         <property name="abilityCalcService" ref="abilityCalculationService" />
     </bean>
 
     <bean id="rank0AtkBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.mechanics.valueproviders.AtkBonusValueProvider">
+          class="org.asciicerebrum.neocortexengine.mechanics.valueproviders.AtkBonusValueProvider">
         <property name="rank">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusRank">
                 <constructor-arg value="0" />
             </bean>
         </property>
     </bean>
     <bean id="rank1AtkBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.mechanics.valueproviders.AtkBonusValueProvider">
+          class="org.asciicerebrum.neocortexengine.mechanics.valueproviders.AtkBonusValueProvider">
         <property name="rank">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusRank">
                 <constructor-arg value="1" />
             </bean>
         </property>
     </bean>
     <bean id="rank2AtkBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.mechanics.valueproviders.AtkBonusValueProvider">
+          class="org.asciicerebrum.neocortexengine.mechanics.valueproviders.AtkBonusValueProvider">
         <property name="rank">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusRank">
                 <constructor-arg value="2" />
             </bean>
         </property>
     </bean>
     <bean id="rank3AtkBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.mechanics.valueproviders.AtkBonusValueProvider">
+          class="org.asciicerebrum.neocortexengine.mechanics.valueproviders.AtkBonusValueProvider">
         <property name="rank">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusRank">
                 <constructor-arg value="3" />
             </bean>
         </property>
     </bean>
     <bean id="rank4AtkBonusValueProvider"
-          class="org.asciicerebrum.mydndgame.mechanics.valueproviders.AtkBonusValueProvider">
+          class="org.asciicerebrum.neocortexengine.mechanics.valueproviders.AtkBonusValueProvider">
         <property name="rank">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusRank">
                 <constructor-arg value="4" />
             </bean>
         </property>

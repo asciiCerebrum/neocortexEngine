@@ -4,18 +4,18 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
     
-    <bean id="inventoryItemServiceFacade" class="org.asciicerebrum.mydndgame.facades.game.DefaultInventoryItemServiceFacade" abstract="true">
+    <bean id="inventoryItemServiceFacade" class="org.asciicerebrum.neocortexengine.facades.game.DefaultInventoryItemServiceFacade" abstract="true">
         <property name="observableService" ref="observableService" />
         <property name="situationContextService" ref="situationContextService" />
     </bean>
     
-    <bean id="weaponServiceFacade" class="org.asciicerebrum.mydndgame.facades.game.DefaultWeaponServiceFacade" parent="inventoryItemServiceFacade">
+    <bean id="weaponServiceFacade" class="org.asciicerebrum.neocortexengine.facades.game.DefaultWeaponServiceFacade" parent="inventoryItemServiceFacade">
     </bean>
                 
-    <bean id="armorServiceFacade" class="org.asciicerebrum.mydndgame.facades.game.DefaultArmorServiceFacade" parent="inventoryItemServiceFacade">
+    <bean id="armorServiceFacade" class="org.asciicerebrum.neocortexengine.facades.game.DefaultArmorServiceFacade" parent="inventoryItemServiceFacade">
     </bean>
     
-    <bean id="characterServiceFacade" class="org.asciicerebrum.mydndgame.facades.game.DefaultCharacterServiceFacade">
+    <bean id="characterServiceFacade" class="org.asciicerebrum.neocortexengine.facades.game.DefaultCharacterServiceFacade">
         <property name="observableService" ref="observableService" />
         <property name="entityPoolService" ref="entityPoolService" />
     </bean>

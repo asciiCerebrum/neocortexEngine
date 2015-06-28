@@ -4,21 +4,21 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="small" class="org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory">
+    <bean id="small" class="org.asciicerebrum.neocortexengine.domain.ruleentities.SizeCategory">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="small" />
             </bean>
         </property>
         <property name="boni">
-            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Boni">
                 <constructor-arg>
                     <list>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                             <property name="values">
-                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+                                <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValueTuple">
                                     <constructor-arg>
-                                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                        <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                                             <constructor-arg value="1" />
                                         </bean>
                                     </constructor-arg>
@@ -27,11 +27,11 @@
                             <property name="target" ref="ac" />
                             <property name="bonusType" ref="sizeBonus" />
                         </bean>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                             <property name="values">
-                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+                                <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValueTuple">
                                     <constructor-arg>
-                                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                        <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                                             <constructor-arg value="1" />
                                         </bean>
                                     </constructor-arg>
@@ -40,11 +40,11 @@
                             <property name="target" ref="meleeAttack" />
                             <property name="bonusType" ref="sizeBonus" />
                         </bean>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                             <property name="values">
-                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+                                <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValueTuple">
                                     <constructor-arg>
-                                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                        <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                                             <constructor-arg value="1" />
                                         </bean>
                                     </constructor-arg>
@@ -59,21 +59,21 @@
         </property>
     </bean>
 
-    <bean id="medium" class="org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory">
+    <bean id="medium" class="org.asciicerebrum.neocortexengine.domain.ruleentities.SizeCategory">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="medium" />
             </bean>
         </property>
         <property name="boni">
-            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Boni">
                 <constructor-arg>
                     <list>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                             <property name="values">
-                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+                                <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValueTuple">
                                     <constructor-arg>
-                                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                        <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                                             <constructor-arg value="0" />
                                         </bean>
                                     </constructor-arg>
@@ -82,11 +82,11 @@
                             <property name="target" ref="ac" />
                             <property name="bonusType" ref="sizeBonus" />
                         </bean>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                             <property name="values">
-                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+                                <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValueTuple">
                                     <constructor-arg>
-                                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                        <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                                             <constructor-arg value="0" />
                                         </bean>
                                     </constructor-arg>
@@ -95,11 +95,11 @@
                             <property name="target" ref="meleeAttack" />
                             <property name="bonusType" ref="sizeBonus" />
                         </bean>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                             <property name="values">
-                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+                                <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValueTuple">
                                     <constructor-arg>
-                                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                        <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                                             <constructor-arg value="0" />
                                         </bean>
                                     </constructor-arg>
@@ -114,21 +114,21 @@
         </property>
     </bean>
 
-    <bean id="large" class="org.asciicerebrum.mydndgame.domain.ruleentities.SizeCategory">
+    <bean id="large" class="org.asciicerebrum.neocortexengine.domain.ruleentities.SizeCategory">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="large" />
             </bean>
         </property>
         <property name="boni">
-            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Boni">
                 <constructor-arg>
                     <list>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                             <property name="values">
-                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+                                <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValueTuple">
                                     <constructor-arg>
-                                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                        <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                                             <constructor-arg value="-1" />
                                         </bean>
                                     </constructor-arg>
@@ -137,11 +137,11 @@
                             <property name="target" ref="ac" />
                             <property name="bonusType" ref="sizeBonus" />
                         </bean>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                             <property name="values">
-                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+                                <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValueTuple">
                                     <constructor-arg>
-                                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                        <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                                             <constructor-arg value="-1" />
                                         </bean>
                                     </constructor-arg>
@@ -150,11 +150,11 @@
                             <property name="target" ref="meleeAttack" />
                             <property name="bonusType" ref="sizeBonus" />
                         </bean>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                             <property name="values">
-                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+                                <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValueTuple">
                                     <constructor-arg>
-                                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                        <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                                             <constructor-arg value="-1" />
                                         </bean>
                                     </constructor-arg>

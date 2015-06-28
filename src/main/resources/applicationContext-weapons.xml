@@ -6,35 +6,35 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <!-- Damage types -->
-    <bean id="slashing" class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageType">
+    <bean id="slashing" class="org.asciicerebrum.neocortexengine.domain.ruleentities.DamageType">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="slashing" />
             </bean>
         </property>
     </bean>
-    <bean id="piercing" class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageType">
+    <bean id="piercing" class="org.asciicerebrum.neocortexengine.domain.ruleentities.DamageType">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="piercing" />
             </bean>
         </property>
     </bean>
-    <bean id="bludgeoning" class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageType">
+    <bean id="bludgeoning" class="org.asciicerebrum.neocortexengine.domain.ruleentities.DamageType">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="bludgeoning" />
             </bean>
         </property>
     </bean>
-    <bean id="bludgeoningAndPiercing" class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageType">
+    <bean id="bludgeoningAndPiercing" class="org.asciicerebrum.neocortexengine.domain.ruleentities.DamageType">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="bludgeoningAndPiercing" />
             </bean>
         </property>
         <property name="compoundDamageTypes">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageTypes">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.DamageTypes">
                 <property name="damageTypes">
                     <list>
                         <ref bean="bludgeoning" />
@@ -46,55 +46,55 @@
     </bean>    
                 
     <!-- Encumbrances -->
-    <bean id="light" class="org.asciicerebrum.mydndgame.domain.ruleentities.Encumbrance">
+    <bean id="light" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Encumbrance">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="light" />
             </bean>
         </property>
     </bean>
-    <bean id="oneHanded" class="org.asciicerebrum.mydndgame.domain.ruleentities.Encumbrance">
+    <bean id="oneHanded" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Encumbrance">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="oneHanded" />
             </bean>
         </property>
     </bean>
-    <bean id="twoHanded" class="org.asciicerebrum.mydndgame.domain.ruleentities.Encumbrance">
+    <bean id="twoHanded" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Encumbrance">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="twoHanded" />
             </bean>
         </property>
     </bean>
 
     <!-- Proficiencies -->
-    <bean id="simpleWeapon" class="org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency">
+    <bean id="simpleWeapon" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Proficiency">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="simpleWeapon" />
             </bean>
         </property>
     </bean>
-    <bean id="martialWeapon" class="org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency">
+    <bean id="martialWeapon" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Proficiency">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="martialWeapon" />
             </bean>
         </property>
     </bean>
-    <bean id="exoticWeapon" class="org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency">
+    <bean id="exoticWeapon" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Proficiency">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="exoticWeapon" />
             </bean>
         </property>
     </bean>
 
     <!-- Weapon Categories -->
-    <bean id="meleeWeapon" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory">
+    <bean id="meleeWeapon" class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponCategory">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="meleeWeapon" />
             </bean>
         </property>
@@ -102,9 +102,9 @@
         <property name="associatedDamageHook" value="MELEE_DAMAGE" />
         <property name="associatedAttackHook" value="MELEE_ATTACK" />
     </bean>
-    <bean id="rangedWeapon" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategory">
+    <bean id="rangedWeapon" class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponCategory">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="rangedWeapon" />
             </bean>
         </property>
@@ -114,9 +114,9 @@
     </bean>
     
     <!-- Weapon Types -->
-    <bean id="thrownWeapon" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponType">
+    <bean id="thrownWeapon" class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponType">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="thrownWeapon" />
             </bean>
         </property>
@@ -125,35 +125,35 @@
     <!-- Weapon prototypes -->
     
     <!-- all common settings of weapon prototypes go here -->
-    <bean id="protoWeapon" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype">
+    <bean id="protoWeapon" class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponPrototype">
         <property name="criticalFactor">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.CriticalFactor">
                 <constructor-arg value="2" />
             </bean>
         </property>
     </bean>
     
-    <bean id="longsword" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
+    <bean id="longsword" class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="longsword" />
             </bean>
         </property>
         <property name="baseCost">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Cost">
                 <constructor-arg value="15" />
             </bean>
         </property>
         <property name="baseWeight">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Weight">
                 <constructor-arg value="4" />
             </bean>                
         </property>
         <property name="baseSize" ref="medium" />
         <property name="baseDamage">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction" parent="damage">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.DiceAction" parent="damage">
                 <property name="diceNumber">
-                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+                    <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.DiceNumber">
                         <constructor-arg value="1" />
                     </bean>
                 </property>                    
@@ -161,12 +161,12 @@
             </bean>
         </property>
         <property name="criticalMinimumLevel">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.CriticalMinimumLevel">
                 <constructor-arg value="19" />
             </bean>
         </property>
         <property name="defaultDamageTypes">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageTypes">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.DamageTypes">
                 <property name="damageTypes">
                     <list>
                         <ref bean="slashing" />
@@ -177,7 +177,7 @@
         <property name="encumbrance" ref="oneHanded" />
         <property name="proficiency" ref="martialWeapon" />
         <property name="defaultCategories">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategories">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponCategories">
                 <property name="weaponCategories">
                     <list>
                         <ref bean="meleeWeapon" />
@@ -187,7 +187,7 @@
         </property>
         <property name="defaultAttackMode" ref="meleeWeapon" />
         <property name="designatedBodySlotTypes">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
                     <list>
                         <ref bean="primaryHand" />
@@ -198,27 +198,27 @@
         </property>
     </bean>
 
-    <bean id="battleaxe" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
+    <bean id="battleaxe" class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="battleaxe" />
             </bean>
         </property>
         <property name="baseCost">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Cost">
                 <constructor-arg value="10" />
             </bean>
         </property>
         <property name="baseWeight">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Weight">
                 <constructor-arg value="6" />
             </bean>                
         </property>
         <property name="baseSize" ref="medium" />
         <property name="baseDamage">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction" parent="damage">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.DiceAction" parent="damage">
                 <property name="diceNumber">
-                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+                    <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.DiceNumber">
                         <constructor-arg value="1" />
                     </bean>
                 </property>                    
@@ -226,12 +226,12 @@
             </bean>
         </property>
         <property name="criticalFactor">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.CriticalFactor">
                 <constructor-arg value="3" />
             </bean>
         </property>
         <property name="defaultDamageTypes">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageTypes">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.DamageTypes">
                 <property name="damageTypes">
                     <list>
                         <ref bean="slashing" />
@@ -242,7 +242,7 @@
         <property name="encumbrance" ref="oneHanded" />
         <property name="proficiency" ref="martialWeapon" />
         <property name="defaultCategories">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategories">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponCategories">
                 <property name="weaponCategories">
                     <list>
                         <ref bean="meleeWeapon" />
@@ -252,7 +252,7 @@
         </property>
         <property name="defaultAttackMode" ref="meleeWeapon" />
         <property name="designatedBodySlotTypes">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
                     <list>
                         <ref bean="primaryHand" />
@@ -263,27 +263,27 @@
         </property>
     </bean>
 
-    <bean id="rapier" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
+    <bean id="rapier" class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="rapier" />
             </bean>
         </property>
         <property name="baseCost">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Cost">
                 <constructor-arg value="20" />
             </bean>
         </property>
         <property name="baseWeight">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Weight">
                 <constructor-arg value="2" />
             </bean>                
         </property>
         <property name="baseSize" ref="medium" />
         <property name="baseDamage">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction" parent="damage">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.DiceAction" parent="damage">
                 <property name="diceNumber">
-                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+                    <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.DiceNumber">
                         <constructor-arg value="1" />
                     </bean>
                 </property>                    
@@ -291,12 +291,12 @@
             </bean>
         </property>
         <property name="criticalMinimumLevel">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.CriticalMinimumLevel">
                 <constructor-arg value="18" />
             </bean>
         </property>
         <property name="defaultDamageTypes">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageTypes">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.DamageTypes">
                 <property name="damageTypes">
                     <list>
                         <ref bean="piercing" />
@@ -307,7 +307,7 @@
         <property name="encumbrance" ref="oneHanded" />
         <property name="proficiency" ref="martialWeapon" />
         <property name="defaultCategories">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategories">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponCategories">
                 <property name="weaponCategories">
                     <list>
                         <ref bean="meleeWeapon" />
@@ -317,7 +317,7 @@
         </property>
         <property name="defaultAttackMode" ref="meleeWeapon" />
         <property name="designatedBodySlotTypes">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
                     <list>
                         <ref bean="primaryHand" />
@@ -328,27 +328,27 @@
         </property>
     </bean>
 
-    <bean id="dagger" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
+    <bean id="dagger" class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="dagger" />
             </bean>
         </property>
         <property name="baseCost">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Cost">
                 <constructor-arg value="2" />
             </bean>
         </property>
         <property name="baseWeight">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Weight">
                 <constructor-arg value="1" />
             </bean>                
         </property>
         <property name="baseSize" ref="medium" />
         <property name="baseDamage">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction" parent="damage">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.DiceAction" parent="damage">
                 <property name="diceNumber">
-                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+                    <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.DiceNumber">
                         <constructor-arg value="1" />
                     </bean>
                 </property>                    
@@ -356,17 +356,17 @@
             </bean>
         </property>
         <property name="criticalMinimumLevel">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.CriticalMinimumLevel">
                 <constructor-arg value="19" />
             </bean>
         </property>
         <property name="rangeIncrement">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.RangeIncrement">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.RangeIncrement">
                 <constructor-arg value="10" />
             </bean>
         </property>
         <property name="defaultDamageTypes">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageTypes">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.DamageTypes">
                 <property name="damageTypes">
                     <list>
                         <ref bean="piercing" />
@@ -378,7 +378,7 @@
         <property name="encumbrance" ref="light" />
         <property name="proficiency" ref="simpleWeapon" />
         <property name="defaultCategories">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategories">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponCategories">
                 <property name="weaponCategories">
                     <list>
                         <ref bean="meleeWeapon" />
@@ -389,7 +389,7 @@
         </property>
         <property name="defaultAttackMode" ref="meleeWeapon" />
         <property name="designatedBodySlotTypes">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
                     <list>
                         <ref bean="primaryHand" />
@@ -399,7 +399,7 @@
             </bean>
         </property>
         <property name="weaponTypes">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponTypes">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponTypes">
                 <property name="weaponTypes">
                     <list>
                         <ref bean="thrownWeapon" />
@@ -409,38 +409,38 @@
         </property>
     </bean>
 
-    <bean id="whip" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
+    <bean id="whip" class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="whip" />
             </bean>
         </property>
     </bean>
     
-    <bean id="spikedChain" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
+    <bean id="spikedChain" class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="spikedChain" />
             </bean>
         </property>
     </bean>
 
-    <bean id="club" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
+    <bean id="club" class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="club" />
             </bean>
         </property>
     </bean>
     
-    <bean id="dart" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
+    <bean id="dart" class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="dart" />
             </bean>
         </property>
         <property name="weaponTypes">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponTypes">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponTypes">
                 <property name="weaponTypes">
                     <list>
                         <ref bean="thrownWeapon" />
@@ -450,30 +450,30 @@
         </property>
     </bean>
     
-    <bean id="quarterstaff" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
+    <bean id="quarterstaff" class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="quarterstaff" />
             </bean>
         </property>
     </bean>
     
-    <bean id="sling" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" scope="prototype" parent="protoWeapon">
+    <bean id="sling" class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponPrototype" scope="prototype" parent="protoWeapon">
         <property name="genericName">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="sling" />
             </bean>
         </property>
         <property name="specialAbilities">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.SpecialAbilities">
                 <property name="specialAbilities">
                     <list>
-                        <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.SpecialAbility">
                             <property name="boni">
-                                <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+                                <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Boni">
                                     <constructor-arg>
                                         <list>
-                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                                            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                                                 <property name="bonusType" ref="strBonus" />
                                                 <property name="target" ref="damage" />
                                                 <property name="dynamicValueProvider" ref="strAbilityBonusValueProvider" />
@@ -489,27 +489,27 @@
         </property>
     </bean>
 
-    <bean id="longbow" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
+    <bean id="longbow" class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="longbow" />
             </bean>
         </property>
         <property name="baseCost">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Cost">
                 <constructor-arg value="75" />
             </bean>
         </property>
         <property name="baseWeight">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Weight">
                 <constructor-arg value="3" />
             </bean>                
         </property>
         <property name="baseSize" ref="medium" />
         <property name="baseDamage">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction" parent="damage">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.DiceAction" parent="damage">
                 <property name="diceNumber">
-                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+                    <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.DiceNumber">
                         <constructor-arg value="1" />
                     </bean>
                 </property>                    
@@ -517,17 +517,17 @@
             </bean>
         </property>
         <property name="criticalFactor">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.CriticalFactor">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.CriticalFactor">
                 <constructor-arg value="3" />
             </bean>
         </property>
         <property name="rangeIncrement">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.RangeIncrement">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.RangeIncrement">
                 <constructor-arg value="100" />
             </bean>
         </property>
         <property name="defaultDamageTypes">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageTypes">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.DamageTypes">
                 <property name="damageTypes">
                     <list>
                         <ref bean="piercing" />
@@ -537,7 +537,7 @@
         </property>
         <property name="proficiency" ref="martialWeapon" />
         <property name="defaultCategories">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategories">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponCategories">
                 <property name="weaponCategories">
                     <list>
                         <ref bean="rangedWeapon" />
@@ -547,7 +547,7 @@
         </property>
         <property name="defaultAttackMode" ref="rangedWeapon" />
         <property name="designatedBodySlotTypes">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
                     <list>
                         <ref bean="primaryHand" />
@@ -557,25 +557,25 @@
             </bean>
         </property>
         <property name="specialAbilities">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbilities">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.SpecialAbilities">
                 <property name="specialAbilities">
                     <list>
-                        <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.SpecialAbility">
                             <property name="boni">
-                                <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+                                <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Boni">
                                     <constructor-arg>
                                         <list>
-                                            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                                            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                                                 <property name="bonusType" ref="strBonus" />
                                                 <property name="target" ref="damage" />
                                                 <property name="dynamicValueProvider" ref="strAbilityBonusValueProvider" />
                                                 <property name="conditionEvaluator">
                                                     <!--bonus applies only when negative-->
-                                                    <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.BonusValueComparisonEvaluator">
+                                                    <bean class="org.asciicerebrum.neocortexengine.mechanics.conditionevaluators.impl.BonusValueComparisonEvaluator">
                                                         <property name="bonusValueProvider" ref="strAbilityBonusValueProvider" />
                                                         <property name="comparator" value="LT" /><!-- Enum defined in this class: LT, LE, EQ, GE, GT -->
                                                         <property name="referenceValue">
-                                                            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                                            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                                                                 <constructor-arg value="0" />
                                                             </bean>
                                                         </property>
@@ -593,27 +593,27 @@
         </property>
     </bean>
 
-    <bean id="bastardsword" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
+    <bean id="bastardsword" class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="bastardsword" />
             </bean>
         </property>
         <property name="baseCost">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Cost">
                 <constructor-arg value="35" />
             </bean>
         </property>
         <property name="baseWeight">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Weight">
                 <constructor-arg value="6" />
             </bean>                
         </property>
         <property name="baseSize" ref="medium" />
         <property name="baseDamage">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction" parent="damage">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.DiceAction" parent="damage">
                 <property name="diceNumber">
-                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+                    <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.DiceNumber">
                         <constructor-arg value="1" />
                     </bean>
                 </property>                    
@@ -621,12 +621,12 @@
             </bean>
         </property>
         <property name="criticalMinimumLevel">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.CriticalMinimumLevel">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.CriticalMinimumLevel">
                 <constructor-arg value="19" />
             </bean>
         </property>
         <property name="defaultDamageTypes">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.DamageTypes">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.DamageTypes">
                 <property name="damageTypes">
                     <list>
                         <ref bean="slashing" />
@@ -637,7 +637,7 @@
         <property name="encumbrance" ref="oneHanded" />
         <property name="proficiency" ref="exoticWeapon" />
         <property name="defaultCategories">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponCategories">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponCategories">
                 <property name="weaponCategories">
                     <list>
                         <ref bean="meleeWeapon" />
@@ -647,7 +647,7 @@
         </property>
         <property name="defaultAttackMode" ref="meleeWeapon" />
         <property name="designatedBodySlotTypes">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
                     <list>
                         <ref bean="primaryHand" />
@@ -658,33 +658,33 @@
         </property>
     </bean>
     
-    <bean id="sap" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
+    <bean id="sap" class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="sap" />
             </bean>
         </property>
     </bean>
-    <bean id="shortbow" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
+    <bean id="shortbow" class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="shortbow" />
             </bean>
         </property>
     </bean>
-    <bean id="shortsword" class="org.asciicerebrum.mydndgame.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
+    <bean id="shortsword" class="org.asciicerebrum.neocortexengine.domain.ruleentities.WeaponPrototype" parent="protoWeapon">
         <property name="genericName">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="shortsword" />
             </bean>
         </property>
     </bean>
     
     <!-- all common settings of weapons go here -->
-    <bean id="weaponPrototype" class="org.asciicerebrum.mydndgame.domain.game.Weapon" scope="prototype"></bean>
+    <bean id="weaponPrototype" class="org.asciicerebrum.neocortexengine.domain.game.Weapon" scope="prototype"></bean>
     
     <!--1.5 times str bonus for damage when wielded in two hands does not apply.-->
-    <util:list id="twoHandDamageBonusMultiplicationExceptionWeapons" value-type="org.asciicerebrum.mydndgame.domain.ruleentities.InventoryItemPrototype">
+    <util:list id="twoHandDamageBonusMultiplicationExceptionWeapons" value-type="org.asciicerebrum.neocortexengine.domain.ruleentities.InventoryItemPrototype">
         <ref bean="rapier" />
     </util:list>
                 

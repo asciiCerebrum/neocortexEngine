@@ -4,25 +4,25 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="fighter1" class="org.asciicerebrum.mydndgame.domain.ruleentities.ClassLevel">
+    <bean id="fighter1" class="org.asciicerebrum.neocortexengine.domain.ruleentities.ClassLevel">
         <property name="level">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Level">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Level">
                 <constructor-arg value="1" />
             </bean>
         </property>
         <property name="characterClass" ref="fighter" />
         <property name="baseAtkBoni">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValueTuple">
                 <constructor-arg>
                     <array>
-                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple$BonusValueEntry">
-                            <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
-                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValueTuple$BonusValueEntry">
+                            <constructor-arg type="org.asciicerebrum.neocortexengine.domain.core.particles.BonusRank">
+                                <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusRank">
                                     <constructor-arg value="0" />
                                 </bean>
                             </constructor-arg>
-                            <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
-                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                            <constructor-arg type="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
+                                <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                                     <constructor-arg value="1" />
                                 </bean>
                             </constructor-arg>
@@ -32,26 +32,26 @@
             </bean>
         </property>
     </bean>
-    <bean id="fighter2" class="org.asciicerebrum.mydndgame.domain.ruleentities.ClassLevel">
+    <bean id="fighter2" class="org.asciicerebrum.neocortexengine.domain.ruleentities.ClassLevel">
         <property name="level">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Level">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Level">
                 <constructor-arg value="2" />
             </bean>
         </property>
         <property name="previousClassLevel" ref="fighter1" />
         <property name="characterClass" ref="fighter" />
         <property name="baseAtkBoni">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValueTuple">
                 <constructor-arg>
                     <array>
-                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple$BonusValueEntry">
-                            <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
-                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValueTuple$BonusValueEntry">
+                            <constructor-arg type="org.asciicerebrum.neocortexengine.domain.core.particles.BonusRank">
+                                <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusRank">
                                     <constructor-arg value="0" />
                                 </bean>
                             </constructor-arg>
-                            <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
-                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                            <constructor-arg type="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
+                                <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                                     <constructor-arg value="2" />
                                 </bean>
                             </constructor-arg>
@@ -62,15 +62,15 @@
         </property>
     </bean>
     
-    <bean id="fighter" class="org.asciicerebrum.mydndgame.domain.ruleentities.CharacterClass">
+    <bean id="fighter" class="org.asciicerebrum.neocortexengine.domain.ruleentities.CharacterClass">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="fighter" />
             </bean>
         </property>
         <property name="hitDice" ref="d10" />
         <property name="classFeats">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.Feats">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.Feats">
                 <constructor-arg>
                     <list>
                         <ref bean="simpleWeaponProficiency" />
@@ -87,15 +87,15 @@
         </property>
     </bean>
     
-    <bean id="druid" class="org.asciicerebrum.mydndgame.domain.ruleentities.CharacterClass">
+    <bean id="druid" class="org.asciicerebrum.neocortexengine.domain.ruleentities.CharacterClass">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="druid" />
             </bean>
         </property>
         <property name="hitDice" ref="d8" />
         <property name="classFeats">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.Feats">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.Feats">
                 <constructor-arg>
                     <list>
                         <ref bean="simpleWeaponProficiencyClub" />
@@ -112,25 +112,25 @@
         </property>
     </bean>
 
-    <bean id="rogue1" class="org.asciicerebrum.mydndgame.domain.ruleentities.ClassLevel">
+    <bean id="rogue1" class="org.asciicerebrum.neocortexengine.domain.ruleentities.ClassLevel">
         <property name="level">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Level">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Level">
                 <constructor-arg value="1" />
             </bean>
         </property>
         <property name="characterClass" ref="rogue" />
         <property name="baseAtkBoni">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValueTuple">
                 <constructor-arg>
                     <array>
-                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple$BonusValueEntry">
-                            <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
-                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusRank">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValueTuple$BonusValueEntry">
+                            <constructor-arg type="org.asciicerebrum.neocortexengine.domain.core.particles.BonusRank">
+                                <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusRank">
                                     <constructor-arg value="0" />
                                 </bean>
                             </constructor-arg>
-                            <constructor-arg type="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
-                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                            <constructor-arg type="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
+                                <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                                     <constructor-arg value="0" />
                                 </bean>
                             </constructor-arg>
@@ -141,15 +141,15 @@
         </property>
     </bean>
 
-    <bean id="rogue" class="org.asciicerebrum.mydndgame.domain.ruleentities.CharacterClass">
+    <bean id="rogue" class="org.asciicerebrum.neocortexengine.domain.ruleentities.CharacterClass">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="rogue" />
             </bean>
         </property>
         <property name="hitDice" ref="d6" />
         <property name="classFeats">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.Feats">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.Feats">
                 <constructor-arg>
                     <list>
                         <ref bean="simpleWeaponProficiency" />

@@ -4,40 +4,40 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="str" class="org.asciicerebrum.mydndgame.domain.ruleentities.Ability">
+    <bean id="str" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Ability">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="str" />
             </bean>
         </property>
         <property name="name">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="strength" />
             </bean>
         </property>
         <property name="associatedHook" value="ABILITY_STR" />
         <property name="boni">
-            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Boni">
                 <constructor-arg>
                     <list>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                             <property name="bonusType" ref="strBonus" />
                             <property name="target" ref="meleeAttack" />
                             <property name="dynamicValueProvider" ref="strAbilityBonusValueProvider" />
                         </bean>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                             <property name="bonusType" ref="strBonus" />
                             <property name="target" ref="damage" />
                             <property name="dynamicValueProvider" ref="strAbilityBonusValueProvider" />
                             <property name="conditionEvaluator">
-                                <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.OrListEvaluator">
+                                <bean class="org.asciicerebrum.neocortexengine.mechanics.conditionevaluators.impl.OrListEvaluator">
                                     <property name="conditionEvaluators">
                                         <list>
-                                            <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectAttackModeEvaluator"><!-- Better use the attack mode??? hit someone with bow - bow used as melee weapon! -->
+                                            <bean class="org.asciicerebrum.neocortexengine.mechanics.conditionevaluators.impl.CorrectAttackModeEvaluator"><!-- Better use the attack mode??? hit someone with bow - bow used as melee weapon! -->
                                                 <property name="weaponCategory" ref="meleeWeapon" />
                                                 <property name="situationContextService" ref="situationContextService" />
                                             </bean>
-                                            <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectWeaponTypeEvaluator">
+                                            <bean class="org.asciicerebrum.neocortexengine.mechanics.conditionevaluators.impl.CorrectWeaponTypeEvaluator">
                                                 <property name="weaponType" ref="thrownWeapon" />
                                                 <property name="weaponServiceFacade" ref="weaponServiceFacade" />
                                             </bean>
@@ -51,33 +51,33 @@
             </bean>
         </property>
     </bean>
-    <bean id="dex" class="org.asciicerebrum.mydndgame.domain.ruleentities.Ability">
+    <bean id="dex" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Ability">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="dex" />
             </bean>
         </property>
         <property name="name">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="dexterity" />
             </bean>
         </property>
         <property name="associatedHook" value="ABILITY_DEX" />
         <property name="boni">
-            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Boni">
                 <constructor-arg>
                     <list>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                             <property name="bonusType" ref="dexBonus" />
                             <property name="target" ref="acBase" />
                             <property name="dynamicValueProvider" ref="dexAbilityBonusValueProvider" />
                         </bean>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                             <property name="bonusType" ref="dexBonus" />
                             <property name="target" ref="rangedAttack" />
                             <property name="dynamicValueProvider" ref="dexAbilityBonusValueProvider" />
                         </bean>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                             <property name="bonusType" ref="dexBonus" />
                             <property name="target" ref="initiative" />
                             <property name="dynamicValueProvider" ref="dexAbilityBonusValueProvider" />
@@ -87,23 +87,23 @@
             </bean>
         </property>
     </bean>
-    <bean id="con" class="org.asciicerebrum.mydndgame.domain.ruleentities.Ability">
+    <bean id="con" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Ability">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="con" />
             </bean>
         </property>
         <property name="name">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="constitution" />
             </bean>
         </property>
         <property name="associatedHook" value="ABILITY_CON" />
         <property name="boni">
-            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Boni">
                 <constructor-arg>
                     <list>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                             <property name="bonusType" ref="conBonus" />
                             <property name="target" ref="hp" />
                             <property name="dynamicValueProvider" ref="conAbilityBonusValueProvider" />
@@ -113,40 +113,40 @@
             </bean>
         </property>
     </bean>
-    <bean id="int" class="org.asciicerebrum.mydndgame.domain.ruleentities.Ability">
+    <bean id="int" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Ability">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="int" />
             </bean>
         </property>
         <property name="name">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="intelligence" />
             </bean>
         </property>
         <property name="associatedHook" value="ABILITY_INT" />
     </bean>
-    <bean id="wis" class="org.asciicerebrum.mydndgame.domain.ruleentities.Ability">
+    <bean id="wis" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Ability">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="wis" />
             </bean>
         </property>
         <property name="name">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="wisdom" />
             </bean>
         </property>
         <property name="associatedHook" value="ABILITY_WIS" />
     </bean>
-    <bean id="cha" class="org.asciicerebrum.mydndgame.domain.ruleentities.Ability">
+    <bean id="cha" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Ability">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="cha" />
             </bean>
         </property>
         <property name="name">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="charisma" />
             </bean>
         </property>

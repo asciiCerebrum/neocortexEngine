@@ -4,23 +4,23 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="masterworkWeapon" class="org.asciicerebrum.mydndgame.domain.ruleentities.SpecialAbility">
+    <bean id="masterworkWeapon" class="org.asciicerebrum.neocortexengine.domain.ruleentities.SpecialAbility">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="masterworkWeapon" />
             </bean>
         </property>
         <property name="boni">
-            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Boni">
                 <constructor-arg>
                     <list>
                         <!-- Wielding it provides a +1 enhancement bonus on attack rolls. -->
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                             <property name="bonusType" ref="enhancementBonus" />
                             <property name="values">
-                                <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+                                <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValueTuple">
                                     <constructor-arg>
-                                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                        <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                                             <constructor-arg value="1" />
                                         </bean>
                                     </constructor-arg>
@@ -33,16 +33,16 @@
             </bean>
         </property>
         <property name="observers">
-            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers">
+            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.observer.Observers">
                 <constructor-arg>
                     <list>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.observer.Observer">
                             <property name="hook" value="PRICE" />
                             <property name="triggerStrategy">
                                 <!-- The masterwork quality adds 300 gp to the cost of a normal weapon. -->
-                                <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.SimpleArithmeticObserverTrigger">
+                                <bean class="org.asciicerebrum.neocortexengine.mechanics.observertriggers.SimpleArithmeticObserverTrigger">
                                     <property name="modValue">
-                                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                        <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                                             <constructor-arg value="300" />
                                         </bean>
                                     </property>

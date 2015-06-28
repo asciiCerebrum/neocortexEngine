@@ -5,25 +5,25 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- body slot types -->
-    <bean id="primaryHand" class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotType">
+    <bean id="primaryHand" class="org.asciicerebrum.neocortexengine.domain.ruleentities.BodySlotType">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="primaryHand" />
             </bean>
         </property>
     </bean>
 
-    <bean id="secondaryHand" class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotType">
+    <bean id="secondaryHand" class="org.asciicerebrum.neocortexengine.domain.ruleentities.BodySlotType">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="secondaryHand" />
             </bean>
         </property>
     </bean>
     
-    <bean id="torso" class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotType">
+    <bean id="torso" class="org.asciicerebrum.neocortexengine.domain.ruleentities.BodySlotType">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="torso" />
             </bean>
         </property>
@@ -31,33 +31,33 @@
     
     <!-- concrete body slots -->
     
-    <bean id="primaryHandHumanoid" class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlot">
+    <bean id="primaryHandHumanoid" class="org.asciicerebrum.neocortexengine.domain.ruleentities.BodySlot">
         <property name="bodySlotType" ref="primaryHand" />
         <property name="counterSlot" ref="secondaryHandHumanoid" /><!-- The opposite slot. Easy way of switching between both. -->
         <property name="isPrimaryAttackSlot" value="true" />
     </bean>
 
-    <bean id="secondaryHandHumanoid" class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlot">
+    <bean id="secondaryHandHumanoid" class="org.asciicerebrum.neocortexengine.domain.ruleentities.BodySlot">
         <property name="bodySlotType" ref="secondaryHand" />
         <property name="counterSlot" ref="primaryHandHumanoid" /><!-- The opposite slot. Easy way of switching between both. -->
         <property name="isPrimaryAttackSlot" value="false" />
     </bean>
 
-    <bean id="torsoHumanoid" class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlot">
+    <bean id="torsoHumanoid" class="org.asciicerebrum.neocortexengine.domain.ruleentities.BodySlot">
         <property name="bodySlotType" ref="torso" />
         <property name="isPrimaryAttackSlot" value="false" />
     </bean>
                                     
     <!-- races -->        
-    <bean id="human" class="org.asciicerebrum.mydndgame.domain.ruleentities.Race">
+    <bean id="human" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Race">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="human" />
             </bean>
         </property>
         <property name="size" ref="medium" />
         <property name="bodySlotBluePrint">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlots">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.BodySlots">
                 <property name="bodySlots">
                     <list>
                         <ref bean="primaryHandHumanoid" />
@@ -69,15 +69,15 @@
         </property>
     </bean>
 
-    <bean id="dwarf" class="org.asciicerebrum.mydndgame.domain.ruleentities.Race">
+    <bean id="dwarf" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Race">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="dwarf" />
             </bean>
         </property>
         <property name="size" ref="medium" />
         <property name="bodySlotBluePrint">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlots">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.BodySlots">
                 <property name="bodySlots">
                     <list>
                         <ref bean="primaryHandHumanoid" />
@@ -89,15 +89,15 @@
         </property>
     </bean>
 
-    <bean id="elf" class="org.asciicerebrum.mydndgame.domain.ruleentities.Race">
+    <bean id="elf" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Race">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="elf" />
             </bean>
         </property>
         <property name="size" ref="medium" />
         <property name="bodySlotBluePrint">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlots">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.BodySlots">
                 <property name="bodySlots">
                     <list>
                         <ref bean="primaryHandHumanoid" />

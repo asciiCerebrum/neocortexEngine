@@ -5,25 +5,25 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- value providers -->
-    <bean id="armorBonusValueProvider" class="org.asciicerebrum.mydndgame.mechanics.valueproviders.ArmorBonusValueProvider" />
+    <bean id="armorBonusValueProvider" class="org.asciicerebrum.neocortexengine.mechanics.valueproviders.ArmorBonusValueProvider" />
     
     <!-- armor categories -->
-    <bean id="armor" class="org.asciicerebrum.mydndgame.domain.ruleentities.ArmorCategory">
+    <bean id="armor" class="org.asciicerebrum.neocortexengine.domain.ruleentities.ArmorCategory">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="armor" />
             </bean>
         </property>
         <property name="boni">
-            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Boni">
                 <constructor-arg>
                     <list>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                             <property name="bonusType" ref="armorBonus" />
                             <property name="target" ref="acBase" />
                             <property name="dynamicValueProvider" ref="armorBonusValueProvider" />
                             <property name="conditionEvaluator">
-                                <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectSlotForInventoryItemEvaluator">
+                                <bean class="org.asciicerebrum.neocortexengine.mechanics.conditionevaluators.impl.CorrectSlotForInventoryItemEvaluator">
                                     <property name="inventoryItemServiceFacade" ref="armorServiceFacade" />
                                 </bean>
                             </property>
@@ -33,22 +33,22 @@
             </bean>
         </property>
     </bean>
-    <bean id="shield" class="org.asciicerebrum.mydndgame.domain.ruleentities.ArmorCategory">
+    <bean id="shield" class="org.asciicerebrum.neocortexengine.domain.ruleentities.ArmorCategory">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="shield" />
             </bean>
         </property>
         <property name="boni">
-            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Boni">
+            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Boni">
                 <constructor-arg>
                     <list>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                             <property name="bonusType" ref="shieldBonus" />
                             <property name="target" ref="acBase" />
                             <property name="dynamicValueProvider" ref="armorBonusValueProvider" />
                             <property name="conditionEvaluator">
-                                <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectSlotForInventoryItemEvaluator">
+                                <bean class="org.asciicerebrum.neocortexengine.mechanics.conditionevaluators.impl.CorrectSlotForInventoryItemEvaluator">
                                     <property name="inventoryItemServiceFacade" ref="armorServiceFacade" />
                                 </bean>
                             </property>
@@ -58,94 +58,94 @@
             </bean>
         </property>
     </bean>
-    <bean id="extra" class="org.asciicerebrum.mydndgame.domain.ruleentities.ArmorCategory">
+    <bean id="extra" class="org.asciicerebrum.neocortexengine.domain.ruleentities.ArmorCategory">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="extra" />
             </bean>
         </property>
     </bean>
     
     <!-- armor/shield proficiencies -->
-    <bean id="lightArmor" class="org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency">
+    <bean id="lightArmor" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Proficiency">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="lightArmor" />
             </bean>
         </property>
     </bean>
-    <bean id="mediumArmor" class="org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency">
+    <bean id="mediumArmor" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Proficiency">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="mediumArmor" />
             </bean>
         </property>
     </bean>
-    <bean id="heavyArmor" class="org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency">
+    <bean id="heavyArmor" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Proficiency">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="heavyArmor" />
             </bean>
         </property>
     </bean>
-    <bean id="lightShieldArmor" class="org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency">
+    <bean id="lightShieldArmor" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Proficiency">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="lightShieldArmor" />
             </bean>
         </property>
     </bean>
-    <bean id="heavyShieldArmor" class="org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency">
+    <bean id="heavyShieldArmor" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Proficiency">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="heavyShieldArmor" />
             </bean>
         </property>
     </bean>
-    <bean id="towerShieldArmor" class="org.asciicerebrum.mydndgame.domain.ruleentities.Proficiency">
+    <bean id="towerShieldArmor" class="org.asciicerebrum.neocortexengine.domain.ruleentities.Proficiency">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="towerShieldArmor" />
             </bean>
         </property>
     </bean>
     
     <!-- armor prototypes -->
-    <bean id="studdedLeather" class="org.asciicerebrum.mydndgame.domain.ruleentities.ArmorPrototype">
+    <bean id="studdedLeather" class="org.asciicerebrum.neocortexengine.domain.ruleentities.ArmorPrototype">
         <property name="genericName">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="studdedLeather" />
             </bean>
         </property>
         <property name="armorCategory" ref="armor" />
         <property name="proficiency" ref="lightArmor" />
         <property name="baseCost">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Cost">
                 <constructor-arg value="25" />
             </bean>
         </property>
         <property name="baseWeight">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Weight">
                 <constructor-arg value="20" />
             </bean>                
         </property>
         <property name="maxDexBonus">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                 <constructor-arg value="5" />
             </bean>            
         </property>
         <property name="armorCheckPenalty">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                 <constructor-arg value="-1" />
             </bean>            
         </property>
         <property name="arcaneSpellFailure">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.SpellFailure">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.SpellFailure">
                 <constructor-arg value="15" />
             </bean>            
         </property>
         <property name="designatedBodySlotTypes">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
                     <list>
                         <ref bean="torso" />
@@ -154,47 +154,47 @@
             </bean>
         </property>
         <property name="armorBonus">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                 <constructor-arg value="3" />
             </bean>            
         </property>
     </bean>
     
-    <bean id="chainmail" class="org.asciicerebrum.mydndgame.domain.ruleentities.ArmorPrototype">
+    <bean id="chainmail" class="org.asciicerebrum.neocortexengine.domain.ruleentities.ArmorPrototype">
         <property name="genericName">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="chainmail" />
             </bean>
         </property>
         <property name="armorCategory" ref="armor" />
         <property name="proficiency" ref="mediumArmor" />
         <property name="baseCost">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Cost">
                 <constructor-arg value="150" />
             </bean>
         </property>
         <property name="baseWeight">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Weight">
                 <constructor-arg value="40" />
             </bean>                
         </property>
         <property name="maxDexBonus">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                 <constructor-arg value="2" />
             </bean>            
         </property>
         <property name="armorCheckPenalty">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                 <constructor-arg value="-5" />
             </bean>            
         </property>
         <property name="arcaneSpellFailure">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.SpellFailure">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.SpellFailure">
                 <constructor-arg value="30" />
             </bean>            
         </property>
         <property name="designatedBodySlotTypes">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
                     <list>
                         <ref bean="torso" />
@@ -203,47 +203,47 @@
             </bean>
         </property>
         <property name="armorBonus">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                 <constructor-arg value="5" />
             </bean>            
         </property>
     </bean>
 
-    <bean id="halfPlate" class="org.asciicerebrum.mydndgame.domain.ruleentities.ArmorPrototype">
+    <bean id="halfPlate" class="org.asciicerebrum.neocortexengine.domain.ruleentities.ArmorPrototype">
         <property name="genericName">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="halfPlate" />
             </bean>
         </property>
         <property name="armorCategory" ref="armor" />
         <property name="proficiency" ref="heavyArmor" />
         <property name="baseCost">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Cost">
                 <constructor-arg value="600" />
             </bean>
         </property>
         <property name="baseWeight">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Weight">
                 <constructor-arg value="50" />
             </bean>                
         </property>
         <property name="maxDexBonus">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                 <constructor-arg value="0" />
             </bean>            
         </property>
         <property name="armorCheckPenalty">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                 <constructor-arg value="-7" />
             </bean>            
         </property>
         <property name="arcaneSpellFailure">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.SpellFailure">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.SpellFailure">
                 <constructor-arg value="40" />
             </bean>            
         </property>
         <property name="designatedBodySlotTypes">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
                     <list>
                         <ref bean="torso" />
@@ -252,42 +252,42 @@
             </bean>
         </property>
         <property name="armorBonus">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                 <constructor-arg value="7" />
             </bean>            
         </property>
     </bean>
         
-    <bean id="lightWoodenShield" class="org.asciicerebrum.mydndgame.domain.ruleentities.ArmorPrototype">
+    <bean id="lightWoodenShield" class="org.asciicerebrum.neocortexengine.domain.ruleentities.ArmorPrototype">
         <property name="genericName">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="lightWoodenShield" />
             </bean>
         </property>
         <property name="armorCategory" ref="shield" />
         <property name="proficiency" ref="lightShieldArmor" />
         <property name="baseCost">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Cost">
                 <constructor-arg value="3" />
             </bean>
         </property>
         <property name="baseWeight">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Weight">
                 <constructor-arg value="5" />
             </bean>                
         </property>
         <property name="armorCheckPenalty">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                 <constructor-arg value="-1" />
             </bean>            
         </property>
         <property name="arcaneSpellFailure">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.SpellFailure">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.SpellFailure">
                 <constructor-arg value="5" />
             </bean>            
         </property>
         <property name="designatedBodySlotTypes">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
                     <list>
                         <ref bean="primaryHand" />
@@ -297,42 +297,42 @@
             </bean>
         </property>
         <property name="armorBonus">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                 <constructor-arg value="1" />
             </bean>            
         </property>
     </bean>
     
-    <bean id="heavySteelShield" class="org.asciicerebrum.mydndgame.domain.ruleentities.ArmorPrototype">
+    <bean id="heavySteelShield" class="org.asciicerebrum.neocortexengine.domain.ruleentities.ArmorPrototype">
         <property name="genericName">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.GenericName">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.GenericName">
                 <constructor-arg value="heavySteelShield" />
             </bean>
         </property>
         <property name="armorCategory" ref="shield" />
         <property name="proficiency" ref="heavyShieldArmor" />
         <property name="baseCost">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Cost">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Cost">
                 <constructor-arg value="20" />
             </bean>
         </property>
         <property name="baseWeight">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.Weight">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.Weight">
                 <constructor-arg value="15" />
             </bean>                
         </property>
         <property name="armorCheckPenalty">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                 <constructor-arg value="-2" />
             </bean>            
         </property>
         <property name="arcaneSpellFailure">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.SpellFailure">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.SpellFailure">
                 <constructor-arg value="15" />
             </bean>            
         </property>
         <property name="designatedBodySlotTypes">
-            <bean class="org.asciicerebrum.mydndgame.domain.ruleentities.BodySlotTypes">
+            <bean class="org.asciicerebrum.neocortexengine.domain.ruleentities.BodySlotTypes">
                 <property name="bodySlotTypes">
                     <list>
                         <ref bean="primaryHand" />
@@ -342,14 +342,14 @@
             </bean>
         </property>
         <property name="armorBonus">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                 <constructor-arg value="2" />
             </bean>            
         </property>
     </bean>
     
     <!-- all common settings of armor go here -->
-    <bean id="armorPrototype" class="org.asciicerebrum.mydndgame.domain.game.Armor" scope="prototype">
+    <bean id="armorPrototype" class="org.asciicerebrum.neocortexengine.domain.game.Armor" scope="prototype">
     </bean>
         
 </beans>

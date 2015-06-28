@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
     
-    <bean id="campaign" class="org.asciicerebrum.mydndgame.domain.game.Campaign" scope="prototype">
+    <bean id="campaign" class="org.asciicerebrum.neocortexengine.domain.game.Campaign" scope="prototype">
     </bean>
     
 </beans>

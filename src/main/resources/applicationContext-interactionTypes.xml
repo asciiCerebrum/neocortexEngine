@@ -4,14 +4,14 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
     
-    <bean id="meleeSingleAttack" class="org.asciicerebrum.mydndgame.domain.mechanics.workflow.InteractionType">
+    <bean id="meleeSingleAttack" class="org.asciicerebrum.neocortexengine.domain.mechanics.workflow.InteractionType">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="meleeSingleAttack" />
             </bean>
         </property>
         <property name="workflows">
-            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.workflow.Workflows">
+            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.workflow.Workflows">
                 <constructor-arg>
                     <array>
                         <ref bean="singleAttackWorkflow" />
@@ -21,14 +21,14 @@
         </property>
     </bean>
 
-    <bean id="endTurn" class="org.asciicerebrum.mydndgame.domain.mechanics.workflow.InteractionType">
+    <bean id="endTurn" class="org.asciicerebrum.neocortexengine.domain.mechanics.workflow.InteractionType">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="endTurn" />
             </bean>
         </property>
         <property name="workflows">
-            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.workflow.Workflows">
+            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.workflow.Workflows">
                 <constructor-arg>
                     <array>
                         <ref bean="endTurnWorkflow" />

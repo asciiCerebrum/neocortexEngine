@@ -4,17 +4,17 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
     
-    <bean id="loggingRollHistoryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingRollHistoryListener">
+    <bean id="loggingRollHistoryListener" class="org.asciicerebrum.neocortexengine.mechanics.eventlisteners.impl.LoggingRollHistoryListener">
     </bean>
     
-    <bean id="combatRoundManager" class="org.asciicerebrum.mydndgame.mechanics.managers.DefaultCombatRoundManager">
+    <bean id="combatRoundManager" class="org.asciicerebrum.neocortexengine.mechanics.managers.DefaultCombatRoundManager">
         <property name="conditionExpirationWorkflow" ref="conditionExpirationWorkflow" />
         <property name="initializeCombatRoundWorkflow" ref="initializeCombatRoundWorkflow" />
         <property name="eventTriggerService" ref="eventTriggerService" />
     </bean>
-    <bean id="diceRollManager" class="org.asciicerebrum.mydndgame.mechanics.managers.DefaultDiceRollManager">
+    <bean id="diceRollManager" class="org.asciicerebrum.neocortexengine.mechanics.managers.DefaultDiceRollManager">
     </bean>
-    <bean id="rollResultManager" class="org.asciicerebrum.mydndgame.mechanics.managers.DefaultRollResultManager">
+    <bean id="rollResultManager" class="org.asciicerebrum.neocortexengine.mechanics.managers.DefaultRollResultManager">
         <property name="diceRollManager" ref="diceRollManager" />
         <property name="rollHistoryListeners">
             <list>
@@ -23,22 +23,22 @@
         </property>
     </bean>
     
-    <bean id="conditionExpirationWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.ConditionExpirationWorkflow">
+    <bean id="conditionExpirationWorkflow" class="org.asciicerebrum.neocortexengine.mechanics.interactionworkflows.ConditionExpirationWorkflow">
         <property name="conditionService" ref="conditionApplicationService" />
         <property name="entityPoolService" ref="entityPoolService" />
     </bean>
-    <bean id="criticalDamageWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.CriticalDamageWorkflow">
+    <bean id="criticalDamageWorkflow" class="org.asciicerebrum.neocortexengine.mechanics.interactionworkflows.CriticalDamageWorkflow">
         <property name="situationContextService" ref="situationContextService" />
         <property name="damageWorkflow" ref="damageWorkflow" />
         <property name="weaponServiceFacade" ref="weaponServiceFacade" />
         <property name="entityPoolService" ref="entityPoolService" />
     </bean>
-    <bean id="damageWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.DamageWorkflow">
+    <bean id="damageWorkflow" class="org.asciicerebrum.neocortexengine.mechanics.interactionworkflows.DamageWorkflow">
         <property name="damageApplicationService" ref="damageApplicationService" />
         <property name="damageService" ref="damageCalculationService" />
         <property name="rollResultManager" ref="rollResultManager" />
         <property name="minimumDamage">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.DiceRoll">
                 <constructor-arg value="1" />
             </bean>
         </property>
@@ -47,11 +47,11 @@
         <property name="entityPoolService" ref="entityPoolService" />
         <property name="eventTriggerService" ref="eventTriggerService" />
     </bean>
-    <bean id="endTurnWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.EndTurnWorkflow">
+    <bean id="endTurnWorkflow" class="org.asciicerebrum.neocortexengine.mechanics.interactionworkflows.EndTurnWorkflow">
         <property name="conditionExpirationWorkflow" ref="conditionExpirationWorkflow" />
         <property name="eventTriggerService" ref="eventTriggerService" />
     </bean>
-    <bean id="initializeCombatRoundWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.InitializeCombatRoundWorkflow">
+    <bean id="initializeCombatRoundWorkflow" class="org.asciicerebrum.neocortexengine.mechanics.interactionworkflows.InitializeCombatRoundWorkflow">
         <property name="conditionApplicationService" ref="conditionApplicationService" />
         <property name="rollResultManager" ref="rollResultManager" />
         <property name="initiativeCalculationService" ref="initiativeCalculationService" />
@@ -59,7 +59,7 @@
         <property name="flatFootedType" ref="flatFooted" />
         <property name="initiativeAction" ref="initiative" />
     </bean>
-    <bean id="singleAttackWorkflow" class="org.asciicerebrum.mydndgame.mechanics.interactionworkflows.SingleAttackWorkflow">
+    <bean id="singleAttackWorkflow" class="org.asciicerebrum.neocortexengine.mechanics.interactionworkflows.SingleAttackWorkflow">
         <property name="acService" ref="acCalculationService" />
         <property name="atkService" ref="atkCalculationService" />
         <property name="situationContextService" ref="situationContextService" />
@@ -69,12 +69,12 @@
         <property name="weaponServiceFacade" ref="weaponServiceFacade" />
         <property name="attackAction" ref="attack" />
         <property name="autoFailureRoll">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.DiceRoll">
                 <constructor-arg value="1" />
             </bean>
         </property>
         <property name="autoSuccessRoll">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceRoll">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.DiceRoll">
                 <constructor-arg value="20" />
             </bean>
         </property>

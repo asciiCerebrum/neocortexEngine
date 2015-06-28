@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="applicationContextProvider" class="org.asciicerebrum.mydndgame.infrastructure.ApplicationContextProvider"></bean>
+    <bean id="applicationContextProvider" class="org.asciicerebrum.neocortexengine.infrastructure.ApplicationContextProvider"></bean>
     
     <!-- d20 rule entity beans -->
     <import resource="applicationContext-dice.xml"/>

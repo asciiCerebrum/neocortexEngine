@@ -4,94 +4,94 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="hp" class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+    <bean id="hp" class="org.asciicerebrum.neocortexengine.domain.ruleentities.DiceAction">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="hp" />
             </bean>
         </property>
     </bean>
 
-    <bean id="damage" class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+    <bean id="damage" class="org.asciicerebrum.neocortexengine.domain.ruleentities.DiceAction">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="damage" />
             </bean>
         </property>
     </bean>
 
-    <bean id="ac" class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+    <bean id="ac" class="org.asciicerebrum.neocortexengine.domain.ruleentities.DiceAction">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="ac" />
             </bean>
         </property>
     </bean>
 
-    <bean id="acBase" class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+    <bean id="acBase" class="org.asciicerebrum.neocortexengine.domain.ruleentities.DiceAction">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="acBase" />
             </bean>
         </property>
         <property name="constValue">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceConstant">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.DiceConstant">
                 <constructor-arg value="10" />
             </bean>
         </property>
     </bean>
     
-    <bean id="initiative" class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+    <bean id="initiative" class="org.asciicerebrum.neocortexengine.domain.ruleentities.DiceAction">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="initiative" />
             </bean>
         </property>
         <property name="diceNumber">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.DiceNumber">
                 <constructor-arg value="1" />
             </bean>
         </property>
         <property name="diceType" ref="d20" />
     </bean>
 
-    <bean id="attack" class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+    <bean id="attack" class="org.asciicerebrum.neocortexengine.domain.ruleentities.DiceAction">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="attack" />
             </bean>
         </property>
         <property name="diceNumber">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.DiceNumber">
                 <constructor-arg value="1" />
             </bean>
         </property>
         <property name="diceType" ref="d20" />
     </bean>
 
-    <bean id="touchAttack" class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+    <bean id="touchAttack" class="org.asciicerebrum.neocortexengine.domain.ruleentities.DiceAction">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="touchAttack" />
             </bean>
         </property>
         <property name="diceNumber">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.DiceNumber">
                 <constructor-arg value="1" />
             </bean>
         </property>
         <property name="diceType" ref="d20" />
         <property name="targetObservers">
-            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers" >
+            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.observer.Observers" >
                 <constructor-arg>
                     <list>
                         <!-- When you are the target of a touch attack, your AC doesn’t include any armor bonus, shield bonus, or natural armor bonus. -->
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.observer.Observer">
                             <property name="hook" value="AC_BASE" />
                             <property name="triggerStrategy">
-                                <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.RemoveBonusObserverTrigger">
+                                <bean class="org.asciicerebrum.neocortexengine.mechanics.observertriggers.RemoveBonusObserverTrigger">
                                     <property name="removeBonus">
-                                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                                             <property name="bonusType" ref="armorBonus" />
                                             <property name="target" ref="acBase" />
                                         </bean>
@@ -105,12 +105,12 @@
                                 </bean>                                
                             </property>
                         </bean>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.observer.Observer">
                             <property name="hook" value="AC_BASE" />
                             <property name="triggerStrategy">
-                                <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.RemoveBonusObserverTrigger">
+                                <bean class="org.asciicerebrum.neocortexengine.mechanics.observertriggers.RemoveBonusObserverTrigger">
                                     <property name="removeBonus">
-                                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                                             <property name="bonusType" ref="shieldBonus" />
                                             <property name="target" ref="acBase" />
                                         </bean>
@@ -124,12 +124,12 @@
                                 </bean>                                
                             </property>
                         </bean>
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.observer.Observer">
                             <property name="hook" value="AC_BASE" />
                             <property name="triggerStrategy">
-                                <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.RemoveBonusObserverTrigger">
+                                <bean class="org.asciicerebrum.neocortexengine.mechanics.observertriggers.RemoveBonusObserverTrigger">
                                     <property name="removeBonus">
-                                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                                             <property name="bonusType" ref="naturalArmorBonus" />
                                             <property name="target" ref="acBase" />
                                         </bean>
@@ -149,14 +149,14 @@
         </property>
     </bean>
    
-    <bean id="meleeAttack" class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+    <bean id="meleeAttack" class="org.asciicerebrum.neocortexengine.domain.ruleentities.DiceAction">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="meleeAttack" />
             </bean>
         </property>
         <property name="diceNumber">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.DiceNumber">
                 <constructor-arg value="1" />
             </bean>
         </property>
@@ -165,14 +165,14 @@
         <property name="associatedHook" value="MELEE_ATTACK" />
     </bean>
     
-    <bean id="rangedAttack" class="org.asciicerebrum.mydndgame.domain.ruleentities.DiceAction">
+    <bean id="rangedAttack" class="org.asciicerebrum.neocortexengine.domain.ruleentities.DiceAction">
         <property name="id">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="rangedAttack" />
             </bean>
         </property>
         <property name="diceNumber">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.DiceNumber">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.DiceNumber">
                 <constructor-arg value="1" />
             </bean>
         </property>

@@ -4,26 +4,26 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
     
-    <bean id="sizeCategoryObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.SizeCategoryObserverAccumulatorStrategy" />
-    <bean id="abilityObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.AbilityObserverAccumulatorStrategy" />
-    <bean id="baseAbilitiesObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.BaseAbilitiesObserverAccumulatorStrategy">
+    <bean id="sizeCategoryObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.SizeCategoryObserverAccumulatorStrategy" />
+    <bean id="abilityObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.AbilityObserverAccumulatorStrategy" />
+    <bean id="baseAbilitiesObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.BaseAbilitiesObserverAccumulatorStrategy">
         <property name="abilityStrategy" ref="abilityObserverAccumulatorStrategy" />
     </bean>
-    <bean id="characterClassObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.CharacterClassObserverAccumulatorStrategy">
+    <bean id="characterClassObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.CharacterClassObserverAccumulatorStrategy">
         <property name="classFeatsStrategy" ref="featsObserverAccumulatorStrategy" />
     </bean>
-    <bean id="classLevelObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.ClassLevelObserverAccumulatorStrategy">
+    <bean id="classLevelObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.ClassLevelObserverAccumulatorStrategy">
         <property name="characterClassStrategy" ref="characterClassObserverAccumulatorStrategy" />
     </bean>
-    <bean id="conditionObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.ConditionObserverAccumulatorStrategy">
+    <bean id="conditionObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.ConditionObserverAccumulatorStrategy">
         <property name="conditionTypeStrategy" ref="conditionTypeObserverAccumulatorStrategy" />
     </bean>
-    <bean id="conditionTypeObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.ConditionTypeObserverAccumulatorStrategy" />
-    <bean id="conditionsObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.ConditionsObserverAccumulatorStrategy">
+    <bean id="conditionTypeObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.ConditionTypeObserverAccumulatorStrategy" />
+    <bean id="conditionsObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.ConditionsObserverAccumulatorStrategy">
         <property name="conditionStrategy" ref="conditionObserverAccumulatorStrategy" />
     </bean>
-    <bean id="diceActionObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.DiceActionObserverAccumulatorStrategy" />
-    <bean id="dndCharacterObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.DndCharacterObserverAccumulatorStrategy">
+    <bean id="diceActionObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.DiceActionObserverAccumulatorStrategy" />
+    <bean id="dndCharacterObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.DndCharacterObserverAccumulatorStrategy">
         <property name="baseAbilitiesStrategy" ref="baseAbilitiesObserverAccumulatorStrategy" />
         <property name="conditionsStrategy" ref="conditionsObserverAccumulatorStrategy" />
         <property name="levelAdvancementsStrategy" ref="levelAdvancementsObserverAccumulatorStrategy" />
@@ -31,43 +31,43 @@
         <property name="raceStrategy" ref="raceObserverAccumulatorStrategy" />
         <property name="prototypeSpecialAbilitiesStrategy" ref="specialAbilitiesObserverAccumulatorStrategy" />
     </bean>
-    <bean id="featObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.FeatObserverAccumulatorStrategy"></bean>
-    <bean id="featsObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.FeatsObserverAccumulatorStrategy">
+    <bean id="featObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.FeatObserverAccumulatorStrategy"></bean>
+    <bean id="featsObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.FeatsObserverAccumulatorStrategy">
         <property name="featStrategy" ref="featObserverAccumulatorStrategy" />
     </bean>
-    <bean id="inventoryItemPrototypeObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.InventoryItemPrototypeObserverAccumulatorStrategy">
+    <bean id="inventoryItemPrototypeObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.InventoryItemPrototypeObserverAccumulatorStrategy">
         <property name="specialAbilitiesStrategy" ref="specialAbilitiesObserverAccumulatorStrategy" />
     </bean>
-    <bean id="inventoryItemObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.InventoryItemObserverAccumulatorStrategy">
+    <bean id="inventoryItemObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.InventoryItemObserverAccumulatorStrategy">
         <property name="specialAbilitiesStrategy" ref="specialAbilitiesObserverAccumulatorStrategy" />
         <property name="inventoryItemPrototypeStrategy" ref="inventoryItemPrototypeObserverAccumulatorStrategy" />
         <property name="conditionsStrategy" ref="conditionsObserverAccumulatorStrategy" />
     </bean>
-    <bean id="levelAdvancementObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.LevelAdvancementObserverAccumulatorStrategy">
+    <bean id="levelAdvancementObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.LevelAdvancementObserverAccumulatorStrategy">
         <property name="classLevelStrategy" ref="classLevelObserverAccumulatorStrategy" />
         <property name="featsStrategy" ref="featsObserverAccumulatorStrategy" />
     </bean>
-    <bean id="levelAdvancementsObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.LevelAdvancementsObserverAccumulatorStrategy">
+    <bean id="levelAdvancementsObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.LevelAdvancementsObserverAccumulatorStrategy">
         <property name="lvlAdvStrategy" ref="levelAdvancementObserverAccumulatorStrategy" />
     </bean>
-    <bean id="personalizedBodySlotObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.PersonalizedBodySlotObserverAccumulatorStrategy">
+    <bean id="personalizedBodySlotObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.PersonalizedBodySlotObserverAccumulatorStrategy">
         <property name="itemStrategy" ref="inventoryItemObserverAccumulatorStrategy" />
         <property name="entityPoolService" ref="entityPoolService" />
     </bean>
-    <bean id="personalizedBodySlotsObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.PersonalizedBodySlotsObserverAccumulatorStrategy">
+    <bean id="personalizedBodySlotsObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.PersonalizedBodySlotsObserverAccumulatorStrategy">
         <property name="personalizedBodySlotsStrategy" ref="personalizedBodySlotObserverAccumulatorStrategy" />
     </bean>
-    <bean id="raceObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.RaceObserverAccumulatorStrategy">
+    <bean id="raceObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.RaceObserverAccumulatorStrategy">
         <property name="sizeCategoryStrategy" ref="sizeCategoryObserverAccumulatorStrategy" />
     </bean>
-    <bean id="specialAbilitiesObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.SpecialAbilitiesObserverAccumulatorStrategy">
+    <bean id="specialAbilitiesObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.SpecialAbilitiesObserverAccumulatorStrategy">
         <property name="specialAbilityStrategy" ref="specialAbilityObserverAccumulatorStrategy" />
     </bean>
-    <bean id="specialAbilityObserverAccumulatorStrategy" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.SpecialAbilityObserverAccumulatorStrategy">
+    <bean id="specialAbilityObserverAccumulatorStrategy" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.SpecialAbilityObserverAccumulatorStrategy">
         <property name="specialAbilitiesStrategy" ref="specialAbilitiesObserverAccumulatorStrategy" />
     </bean>
     
-    <bean id="observerAccumulatorStrategies" class="org.asciicerebrum.mydndgame.services.core.accumulator.observer.DefaultObserverAccumulatorStrategies">
+    <bean id="observerAccumulatorStrategies" class="org.asciicerebrum.neocortexengine.services.core.accumulator.observer.DefaultObserverAccumulatorStrategies">
         <constructor-arg>
             <list>
                 <ref bean="sizeCategoryObserverAccumulatorStrategy" />
@@ -95,62 +95,62 @@
         </constructor-arg>
     </bean>
     
-    <bean id="observableService" class="org.asciicerebrum.mydndgame.services.core.DefaultObservableService">
+    <bean id="observableService" class="org.asciicerebrum.neocortexengine.services.core.DefaultObservableService">
         <property name="accumulatorStrategies" ref="observerAccumulatorStrategies" />
     </bean>
-    <bean id="bonusCalculationService" class="org.asciicerebrum.mydndgame.services.core.DefaultBonusCalculationServiceImpl">
+    <bean id="bonusCalculationService" class="org.asciicerebrum.neocortexengine.services.core.DefaultBonusCalculationServiceImpl">
         <property name="observableService" ref="observableService" />
         <property name="entityPoolService" ref="entityPoolService" />
     </bean>
     
-    <bean id="abilityCalculationService" class="org.asciicerebrum.mydndgame.services.statistics.DefaultAbilityCalculationService">
+    <bean id="abilityCalculationService" class="org.asciicerebrum.neocortexengine.services.statistics.DefaultAbilityCalculationService">
         <property name="bonusService" ref="bonusCalculationService" />
     </bean>
-    <bean id="acCalculationService" class="org.asciicerebrum.mydndgame.services.statistics.DefaultAcCalculationService">
+    <bean id="acCalculationService" class="org.asciicerebrum.neocortexengine.services.statistics.DefaultAcCalculationService">
         <property name="bonusService" ref="bonusCalculationService" />
         <property name="acAction" ref="ac" />
         <property name="acBaseAction" ref="acBase" />
         <property name="flatFooted" ref="flatFooted" />
         <property name="touchAttackAction" ref="touchAttack" />
     </bean>
-    <bean id="atkCalculationService" class="org.asciicerebrum.mydndgame.services.statistics.DefaultAtkCalculationService">
+    <bean id="atkCalculationService" class="org.asciicerebrum.neocortexengine.services.statistics.DefaultAtkCalculationService">
         <property name="bonusService" ref="bonusCalculationService" />
         <property name="situationContextService" ref="situationContextService" />
         <property name="attackAction" ref="attack" />
     </bean>
-    <bean id="damageCalculationService" class="org.asciicerebrum.mydndgame.services.statistics.DefaultDamageCalculationService">
+    <bean id="damageCalculationService" class="org.asciicerebrum.neocortexengine.services.statistics.DefaultDamageCalculationService">
         <property name="bonusService" ref="bonusCalculationService" />
         <property name="situationContextService" ref="situationContextService" />
         <property name="damageAction" ref="damage" />
     </bean>
-    <bean id="hpCalculationService" class="org.asciicerebrum.mydndgame.services.statistics.DefaultHpCalculationService">
+    <bean id="hpCalculationService" class="org.asciicerebrum.neocortexengine.services.statistics.DefaultHpCalculationService">
         <property name="bonusService" ref="bonusCalculationService" />
         <property name="abilityService" ref="abilityCalculationService" />
         <property name="conAbility" ref="con" />
         <property name="hpAction" ref="hp" />
     </bean>
-    <bean id="initiativeCalculationService" class="org.asciicerebrum.mydndgame.services.statistics.DefaultInitiativeCalculationService">
+    <bean id="initiativeCalculationService" class="org.asciicerebrum.neocortexengine.services.statistics.DefaultInitiativeCalculationService">
         <property name="bonusService" ref="bonusCalculationService" />
         <property name="initAction" ref="initiative" />
     </bean>
     
-    <bean id="situationContextService" class="org.asciicerebrum.mydndgame.services.context.DefaultSituationContextService">
+    <bean id="situationContextService" class="org.asciicerebrum.neocortexengine.services.context.DefaultSituationContextService">
     </bean>
     
-    <bean id="conditionApplicationService" class="org.asciicerebrum.mydndgame.services.application.DefaultConditionApplicationService">
+    <bean id="conditionApplicationService" class="org.asciicerebrum.neocortexengine.services.application.DefaultConditionApplicationService">
         <property name="observableService" ref="observableService" />
         <property name="eventTriggerService" ref="eventTriggerService" />
     </bean>
-    <bean id="damageApplicationService" class="org.asciicerebrum.mydndgame.services.application.DefaultDamageApplicationService">
+    <bean id="damageApplicationService" class="org.asciicerebrum.neocortexengine.services.application.DefaultDamageApplicationService">
         <property name="observableService" ref="observableService" />
         <property name="eventTriggerService" ref="eventTriggerService" />
         <property name="hpCalculationService" ref="hpCalculationService" />
     </bean>
 
-    <bean id="entityPoolService" class="org.asciicerebrum.mydndgame.services.context.MapBasedEntityPoolService">
+    <bean id="entityPoolService" class="org.asciicerebrum.neocortexengine.services.context.MapBasedEntityPoolService">
     </bean>
     
-    <bean id="eventTriggerService" class="org.asciicerebrum.mydndgame.services.events.DefaultEventTriggerService">
+    <bean id="eventTriggerService" class="org.asciicerebrum.neocortexengine.services.events.DefaultEventTriggerService">
         <property name="eventEntryListeners">
             <list>
                 <ref bean="loggingConditionGainingEventEntryListener" />
@@ -169,61 +169,61 @@
         </property>
     </bean>
     
-    <bean id="loggingConditionGainingEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingWhoWhatEventEntryListener">
+    <bean id="loggingConditionGainingEventEntryListener" class="org.asciicerebrum.neocortexengine.mechanics.eventlisteners.impl.LoggingWhoWhatEventEntryListener">
         <property name="eventType" value="CONDITION_GAIN" />
         <property name="logTemplate" value="{} gains condition: {}." />
     </bean>
 
-    <bean id="loggingConditionLosingEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingWhoWhatEventEntryListener">
+    <bean id="loggingConditionLosingEventEntryListener" class="org.asciicerebrum.neocortexengine.mechanics.eventlisteners.impl.LoggingWhoWhatEventEntryListener">
         <property name="eventType" value="CONDITION_LOSE" />
         <property name="logTemplate" value="{} loses condition: {}." />
     </bean>
 
-    <bean id="loggingCombatPreInitEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingWhomEventEntryListener">
+    <bean id="loggingCombatPreInitEventEntryListener" class="org.asciicerebrum.neocortexengine.mechanics.eventlisteners.impl.LoggingWhomEventEntryListener">
         <property name="eventType" value="COMBATROUND_PREINIT" />
         <property name="logTemplate" value="Starting a combat round with the participants: {}." />
         <property name="listSeparator" value=", " />
     </bean>
 
-    <bean id="loggingCombatPostInitEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingWhomEventEntryListener">
+    <bean id="loggingCombatPostInitEventEntryListener" class="org.asciicerebrum.neocortexengine.mechanics.eventlisteners.impl.LoggingWhomEventEntryListener">
         <property name="eventType" value="COMBATROUND_POSTINIT" />
         <property name="logTemplate" value="The participants act in the following order: {}." />
         <property name="listSeparator" value=", " />
     </bean>
     
-    <bean id="loggingSingleAttackPreEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingWhoSingleWhomWithWhatEventEntryListener">
+    <bean id="loggingSingleAttackPreEventEntryListener" class="org.asciicerebrum.neocortexengine.mechanics.eventlisteners.impl.LoggingWhoSingleWhomWithWhatEventEntryListener">
         <property name="eventType" value="SINGLE_ATTACK_PRE" />
         <property name="logTemplate" value="{} attacks {} with {}." />
     </bean>    
 
-    <bean id="loggingSingleAttackMissEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingSingleAttackMissEventEntryListener">
+    <bean id="loggingSingleAttackMissEventEntryListener" class="org.asciicerebrum.neocortexengine.mechanics.eventlisteners.impl.LoggingSingleAttackMissEventEntryListener">
         <property name="eventType" value="SINGLE_ATTACK_MISS" />
         <property name="logTemplate" value="{} misses {} (AC {})." />
     </bean>
-    <bean id="loggingSingleAttackHitEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingSingleAttackMissEventEntryListener">
+    <bean id="loggingSingleAttackHitEventEntryListener" class="org.asciicerebrum.neocortexengine.mechanics.eventlisteners.impl.LoggingSingleAttackMissEventEntryListener">
         <property name="eventType" value="SINGLE_ATTACK_HIT" />
         <property name="logTemplate" value="{} hits {} (AC {})." />
     </bean>
-    <bean id="loggingSingleAttackHitCriticalEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingSingleAttackMissEventEntryListener">
+    <bean id="loggingSingleAttackHitCriticalEventEntryListener" class="org.asciicerebrum.neocortexengine.mechanics.eventlisteners.impl.LoggingSingleAttackMissEventEntryListener">
         <property name="eventType" value="SINGLE_ATTACK_HIT_CRITICAL" />
         <property name="logTemplate" value="{} hits {} critically (AC {})." />
     </bean>
-    <bean id="loggingDamageInflictedEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingSingleAttackMissEventEntryListener">
+    <bean id="loggingDamageInflictedEventEntryListener" class="org.asciicerebrum.neocortexengine.mechanics.eventlisteners.impl.LoggingSingleAttackMissEventEntryListener">
         <property name="eventType" value="DAMAGE_INFLICTED" />
         <property name="logTemplate" value="{} inflicts {} damage on {} for {} hp." />
     </bean>
 
-    <bean id="loggingDamageApplicationEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingWhoHowEventEntryListener">
+    <bean id="loggingDamageApplicationEventEntryListener" class="org.asciicerebrum.neocortexengine.mechanics.eventlisteners.impl.LoggingWhoHowEventEntryListener">
         <property name="eventType" value="DAMAGE_APPLICATION" />
         <property name="logTemplate" value="{} loses {} hp and is now at {} hp." />
     </bean>
 
-    <bean id="loggingEndTurnEndEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingWhoHowEventEntryListener">
+    <bean id="loggingEndTurnEndEventEntryListener" class="org.asciicerebrum.neocortexengine.mechanics.eventlisteners.impl.LoggingWhoHowEventEntryListener">
         <property name="eventType" value="END_TURN_END" />
         <property name="logTemplate" value="{} ends the turn." />
     </bean>
 
-    <bean id="loggingEndTurnStartEventEntryListener" class="org.asciicerebrum.mydndgame.mechanics.eventlisteners.impl.LoggingWhoHowEventEntryListener">
+    <bean id="loggingEndTurnStartEventEntryListener" class="org.asciicerebrum.neocortexengine.mechanics.eventlisteners.impl.LoggingWhoHowEventEntryListener">
         <property name="eventType" value="END_TURN_START" />
         <property name="logTemplate" value="It is now {}'s turn." />
     </bean>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                

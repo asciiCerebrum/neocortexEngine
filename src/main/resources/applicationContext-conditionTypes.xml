@@ -4,25 +4,25 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="flatFooted" class="org.asciicerebrum.mydndgame.domain.ruleentities.ConditionType">
+    <bean id="flatFooted" class="org.asciicerebrum.neocortexengine.domain.ruleentities.ConditionType">
         <property name="uniqueId">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.UniqueId">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.UniqueId">
                 <constructor-arg value="flatFooted" />
             </bean>
         </property>
         <property name="observers">
-            <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observers">
+            <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.observer.Observers">
                 <constructor-arg>
                     <list>
                         <!-- You can’t use your Dexterity bonus to AC (if any) while flat-footed.
                         Any situation that denies you your Dexterity bonus also denies you dodge bonuses.
                         But a dexterity penalty still applies! -->
-                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.observer.Observer">
+                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.observer.Observer">
                             <property name="hook" value="AC_BASE" />
                             <property name="triggerStrategy">
-                                <bean class="org.asciicerebrum.mydndgame.mechanics.observertriggers.RemoveBonusObserverTrigger">
+                                <bean class="org.asciicerebrum.neocortexengine.mechanics.observertriggers.RemoveBonusObserverTrigger">
                                     <property name="removeBonus">
-                                        <bean class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus">
+                                        <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus">
                                             <property name="bonusType" ref="dexBonus" />
                                             <property name="target" ref="acBase" />
                                         </bean>
@@ -36,11 +36,11 @@
                                 </bean>
                             </property>
                             <property name="conditionEvaluator">
-                                <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.BonusValueComparisonEvaluator">
+                                <bean class="org.asciicerebrum.neocortexengine.mechanics.conditionevaluators.impl.BonusValueComparisonEvaluator">
                                     <property name="bonusValueProvider" ref="dexAbilityBonusValueProvider" />
                                     <property name="comparator" value="GE" />
                                     <property name="referenceValue">
-                                        <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                                        <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                                             <constructor-arg value="0" />
                                         </bean>
                                     </property>

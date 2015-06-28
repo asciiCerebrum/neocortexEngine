@@ -4,13 +4,13 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="nonproficiencyPenaltyBonus" class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus" scope="prototype">
+    <bean id="nonproficiencyPenaltyBonus" class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus" scope="prototype">
         <property name="bonusType" ref="nonproficiencyPenalty" />
         <property name="target" ref="attack" />
         <property name="values">
-            <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValueTuple">
+            <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValueTuple">
                 <constructor-arg>
-                    <bean class="org.asciicerebrum.mydndgame.domain.core.particles.BonusValue">
+                    <bean class="org.asciicerebrum.neocortexengine.domain.core.particles.BonusValue">
                         <constructor-arg value="-4" />
                     </bean>
                 </constructor-arg>
@@ -18,11 +18,11 @@
         </property>
     </bean>
 
-    <bean id="armorsArmorCheckPenaltyBonus" class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus" scope="prototype">
+    <bean id="armorsArmorCheckPenaltyBonus" class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus" scope="prototype">
         <property name="bonusType" ref="armorsArmorCheckPenalty" />
         <property name="target" ref="attack" />
         <property name="dynamicValueProvider">
-            <bean class="org.asciicerebrum.mydndgame.mechanics.valueproviders.ArmorCheckPenaltyProvider">
+            <bean class="org.asciicerebrum.neocortexengine.mechanics.valueproviders.ArmorCheckPenaltyProvider">
                 <property name="armorCategory" ref="armor" />
                 <property name="armorFacade" ref="armorServiceFacade" />
                 <property name="characterServiceFacade" ref="characterServiceFacade" />
@@ -30,18 +30,18 @@
         </property>
         <property name="conditionEvaluator">
             <!-- armor worn -->
-            <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectArmorCategoryWearingEvaluator">
+            <bean class="org.asciicerebrum.neocortexengine.mechanics.conditionevaluators.impl.CorrectArmorCategoryWearingEvaluator">
                 <property name="armorCategory" ref="armor" />
                 <property name="characterServiceFacade" ref="characterServiceFacade" />
             </bean>
         </property>
     </bean>
 
-    <bean id="shieldsArmorCheckPenaltyBonus" class="org.asciicerebrum.mydndgame.domain.mechanics.bonus.Bonus" scope="prototype">
+    <bean id="shieldsArmorCheckPenaltyBonus" class="org.asciicerebrum.neocortexengine.domain.mechanics.bonus.Bonus" scope="prototype">
         <property name="bonusType" ref="shieldsArmorCheckPenalty" />
         <property name="target" ref="attack" />
         <property name="dynamicValueProvider">
-            <bean class="org.asciicerebrum.mydndgame.mechanics.valueproviders.ArmorCheckPenaltyProvider">
+            <bean class="org.asciicerebrum.neocortexengine.mechanics.valueproviders.ArmorCheckPenaltyProvider">
                 <property name="armorCategory" ref="shield" />
                 <property name="armorFacade" ref="armorServiceFacade" />
                 <property name="characterServiceFacade" ref="characterServiceFacade" />
@@ -49,7 +49,7 @@
         </property>
         <property name="conditionEvaluator">
             <!-- shield worn -->
-            <bean class="org.asciicerebrum.mydndgame.mechanics.conditionevaluators.impl.CorrectArmorCategoryWearingEvaluator">
+            <bean class="org.asciicerebrum.neocortexengine.mechanics.conditionevaluators.impl.CorrectArmorCategoryWearingEvaluator">
                 <property name="armorCategory" ref="shield" />
                 <property name="characterServiceFacade" ref="characterServiceFacade" />
             </bean>
