@@ -54,20 +54,20 @@ valeros loses 4 hp and is now at 2 hp.
 
 ## Completion Status
 
-|Races|
-|-----|
+|Races|    |
+|:----|----|
 |Dwarf| 5% |
 |Elf  | 5% |
 |Human| 5% |
 
-|Classes|
-|-------|
+|Classes|    |
+|:------|----|
 |Druid  | 1% |
 |Fighter| 5% |
 |Rogue  | 5% |
 
-|Feats|
-|-----|
+|Feats                      |     |
+|:--------------------------|-----|
 |Armor Proficiency, Light   | 67% |
 |Armor Proficiency, Medium  | 67% |
 |Armor Proficiency, Heavy   | 67% |
@@ -80,8 +80,8 @@ valeros loses 4 hp and is now at 2 hp.
 |Weapon Proficiency, Simple | 67% |
 |Weapon Proficiency, Martial| 67% |
 
-|Weapons|
-|-------|
+|Weapons      |     |
+|:------------|-----|
 |Bastardsword | 50% |
 |Battleaxe    | 50% |
 |Club         |  1% |
@@ -98,8 +98,8 @@ valeros loses 4 hp and is now at 2 hp.
 |Spiked Chain |  1% |
 |Whip         |  1% |
 
-|Armor|
-|-----|
+|Armor                |     |
+|:--------------------|-----|
 |Chainmail            | 50% |
 |Half Plate           | 50% |
 |Steel Shield, Heavy  | 50% |
@@ -107,8 +107,8 @@ valeros loses 4 hp and is now at 2 hp.
 |Wooden Shield, Light | 50% |
 
 
-|Conditions  |
-|------------|
+|Conditions  |     |
+|:-----------|-----|
 |Flat Footed | 90% |
 
 
@@ -151,4 +151,4 @@ Also check the following code metrics when contributing code in the form of pull
 
 ## License
 
-See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
+See the [LICENSE](LICENSE) file for license rights and limitations (MIT).
