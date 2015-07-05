@@ -151,4 +151,4 @@ Also check the following code metrics when contributing code in the form of pull
 
 ## License
 
-See the [LICENSE](LICENSE.md) file for license rights and limitations (GPL v3).
+See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
