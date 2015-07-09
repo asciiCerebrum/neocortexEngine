@@ -78,13 +78,6 @@ public class DefaultDamageApplicationService
      */
     final void applySingleDamage(final DndCharacter dndCharacter,
             final Damage damage) {
-        //TODO subtract from temporary hit points first! (e.g. spell false life)
-        //TODO hit points gained during barbarian rage, for example, are also
-        // treated differently - they are NOT used first like temporary hit
-        // points are!
-        //TODO handle nonlethal damage correctly!
-        //TODO what happens when negative HPs are reached?
-        // you have to self-apply the condition unconscious or dead.
         dndCharacter.getCurrentStaticHp().subtract(damage.getDamageValue());
     }
 

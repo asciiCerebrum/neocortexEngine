@@ -61,8 +61,6 @@ public class DefaultRollResultManager implements RollResultManager {
             }
         }
 
-        //TODO put this into a separate listener: introduce a
-        // rollHistoryToCampaignListener or so.
         campaign.addRollHistoryEntry(rollHistory);
 
         return rollResult;

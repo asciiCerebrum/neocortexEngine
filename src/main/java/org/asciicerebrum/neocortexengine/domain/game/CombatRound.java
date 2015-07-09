@@ -32,9 +32,6 @@ public class CombatRound {
      */
     public final WorldDate getCurrentDate() {
         if (this.combatRoundEntries.isEmpty()) {
-            // TODO introduce a global date here (year, day of year, hour of
-            // day, minutes and seconds as an offset for when the combat round
-            // starts. Then the null-return here can be replaced by that date!
             return null;
         }
 

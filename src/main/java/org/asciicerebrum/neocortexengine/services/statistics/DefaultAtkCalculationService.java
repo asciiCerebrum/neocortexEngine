@@ -38,7 +38,6 @@ public class DefaultAtkCalculationService implements AtkCalculationService {
     @Override
     public final BonusValueTuple calcAtkBoni(final Weapon weapon,
             final DndCharacter dndCharacter) {
-        //TODO test this thouroughly!! also with multiple weapons in the slots!
         final BonusValueTuple atkValues = dndCharacter.getBaseAtkBoni();
         WeaponCategory itemAttackMode
                 = this.getSituationContextService()

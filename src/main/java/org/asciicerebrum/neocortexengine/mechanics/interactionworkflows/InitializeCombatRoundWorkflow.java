@@ -142,9 +142,6 @@ public class InitializeCombatRoundWorkflow implements IWorkflow {
                     .retrieveRollResult(initBonus,
                             this.getInitiativeAction(), null,
                             participant, null,
-                            //TODO this is problematic because the combat round
-                            // might not yet have a current date when it has
-                            // just started and everybody rolls initiative!
                             combatRound.getCurrentDate(),
                             campaign);
 

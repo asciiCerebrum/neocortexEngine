@@ -145,7 +145,6 @@ public class CharacterPropertiesHarskIntegrationTest {
         assertEquals(1L, Iterators.size(result.iterator()));
     }
 
-    //TODO test rank ordered bonus list of a size of at least 2.
     @Test
     public void harskAcTest() {
         final ArmorClass ac = this.acCalculationService.calcAcStandard(

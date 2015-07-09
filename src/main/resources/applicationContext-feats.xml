@@ -16,9 +16,6 @@
             </bean>
         </property>
         <property name="observers">
-            <!--TODO only when STR >= 13 -->
-            <!--TODO bonus within correct range -baseAtkBonus <= n <= 0 -->
-            <!--TODO not weapon specific in state registry!!! -->
             <bean class="org.asciicerebrum.neocortexengine.domain.mechanics.observer.Observers">
                 <constructor-arg>
                     <list>

@@ -290,7 +290,6 @@ public class DndCharacter extends UniqueEntity implements ICharacter,
 
         featBindings.add(this.levelAdvancements
                 .getFeatBindingsByFeatType(featType));
-        //TODO add further sources of feats here. E.g. class levels.
 
         return featBindings;
     }

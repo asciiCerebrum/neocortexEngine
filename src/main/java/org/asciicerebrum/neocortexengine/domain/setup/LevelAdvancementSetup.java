@@ -9,7 +9,6 @@ import java.util.List;
  */
 public class LevelAdvancementSetup extends AbstractEntitySetup {
 
-    //TODO make this definable in spring xml
     /**
      * The required properties.
      */

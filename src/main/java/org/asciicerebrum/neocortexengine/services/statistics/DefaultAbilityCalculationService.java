@@ -68,8 +68,6 @@ public class DefaultAbilityCalculationService
 
         // adding all dynamic boni to the ability score.
         baseValue.add(abilityTuple.getBonusValueByRank(BonusRank.RANK_0));
-        //TODO is it necessary to let the observers also change the result of
-        // the ability value? A new hook would be needed.
 
         return baseValue;
     }
@@ -87,10 +85,6 @@ public class DefaultAbilityCalculationService
     public final BonusValue calcCurrentAbilityMod(
             final DndCharacter dndCharacter, final Ability ability) {
 
-        //TODO to this point it is not known if Boni/Observers influence the
-        // ability mod. It should be the case that they only influence the
-        // ability score directly. So please investigate and change this
-        // behaviour here accordingly if this should ever be the case.
         final AbilityScore score = this.calcCurrentAbilityScore(
                 dndCharacter, ability);
 

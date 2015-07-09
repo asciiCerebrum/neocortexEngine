@@ -40,7 +40,6 @@ public interface AcCalculationService {
      * @param dndCharacter the context.
      * @return the calculated standard armor class of this character.
      */
-    //TODO implement all use cases mentioned above.
     ArmorClass calcAcStandard(DndCharacter dndCharacter);
 
     /**

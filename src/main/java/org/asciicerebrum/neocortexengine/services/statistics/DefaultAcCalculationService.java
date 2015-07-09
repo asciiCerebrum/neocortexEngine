@@ -52,11 +52,6 @@ public class DefaultAcCalculationService implements AcCalculationService {
                 new ObserverHooks(ObserverHook.AC_BASE, ObserverHook.AC),
                 dndCharacter);
 
-        //TODO armor must have bonus condition - only applied when
-        // wielded correctly!
-        //TODO test for correct handling of touch attacks!
-        //TODO test for correct handling of flatfootedness at the beginning of
-        // a combat round.
         return this.toArmorClass(acTuple);
     }
 

@@ -109,8 +109,7 @@ public class DamageWorkflow implements IWorkflow {
         // apply damage: this must be done at the character (special method for
         // applying damage) because special attributes like damage reduction
         // could apply! (character has observers for that.)
-        //TODO consider possible sneak attack of rogue, etc.
-        //TODO an attack could inflict multiple types of damage,
+        // an attack could inflict multiple types of damage,
         // e.g. +1d6 poison, etc. So we deliver a list of damages.
         final Damage sourceDamage = new Damage();
         sourceDamage.setDamageValue(totalSourceDamage);

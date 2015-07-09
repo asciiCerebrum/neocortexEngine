@@ -102,10 +102,6 @@ public class DefaultBonusCalculationServiceImpl
     @Override
     public final BonusValueTuple accumulateBonusValues(
             final DndCharacter dndCharacter, final ContextBoni foundBoni) {
-        //TODO track the origin of the bonus, e.g. from ability Constitution
-        //TODO skip boni of value 0 - really erase them from the list or don't
-        // put them into the list in the first place
-        // for hp
         final BonusValueTuple bonusValueTuple = new BonusValueTuple();
 
         final Iterator<ContextBonus> bonusIterator
@@ -146,8 +142,6 @@ public class DefaultBonusCalculationServiceImpl
         if (ctxBonus.getBonus().getValues() != null) {
             return ctxBonus.getBonus().getValues();
         }
-        //TODO remove this limitation that a dynamic value provider can only
-        // provide single-ranked boni (that means with rank 0).
         if (ctxBonus.getBonus().getDynamicValueProvider() != null) {
             BonusValueTuple bonusValues = new BonusValueTuple();
             bonusValues.addBonusValue(BonusRank.RANK_0,

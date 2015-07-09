@@ -165,8 +165,6 @@ public class WeaponFinesseObserverTrigger implements ObserverTriggerStrategy {
                 return true;
             }
         }
-
-        //TODO test natural weapon
         return false;
     }
 

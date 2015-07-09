@@ -28,7 +28,6 @@ public class ArmorPrototype extends InventoryItemPrototype
      */
     private SpellFailure arcaneSpellFailure;
 
-    //TODO speed shift (30 ft. --> 20 ft. via observers)
     /**
      * Armor, shield or extras.
      */

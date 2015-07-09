@@ -135,36 +135,6 @@ public class InitializeCombatRoundWorkflowIntegrationTest {
 
         this.combatRoundManager.initiateCombatRound(campaign, participants);
 
-        /*TODO
-         develop a dice roll history instance that saves a list of the following:
-         - who? (harsk)
-         - which dice? (3W6)
-         - result? (11)
-         - added total bonus? (+3)
-         - for what? (damage)
-         - further details? (against valeros)
-         - when? (the current worlddate of the roll)
-         a console log is done while this list is filled
-        
-         then the roll history can be reconstructed and the dice roll manager
-         random generator can be replaced by a given list of dice roll results
-         to enforce desired outcomes for better testing!
-        
-         develop a replacement of SecureRandom with the same interface!
-        
-         Then manipulate the dice rolls in such a way this tests has the desired
-         outcome of merisiel being the first participant.
-        
-         Then make another test that requires reroll after a tie in initiative!
-        
-         it must be saved and persisted at the campaign! with its on factory
-         and setup classes and domain model!
-        
-         service class with event listener: whenever a roll is recorded, all
-         registered events are triggered
-         - one such event listener is the logging event listener which writes
-         those information to the console and/or log file.
-         */
         assertEquals("merisiel", campaign.getCombatRound()
                 .getCurrentParticipantId().getValue());
     }

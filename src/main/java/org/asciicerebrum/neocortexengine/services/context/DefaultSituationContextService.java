@@ -62,9 +62,4 @@ public class DefaultSituationContextService implements SituationContextService {
         return new BooleanParticle(state);
     }
 
-    //TODO when I load the character through deserialization, how do I know what
-    // the current body slot is? They are not unique entities!
-    // A solution might be to only save the active item (which is a unique
-    // entity). Then the active body slot is determined by this active item.
-    //TODO handle default values
 }

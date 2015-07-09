@@ -37,7 +37,6 @@ public class DefaultDamageCalculationService
      */
     private SituationContextService situationContextService;
 
-    //TODO test this thouroughly!! also with multiple weapons in the slots!
     @Override
     public final BonusValue calcDamageBonus(final Weapon weapon,
             final DndCharacter dndCharacter) {
